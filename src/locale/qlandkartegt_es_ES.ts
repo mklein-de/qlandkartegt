@@ -936,7 +936,7 @@
     <message>
         <location filename="../CCreateMapGeoTiff.cpp" line="54"/>
         <source>This dialog allows you to georeference raster map files. As pre-requisite you need a set of reference points and the projection for those points. You will get best results if the projection of the points is also the projection of the map. In most cases this is mercator. It is recommended to shift the reference point to WGS84 datum, right from the beginning.</source>
-        <translation>Este dialogo le permite georreferenciar mapas raster. Como requisito previo usted necesita un sistema de puntos de referencia y la proyección para esos puntos. Consegirá los mejores resultados si la proyección de los puntos es también la del mapa. En la mayoría de los casos esta es Mercator. Se recomienda convertir los puntos de referencia a datum WGS84 desde el principio.</translation>
+        <translation>Este diálogo le permite georreferenciar mapas raster. Como requisito previo usted necesita un sistema de puntos de referencia y la proyección para esos puntos. Conseguirá los mejores resultados si la proyección de los puntos es también la del mapa. En la mayoría de los casos esta es Mercator. Se recomienda convertir los puntos de referencia a datum WGS84 desde el principio.</translation>
     </message>
     <message>
         <location filename="../CCreateMapGeoTiff.cpp" line="55"/>
@@ -1818,12 +1818,12 @@ Se esperaba %1, se recibió %2.</translation>
     <message>
         <location filename="../CDiaryEdit.cpp" line="223"/>
         <source>Diary modified...</source>
-        <translation type="unfinished"></translation>
+        <translation>Diario modificado...</translation>
     </message>
     <message>
         <location filename="../CDiaryEdit.cpp" line="223"/>
         <source>The diary is modified. Do you want to save it?</source>
-        <translation type="unfinished"></translation>
+        <translation>El diario se ha modificado. ¿Quiere guardarlo?</translation>
     </message>
     <message>
         <location filename="../CDiaryEdit.cpp" line="261"/>
@@ -2009,47 +2009,47 @@ Se esperaba %1, se recibió %2.</translation>
 <context>
     <name>CDlgConfig</name>
     <message>
-        <location filename="../CDlgConfig.cpp" line="105"/>
+        <location filename="../CDlgConfig.cpp" line="104"/>
         <source>QLandkarte M</source>
         <translation>QLandkarte M</translation>
     </message>
     <message>
-        <location filename="../CDlgConfig.cpp" line="106"/>
+        <location filename="../CDlgConfig.cpp" line="105"/>
         <source>Garmin</source>
         <translation>Garmin</translation>
     </message>
     <message>
-        <location filename="../CDlgConfig.cpp" line="107"/>
+        <location filename="../CDlgConfig.cpp" line="106"/>
         <source>NMEA</source>
         <translation>NMEA</translation>
     </message>
     <message>
-        <location filename="../CDlgConfig.cpp" line="117"/>
+        <location filename="../CDlgConfig.cpp" line="116"/>
         <source>Mikrokopter</source>
         <translation>Mikrokopter</translation>
     </message>
     <message>
-        <location filename="../CDlgConfig.cpp" line="120"/>
+        <location filename="../CDlgConfig.cpp" line="119"/>
         <source>GPSD</source>
         <translation>GPSD</translation>
     </message>
     <message>
-        <location filename="../CDlgConfig.cpp" line="132"/>
+        <location filename="../CDlgConfig.cpp" line="131"/>
         <source>Pass something like &quot;COM1:&quot; or &quot;\\.\COM13&quot; or &quot;\\.\com13&quot; for serial Garmin devices or NMEA devices. For Garmin USB devices leave blank.</source>
-        <translation type="unfinished"></translation>
+        <translation>Introduzca algo del estilo de &quot;COM1:&quot; o &quot;\\.\COM13&quot; para dispositivos NMEA o Garmin de puerto serie. Para dispositivos Garmin USB, dejar en blanco.</translation>
     </message>
     <message>
         <source>Pass something like &quot;COM1:&quot; or &quot;\\.\COM13&quot; for serial Garmin devices or NMEA devices. For Garmin USB devices leave blank.</source>
         <translation type="obsolete">Introduzca algo del estilo de &quot;COM1:&quot; o &quot;\\.\COM13&quot; para dispositivos NMEA o Garmin de puerto serie. Para dispositivos Garmin USB, dejar en blanco.</translation>
     </message>
     <message>
-        <location filename="../CDlgConfig.cpp" line="316"/>
-        <location filename="../CDlgConfig.cpp" line="320"/>
+        <location filename="../CDlgConfig.cpp" line="314"/>
+        <location filename="../CDlgConfig.cpp" line="318"/>
         <source>No plugins found. I expect them in: %1</source>
         <translation>No se encontraron plugins. Los esperaba encontrar en: %1</translation>
     </message>
     <message>
-        <location filename="../CDlgConfig.cpp" line="357"/>
+        <location filename="../CDlgConfig.cpp" line="355"/>
         <source>Open Directory</source>
         <translation>Abrir Directorio</translation>
     </message>
@@ -2816,12 +2816,12 @@ linea %2, columna %3:
     <message>
         <location filename="../CLiveLogDB.cpp" line="188"/>
         <source>2D (%1)</source>
-        <translation type="unfinished"></translation>
+        <translation>2D (%1)</translation>
     </message>
     <message>
         <location filename="../CLiveLogDB.cpp" line="190"/>
         <source>3D (%1)</source>
-        <translation type="unfinished"></translation>
+        <translation>3D (%1)</translation>
     </message>
     <message>
         <location filename="../CLiveLogDB.cpp" line="192"/>
@@ -2839,22 +2839,22 @@ linea %2, columna %3:
     <message>
         <location filename="../CLiveLogDB.cpp" line="274"/>
         <source>GPS signal low (%1)</source>
-        <translation type="unfinished"></translation>
+        <translation>Señal de GPS débil (%1)</translation>
     </message>
     <message>
         <location filename="../CLiveLogDB.cpp" line="287"/>
         <source>GPS connection failed</source>
-        <translation type="unfinished"></translation>
+        <translation>Falló la conexión con el GPS</translation>
     </message>
     <message>
         <location filename="../CLiveLogDB.cpp" line="291"/>
         <source>GPS connection established</source>
-        <translation type="unfinished"></translation>
+        <translation>Conexión con el GPS restablecida</translation>
     </message>
     <message>
         <location filename="../CLiveLogDB.cpp" line="295"/>
         <source>GPS connection receiving %1 bytes</source>
-        <translation type="unfinished"></translation>
+        <translation>Conexión con el GPS recibiendo %1 bytes</translation>
     </message>
     <message>
         <source>±%1 m</source>
@@ -2907,7 +2907,7 @@ linea %2, columna %3:
     <message>
         <location filename="../CMainWindow.cpp" line="495"/>
         <source>This will erase all project data like waypoints and tracks.</source>
-        <translation>Esto eliminara todos los datos del proyecto, tales como waypoints y tracks.</translation>
+        <translation>Esto eliminará todos los datos del proyecto, tales como waypoints y tracks.</translation>
     </message>
     <message>
         <location filename="../CMainWindow.cpp" line="546"/>
@@ -4955,12 +4955,12 @@ SRTM = acrónimo en inglés de la &quot;Misión topográfica Radar Shuttle&quot;
 <context>
     <name>CResources</name>
     <message>
-        <location filename="../CResources.cpp" line="286"/>
+        <location filename="../CResources.cpp" line="283"/>
         <source>No device.</source>
         <translation>Dispositivo no encontrado.</translation>
     </message>
     <message>
-        <location filename="../CResources.cpp" line="286"/>
+        <location filename="../CResources.cpp" line="283"/>
         <source>You have to select a device in Setup-&gt;Config-&gt;Device &amp; Xfer</source>
         <translation>Debe seleccionar un dispositivo en:
 Preferencias-&gt;General-&gt;Dispositivo &amp; Transferencia</translation>
@@ -5456,7 +5456,7 @@ longitud: %1 %2</translation>
 <context>
     <name>CTrack</name>
     <message>
-        <location filename="../CTrack.cpp" line="1035"/>
+        <location filename="../CTrack.cpp" line="1008"/>
         <source>
 length: %1 %2</source>
         <translation>
@@ -5467,136 +5467,138 @@ longitud: %1 %2</translation>
         <translation type="obsolete">, puntos: %1</translation>
     </message>
     <message>
-        <location filename="../CTrack.cpp" line="1036"/>
+        <location filename="../CTrack.cpp" line="1009"/>
         <source>, points: %1 (%2)</source>
         <translation>, puntos: %1 (%2)</translation>
     </message>
     <message>
-        <location filename="../CTrack.cpp" line="1046"/>
+        <location filename="../CTrack.cpp" line="1019"/>
         <source>
 time: %1:</source>
         <translation>
 hora: %1:</translation>
     </message>
     <message>
-        <location filename="../CTrack.cpp" line="1050"/>
+        <location filename="../CTrack.cpp" line="1023"/>
         <source>
 time: </source>
         <translation>
 hora:</translation>
     </message>
     <message>
-        <location filename="../CTrack.cpp" line="1054"/>
-        <location filename="../CTrack.cpp" line="1072"/>
+        <location filename="../CTrack.cpp" line="1027"/>
+        <location filename="../CTrack.cpp" line="1045"/>
         <source>, speed: %1 %2</source>
         <translation>, velocidad: %1 %2</translation>
     </message>
     <message>
-        <location filename="../CTrack.cpp" line="1064"/>
+        <location filename="../CTrack.cpp" line="1037"/>
         <source>
 moving: %1:</source>
-        <translation type="unfinished"></translation>
+        <translation>
+en movimiento: %1:</translation>
     </message>
     <message>
-        <location filename="../CTrack.cpp" line="1068"/>
+        <location filename="../CTrack.cpp" line="1041"/>
         <source>
 moving: </source>
-        <translation type="unfinished"></translation>
+        <translation>
+en movimiento: </translation>
     </message>
     <message>
-        <location filename="../CTrack.cpp" line="1075"/>
+        <location filename="../CTrack.cpp" line="1048"/>
         <source>
 start: %1</source>
         <translation>
 inicio: %1</translation>
     </message>
     <message>
-        <location filename="../CTrack.cpp" line="1075"/>
-        <location filename="../CTrack.cpp" line="1076"/>
+        <location filename="../CTrack.cpp" line="1048"/>
+        <location filename="../CTrack.cpp" line="1049"/>
         <source>-</source>
         <translation>-</translation>
     </message>
     <message>
-        <location filename="../CTrack.cpp" line="1076"/>
+        <location filename="../CTrack.cpp" line="1049"/>
         <source>
 end: %1</source>
         <translation>
 final: %1</translation>
     </message>
     <message>
-        <location filename="../CTrack.cpp" line="1081"/>
+        <location filename="../CTrack.cpp" line="1054"/>
         <source>
 %1%2 %3, %4%5 %6</source>
         <translation>
 %1%2 %3, %4%5 %6</translation>
     </message>
     <message>
-        <location filename="../CTrack.cpp" line="1123"/>
+        <location filename="../CTrack.cpp" line="1096"/>
         <source>%4 %3 %1:%2h (%5%)</source>
-        <translation type="unfinished">%4 %3 %1:%2h (%5%)</translation>
+        <translation>%4 %3 %1:%2h (%5%)</translation>
     </message>
     <message>
-        <location filename="../CTrack.cpp" line="1124"/>
+        <location filename="../CTrack.cpp" line="1097"/>
         <source> | (%5%) %1:%2h %3 %4</source>
-        <translation type="unfinished"> | (%5%) %1:%2h %3 %4</translation>
+        <translation> | (%5%) %1:%2h %3 %4</translation>
     </message>
     <message>
-        <location filename="../CTrack.cpp" line="1131"/>
+        <location filename="../CTrack.cpp" line="1104"/>
         <source>%5 %4 %1%2 (%3%)</source>
-        <translation type="unfinished">%5 %4 %1%2 (%3%)</translation>
+        <translation>%5 %4 %1%2 (%3%)</translation>
     </message>
     <message>
-        <location filename="../CTrack.cpp" line="1133"/>
+        <location filename="../CTrack.cpp" line="1106"/>
         <source> | (%3%) %1%2 %4 %5</source>
-        <translation type="unfinished"> | (%3%) %1%2 %4 %5</translation>
+        <translation> | (%3%) %1%2 %4 %5</translation>
     </message>
     <message>
-        <location filename="../CTrack.cpp" line="1139"/>
+        <location filename="../CTrack.cpp" line="1112"/>
         <source>elevation: %1 %2</source>
-        <translation type="unfinished">altura: %1 %2</translation>
+        <translation>altura: %1 %2</translation>
     </message>
     <message>
-        <location filename="../CTrack.cpp" line="1157"/>
+        <location filename="../CTrack.cpp" line="1130"/>
         <source>
  %1: %2 </source>
-        <translation type="unfinished">
+        <translation>
  %1: %2 </translation>
     </message>
 </context>
 <context>
     <name>CTrackDB</name>
     <message>
-        <location filename="../CTrackDB.cpp" line="612"/>
+        <location filename="../CTrackDB.cpp" line="615"/>
         <source>Track%1</source>
         <translation>Track%1</translation>
     </message>
     <message>
-        <location filename="../CTrackDB.cpp" line="1118"/>
+        <location filename="../CTrackDB.cpp" line="1121"/>
         <source>Hmax=%1%2</source>
         <translation>Hmax=%1%2</translation>
     </message>
     <message>
-        <location filename="../CTrackDB.cpp" line="1123"/>
+        <location filename="../CTrackDB.cpp" line="1126"/>
         <source>Hmin=%1%2</source>
         <translation>Hmin=%1%2</translation>
     </message>
     <message>
-        <location filename="../CTrackDB.cpp" line="1128"/>
+        <location filename="../CTrackDB.cpp" line="1131"/>
         <source>Vmax=%1%2</source>
         <translation>Vmax=%1%2</translation>
     </message>
     <message>
-        <location filename="../CTrackDB.cpp" line="1149"/>
+        <location filename="../CTrackDB.cpp" line="1152"/>
         <source>Failed...</source>
         <translation>Falló...</translation>
     </message>
     <message>
-        <location filename="../CTrackDB.cpp" line="1149"/>
+        <location filename="../CTrackDB.cpp" line="1152"/>
         <source>Failed to copy track. You must select a track or track points of a track.</source>
         <translation>Fallo al copiar el track. Debe seleccionar un track o puntos de uno.</translation>
     </message>
     <message>
-        <location filename="../CTrackDB.cpp" line="1259"/>
+        <location filename="../CTrackDB.cpp" line="1262"/>
         <source>_rev</source>
         <translation></translation>
     </message>
@@ -5614,29 +5616,28 @@ final: %1</translation>
         <translation>%1 %2</translation>
     </message>
     <message>
-        <location filename="../CTrackEditWidget.cpp" line="711"/>
+        <location filename="../CTrackEditWidget.cpp" line="1155"/>
         <source>Remove track points ...</source>
         <translation>Eliminar puntos del track...</translation>
     </message>
     <message>
-        <location filename="../CTrackEditWidget.cpp" line="712"/>
         <source>You are about to remove purged track points permanently. If you press &apos;yes&apos;, all information will be lost.</source>
-        <translation>Está a punto de eliminar permanentemente los puntos borrados del track. Si pulsa &apos;Sí&apos; toda la información se perderá.</translation>
+        <translation type="obsolete">Está a punto de eliminar permanentemente los puntos borrados del track. Si pulsa &apos;Sí&apos; toda la información se perderá.</translation>
     </message>
     <message>
-        <location filename="../CTrackEditWidget.cpp" line="917"/>
+        <location filename="../CTrackEditWidget.cpp" line="834"/>
         <source>Trainee</source>
         <translatorcomment>Aprendiz , recluta. ? Creo que se refiere a alguien que entrena, datos de pulsómetro,etc (Forerunners, Edge, etc.)</translatorcomment>
         <translation>Deportista</translation>
     </message>
     <message>
-        <location filename="../CTrackEditWidget.cpp" line="826"/>
-        <location filename="../CTrackEditWidget.cpp" line="853"/>
+        <location filename="../CTrackEditWidget.cpp" line="743"/>
+        <location filename="../CTrackEditWidget.cpp" line="770"/>
         <source>Speed/Dist.</source>
         <translation>Velocidad/Dist.</translation>
     </message>
     <message>
-        <location filename="../CTrackEditWidget.cpp" line="144"/>
+        <location filename="../CTrackEditWidget.cpp" line="151"/>
         <source>Split</source>
         <translation>Dividir</translation>
     </message>
@@ -5646,26 +5647,31 @@ final: %1</translation>
         <translation>archivo sin elementos de extensión</translation>
     </message>
     <message>
-        <location filename="../CTrackEditWidget.cpp" line="833"/>
-        <location filename="../CTrackEditWidget.cpp" line="864"/>
+        <location filename="../CTrackEditWidget.cpp" line="750"/>
+        <location filename="../CTrackEditWidget.cpp" line="781"/>
         <source>Dist./Time</source>
         <translation>Dist./Tiempo</translation>
     </message>
     <message>
-        <location filename="../CTrackEditWidget.cpp" line="838"/>
-        <location filename="../CTrackEditWidget.cpp" line="875"/>
+        <location filename="../CTrackEditWidget.cpp" line="755"/>
+        <location filename="../CTrackEditWidget.cpp" line="792"/>
         <source>Profile/Dist.</source>
         <translation>Altura/Dist.</translation>
     </message>
     <message>
-        <location filename="../CTrackEditWidget.cpp" line="890"/>
+        <location filename="../CTrackEditWidget.cpp" line="807"/>
         <source>Speed/Time</source>
         <translation>Velocidad/Tiempo</translation>
     </message>
     <message>
-        <location filename="../CTrackEditWidget.cpp" line="902"/>
+        <location filename="../CTrackEditWidget.cpp" line="819"/>
         <source>Profile/Time</source>
         <translation>Altura/Tiempo</translation>
+    </message>
+    <message>
+        <location filename="../CTrackEditWidget.cpp" line="1156"/>
+        <source>You are about to remove hidden track points permanently. If you press &apos;yes&apos;, all information will be lost.</source>
+        <translation>Está a punto de eliminar permanentemente los puntos ocultos del track. Si pulsa &apos;Sí&apos;, se perderá la información.</translation>
     </message>
 </context>
 <context>
@@ -5799,7 +5805,12 @@ final: %1</translation>
         <translation>Mostrar Puntos</translation>
     </message>
     <message>
-        <location filename="../CTrackToolWidget.cpp" line="64"/>
+        <location filename="../CTrackToolWidget.cpp" line="63"/>
+        <source>Show Min/Max</source>
+        <translation>Mostrar Mín/Máx</translation>
+    </message>
+    <message>
+        <location filename="../CTrackToolWidget.cpp" line="65"/>
         <source>Zoom to fit</source>
         <translation>Ajustar zoom</translation>
     </message>
@@ -5808,7 +5819,7 @@ final: %1</translation>
         <translation type="obsolete">No elegir</translation>
     </message>
     <message>
-        <location filename="../CTrackToolWidget.cpp" line="65"/>
+        <location filename="../CTrackToolWidget.cpp" line="66"/>
         <source>Delete</source>
         <translation>Borrar</translation>
     </message>
@@ -5861,28 +5872,28 @@ final: %1</translation>
 %1%2 %3, %4%5 %6</translation>
     </message>
     <message>
-        <location filename="../CTrackToolWidget.cpp" line="254"/>
-        <location filename="../CTrackToolWidget.cpp" line="277"/>
+        <location filename="../CTrackToolWidget.cpp" line="257"/>
+        <location filename="../CTrackToolWidget.cpp" line="280"/>
         <source>Edit track ...</source>
         <translation>Editar track...</translation>
     </message>
     <message>
-        <location filename="../CTrackToolWidget.cpp" line="254"/>
-        <location filename="../CTrackToolWidget.cpp" line="277"/>
-        <location filename="../CTrackToolWidget.cpp" line="367"/>
-        <location filename="../CTrackToolWidget.cpp" line="406"/>
+        <location filename="../CTrackToolWidget.cpp" line="257"/>
+        <location filename="../CTrackToolWidget.cpp" line="280"/>
+        <location filename="../CTrackToolWidget.cpp" line="370"/>
+        <location filename="../CTrackToolWidget.cpp" line="409"/>
         <source>You have to select a track first.</source>
         <translation>Primero debe seleccionar un track.</translation>
     </message>
     <message>
-        <location filename="../CTrackToolWidget.cpp" line="262"/>
-        <location filename="../CTrackToolWidget.cpp" line="285"/>
+        <location filename="../CTrackToolWidget.cpp" line="265"/>
+        <location filename="../CTrackToolWidget.cpp" line="288"/>
         <source>Track</source>
         <translation>Track</translation>
     </message>
     <message>
-        <location filename="../CTrackToolWidget.cpp" line="367"/>
-        <location filename="../CTrackToolWidget.cpp" line="406"/>
+        <location filename="../CTrackToolWidget.cpp" line="370"/>
+        <location filename="../CTrackToolWidget.cpp" line="409"/>
         <source>Filter</source>
         <translation>Filtrar</translation>
     </message>
@@ -5892,7 +5903,7 @@ final: %1</translation>
         <translation>Crear Capa</translation>
     </message>
     <message>
-        <location filename="../CTrackToolWidget.cpp" line="354"/>
+        <location filename="../CTrackToolWidget.cpp" line="357"/>
         <source>created from track</source>
         <translation>creado a partir de un track</translation>
     </message>
@@ -6318,7 +6329,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../ICreateMapGeoTiff.ui" line="555"/>
         <source>Step 3: Reference map</source>
-        <translation type="unfinished"></translation>
+        <translation>Paso 3: Mapa de referencia</translation>
     </message>
     <message>
         <location filename="../ICreateMapGeoTiff.ui" line="584"/>
@@ -6348,22 +6359,22 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../ICreateMapGeoTiff.ui" line="65"/>
         <source>Step 1: Load raster map</source>
-        <translation type="unfinished"></translation>
+        <translation>Paso 1: Cargar mapa raster</translation>
     </message>
     <message>
         <location filename="../ICreateMapGeoTiff.ui" line="114"/>
         <source>open input file</source>
-        <translation type="unfinished"></translation>
+        <translation>abrir archivo de entrada</translation>
     </message>
     <message>
         <location filename="../ICreateMapGeoTiff.ui" line="127"/>
         <source>reload input file</source>
-        <translation type="unfinished"></translation>
+        <translation>recargar archivo de entrada</translation>
     </message>
     <message>
         <location filename="../ICreateMapGeoTiff.ui" line="164"/>
         <source>select output file</source>
-        <translation type="unfinished"></translation>
+        <translation>seleccionar archivo de salida</translation>
     </message>
     <message>
         <location filename="../ICreateMapGeoTiff.ui" line="239"/>
@@ -6393,7 +6404,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../ICreateMapGeoTiff.ui" line="337"/>
         <source>Step 2: Add reference points</source>
-        <translation type="unfinished"></translation>
+        <translation>Paso 2: Añadir puntos de referencia</translation>
     </message>
     <message>
         <location filename="../ICreateMapGeoTiff.ui" line="492"/>
@@ -6438,7 +6449,7 @@ formato de las coordenadas: &quot;N49° 10.234 E12° 01.456&quot;, &quot;12.1931
     <message>
         <location filename="../ICreateMapGridTool.ui" line="32"/>
         <source>Step 2a: Place reference points</source>
-        <translation type="unfinished"></translation>
+        <translation>Paso 2a: Situar puntos de referencia</translation>
     </message>
     <message>
         <location filename="../ICreateMapGridTool.ui" line="38"/>
@@ -6456,7 +6467,7 @@ Como alternativa puede utilizar puntos de referencia ya existentes. En ese caso,
     <message>
         <location filename="../ICreateMapGridTool.ui" line="99"/>
         <source>Step 2b: Add source projection</source>
-        <translation type="unfinished"></translation>
+        <translation>Paso 2b: Añadir proyección de origen</translation>
     </message>
     <message>
         <location filename="../ICreateMapGridTool.ui" line="107"/>
@@ -6502,7 +6513,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../ICreateMapGridTool.ui" line="246"/>
         <source>Step 2c: Create grid</source>
-        <translation type="unfinished"></translation>
+        <translation>Paso 2c: Crear rejilla</translation>
     </message>
     <message>
         <source>Next you might want to add a source projection to do a grid shift to WGS84. And you have to define the longitude and the latitude of the top left reference point. And the spacing between point 1 and 2, and 1 and 4.</source>
@@ -6615,7 +6626,7 @@ inferior/derecha</translation>
     <message>
         <location filename="../ICreateMapQMAP.ui" line="44"/>
         <source>Step 1: Map definition</source>
-        <translation type="unfinished"></translation>
+        <translation>Paso 1: Definición del mapa</translation>
     </message>
     <message>
         <location filename="../ICreateMapQMAP.ui" line="61"/>
@@ -6646,7 +6657,7 @@ inferior/derecha</translation>
     <message>
         <location filename="../ICreateMapQMAP.ui" line="206"/>
         <source>Step 2: Add maps</source>
-        <translation type="unfinished"></translation>
+        <translation>Paso 2: Añadir mapas</translation>
     </message>
     <message>
         <location filename="../ICreateMapQMAP.ui" line="224"/>
@@ -6811,7 +6822,7 @@ Una vez halla creado un mapa, usted puede adjuntar datos de altitud mediante un 
     <message>
         <location filename="../IDiaryEdit.ui" line="25"/>
         <source>Exit</source>
-        <translation type="unfinished">Salir</translation>
+        <translation>Salir</translation>
     </message>
     <message>
         <location filename="../IDiaryEdit.ui" line="31"/>
@@ -6833,17 +6844,17 @@ Una vez halla creado un mapa, usted puede adjuntar datos de altitud mediante un 
     <message>
         <location filename="../IDiaryEdit.ui" line="125"/>
         <source>Reload</source>
-        <translation type="unfinished"></translation>
+        <translation>Recargar</translation>
     </message>
     <message>
         <location filename="../IDiaryEdit.ui" line="135"/>
         <source>Save</source>
-        <translation type="unfinished">Guardar</translation>
+        <translation>Guardar</translation>
     </message>
     <message>
         <location filename="../IDiaryEdit.ui" line="145"/>
         <source>Print</source>
-        <translation type="unfinished">Imprimir</translation>
+        <translation>Imprimir</translation>
     </message>
     <message>
         <location filename="../IDiaryEdit.ui" line="182"/>
@@ -6858,7 +6869,7 @@ Una vez halla creado un mapa, usted puede adjuntar datos de altitud mediante un 
     <message>
         <location filename="../IDiaryEdit.ui" line="209"/>
         <source>add map view  when printing</source>
-        <translation type="unfinished"></translation>
+        <translation>añadir vista del mapa al imprimir</translation>
     </message>
 </context>
 <context>
@@ -6929,10 +6940,10 @@ p, li { white-space: pre-wrap; }
 &lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;La visión y el punto de vista (PDV) son movidos por varias teclas junto con los movimientos del ratón. &lt;/p&gt;
 &lt;p align=&quot;justify&quot; style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;
 &lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;VPP/Rotar:&lt;/span&gt;&lt;/p&gt;
-&lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Hay dos modos básicos: El modo de vista en primera persona(VPP) y el modo rotación. En el modo VPP su PDV se está moviendo libremente en la pantalla.En el modo rotación su PDV está girando alrededor del centro del mapa.&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Hay dos modos básicos: El modo de vista en primera persona (VPP) y el modo rotación. En el modo VPP su PDV se está moviendo libremente en la pantalla. En el modo rotación su PDV está girando alrededor del centro del mapa.&lt;/p&gt;
 &lt;p align=&quot;justify&quot; style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;
 &lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Modo &quot;track&quot;:&lt;/span&gt;&lt;/p&gt;
-&lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;En el modo &quot;track su PDV se vincula al punto del track seleccionado. Usted puede usar las teclas &apos;w&apos; y &apos;s&apos; para desplazarse a lo largo del track. Puede utilizar el ratón (presionando el botón izquierdo) para mirar alrededor.&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;En el modo &quot;track&quot; su PDV se vincula al punto del track seleccionado. Usted puede usar las teclas &apos;w&apos; y &apos;s&apos; para desplazarse a lo largo del track. Puede utilizar el ratón (presionando el botón izquierdo) para mirar alrededor.&lt;/p&gt;
 &lt;p align=&quot;justify&quot; style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;
 &lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Ratón:&lt;/span&gt;&lt;/p&gt;
 &lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Usted puede controlar su PDV por los movimientos del ratón. Tiene que presionar el botón izquierdo mientras mueve el ratón. Moviendo el ratón arriba y abajo su PDV cambiara arriba y abajo. Moviendo el mapa izquierda y derecha dependerá del modo:&lt;/p&gt;
@@ -6940,15 +6951,15 @@ p, li { white-space: pre-wrap; }
 &lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;VPP: usted cambia su propio eje. Rotar: usted gira toda la pantalla.&lt;/p&gt;
 &lt;p align=&quot;justify&quot; style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;
 &lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Rueda del ratón:&lt;/span&gt;&lt;/p&gt;
-&lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Puede acercar y alejar la imagen con la rueda del ratón. Si usted mantiene pulsada la tecla mayúsculas mientras que gira la rueda, cambia solamene la elevación de la vista 3D .&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Puede acercar y alejar la imagen con la rueda del ratón. Si usted mantiene pulsada la tecla mayúsculas mientras que gira la rueda, cambia solamente la elevación de la vista 3D .&lt;/p&gt;
 &lt;p align=&quot;justify&quot; style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;
 &lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Combinación de teclas:&lt;/span&gt;&lt;/p&gt;
-&lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Usted puede mover su PDV sobre la pantalla con las teclas. Ésto es independiente del modo elegido.&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Usted puede mover su PDV sobre la pantalla con las teclas. Esto es independiente del modo elegido.&lt;/p&gt;
 &lt;p align=&quot;justify&quot; style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;
 &lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;w: mover adelante&lt;/p&gt;
 &lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;s: mover atrás&lt;/p&gt;
-&lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;a: strafe left&lt;/p&gt;
-&lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;d: strafe right&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;a: mover izquierda&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;d: mover derecha&lt;/p&gt;
 &lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;shift + a: mover arriba&lt;/p&gt;
 &lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;shift + s: mover abajo&lt;/p&gt;
 &lt;p align=&quot;justify&quot; style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;
@@ -7067,8 +7078,8 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../IDlgConfig.ui" line="43"/>
         <location filename="../IDlgConfig.ui" line="63"/>
-        <location filename="../IDlgConfig.ui" line="372"/>
-        <location filename="../IDlgConfig.ui" line="542"/>
+        <location filename="../IDlgConfig.ui" line="362"/>
+        <location filename="../IDlgConfig.ui" line="532"/>
         <source>...</source>
         <translation>...</translation>
     </message>
@@ -7143,57 +7154,55 @@ p, li { white-space: pre-wrap; }
         <translation>Mostrar vista previa del perfil del track</translation>
     </message>
     <message>
-        <location filename="../IDlgConfig.ui" line="158"/>
         <source>Show Hmin, Hmax and Vmax on the active track</source>
-        <translation>Mostrar Hmin, Hmax y Vmax sobre el track activo</translation>
+        <translation type="obsolete">Mostrar Hmin, Hmax y Vmax sobre el track activo</translation>
+    </message>
+    <message>
+        <source>Show track maxima</source>
+        <translation type="obsolete">Mostrar máximos del track</translation>
+    </message>
+    <message>
+        <location filename="../IDlgConfig.ui" line="158"/>
+        <source>Show information as tooltip for items under cursor in vector maps.</source>
+        <translation type="unfinished">Muestra información en forma de tooltip para los elementos bajo el cursor en mapas vectoriales.</translation>
     </message>
     <message>
         <location filename="../IDlgConfig.ui" line="161"/>
-        <source>Show track maxima</source>
-        <translation>Mostrar máximos del track</translation>
-    </message>
-    <message>
-        <location filename="../IDlgConfig.ui" line="178"/>
-        <source>Show information as tooltip for items under cursor in vector maps.</source>
-        <translation>Muestra información en forma de tooltip para los elementos bajo el cursor en mapas vectoriales</translation>
-    </message>
-    <message>
-        <location filename="../IDlgConfig.ui" line="181"/>
         <source>Tooltips (vector maps)</source>
         <translation>Tooltips (mapas vectoriales)</translation>
     </message>
     <message>
-        <location filename="../IDlgConfig.ui" line="168"/>
+        <location filename="../IDlgConfig.ui" line="185"/>
         <source>Show zoom level in the top left corner</source>
         <translation>Muestra el nivel de zoom en la esquina superior izquierda</translation>
     </message>
     <message>
-        <location filename="../IDlgConfig.ui" line="171"/>
+        <location filename="../IDlgConfig.ui" line="188"/>
         <source>Show zoom level</source>
         <translation>Mostrar el nivel de zoom</translation>
     </message>
     <message>
-        <location filename="../IDlgConfig.ui" line="188"/>
+        <location filename="../IDlgConfig.ui" line="175"/>
         <source>Rendering the map with anti-aliasing uses a lot of CPU power. Best to disable it for weak CPUs.</source>
         <translation>Dibujar el mapa con anti-aliasing consume mucha CPU. Lo mejor es desactivarlo en CPU antiguas.</translation>
     </message>
     <message>
-        <location filename="../IDlgConfig.ui" line="191"/>
+        <location filename="../IDlgConfig.ui" line="178"/>
         <source>Anti-aliasing</source>
         <translation>Anti-aliasing</translation>
     </message>
     <message>
-        <location filename="../IDlgConfig.ui" line="278"/>
+        <location filename="../IDlgConfig.ui" line="268"/>
         <source>Geo Database</source>
         <translation>Archivo de Geodatos</translation>
     </message>
     <message>
-        <location filename="../IDlgConfig.ui" line="289"/>
+        <location filename="../IDlgConfig.ui" line="279"/>
         <source>Use database</source>
         <translation>Usar base de datos</translation>
     </message>
     <message>
-        <location filename="../IDlgConfig.ui" line="314"/>
+        <location filename="../IDlgConfig.ui" line="304"/>
         <source>Save workspace on exit</source>
         <translation>Guardar espacio de trabajo al salir</translation>
     </message>
@@ -7202,12 +7211,12 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">Red</translation>
     </message>
     <message>
-        <location filename="../IDlgConfig.ui" line="228"/>
+        <location filename="../IDlgConfig.ui" line="218"/>
         <source>Proxy</source>
         <translation>Proxy</translation>
     </message>
     <message>
-        <location filename="../IDlgConfig.ui" line="699"/>
+        <location filename="../IDlgConfig.ui" line="689"/>
         <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
@@ -7270,7 +7279,7 @@ p, li { white-space: pre-wrap; }
 &lt;td&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;alt + cursor arriba&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;
 &lt;td&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;	mover vistas del mapa al norte&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;	mover vista del mapa al norte&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;alt + cursor abajo&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;
@@ -7289,7 +7298,7 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;Control con ratón&lt;/span&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;rueda		acercar/alejar&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;botón inzquierdo		seleccionar&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;botón izquierdo	seleccionar&lt;/span&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;botón derecho	menú contextual&lt;/span&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;alt+mover ratón	mover mapa&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
@@ -7302,18 +7311,18 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">URL</translation>
     </message>
     <message>
-        <location filename="../IDlgConfig.ui" line="253"/>
-        <location filename="../IDlgConfig.ui" line="455"/>
+        <location filename="../IDlgConfig.ui" line="243"/>
+        <location filename="../IDlgConfig.ui" line="445"/>
         <source>Port</source>
         <translation>Puerto</translation>
     </message>
     <message>
-        <location filename="../IDlgConfig.ui" line="260"/>
+        <location filename="../IDlgConfig.ui" line="250"/>
         <source>00000; </source>
         <translation>00000;</translation>
     </message>
     <message>
-        <location filename="../IDlgConfig.ui" line="263"/>
+        <location filename="../IDlgConfig.ui" line="253"/>
         <source>8080</source>
         <translation>8080</translation>
     </message>
@@ -7342,67 +7351,67 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">%s se sustituirá por la URL</translation>
     </message>
     <message>
-        <location filename="../IDlgConfig.ui" line="408"/>
+        <location filename="../IDlgConfig.ui" line="398"/>
         <source>Device &amp;&amp; Xfer</source>
         <translation>Dispositivo &amp;&amp; Transferencia</translation>
     </message>
     <message>
-        <location filename="../IDlgConfig.ui" line="414"/>
+        <location filename="../IDlgConfig.ui" line="404"/>
         <source>Select the device you want to setup.</source>
         <translation>Seleccione el dispositivo que desee configurar.</translation>
     </message>
     <message>
-        <location filename="../IDlgConfig.ui" line="424"/>
+        <location filename="../IDlgConfig.ui" line="414"/>
         <source>Device</source>
         <translation>Dispositivo</translation>
     </message>
     <message>
-        <location filename="../IDlgConfig.ui" line="433"/>
+        <location filename="../IDlgConfig.ui" line="423"/>
         <source>IP Address</source>
         <translation>Dirección IP</translation>
     </message>
     <message>
-        <location filename="../IDlgConfig.ui" line="445"/>
+        <location filename="../IDlgConfig.ui" line="435"/>
         <source>If your device is accessed by TCP/IP you can give a hard coded address. Leave blank for &quot;QLandkarte M&quot; as the driver will query the device by UDP broadcast.</source>
         <translation>Si se accede a su dispositivo por TCP/IP,  podrá indicar una dirección fija. Deje el espacio en blanco para &quot;QLandkarte M&quot; pues el controlador consultará el dispositivo mediante difusiones UDP.</translation>
     </message>
     <message>
-        <location filename="../IDlgConfig.ui" line="465"/>
+        <location filename="../IDlgConfig.ui" line="455"/>
         <source>Add TCP/IP port for Device. Set to 0 for &quot;QLandkarte M&quot;.</source>
         <translation>Añada el puerto TCP/IP para el dispositivo. Póngalo a 0 para &quot;QLandkarte M&quot;.</translation>
     </message>
     <message>
-        <location filename="../IDlgConfig.ui" line="468"/>
+        <location filename="../IDlgConfig.ui" line="458"/>
         <source>4242</source>
         <translation>4242</translation>
     </message>
     <message>
-        <location filename="../IDlgConfig.ui" line="480"/>
+        <location filename="../IDlgConfig.ui" line="470"/>
         <source>Serial Port</source>
         <translation>Puerto Serie</translation>
     </message>
     <message>
-        <location filename="../IDlgConfig.ui" line="490"/>
+        <location filename="../IDlgConfig.ui" line="480"/>
         <source>Pass something like &quot;/dev/ttyS0&quot; or &quot;/dev/rfcomm0&quot; for serial Garmin devices or NMEA devices. For Garmin USB devices leave blank.</source>
         <translation>Es algo como &quot; /dev/ttyS0&quot; o &quot; /dev/rfcomm0&quot; para dispositivos NMEA o Garmin de puerto serie. Para dispositivos Garmin USB, dejar en blanco.</translation>
     </message>
     <message>
-        <location filename="../IDlgConfig.ui" line="500"/>
+        <location filename="../IDlgConfig.ui" line="490"/>
         <source>Baud rate</source>
         <translation>Velocidad en baudios</translation>
     </message>
     <message>
-        <location filename="../IDlgConfig.ui" line="510"/>
+        <location filename="../IDlgConfig.ui" line="500"/>
         <source>Baud rate for Serial Port</source>
         <translation>Velocidad en baudios del Puerto Serie</translation>
     </message>
     <message>
-        <location filename="../IDlgConfig.ui" line="520"/>
+        <location filename="../IDlgConfig.ui" line="510"/>
         <source>Type</source>
         <translation>Tipo</translation>
     </message>
     <message>
-        <location filename="../IDlgConfig.ui" line="532"/>
+        <location filename="../IDlgConfig.ui" line="522"/>
         <source>Select your Garmin device from list. If your device is not supported use &quot;whatGarmin&quot; and download waypoints to create a protocol query.</source>
         <translation>Seleccione su dispositivo Garmin en la lista. Si su dispositivo no está soportado utilice &quot;whatGarmin&quot; y descargue waypoints para crear una consulta de protocolo.</translation>
     </message>
@@ -7481,94 +7490,94 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;reducir&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../IDlgConfig.ui" line="554"/>
+        <location filename="../IDlgConfig.ui" line="544"/>
         <source>Character Set</source>
         <translation>Conjunto de Caracteres</translation>
     </message>
     <message>
-        <location filename="../IDlgConfig.ui" line="358"/>
+        <location filename="../IDlgConfig.ui" line="348"/>
         <source>Database path:</source>
         <translation>Ruta de la base de datos:</translation>
     </message>
     <message>
-        <location filename="../IDlgConfig.ui" line="198"/>
+        <location filename="../IDlgConfig.ui" line="168"/>
         <source>Reduce POI icons (vector maps)</source>
         <translation>Reducir iconos POI (mapas vectoriales)</translation>
     </message>
     <message>
-        <location filename="../IDlgConfig.ui" line="381"/>
+        <location filename="../IDlgConfig.ui" line="371"/>
         <source>You have to restart QLandkarte GT to make the database changes taking effect.</source>
         <translation>Debe reiniciar QLandkarte GT para que los cambios en la base de datos tengan efecto.</translation>
     </message>
     <message>
-        <location filename="../IDlgConfig.ui" line="234"/>
+        <location filename="../IDlgConfig.ui" line="224"/>
         <source>manual configuration</source>
-        <translation>configuración manual</translation>
+        <translation>Configuración manual</translation>
     </message>
     <message>
-        <location filename="../IDlgConfig.ui" line="222"/>
+        <location filename="../IDlgConfig.ui" line="212"/>
         <source>Services &amp;&amp; Paths</source>
-        <translation type="unfinished"></translation>
+        <translation>Servicios &amp;&amp; Rutas</translation>
     </message>
     <message>
-        <location filename="../IDlgConfig.ui" line="243"/>
+        <location filename="../IDlgConfig.ui" line="233"/>
         <source>Host</source>
         <translation>Servidor</translation>
     </message>
     <message>
-        <location filename="../IDlgConfig.ui" line="321"/>
+        <location filename="../IDlgConfig.ui" line="311"/>
         <source> and every </source>
-        <translation type="unfinished"></translation>
+        <translation>y cada </translation>
     </message>
     <message>
-        <location filename="../IDlgConfig.ui" line="338"/>
+        <location filename="../IDlgConfig.ui" line="328"/>
         <source> min</source>
-        <translation type="unfinished"></translation>
+        <translation> min</translation>
     </message>
     <message>
-        <location filename="../IDlgConfig.ui" line="568"/>
+        <location filename="../IDlgConfig.ui" line="558"/>
         <source>Define custom icons for Garmin Devices.</source>
         <translation>Seleccione iconos personalizados para los dispositivos Garmin.</translation>
     </message>
     <message>
-        <location filename="../IDlgConfig.ui" line="571"/>
+        <location filename="../IDlgConfig.ui" line="561"/>
         <source>Customize Waypoint Icons...</source>
         <translation>Personalizar los iconos de los waypoints...</translation>
     </message>
     <message>
-        <location filename="../IDlgConfig.ui" line="597"/>
+        <location filename="../IDlgConfig.ui" line="587"/>
         <source>Upload All</source>
         <translation>Cargar todo</translation>
     </message>
     <message>
-        <location filename="../IDlgConfig.ui" line="603"/>
-        <location filename="../IDlgConfig.ui" line="636"/>
+        <location filename="../IDlgConfig.ui" line="593"/>
+        <location filename="../IDlgConfig.ui" line="626"/>
         <source>Waypoints</source>
         <translation>Waypoints</translation>
     </message>
     <message>
-        <location filename="../IDlgConfig.ui" line="610"/>
-        <location filename="../IDlgConfig.ui" line="643"/>
+        <location filename="../IDlgConfig.ui" line="600"/>
+        <location filename="../IDlgConfig.ui" line="633"/>
         <source>Tracks</source>
         <translation>Tracks</translation>
     </message>
     <message>
-        <location filename="../IDlgConfig.ui" line="630"/>
+        <location filename="../IDlgConfig.ui" line="620"/>
         <source>Download All</source>
         <translation>Descargar todo</translation>
     </message>
     <message>
-        <location filename="../IDlgConfig.ui" line="660"/>
+        <location filename="../IDlgConfig.ui" line="650"/>
         <source>Sound after Transfer</source>
         <translation>Sonido después de la transferencia</translation>
     </message>
     <message>
-        <location filename="../IDlgConfig.ui" line="666"/>
+        <location filename="../IDlgConfig.ui" line="656"/>
         <source>Play</source>
         <translation>Reproducir</translation>
     </message>
     <message>
-        <location filename="../IDlgConfig.ui" line="693"/>
+        <location filename="../IDlgConfig.ui" line="683"/>
         <source>Keys</source>
         <translation>Combinaciones de teclado</translation>
     </message>
@@ -7612,8 +7621,8 @@ p, li { white-space: pre-wrap; }
 &lt;/table&gt;</translation>
     </message>
     <message>
-        <location filename="../IDlgConfig.ui" line="617"/>
-        <location filename="../IDlgConfig.ui" line="650"/>
+        <location filename="../IDlgConfig.ui" line="607"/>
+        <location filename="../IDlgConfig.ui" line="640"/>
         <source>Routes</source>
         <translation>Rutas</translation>
     </message>
@@ -7976,7 +7985,11 @@ p, li { white-space: pre-wrap; }
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Sans Serif&apos;; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
 &lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Geocache buddies are additional waypoints of a geocache. QLandkarte tries to search the description for well known coordinate strings and adds them to the above list as buddies. You can select if you want these buddies exported as waypoints when saving the geocache to a gpx file (File -&amp;gt; Export geo data)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Sans Serif&apos;; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Buddies geocache son waypoints adicionales de un geocache. QLandkarte intenta buscar coordenadas en la descripción y las añade en la lista superior como buddies. Puede seleccionar si quiere que estos buddies se exporten como waypoints al guardar el geocache en un archivo gpx (Archivo -&amp;gt; Exportar datos geográficos)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../IDlgEditWpt.ui" line="589"/>
@@ -8231,12 +8244,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../IDlgTrackFilter.ui" line="31"/>
         <source>Filter Track</source>
-        <translation type="unfinished"></translation>
+        <translation>Filtrar Track</translation>
     </message>
     <message>
         <location filename="../IDlgTrackFilter.ui" line="41"/>
         <source>Hide track points if:</source>
-        <translation type="unfinished"></translation>
+        <translation>Ocultar puntos del track si:</translation>
     </message>
     <message>
         <location filename="../IDlgTrackFilter.ui" line="48"/>
@@ -8261,18 +8274,18 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../IDlgTrackFilter.ui" line="156"/>
         <source>Change track point data:</source>
-        <translation type="unfinished"></translation>
+        <translation>Modificar puntos del track:</translation>
     </message>
     <message>
         <location filename="../IDlgTrackFilter.ui" line="51"/>
         <location filename="../IDlgTrackFilter.ui" line="101"/>
         <source>buttonGroup</source>
-        <translation type="unfinished"></translation>
+        <translation>buttonGroup</translation>
     </message>
     <message>
         <location filename="../IDlgTrackFilter.ui" line="170"/>
         <source>Smooth profile (Median filter, 5 tabs)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Suavizar perfil (Filtro mediana, 5 puntos)</translation>
     </message>
     <message>
         <location filename="../IDlgTrackFilter.ui" line="201"/>
@@ -8283,7 +8296,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../IDlgTrackFilter.ui" line="224"/>
         <source>Perform dataset reduction on &quot;OK&quot;</source>
-        <translation>Ejecutar la reducción del conjunto de datos al pulsar &quot;OK&quot;</translation>
+        <translation>Ejecutar la reducción del conjunto de datos al pulsar &quot;Aceptar&quot;</translation>
     </message>
     <message>
         <location filename="../IDlgTrackFilter.ui" line="232"/>
@@ -8304,7 +8317,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../IDlgTrackFilter.ui" line="267"/>
         <location filename="../IDlgTrackFilter.ui" line="280"/>
         <source>buttonGroupTZ</source>
-        <translation type="unfinished"></translation>
+        <translation>buttonGroupTZ</translation>
     </message>
     <message>
         <location filename="../IDlgTrackFilter.ui" line="274"/>
@@ -8330,7 +8343,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../IDlgTrackFilter.ui" line="359"/>
         <location filename="../IDlgTrackFilter.ui" line="369"/>
         <source>buttonGroupTDelta</source>
-        <translation type="unfinished"></translation>
+        <translation>buttonGroupTDelta</translation>
     </message>
     <message>
         <location filename="../IDlgTrackFilter.ui" line="366"/>
@@ -8340,7 +8353,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../IDlgTrackFilter.ui" line="399"/>
         <source>Modify timestamps on &quot;OK&quot;</source>
-        <translation>Guardar los cambios en las marcas de tiempo al pulsar &quot;OK&quot;</translation>
+        <translation>Guardar los cambios en las marcas de tiempo al pulsar &quot;Aceptar&quot;</translation>
     </message>
     <message>
         <location filename="../IDlgTrackFilter.ui" line="407"/>
@@ -8370,7 +8383,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../IDlgTrackFilter.ui" line="497"/>
         <source>Split track on &quot;Ok&quot;</source>
-        <translation>Dividir el track al pulsar &quot;OK&quot;</translation>
+        <translation>Dividir el track al pulsar &quot;Aceptar&quot;</translation>
     </message>
 </context>
 <context>
@@ -8998,7 +9011,7 @@ DEM: %2</translation>
     <message>
         <location filename="../IRouteToolWidget.ui" line="19"/>
         <source>Sort by name</source>
-        <translation type="unfinished">Ordenar por nombre</translation>
+        <translation>Ordenar por nombre</translation>
     </message>
     <message>
         <location filename="../IRouteToolWidget.ui" line="22"/>
@@ -9009,7 +9022,7 @@ DEM: %2</translation>
     <message>
         <location filename="../IRouteToolWidget.ui" line="35"/>
         <source>Sort by time</source>
-        <translation type="unfinished">Ordenar por fecha</translation>
+        <translation>Ordenar por fecha</translation>
     </message>
     <message>
         <location filename="../IRouteToolWidget.ui" line="70"/>
@@ -9049,7 +9062,22 @@ p, li { white-space: pre-wrap; }
 &lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;; font-size:9pt;&quot;&gt;To create a route from a distance polyline you select the line and summon the menu by a right mouse button click and select &amp;quot;Make Route&amp;quot;.&lt;/span&gt;&lt;/p&gt;
 &lt;p align=&quot;justify&quot; style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;Sans Serif&apos;; font-size:9pt;&quot;&gt;&lt;/p&gt;
 &lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;; font-size:9pt;&quot;&gt;In the &amp;quot;Setup&amp;quot; tab you can select settings for auto routing. To calculate a secondary, autorouted route to your primary route definition you  summon the menu by a right mouse button click and select &amp;quot;Calc. route&amp;quot;.&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Sans&apos;; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;table border=&quot;0&quot; style=&quot;-qt-table-type: root; margin-top:4px; margin-bottom:4px; margin-left:4px; margin-right:4px;&quot;&gt;
+&lt;tr&gt;
+&lt;td style=&quot;border: none;&quot;&gt;
+&lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;; font-size:9pt;&quot;&gt;¿Cómo añadir una ruta?&lt;/span&gt;&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;Sans Serif&apos;; font-size:9pt;&quot;&gt;&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;; font-size:9pt;&quot;&gt;Las rutas pueden crearse a partir de waypoints o polilíneas. &lt;/span&gt;&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;Sans Serif&apos;; font-size:9pt;&quot;&gt;&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;; font-size:9pt;&quot;&gt;Para crear una ruta a partir de waypoints tiene que seleccionar al menos dos waypoints en la herramienta de vista de waypoint. Después de hacer su selección abra el menú con el ratón haciendo click derecho y selecione &amp;quot;Crear Ruta&amp;quot;. &lt;/span&gt;&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;Sans Serif&apos;; font-size:9pt;&quot;&gt;&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;; font-size:9pt;&quot;&gt;Para crear una ruta a partir de polilíneas tiene que seleccionar la línea y abrir el menú haciendo click derecho y selecionar &amp;quot;Crear Ruta&amp;quot;.&lt;/span&gt;&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;Sans Serif&apos;; font-size:9pt;&quot;&gt;&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;; font-size:9pt;&quot;&gt;En la pestaña &amp;quot;Ajustes&amp;quot; puede seleccionar las preferencias de autoenrutado. Para calcular una ruta alternativa abra el menú haciendo click derecho y seleccione &amp;quot;Calc. ruta&amp;quot;.&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
@@ -9222,6 +9250,9 @@ p, li { white-space: pre-wrap; }
         <location filename="../ITrackEditWidget.ui" line="49"/>
         <location filename="../ITrackEditWidget.ui" line="65"/>
         <location filename="../ITrackEditWidget.ui" line="81"/>
+        <location filename="../ITrackEditWidget.ui" line="136"/>
+        <location filename="../ITrackEditWidget.ui" line="146"/>
+        <location filename="../ITrackEditWidget.ui" line="156"/>
         <source>...</source>
         <translation>...</translation>
     </message>
@@ -9246,7 +9277,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../ITrackEditWidget.ui" line="100"/>
-        <location filename="../ITrackEditWidget.ui" line="663"/>
+        <location filename="../ITrackEditWidget.ui" line="654"/>
         <source>Extensions</source>
         <translation>Extensiones</translation>
     </message>
@@ -9261,105 +9292,118 @@ p, li { white-space: pre-wrap; }
         <translation>Google Maps</translation>
     </message>
     <message>
-        <location filename="../ITrackEditWidget.ui" line="146"/>
-        <source>Use &apos;return&apos; key to change name permanently.</source>
-        <translation type="unfinished"></translation>
+        <location filename="../ITrackEditWidget.ui" line="133"/>
+        <source>Filter track points.</source>
+        <translation>Filtrar puntos del track.</translation>
     </message>
     <message>
-        <location filename="../ITrackEditWidget.ui" line="159"/>
+        <location filename="../ITrackEditWidget.ui" line="143"/>
+        <source>Reset all changes (hidden track points and filters)</source>
+        <translation>Restaurar todos los cambios (puntos del track ocultos y filtros)</translation>
+    </message>
+    <message>
+        <location filename="../ITrackEditWidget.ui" line="153"/>
+        <source>Remove hidden track points permanently.</source>
+        <translation>Eliminar permanentemente puntos del track ocultos.</translation>
+    </message>
+    <message>
+        <location filename="../ITrackEditWidget.ui" line="173"/>
+        <source>Use &apos;return&apos; key to change name permanently.</source>
+        <translation>Utilice la tecla &apos;Enter&apos; para cambiar el nombre de forma permanente.</translation>
+    </message>
+    <message>
         <source>remove hidden track points</source>
-        <translation>Eliminar puntos del track ocultos</translation>
+        <translation type="obsolete">Eliminar puntos del track ocultos</translation>
     </message>
     <message>
         <source>show all hidden track points</source>
         <translation type="obsolete">mostrar puntos del track ocultos</translation>
     </message>
     <message>
-        <location filename="../ITrackEditWidget.ui" line="166"/>
         <source>reset all changes (hide/filter)</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete">restaurar todos los cambios (ocultar/filtrar)</translation>
     </message>
     <message>
-        <location filename="../ITrackEditWidget.ui" line="215"/>
+        <location filename="../ITrackEditWidget.ui" line="206"/>
         <source>Tracklist</source>
         <translation>Lista de tracks</translation>
     </message>
     <message>
-        <location filename="../ITrackEditWidget.ui" line="252"/>
+        <location filename="../ITrackEditWidget.ui" line="243"/>
         <source>#</source>
         <translation>#</translation>
     </message>
     <message>
-        <location filename="../ITrackEditWidget.ui" line="257"/>
-        <location filename="../ITrackEditWidget.ui" line="437"/>
+        <location filename="../ITrackEditWidget.ui" line="248"/>
+        <location filename="../ITrackEditWidget.ui" line="428"/>
         <source>time</source>
         <translation>fecha/hora</translation>
     </message>
     <message>
-        <location filename="../ITrackEditWidget.ui" line="262"/>
-        <location filename="../ITrackEditWidget.ui" line="462"/>
+        <location filename="../ITrackEditWidget.ui" line="253"/>
+        <location filename="../ITrackEditWidget.ui" line="453"/>
         <source>altitude</source>
         <translation>altitud</translation>
     </message>
     <message>
-        <location filename="../ITrackEditWidget.ui" line="267"/>
-        <location filename="../ITrackEditWidget.ui" line="487"/>
+        <location filename="../ITrackEditWidget.ui" line="258"/>
+        <location filename="../ITrackEditWidget.ui" line="478"/>
         <source>delta</source>
         <translation>delta</translation>
     </message>
     <message>
-        <location filename="../ITrackEditWidget.ui" line="272"/>
-        <location filename="../ITrackEditWidget.ui" line="512"/>
+        <location filename="../ITrackEditWidget.ui" line="263"/>
+        <location filename="../ITrackEditWidget.ui" line="503"/>
         <source>azimuth</source>
         <translation>azimut</translation>
     </message>
     <message>
-        <location filename="../ITrackEditWidget.ui" line="277"/>
-        <location filename="../ITrackEditWidget.ui" line="537"/>
+        <location filename="../ITrackEditWidget.ui" line="268"/>
+        <location filename="../ITrackEditWidget.ui" line="528"/>
         <source>distance</source>
         <translation>distancia</translation>
     </message>
     <message>
-        <location filename="../ITrackEditWidget.ui" line="282"/>
-        <location filename="../ITrackEditWidget.ui" line="562"/>
+        <location filename="../ITrackEditWidget.ui" line="273"/>
+        <location filename="../ITrackEditWidget.ui" line="553"/>
         <source>speed</source>
         <translation>velocidad</translation>
     </message>
     <message>
-        <location filename="../ITrackEditWidget.ui" line="287"/>
-        <location filename="../ITrackEditWidget.ui" line="587"/>
+        <location filename="../ITrackEditWidget.ui" line="278"/>
+        <location filename="../ITrackEditWidget.ui" line="578"/>
         <source>ascend</source>
         <translation>ascenso</translation>
     </message>
     <message>
-        <location filename="../ITrackEditWidget.ui" line="292"/>
-        <location filename="../ITrackEditWidget.ui" line="612"/>
+        <location filename="../ITrackEditWidget.ui" line="283"/>
+        <location filename="../ITrackEditWidget.ui" line="603"/>
         <source>descend</source>
         <translation>descenso</translation>
     </message>
     <message>
-        <location filename="../ITrackEditWidget.ui" line="297"/>
-        <location filename="../ITrackEditWidget.ui" line="637"/>
+        <location filename="../ITrackEditWidget.ui" line="288"/>
+        <location filename="../ITrackEditWidget.ui" line="628"/>
         <source>position</source>
         <translation>posición</translation>
     </message>
     <message>
-        <location filename="../ITrackEditWidget.ui" line="306"/>
+        <location filename="../ITrackEditWidget.ui" line="297"/>
         <source>Settings</source>
         <translation>Ajustes</translation>
     </message>
     <message>
-        <location filename="../ITrackEditWidget.ui" line="312"/>
+        <location filename="../ITrackEditWidget.ui" line="303"/>
         <source>Choose here which columns are shown in the tracklist view</source>
         <translation>Seleccionar aquí qué columnas serán mostradas en la vista de tracks</translation>
     </message>
     <message>
-        <location filename="../ITrackEditWidget.ui" line="328"/>
+        <location filename="../ITrackEditWidget.ui" line="319"/>
         <source>Standard</source>
         <translation>Normal</translation>
     </message>
     <message>
-        <location filename="../ITrackEditWidget.ui" line="412"/>
+        <location filename="../ITrackEditWidget.ui" line="403"/>
         <source>row number (#)</source>
         <translation>fila (#)</translation>
     </message>
@@ -9534,7 +9578,7 @@ Finalización estimada: %02i:%02i:%02i [hh:mm:ss]</translation>
     <message>
         <location filename="../CTrack.cpp" line="226"/>
         <source>Number of trackpoints is not equal the number of shadow data trackpoints.</source>
-        <translation type="unfinished"></translation>
+        <translation>El número de puntos del track no es igual al número de datos sombreados.</translation>
     </message>
     <message>
         <location filename="../GeoMath.cpp" line="142"/>
