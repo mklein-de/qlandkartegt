@@ -31,8 +31,8 @@
 #include "CWptDB.h"
 #include "WptIcons.h"
 
-#include <GL/glu.h>
 #include <QtGui>
+#include <QtOpenGL>
 #include <math.h>
 
 #ifndef GL_CLAMP_TO_EDGE
