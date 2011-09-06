@@ -69,6 +69,7 @@ class CMainWindow : public QMainWindow
         CMenus *getActionGroupProvider() { return actionGroupProvider;}
 
         void exportToOcm();
+        void loadData(const QString& filename, const QString& filter);
 
     protected:
         void closeEvent(QCloseEvent * e);
@@ -110,7 +111,6 @@ class CMainWindow : public QMainWindow
         void setupMenuBar();
         void addRecent(const QString& filename);
 
-        void loadData(const QString& filename, const QString& filter);
         void setTitleBar();
         bool maybeSave();
         void saveData(QString& filename, const QString& filter, bool exportFlag = false);

@@ -81,6 +81,7 @@ set(qlandkarte_SRCS
     WptIcons.cpp
     CResources.cpp
     CCopyright.cpp
+    CApplication.cpp
     CMainWindow.cpp
     CCanvas.cpp
     CCanvasUndoCommandZoom.cpp
@@ -237,6 +238,7 @@ set(qlandkarte_HDRS
     WptIcons.h
     CResources.h
     CCopyright.h
+    CApplication.h
     CMainWindow.h
     CCanvas.h
     CStatusDEM.h
@@ -552,6 +554,10 @@ IF(ENABLE_TRANSLATION)
         COMMAND
             ${CMAKE_SOURCE_DIR}/MacOSX/mklocversion.sh ${MAC_BUNDLE_PATH} ${qlandkarte_QM_FILES}
       )
+      add_custom_target(pimp-info.plist.py ALL
+        COMMAND
+	    ${CMAKE_SOURCE_DIR}/MacOSX/pimp-info.plist.py ${MAC_BUNDLE_PATH}
+      )
     endif (APPLE)
 ENDIF(ENABLE_TRANSLATION)
 
@@ -594,6 +600,15 @@ set(qlandkarte_ALLINP
 if (APPLE)
   set(MAC_EXTRA_RES
       ${CMAKE_SOURCE_DIR}/MacOSX/${MAC_ICON_FILE}
+      ${CMAKE_SOURCE_DIR}/MacOSX/qlandkartegt-gdb.icns
+      ${CMAKE_SOURCE_DIR}/MacOSX/qlandkartegt-gpx.icns
+      ${CMAKE_SOURCE_DIR}/MacOSX/qlandkartegt-kml.icns
+      ${CMAKE_SOURCE_DIR}/MacOSX/qlandkartegt-loc.icns
+      ${CMAKE_SOURCE_DIR}/MacOSX/qlandkartegt-plt.icns
+      ${CMAKE_SOURCE_DIR}/MacOSX/qlandkartegt-qlb.icns
+      ${CMAKE_SOURCE_DIR}/MacOSX/qlandkartegt-rte.icns
+      ${CMAKE_SOURCE_DIR}/MacOSX/qlandkartegt-tcx.icns
+      ${CMAKE_SOURCE_DIR}/MacOSX/qlandkartegt-wpt.icns
   )
   set_source_files_properties(
     ${MAC_EXTRA_RES} ${qlandkarte_QM_FILES}

@@ -32,6 +32,7 @@
 #undef LP
 #endif
 
+#include "CApplication.h"
 #include "CMainWindow.h"
 #include "CGarminTyp.h"          //TODO: this shall not be commented out when building a debug version with Visual Studio 2005
 
@@ -166,7 +167,7 @@ int main(int argc, char ** argv)
 #ifndef WIN32
     setenv("LC_NUMERIC","C",1);
 #endif
-    QApplication theApp(argc,argv);
+    CApplication theApp(argc,argv);
     processOptions();
 #ifndef WIN32
     qInstallMsgHandler(myMessageOutput);
