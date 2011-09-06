@@ -705,6 +705,23 @@ void CCanvas::move(move_direction_e dir)
             p2.ry() -= height() / 4;
             break;
 
+        case eMoveLeftSmall:
+            p2.rx() += width() / 50;
+            break;
+
+        case eMoveRightSmall:
+            p2.rx() -= width() / 50;
+            break;
+
+        case eMoveUpSmall:
+            p2.ry() += height() / 50;
+            break;
+
+        case eMoveDownSmall:
+            p2.ry() -= height() / 50;
+            break;
+
+
         case eMoveCenter:
         {
             double lon1 = 0, lat1 = 0, lon2 = 0, lat2 = 0;

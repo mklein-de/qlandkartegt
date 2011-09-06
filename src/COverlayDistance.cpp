@@ -332,6 +332,29 @@ void COverlayDistance::mouseMoveEvent(QMouseEvent * e)
             {
                 GPS_Math_SubPolyline(pt1, pt2, 10, leadline, subline);
             }
+
+            QRect r = theMainWindow->getCanvas()->rect();
+
+            int w = r.width() / 10;
+            int h = r.height() / 10;
+
+            if(e->pos().x() < (r.left() + w))
+            {
+                theMainWindow->getCanvas()->move(CCanvas::eMoveLeftSmall);
+            }
+            else if(e->pos().x() > (r.right() - w))
+            {
+                theMainWindow->getCanvas()->move(CCanvas::eMoveRightSmall);
+            }
+
+            if(e->pos().y() < (r.top() + h))
+            {
+                theMainWindow->getCanvas()->move(CCanvas::eMoveUpSmall);
+            }
+            else if(e->pos().y() > (r.bottom() - h))
+            {
+                theMainWindow->getCanvas()->move(CCanvas::eMoveDownSmall);
+            }
         }
     }
 
