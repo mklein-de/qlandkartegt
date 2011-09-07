@@ -169,7 +169,7 @@ void CDlgTrackFilter::splitTrack(CTrack * trk)
     {
 
         progress.setValue(totalCnt++);
-        qApp->processEvents(QEventLoop::AllEvents, 100);
+        qApp->processEvents();
 
         *track1 << *trkpt;
         if(++trkptCnt >= chunk)
@@ -245,7 +245,7 @@ void CDlgTrackFilter::modifyTimestamp(CTrack * trk)
                 }
                 ++trkpt;
                 progress.setValue(i);
-                qApp->processEvents(QEventLoop::AllEvents, 100);
+                qApp->processEvents();
                 ++i;
                 if (progress.wasCanceled())
                 {
@@ -264,8 +264,6 @@ void CDlgTrackFilter::modifyTimestamp(CTrack * trk)
 
 void CDlgTrackFilter::reduceDataset(CTrack * trk)
 {
-
-
     if(checkReduceDataset->isChecked())
     {
         QList<CTrack::pt_t>& trkpts = trk->getTrackPoints();
@@ -300,7 +298,7 @@ void CDlgTrackFilter::reduceDataset(CTrack * trk)
                 ++trkpt;
                 ++i;
                 progress.setValue(i);
-                qApp->processEvents(QEventLoop::AllEvents, 100);
+                qApp->processEvents();
                 if (progress.wasCanceled())
                     break;
             }
@@ -329,6 +327,8 @@ void CDlgTrackFilter::reduceDataset(CTrack * trk)
 
             double lastEle = trkpt->ele;
 
+            bool checkAzimuth = checkAzimuthDelta->isEnabled() && checkAzimuthDelta->isChecked();
+
             while(trkpt != trkpts.end())
             {
 
@@ -341,7 +341,7 @@ void CDlgTrackFilter::reduceDataset(CTrack * trk)
 
                 double delta = distance(p1,p2,a1,a2);
 
-                if(checkAzimuthDelta->isEnabled() && checkAzimuthDelta->isChecked())
+                if(checkAzimuth)
                 {
                     if (abs(trkpt->azimuth) <= 180)
                     {
@@ -362,7 +362,7 @@ void CDlgTrackFilter::reduceDataset(CTrack * trk)
 
                 double deltaEle = abs(lastEle - trkpt->ele);
 
-                if( delta < min_distance || (AzimuthDelta < minAzimuthDelta && checkAzimuthDelta->isEnabled() && checkAzimuthDelta->isChecked()))
+                if (delta < min_distance || (checkAzimuth && AzimuthDelta < minAzimuthDelta))
                 {
                     if(deltaEle < 3)
                     {
@@ -374,7 +374,7 @@ void CDlgTrackFilter::reduceDataset(CTrack * trk)
                 {
                     p1 = p2;
                     progress.setValue(i);
-                    qApp->processEvents(QEventLoop::AllEvents, 100);
+                    qApp->processEvents();
                     if(AzimuthDelta >= minAzimuthDelta)
                     {
                         lastAzimuth = trkpt->azimuth;
@@ -414,7 +414,7 @@ void CDlgTrackFilter::reduceDataset(CTrack * trk)
                 trkpts[i].ele = window[2];
 
                 progress.setValue(i);
-                qApp->processEvents(QEventLoop::AllEvents, 100);
+                qApp->processEvents();
                 if (progress.wasCanceled())
                 {
                     break;

@@ -44,7 +44,7 @@ QPointF IMouse::pos1LonLat(-1,-1);
 
 IMouse::IMouse(CCanvas * canvas)
 : QObject(canvas)
-, cursor(QPixmap(":/cursor/Arrow"))
+, cursor(QPixmap(":/cursors/cursorArrow.png"))
 , canvas(canvas)
 , selTrkPt(0)
 , selRtePt(0)

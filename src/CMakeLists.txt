@@ -554,9 +554,9 @@ IF(ENABLE_TRANSLATION)
         COMMAND
             ${CMAKE_SOURCE_DIR}/MacOSX/mklocversion.sh ${MAC_BUNDLE_PATH} ${qlandkarte_QM_FILES}
       )
-      add_custom_target(pimp-info.plist.py ALL
+      add_custom_target(modify-plist.sh ALL
         COMMAND
-	    ${CMAKE_SOURCE_DIR}/MacOSX/pimp-info.plist.py ${MAC_BUNDLE_PATH}
+	    ${CMAKE_SOURCE_DIR}/MacOSX/modify-plist.sh ${MAC_BUNDLE_PATH}/Contents/Info.plist
       )
     endif (APPLE)
 ENDIF(ENABLE_TRANSLATION)

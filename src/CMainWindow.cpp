@@ -254,7 +254,7 @@ CMainWindow::CMainWindow()
     leftSplitter->setCollapsible(2, false);
 
     statusCoord = new QLabel(this);
-    statusBar()->insertPermanentWidget(1,statusCoord);
+    statusBar()->addPermanentWidget(statusCoord);
 
     QSettings cfg;
     pathData = cfg.value("path/data","./").toString();
