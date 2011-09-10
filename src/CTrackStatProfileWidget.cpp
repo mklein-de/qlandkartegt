@@ -112,10 +112,10 @@ void CTrackStatProfileWidget::slotChanged()
         }
         else
         {
-            lineElev.clear();
-            lineDEM.clear();
-            marksElev.clear();
-            break;
+//            lineElev.clear();
+//            lineDEM.clear();
+//            marksElev.clear();
+//            break;
         }
 
 

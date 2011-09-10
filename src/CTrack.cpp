@@ -568,7 +568,8 @@ void CTrack::slotSetupLink()
     {
         geonames->setProxy(url,port);
     }
-    geonames->setHost("ws.geonames.org");
+    geonames->setHost("api.geonames.org");
+//    geonames->setHost("ws.geonames.org");
     connect(geonames,SIGNAL(requestStarted(int)),this,SLOT(slotRequestStarted(int)));
     connect(geonames,SIGNAL(requestFinished(int,bool)),this,SLOT(slotRequestFinished(int,bool)));
 }
@@ -609,6 +610,7 @@ void CTrack::replaceElevationByRemote()
         url.setPath("/srtm3");
         url.addQueryItem("lats",lats.join(","));
         url.addQueryItem("lngs",lngs.join(","));
+        url.addQueryItem("username","demo");
         id = geonames->get(url.toEncoded( ));
 
         id2idx[id] = idx;
@@ -634,7 +636,7 @@ void CTrack::slotRequestFinished(int id, bool error)
 
     QString asw = geonames->readAll().simplified();
 
-//    qDebug() << asw;
+    qDebug() << asw;
 
     if(asw.isEmpty())
     {
@@ -651,8 +653,9 @@ void CTrack::slotRequestFinished(int id, bool error)
         {
             if(idx < track.size())
             {
-                track[idx++].ele    = val.toDouble();
-                track[idx++]._ele   = val.toDouble();
+                track[idx].ele    = val.toDouble();
+                track[idx]._ele   = val.toDouble();
+                idx++;
             }
         }
 
