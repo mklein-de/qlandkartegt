@@ -554,10 +554,6 @@ IF(ENABLE_TRANSLATION)
         COMMAND
             ${CMAKE_SOURCE_DIR}/MacOSX/mklocversion.sh ${MAC_BUNDLE_PATH} ${qlandkarte_QM_FILES}
       )
-      add_custom_target(modify-plist.sh ALL
-        COMMAND
-	    ${CMAKE_SOURCE_DIR}/MacOSX/modify-plist.sh ${MAC_BUNDLE_PATH}/Contents/Info.plist
-      )
     endif (APPLE)
 ENDIF(ENABLE_TRANSLATION)
 
@@ -615,7 +611,14 @@ if (APPLE)
   PROPERTIES
     MACOSX_PACKAGE_LOCATION Resources
   )
+  set(MACOSX_BUNDLE_COPYRIGHT
+	"Copyright © 2007-2011 Oliver Eichler (oliver.eichler@gmx.de)"
+  )
   add_executable(${PROGNAME} MACOSX_BUNDLE ${qlandkarte_ALLINP} ${MAC_EXTRA_RES})
+  set_target_properties(${PROGNAME} PROPERTIES
+        MACOSX_BUNDLE_INFO_PLIST ${CMAKE_SOURCE_DIR}/MacOSX/Info.plist.in
+  )
+
   add_custom_target(mac-deploy macdeployqt "${MAC_BUNDLE_PATH}"
     COMMAND ${CMAKE_SOURCE_DIR}/MacOSX/map2gcm-libs.sh "${MAC_BUNDLE_PATH}")
 else(APPLE)
