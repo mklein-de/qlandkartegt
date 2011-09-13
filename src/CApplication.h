@@ -22,6 +22,9 @@
 
 #include <QApplication>
 #include <QEvent>
+#include <QQueue>
+#include <QString>
+#include <QTimerEvent>
 
 class CApplication : public QApplication
 {
@@ -33,6 +36,10 @@ public:
 
 protected:
     bool event(QEvent *);
+    void timerEvent(QTimerEvent *);
+
+private:
+    QQueue<QString> filesToOpen;
 };
 
 #endif

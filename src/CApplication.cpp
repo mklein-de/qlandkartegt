@@ -20,16 +20,39 @@
 #include "CApplication.h"
 #include "CMainWindow.h"
 
+#include <QDebug>
 #include <QFileOpenEvent>
 
 // http://doc.qt.nokia.com/qq/qq18-macfeatures.html
 bool CApplication::event(QEvent *event)
 {
-    switch (event->type()) {
+    switch (event->type())
+    {
         case QEvent::FileOpen:
-            theMainWindow->loadData(static_cast<QFileOpenEvent *>(event)->file(), "");
+            if (theMainWindow)
+            {
+                theMainWindow->loadData(static_cast<QFileOpenEvent *>(event)->file(), "");
+            }
+            else
+            {
+                qWarning() << "main window is NULL, enqueueing event";
+                filesToOpen.enqueue(static_cast<QFileOpenEvent *>(event)->file());
+                startTimer(1000);
+            }
             return true;
         default:
             return QApplication::event(event);
+    }
+}
+
+void CApplication::timerEvent(QTimerEvent *event)
+{
+    if (theMainWindow)
+    {
+        while (!filesToOpen.empty())
+        {
+            theMainWindow->loadData(filesToOpen.dequeue(), "");
+        }
+        killTimer(event->timerId());
     }
 }

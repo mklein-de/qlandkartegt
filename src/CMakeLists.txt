@@ -612,7 +612,7 @@ if (APPLE)
     MACOSX_PACKAGE_LOCATION Resources
   )
   set(MACOSX_BUNDLE_COPYRIGHT
-	"Copyright © 2007-2011 Oliver Eichler (oliver.eichler@gmx.de)"
+    "Copyright © 2007-2011 Oliver Eichler (oliver.eichler@gmx.de)"
   )
   add_executable(${PROGNAME} MACOSX_BUNDLE ${qlandkarte_ALLINP} ${MAC_EXTRA_RES})
   set_target_properties(${PROGNAME} PROPERTIES
