@@ -568,8 +568,8 @@ void CTrack::slotSetupLink()
     {
         geonames->setProxy(url,port);
     }
-    geonames->setHost("api.geonames.org");
-//    geonames->setHost("ws.geonames.org");
+//    geonames->setHost("api.geonames.org");
+    geonames->setHost("ws.geonames.org");
     connect(geonames,SIGNAL(requestStarted(int)),this,SLOT(slotRequestStarted(int)));
     connect(geonames,SIGNAL(requestFinished(int,bool)),this,SLOT(slotRequestFinished(int,bool)));
 }
