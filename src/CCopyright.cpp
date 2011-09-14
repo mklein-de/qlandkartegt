@@ -57,7 +57,7 @@ CCopyright::CCopyright()
         "Fabrice Crohas (French)<br>"
         "Alessandro Briosi (Italian)<br>"
         "Mike Markov (Russian)<br>"
-        "Oscar A. (Spanish)<br>"
+        "Oscar A. and Luis Llorente (Spanish)<br>"
         "Harrie Klomp (Dutch)<br>"
         "</p>"
         "<p>"
