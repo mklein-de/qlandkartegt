@@ -46,12 +46,16 @@ typedef void (*exif_data_unref_t)(ExifData *);
 typedef ExifData* (*exif_data_new_from_file_t)(const char *);
 typedef void (*exif_data_foreach_content_t)(ExifData *, ExifDataForeachContentFunc , void *);
 typedef ExifIfd (*exif_content_get_ifd_t)(ExifContent *);
+typedef ExifRational (*exif_get_rational_t)(const unsigned char *, ExifByteOrder);
+typedef ExifByteOrder (*exif_data_get_byte_order_t)(ExifData *);
 
 static exif_content_foreach_entry_t f_exif_content_foreach_entry;
 static exif_data_unref_t f_exif_data_unref;
 static exif_data_new_from_file_t f_exif_data_new_from_file;
 static exif_data_foreach_content_t f_exif_data_foreach_content;
 static exif_content_get_ifd_t f_exif_content_get_ifd;
+static exif_get_rational_t f_exif_get_rational;
+static exif_data_get_byte_order_t f_exif_data_get_byte_order;
 #endif
 
 CWptDB::CWptDB(QTabWidget * tb, QObject * parent)
@@ -1039,14 +1043,13 @@ static void exifContentForeachEntryFuncGPS(ExifEntry * exifEntry, void *user_dat
         }
         case EXIF_TAG_GPS_LATITUDE:
         {
-            ExifRational * p = (ExifRational*)exifEntry->data;
             if(exifEntry->components == 3)
             {
-                //                 qDebug() << "lat" << exifEntry->components;
-                //                 qDebug() <<  p[0].numerator <<  p[0].denominator << ((double)p[0].numerator / p[0].denominator);
-                //                 qDebug() <<  p[1].numerator <<  p[1].denominator << ((double)p[1].numerator / (p[1].denominator * 60));
-                //                 qDebug() <<  p[2].numerator <<  p[2].denominator << ((double)p[2].numerator / ((double)p[2].denominator * 3600.0));
-                exifGPS.lat = (double)p[0].numerator/p[0].denominator + (double)p[1].numerator/(p[1].denominator * 60) + (double)p[2].numerator/((double)p[2].denominator * 3600.0);
+                ExifRational * p = (ExifRational*)exifEntry->data;
+                ExifRational deg = f_exif_get_rational((const unsigned char*)p++, exifGPS.byte_order);
+                ExifRational min = f_exif_get_rational((const unsigned char*)p++, exifGPS.byte_order);
+                ExifRational sec = f_exif_get_rational((const unsigned char*)p++, exifGPS.byte_order);
+                exifGPS.lat = (double)deg.numerator/deg.denominator + (double)min.numerator/(min.denominator * 60) + (double)sec.numerator/((double)sec.denominator * 3600.0);
             }
             break;
         }
@@ -1060,16 +1063,14 @@ static void exifContentForeachEntryFuncGPS(ExifEntry * exifEntry, void *user_dat
         }
         case EXIF_TAG_GPS_LONGITUDE:
         {
-            ExifRational * p = (ExifRational*)exifEntry->data;
             if(exifEntry->components == 3)
             {
-                //                 qDebug() << "lon" << exifEntry->components;
-                //                 qDebug() <<  p[0].numerator <<  p[0].denominator << ((double)p[0].numerator / p[0].denominator);
-                //                 qDebug() <<  p[1].numerator <<  p[1].denominator << ((double)p[1].numerator / (p[1].denominator * 60));
-                //                 qDebug() <<  p[2].numerator <<  p[2].denominator << ((double)p[2].numerator / ((double)p[2].denominator * 3600.0));
-                exifGPS.lon = (double)p[0].numerator/p[0].denominator + (double)p[1].numerator/(p[1].denominator * 60) + (double)p[2].numerator/((double)p[2].denominator * 3600.0);
+                ExifRational * p = (ExifRational*)exifEntry->data;
+                ExifRational deg = f_exif_get_rational((const unsigned char*)p++, exifGPS.byte_order);
+                ExifRational min = f_exif_get_rational((const unsigned char*)p++, exifGPS.byte_order);
+                ExifRational sec = f_exif_get_rational((const unsigned char*)p++, exifGPS.byte_order);
+                exifGPS.lon = (double)deg.numerator/deg.denominator + (double)min.numerator/(min.denominator * 60) + (double)sec.numerator/((double)sec.denominator * 3600.0);
             }
-
             break;
         }
         default:;
@@ -1161,7 +1162,7 @@ void CWptDB::createWaypointsFromImages()
 
         ExifData * exifData = f_exif_data_new_from_file(dir.filePath(file).toLocal8Bit());
 
-        exifGPS_t exifGPS;
+        exifGPS_t exifGPS(f_exif_data_get_byte_order(exifData));
 
         f_exif_data_foreach_content(exifData, exifDataForeachContentFunc, &exifGPS);
 

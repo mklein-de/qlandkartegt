@@ -29,6 +29,10 @@
 #include <libexif/exif-data.h>
 #endif
 
+#ifdef HAS_EXIF
+#include <libexif/exif-data.h>
+#endif
+
 class CWptToolWidget;
 class CWpt;
 
