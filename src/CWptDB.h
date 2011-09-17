@@ -25,6 +25,10 @@
 #include <QMap>
 #include <QStringList>
 
+#ifdef HAS_EXIF
+#include <libexif/exif-data.h>
+#endif
+
 class CWptToolWidget;
 class CWpt;
 
@@ -91,7 +95,7 @@ class CWptDB : public IDB
 
         struct exifGPS_t
         {
-            exifGPS_t(): lon(0.0), lat(0.0), lon_sign(1), lat_sign(1){}
+            exifGPS_t(ExifByteOrder exif_byte_order): lon(0.0), lat(0.0), lon_sign(1), lat_sign(1), byte_order(exif_byte_order) {}
             double lon;
             double lat;
 
@@ -99,6 +103,8 @@ class CWptDB : public IDB
             int lat_sign;
 
             int timestamp;
+
+            ExifByteOrder byte_order;
         };
 #endif
 

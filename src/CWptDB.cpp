@@ -76,11 +76,11 @@ CWptDB::CWptDB(QTabWidget * tb, QObject * parent)
     f_exif_data_foreach_content     = (exif_data_foreach_content_t)QLibrary::resolve("libexif-12", "exif_data_foreach_content");
     f_exif_content_get_ifd          = (exif_content_get_ifd_t)QLibrary::resolve("libexif-12", "exif_content_get_ifd");
 #else
-    f_exif_content_foreach_entry    = (exif_content_foreach_entry_t)QLibrary::resolve("libexif", "exif_content_foreach_entry");
-    f_exif_data_unref               = (exif_data_unref_t)QLibrary::resolve("libexif", "exif_data_unref");
-    f_exif_data_new_from_file       = (exif_data_new_from_file_t)QLibrary::resolve("libexif", "exif_data_new_from_file");
-    f_exif_data_foreach_content     = (exif_data_foreach_content_t)QLibrary::resolve("libexif", "exif_data_foreach_content");
-    f_exif_content_get_ifd          = (exif_content_get_ifd_t)QLibrary::resolve("libexif", "exif_content_get_ifd");
+    f_exif_content_foreach_entry    = exif_content_foreach_entry;
+    f_exif_data_unref               = exif_data_unref;
+    f_exif_data_new_from_file       = exif_data_new_from_file;
+    f_exif_data_foreach_content     = exif_data_foreach_content;
+    f_exif_content_get_ifd          = exif_content_get_ifd;
 #endif
 #endif
 
