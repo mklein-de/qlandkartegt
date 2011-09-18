@@ -833,9 +833,10 @@ void CDiaryEdit::collectData()
 
         foreach(CWpt* wpt, wpts)
         {
-            if(cnt < diary.tblWpt->columns())
+            if(cnt < diary.tblWpt->rows())
             {
-                wpt->setComment(QLGT::QTextHtmlExporter(textEdit->document()).toHtml(diary.tblWpt->cellAt(cnt, 2)));
+                wpt->setComment(QLGT::QTextHtmlExporter(textEdit->document()).toHtml(diary.tblWpt->cellAt(cnt, eComment)));
+                qDebug() << wpt->getKey() << wpt->getName() << wpt->getComment();
             }
             cnt++;
         }
@@ -849,9 +850,9 @@ void CDiaryEdit::collectData()
 
         foreach(CTrack* trk, trks)
         {
-            if(cnt < diary.tblTrk->columns())
+            if(cnt < diary.tblTrk->rows())
             {
-                trk->setComment(QLGT::QTextHtmlExporter(textEdit->document()).toHtml(diary.tblTrk->cellAt(cnt, 2)));
+                trk->setComment(QLGT::QTextHtmlExporter(textEdit->document()).toHtml(diary.tblTrk->cellAt(cnt, eComment)));
             }
             cnt++;
         }

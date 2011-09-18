@@ -3452,6 +3452,7 @@ bool CGeoDB::setProjectDiaryData(quint64 id, CDiary& diary)
 
         if(CWptDB::self().contains(wpt->getKey()))
         {
+            qDebug() << "1" << wpt->getKey();
             wpts += data;
         }
 
@@ -3509,6 +3510,7 @@ bool CGeoDB::setProjectDiaryData(quint64 id, CDiary& diary)
     CTrackDB::self().loadQLB(qlb, false);
     CRouteDB::self().loadQLB(qlb, false);
 
+    changedWorkspace();
     return true;
 }
 
