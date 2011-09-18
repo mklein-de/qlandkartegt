@@ -173,6 +173,17 @@ class CTrack : public IItem
             QPointer<QObject> editItem;
         };
 
+        struct wpt_t
+        {
+            wpt_t() : wpt(0), d(1e25f), x(0), y(0) {}
+            CWpt * wpt;
+            double d;
+            double x;
+            double y;
+            pt_t trkpt;
+        };
+
+
         /// set color by id
         void setColor(unsigned i);
         /// get QT color
@@ -237,8 +248,9 @@ class CTrack : public IItem
         /// set the icon defined by a string
         void setIcon(const QString& str);
 
-
         void setTimestamp(quint32 ts){timestamp = ts;}
+
+        void scaleWpt2Track(QList<wpt_t>& wpts);
 
         signals:
         void sigChanged();

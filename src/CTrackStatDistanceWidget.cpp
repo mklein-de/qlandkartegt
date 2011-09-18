@@ -90,12 +90,12 @@ void CTrackStatDistanceWidget::slotChanged()
         ++trkpt;
     }
 
-    QVector<wpt_t> wpts;
-
     plot->clear();
-    addWptTags(wpts);
 
-    QVector<wpt_t>::const_iterator wpt = wpts.begin();
+    QList<CTrack::wpt_t> wpts;
+    track->scaleWpt2Track(wpts);
+
+    QList<CTrack::wpt_t>::const_iterator wpt = wpts.begin();
     while(wpt != wpts.end())
     {
         if(wpt->d < 400)
@@ -109,8 +109,6 @@ void CTrackStatDistanceWidget::slotChanged()
         }
         ++wpt;
     }
-
-
 
     plot->newLine(lineDist,focusDist, "dist.");
     plot->newMarks(marksDist);

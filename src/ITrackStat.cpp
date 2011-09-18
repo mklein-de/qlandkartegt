@@ -94,7 +94,7 @@ void ITrackStat::slotFocusPoint(double dist)
     if(plot == 0) return;
     plot->setSelTrackPoint(0);
 
-    if(track.isNull()) return;    
+    if(track.isNull()) return;
     QList<CTrack::pt_t>& trkpts = track->getTrackPoints();
     QList<CTrack::pt_t>::iterator trkpt = trkpts.begin();
     quint32 idx = 0;
@@ -123,54 +123,3 @@ void ITrackStat::slotFocusPoint(double dist)
     }
 }
 
-void ITrackStat::addWptTags(QVector<wpt_t>& wpts)
-{
-
-    CWptDB& wptdb = CWptDB::self();
-    if(wptdb.count() == 0 || track.isNull()) return;
-    wpts.resize(wptdb.count());
-
-    IMap& map = CMapDB::self().getMap();
-
-    QVector<wpt_t>::iterator wpt = wpts.begin();
-    QMap<QString,CWpt*>::const_iterator w = wptdb.begin();
-
-    while(wpt != wpts.end())
-    {
-        wpt->wpt    = (*w);
-        wpt->x      = wpt->wpt->lon * DEG_TO_RAD;
-        wpt->y      = wpt->wpt->lat * DEG_TO_RAD;
-
-        map.convertRad2M(wpt->x, wpt->y);
-
-        ++wpt; ++w;
-    }
-
-    QList<CTrack::pt_t>& trkpts                 = track->getTrackPoints();
-    QList<CTrack::pt_t>::const_iterator trkpt   = trkpts.begin();
-    while(trkpt != trkpts.end())
-    {
-        if(trkpt->flags & CTrack::pt_t::eDeleted)
-        {
-            ++trkpt;
-            continue;
-        }
-
-        double x = trkpt->lon * DEG_TO_RAD;
-        double y = trkpt->lat * DEG_TO_RAD;
-        map.convertRad2M(x, y);
-
-        wpt = wpts.begin();
-        while(wpt != wpts.end())
-        {
-            double d = (x - wpt->x) * (x - wpt->x) + (y - wpt->y) * (y - wpt->y);
-            if(d < wpt->d)
-            {
-                wpt->d      = d;
-                wpt->trkpt  = *trkpt;
-            }
-            ++wpt;
-        }
-        ++trkpt;
-    }
-}

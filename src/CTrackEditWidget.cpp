@@ -36,6 +36,7 @@
 #include "CMenus.h"
 #include "CActions.h"
 #include "CDlgTrackFilter.h"
+#include "CWptDB.h"
 
 
 #include <QtGui>
@@ -154,6 +155,10 @@ CTrackEditWidget::CTrackEditWidget(QWidget * parent)
     connect(comboColor, SIGNAL(currentIndexChanged(int)), this, SLOT(slotColorChanged(int)));
     connect(lineName, SIGNAL(returnPressed()), this, SLOT(slotNameChanged()));
     connect(lineName, SIGNAL(textChanged(QString)), this, SLOT(slotNameChanged(QString)));
+
+    connect(tabWidget, SIGNAL(currentChanged(int)), this, SLOT(slotCurrentChanged(int)));
+
+    connect(&CWptDB::self(), SIGNAL(sigChanged()), this, SLOT(slotWptChanged()));
 }
 
 
@@ -214,6 +219,12 @@ void CTrackEditWidget::keyPressEvent(QKeyEvent * e)
     }
 }
 
+void CTrackEditWidget::resizeEvent(QResizeEvent * e)
+{
+    QWidget::resizeEvent(e);
+
+    slotWptChanged();
+}
 
 void CTrackEditWidget::slotContextMenu(const QPoint& pos)
 {
@@ -429,6 +440,7 @@ void CTrackEditWidget::slotSetTrack(CTrack * t)
 
     QApplication::restoreOverrideCursor();
 
+    slotWptChanged();
 }
 
 
@@ -767,7 +779,7 @@ void CTrackEditWidget::slotToggleStatDistance()
     {
         trackStatSpeedDist = new CTrackStatSpeedWidget(ITrackStat::eOverDistance, this);
         theMainWindow->getCanvasTab()->setTabPosition(QTabWidget::South);
-        theMainWindow->getCanvasTab()->addTab(trackStatSpeedDist, tr("Speed/Dist."));        
+        theMainWindow->getCanvasTab()->addTab(trackStatSpeedDist, tr("Speed/Dist."));
     }
     else
     {
@@ -1189,3 +1201,204 @@ void CTrackEditWidget::slotDelete()
     emit CTrackDB::self().sigModified(track->getKey());
 }
 
+void CTrackEditWidget::slotCurrentChanged(int idx)
+{
+    if(idx == 1)
+    {
+        slotWptChanged();
+    }
+}
+
+static bool qSortWptLessDistance(CTrack::wpt_t& p1, CTrack::wpt_t& p2)
+{
+    return p1.trkpt.distance < p2.trkpt.distance;
+}
+
+
+#define CHAR_PER_LINE 100
+#define ROOT_FRAME_MARGIN 5
+
+void CTrackEditWidget::slotWptChanged()
+{
+    textStages->clear();
+
+    if(track.isNull()) return;
+
+    // get waypoints near track
+    QList<CTrack::wpt_t> wpts;
+    track->scaleWpt2Track(wpts);
+    QList<CTrack::wpt_t>::iterator wpt = wpts.begin();
+    while(wpt != wpts.end())
+    {
+        if(wpt->d > 800)
+        {
+            wpt = wpts.erase(wpt);
+            continue;
+        }
+        ++wpt;
+    }
+
+
+    if(wpts.isEmpty())
+    {
+        tabWidget->setTabEnabled(1, false);
+        return;
+    }
+
+    tabWidget->setTabEnabled(1, true);
+    qSort(wpts.begin(), wpts.end(), qSortWptLessDistance);
+
+    // resize font
+    textStages->document()->setTextWidth(textStages->size().width() - 20);
+    QTextDocument * doc = textStages->document();
+    QFontMetrics fm(QFont(textStages->font().family(),10));
+
+    int w = doc->textWidth();
+    int pointSize = ((10 * (w - 2 * ROOT_FRAME_MARGIN)) / (CHAR_PER_LINE *  fm.width("X")));
+    if(pointSize == 0) return;
+    QFont f = textStages->font();
+    f.setPointSize(pointSize);
+    textStages->setFont(f);
+
+
+    // copied from CDiaryEdit
+    QTextCharFormat fmtCharStandard;
+    fmtCharStandard.setFont(f);
+
+    QTextCharFormat fmtCharHeader;
+    fmtCharHeader.setFont(f);
+    fmtCharHeader.setBackground(QColor("#c6e3c0"));
+    fmtCharHeader.setFontWeight(QFont::Bold);
+
+    QTextBlockFormat fmtBlockStandard;
+    fmtBlockStandard.setTopMargin(10);
+    fmtBlockStandard.setBottomMargin(10);
+    fmtBlockStandard.setAlignment(Qt::AlignJustify);
+
+    QTextFrameFormat fmtFrameStandard;
+    fmtFrameStandard.setTopMargin(5);
+    fmtFrameStandard.setBottomMargin(5);
+    fmtFrameStandard.setWidth(w - 2 * ROOT_FRAME_MARGIN);
+
+    QTextFrameFormat fmtFrameRoot;
+    fmtFrameRoot.setTopMargin(ROOT_FRAME_MARGIN);
+    fmtFrameRoot.setBottomMargin(ROOT_FRAME_MARGIN);
+    fmtFrameRoot.setLeftMargin(ROOT_FRAME_MARGIN);
+    fmtFrameRoot.setRightMargin(ROOT_FRAME_MARGIN);
+
+    QTextTableFormat fmtTableStandard;
+    fmtTableStandard.setBorder(1);
+    fmtTableStandard.setBorderBrush(Qt::black);
+    fmtTableStandard.setCellPadding(4);
+    fmtTableStandard.setCellSpacing(0);
+    fmtTableStandard.setHeaderRowCount(1);
+    fmtTableStandard.setTopMargin(10);
+    fmtTableStandard.setBottomMargin(20);
+    fmtTableStandard.setWidth(w - 2 * ROOT_FRAME_MARGIN);
+
+    QVector<QTextLength> constraints;
+    constraints << QTextLength(QTextLength::FixedLength, 32);
+    constraints << QTextLength(QTextLength::VariableLength, 50);
+    constraints << QTextLength(QTextLength::VariableLength, 30);
+    constraints << QTextLength(QTextLength::VariableLength, 30);
+    constraints << QTextLength(QTextLength::VariableLength, 100);
+    fmtTableStandard.setColumnWidthConstraints(constraints);
+
+    doc->rootFrame()->setFrameFormat(fmtFrameRoot);
+    QTextCursor cursor = doc->rootFrame()->firstCursorPosition();
+
+    QTextTable * table = cursor.insertTable(wpts.count()+1+2, eMax, fmtTableStandard);
+    table->cellAt(0,eSym).setFormat(fmtCharHeader);
+    table->cellAt(0,eToLast).setFormat(fmtCharHeader);
+    table->cellAt(0,eTotal).setFormat(fmtCharHeader);
+    table->cellAt(0,eInfo).setFormat(fmtCharHeader);
+    table->cellAt(0,eComment).setFormat(fmtCharHeader);
+
+    table->cellAt(0,eInfo).firstCursorPosition().insertText(tr("Info"));
+    table->cellAt(0,eToLast).firstCursorPosition().insertText(tr("to Last"));
+    table->cellAt(0,eTotal).firstCursorPosition().insertText(tr("Total"));
+    table->cellAt(0,eComment).firstCursorPosition().insertText(tr("Comment"));
+
+    QString val, unit;
+    IUnit::self().meter2distance(0,val,unit);
+
+    table->cellAt(1,eInfo).firstCursorPosition().insertText(tr("Start"), fmtCharStandard);
+    table->cellAt(1,eToLast).firstCursorPosition().insertText(tr("%1 %2").arg(val).arg(unit), fmtCharStandard);
+    table->cellAt(1,eTotal).firstCursorPosition().insertText(tr("%1 %2").arg(val).arg(unit), fmtCharStandard);
+    table->cellAt(1,eComment).firstCursorPosition().insertText(tr("Start of track."), fmtCharStandard);
+
+    int cnt = 2;
+
+    float   distLast = 0;
+    int     timeLast = track->getStartTimestamp().toTime_t();
+
+    foreach(const CTrack::wpt_t& wpt, wpts)
+    {
+        table->cellAt(cnt,eSym).firstCursorPosition().insertImage(wpt.wpt->getIcon().toImage().scaledToWidth(16, Qt::SmoothTransformation));
+        table->cellAt(cnt,eInfo).firstCursorPosition().insertText(wpt.wpt->getInfo(), fmtCharStandard);
+
+        quint32 timestamp = wpt.trkpt.timestamp;
+
+        QString strTimeToLast;
+        QString strTimeTotal;
+
+        if(timeLast && timestamp)
+        {
+            quint32 t1s     = timestamp - timeLast;
+            quint32 t1h     = qreal(t1s)/3600;
+            quint32 t1m     = quint32(qreal(t1s - t1h * 3600)/60  + 0.5);
+            strTimeToLast   = tr("Time: %1:%2 h").arg(t1h).arg(t1m, 2, 10, QChar('0'));
+
+            quint32 t2s     = timestamp - track->getStartTimestamp().toTime_t();
+            quint32 t2h     = qreal(t2s)/3600;
+            quint32 t2m     = quint32(qreal(t2s - t2h * 3600)/60  + 0.5);
+            strTimeTotal    = tr("Time: %1:%2 h").arg(t2h).arg(t2m, 2, 10, QChar('0'));
+
+            timeLast = timestamp;
+        }
+
+        IUnit::self().meter2distance(wpt.trkpt.distance - distLast, val, unit);
+        table->cellAt(cnt,eToLast).firstCursorPosition().insertText(tr("Dist: %1 %2\n%3").arg(val).arg(unit).arg(strTimeToLast), fmtCharStandard);
+
+        IUnit::self().meter2distance(wpt.trkpt.distance, val, unit);
+        table->cellAt(cnt,eTotal).firstCursorPosition().insertText(tr("Dist: %1 %2\n%3").arg(val).arg(unit).arg(strTimeTotal), fmtCharStandard);
+
+        QTextCursor c = table->cellAt(cnt,eComment).firstCursorPosition();
+        c.setCharFormat(fmtCharStandard);
+        c.setBlockFormat(fmtBlockStandard);
+        c.insertHtml(wpt.wpt->getComment());
+
+        distLast = wpt.trkpt.distance;
+
+        cnt++;
+    }
+
+    table->cellAt(cnt,eInfo).firstCursorPosition().insertText(tr("End"), fmtCharStandard);
+    table->cellAt(cnt,eComment).firstCursorPosition().insertText(tr("End of track."), fmtCharStandard);
+
+    QString strTimeToLast;
+    QString strTimeTotal;
+
+    quint32 timestamp = track->getEndTimestamp().toTime_t();
+    if(timeLast && timestamp)
+    {
+        quint32 t1s     = timestamp - timeLast;
+        quint32 t1h     = qreal(t1s)/3600;
+        quint32 t1m     = quint32(qreal(t1s - t1h * 3600)/60  + 0.5);
+        strTimeToLast   = tr("Time: %1:%2 h").arg(t1h).arg(t1m, 2, 10, QChar('0'));
+
+        quint32 t2s     = timestamp - track->getStartTimestamp().toTime_t();
+        quint32 t2h     = qreal(t2s)/3600;
+        quint32 t2m     = quint32(qreal(t2s - t2h * 3600)/60  + 0.5);
+        strTimeTotal    = tr("Time: %1:%2 h").arg(t2h).arg(t2m, 2, 10, QChar('0'));
+
+        timeLast = timestamp;
+    }
+
+
+    IUnit::self().meter2distance(track->getTotalDistance() - distLast, val, unit);
+    table->cellAt(cnt,eToLast).firstCursorPosition().insertText(tr("Dist: %1 %2\n%3").arg(val).arg(unit).arg(strTimeToLast), fmtCharStandard);
+
+    IUnit::self().meter2distance(track->getTotalDistance(), val, unit);
+    table->cellAt(cnt,eTotal).firstCursorPosition().insertText(tr("Dist: %1 %2\n%3").arg(val).arg(unit).arg(strTimeTotal), fmtCharStandard);
+}

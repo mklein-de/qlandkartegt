@@ -24,6 +24,7 @@
 #include "IUnit.h"
 #include "CMainWindow.h"
 #include "CCanvas.h"
+#include "CWptDB.h"
 
 #include <QtGui>
 #include <QtNetwork/QHttp>
@@ -1139,6 +1140,62 @@ QString CTrack::getTrkPtInfo(pt_t& trkpt)
 
 
     return str;
+}
+
+void CTrack::scaleWpt2Track(QList<wpt_t>& wpts)
+{
+    CWptDB& wptdb = CWptDB::self();
+    if(wptdb.count() == 0 ) return;
+    IMap& map = CMapDB::self().getMap();
+
+    QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
+
+    wpts.clear();
+
+    QMap<QString,CWpt*>::const_iterator w = wptdb.begin();
+    while(w != wptdb.end())
+    {
+        wpt_t wpt;
+        wpt.wpt    = (*w);
+        wpt.x      = wpt.wpt->lon * DEG_TO_RAD;
+        wpt.y      = wpt.wpt->lat * DEG_TO_RAD;
+
+        map.convertRad2M(wpt.x, wpt.y);
+
+        wpts << wpt;
+
+        ++w;
+    }
+
+    QList<pt_t>& trkpts                 = getTrackPoints();
+    QList<pt_t>::const_iterator trkpt   = trkpts.begin();
+    while(trkpt != trkpts.end())
+    {
+        if(trkpt->flags & pt_t::eDeleted)
+        {
+            ++trkpt;
+            continue;
+        }
+
+        double x = trkpt->lon * DEG_TO_RAD;
+        double y = trkpt->lat * DEG_TO_RAD;
+        map.convertRad2M(x, y);
+
+        QList<wpt_t>::iterator wpt = wpts.begin();
+        while(wpt != wpts.end())
+        {
+            double d = (x - wpt->x) * (x - wpt->x) + (y - wpt->y) * (y - wpt->y);
+            if(d < wpt->d)
+            {
+                wpt->d      = d;
+                wpt->trkpt  = *trkpt;
+            }
+            ++wpt;
+        }
+        ++trkpt;
+    }
+
+    QApplication::restoreOverrideCursor();
 }
 
 QDataStream& operator >>(QDataStream& s, CFlags& flag)

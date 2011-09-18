@@ -97,9 +97,12 @@ class CTrackEditWidget : public QWidget, private Ui::ITrackEditWidget
         void slotNameChanged();
         void slotNameChanged(const QString& name);
 
+        void slotCurrentChanged(int idx);
+        void slotWptChanged();
+
     protected:
         void keyPressEvent(QKeyEvent * e);
-
+        void resizeEvent(QResizeEvent * e);
 
     private:
         enum columns_e
@@ -116,6 +119,8 @@ class CTrackEditWidget : public QWidget, private Ui::ITrackEditWidget
             ,ePosition  = 9
             ,eMaxColumn = 10
         };
+
+        enum eTblCol{eSym, eInfo, eToLast, eTotal, eComment, eMax};
 
         QPointer<CTrack> track;
 

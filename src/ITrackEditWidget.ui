@@ -199,7 +199,7 @@
         <bool>false</bool>
        </property>
        <property name="movable">
-        <bool>true</bool>
+        <bool>false</bool>
        </property>
        <widget class="QWidget" name="tabView">
         <attribute name="title">
@@ -289,6 +289,16 @@
             </property>
            </column>
           </widget>
+         </item>
+        </layout>
+       </widget>
+       <widget class="QWidget" name="tabStages">
+        <attribute name="title">
+         <string>Stages</string>
+        </attribute>
+        <layout class="QVBoxLayout" name="verticalLayout">
+         <item>
+          <widget class="QTextBrowser" name="textStages"/>
          </item>
         </layout>
        </widget>
@@ -700,8 +710,8 @@
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>100</width>
-                 <height>30</height>
+                 <width>438</width>
+                 <height>269</height>
                 </rect>
                </property>
                <layout class="QVBoxLayout" name="verticalLayout_Extensions"/>

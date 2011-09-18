@@ -41,17 +41,6 @@ class ITrackStat : public QWidget, private Ui::ITrackStatWidget
         void sigFocus(quint32 idx);
 
     protected:
-        struct wpt_t
-        {
-            wpt_t() : wpt(0), d(1e25f), x(0), y(0) {}
-            CWpt * wpt;
-            double d;
-            double x;
-            double y;
-            CTrack::pt_t trkpt;
-        };
-
-        void addWptTags(QVector<wpt_t>& wpts);
 
         type_e type;
         CPlot * plot;
