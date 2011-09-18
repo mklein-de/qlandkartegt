@@ -830,8 +830,8 @@ void CTrack::rebuild(bool reindex)
             pt2->delta      = 0;
             pt2->speed      = -1;
             pt2->distance   = 0;
-            pt1->ascend     = 0;
-            pt1->descend    = 0;
+            pt2->ascend     = 0;
+            pt2->descend    = 0;
             continue;
         }
 

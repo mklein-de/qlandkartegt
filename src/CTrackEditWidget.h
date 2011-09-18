@@ -26,8 +26,8 @@
 #include <CGpxExtension.h>
 #include <QVBoxLayout>
 #include "ui_ITrackEditWidget.h"
+#include "CTrack.h"
 
-class CTrack;
 class CTrackStatProfileWidget;
 class CTrackStatSpeedWidget;
 class CTrackStatTraineeWidget;
@@ -105,6 +105,7 @@ class CTrackEditWidget : public QWidget, private Ui::ITrackEditWidget
         void resizeEvent(QResizeEvent * e);
 
     private:
+        void updateStages(QList<CTrack::wpt_t>& wpts);
         enum columns_e
         {
             eNum       = 0
@@ -120,7 +121,7 @@ class CTrackEditWidget : public QWidget, private Ui::ITrackEditWidget
             ,eMaxColumn = 10
         };
 
-        enum eTblCol{eSym, eInfo, eToLast, eTotal, eComment, eMax};
+        enum eTblCol{eSym, eInfo, eTotal, eToLast, eComment, eMax};
 
         QPointer<CTrack> track;
 

@@ -1215,8 +1215,6 @@ static bool qSortWptLessDistance(CTrack::wpt_t& p1, CTrack::wpt_t& p2)
 }
 
 
-#define CHAR_PER_LINE 100
-#define ROOT_FRAME_MARGIN 5
 
 void CTrackEditWidget::slotWptChanged()
 {
@@ -1230,7 +1228,7 @@ void CTrackEditWidget::slotWptChanged()
     QList<CTrack::wpt_t>::iterator wpt = wpts.begin();
     while(wpt != wpts.end())
     {
-        if(wpt->d > 800)
+        if(wpt->d > WPT_TO_TRACK_DIST)
         {
             wpt = wpts.erase(wpt);
             continue;
@@ -1245,6 +1243,16 @@ void CTrackEditWidget::slotWptChanged()
         return;
     }
 
+    updateStages(wpts);
+
+}
+
+#define CHAR_PER_LINE 100
+#define ROOT_FRAME_MARGIN 5
+
+
+void CTrackEditWidget::updateStages(QList<CTrack::wpt_t>& wpts)
+{
     tabWidget->setTabEnabled(1, true);
     qSort(wpts.begin(), wpts.end(), qSortWptLessDistance);
 
@@ -1331,44 +1339,66 @@ void CTrackEditWidget::slotWptChanged()
 
     float   distLast = 0;
     int     timeLast = track->getStartTimestamp().toTime_t();
+    float   ascLast  = 0;
+    float   dscLast  = 0;
 
     foreach(const CTrack::wpt_t& wpt, wpts)
     {
         table->cellAt(cnt,eSym).firstCursorPosition().insertImage(wpt.wpt->getIcon().toImage().scaledToWidth(16, Qt::SmoothTransformation));
-        table->cellAt(cnt,eInfo).firstCursorPosition().insertText(wpt.wpt->getInfo(), fmtCharStandard);
+        table->cellAt(cnt,eInfo).firstCursorPosition().insertText(wpt.wpt->getName(), fmtCharStandard);
 
         quint32 timestamp = wpt.trkpt.timestamp;
 
         QString strTimeToLast;
         QString strTimeTotal;
+        QString strDistToLast;
+        QString strDistTotal;
+        QString strAscToLast;
+        QString strAscTotal;
 
         if(timeLast && timestamp)
         {
             quint32 t1s     = timestamp - timeLast;
             quint32 t1h     = qreal(t1s)/3600;
             quint32 t1m     = quint32(qreal(t1s - t1h * 3600)/60  + 0.5);
-            strTimeToLast   = tr("Time: %1:%2 h").arg(t1h).arg(t1m, 2, 10, QChar('0'));
+            strTimeToLast   = tr("%3 %1:%2 h").arg(t1h).arg(t1m, 2, 10, QChar('0')).arg(QChar(0x231a));
 
             quint32 t2s     = timestamp - track->getStartTimestamp().toTime_t();
             quint32 t2h     = qreal(t2s)/3600;
             quint32 t2m     = quint32(qreal(t2s - t2h * 3600)/60  + 0.5);
-            strTimeTotal    = tr("Time: %1:%2 h").arg(t2h).arg(t2m, 2, 10, QChar('0'));
+            strTimeTotal    = tr("%3 %1:%2 h").arg(t2h).arg(t2m, 2, 10, QChar('0')).arg(QChar(0x231a));
 
             timeLast = timestamp;
         }
 
         IUnit::self().meter2distance(wpt.trkpt.distance - distLast, val, unit);
-        table->cellAt(cnt,eToLast).firstCursorPosition().insertText(tr("Dist: %1 %2\n%3").arg(val).arg(unit).arg(strTimeToLast), fmtCharStandard);
+        strDistToLast = tr("%1 %2").arg(val).arg(unit);
 
         IUnit::self().meter2distance(wpt.trkpt.distance, val, unit);
-        table->cellAt(cnt,eTotal).firstCursorPosition().insertText(tr("Dist: %1 %2\n%3").arg(val).arg(unit).arg(strTimeTotal), fmtCharStandard);
+        strDistTotal = tr("%1 %2").arg(val).arg(unit);
+
+        IUnit::self().meter2elevation(wpt.trkpt.ascend - ascLast, val, unit);
+        strAscToLast  = tr("%1%2 %3 ").arg(QChar(0x2191)).arg(val).arg(unit);
+        IUnit::self().meter2elevation(wpt.trkpt.descend - dscLast, val, unit);
+        strAscToLast += tr("%1%2 %3").arg(QChar(0x2193)).arg(val).arg(unit);
+
+        IUnit::self().meter2elevation(wpt.trkpt.ascend, val, unit);
+        strAscTotal  = tr("%1%2 %3 ").arg(QChar(0x2191)).arg(val).arg(unit);
+        IUnit::self().meter2elevation(wpt.trkpt.descend, val, unit);
+        strAscTotal += tr("%1%2 %3").arg(QChar(0x2193)).arg(val).arg(unit);
+
+
+        table->cellAt(cnt,eToLast).firstCursorPosition().insertText(tr("%1 %2\n%3").arg(strDistToLast).arg(strTimeToLast).arg(strAscToLast), fmtCharStandard);
+        table->cellAt(cnt,eTotal).firstCursorPosition().insertText(tr("%1 %2\n%3").arg(strDistTotal).arg(strTimeTotal).arg(strAscTotal), fmtCharStandard);
 
         QTextCursor c = table->cellAt(cnt,eComment).firstCursorPosition();
         c.setCharFormat(fmtCharStandard);
         c.setBlockFormat(fmtBlockStandard);
         c.insertHtml(wpt.wpt->getComment());
 
-        distLast = wpt.trkpt.distance;
+        distLast    = wpt.trkpt.distance;
+        ascLast     = wpt.trkpt.ascend;
+        dscLast     = wpt.trkpt.descend;
 
         cnt++;
     }
@@ -1378,6 +1408,10 @@ void CTrackEditWidget::slotWptChanged()
 
     QString strTimeToLast;
     QString strTimeTotal;
+    QString strDistToLast;
+    QString strDistTotal;
+    QString strAscToLast;
+    QString strAscTotal;
 
     quint32 timestamp = track->getEndTimestamp().toTime_t();
     if(timeLast && timestamp)
@@ -1385,20 +1419,33 @@ void CTrackEditWidget::slotWptChanged()
         quint32 t1s     = timestamp - timeLast;
         quint32 t1h     = qreal(t1s)/3600;
         quint32 t1m     = quint32(qreal(t1s - t1h * 3600)/60  + 0.5);
-        strTimeToLast   = tr("Time: %1:%2 h").arg(t1h).arg(t1m, 2, 10, QChar('0'));
+        strTimeToLast   = tr("%3 %1:%2 h").arg(t1h).arg(t1m, 2, 10, QChar('0')).arg(QChar(0x231a));
 
         quint32 t2s     = timestamp - track->getStartTimestamp().toTime_t();
         quint32 t2h     = qreal(t2s)/3600;
         quint32 t2m     = quint32(qreal(t2s - t2h * 3600)/60  + 0.5);
-        strTimeTotal    = tr("Time: %1:%2 h").arg(t2h).arg(t2m, 2, 10, QChar('0'));
+        strTimeTotal   = tr("%3 %1:%2 h").arg(t2h).arg(t2m, 2, 10, QChar('0')).arg(QChar(0x231a));
 
         timeLast = timestamp;
     }
 
-
     IUnit::self().meter2distance(track->getTotalDistance() - distLast, val, unit);
-    table->cellAt(cnt,eToLast).firstCursorPosition().insertText(tr("Dist: %1 %2\n%3").arg(val).arg(unit).arg(strTimeToLast), fmtCharStandard);
+    strDistToLast = tr("%1 %2").arg(val).arg(unit);
 
     IUnit::self().meter2distance(track->getTotalDistance(), val, unit);
-    table->cellAt(cnt,eTotal).firstCursorPosition().insertText(tr("Dist: %1 %2\n%3").arg(val).arg(unit).arg(strTimeTotal), fmtCharStandard);
+    strDistTotal = tr("%1 %2").arg(val).arg(unit);
+
+    IUnit::self().meter2elevation(track->getAscend() - ascLast, val, unit);
+    strAscToLast  = tr("%1%2 %3 ").arg(QChar(0x2191)).arg(val).arg(unit);
+    IUnit::self().meter2elevation(track->getDescend() - dscLast, val, unit);
+    strAscToLast += tr("%1%2 %3").arg(QChar(0x2193)).arg(val).arg(unit);
+
+    IUnit::self().meter2elevation(track->getAscend(), val, unit);
+    strAscTotal  = tr("%1%2 %3 ").arg(QChar(0x2191)).arg(val).arg(unit);
+    IUnit::self().meter2elevation(track->getDescend(), val, unit);
+    strAscTotal += tr("%1%2 %3").arg(QChar(0x2193)).arg(val).arg(unit);
+
+    table->cellAt(cnt,eToLast).firstCursorPosition().insertText(tr("%1 %2\n%3").arg(strDistToLast).arg(strTimeToLast).arg(strAscToLast), fmtCharStandard);
+    table->cellAt(cnt,eTotal).firstCursorPosition().insertText(tr("%1 %2\n%3").arg(strDistTotal).arg(strTimeTotal).arg(strAscTotal), fmtCharStandard);
+
 }

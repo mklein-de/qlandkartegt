@@ -36,6 +36,7 @@
 #endif
 
 #define MAX_TRACK_SIZE 10000
+#define WPT_TO_TRACK_DIST 2500
 
 class QHttp;
 
