@@ -481,5 +481,7 @@
         <file>icons/iconDiaryDel16x16.png</file>
         <file>icons/iconCheckbox16x16.png</file>
         <file>icons/iconOk10x10.png</file>
+        <file>icons/face-laugh.png</file>
+        <file>icons/face-plain.png</file>
     </qresource>
 </RCC>

@@ -1245,7 +1245,7 @@ void CTrackEditWidget::slotWptChanged()
 
 }
 
-#define CHAR_PER_LINE 100
+#define CHAR_PER_LINE 120
 #define ROOT_FRAME_MARGIN 5
 
 
@@ -1333,6 +1333,7 @@ void CTrackEditWidget::updateStages(QList<CTrack::wpt_t>& wpts)
     table->cellAt(0,eComment).firstCursorPosition().insertText(tr("Comment"));
 
     QString val, val2, unit;
+    table->cellAt(1,eSym).firstCursorPosition().insertImage(":/icons/face-plain.png");
     table->cellAt(1,eInfo).firstCursorPosition().insertText(tr("Start"), fmtCharStandard);
     IUnit::self().meter2distance(0,val,unit);
     table->cellAt(1,eToLast).firstCursorPosition().insertText(tr("%1 %2").arg(val).arg(unit), fmtCharStandard);    
@@ -1454,6 +1455,7 @@ void CTrackEditWidget::updateStages(QList<CTrack::wpt_t>& wpts)
         table->cellAt(cnt,eComment).setFormat(fmtCharShade);
     }
 
+    table->cellAt(cnt,eSym).firstCursorPosition().insertImage(":/icons/face-laugh.png");
     table->cellAt(cnt,eInfo).firstCursorPosition().insertText(tr("End"), fmtCharStandard);
     table->cellAt(cnt,eComment).firstCursorPosition().insertText(tr("End of track."), fmtCharStandard);
 
