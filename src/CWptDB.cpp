@@ -79,7 +79,7 @@ CWptDB::CWptDB(QTabWidget * tb, QObject * parent)
     f_exif_data_new_from_file       = (exif_data_new_from_file_t)QLibrary::resolve("libexif-12", "exif_data_new_from_file");
     f_exif_data_foreach_content     = (exif_data_foreach_content_t)QLibrary::resolve("libexif-12", "exif_data_foreach_content");
     f_exif_content_get_ifd          = (exif_content_get_ifd_t)QLibrary::resolve("libexif-12", "exif_content_get_ifd");
-    f_exif_get_rational             = (exif_get_rational_t)QLibrary::resolve("libexif-12", "exif_data_get_byte_order");
+    f_exif_get_rational             = (exif_get_rational_t)QLibrary::resolve("libexif-12", "exif_get_rational");
     f_exif_data_get_byte_order      = (exif_data_get_byte_order_t)QLibrary::resolve("libexif-12", "exif_data_get_byte_order");
 #else
     f_exif_content_foreach_entry    = exif_content_foreach_entry;
