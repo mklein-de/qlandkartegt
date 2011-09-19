@@ -66,8 +66,7 @@ CDlgEditWpt::CDlgEditWpt(CWpt &wpt, QWidget * parent)
 
 #ifdef HAS_DMTX
     enc = dmtxEncodeCreate();
-#endif
-
+#endif    
 }
 
 
@@ -217,6 +216,8 @@ int CDlgEditWpt::exec()
         }
 
     }
+
+    lineName->setFocus();
 
     return QDialog::exec();
 }

@@ -159,6 +159,7 @@ CTrackEditWidget::CTrackEditWidget(QWidget * parent)
     connect(tabWidget, SIGNAL(currentChanged(int)), this, SLOT(slotCurrentChanged(int)));
 
     connect(&CWptDB::self(), SIGNAL(sigChanged()), this, SLOT(slotWptChanged()));
+    connect(&CTrackDB::self(), SIGNAL(sigChanged()), this, SLOT(slotWptChanged()));
 }
 
 
@@ -1432,10 +1433,11 @@ void CTrackEditWidget::updateStages(QList<CTrack::wpt_t>& wpts)
         table->cellAt(cnt,eToLast).firstCursorPosition().insertText(tr("%1 %2\n%3").arg(strDistToLast).arg(strTimeToLast).arg(strAscToLast), fmtCharStandard);
         table->cellAt(cnt,eTotal).firstCursorPosition().insertText(tr("%1 %2\n%3").arg(strDistTotal).arg(strTimeTotal).arg(strAscTotal), fmtCharStandard);
 
-        QTextCursor c = table->cellAt(cnt,eComment).firstCursorPosition();
-        c.setCharFormat(fmtCharStandard);
-        c.setBlockFormat(fmtBlockStandard);
-        c.insertHtml(wpt.wpt->getComment());
+        QString comment = wpt.wpt->getComment();
+        comment.remove(QRegExp("<head.*[^>]*><\\/head>"));
+        comment.remove(QRegExp("<[^>]*>"));
+        comment = comment.simplified();
+        table->cellAt(cnt,eComment).firstCursorPosition().insertText(comment, fmtCharStandard);
 
         distLast    = wpt.trkpt.distance;
         ascLast     = wpt.trkpt.ascend;

@@ -1181,9 +1181,18 @@ void CTrack::scaleWpt2Track(QList<wpt_t>& wpts)
     if(wptdb.count() == 0 ) return;
     IMap& map = CMapDB::self().getMap();
 
-    QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
-
     wpts.clear();
+
+    if(wptdb.count() > 1000 || track.count() > 10000)
+    {
+        QMessageBox::Button res = QMessageBox::warning(0,tr("Warning..."), tr("You are trying to find waypoints along a track with %1 waypoints and a track of size %2. This can be a very time consuming operation. Go on?").arg(wptdb.count()).arg(track.count()), QMessageBox::Ok| QMessageBox::Abort, QMessageBox::Ok);
+        if(res == QMessageBox::Abort)
+        {
+            return;
+        }
+    }
+
+    QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
 
     QMap<QString,CWpt*>::const_iterator w = wptdb.begin();
     while(w != wptdb.end())

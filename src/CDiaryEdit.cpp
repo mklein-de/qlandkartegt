@@ -275,6 +275,9 @@ void CDiaryEdit::slotReload()
 void CDiaryEdit::slotReload(bool fromDB)
 {
     CDiaryEditLock lock(this);
+
+    QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
+
     if(fromDB)
     {
         if(CGeoDB::self().getProjectDiaryData(diary.keyProjectGeoDB, diary))
@@ -288,6 +291,8 @@ void CDiaryEdit::slotReload(bool fromDB)
     textEdit->clear();
     textEdit->document()->setTextWidth(textEdit->size().width() - 20);
     draw(*textEdit->document());
+
+    QApplication::restoreOverrideCursor();
 }
 
 void CDiaryEdit::slotPrintPreview()
@@ -445,6 +450,7 @@ void CDiaryEdit::colorChanged(const QColor &c)
 
 void CDiaryEdit::slotCursorPositionChanged()
 {
+    int i;
     if(isInternalEdit) return;
 
     QTextCursor cursor = textEdit->textCursor();
@@ -457,7 +463,7 @@ void CDiaryEdit::slotCursorPositionChanged()
         }
     }
 
-    for(int i = 1; i <= diary.wpts.count(); i++)
+    for(i = 1; i <= diary.wpts.count(); i++)
     {
         QTextTable * tbl = diary.tblWpt;
         if(tbl->cellAt(i, eComment).firstCursorPosition() <= cursor && cursor <= tbl->cellAt(i, eComment).lastCursorPosition())
@@ -472,10 +478,9 @@ void CDiaryEdit::slotCursorPositionChanged()
         }
     }
 
-    for(int i = 1; i <= diary.trks.count(); i++)
-    {
-
-        QTextTable * tbl = diary.tblTrk;
+    QTextTable * tbl = diary.tblTrk;
+    for(i = 1; i <= diary.trks.count(); i++)
+    {        
         if(tbl->cellAt(i, eComment).firstCursorPosition() <= cursor && cursor <= tbl->cellAt(i, eComment).lastCursorPosition())
         {
             return;
@@ -486,6 +491,12 @@ void CDiaryEdit::slotCursorPositionChanged()
             textEdit->setTextCursor(tbl->cellAt(i, eComment).lastCursorPosition());
             return;
         }
+    }
+
+    if(cursor > tbl->cellAt(i-1, eComment).lastCursorPosition())
+    {
+        textEdit->setTextCursor(tbl->cellAt(i-1, eComment).lastCursorPosition());
+        return;
     }
 
 

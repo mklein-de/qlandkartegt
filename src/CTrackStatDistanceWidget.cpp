@@ -22,6 +22,7 @@
 #include "CTrackDB.h"
 #include "CTrack.h"
 #include "IUnit.h"
+#include "CWptDB.h"
 
 #include <QtGui>
 
@@ -34,6 +35,7 @@ CTrackStatDistanceWidget::CTrackStatDistanceWidget(QWidget * parent)
     plot->setYLabel(tr("distance [m]"));
 
     connect(&CTrackDB::self(),SIGNAL(sigChanged()),this,SLOT(slotChanged()));
+    connect(&CWptDB::self(),SIGNAL(sigChanged()),this,SLOT(slotChanged()));
     connect(&CTrackDB::self(), SIGNAL(sigHighlightTrack(CTrack*)), this, SLOT(slotSetTrack(CTrack*)));
 
     slotChanged();
