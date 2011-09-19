@@ -493,7 +493,7 @@ void CRouteToolWidget::addOpenLSPos(QDomDocument& xml, QDomElement& Parent, CRou
 
 void CRouteToolWidget::slotRequestStarted(int i)
 {
-    qDebug() << "void CRouteToolWidget::slotRequestStarted(" << i << ")";
+
 }
 
 
@@ -644,7 +644,6 @@ void CRouteToolWidget::slotToTrack()
             pt._lat = pt.lat;
             *track << pt;
 
-            qDebug() << pt.lon << pt.lat;
 
             pt1.u = pt1.u * DEG_TO_RAD;
             pt1.v = pt1.v * DEG_TO_RAD;
@@ -672,7 +671,6 @@ void CRouteToolWidget::slotToTrack()
                     pt._lat = pt.lat;
 
                     *track << pt;
-                    qDebug() << pt.lon << pt.lat;
 
                     d += delta;
                 }
@@ -684,7 +682,6 @@ void CRouteToolWidget::slotToTrack()
                 pt._lat = pt.lat;
 
                 *track << pt;
-                qDebug() << pt.lon << pt.lat;
 
                 pt1 = pt2;
             }

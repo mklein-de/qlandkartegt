@@ -66,7 +66,7 @@ CDlgTrackFilter::CDlgTrackFilter(CTrack &track, QWidget * parent)
         tabTimestamp->setEnabled(false);
         radioTimedelta->setEnabled(false);
         spinTimedelta->setEnabled(false);
-        qDebug() << "Track has no timestamps that could be modified.";
+//        qDebug() << "Track has no timestamps that could be modified.";
     }
     else
     {
@@ -438,8 +438,8 @@ void CDlgTrackFilter::slotReset1stOfMonth()
     int offset = (day - 1) * 86400 + hour * 3600;
     QDateTime tn = t.addSecs(-offset);
 
-    qDebug() << "Resetting starttime:" << t.toString("yyyy-MM-dd'T'hh:mm:ss'Z'")
-        << "to:" << tn.toString("yyyy-MM-dd'T'hh:mm:ss'Z'");
+//    qDebug() << "Resetting starttime:" << t.toString("yyyy-MM-dd'T'hh:mm:ss'Z'")
+//        << "to:" << tn.toString("yyyy-MM-dd'T'hh:mm:ss'Z'");
 
     datetimeStartTime->setDateTime(tn);
 
@@ -451,8 +451,8 @@ void CDlgTrackFilter::slotResetEpoch()
 {
     QDateTime t = datetimeStartTime->dateTime();
 
-    qDebug() << "Resetting starttime:" << t.toString("yyyy-MM-dd'T'hh:mm:ss'Z'")
-        << "to epoch";
+//    qDebug() << "Resetting starttime:" << t.toString("yyyy-MM-dd'T'hh:mm:ss'Z'")
+//        << "to epoch";
 
     QDateTime tn;
     radioUTC->setChecked(true);
@@ -471,7 +471,7 @@ void CDlgTrackFilter::slotDateTimeChanged(const QDateTime &tn)
 {
     checkModifyTimestamps->setChecked(true);
 
-    qDebug() << "Resetting starttime to:" << tn.toString("yyyy-MM-dd'T'hh:mm:ss'Z'");
+//    qDebug() << "Resetting starttime to:" << tn.toString("yyyy-MM-dd'T'hh:mm:ss'Z'");
 }
 
 

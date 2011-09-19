@@ -576,8 +576,9 @@ void CDiaryEdit::draw(QTextDocument& doc)
 
     QTextCharFormat fmtCharHeader;
     fmtCharHeader.setFont(f);
-    fmtCharHeader.setBackground(QColor("#c6e3c0"));
+    fmtCharHeader.setBackground(Qt::darkBlue);
     fmtCharHeader.setFontWeight(QFont::Bold);
+    fmtCharHeader.setForeground(Qt::white);
 
     QTextBlockFormat fmtBlockStandard;
     fmtBlockStandard.setTopMargin(10);
@@ -836,7 +837,6 @@ void CDiaryEdit::collectData()
             if(cnt < diary.tblWpt->rows())
             {
                 wpt->setComment(QLGT::QTextHtmlExporter(textEdit->document()).toHtml(diary.tblWpt->cellAt(cnt, eComment)));
-                qDebug() << wpt->getKey() << wpt->getName() << wpt->getComment();
             }
             cnt++;
         }

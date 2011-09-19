@@ -1082,7 +1082,6 @@ void CTrackEditWidget::slotColorChanged(int idx)
         track->rebuild(true);
         emit CTrackDB::self().sigModified();
         emit CTrackDB::self().sigModified(track->getKey());
-        qDebug() << "void CTrackEditWidget::slotColorChanged(const QString& name)";
     }
 }
 
@@ -1117,7 +1116,6 @@ void CTrackEditWidget::slotNameChanged()
         track->rebuild(true);
         emit CTrackDB::self().sigModified();
         emit CTrackDB::self().sigModified(track->getKey());
-        qDebug() << "void CTrackEditWidget::slotNameChanged(const QString& name)";
 
         palette.setColor(QPalette::Base, QColor(128, 255, 128));
     }
@@ -1275,12 +1273,13 @@ void CTrackEditWidget::updateStages(QList<CTrack::wpt_t>& wpts)
 
     QTextCharFormat fmtCharShade;
     fmtCharShade.setFont(f);
-    fmtCharShade.setBackground(Qt::lightGray);
+    fmtCharShade.setBackground(QColor(150,150,255));
 
     QTextCharFormat fmtCharHeader;
     fmtCharHeader.setFont(f);
-    fmtCharHeader.setBackground(QColor("#c6e3c0"));
+    fmtCharHeader.setBackground(Qt::darkBlue);
     fmtCharHeader.setFontWeight(QFont::Bold);
+    fmtCharHeader.setForeground(Qt::white);
 
     QTextBlockFormat fmtBlockStandard;
     fmtBlockStandard.setTopMargin(10);

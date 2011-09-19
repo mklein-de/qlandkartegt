@@ -302,8 +302,6 @@ void CCanvas::print(QPainter& p, const QSize& pagesize)
     QSize _size_ = pagesize;
     qreal s = 0.0;
 
-    qDebug() << "pagesize" << pagesize;
-
     p.save();
 
     if(pagesize.height() > pagesize.width())

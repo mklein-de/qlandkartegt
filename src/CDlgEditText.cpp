@@ -54,7 +54,6 @@ CDlgEditText::~CDlgEditText()
 
 void CDlgEditText::accept()
 {
-    qDebug() << "CDlgEditText::accept()";
     content = textedit->getHtml();
     QDialog::accept();
 }

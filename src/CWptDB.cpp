@@ -1173,8 +1173,6 @@ void CWptDB::createWaypointsFromImages()
         wpt->setIcon("Flag, Red");
         wpt->name       = file;
 
-        qDebug() << wpt->name << wpt->lon << wpt->lat;
-
         CWpt::image_t image;
 
         QPixmap pixtmp(dir.filePath(file).toLocal8Bit());

@@ -77,7 +77,6 @@ void CMouseCutTrack::mouseMoveEvent(QMouseEvent * e)
     mouseMoveEventTrack(e);
 
     if(selTrkPt == 0) return;
-    qDebug() << selTrkPt->lon << selTrkPt->lat;
 
     CTrack * track = CTrackDB::self().highlightedTrack();
     if(track == 0) return;

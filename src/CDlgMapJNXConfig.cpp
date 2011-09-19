@@ -88,7 +88,7 @@ CDlgMapJNXConfig::CDlgMapJNXConfig(CMapJnx * map)
 
 CDlgMapJNXConfig::~CDlgMapJNXConfig()
 {
-    qDebug() << "CDlgMapJNXConfig::~CDlgMapJNXConfig()";
+
 }
 
 

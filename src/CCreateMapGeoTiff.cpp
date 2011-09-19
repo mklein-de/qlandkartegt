@@ -612,7 +612,6 @@ void CCreateMapGeoTiff::slotSaveRef()
     QString filename = QFileDialog::getSaveFileName(0, tr("Save reference points..."),path.filePath(base),"Ref. points (*.gcp);;Mapinfo (*.tab)", &filter, FILE_DIALOG_FLAGS);
     if(filename.isEmpty()) return;
 
-    qDebug() << filename;
     QFileInfo fi(filename);
 
     if((filter == "Ref. points (*.gcp)") && (fi.suffix() != "gcp"))
@@ -640,7 +639,6 @@ void CCreateMapGeoTiff::slotSaveRef()
 
 void CCreateMapGeoTiff::saveGCP(const QString& filename)
 {
-    qDebug() << "CCreateMapGeoTiff::saveGCP()" << filename;
     QFile file(filename);
     file.open(QIODevice::WriteOnly);
 
@@ -682,7 +680,6 @@ void CCreateMapGeoTiff::saveGCP(const QString& filename)
 
 void CCreateMapGeoTiff::saveTAB(const QString& filename)
 {
-    qDebug() << "CCreateMapGeoTiff::saveGCP()";
     QMessageBox::information(0,tr("Sorry..."),tr("No Mapinfo TAB file support yet."), QMessageBox::Abort, QMessageBox::Abort);
 }
 
@@ -862,7 +859,6 @@ void CCreateMapGeoTiff::slotStdout()
 
 void CCreateMapGeoTiff::slotFinished( int exitCode, QProcess::ExitStatus status)
 {
-    qDebug() << exitCode << status;
     if(exitCode != 0)
     {
         textBrowser->append(tr("Failed!\n"));

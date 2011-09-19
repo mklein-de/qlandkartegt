@@ -3451,8 +3451,7 @@ bool CGeoDB::setProjectDiaryData(quint64 id, CDiary& diary)
         stream << *wpt;
 
         if(CWptDB::self().contains(wpt->getKey()))
-        {
-            qDebug() << "1" << wpt->getKey();
+        {            
             wpts += data;
         }
 

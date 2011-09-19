@@ -1194,7 +1194,7 @@ void CTrackDB::copyToClipboard(bool deleteSelection /* = false */)
 void CTrackDB::pasteFromClipboard()
 {
     QClipboard *clipboard = QApplication::clipboard();
-    qDebug() << clipboard->mimeData()->formats();
+
     if (clipboard->mimeData()->hasFormat("qlandkartegt/qlb"))
     {
         QBuffer buffer;

@@ -64,7 +64,7 @@ CDeviceNMEA::~CDeviceNMEA()
 
 void CDeviceNMEA::setLiveLog(bool on)
 {
-    qDebug() << "void CDeviceNMEA::setLiveLog()" << on;
+//    qDebug() << "void CDeviceNMEA::setLiveLog()" << on;
     if(on)
     {
         //reset log

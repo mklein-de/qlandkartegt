@@ -34,14 +34,14 @@ CDeviceGPSD::~CDeviceGPSD()
 
 void CDeviceGPSD::setLiveLog(bool on)
 {
-    qDebug() << "void CDeviceGPSD::setLiveLog() " << on;
+//    qDebug() << "void CDeviceGPSD::setLiveLog() " << on;
     if(on)
     {
         log.fix = CLiveLog::eNoFix;
         emit sigLiveLog(log);
 
         // connect to gpsd
-        qDebug() << "starting thread";
+//        qDebug() << "starting thread";
         thread->start();
 
         if(!timer->isActive())
@@ -77,7 +77,7 @@ void CDeviceGPSD::slotTimeout()
         timer->stop();
         log.fix = CLiveLog::eOff;
         emit sigLiveLog(log);
-        qDebug() << "stopped thread detected.";
+//        qDebug() << "stopped thread detected.";
     }
 
     if( thread->log(log) )
@@ -164,10 +164,10 @@ void CGPSDThread::run()
     if( !gpsdata )
     {
         // TODO: message box (from other thread)
-        qDebug() << "gps_open failed.";
+//        qDebug() << "gps_open failed.";
         return;
     }                            // if
-    qDebug() << "connected to gpsd.";
+//    qDebug() << "connected to gpsd.";
 
     gps_stream( gpsdata, WATCH_NEWSTYLE, NULL );
 
@@ -191,7 +191,7 @@ void CGPSDThread::run()
         {
             if( FD_ISSET( pipe_fd, &fds ) )
             {
-                qDebug() << "stop command received";
+//                qDebug() << "stop command received";
                 char s;
                 read( pipe_fd, &s, 1 );
                 break;
@@ -212,7 +212,7 @@ void CGPSDThread::run()
 #if GPSD_API_MAJOR_VERSION >= 5
     delete gpsdata;
 #endif
-    qDebug() << "thread done";
+//    qDebug() << "thread done";
 }
 
 

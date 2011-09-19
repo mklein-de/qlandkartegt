@@ -77,7 +77,7 @@ CDlgMapOSMConfig::CDlgMapOSMConfig(CMapOSM * map)
 
 CDlgMapOSMConfig::~CDlgMapOSMConfig()
 {
-    qDebug() << "CDlgMapOSMConfig::~CDlgMapOSMConfig()";
+
 }
 
 

@@ -522,7 +522,7 @@ void COverlayDB::copyToClipboard(bool deleteSelection)
 void COverlayDB::pasteFromClipboard()
 {
     QClipboard *clipboard = QApplication::clipboard();
-    qDebug() << clipboard->mimeData()->formats();
+
     if (clipboard->mimeData()->hasFormat("qlandkartegt/qlb"))
     {
         QBuffer buffer;

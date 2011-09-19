@@ -157,8 +157,7 @@ const QString& toolTip)
 {
     if (findChild<QAction *> (actionName))
     {
-        qDebug()
-            << tr("Action with the name '%1' already registered. Please choose an other name.").arg(actionName);
+        qDebug() << tr("Action with the name '%1' already registered. Please choose an other name.").arg(actionName);
         return;
     }
 
@@ -191,8 +190,7 @@ QAction *CActions::getAction(const QString& actionObjectName)
     }
     else
     {
-        qDebug()
-            << tr("Action with name '%1' not found. %2").arg(actionObjectName).arg(Q_FUNC_INFO);
+        qDebug() << tr("Action with name '%1' not found. %2").arg(actionObjectName).arg(Q_FUNC_INFO);
         return new QAction(this);
     }
 }
@@ -563,8 +561,7 @@ void CActions::funcDownloadTrack()
 
 
 void CActions::funcTrackPurgeSelection()
-{
-    qDebug() << "funcTrackPurgeSelection";
+{    
     CTrack *track = CTrackDB::self().highlightedTrack();
     if (track)
     {
@@ -575,7 +572,6 @@ void CActions::funcTrackPurgeSelection()
 
 void CActions::funcDeleteTrackSelection()
 {
-    qDebug() << "funcDeleteTrackSelection";
     CTrack *track = CTrackDB::self().highlightedTrack();
     if (track)
     {

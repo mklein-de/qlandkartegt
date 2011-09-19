@@ -171,8 +171,6 @@ int CDlgEditWpt::exec()
                 listBuddies->addItem(item);
 
 
-                qDebug() << buddy.pos << buddy.name;
-
                 foreach(const QString& pos, buddy.pos)
                 {
                     html.replace(pos, QString("%1 (<b><i style='color: black;'>%2</i></b>)").arg(pos).arg(buddy.name));

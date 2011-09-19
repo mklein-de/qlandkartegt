@@ -87,7 +87,7 @@ CDlgMapQMAPConfig::CDlgMapQMAPConfig(CMapQMAP * map)
 
 CDlgMapQMAPConfig::~CDlgMapQMAPConfig()
 {
-    qDebug() << "CDlgMapQMAPConfig::~CDlgMapQMAPConfig()";
+
 }
 
 
