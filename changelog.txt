@@ -1,3 +1,28 @@
+--- 2011.09.19 ---
+
+Bug     #321:
+Fixed: Diary does not save comments on waypoints and tracks
+
+Bug     #322:
+Fixed: Bad coordinates for georef. pics on big endian systems
+
+Request #323:
+Add stages of a track to track edit dialog
+
+Request #324:
+Add tool button for filter dialog to track edit dialog
+
+Request #325:
+Convert checkboxes for reset and delete trackpoints to toolbuttons
+
+Request #326:
+Add support for mime links on OS X
+
+Request #327:
+Automatically move map while drawing distance polyline
+
+
+
 --- 2011.08.30 ---
 
 Request #310:
@@ -1321,6 +1346,7 @@ Fixed bad calculation of proximity circle size
 
 Request #1:
 Initial release
+
 
 
 
