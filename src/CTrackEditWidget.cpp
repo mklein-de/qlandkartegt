@@ -1273,6 +1273,10 @@ void CTrackEditWidget::updateStages(QList<CTrack::wpt_t>& wpts)
     QTextCharFormat fmtCharStandard;
     fmtCharStandard.setFont(f);
 
+    QTextCharFormat fmtCharShade;
+    fmtCharShade.setFont(f);
+    fmtCharShade.setBackground(Qt::lightGray);
+
     QTextCharFormat fmtCharHeader;
     fmtCharHeader.setFont(f);
     fmtCharHeader.setBackground(QColor("#c6e3c0"));
@@ -1295,7 +1299,7 @@ void CTrackEditWidget::updateStages(QList<CTrack::wpt_t>& wpts)
     fmtFrameRoot.setRightMargin(ROOT_FRAME_MARGIN);
 
     QTextTableFormat fmtTableStandard;
-    fmtTableStandard.setBorder(1);
+    fmtTableStandard.setBorder(0);
     fmtTableStandard.setBorderBrush(Qt::black);
     fmtTableStandard.setCellPadding(4);
     fmtTableStandard.setCellSpacing(0);
@@ -1317,22 +1321,33 @@ void CTrackEditWidget::updateStages(QList<CTrack::wpt_t>& wpts)
 
     QTextTable * table = cursor.insertTable(wpts.count()+1+2, eMax, fmtTableStandard);
     table->cellAt(0,eSym).setFormat(fmtCharHeader);
+    table->cellAt(0,eEle).setFormat(fmtCharHeader);
     table->cellAt(0,eToLast).setFormat(fmtCharHeader);
     table->cellAt(0,eTotal).setFormat(fmtCharHeader);
     table->cellAt(0,eInfo).setFormat(fmtCharHeader);
     table->cellAt(0,eComment).setFormat(fmtCharHeader);
 
     table->cellAt(0,eInfo).firstCursorPosition().insertText(tr("Info"));
+    table->cellAt(0,eEle).firstCursorPosition().insertText(tr("Ele. wpt/trk"));
     table->cellAt(0,eToLast).firstCursorPosition().insertText(tr("to Last"));
     table->cellAt(0,eTotal).firstCursorPosition().insertText(tr("Total"));
     table->cellAt(0,eComment).firstCursorPosition().insertText(tr("Comment"));
 
-    QString val, unit;
-    IUnit::self().meter2distance(0,val,unit);
-
+    QString val, val2, unit;
     table->cellAt(1,eInfo).firstCursorPosition().insertText(tr("Start"), fmtCharStandard);
-    table->cellAt(1,eToLast).firstCursorPosition().insertText(tr("%1 %2").arg(val).arg(unit), fmtCharStandard);
+    IUnit::self().meter2distance(0,val,unit);
+    table->cellAt(1,eToLast).firstCursorPosition().insertText(tr("%1 %2").arg(val).arg(unit), fmtCharStandard);    
     table->cellAt(1,eTotal).firstCursorPosition().insertText(tr("%1 %2").arg(val).arg(unit), fmtCharStandard);
+    if(track->getStartElevation() != WPT_NOFLOAT)
+    {
+        IUnit::self().meter2elevation(track->getStartElevation(),val,unit);
+    }
+    else
+    {
+        val     = "-";
+        unit    = "";
+    }
+    table->cellAt(1,eEle).firstCursorPosition().insertText(tr("-/%1 %2").arg(val).arg(unit), fmtCharStandard);
     table->cellAt(1,eComment).firstCursorPosition().insertText(tr("Start of track."), fmtCharStandard);
 
     int cnt = 2;
@@ -1344,10 +1359,18 @@ void CTrackEditWidget::updateStages(QList<CTrack::wpt_t>& wpts)
 
     foreach(const CTrack::wpt_t& wpt, wpts)
     {
+        if(!(cnt & 0x1))
+        {
+            table->cellAt(cnt,eSym).setFormat(fmtCharShade);
+            table->cellAt(cnt,eEle).setFormat(fmtCharShade);
+            table->cellAt(cnt,eToLast).setFormat(fmtCharShade);
+            table->cellAt(cnt,eTotal).setFormat(fmtCharShade);
+            table->cellAt(cnt,eInfo).setFormat(fmtCharShade);
+            table->cellAt(cnt,eComment).setFormat(fmtCharShade);
+        }
+
         table->cellAt(cnt,eSym).firstCursorPosition().insertImage(wpt.wpt->getIcon().toImage().scaledToWidth(16, Qt::SmoothTransformation));
         table->cellAt(cnt,eInfo).firstCursorPosition().insertText(wpt.wpt->getName(), fmtCharStandard);
-
-        quint32 timestamp = wpt.trkpt.timestamp;
 
         QString strTimeToLast;
         QString strTimeTotal;
@@ -1356,6 +1379,7 @@ void CTrackEditWidget::updateStages(QList<CTrack::wpt_t>& wpts)
         QString strAscToLast;
         QString strAscTotal;
 
+        quint32 timestamp = wpt.trkpt.timestamp;
         if(timeLast && timestamp)
         {
             quint32 t1s     = timestamp - timeLast;
@@ -1378,16 +1402,33 @@ void CTrackEditWidget::updateStages(QList<CTrack::wpt_t>& wpts)
         strDistTotal = tr("%1 %2").arg(val).arg(unit);
 
         IUnit::self().meter2elevation(wpt.trkpt.ascend - ascLast, val, unit);
-        strAscToLast  = tr("%1%2 %3 ").arg(QChar(0x2191)).arg(val).arg(unit);
+        strAscToLast  = tr("%1%2 %3 ").arg(QChar(0x2197)).arg(val).arg(unit);
         IUnit::self().meter2elevation(wpt.trkpt.descend - dscLast, val, unit);
-        strAscToLast += tr("%1%2 %3").arg(QChar(0x2193)).arg(val).arg(unit);
+        strAscToLast += tr("%1%2 %3").arg(QChar(0x2198)).arg(val).arg(unit);
 
         IUnit::self().meter2elevation(wpt.trkpt.ascend, val, unit);
-        strAscTotal  = tr("%1%2 %3 ").arg(QChar(0x2191)).arg(val).arg(unit);
+        strAscTotal  = tr("%1%2 %3 ").arg(QChar(0x2197)).arg(val).arg(unit);
         IUnit::self().meter2elevation(wpt.trkpt.descend, val, unit);
-        strAscTotal += tr("%1%2 %3").arg(QChar(0x2193)).arg(val).arg(unit);
+        strAscTotal += tr("%1%2 %3").arg(QChar(0x2198)).arg(val).arg(unit);
 
+        if(wpt.wpt->ele != WPT_NOFLOAT)
+        {
+            IUnit::self().meter2elevation(wpt.wpt->ele, val, unit);
+        }
+        else
+        {
+            val = "-";
+        }
+        if(wpt.trkpt.ele != WPT_NOFLOAT)
+        {
+            IUnit::self().meter2elevation(wpt.trkpt.ele, val2, unit);
+        }
+        else
+        {
+            val2 = "-";
+        }
 
+        table->cellAt(cnt,eEle).firstCursorPosition().insertText(tr("%1/%2 %3").arg(val).arg(val2).arg(unit), fmtCharStandard);
         table->cellAt(cnt,eToLast).firstCursorPosition().insertText(tr("%1 %2\n%3").arg(strDistToLast).arg(strTimeToLast).arg(strAscToLast), fmtCharStandard);
         table->cellAt(cnt,eTotal).firstCursorPosition().insertText(tr("%1 %2\n%3").arg(strDistTotal).arg(strTimeTotal).arg(strAscTotal), fmtCharStandard);
 
@@ -1403,8 +1444,30 @@ void CTrackEditWidget::updateStages(QList<CTrack::wpt_t>& wpts)
         cnt++;
     }
 
+
+    if(!(cnt & 0x1))
+    {
+        table->cellAt(cnt,eSym).setFormat(fmtCharShade);
+        table->cellAt(cnt,eEle).setFormat(fmtCharShade);
+        table->cellAt(cnt,eToLast).setFormat(fmtCharShade);
+        table->cellAt(cnt,eTotal).setFormat(fmtCharShade);
+        table->cellAt(cnt,eInfo).setFormat(fmtCharShade);
+        table->cellAt(cnt,eComment).setFormat(fmtCharShade);
+    }
+
     table->cellAt(cnt,eInfo).firstCursorPosition().insertText(tr("End"), fmtCharStandard);
     table->cellAt(cnt,eComment).firstCursorPosition().insertText(tr("End of track."), fmtCharStandard);
+
+    if(track->getEndElevation() != WPT_NOFLOAT)
+    {
+        IUnit::self().meter2elevation(track->getEndElevation(),val,unit);
+    }
+    else
+    {
+        val  = "-";
+        unit = "";
+    }
+    table->cellAt(cnt,eEle).firstCursorPosition().insertText(tr("-/%1 %2").arg(val).arg(unit), fmtCharStandard);
 
     QString strTimeToLast;
     QString strTimeTotal;
@@ -1436,14 +1499,14 @@ void CTrackEditWidget::updateStages(QList<CTrack::wpt_t>& wpts)
     strDistTotal = tr("%1 %2").arg(val).arg(unit);
 
     IUnit::self().meter2elevation(track->getAscend() - ascLast, val, unit);
-    strAscToLast  = tr("%1%2 %3 ").arg(QChar(0x2191)).arg(val).arg(unit);
+    strAscToLast  = tr("%1%2 %3 ").arg(QChar(0x2197)).arg(val).arg(unit);
     IUnit::self().meter2elevation(track->getDescend() - dscLast, val, unit);
-    strAscToLast += tr("%1%2 %3").arg(QChar(0x2193)).arg(val).arg(unit);
+    strAscToLast += tr("%1%2 %3").arg(QChar(0x2198)).arg(val).arg(unit);
 
     IUnit::self().meter2elevation(track->getAscend(), val, unit);
-    strAscTotal  = tr("%1%2 %3 ").arg(QChar(0x2191)).arg(val).arg(unit);
+    strAscTotal  = tr("%1%2 %3 ").arg(QChar(0x2197)).arg(val).arg(unit);
     IUnit::self().meter2elevation(track->getDescend(), val, unit);
-    strAscTotal += tr("%1%2 %3").arg(QChar(0x2193)).arg(val).arg(unit);
+    strAscTotal += tr("%1%2 %3").arg(QChar(0x2198)).arg(val).arg(unit);
 
     table->cellAt(cnt,eToLast).firstCursorPosition().insertText(tr("%1 %2\n%3").arg(strDistToLast).arg(strTimeToLast).arg(strAscToLast), fmtCharStandard);
     table->cellAt(cnt,eTotal).firstCursorPosition().insertText(tr("%1 %2\n%3").arg(strDistTotal).arg(strTimeTotal).arg(strAscTotal), fmtCharStandard);

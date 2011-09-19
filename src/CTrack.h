@@ -253,6 +253,10 @@ class CTrack : public IItem
 
         void scaleWpt2Track(QList<wpt_t>& wpts);
 
+        float getStartElevation();
+
+        float getEndElevation();
+
         signals:
         void sigChanged();
 

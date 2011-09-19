@@ -1000,6 +1000,39 @@ QDateTime CTrack::getEndTimestamp()
     return QDateTime();
 }
 
+float CTrack::getStartElevation()
+{
+    QList<CTrack::pt_t>& trkpts           = track;
+    QList<CTrack::pt_t>::iterator trkpt   = trkpts.begin();
+    while(trkpt != trkpts.end())
+    {
+        if(trkpt->flags & pt_t::eDeleted)
+        {
+            ++trkpt;
+            continue;
+        }
+        return trkpt->ele;
+    }
+    return WPT_NOFLOAT;
+}
+
+float CTrack::getEndElevation()
+{
+    QList<CTrack::pt_t>& trkpts           = track;
+    QList<CTrack::pt_t>::iterator trkpt   = trkpts.end() - 1;
+    while(trkpt > trkpts.begin())
+    {
+        if(trkpt->flags & pt_t::eDeleted)
+        {
+            --trkpt;
+            continue;
+        }
+        return trkpt->ele;
+    }
+    return WPT_NOFLOAT;
+}
+
+
 /// get a summary of item's data to display on screen or in the toolview
 QString CTrack::getInfo()
 {
@@ -1055,7 +1088,7 @@ QString CTrack::getInfo()
     IUnit::self().meter2elevation(getAscend(), val1, unit1);
     IUnit::self().meter2elevation(getDescend(), val2, unit2);
 
-    str += tr("\n%1%2 %3, %4%5 %6").arg(QChar(0x2191)).arg(val1).arg(unit1).arg(QChar(0x2193)).arg(val2).arg(unit2);
+    str += tr("\n%1%2 %3, %4%5 %6").arg(QChar(0x2197)).arg(val1).arg(unit1).arg(QChar(0x2198)).arg(val2).arg(unit2);
 
     return str;
 }

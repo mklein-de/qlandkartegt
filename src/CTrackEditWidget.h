@@ -121,7 +121,7 @@ class CTrackEditWidget : public QWidget, private Ui::ITrackEditWidget
             ,eMaxColumn = 10
         };
 
-        enum eTblCol{eSym, eInfo, eTotal, eToLast, eComment, eMax};
+        enum eTblCol{eSym, eInfo, eEle, eTotal, eToLast, eComment, eMax};
 
         QPointer<CTrack> track;
 
