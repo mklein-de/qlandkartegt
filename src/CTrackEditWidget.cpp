@@ -85,7 +85,7 @@ CTrackEditWidget::CTrackEditWidget(QWidget * parent)
     setAttribute(Qt::WA_DeleteOnClose,true);
 
 #ifndef GPX_EXTENSIONS
-    tabWidget->removeTab(1);
+    tabWidget->removeTab(eSetup);
 #endif
 
     toolGraphDistance->setIcon(QIcon(":/icons/iconGraph16x16.png"));
@@ -426,7 +426,9 @@ void CTrackEditWidget::slotSetTrack(CTrack * t)
         QRect r = cfg.value("TrackEditWidget/geometry").toRect();
 
         if (r.isValid() && QDesktopWidget().screenGeometry().intersects(r))
-            {tabWidget->setGeometry(r);}
+        {
+            tabWidget->setGeometry(r);
+        }
     }
     else
     {
@@ -1208,10 +1210,10 @@ void CTrackEditWidget::slotDelete()
 
 void CTrackEditWidget::slotCurrentChanged(int idx)
 {
-    if(idx == 1)
-    {
-        updateStages(wpts);
-    }
+//    if(idx == eStages)
+//    {
+//        updateStages(wpts);
+//    }
 }
 
 static bool qSortWptLessDistance(CTrack::wpt_t& p1, CTrack::wpt_t& p2)
@@ -1250,7 +1252,7 @@ void CTrackEditWidget::slotStagesChanged()
 
     if(wpts.isEmpty())
     {
-        tabWidget->setTabEnabled(1, false);
+        tabWidget->setTabEnabled(eStages, false);
         return;
     }
 
@@ -1265,7 +1267,9 @@ void CTrackEditWidget::slotStagesChanged()
 void CTrackEditWidget::updateStages(QList<CTrack::wpt_t>& wpts)
 {
 
-    tabWidget->setTabEnabled(1, true);
+    if(track.isNull()) return;
+
+    tabWidget->setTabEnabled(eStages, true);
     qSort(wpts.begin(), wpts.end(), qSortWptLessDistance);
 
     // resize font

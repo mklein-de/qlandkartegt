@@ -215,6 +215,16 @@
        <property name="movable">
         <bool>false</bool>
        </property>
+       <widget class="QWidget" name="tabStages">
+        <attribute name="title">
+         <string>Stages</string>
+        </attribute>
+        <layout class="QVBoxLayout" name="verticalLayout">
+         <item>
+          <widget class="QTextBrowser" name="textStages"/>
+         </item>
+        </layout>
+       </widget>
        <widget class="QWidget" name="tabView">
         <attribute name="title">
          <string>Tracklist</string>
@@ -303,16 +313,6 @@
             </property>
            </column>
           </widget>
-         </item>
-        </layout>
-       </widget>
-       <widget class="QWidget" name="tabStages">
-        <attribute name="title">
-         <string>Stages</string>
-        </attribute>
-        <layout class="QVBoxLayout" name="verticalLayout">
-         <item>
-          <widget class="QTextBrowser" name="textStages"/>
          </item>
         </layout>
        </widget>
@@ -724,8 +724,8 @@
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>24</width>
-                 <height>18</height>
+                 <width>142</width>
+                 <height>275</height>
                 </rect>
                </property>
                <layout class="QVBoxLayout" name="verticalLayout_Extensions"/>

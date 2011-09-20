@@ -124,6 +124,8 @@ class CTrackEditWidget : public QWidget, private Ui::ITrackEditWidget
 
         enum eTblCol{eSym, eInfo, eEle, eTotal, eToLast, eComment, eMax};
 
+        enum eTabs {eStages, ePoints, eSetup};
+
         QPointer<CTrack> track;
 
         bool originator;
