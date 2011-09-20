@@ -1210,10 +1210,10 @@ void CTrackEditWidget::slotDelete()
 
 void CTrackEditWidget::slotCurrentChanged(int idx)
 {
-//    if(idx == eStages)
-//    {
-//        updateStages(wpts);
-//    }
+    if(idx == eStages)
+    {
+        updateStages(wpts);
+    }
 }
 
 static bool qSortWptLessDistance(CTrack::wpt_t& p1, CTrack::wpt_t& p2)
