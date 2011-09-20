@@ -25,6 +25,7 @@
 #include "CMainWindow.h"
 #include "CCanvas.h"
 #include "CWptDB.h"
+#include "CTrackDB.h"
 
 #include <QtGui>
 #include <QtNetwork/QHttp>
@@ -92,6 +93,10 @@ QDataStream& operator >>(QDataStream& s, CTrack& track)
                 s1 >> track.comment;
                 s1 >> track.colorIdx;
                 s1 >> track.parentWpt;
+                if(!s1.atEnd())
+                {
+                    s1 >> track.doScaleWpt2Track;
+                }
 
                 track.setColor(track.colorIdx);
                 track.setKey(key);
@@ -266,6 +271,7 @@ QDataStream& operator <<(QDataStream& s, CTrack& track)
     s1 << track.comment;
     s1 << track.colorIdx;
     s1 << track.getParentWpt();
+    s1 << track.doScaleWpt2Track;
 
     entries << entryBase;
 
@@ -538,6 +544,7 @@ CTrack::CTrack(QObject * parent)
 , ext1Data(false)
 , firstTime(true)
 , m_hide(false)
+, doScaleWpt2Track(Qt::PartiallyChecked	)
 , geonames(0)
 , visiblePointCount(0)
 {
@@ -1175,6 +1182,13 @@ QString CTrack::getTrkPtInfo(pt_t& trkpt)
     return str;
 }
 
+void CTrack::setDoScaleWpt2Track(Qt::CheckState state)
+{
+    doScaleWpt2Track = state;
+    CTrackDB::self().emitSigModified();
+    CTrackDB::self().emitSigChanged();
+}
+
 void CTrack::scaleWpt2Track(QList<wpt_t>& wpts)
 {
     CWptDB& wptdb = CWptDB::self();
@@ -1183,15 +1197,39 @@ void CTrack::scaleWpt2Track(QList<wpt_t>& wpts)
 
     wpts.clear();
 
-    if(wptdb.count() > 1000 || track.count() > 10000)
+    if(doScaleWpt2Track == Qt::Unchecked)
     {
-        QMessageBox::Button res = QMessageBox::warning(0,tr("Warning..."), tr("You are trying to find waypoints along a track with %1 waypoints and a track of size %2. This can be a very time consuming operation. Go on?").arg(wptdb.count()).arg(track.count()), QMessageBox::Ok| QMessageBox::Abort, QMessageBox::Ok);
-        if(res == QMessageBox::Abort)
-        {
-            return;
-        }
+        return;
     }
 
+    if(doScaleWpt2Track == Qt::PartiallyChecked	)
+    {
+        if(wptdb.count() > 1000 || track.count() > 10000)
+        {
+            QString msg = tr(
+                    "You are trying to find waypoints along a track with %1 waypoints and a track of size %2. "
+                    "This can be a very time consuming operation. Go on?\n\n"
+                    "Your selection will be stored in the track's data. You can save it along with the data. "
+                    "To change the selection use the checkbox in the track edit dialog."
+                    ).arg(wptdb.count()).arg(track.count());
+
+            QMessageBox::Button res = QMessageBox::warning(0,tr("Warning..."), msg, QMessageBox::Ok| QMessageBox::Abort, QMessageBox::Ok);
+
+            if(res == QMessageBox::Abort)
+            {
+                doScaleWpt2Track = Qt::Unchecked;
+                CTrackDB::self().emitSigModified();
+                CTrackDB::self().emitSigChanged();
+                return;
+            }
+            else
+            {
+                doScaleWpt2Track = Qt::Checked;
+                CTrackDB::self().emitSigModified();
+                CTrackDB::self().emitSigChanged();
+            }
+        }
+    }
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
 
     QMap<QString,CWpt*>::const_iterator w = wptdb.begin();

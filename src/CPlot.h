@@ -61,6 +61,7 @@ class CPlot : public QWidget
     signals:
         void sigActivePoint(double dist);
         void sigFocusPoint(double dist);
+        void sigSetWaypoint(double dist);
         void sigClicked();
 
     public slots:
@@ -69,6 +70,7 @@ class CPlot : public QWidget
 
     protected slots:
         void slotSave();
+        void slotAddWpt();
 
     protected:
         void draw();
@@ -107,6 +109,7 @@ class CPlot : public QWidget
         QAction *vZoomAct;
         QAction *resetZoomAct;
         QAction *save;
+        QAction *addWpt;
 
         CPlotData * m_pData;
 
@@ -149,6 +152,7 @@ class CPlot : public QWidget
         bool checkClick;
 
         QPoint posMouse;
+        QPoint posWpt;
         QImage buffer;
         CTrack::pt_t * selTrkPt;
     public slots:

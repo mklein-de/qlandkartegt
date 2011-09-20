@@ -158,8 +158,9 @@ CTrackEditWidget::CTrackEditWidget(QWidget * parent)
 
     connect(tabWidget, SIGNAL(currentChanged(int)), this, SLOT(slotCurrentChanged(int)));
 
-    connect(&CWptDB::self(), SIGNAL(sigChanged()), this, SLOT(slotWptChanged()));
-    connect(&CTrackDB::self(), SIGNAL(sigChanged()), this, SLOT(slotWptChanged()));
+    connect(&CWptDB::self(), SIGNAL(sigChanged()), this, SLOT(slotStagesChanged()));
+    connect(&CTrackDB::self(), SIGNAL(sigChanged()), this, SLOT(slotStagesChanged()));
+    connect(checkStages, SIGNAL(stateChanged(int)), this, SLOT(slotStagesChanged(int)));
 }
 
 
@@ -224,7 +225,12 @@ void CTrackEditWidget::resizeEvent(QResizeEvent * e)
 {
     QWidget::resizeEvent(e);
 
-    slotWptChanged();
+    if(oldSize.width() != e->size().width())
+    {
+        updateStages(wpts);
+    }
+
+    oldSize = e->size();
 }
 
 void CTrackEditWidget::slotContextMenu(const QPoint& pos)
@@ -441,7 +447,7 @@ void CTrackEditWidget::slotSetTrack(CTrack * t)
 
     QApplication::restoreOverrideCursor();
 
-    slotWptChanged();
+    slotStagesChanged();
 }
 
 
@@ -1204,7 +1210,7 @@ void CTrackEditWidget::slotCurrentChanged(int idx)
 {
     if(idx == 1)
     {
-        slotWptChanged();
+        updateStages(wpts);
     }
 }
 
@@ -1213,17 +1219,23 @@ static bool qSortWptLessDistance(CTrack::wpt_t& p1, CTrack::wpt_t& p2)
     return p1.trkpt.distance < p2.trkpt.distance;
 }
 
+void CTrackEditWidget::slotStagesChanged(int state)
+{
+    if(track.isNull() || originator) return;
+    track->setDoScaleWpt2Track((Qt::CheckState)state);
+}
 
-
-void CTrackEditWidget::slotWptChanged()
+void CTrackEditWidget::slotStagesChanged()
 {
     textStages->clear();
+    if(track.isNull() || originator) return;
 
-    if(track.isNull()) return;
-
-    // get waypoints near track
-    QList<CTrack::wpt_t> wpts;
+    // get waypoints near track    
+    originator = true;
     track->scaleWpt2Track(wpts);
+    checkStages->setCheckState(track->getDoScaleWpt2Track());
+    originator = false;
+
     QList<CTrack::wpt_t>::iterator wpt = wpts.begin();
     while(wpt != wpts.end())
     {
@@ -1252,17 +1264,22 @@ void CTrackEditWidget::slotWptChanged()
 
 void CTrackEditWidget::updateStages(QList<CTrack::wpt_t>& wpts)
 {
+
     tabWidget->setTabEnabled(1, true);
     qSort(wpts.begin(), wpts.end(), qSortWptLessDistance);
 
     // resize font
-    textStages->document()->setTextWidth(textStages->size().width() - 20);
-    QTextDocument * doc = textStages->document();
-    QFontMetrics fm(QFont(textStages->font().family(),10));
 
+    QTextDocument * doc = new QTextDocument(textStages);//textStages->document();
+
+    doc->setTextWidth(textStages->size().width() - 20);
+    QFontMetrics fm(QFont(textStages->font().family(),10));
     int w = doc->textWidth();
     int pointSize = ((10 * (w - 2 * ROOT_FRAME_MARGIN)) / (CHAR_PER_LINE *  fm.width("X")));
     if(pointSize == 0) return;
+
+    QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
+
     QFont f = textStages->font();
     f.setPointSize(pointSize);
     textStages->setFont(f);
@@ -1513,5 +1530,9 @@ void CTrackEditWidget::updateStages(QList<CTrack::wpt_t>& wpts)
 
     table->cellAt(cnt,eToLast).firstCursorPosition().insertText(tr("%1 %2\n%3").arg(strDistToLast).arg(strTimeToLast).arg(strAscToLast), fmtCharStandard);
     table->cellAt(cnt,eTotal).firstCursorPosition().insertText(tr("%1 %2\n%3").arg(strDistTotal).arg(strTimeTotal).arg(strAscTotal), fmtCharStandard);
+
+    textStages->setDocument(doc);
+
+    QApplication::restoreOverrideCursor();
 
 }

@@ -250,12 +250,12 @@ class CTrack : public IItem
         void setIcon(const QString& str);
 
         void setTimestamp(quint32 ts){timestamp = ts;}
-
         void scaleWpt2Track(QList<wpt_t>& wpts);
-
         float getStartElevation();
-
         float getEndElevation();
+
+        Qt::CheckState getDoScaleWpt2Track(){return (Qt::CheckState)doScaleWpt2Track;}
+        void setDoScaleWpt2Track(Qt::CheckState state);
 
         signals:
         void sigChanged();
@@ -314,10 +314,10 @@ class CTrack : public IItem
 
         bool traineeData;
         bool ext1Data;
-
         bool firstTime;
-
         bool m_hide;
+
+        quint32 doScaleWpt2Track;
 
         QHttp * geonames;
 

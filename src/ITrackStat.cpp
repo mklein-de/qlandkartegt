@@ -49,6 +49,7 @@ ITrackStat::ITrackStat(type_e type, QWidget * parent)
     layout()->addWidget(plot);
     QObject::connect(plot, SIGNAL(sigActivePoint(double)), this, SLOT(slotActivePoint(double)));
     QObject::connect(plot, SIGNAL(sigFocusPoint(double)), this, SLOT(slotFocusPoint(double)));
+    QObject::connect(plot, SIGNAL(sigSetWaypoint(double)), this, SLOT(slotSetWaypoint(double)));
 
 }
 
@@ -123,3 +124,50 @@ void ITrackStat::slotFocusPoint(double dist)
     }
 }
 
+void ITrackStat::slotSetWaypoint(double dist)
+{
+    if(track.isNull()) return;
+
+    IMap& dem = CMapDB::self().getDEM();
+    QList<CTrack::pt_t>& trkpts = track->getTrackPoints();
+    QList<CTrack::pt_t>::iterator trkpt = trkpts.begin();
+    quint32 idx = 0;
+    while(trkpt != trkpts.end())
+    {
+        if(trkpt->flags & CTrack::pt_t::eDeleted)
+        {
+            ++trkpt; continue;
+        }
+
+        if(type == eOverDistance && dist < trkpt->distance)
+        {
+            plot->setSelTrackPoint(&(*trkpt));
+
+            double lon = trkpt->lon * DEG_TO_RAD;
+            double lat = trkpt->lat * DEG_TO_RAD;
+            double ele = dem.getElevation(lon, lat);
+            if(ele == WPT_NOFLOAT)
+            {
+                ele = trkpt->ele;
+            }
+            CWptDB::self().newWpt(lon, lat, ele, "");
+            break;
+        }
+        if(type == eOverTime && dist < trkpt->timestamp)
+        {
+            plot->setSelTrackPoint(&(*trkpt));
+            double lon = trkpt->lon * DEG_TO_RAD;
+            double lat = trkpt->lat * DEG_TO_RAD;
+            double ele = dem.getElevation(lon, lat);
+            if(ele == WPT_NOFLOAT)
+            {
+                ele = trkpt->ele;
+            }
+            CWptDB::self().newWpt(lon, lat, ele, "");
+            break;
+        }
+        idx = trkpt->idx;
+
+        ++trkpt;
+    }
+}

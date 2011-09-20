@@ -48,5 +48,6 @@ class ITrackStat : public QWidget, private Ui::ITrackStatWidget
     protected slots:
         void slotActivePoint(double x);
         void slotFocusPoint(double x);
+        void slotSetWaypoint(double dist);
 };
 #endif                           //ITRACKSTAT_H

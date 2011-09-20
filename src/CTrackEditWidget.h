@@ -98,7 +98,8 @@ class CTrackEditWidget : public QWidget, private Ui::ITrackEditWidget
         void slotNameChanged(const QString& name);
 
         void slotCurrentChanged(int idx);
-        void slotWptChanged();
+        void slotStagesChanged();
+        void slotStagesChanged(int state);
 
     protected:
         void keyPressEvent(QKeyEvent * e);
@@ -148,5 +149,9 @@ class CTrackEditWidget : public QWidget, private Ui::ITrackEditWidget
 
         QMenu * contextMenu;
         QAction * actSplit;
+
+        QList<CTrack::wpt_t> wpts;
+
+        QSize oldSize;
 };
 #endif                           //CTRACKEDITWIDGET_H

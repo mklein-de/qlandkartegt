@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>938</width>
+    <width>642</width>
     <height>421</height>
    </rect>
   </property>
@@ -97,7 +97,7 @@
         <string>Toggle extensions statistics view over time</string>
        </property>
        <property name="text">
-        <string>Extensions</string>
+        <string>...</string>
        </property>
        <property name="checkable">
         <bool>true</bool>
@@ -116,7 +116,7 @@
         <string>Show the track on Google Maps</string>
        </property>
        <property name="text">
-        <string>Google Maps</string>
+        <string>...</string>
        </property>
       </widget>
      </item>
@@ -171,6 +171,20 @@
       <widget class="QLineEdit" name="lineName">
        <property name="toolTip">
         <string>Use 'return' key to change name permanently.</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="Line" name="line_3">
+       <property name="orientation">
+        <enum>Qt::Vertical</enum>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QCheckBox" name="checkStages">
+       <property name="text">
+        <string>Stages</string>
        </property>
       </widget>
      </item>
@@ -710,8 +724,8 @@
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>438</width>
-                 <height>269</height>
+                 <width>24</width>
+                 <height>18</height>
                 </rect>
                </property>
                <layout class="QVBoxLayout" name="verticalLayout_Extensions"/>

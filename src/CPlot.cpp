@@ -49,6 +49,7 @@ CPlot::CPlot(CPlotData::axis_type_e type, mode_e mode, QWidget * parent)
 , mouseMoveMode(false)
 , checkClick(false)
 , posMouse(-1,-1)
+, posWpt(-1,-1)
 , selTrkPt(0)
 {
     setMouseTracking(true);
@@ -869,17 +870,29 @@ void CPlot::drawTags(QPainter& p)
 
 void CPlot::contextMenuEvent(QContextMenuEvent *event)
 {
-    if(mode != eNormal)
+    CTrack * track = CTrackDB::self().highlightedTrack();
+    if(mode != eNormal || !track)
     {
         return ;
     }
+
+
+
     QMenu menu(this);
     menu.addAction(hZoomAct);
     menu.addAction(vZoomAct);
     menu.addAction(resetZoomAct);
     menu.addAction(save);
 
+    posWpt = posMouse;
+    if(posMouse.x() != -1 )
+    {
+        menu.addAction(addWpt);
+    }
+
     menu.exec(event->globalPos());
+
+    posWpt = QPoint(-1,-1);
 }
 
 
@@ -898,6 +911,10 @@ void CPlot::createActions()
 
     save = new QAction(tr("Save..."), this);
     connect(save, SIGNAL(triggered()), this, SLOT(slotSave()));
+
+    addWpt = new QAction(tr("Add Waypoint..."), this);
+    connect(addWpt, SIGNAL(triggered()), this, SLOT(slotAddWpt()));
+
 }
 
 
@@ -953,6 +970,12 @@ void CPlot::slotSave()
 
 }
 
+
+void CPlot::slotAddWpt()
+{
+    double x = getXValByPixel(posWpt.x());
+    emit sigSetWaypoint(x);
+}
 
 void CPlot::zoom(CPlotAxis &axis, bool in, int curInt)
 {
@@ -1061,7 +1084,7 @@ void CPlot::mouseReleaseEvent(QMouseEvent * e)
             emit sigActivePoint(dist);
 
             update();
-        }
+        }          
     }
     else
     {
