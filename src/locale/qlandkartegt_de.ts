@@ -499,7 +499,7 @@
     <message>
         <location filename="../CActions.cpp" line="85"/>
         <source>FPV / Rot.</source>
-        <translation>FPV / Rot.</translation>
+        <translation>FPV / Drehen</translation>
     </message>
     <message>
         <location filename="../CActions.cpp" line="85"/>
@@ -514,7 +514,7 @@
     <message>
         <location filename="../CActions.cpp" line="87"/>
         <source>Trackmode</source>
-        <translation>Blickwinkel auf Track</translation>
+        <translation>Beobachterstandpunkt auf Track</translation>
     </message>
     <message>
         <location filename="../CActions.cpp" line="102"/>
@@ -1229,34 +1229,35 @@ Wahlweise können auch bereits bestehende Referenzpunkte genutzt werden. In dies
     <message>
         <location filename="../CCreateMapQMAP.cpp" line="41"/>
         <source>Define Map</source>
-        <translation>Kartendefinition</translation>
+        <translation>Karte definieren</translation>
     </message>
     <message>
         <location filename="../CCreateMapQMAP.cpp" line="42"/>
         <source>You can edit or create QLandkarte GT map definition files (*.qmap). A map definition defines what files to show at a certain zoom level. The comment will be used to list the map collection as known map in the map tool view. You can choose between a linear or quadratic zoom level increment.
 Once you created a map set you can attach DEM data to it via the context menu in the lefthand map tool view.</source>
-        <translation>Du kannst QLandkarte GT-Kartendefinitionsdateien (*.qmap) erzeugen oder bearbeiten. Eine Kartendefinition definiert, welche Datei bei welcher Zoomstufe gezeigt wird. Der Kommentar wird dazu verwendet, die Kartensammlung in der Liste der verfügbaren Karten zu zeigen. ￼Du kannst auch zwischen einem linearen oder quadratischen Zoomverhalten auswählen.Sobald Du ein Kartenset erzeugt hast, kannst Du im Kontext-Menü der Liste der verfügbaren Karten mittels der rechten Maustaste DEM-Daten hinzufügen. </translation>
+        <translation>Sie können Kartendefinitionsdateien für QLandkarte GT (*.qmap) erzeugen oder bearbeiten. Eine Kartendefinition legt fest, welche Dateien bei welcher Vergrößerungsstufe sichtbar sind. Der Kommentar wird dazu verwendet, die Kartenzusammenstellung als verfügbare Karte im Kartenwerkzeug anzuzeigen. Man kann zwischen einem linearen oder quadratischen Verhalten beim Vergrößern auswählen. 
+Sobald die Kartenzusammenstellung erzeugt ist, können DEM-Daten im Kontext-Menü links im Kartenwerkzeug hinzugefügt werden. </translation>
     </message>
     <message>
         <location filename="../CCreateMapQMAP.cpp" line="43"/>
         <source>Add Maps</source>
-        <translation>Karte hinzufügen</translation>
+        <translation>Karten hinzufügen</translation>
     </message>
     <message>
         <location filename="../CCreateMapQMAP.cpp" line="44"/>
         <source>You can stack maps of different detail as layer. For each detail layer you can define the number of zoom levels. Several map files can be grouped into a detail layer. All map files in a layer must have the same projection and scale. You need at least one layer with one file.</source>
-        <translation>Du kannst mehere, unterschiedlich detailierte, Karten für verschiedene Zoomstufen definieren.  Zu jeder Detailebene kannst Du eine Anzahl an Zoomlevels angeben. Mehrere Kartendateien können zu einer Detailebene gruppiert werden. Alle Dateien in einer Ebene müssen die selbe Projektion und Skalierung besetzen. Du brauchst mindestens eine Ebene mit einer Datei.</translation>
+        <translation>Es können Karten mit unterschiedlichem Detaillierungsgrad als Ebenen übereinander gelegt werden. Zu jeder Detailebene kann man eine Anzahl an Vergrößerungsstufen angeben. Mehrere Kartendateien können zu einer Detailebene gruppiert werden. Alle Kartendateien in einer Ebene müssen dieselbe Projektion und Skalierung haben. Mindestens eine Ebene mit einer Datei ist notwendig.</translation>
     </message>
     <message>
         <location filename="../CCreateMapQMAP.cpp" line="72"/>
         <source>Select map definition file...</source>
-        <translation>Kartendefinitionsdatei wählen ...</translation>
+        <translation>Kartendefinitionsdatei auswählen ...</translation>
     </message>
     <message>
         <location filename="../CCreateMapQMAP.cpp" line="86"/>
         <location filename="../CCreateMapQMAP.cpp" line="110"/>
         <source>Define a map collection file...</source>
-        <translation>Kartendefinitionsdatei definieren ...</translation>
+        <translation>Kartenzusammenstellung definieren ...</translation>
     </message>
     <message>
         <location filename="../CCreateMapQMAP.cpp" line="150"/>
@@ -1267,12 +1268,12 @@ Once you created a map set you can attach DEM data to it via the context menu in
     <message>
         <location filename="../CCreateMapQMAP.cpp" line="150"/>
         <source>Failed to load file %1.</source>
-        <translation>Laden der Datei %1 gescheitert.</translation>
+        <translation>Laden der Datei %1 fehlgeschlagen.</translation>
     </message>
     <message>
         <location filename="../CCreateMapQMAP.cpp" line="157"/>
         <source>All maps in a level must have the same projection.</source>
-        <translation>Alle Karten in einer Ebene müssen die selbe Projektion haben.</translation>
+        <translation>Alle Karten in einer Ebene müssen dieselbe Projektion haben.</translation>
     </message>
     <message>
         <location filename="../CCreateMapQMAP.cpp" line="219"/>
@@ -1311,7 +1312,7 @@ Once you created a map set you can attach DEM data to it via the context menu in
 %1
 
 </source>
-        <translation>Abfrage der Fähigkeiten gescheitert.
+        <translation>Abfrage der Fähigkeiten fehlgeschlagen.
 
 %1
 
@@ -1324,7 +1325,7 @@ Once you created a map set you can attach DEM data to it via the context menu in
 %1
 
 %2</source>
-        <translation>Parsen der Fähigkeiten gescheitert.
+        <translation>Parsen der Fähigkeiten fehlgeschlagen.
 
 %1
 
@@ -1335,9 +1336,9 @@ Once you created a map set you can attach DEM data to it via the context menu in
         <source>Failed to check WMS version.
 
 Expected %1, received %2.</source>
-        <translation>Falsche WMS version
+        <translation>Prüfung der WMS-Version fehlgeschlagen.
 
-erwartet: %1, empfangen %2</translation>
+Erwartet: %1, empfangen %2.</translation>
     </message>
     <message>
         <location filename="../CCreateMapWMS.cpp" line="290"/>
@@ -1347,7 +1348,7 @@ erwartet: %1, empfangen %2</translation>
     <message>
         <location filename="../CCreateMapWMS.cpp" line="425"/>
         <source>Define GDAL WMS definition file...</source>
-        <translation>Definitionsdatei GDAL WMS definieren ...</translation>
+        <translation>GDAL-WMS-Definitionsdatei festlegen ...</translation>
     </message>
 </context>
 <context>
@@ -1367,42 +1368,42 @@ erwartet: %1, empfangen %2</translation>
     <message>
         <location filename="../CDeviceGPSD.cpp" line="90"/>
         <source>GPSD: Upload waypoints is not implemented.</source>
-        <translation>GPSD: Wegpunkte auf das Gerät laden ist nicht implementiert.</translation>
+        <translation>GPSD: Das Hochladen von Wegpunkten auf das Gerät ist nicht implementiert.</translation>
     </message>
     <message>
         <location filename="../CDeviceGPSD.cpp" line="96"/>
         <source>GPSD: Download waypoints is not implemented.</source>
-        <translation>GPSD: Wegpunkte vom Gerät laden ist nicht implementiert.</translation>
+        <translation>GPSD: Das Herunterladen von Wegpunkten vom Gerät ist nicht implementiert.</translation>
     </message>
     <message>
         <location filename="../CDeviceGPSD.cpp" line="102"/>
         <source>GPSD: Upload tracks is not implemented.</source>
-        <translation>GPSD: Tracks auf das Gerät laden ist nicht implementiert.</translation>
+        <translation>GPSD: Das Hochladen von Tracks auf das Gerät ist nicht implementiert.</translation>
     </message>
     <message>
         <location filename="../CDeviceGPSD.cpp" line="108"/>
         <source>GPSD: Download tracks is not implemented.</source>
-        <translation>GPSD: Tracks vom Gerät laden ist nicht implementiert.</translation>
+        <translation>GPSD: Das Herunterladen von Tracks vom Gerät ist nicht implementiert.</translation>
     </message>
     <message>
         <location filename="../CDeviceGPSD.cpp" line="114"/>
         <source>GPSD: Upload routes is not implemented.</source>
-        <translation>GPSD: Routen auf das Gerät laden ist nicht implementiert.</translation>
+        <translation>GPSD: Das Hochladen von Routen auf das Gerät ist nicht implementiert.</translation>
     </message>
     <message>
         <location filename="../CDeviceGPSD.cpp" line="120"/>
         <source>GPSD: Download routes is not implemented.</source>
-        <translation>GPSD: Routes vom Gerät laden ist nicht implementiert.</translation>
+        <translation>GPSD: Das Herunterladen von Routen vom Gerät ist nicht implementiert.</translation>
     </message>
     <message>
         <location filename="../CDeviceGPSD.cpp" line="126"/>
         <source>GPSD: Upload maps is not implemented.</source>
-        <translation>GPSD: Karten auf das Gerät laden ist nicht implementiert.</translation>
+        <translation>GPSD: Das Hochladen von Karten auf das Gerät ist nicht implementiert.</translation>
     </message>
     <message>
         <location filename="../CDeviceGPSD.cpp" line="132"/>
         <source>GPSD: Download screenshots is not implemented.</source>
-        <translation>GPSD: Bildschirmfoto vom Gerät laden ist nicht implementiert.</translation>
+        <translation>GPSD: Das Herunterladen von Bildschirmfotos vom Gerät ist nicht implementiert.</translation>
     </message>
 </context>
 <context>
@@ -1416,17 +1417,17 @@ erwartet: %1, empfangen %2</translation>
     <message>
         <location filename="../CDeviceGarmin.cpp" line="540"/>
         <source>Failed to load driver.</source>
-        <translation>Treiber konnte nicht geladen werden.</translation>
+        <translation>Laden des Treibers ist fehlgeschlagen.</translation>
     </message>
     <message>
         <location filename="../CDeviceGarmin.cpp" line="553"/>
         <source>Driver version mismatch.</source>
-        <translation>Treiberversion paßt nicht.</translation>
+        <translation>Unpassende Treiberversion.</translation>
     </message>
     <message>
         <location filename="../CDeviceGarmin.cpp" line="555"/>
         <source>The version of your driver plugin &quot;%1&quot; does not match the version QLandkarteGT expects (&quot;%2&quot;).</source>
-        <translation>Die Version des Treibers &quot;%1&quot; simmt nicht mit der von QLandkarte GT erwarteten Version &quot;%2&quot; überein</translation>
+        <translation>Die Version des Treibermoduls &quot;%1&quot; simmt nicht mit der von QLandkarte GT erwarteten Version &quot;%2&quot; überein.</translation>
     </message>
     <message>
         <location filename="../CDeviceGarmin.cpp" line="595"/>
@@ -1450,7 +1451,7 @@ erwartet: %1, empfangen %2</translation>
     <message>
         <location filename="../CDeviceGarmin.cpp" line="1110"/>
         <source>Failed to create image file.</source>
-        <translation>Erzeugen der Bilddatei gescheitert.</translation>
+        <translation>Erzeugen der Bilddatei fehlgeschlagen.</translation>
     </message>
     <message>
         <source>Garmin: Download routes is not implemented.</source>
@@ -1474,42 +1475,42 @@ erwartet: %1, empfangen %2</translation>
     <message>
         <location filename="../CDeviceMikrokopter.cpp" line="60"/>
         <source>Mikrokopter: Failed to open serial port.</source>
-        <translation>Mikrokopter: Fehler beim öffnen des seriellen Ports</translation>
+        <translation>Mikrokopter: Fehler beim Öffnen der seriellen Schnittstelle.</translation>
     </message>
     <message>
         <location filename="../CDeviceMikrokopter.cpp" line="131"/>
         <source>Mikrokopter: Upload waypoints is not implemented.</source>
-        <translation>Mikrokopter: Upload der Wegpunkte ist nicht implementiert.</translation>
+        <translation>Mikrokopter: Das Hochladen von Wegpunkten ist nicht implementiert.</translation>
     </message>
     <message>
         <location filename="../CDeviceMikrokopter.cpp" line="150"/>
         <source>Mikrokopter: Upload tracks is not implemented.</source>
-        <translation>Mikrokopter: Upload von Tracks ist nicht implementiert.</translation>
+        <translation>Mikrokopter: Das Hochladen von Tracks ist nicht implementiert.</translation>
     </message>
     <message>
         <location filename="../CDeviceMikrokopter.cpp" line="156"/>
         <source>Mikrokopter: Download tracks is not implemented.</source>
-        <translation>Mikrokopter: Download von Tracks ist nicht implementiert.</translation>
+        <translation>Mikrokopter: Das Herunterladen von Tracks ist nicht implementiert.</translation>
     </message>
     <message>
         <location filename="../CDeviceMikrokopter.cpp" line="162"/>
         <source>Mikrokopter: Upload routes is not implemented.</source>
-        <translation>Mikrokopter: Upload von Routen ist nicht implementiert.</translation>
+        <translation>Mikrokopter: Das Hochladen von Routen ist nicht implementiert.</translation>
     </message>
     <message>
         <location filename="../CDeviceMikrokopter.cpp" line="168"/>
         <source>Mikrokopter: Download routes is not implemented.</source>
-        <translation>Mikrokopter: Download von Routen ist nicht implementiert.</translation>
+        <translation>Mikrokopter: Das Herunterladen von Routen ist nicht implementiert.</translation>
     </message>
     <message>
         <location filename="../CDeviceMikrokopter.cpp" line="174"/>
         <source>Mikrokopter: Upload maps is not implemented.</source>
-        <translation>Mikrokopter: Upload von Karten ist nicht implementiert.</translation>
+        <translation>Mikrokopter: Das Hochladen von Karten ist nicht implementiert.</translation>
     </message>
     <message>
         <location filename="../CDeviceMikrokopter.cpp" line="180"/>
         <source>Mikrokopter: Download screenschots is not implemented.</source>
-        <translation>Mikrokopter: Download von Screenshots ist nicht implementiert.</translation>
+        <translation>Mikrokopter: Das Herunterladen von Bildschirmfotos ist nicht implementiert.</translation>
     </message>
 </context>
 <context>
@@ -1529,42 +1530,42 @@ erwartet: %1, empfangen %2</translation>
     <message>
         <location filename="../CDeviceNMEA.cpp" line="459"/>
         <source>NMEA: Upload waypoints is not implemented.</source>
-        <translation>NMEA: Wegpunkte auf das Gerät laden ist nicht implementiert.</translation>
+        <translation>NMEA: Das Hochladen von Wegpunkten auf das Gerät ist nicht implementiert.</translation>
     </message>
     <message>
         <location filename="../CDeviceNMEA.cpp" line="465"/>
         <source>NMEA: Download waypoints is not implemented.</source>
-        <translation>NMEA: Wegpunkte vom Gerät laden ist nicht implementiert.</translation>
+        <translation>NMEA: Das Herunterladen von Wegpunkten vom Gerät ist nicht implementiert.</translation>
     </message>
     <message>
         <location filename="../CDeviceNMEA.cpp" line="471"/>
         <source>NMEA: Upload tracks is not implemented.</source>
-        <translation>NMEA: Tracks auf das Gerät laden ist nicht implementiert.</translation>
+        <translation>NMEA: Das Hochladen von Tracks auf das Gerät ist nicht implementiert.</translation>
     </message>
     <message>
         <location filename="../CDeviceNMEA.cpp" line="477"/>
         <source>NMEA: Download tracks is not implemented.</source>
-        <translation>NMEA: Tracks vom Gerät laden ist nicht implementiert.</translation>
+        <translation>NMEA: Das Herunterladen von Tracks vom Gerät ist nicht implementiert.</translation>
     </message>
     <message>
         <location filename="../CDeviceNMEA.cpp" line="483"/>
         <source>NMEA: Upload routes is not implemented.</source>
-        <translation>NMEA: Routen auf das Gerät laden ist nicht implementiert.</translation>
+        <translation>NMEA: Das Hochladen von Routen auf das Gerät ist nicht implementiert.</translation>
     </message>
     <message>
         <location filename="../CDeviceNMEA.cpp" line="489"/>
         <source>NMEA: Download routes is not implemented.</source>
-        <translation>NMEA: Routes vom Gerät laden ist nicht implementiert.</translation>
+        <translation>NMEA: Das Herunterladen von Routen vom Gerät ist nicht implementiert.</translation>
     </message>
     <message>
         <location filename="../CDeviceNMEA.cpp" line="495"/>
         <source>NMEA: Upload maps is not implemented.</source>
-        <translation>NMEA: Karten auf das Gerät laden ist nicht implementiert.</translation>
+        <translation>NMEA: Das Hochladen von Karten auf das Gerät ist nicht implementiert.</translation>
     </message>
     <message>
         <location filename="../CDeviceNMEA.cpp" line="501"/>
         <source>NMEA: Download screenshots is not implemented.</source>
-        <translation>NMEA: Bildschirmfoto vom Gerät laden ist nicht implementiert.</translation>
+        <translation>NMEA: Das Herunterladen von Bildschirmfotos vom Gerät ist nicht implementiert.</translation>
     </message>
     <message>
         <source>NMEA: Download screenschots is not implemented.</source>
@@ -1611,13 +1612,13 @@ erwartet: %1, empfangen %2</translation>
     <message>
         <location filename="../CDeviceQLandkarteM.cpp" line="393"/>
         <source>QLandkarteM: Upload map is not implemented.</source>
-        <translation>QLandkarteM: Die Funktion eine Karte hochzuladen ist nicht implementiert.</translation>
+        <translation>QLandkarteM: Das Hochladen von Karten ist nicht implementiert.</translation>
     </message>
     <message>
         <location filename="../CDeviceQLandkarteM.cpp" line="400"/>
         <location filename="../CDeviceQLandkarteM.cpp" line="407"/>
         <source>QLandkarteM: Download routes is not implemented.</source>
-        <translation>QLandkarte M: Das Herunterladen von Routen ist nicht implementiert.</translation>
+        <translation>QLandkarteM: Das Herunterladen von Routen ist nicht implementiert.</translation>
     </message>
     <message>
         <location filename="../CDeviceQLandkarteM.cpp" line="51"/>
@@ -1627,7 +1628,7 @@ erwartet: %1, empfangen %2</translation>
     <message>
         <location filename="../CDeviceQLandkarteM.cpp" line="493"/>
         <source>QLandkarteM: Failed to connect to device.</source>
-        <translation>QLandkarteM: Verbindungsaufbau zum Gerät ist gescheitert.</translation>
+        <translation>QLandkarteM: Verbindungsaufbau zum Gerät ist fehlgeschlagen.</translation>
     </message>
     <message>
         <location filename="../CDeviceQLandkarteM.cpp" line="136"/>
@@ -1646,12 +1647,12 @@ erwartet: %1, empfangen %2</translation>
         <location filename="../CDeviceQLandkarteM.cpp" line="155"/>
         <location filename="../CDeviceQLandkarteM.cpp" line="219"/>
         <source>QLandkarteM: Failed to transfer waypoints.</source>
-        <translation>QLandkarteM: Übertragung der Wegpunkte ist gescheitert.</translation>
+        <translation>QLandkarteM: Übertragung der Wegpunkte ist fehlgeschlagen.</translation>
     </message>
     <message>
         <location filename="../CDeviceQLandkarteM.cpp" line="175"/>
         <source>Download waypoints ...</source>
-        <translation>Wegpunkte runterladen ...</translation>
+        <translation>Wegpunkte herunterladen ...</translation>
     </message>
     <message>
         <location filename="../CDeviceQLandkarteM.cpp" line="177"/>
@@ -1661,39 +1662,39 @@ erwartet: %1, empfangen %2</translation>
     <message>
         <location filename="../CDeviceQLandkarteM.cpp" line="185"/>
         <source>QLandkarteM: Failed to query waypoints from device.</source>
-        <translation>QLandkarteM: Abfrage der Wegpunkte gescheitert.</translation>
+        <translation>QLandkarteM: Abfrage der Wegpunkte beim Gerät ist fehlgeschlagen.</translation>
     </message>
     <message>
         <location filename="../CDeviceQLandkarteM.cpp" line="212"/>
         <source>Download waypoint: %1</source>
-        <translation>Wegpunkt %1 wird herrunterladen</translation>
+        <translation>Wegpunkt %1 wird herunterladen</translation>
     </message>
     <message>
         <location filename="../CDeviceQLandkarteM.cpp" line="249"/>
         <location filename="../CDeviceQLandkarteM.cpp" line="251"/>
         <source>Download screenshot ...</source>
-        <translation>Bildschirmfoto wird geladen</translation>
+        <translation>Bildschirmfoto wird heruntergeladen ...</translation>
     </message>
     <message>
         <location filename="../CDeviceQLandkarteM.cpp" line="259"/>
         <source>QLandkarteM: Failed to download screenshot from device.</source>
-        <translation>QLandkarteM: Laden des Bildschirmfotos gescheitert.</translation>
+        <translation>QLandkarteM: Herunterladen des Bildschirmfotos fehlgeschlagen.</translation>
     </message>
     <message>
         <location filename="../CDeviceQLandkarteM.cpp" line="282"/>
         <source>Uplaod tracks ...</source>
-        <translation>Upload Tracks</translation>
+        <translation>Tracks hochladen ...</translation>
     </message>
     <message>
         <location filename="../CDeviceQLandkarteM.cpp" line="301"/>
         <location filename="../CDeviceQLandkarteM.cpp" line="366"/>
         <source>QLandkarteM: Failed to transfer tracks.</source>
-        <translation>QLandkarteM: Übertragung der Tracks ist gescheitert.</translation>
+        <translation>QLandkarteM: Übertragung der Tracks ist fehlgeschlagen.</translation>
     </message>
     <message>
         <location filename="../CDeviceQLandkarteM.cpp" line="322"/>
         <source>Download tracks ...</source>
-        <translation>Tracks runterladen ...</translation>
+        <translation>Tracks herunterladen ...</translation>
     </message>
     <message>
         <location filename="../CDeviceQLandkarteM.cpp" line="324"/>
@@ -1703,12 +1704,12 @@ erwartet: %1, empfangen %2</translation>
     <message>
         <location filename="../CDeviceQLandkarteM.cpp" line="332"/>
         <source>QLandkarteM: Failed to query tracks from device.</source>
-        <translation>QLandkarteM: Abfrage der Tracks ist gescheitert.</translation>
+        <translation>QLandkarteM: Abfrage der Tracks beim Gerät ist fehlgeschlagen.</translation>
     </message>
     <message>
         <location filename="../CDeviceQLandkarteM.cpp" line="359"/>
         <source>Download track: %1</source>
-        <translation>Download Tack: %1</translation>
+        <translation>Tack %1 wird herunterladen</translation>
     </message>
     <message>
         <location filename="../CDeviceQLandkarteM.cpp" line="442"/>
@@ -1816,7 +1817,7 @@ erwartet: %1, empfangen %2</translation>
     <message>
         <location filename="../CDiaryEdit.cpp" line="107"/>
         <source>&amp;Color...</source>
-        <translation>S&amp;chriftFarbe ...</translation>
+        <translation>S&amp;chriftfarbe ...</translation>
     </message>
     <message>
         <location filename="../CDiaryEdit.cpp" line="121"/>
@@ -1861,7 +1862,7 @@ erwartet: %1, empfangen %2</translation>
     <message>
         <location filename="../CDiaryEdit.cpp" line="261"/>
         <source>Failed to save diary to database. Probably because it was not created from a database project.</source>
-        <translation>Das Speichern des Tagebuches schlug fehl. Wahrscheinlich weil es nicht von einem Projekt in der Datenbank erstellt wurde.</translation>
+        <translation>Das Speichern des Tagebuches ist fehlgeschlagen, weil es wahrscheinlich nicht von einem Projekt mit Datenbank erstellt wurde.</translation>
     </message>
     <message>
         <location filename="../CDiaryEdit.cpp" line="300"/>
@@ -1881,7 +1882,7 @@ erwartet: %1, empfangen %2</translation>
     <message>
         <location filename="../CDiaryEdit.cpp" line="630"/>
         <source>Add your own text here...</source>
-        <translation>Schreibe hier deinen eigenen Text...</translation>
+        <translation>Schreiben Sie hier Ihren eigenen Text...</translation>
     </message>
     <message>
         <location filename="../CDiaryEdit.cpp" line="643"/>
@@ -1908,7 +1909,7 @@ erwartet: %1, empfangen %2</translation>
     <message>
         <location filename="../CDiaryEdit.cpp" line="737"/>
         <source>&lt;b&gt;Owner:&lt;/b&gt; %1 &lt;b&gt;Size:&lt;/b&gt; %2 &lt;b&gt;Difficulty:&lt;/b&gt; %3 &lt;b&gt;Terrain:&lt;/b&gt; %4</source>
-        <translation>&lt;b&gt;Besitzer:&lt;/b&gt; %1 &lt;b&gt;Größe:&lt;/b&gt; %2 &lt;b&gt;Schwierigkeit:&lt;/b&gt; %3 &lt;b&gt;Gelände:&lt;/b&gt; %4</translation>
+        <translation>&lt;b&gt;Eigentümer:&lt;/b&gt; %1 &lt;b&gt;Größe:&lt;/b&gt; %2 &lt;b&gt;Schwierigkeit:&lt;/b&gt; %3 &lt;b&gt;Gelände:&lt;/b&gt; %4</translation>
     </message>
 </context>
 <context>
@@ -2064,7 +2065,7 @@ erwartet: %1, empfangen %2</translation>
     <message>
         <location filename="../CDlgConfig.cpp" line="131"/>
         <source>Pass something like &quot;COM1:&quot; or &quot;\\.\COM13&quot; or &quot;\\.\com13&quot; for serial Garmin devices or NMEA devices. For Garmin USB devices leave blank.</source>
-        <translation type="unfinished"></translation>
+        <translation>Geben Sie etwas wie &quot;COM1:&quot; oder &quot;\\.\COM13&quot; oder &quot;\\.\com13&quot; für serielle Garmin- oder NMEA-Geräte ein. Lassen Sie es leer für Garmin-USB-Geräte.</translation>
     </message>
     <message>
         <source>Pass something like &quot;COM1:&quot; or &quot;\\.\COM13&quot; for serial Garmin devices or NMEA devices. For Garmin USB devices leave blank.</source>
@@ -2074,12 +2075,12 @@ erwartet: %1, empfangen %2</translation>
         <location filename="../CDlgConfig.cpp" line="314"/>
         <location filename="../CDlgConfig.cpp" line="318"/>
         <source>No plugins found. I expect them in: %1</source>
-        <translation>Keine Plugins gefunden. Ich nehme an sie sind in: %1</translation>
+        <translation>Keine Module gefunden. Der Suchpfad ist: %1</translation>
     </message>
     <message>
         <location filename="../CDlgConfig.cpp" line="355"/>
         <source>Open Directory</source>
-        <translation>Verzeichnis auswählen</translation>
+        <translation>Ordner öffnen</translation>
     </message>
 </context>
 <context>
@@ -2179,7 +2180,7 @@ erwartet: %1, empfangen %2</translation>
         <location filename="../CDlgEditMapLevel.cpp" line="129"/>
         <location filename="../CDlgEditMapLevel.cpp" line="133"/>
         <source>Select &lt;b&gt;all&lt;/b&gt; files for that level.</source>
-        <translation>Wähle &lt;b&gt;alle&lt;/b&gt; Dateien für dieses Level.</translation>
+        <translation>Wählen Sie &lt;b&gt;alle&lt;/b&gt; Dateien für dieses Level.</translation>
     </message>
 </context>
 <context>
@@ -2198,7 +2199,7 @@ erwartet: %1, empfangen %2</translation>
     <message>
         <location filename="../CDlgEditWpt.cpp" line="236"/>
         <source>You must provide a waypoint position.</source>
-        <translation>Du mußt die Koordinaten für den Wegpunkt angeben.</translation>
+        <translation>Bitte die Koordinaten für den Wegpunkt angeben.</translation>
     </message>
     <message>
         <location filename="../CDlgEditWpt.cpp" line="275"/>
@@ -2228,22 +2229,22 @@ erwartet: %1, empfangen %2</translation>
     <message>
         <location filename="../CDlgEditWpt.cpp" line="387"/>
         <source>Edit link ...</source>
-        <translation>Link bearbeiten ...</translation>
+        <translation>Verknüpfung bearbeiten ...</translation>
     </message>
     <message>
         <location filename="../CDlgEditWpt.cpp" line="387"/>
         <source>Link: &apos;http://...&apos;</source>
-        <translation>Link:&apos;http://...&apos;</translation>
+        <translation>Verknüpfung: &quot;http://...&quot;</translation>
     </message>
     <message>
         <location filename="../CDlgEditWpt.cpp" line="391"/>
         <source>None</source>
-        <translation>Gar nichts</translation>
+        <translation>Keine</translation>
     </message>
     <message>
         <location filename="../CDlgEditWpt.cpp" line="409"/>
         <source>Select output file</source>
-        <translation>Zu speichernde Datei wählen</translation>
+        <translation>Ausgabedatei wählen</translation>
     </message>
     <message>
         <location filename="../CDlgEditWpt.cpp" line="426"/>
@@ -2251,7 +2252,8 @@ erwartet: %1, empfangen %2</translation>
         <location filename="../CDlgEditWpt.cpp" line="430"/>
         <source>%1
 </source>
-        <translation></translation>
+        <translation>%1
+</translation>
     </message>
 </context>
 <context>
@@ -2297,7 +2299,7 @@ erwartet: %1, empfangen %2</translation>
     <message>
         <location filename="../CDlgMapOSMConfig.cpp" line="49"/>
         <source>Custom maps</source>
-        <translation>Benutzerkarten</translation>
+        <translation>Eigene Karten</translation>
     </message>
 </context>
 <context>
@@ -2318,7 +2320,7 @@ erwartet: %1, empfangen %2</translation>
     <message>
         <location filename="../CDlgScreenshot.cpp" line="63"/>
         <source>Select output file</source>
-        <translation>Zu speichernde Datei wählen</translation>
+        <translation>Ausgabedatei wählen</translation>
     </message>
 </context>
 <context>
@@ -2326,7 +2328,7 @@ erwartet: %1, empfangen %2</translation>
     <message>
         <location filename="../CDlgSetupGarminIcons.cpp" line="75"/>
         <source>reset icon</source>
-        <translation>Ikone zurück setzen</translation>
+        <translation>Ikone zurücksetzen</translation>
     </message>
     <message>
         <location filename="../CDlgSetupGarminIcons.cpp" line="81"/>
@@ -2346,7 +2348,7 @@ erwartet: %1, empfangen %2</translation>
     <message>
         <location filename="../CDlgSetupGarminIcons.cpp" line="228"/>
         <source>: Bad icon format</source>
-        <translation>: Schlechtes Ikonenformat</translation>
+        <translation>: Falsches Ikonenformat</translation>
     </message>
     <message>
         <location filename="../CDlgSetupGarminIcons.cpp" line="260"/>
@@ -2361,7 +2363,7 @@ erwartet: %1, empfangen %2</translation>
         <location filename="../CDlgTrackFilter.cpp" line="215"/>
         <location filename="../CDlgTrackFilter.cpp" line="274"/>
         <source>Abort filter</source>
-        <translation>Abbrechen
+        <translation>Filtern abbrechen
 </translation>
     </message>
     <message>
@@ -2369,7 +2371,7 @@ erwartet: %1, empfangen %2</translation>
         <location filename="../CDlgTrackFilter.cpp" line="215"/>
         <location filename="../CDlgTrackFilter.cpp" line="274"/>
         <source>Filter track...</source>
-        <translation>Filtere Track</translation>
+        <translation>Track wird gefiltert...</translation>
     </message>
 </context>
 <context>
@@ -3305,12 +3307,12 @@ Sollen die Änderungen gespeichert werden?</translation>
     <message>
         <location filename="../CMap3D.cpp" line="145"/>
         <source>FPV / Rot.</source>
-        <translation>FPV / Rot.</translation>
+        <translation>FPV / Drehen</translation>
     </message>
     <message>
         <location filename="../CMap3D.cpp" line="150"/>
         <source>Reset Light</source>
-        <translation>Licht zurücksetzen</translation>
+        <translation>Lichtquelle zurücksetzen</translation>
     </message>
     <message>
         <location filename="../CMap3D.cpp" line="153"/>
@@ -3320,7 +3322,7 @@ Sollen die Änderungen gespeichert werden?</translation>
     <message>
         <location filename="../CMap3D.cpp" line="158"/>
         <source>POV on track</source>
-        <translation>Blickwinkel auf Track</translation>
+        <translation>Beobachterstandpunkt auf Track</translation>
     </message>
     <message>
         <location filename="../CMap3D.cpp" line="175"/>
@@ -7357,7 +7359,7 @@ Once you created a map set you can attach DEM data to it via the context menu in
     <message>
         <location filename="../IDlg3DHelp.ui" line="14"/>
         <source>Help for 3D view...</source>
-        <translation>Hilfe zur 3D Ansicht...</translation>
+        <translation>Hilfe zur 3D-Ansicht...</translation>
     </message>
     <message>
         <location filename="../IDlg3DHelp.ui" line="20"/>
@@ -7400,7 +7402,7 @@ p, li { white-space: pre-wrap; }
 &lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;down: move light source south&lt;/p&gt;
 &lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;left: move light source west&lt;/p&gt;
 &lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;right: move light source east&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished">&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+        <translation>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Sans Serif&apos;; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;
@@ -7409,36 +7411,36 @@ p, li { white-space: pre-wrap; }
 &lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Die Ansicht und der Beobachterstandpunkt (POV) werden durch verschiedene Tasten zusammen mit Mausbewegungen verändert. &lt;/p&gt;
 &lt;p align=&quot;justify&quot; style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;
 &lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;FPV/Drehen:&lt;/span&gt;&lt;/p&gt;
-&lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Es gibt grundsätzlich zwei Modi: The first person view (FPV) mode and the rotation mode. In FPV mode your POV is moving freely in the screen. In rotation mode your POV is circling around the map center.&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Es gibt grundsätzlich zwei Modi: Die Ich-Perspektive (FPV) und den Rotationsmodus (Drehen). Im FPV-Modus bewegt sich der Beobachterstandpunkt (POV) frei auf dem Bildschirm. Im Rotationsmodus kreist der Beobachterstandpunkt um das Zentrum der Karte.&lt;/p&gt;
 &lt;p align=&quot;justify&quot; style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;
-&lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Track mode:&lt;/span&gt;&lt;/p&gt;
-&lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;In track mode the POV is tied to a point within a selected track. You can use the &apos;w&apos; and &apos;s&apos; key to move along the track. You can use the mouse (left button pressed) to look around.&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Track-Modus:&lt;/span&gt;&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Im Track-Modus ist der Beobachterstandpunkt (POV) an die Punkte eines ausgewählten Tracks gekoppelt. Sie können die &apos;W&apos;- und &apos;S&apos;-Tasten verwenden, um sich entlang des Tracks zu bewegen. Bewegen Sie die Maus, während Sie die linke Maustaste gedrückt halten, um sich umzusehen.&lt;/p&gt;
 &lt;p align=&quot;justify&quot; style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;
-&lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Mouse:&lt;/span&gt;&lt;/p&gt;
-&lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;You can control your POV by mouse movements. You have to press the left mouse button while moving the mouse. Moving the mouse up and down will make your POV look up and down. Moving your map left and right will depend on the mode:&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Maus:&lt;/span&gt;&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Sie können Ihren Beobachterstandpunkt mit Mausbewegungen steuern. Die linke Maustaste muss dabei gedrückt gehalten werden. Bewegen der Maus nach oben und unten lässt den Beobachter nach oben bzw. unten blicken. Die Reaktion auf Bewegungen nach links bzw. rechts hängt vom Modus ab:&lt;/p&gt;
 &lt;p align=&quot;justify&quot; style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;
-&lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;FPV: you turn around your own axis. Rotate: you rotate the complete screen&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;FPV: Der Beobachterstandpunkt dreht sich um seine Achse. Rotationsmodus: Die gesamte Ansicht dreht sich.&lt;/p&gt;
 &lt;p align=&quot;justify&quot; style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;
-&lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Mouse wheel:&lt;/span&gt;&lt;/p&gt;
-&lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;You can zoom in and out from the sceen by the mouse wheel. If you keep the shift key pressed while scrolling you change the elevation of the 3D sceen only.&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Mausrad:&lt;/span&gt;&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Mit dem Mausrad können Sie die gesamte Ansicht vergrößern bzw. verkleinern. Wenn Sie beim Rollen die Umschalt-Taste gedrückt halten, ändert sich nur die Höhe der 3D-Ansicht.&lt;/p&gt;
 &lt;p align=&quot;justify&quot; style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;
-&lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Keys:&lt;/span&gt;&lt;/p&gt;
-&lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;You can move your  POV in the sceen by key. This is independent of the chosen mode.&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Tastaturbefehle:&lt;/span&gt;&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Sie können Ihren Beobachterstandpunkt in der Ansicht mit Tastaturbefehlen verändern. Dies ist unabhängig vom gewählten Modus.&lt;/p&gt;
 &lt;p align=&quot;justify&quot; style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;
-&lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;w: move forward&lt;/p&gt;
-&lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;s: move backward&lt;/p&gt;
-&lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;a: strafe left&lt;/p&gt;
-&lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;d: strafe right&lt;/p&gt;
-&lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;shift + a: move up&lt;/p&gt;
-&lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;shift + s: move down&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;W: nach vorne bewegen&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;S: rückwärts bewegen&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;A: seitwärts nach links bewegen&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;D: seitwärts nach rechts bewegen&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Umschalt + W: nach oben bewegen&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Umschalt + S: nach unten bewegen&lt;/p&gt;
 &lt;p align=&quot;justify&quot; style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;
-&lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Light:&lt;/span&gt;&lt;/p&gt;
-&lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;To move the light source you have to press down the &apos;L&apos; key, the left mouse button and move the mouse.&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Lichtquelle:&lt;/span&gt;&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Um die Lichtquelle zu bewegen, muss die &apos;L&apos;-Taste und die linke Maustaste gedrückt gehalten werden, während die Maus bewegt wird.&lt;/p&gt;
 &lt;p align=&quot;justify&quot; style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;
-&lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;up: move light source north&lt;/p&gt;
-&lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;down: move light source south&lt;/p&gt;
-&lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;left: move light source west&lt;/p&gt;
-&lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;right: move light source east&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+&lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;nach oben: Lichtquelle nach Norden bewegen&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;nach unten: Lichtquelle nach Süden bewegen&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;nach links: Lichtquelle nach Westen bewegen&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;nach rechts: Lichtquelle nach Osten bewegen&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
 </context>
 <context>
@@ -8028,7 +8030,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../IDlgConfig3D.ui" line="39"/>
         <source>Couple Elevation/POV</source>
-        <translation>Blickwinkel mit Höhe koppeln</translation>
+        <translation>Beobachterstandpunkt mit Höhe koppeln</translation>
     </message>
 </context>
 <context>
