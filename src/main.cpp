@@ -37,6 +37,7 @@
 #include "CGarminTyp.h"          //TODO: this shall not be commented out when building a debug version with Visual Studio 2005
 
 #include "config.h"
+#include "version.h"
 
 static void usage(std::ostream &s)
 {
@@ -248,7 +249,16 @@ int main(int argc, char ** argv)
     QSplashScreen *splash = 0;
     if (!qlOpts->nosplash)
     {
-        splash = new QSplashScreen(QPixmap(":/pics/splash.png"));
+        QPixmap pic(":/pics/splash.png");
+        QPainter p(&pic);
+        QFont f = p.font();
+        f.setBold(true);
+
+        p.setPen(Qt::white);
+        p.setFont(f);
+        p.drawText(400,370,"V " VER_STR);
+
+        splash = new QSplashScreen(pic);
         splash->show();
     }
     CMainWindow w;
