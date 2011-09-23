@@ -269,6 +269,7 @@ CMapJnx::CMapJnx(const QString& key, const QString& fn, CCanvas * parent)
 
 CMapJnx::~CMapJnx()
 {
+    qDebug() << "CMapJnx::~CMapJnx()";
     if(pjsrc) pj_free(pjsrc);
 
     QSettings cfg;

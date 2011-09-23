@@ -532,13 +532,6 @@ void CMainWindow::switchState()
 }
 
 
-#if defined(Q_WS_MAC)
-// do not translate on the Mac, so the item is shifted
-#  define tr_nomac(x) (x)
-#else
-#  define tr_nomac(x) tr(x)
-#endif
-
 void CMainWindow::setupMenuBar()
 {
     QMenu * menu;
@@ -568,7 +561,11 @@ void CMainWindow::setupMenuBar()
     //menu->addAction(QIcon(":/icons/iconPrint16x16.png"),tr("Print Diary ..."),this,SLOT(slotPrintPreview()));
     menu->addSeparator();
     menu->addAction(QIcon(":/icons/iconUnknown16x16.png"),tr("Toggle toolview"),this,SLOT(slotToggleToolView()), Qt::CTRL + Qt::Key_T);
-    menu->addAction(QIcon(":/icons/iconExit16x16.png"),tr_nomac("Exit"),this,SLOT(close()));
+#if defined(Q_WS_MAC)
+    menu->addAction(QIcon(":/icons/iconExit16x16.png"),("Exit"),this,SLOT(close()));
+#else
+    menu->addAction(QIcon(":/icons/iconExit16x16.png"),tr("Exit"),this,SLOT(close()));
+#endif
     menuBar()->addMenu(menu);
 
     menu = new QMenu(this);
@@ -621,12 +618,22 @@ void CMainWindow::setupMenuBar()
     menuBar()->addMenu(menu);
 
     menu = new QMenu(this);
-    menu->setTitle(tr_nomac("&Help"));
-    menu->addAction(QIcon(":/icons/iconHelp16x16.png"),tr_nomac("http://FAQ"),this,SLOT(slotFAQ()));
-    menu->addAction(QIcon(":/icons/iconHelp16x16.png"),tr_nomac("http://Help"),this,SLOT(slotHelp()));
-    menu->addAction(QIcon(":/icons/iconHelp16x16.png"),tr_nomac("http://Support"),this,SLOT(slotSupport()));
+#if defined(Q_WS_MAC)
+    menu->setTitle(("&Help"));
+    menu->addAction(QIcon(":/icons/iconHelp16x16.png"),("http://FAQ"),this,SLOT(slotFAQ()));
+    menu->addAction(QIcon(":/icons/iconHelp16x16.png"),("http://Help"),this,SLOT(slotHelp()));
+    menu->addAction(QIcon(":/icons/iconHelp16x16.png"),("http://Support"),this,SLOT(slotSupport()));
     menu->addSeparator();
-    menu->addAction(QIcon(":/icons/iconGlobe16x16.png"),tr_nomac("About &QLandkarte GT"),this,SLOT(slotCopyright()));
+    menu->addAction(QIcon(":/icons/iconGlobe16x16.png"),("About &QLandkarte GT"),this,SLOT(slotCopyright()));
+#else
+    menu->setTitle(tr("&Help"));
+    menu->addAction(QIcon(":/icons/iconHelp16x16.png"),tr("http://FAQ"),this,SLOT(slotFAQ()));
+    menu->addAction(QIcon(":/icons/iconHelp16x16.png"),tr("http://Help"),this,SLOT(slotHelp()));
+    menu->addAction(QIcon(":/icons/iconHelp16x16.png"),tr("http://Support"),this,SLOT(slotSupport()));
+    menu->addSeparator();
+    menu->addAction(QIcon(":/icons/iconGlobe16x16.png"),tr("About &QLandkarte GT"),this,SLOT(slotCopyright()));
+
+#endif
     menuBar()->addMenu(menu);
 }
 
