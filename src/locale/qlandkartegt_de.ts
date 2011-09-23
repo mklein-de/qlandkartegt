@@ -3014,42 +3014,42 @@ Zeile %2, Spalte %3:
         <translation>Diese Aktion löscht alle Daten, wie Wegpunkte und Tracks.</translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="546"/>
+        <location filename="../CMainWindow.cpp" line="539"/>
         <source>Load most recent...</source>
         <translation>Zuletzt geöffnet...</translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="556"/>
+        <location filename="../CMainWindow.cpp" line="549"/>
         <source>&amp;File</source>
         <translation>&amp;Datei</translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="557"/>
+        <location filename="../CMainWindow.cpp" line="550"/>
         <source>Load Map</source>
         <translation>Karte laden</translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="559"/>
+        <location filename="../CMainWindow.cpp" line="552"/>
         <source>Load Geo Data</source>
         <translation>Geodaten laden</translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="560"/>
+        <location filename="../CMainWindow.cpp" line="553"/>
         <source>Save Geo Data</source>
         <translation>Geodaten speichern</translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="561"/>
+        <location filename="../CMainWindow.cpp" line="554"/>
         <source>Export Geo Data</source>
         <translation>Geodaten exportieren</translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="562"/>
+        <location filename="../CMainWindow.cpp" line="555"/>
         <source>Add Geo Data</source>
         <translation>Geodaten hinzufügen</translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="565"/>
+        <location filename="../CMainWindow.cpp" line="558"/>
         <source>Device Screenshot ...</source>
         <translation>Bildschirmfoto vom Gerät ...</translation>
     </message>
@@ -3058,7 +3058,7 @@ Zeile %2, Spalte %3:
         <translation type="obsolete">Karte als Bild speichern ...</translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="567"/>
+        <location filename="../CMainWindow.cpp" line="560"/>
         <source>Print Map ...</source>
         <translation>Karte drucken ...</translation>
     </message>
@@ -3067,15 +3067,16 @@ Zeile %2, Spalte %3:
         <translation type="obsolete">Tagebuch drucken ...</translation>
     </message>
     <message>
+        <location filename="../CMainWindow.cpp" line="567"/>
         <source>Exit</source>
-        <translation type="obsolete">Beenden</translation>
+        <translation type="unfinished">Beenden</translation>
     </message>
     <message>
         <source>-</source>
         <translation type="obsolete">-</translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="615"/>
+        <location filename="../CMainWindow.cpp" line="612"/>
         <source>&amp;Setup</source>
         <translation>&amp;Einstellungen</translation>
     </message>
@@ -3084,7 +3085,7 @@ Zeile %2, Spalte %3:
         <translation type="obsolete">&amp;Garmin Ikonen</translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="676"/>
+        <location filename="../CMainWindow.cpp" line="683"/>
         <source>Select map...</source>
         <translation>Karte wählen ...</translation>
     </message>
@@ -3093,82 +3094,82 @@ Zeile %2, Spalte %3:
         <translation type="obsolete">Zu ladende Datei wählen</translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="881"/>
+        <location filename="../CMainWindow.cpp" line="888"/>
         <source>Convert error</source>
         <translation>Konvertierungsfehler</translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="900"/>
-        <location filename="../CMainWindow.cpp" line="1133"/>
+        <location filename="../CMainWindow.cpp" line="907"/>
+        <location filename="../CMainWindow.cpp" line="1140"/>
         <source>Error</source>
         <translation>Fehler</translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="938"/>
+        <location filename="../CMainWindow.cpp" line="945"/>
         <source>Save geo data?</source>
         <translation>Sollen die Daten gespeichert werden?</translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="939"/>
+        <location filename="../CMainWindow.cpp" line="946"/>
         <source>The loaded data has been modified.
 Do you want to save your changes?</source>
         <translation>Die Daten wurden verändert.
 Sollen die Änderungen gespeichert werden?</translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="971"/>
-        <location filename="../CMainWindow.cpp" line="1004"/>
-        <location filename="../CMainWindow.cpp" line="1223"/>
+        <location filename="../CMainWindow.cpp" line="978"/>
+        <location filename="../CMainWindow.cpp" line="1011"/>
+        <location filename="../CMainWindow.cpp" line="1230"/>
         <source>Select output file</source>
         <translation>Zu speichernde Datei wählen</translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="1173"/>
+        <location filename="../CMainWindow.cpp" line="1180"/>
         <source>Failed ...</source>
         <translation>Fehler...</translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="1173"/>
+        <location filename="../CMainWindow.cpp" line="1180"/>
         <source>Failed to start OCM.</source>
         <translation>Starten von OCM fehlgeschlagen.</translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="1206"/>
+        <location filename="../CMainWindow.cpp" line="1213"/>
         <source>Print Map</source>
         <translation>Karte drucken</translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="1272"/>
+        <location filename="../CMainWindow.cpp" line="1279"/>
         <source>&lt;div style=&apos;float: left;&apos;&gt;&lt;b&gt;Project Summary (&lt;a href=&apos;Clear&apos;&gt;clear&lt;/a&gt; project):&lt;/b&gt;&lt;/div&gt;</source>
         <translation>&lt;div style=&apos;float: left;&apos;&gt;&lt;b&gt;Projektzusammenfassung (&lt;a href=&apos;Clear&apos;&gt;lösche Projekt&lt;/a&gt;):&lt;/b&gt;&lt;/div&gt;</translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="1280"/>
+        <location filename="../CMainWindow.cpp" line="1287"/>
         <source>Currently there is %1 &lt;a href=&apos;Waypoints&apos;&gt;waypoint&lt;/a&gt;, </source>
         <translation>Momentan sind %1 &lt;a href=&apos;Waypoints&apos;&gt;Wegpunkt&lt;/a&gt;, </translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="1284"/>
+        <location filename="../CMainWindow.cpp" line="1291"/>
         <source>Currently there are %1 &lt;a href=&apos;Waypoints&apos;&gt;waypoints&lt;/a&gt;, </source>
         <translation>Momentan sind %1 &lt;a href=&apos;Waypoints&apos;&gt;Wegpunkte&lt;/a&gt;, </translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="1289"/>
+        <location filename="../CMainWindow.cpp" line="1296"/>
         <source>There are no waypoints, </source>
         <translation>Keine Wegpunkte,</translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="1331"/>
+        <location filename="../CMainWindow.cpp" line="1338"/>
         <source> %1 &lt;a href=&apos;Overlay&apos;&gt;overlay&lt;/a&gt;. </source>
         <translation> %1 &lt;a href=&apos;Overlay&apos;&gt;Overlay&lt;/a&gt;.</translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="1335"/>
+        <location filename="../CMainWindow.cpp" line="1342"/>
         <source> %1 &lt;a href=&apos;Overlay&apos;&gt;overlays&lt;/a&gt;. </source>
         <translation> %1 &lt;a href=&apos;Overlay&apos;&gt;Overlays&lt;/a&gt;.</translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="1340"/>
+        <location filename="../CMainWindow.cpp" line="1347"/>
         <source>no overlays. </source>
         <translation> keine Overlays vorhanden.</translation>
     </message>
@@ -3181,85 +3182,102 @@ Sollen die Änderungen gespeichert werden?</translation>
         <translation type="obsolete"> Das Tagebuch (&lt;a href=&apos;Diary&apos;&gt;neu&lt;/a&gt;) ist leer.</translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="1389"/>
+        <location filename="../CMainWindow.cpp" line="1396"/>
         <source>QLandkarte M</source>
         <translation>QLandkarte M</translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="1391"/>
+        <location filename="../CMainWindow.cpp" line="1398"/>
         <source>NMEA</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="1393"/>
+        <location filename="../CMainWindow.cpp" line="1400"/>
         <source>Mikrokopter</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="1396"/>
+        <location filename="../CMainWindow.cpp" line="1403"/>
         <source>GPSD</source>
         <translation>GPSD</translation>
     </message>
     <message>
+        <location filename="../CMainWindow.cpp" line="629"/>
         <source>&amp;Help</source>
-        <translation type="obsolete">&amp;Hilfe</translation>
+        <translation type="unfinished">&amp;Hilfe</translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="611"/>
+        <location filename="../CMainWindow.cpp" line="608"/>
         <source>Mor&amp;e</source>
         <translation>M&amp;ehr</translation>
     </message>
     <message>
-        <source>About &amp;QLandkarte GT</source>
-        <translation type="obsolete">&amp;Über QLandkarteGT</translation>
+        <location filename="../CMainWindow.cpp" line="630"/>
+        <source>http://FAQ</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="619"/>
+        <location filename="../CMainWindow.cpp" line="631"/>
+        <source>http://Help</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../CMainWindow.cpp" line="632"/>
+        <source>http://Support</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../CMainWindow.cpp" line="634"/>
+        <source>About &amp;QLandkarte GT</source>
+        <translation type="unfinished">&amp;Über QLandkarteGT</translation>
+    </message>
+    <message>
+        <location filename="../CMainWindow.cpp" line="616"/>
         <source>&amp;General</source>
         <translation>&amp;Allgemeine Einstellungen</translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="576"/>
+        <location filename="../CMainWindow.cpp" line="573"/>
         <source>&amp;Edit</source>
         <translation>&amp;Bearbeiten</translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="566"/>
+        <location filename="../CMainWindow.cpp" line="559"/>
         <source>Save map as image ...</source>
         <translation>Karte als Bild speichern ...</translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="570"/>
+        <location filename="../CMainWindow.cpp" line="563"/>
         <source>Toggle toolview</source>
         <translation>Werkzeugbox an/aus</translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="581"/>
+        <location filename="../CMainWindow.cpp" line="578"/>
         <source>&amp;Map</source>
         <translation>&amp;Karte</translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="586"/>
+        <location filename="../CMainWindow.cpp" line="583"/>
         <source>&amp;Waypoint</source>
         <translation>&amp;Wegpunkt</translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="591"/>
+        <location filename="../CMainWindow.cpp" line="588"/>
         <source>&amp;Track</source>
         <translation>&amp;Track</translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="596"/>
+        <location filename="../CMainWindow.cpp" line="593"/>
         <source>&amp;Route</source>
         <translation>&amp;Route</translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="601"/>
+        <location filename="../CMainWindow.cpp" line="598"/>
         <source>&amp;Live Log</source>
         <translation>&amp;Echtzeit-Aufzeichnung</translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="606"/>
+        <location filename="../CMainWindow.cpp" line="603"/>
         <source>&amp;Overlay</source>
         <translation>&amp;Overlay</translation>
     </message>
@@ -3268,38 +3286,38 @@ Sollen die Änderungen gespeichert werden?</translation>
         <translation type="obsolete">Me&amp;hr</translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="721"/>
-        <location filename="../CMainWindow.cpp" line="769"/>
+        <location filename="../CMainWindow.cpp" line="728"/>
+        <location filename="../CMainWindow.cpp" line="776"/>
         <source>Select input files</source>
         <translation>Dateien auswählen</translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="1297"/>
+        <location filename="../CMainWindow.cpp" line="1304"/>
         <source> %1 &lt;a href=&apos;Tracks&apos;&gt;track&lt;/a&gt;, </source>
         <translation> %1 &lt;a href=&apos;Tracks&apos;&gt;Track&lt;/a&gt;, </translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="1301"/>
+        <location filename="../CMainWindow.cpp" line="1308"/>
         <source> %1 &lt;a href=&apos;Tracks&apos;&gt;tracks&lt;/a&gt;, </source>
         <translation> %1 &lt;a href=&apos;Tracks&apos;&gt;Tracks&lt;/a&gt;, </translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="1306"/>
+        <location filename="../CMainWindow.cpp" line="1313"/>
         <source>no tracks, </source>
         <translation>keine Tracks,</translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="1314"/>
+        <location filename="../CMainWindow.cpp" line="1321"/>
         <source> %1 &lt;a href=&apos;Routes&apos;&gt;route&lt;/a&gt; and </source>
         <translation> %1 &lt;a href=&apos;Routes&apos;&gt;Route&lt;/a&gt; and </translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="1318"/>
+        <location filename="../CMainWindow.cpp" line="1325"/>
         <source> %1 &lt;a href=&apos;Routes&apos;&gt;routes&lt;/a&gt; and </source>
         <translation> %1 &lt;a href=&apos;Routes&apos;&gt;Routen&lt;/a&gt; and </translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="1323"/>
+        <location filename="../CMainWindow.cpp" line="1330"/>
         <source>no routes and </source>
         <translation> keine Routen und</translation>
     </message>
