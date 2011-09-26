@@ -175,6 +175,9 @@ void CMapToolWidget::slotDBChanged()
             ++map;
         }
 
+#if defined(Q_WS_MAC)
+	listSelectedMaps->setCurrentRow(0);
+#endif
         if(selected) listSelectedMaps->setCurrentItem(selected);
         updateExportButton();
     }
