@@ -264,7 +264,7 @@
     <message>
         <location filename="../CActions.cpp" line="78"/>
         <source>Show 3D map</source>
-        <translation>3D-Karte zeigen</translation>
+        <translation>3D-Karte anzeigen</translation>
     </message>
     <message>
         <location filename="../CActions.cpp" line="80"/>
@@ -1298,112 +1298,87 @@ Sobald die Kartenzusammenstellung erzeugt ist, können DEM-Daten im Kontext-Men�
 <context>
     <name>CCreateMapWMS</name>
     <message>
-        <location filename="../CCreateMapWMS.cpp" line="114"/>
-        <location filename="../CCreateMapWMS.cpp" line="132"/>
-        <location filename="../CCreateMapWMS.cpp" line="152"/>
-        <location filename="../CCreateMapWMS.cpp" line="290"/>
         <source>Error...</source>
-        <translation>Fehler ...</translation>
+        <translation type="obsolete">Fehler ...</translation>
     </message>
     <message>
-        <location filename="../CCreateMapWMS.cpp" line="114"/>
         <source>Failed to query capabilities.
 
 %1
 
 </source>
-        <translation>Abfrage der Fähigkeiten fehlgeschlagen.
+        <translation type="obsolete">Abfrage der Fähigkeiten fehlgeschlagen.
 
 %1
 
 </translation>
     </message>
     <message>
-        <location filename="../CCreateMapWMS.cpp" line="132"/>
         <source>Failed to parse capabilities.
 
 %1
 
 %2</source>
-        <translation>Parsen der Fähigkeiten fehlgeschlagen.
+        <translation type="obsolete">Parsen der Fähigkeiten fehlgeschlagen.
 
 %1
 
 %2</translation>
     </message>
     <message>
-        <location filename="../CCreateMapWMS.cpp" line="152"/>
         <source>Failed to check WMS version.
 
 Expected %1, received %2.</source>
-        <translation>Prüfung der WMS-Version fehlgeschlagen.
+        <translation type="obsolete">Prüfung der WMS-Version fehlgeschlagen.
 
 Erwartet: %1, empfangen %2.</translation>
     </message>
     <message>
-        <location filename="../CCreateMapWMS.cpp" line="290"/>
         <source>You need to select at least one layer.</source>
-        <translation>Mindestens eine Ebene muss ausgewählt werden.</translation>
+        <translation type="obsolete">Mindestens eine Ebene muss ausgewählt werden.</translation>
     </message>
     <message>
-        <location filename="../CCreateMapWMS.cpp" line="425"/>
         <source>Define GDAL WMS definition file...</source>
-        <translation>GDAL-WMS-Definitionsdatei festlegen ...</translation>
+        <translation type="obsolete">GDAL-WMS-Definitionsdatei festlegen ...</translation>
     </message>
 </context>
 <context>
     <name>CDeviceGPSD</name>
     <message>
-        <location filename="../CDeviceGPSD.cpp" line="90"/>
-        <location filename="../CDeviceGPSD.cpp" line="96"/>
-        <location filename="../CDeviceGPSD.cpp" line="102"/>
-        <location filename="../CDeviceGPSD.cpp" line="108"/>
-        <location filename="../CDeviceGPSD.cpp" line="114"/>
-        <location filename="../CDeviceGPSD.cpp" line="120"/>
-        <location filename="../CDeviceGPSD.cpp" line="126"/>
-        <location filename="../CDeviceGPSD.cpp" line="132"/>
         <source>Error...</source>
-        <translation>Fehler ...</translation>
+        <translation type="obsolete">Fehler ...</translation>
     </message>
     <message>
-        <location filename="../CDeviceGPSD.cpp" line="90"/>
         <source>GPSD: Upload waypoints is not implemented.</source>
-        <translation>GPSD: Das Hochladen von Wegpunkten auf das Gerät ist nicht implementiert.</translation>
+        <translation type="obsolete">GPSD: Das Hochladen von Wegpunkten auf das Gerät ist nicht implementiert.</translation>
     </message>
     <message>
-        <location filename="../CDeviceGPSD.cpp" line="96"/>
         <source>GPSD: Download waypoints is not implemented.</source>
-        <translation>GPSD: Das Herunterladen von Wegpunkten vom Gerät ist nicht implementiert.</translation>
+        <translation type="obsolete">GPSD: Das Herunterladen von Wegpunkten vom Gerät ist nicht implementiert.</translation>
     </message>
     <message>
-        <location filename="../CDeviceGPSD.cpp" line="102"/>
         <source>GPSD: Upload tracks is not implemented.</source>
-        <translation>GPSD: Das Hochladen von Tracks auf das Gerät ist nicht implementiert.</translation>
+        <translation type="obsolete">GPSD: Das Hochladen von Tracks auf das Gerät ist nicht implementiert.</translation>
     </message>
     <message>
-        <location filename="../CDeviceGPSD.cpp" line="108"/>
         <source>GPSD: Download tracks is not implemented.</source>
-        <translation>GPSD: Das Herunterladen von Tracks vom Gerät ist nicht implementiert.</translation>
+        <translation type="obsolete">GPSD: Das Herunterladen von Tracks vom Gerät ist nicht implementiert.</translation>
     </message>
     <message>
-        <location filename="../CDeviceGPSD.cpp" line="114"/>
         <source>GPSD: Upload routes is not implemented.</source>
-        <translation>GPSD: Das Hochladen von Routen auf das Gerät ist nicht implementiert.</translation>
+        <translation type="obsolete">GPSD: Das Hochladen von Routen auf das Gerät ist nicht implementiert.</translation>
     </message>
     <message>
-        <location filename="../CDeviceGPSD.cpp" line="120"/>
         <source>GPSD: Download routes is not implemented.</source>
-        <translation>GPSD: Das Herunterladen von Routen vom Gerät ist nicht implementiert.</translation>
+        <translation type="obsolete">GPSD: Das Herunterladen von Routen vom Gerät ist nicht implementiert.</translation>
     </message>
     <message>
-        <location filename="../CDeviceGPSD.cpp" line="126"/>
         <source>GPSD: Upload maps is not implemented.</source>
-        <translation>GPSD: Das Hochladen von Karten auf das Gerät ist nicht implementiert.</translation>
+        <translation type="obsolete">GPSD: Das Hochladen von Karten auf das Gerät ist nicht implementiert.</translation>
     </message>
     <message>
-        <location filename="../CDeviceGPSD.cpp" line="132"/>
         <source>GPSD: Download screenshots is not implemented.</source>
-        <translation>GPSD: Das Herunterladen von Bildschirmfotos vom Gerät ist nicht implementiert.</translation>
+        <translation type="obsolete">GPSD: Das Herunterladen von Bildschirmfotos vom Gerät ist nicht implementiert.</translation>
     </message>
 </context>
 <context>
@@ -1461,56 +1436,40 @@ Erwartet: %1, empfangen %2.</translation>
 <context>
     <name>CDeviceMikrokopter</name>
     <message>
-        <location filename="../CDeviceMikrokopter.cpp" line="60"/>
-        <location filename="../CDeviceMikrokopter.cpp" line="131"/>
-        <location filename="../CDeviceMikrokopter.cpp" line="150"/>
-        <location filename="../CDeviceMikrokopter.cpp" line="156"/>
-        <location filename="../CDeviceMikrokopter.cpp" line="162"/>
-        <location filename="../CDeviceMikrokopter.cpp" line="168"/>
-        <location filename="../CDeviceMikrokopter.cpp" line="174"/>
-        <location filename="../CDeviceMikrokopter.cpp" line="180"/>
         <source>Error...</source>
-        <translation>Fehler...</translation>
+        <translation type="obsolete">Fehler...</translation>
     </message>
     <message>
-        <location filename="../CDeviceMikrokopter.cpp" line="60"/>
         <source>Mikrokopter: Failed to open serial port.</source>
-        <translation>Mikrokopter: Fehler beim Öffnen der seriellen Schnittstelle.</translation>
+        <translation type="obsolete">Mikrokopter: Fehler beim Öffnen der seriellen Schnittstelle.</translation>
     </message>
     <message>
-        <location filename="../CDeviceMikrokopter.cpp" line="131"/>
         <source>Mikrokopter: Upload waypoints is not implemented.</source>
-        <translation>Mikrokopter: Das Hochladen von Wegpunkten ist nicht implementiert.</translation>
+        <translation type="obsolete">Mikrokopter: Das Hochladen von Wegpunkten ist nicht implementiert.</translation>
     </message>
     <message>
-        <location filename="../CDeviceMikrokopter.cpp" line="150"/>
         <source>Mikrokopter: Upload tracks is not implemented.</source>
-        <translation>Mikrokopter: Das Hochladen von Tracks ist nicht implementiert.</translation>
+        <translation type="obsolete">Mikrokopter: Das Hochladen von Tracks ist nicht implementiert.</translation>
     </message>
     <message>
-        <location filename="../CDeviceMikrokopter.cpp" line="156"/>
         <source>Mikrokopter: Download tracks is not implemented.</source>
-        <translation>Mikrokopter: Das Herunterladen von Tracks ist nicht implementiert.</translation>
+        <translation type="obsolete">Mikrokopter: Das Herunterladen von Tracks ist nicht implementiert.</translation>
     </message>
     <message>
-        <location filename="../CDeviceMikrokopter.cpp" line="162"/>
         <source>Mikrokopter: Upload routes is not implemented.</source>
-        <translation>Mikrokopter: Das Hochladen von Routen ist nicht implementiert.</translation>
+        <translation type="obsolete">Mikrokopter: Das Hochladen von Routen ist nicht implementiert.</translation>
     </message>
     <message>
-        <location filename="../CDeviceMikrokopter.cpp" line="168"/>
         <source>Mikrokopter: Download routes is not implemented.</source>
-        <translation>Mikrokopter: Das Herunterladen von Routen ist nicht implementiert.</translation>
+        <translation type="obsolete">Mikrokopter: Das Herunterladen von Routen ist nicht implementiert.</translation>
     </message>
     <message>
-        <location filename="../CDeviceMikrokopter.cpp" line="174"/>
         <source>Mikrokopter: Upload maps is not implemented.</source>
-        <translation>Mikrokopter: Das Hochladen von Karten ist nicht implementiert.</translation>
+        <translation type="obsolete">Mikrokopter: Das Hochladen von Karten ist nicht implementiert.</translation>
     </message>
     <message>
-        <location filename="../CDeviceMikrokopter.cpp" line="180"/>
         <source>Mikrokopter: Download screenschots is not implemented.</source>
-        <translation>Mikrokopter: Das Herunterladen von Bildschirmfotos ist nicht implementiert.</translation>
+        <translation type="obsolete">Mikrokopter: Das Herunterladen von Bildschirmfotos ist nicht implementiert.</translation>
     </message>
 </context>
 <context>
@@ -2278,33 +2237,26 @@ Erwartet: %1, empfangen %2.</translation>
     <name>CDlgMapOSMConfig</name>
     <message>
         <location filename="../CDlgMapOSMConfig.cpp" line="37"/>
-        <location filename="../CDlgMapOSMConfig.cpp.rej" line="20"/>
-        <location filename="../CDlgMapOSMConfig.cpp.rej" line="21"/>
         <source>Name</source>
         <translation>Name</translation>
     </message>
     <message>
         <location filename="../CDlgMapOSMConfig.cpp" line="37"/>
-        <location filename="../CDlgMapOSMConfig.cpp.rej" line="20"/>
-        <location filename="../CDlgMapOSMConfig.cpp.rej" line="21"/>
         <source>Path</source>
         <translation>Pfad</translation>
     </message>
     <message>
         <location filename="../CDlgMapOSMConfig.cpp" line="37"/>
-        <location filename="../CDlgMapOSMConfig.cpp.rej" line="21"/>
         <source>Key</source>
         <translation>Schlüssel</translation>
     </message>
     <message>
         <location filename="../CDlgMapOSMConfig.cpp" line="46"/>
-        <location filename="../CDlgMapOSMConfig.cpp.rej" line="34"/>
         <source>Built-in maps</source>
         <translation>Eingebaute Karten</translation>
     </message>
     <message>
         <location filename="../CDlgMapOSMConfig.cpp" line="49"/>
-        <location filename="../CDlgMapOSMConfig.cpp.rej" line="37"/>
         <source>Custom maps</source>
         <translation>Eigene Karten</translation>
     </message>
@@ -2386,13 +2338,13 @@ Erwartet: %1, empfangen %2.</translation>
     <message>
         <location filename="../CGarminExport.cpp" line="58"/>
         <source>Select ouput path...</source>
-        <translation>Outputpfad wählen ...</translation>
+        <translation>Ausgabepfad wählen ...</translation>
     </message>
     <message>
         <location filename="../CGarminExport.cpp" line="71"/>
         <source>Creating image from maps:
 </source>
-        <translation>Erzeuge ein Bild aus der Karte:
+        <translation>Aus den Karten wird ein Abbild erzeugt:
 </translation>
     </message>
     <message>
@@ -2403,7 +2355,7 @@ Erwartet: %1, empfangen %2.</translation>
     <message>
         <location filename="../CGarminExport.cpp" line="91"/>
         <source>Map: %1 (Key: %2)</source>
-        <translation>Karte: %1 (Schlüssel:%2)</translation>
+        <translation>Karte: %1 (Schlüssel: %2)</translation>
     </message>
     <message>
         <location filename="../CGarminExport.cpp" line="109"/>
@@ -2414,33 +2366,33 @@ Erwartet: %1, empfangen %2.</translation>
     <message>
         <location filename="../CGarminExport.cpp" line="229"/>
         <source>Failed to read: </source>
-        <translation>Lesen gescheitert: </translation>
+        <translation>Lesen fehlgeschlagen: </translation>
     </message>
     <message>
         <location filename="../CGarminExport.cpp" line="347"/>
         <source>Failed to open: </source>
-        <translation>Öffnen gescheitert: </translation>
+        <translation>Öffnen fehlgeschlagen: </translation>
     </message>
     <message>
         <location filename="../CGarminExport.cpp" line="358"/>
         <location filename="../CGarminExport.cpp" line="362"/>
         <source>Bad file format: </source>
-        <translation>Unbekanntes Dateiformat: </translation>
+        <translation>Falsches Dateiformat: </translation>
     </message>
     <message>
         <location filename="../CGarminExport.cpp" line="399"/>
         <source>contains a duplicate internal filename. Skipped!</source>
-        <translation>Enthält einen doppelten internen Dateinamen. Abgebrochen!</translation>
+        <translation>enthält einen doppelten internen Dateinamen. Übersprungen!</translation>
     </message>
     <message>
         <location filename="../CGarminExport.cpp" line="435"/>
         <source>Failed to read file structure: </source>
-        <translation>Lesen der Dateistruktur gescheitert: </translation>
+        <translation>Lesen der Dateistruktur fehlgeschlagen: </translation>
     </message>
     <message>
         <location filename="../CGarminExport.cpp" line="619"/>
         <source>FAT entries: %1 (of %2) Failed!</source>
-        <translation>FAT Einträge: %1 (von %2) gescheitert!</translation>
+        <translation>FAT-Einträge: %1 (von %2) fehlgeschlagen!</translation>
     </message>
     <message>
         <location filename="../CGarminExport.cpp" line="620"/>
@@ -2452,12 +2404,12 @@ Erwartet: %1, empfangen %2.</translation>
     <message>
         <location filename="../CGarminExport.cpp" line="624"/>
         <source>FAT entries: %1 (of %2) </source>
-        <translation> FAT Einträge: %1 (von %2) </translation>
+        <translation>FAT-Einträge: %1 (von %2) </translation>
     </message>
     <message>
         <location filename="../CGarminExport.cpp" line="629"/>
         <source>Block count: %1 (of %2) Failed!</source>
-        <translation>Blockzähler: %1 (of %2) Fehler!</translation>
+        <translation>Blockzähler: %1 (of %2) fehlgeschlagen!</translation>
     </message>
     <message>
         <location filename="../CGarminExport.cpp" line="634"/>
@@ -2467,7 +2419,7 @@ Erwartet: %1, empfangen %2.</translation>
     <message>
         <location filename="../CGarminExport.cpp" line="640"/>
         <source>File size: %1 MB (of %2 MB) Failed!</source>
-        <translation>Dateigröße: %1 MB (von %2 MB) gescheitert!</translation>
+        <translation>Dateigröße: %1 MB (von %2 MB) fehlgeschlagen!</translation>
     </message>
     <message>
         <location filename="../CGarminExport.cpp" line="645"/>
@@ -2477,7 +2429,7 @@ Erwartet: %1, empfangen %2.</translation>
     <message>
         <location filename="../CGarminExport.cpp" line="660"/>
         <source>Initialize %1</source>
-        <translation>Initialisiere %1</translation>
+        <translation>%1 wird initialisiert</translation>
     </message>
     <message>
         <location filename="../CGarminExport.cpp" line="670"/>
@@ -2487,40 +2439,38 @@ Erwartet: %1, empfangen %2.</translation>
     <message>
         <location filename="../CGarminExport.cpp" line="816"/>
         <source>Copy tile data...</source>
-        <translation>Daten der Kacheln kopieren ...</translation>
+        <translation>Daten der Kacheln werden kopiert ...</translation>
     </message>
     <message>
         <location filename="../CGarminExport.cpp" line="822"/>
         <source>    Copy %1...</source>
-        <translation>    Kopiere %1...</translation>
+        <translation>    %1 wird kopiert ...</translation>
     </message>
     <message>
         <location filename="../CGarminExport.cpp" line="852"/>
         <source>Copy typ files...</source>
-        <translation>Typdateien kopieren ...</translation>
+        <translation>Typ-Dateien werden kopiert ...</translation>
     </message>
     <message>
         <location filename="../CGarminExport.cpp" line="873"/>
         <source>Write map lookup table...</source>
-        <translation>Kartenindexdatei schreiben ...</translation>
+        <translation>Kartenindexdatei wird geschrieben ...</translation>
     </message>
     <message>
         <location filename="../CGarminExport.cpp" line="884"/>
         <source>Abort due to errors.</source>
-        <translation>Wegen zu vieler Fehler abgebrochen.</translation>
+        <translation>Abbruch wegen Fehlern.</translation>
     </message>
 </context>
 <context>
     <name>CGarminIndex</name>
     <message>
-        <location filename="../CGarminIndex.cpp" line="143"/>
         <source>Create index... %1</source>
-        <translation>Erzeuge Index ... %1</translation>
+        <translation type="obsolete">Erzeuge Index ... %1</translation>
     </message>
     <message>
-        <location filename="../CGarminIndex.cpp" line="403"/>
         <source>Done</source>
-        <translation>Fertig</translation>
+        <translation type="obsolete">Fertig</translation>
     </message>
 </context>
 <context>
@@ -2528,28 +2478,28 @@ Erwartet: %1, empfangen %2.</translation>
     <message>
         <location filename="../CGarminTile.cpp" line="59"/>
         <source>Failed to read: </source>
-        <translation>Lesen gescheitert: </translation>
+        <translation>Lesen fehlgeschlagen: </translation>
     </message>
     <message>
         <location filename="../CGarminTile.cpp" line="109"/>
         <source>Failed to open: </source>
-        <translation>Öffnen gescheitert: </translation>
+        <translation>Öffnen fehlgeschlagen: </translation>
     </message>
     <message>
         <location filename="../CGarminTile.cpp" line="142"/>
         <location filename="../CGarminTile.cpp" line="146"/>
         <source>Bad file format: </source>
-        <translation>Unbekanntes Dateiformat: </translation>
+        <translation>Falsches Dateiformat: </translation>
     </message>
     <message>
         <location filename="../CGarminTile.cpp" line="237"/>
         <source>Failed to read file structure: </source>
-        <translation>Lesen der Dateistruktur gescheitert: </translation>
+        <translation>Lesen der Dateistruktur fehlgeschlagen: </translation>
     </message>
     <message>
         <location filename="../CGarminTile.cpp" line="274"/>
         <source>File is NT format. QLandkarte GT is unable to read map files with NT format: </source>
-        <translation>Die Datei ist im NT format. QLandkarte GT ist nicht in der Lage Karten im NT Format zu lesen:</translation>
+        <translation>Die Datei ist im NT-Format. QLandkarte GT ist nicht in der Lage, Karten im NT-Format zu lesen:</translation>
     </message>
     <message>
         <source>File is NT format. Unable to read: </source>
@@ -2558,7 +2508,7 @@ Erwartet: %1, empfangen %2.</translation>
     <message>
         <location filename="../CGarminTile.cpp" line="397"/>
         <source>File contains locked / encypted data. Garmin does not want you to use this file with any other software than the one supplied by Garmin.</source>
-        <translation>Datei enthält verschlüsselte Daten. Garmin möchte nicht, dass Du diese Datei mit anderer Software öffnest als der von Garmin zur Verfügung gestellten.</translation>
+        <translation>Die Datei enthält gesperrte bzw. verschlüsselte Daten. Garmin möchte nicht, dass Sie diese Datei mit einer anderen Software als der von Garmin zur Verfügung gestellten benutzen.</translation>
     </message>
 </context>
 <context>
@@ -2578,7 +2528,7 @@ Erwartet: %1, empfangen %2.</translation>
     <message>
         <location filename="../CGeoDB.cpp" line="97"/>
         <source>All items you see on the map.</source>
-        <translation>Alle Elemente, die Du auf der Karte siehst.</translation>
+        <translation>Alle Elemente, die Sie auf der Karte sehen.</translation>
     </message>
     <message>
         <location filename="../CGeoDB.cpp" line="102"/>
@@ -2618,7 +2568,7 @@ Erwartet: %1, empfangen %2.</translation>
     <message>
         <location filename="../CGeoDB.cpp" line="140"/>
         <source>All items that lost their parent folder as you deleted it.</source>
-        <translation>Alle Elemente die ihren Ordner verloren haben, weil Du ihn gelöscht hast.</translation>
+        <translation>Alle Elemente, die ihren Ordner verloren haben, weil Sie ihn gelöscht haben.</translation>
     </message>
     <message>
         <location filename="../CGeoDB.cpp" line="144"/>
@@ -2628,7 +2578,7 @@ Erwartet: %1, empfangen %2.</translation>
     <message>
         <location filename="../CGeoDB.cpp" line="148"/>
         <source>All your data grouped by folders.</source>
-        <translation>Alle deine Daten in Ordnern gruppiert.</translation>
+        <translation>Alle Ihre Daten in Ordnern gruppiert.</translation>
     </message>
     <message>
         <location filename="../CGeoDB.cpp" line="183"/>
@@ -3368,64 +3318,52 @@ Sollen die Änderungen gespeichert werden?</translation>
 <context>
     <name>CMap3DWidget</name>
     <message>
-        <location filename="../CMap3DWidget.cpp" line="168"/>
         <source>Flat / 3D Mode</source>
-        <translation>2D/3D-Kartendarstellung </translation>
+        <translation type="obsolete">2D/3D-Kartendarstellung </translation>
     </message>
     <message>
-        <location filename="../CMap3DWidget.cpp" line="173"/>
         <source>Show Track</source>
-        <translation>Track zeigen</translation>
+        <translation type="obsolete">Track zeigen</translation>
     </message>
     <message>
-        <location filename="../CMap3DWidget.cpp" line="178"/>
         <source>Track on Map</source>
-        <translation>Track auf der Karte</translation>
+        <translation type="obsolete">Track auf der Karte</translation>
     </message>
     <message>
-        <location filename="../CMap3DWidget.cpp" line="183"/>
         <source>Inc. Elevation</source>
-        <translation>Erhebung vergrößern</translation>
+        <translation type="obsolete">Erhebung vergrößern</translation>
     </message>
     <message>
-        <location filename="../CMap3DWidget.cpp" line="186"/>
         <source>Dec. Elevation</source>
-        <translation>Erhebung verkleinern</translation>
+        <translation type="obsolete">Erhebung verkleinern</translation>
     </message>
     <message>
-        <location filename="../CMap3DWidget.cpp" line="189"/>
         <source>Reset Elevation</source>
-        <translation>Erhebung zurücksetzen</translation>
+        <translation type="obsolete">Erhebung zurücksetzen</translation>
     </message>
     <message>
-        <location filename="../CMap3DWidget.cpp" line="192"/>
         <source>Reset light source</source>
-        <translation>Lichtquelle zurücksetzen</translation>
+        <translation type="obsolete">Lichtquelle zurücksetzen</translation>
     </message>
     <message>
-        <location filename="../CMap3DWidget.cpp" line="329"/>
         <source>Add Waypoint ...</source>
-        <translation>Wegpunkt hinzufügen ...</translation>
+        <translation type="obsolete">Wegpunkt hinzufügen ...</translation>
     </message>
     <message>
-        <location filename="../CMap3DWidget.cpp" line="333"/>
         <source>Copy Pos. Waypoint</source>
-        <translation>Wegpunktposition kopieren</translation>
+        <translation type="obsolete">Wegpunktposition kopieren</translation>
     </message>
     <message>
-        <location filename="../CMap3DWidget.cpp" line="334"/>
         <source>Edit Waypoint...</source>
-        <translation>Wegepunkt bearbeiten ...</translation>
+        <translation type="obsolete">Wegepunkt bearbeiten ...</translation>
     </message>
     <message>
-        <location filename="../CMap3DWidget.cpp" line="336"/>
         <source>Delete Waypoint</source>
-        <translation>Wegpunkt löschen</translation>
+        <translation type="obsolete">Wegpunkt löschen</translation>
     </message>
     <message>
-        <location filename="../CMap3DWidget.cpp" line="912"/>
         <source>:/skybox/%1.bmp</source>
-        <translation>:/skybox/%1.bmp</translation>
+        <translation type="obsolete">:/skybox/%1.bmp</translation>
     </message>
 </context>
 <context>
@@ -3673,7 +3611,7 @@ Sollen die Änderungen gespeichert werden?</translation>
     <message>
         <location filename="../CMapQMAP.cpp" line="60"/>
         <source>Map Level</source>
-        <translation>Kartenlevel</translation>
+        <translation>Kartenebene</translation>
     </message>
     <message>
         <location filename="../CMapQMAP.cpp" line="60"/>
@@ -4695,22 +4633,22 @@ Sollen die Änderungen gespeichert werden?</translation>
         <translation>Vektor</translation>
     </message>
     <message>
-        <location filename="../CMapToolWidget.cpp" line="376"/>
+        <location filename="../CMapToolWidget.cpp" line="379"/>
         <source>Error export maps...</source>
         <translation>Fehler in der zu exportierenden Karte ...</translation>
     </message>
     <message>
-        <location filename="../CMapToolWidget.cpp" line="376"/>
+        <location filename="../CMapToolWidget.cpp" line="379"/>
         <source>You need to have the GDAL toolchain installed in your path.</source>
         <translation>Die GDAL-Werkzeugkette muß in Deinem Pfad installiert sein.</translation>
     </message>
     <message>
-        <location filename="../CMapToolWidget.cpp" line="396"/>
+        <location filename="../CMapToolWidget.cpp" line="399"/>
         <source>Select DEM file...</source>
         <translation>DEM-Datei auswählen ...</translation>
     </message>
     <message>
-        <location filename="../CMapToolWidget.cpp" line="396"/>
+        <location filename="../CMapToolWidget.cpp" line="399"/>
         <source>16bit Srtm Data (*.tif *.tiff *.hgt)</source>
         <translation>16bit SRTM Daten (*.tif *tiff *.hgt)</translation>
     </message>
@@ -4726,32 +4664,24 @@ Sollen die Änderungen gespeichert werden?</translation>
 <context>
     <name>CMapWMS</name>
     <message>
-        <location filename="../CMapWMS.cpp" line="38"/>
-        <location filename="../CMapWMS.cpp" line="47"/>
-        <location filename="../CMapWMS.cpp" line="64"/>
         <source>Error...</source>
-        <translation>Fehler ...</translation>
+        <translation type="obsolete">Fehler ...</translation>
     </message>
     <message>
-        <location filename="../CMapWMS.cpp" line="38"/>
-        <location filename="../CMapWMS.cpp" line="47"/>
         <source>Failed to load file: %1</source>
-        <translation>Laden der Datei gescheitert: %1</translation>
+        <translation type="obsolete">Laden der Datei gescheitert: %1</translation>
     </message>
     <message>
-        <location filename="../CMapWMS.cpp" line="64"/>
         <source>No georeference information found.</source>
-        <translation>Keine Georefezeninformationen gefunden.</translation>
+        <translation type="obsolete">Keine Georefezeninformationen gefunden.</translation>
     </message>
     <message>
-        <location filename="../CMapWMS.cpp" line="302"/>
         <source>Overzoom x%1</source>
-        <translation>Overzoom x%1</translation>
+        <translation type="obsolete">Overzoom x%1</translation>
     </message>
     <message>
-        <location filename="../CMapWMS.cpp" line="306"/>
         <source>Zoom level x%1</source>
-        <translation>Zoom-Stufe x%1</translation>
+        <translation type="obsolete">Zoom-Stufe x%1</translation>
     </message>
 </context>
 <context>
@@ -7349,54 +7279,44 @@ Once you created a map set you can attach DEM data to it via the context menu in
 <context>
     <name>ICreateMapWMS</name>
     <message>
-        <location filename="../ICreateMapWMS.ui" line="13"/>
         <source>Form</source>
-        <translation>Form</translation>
+        <translation type="obsolete">Form</translation>
     </message>
     <message>
-        <location filename="../ICreateMapWMS.ui" line="21"/>
         <source>Server:</source>
-        <translation>Server: </translation>
+        <translation type="obsolete">Server: </translation>
     </message>
     <message>
-        <location filename="../ICreateMapWMS.ui" line="31"/>
         <source>Load Capabilities</source>
-        <translation>Möglichkeiten feststellen</translation>
+        <translation type="obsolete">Möglichkeiten feststellen</translation>
     </message>
     <message>
-        <location filename="../ICreateMapWMS.ui" line="52"/>
         <source>Title:</source>
-        <translation>Titel:</translation>
+        <translation type="obsolete">Titel:</translation>
     </message>
     <message>
-        <location filename="../ICreateMapWMS.ui" line="59"/>
         <source>Format:</source>
-        <translation>Format:</translation>
+        <translation type="obsolete">Format:</translation>
     </message>
     <message>
-        <location filename="../ICreateMapWMS.ui" line="69"/>
         <source>Projection</source>
-        <translation>Projektion</translation>
+        <translation type="obsolete">Projektion</translation>
     </message>
     <message>
-        <location filename="../ICreateMapWMS.ui" line="79"/>
         <source>Layers:</source>
-        <translation>Ebenen:</translation>
+        <translation type="obsolete">Ebenen:</translation>
     </message>
     <message>
-        <location filename="../ICreateMapWMS.ui" line="96"/>
         <source>File</source>
-        <translation>Datei</translation>
+        <translation type="obsolete">Datei</translation>
     </message>
     <message>
-        <location filename="../ICreateMapWMS.ui" line="112"/>
         <source>...</source>
-        <translation>...</translation>
+        <translation type="obsolete">...</translation>
     </message>
     <message>
-        <location filename="../ICreateMapWMS.ui" line="134"/>
         <source>Save</source>
-        <translation>Speichern</translation>
+        <translation type="obsolete">Speichern</translation>
     </message>
 </context>
 <context>
@@ -7540,7 +7460,45 @@ p, li { white-space: pre-wrap; }
 &lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;;&quot;&gt;down: move light source south&lt;/span&gt;&lt;/p&gt;
 &lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;;&quot;&gt;left: move light source west&lt;/span&gt;&lt;/p&gt;
 &lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;;&quot;&gt;right: move light source east&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Sans Serif&apos;; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Steuerung der 3D-Ansicht&lt;/span&gt;&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-weight:600;&quot;&gt;&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Die Ansicht und der Beobachterstandpunkt (POV) werden durch verschiedene Tasten zusammen mit Mausbewegungen verändert. &lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;FPV/Drehen:&lt;/span&gt;&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Es gibt grundsätzlich zwei Modi: Die Ich-Perspektive (FPV) und den Rotationsmodus (Drehen). Im FPV-Modus bewegt sich der Beobachterstandpunkt (POV) frei auf dem Bildschirm. Im Rotationsmodus kreist der Beobachterstandpunkt um das Zentrum der Karte.&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Track-Modus:&lt;/span&gt;&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Im Track-Modus ist der Beobachterstandpunkt (POV) an die Punkte eines ausgewählten Tracks gekoppelt. Sie können die &apos;W&apos;- und &apos;S&apos;-Tasten verwenden, um sich entlang des Tracks zu bewegen. Bewegen Sie die Maus, während Sie die linke Maustaste gedrückt halten, um sich umzusehen.&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Maus:&lt;/span&gt;&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Sie können Ihren Beobachterstandpunkt mit Mausbewegungen steuern. Die linke Maustaste muss dabei gedrückt gehalten werden. Bewegen der Maus nach oben und unten lässt den Beobachter nach oben bzw. unten blicken. Die Reaktion auf Bewegungen nach links bzw. rechts hängt vom Modus ab:&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;FPV: Der Beobachterstandpunkt dreht sich um seine Achse. Rotationsmodus: Die gesamte Ansicht dreht sich.&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Mausrad:&lt;/span&gt;&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Mit dem Mausrad können Sie die gesamte Ansicht vergrößern bzw. verkleinern. Wenn Sie beim Rollen die Umschalt-Taste gedrückt halten, ändert sich nur die Höhe der 3D-Ansicht.&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Tastaturbefehle:&lt;/span&gt;&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Sie können Ihren Beobachterstandpunkt in der Ansicht mit Tastaturbefehlen verändern. Dies ist unabhängig vom gewählten Modus.&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;W: nach vorne bewegen&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;S: rückwärts bewegen&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;A: seitwärts nach links bewegen&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;D: seitwärts nach rechts bewegen&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Umschalt + W: nach oben bewegen&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Umschalt + S: nach unten bewegen&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Lichtquelle:&lt;/span&gt;&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Um die Lichtquelle zu bewegen, muss die &apos;L&apos;-Taste und die linke Maustaste gedrückt gehalten werden, während die Maus bewegt wird.&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;nach oben: Lichtquelle nach Norden bewegen&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;nach unten: Lichtquelle nach Süden bewegen&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;nach links: Lichtquelle nach Westen bewegen&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;nach rechts: Lichtquelle nach Osten bewegen&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
@@ -8200,12 +8158,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../IDlgConfig3D.ui" line="14"/>
         <source>3D View Options...</source>
-        <translation>Optionen 3D Ansicht</translation>
+        <translation>Optionen 3D-Ansicht...</translation>
     </message>
     <message>
         <location filename="../IDlgConfig3D.ui" line="29"/>
         <source>Model Quality</source>
-        <translation>Modelqualität</translation>
+        <translation>Modellqualität</translation>
     </message>
     <message>
         <location filename="../IDlgConfig3D.ui" line="39"/>
@@ -8498,7 +8456,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../IDlgEditWpt.ui" line="262"/>
         <source>None</source>
-        <translation>Gar nichts</translation>
+        <translation>Keine</translation>
     </message>
     <message>
         <location filename="../IDlgEditWpt.ui" line="288"/>
@@ -9308,7 +9266,7 @@ DEM: %2</translation>
     <message>
         <location filename="../IMapQMAPExport.ui" line="167"/>
         <source>None</source>
-        <translation>Gar nichts</translation>
+        <translation>Keine</translation>
     </message>
     <message>
         <location filename="../IMapQMAPExport.ui" line="176"/>
@@ -10140,7 +10098,7 @@ Geschätzes Ende: %02i:%02i:%02i[hh:mm:ss]</translation>
         <translation>Auswahl verwerfen</translation>
     </message>
     <message>
-        <location filename="../main.cpp" line="54"/>
+        <location filename="../main.cpp" line="55"/>
         <source>There is a problem with your Proj4 library and localization. The key issue is that the floating point definition in your localization is different from what Proj4 uses for it&apos;s correction tables (&apos;1.2&apos; vs &apos;1,2&apos;). That might cause an offset when using raster maps. Vector maps are not affected, as they use a projection that works without a textual table. </source>
         <translation></translation>
     </message>
