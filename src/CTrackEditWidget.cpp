@@ -41,6 +41,38 @@
 
 #include <QtGui>
 
+
+#ifdef Q_WS_MAC
+#include <CoreFoundation/CoreFoundation.h>
+
+template<class T>
+class CFType
+{
+public:
+    CFType(const T & t) : ref(t) { }
+    ~CFType() { CFRelease(ref); }
+    operator T() const { return ref; }
+
+private:
+    T ref;
+};
+
+static QString CFStringToQString(const CFStringRef & str)
+{
+    CFIndex length = CFStringGetLength(str);
+    const UniChar * chars = CFStringGetCharactersPtr(str);
+    if (chars == 0) {
+        UniChar buffer[length];
+        CFStringGetCharacters(str, CFRangeMake(0, length), buffer);
+        return QString(reinterpret_cast<const QChar *>(buffer), length);
+    } else {
+        return QString(reinterpret_cast<const QChar *>(chars), length);
+    }
+}
+
+#endif
+
+
 bool CTrackTreeWidgetItem::operator< ( const QTreeWidgetItem & other ) const
 {
     const QString speed("/h");
@@ -497,6 +529,13 @@ void CTrackEditWidget::slotUpdate()
     QList<CTrack::pt_t>& trkpts           = track->getTrackPoints();
     QList<CTrack::pt_t>::iterator trkpt   = trkpts.begin();
 
+#ifdef Q_WS_MAC
+    // work around https://bugreports.qt.nokia.com/browse/QTBUG-21678
+    CFType<CFLocaleRef> loc(CFLocaleCopyCurrent());
+    CFType<CFDateFormatterRef> df(CFDateFormatterCreate(NULL, loc, kCFDateFormatterNoStyle, kCFDateFormatterNoStyle));
+    CFDateFormatterSetFormat(df, CFSTR("EEE MMM d HH:mm:ss yyyy"));
+#endif
+
     while(trkpt != trkpts.end())
     {
         CTrackTreeWidgetItem * item;
@@ -576,7 +615,13 @@ void CTrackEditWidget::slotUpdate()
         {
             QDateTime time = QDateTime::fromTime_t(trkpt->timestamp);
             time.setTimeSpec(Qt::LocalTime);
+#ifdef Q_WS_MAC
+            CFType<CFDateRef> cfdate(CFDateCreate(NULL, time.toTime_t() - kCFAbsoluteTimeIntervalSince1970));
+            CFType<CFStringRef> cfstr(CFDateFormatterCreateStringWithDate(NULL, df, cfdate));
+            str = CFStringToQString(cfstr);
+#else
             str = time.toString();
+#endif
         }
         else
         {

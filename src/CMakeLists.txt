@@ -617,6 +617,7 @@ if (APPLE)
   add_executable(${PROGNAME} MACOSX_BUNDLE ${qlandkarte_ALLINP} ${MAC_EXTRA_RES})
   set_target_properties(${PROGNAME} PROPERTIES
         MACOSX_BUNDLE_INFO_PLIST ${CMAKE_SOURCE_DIR}/MacOSX/Info.plist.in
+        LINK_FLAGS "-framework CoreFoundation"
   )
 
   add_custom_target(mac-deploy macdeployqt "${MAC_BUNDLE_PATH}"
