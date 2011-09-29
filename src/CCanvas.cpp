@@ -215,8 +215,16 @@ void CCanvas::resizeEvent(QResizeEvent * e)
 
     QSize s = e->size();
 
-    profile->move(20, s.height() - profile->height() - 20);
+    if(s.height() < 700)
+    {
+        profile->resize(200,80);
+    }
+    else
+    {
+        profile->resize(300,120);
+    }
 
+    profile->move(20, s.height() - profile->height() - 20);
 
     emit sigResize(e->size());
 }
@@ -473,8 +481,8 @@ void CCanvas::drawScale(QPainter& p)
 
     double a,b,d;
     int yshift = 0;
-    if (QApplication::desktop()->height() < 650) yshift = 60 ;
-    QPoint px1(rect().bottomRight() - QPoint(100,50 + yshift));
+//    if (QApplication::desktop()->height() < 650) yshift = 60 ;
+    QPoint px1(rect().bottomRight() - QPoint(50,30 + yshift));
 
     // step I: get the approximate distance for 200px in the bottom right corner
     double u1 = px1.x();
