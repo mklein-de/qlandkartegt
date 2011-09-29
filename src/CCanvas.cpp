@@ -586,7 +586,7 @@ void CCanvas::drawCompass(QPainter& p)
 
     p.save();
 
-    p.translate(size().width() - 50, size().height() - 50);
+    p.translate(size().width() - 50 - W/2, size().height() - 100);
     p.rotate(-CMapDB::self().getMap().getAngleNorth());
 
     p.setBrush(Qt::NoBrush);
