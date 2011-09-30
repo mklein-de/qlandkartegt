@@ -40,7 +40,11 @@ CMapDEM::CMapDEM(const QString& filename, CCanvas * parent)
 , old_my_yscale(0)
 , old_overlay(IMap::eNone)
 {
+#ifdef WIN32
+    dataset = (GDALDataset*)GDALOpen(filename.toLocal8Bit(),GA_ReadOnly);
+#else
     dataset = (GDALDataset*)GDALOpen(filename.toUtf8(),GA_ReadOnly);
+#endif
     if(dataset == 0)
     {
         QMessageBox::warning(0, tr("Error..."), 

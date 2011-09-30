@@ -39,8 +39,11 @@ CMapFile::CMapFile(const QString& filename, QObject * parent)
 , ok(false)
 , rasterBandCount(0)
 {
-
+#ifdef WIN32
+    dataset = (GDALDataset*)GDALOpen(filename.toLocal8Bit(),GA_ReadOnly);
+#else
     dataset = (GDALDataset*)GDALOpen(filename.toUtf8(),GA_ReadOnly);
+#endif
     if(dataset == 0) return;
 
     char str[1024];

@@ -32,8 +32,11 @@ CMapRaster::CMapRaster(const QString& fn, CCanvas * parent)
 , rasterBandCount(0)
 {
     filename = fn;
-
+#ifdef WIN32
+    dataset = (GDALDataset*)GDALOpen(filename.toLocal8Bit(),GA_ReadOnly);
+#else
     dataset = (GDALDataset*)GDALOpen(filename.toUtf8(),GA_ReadOnly);
+#endif
     if(dataset == 0)
     {
         QMessageBox::warning(0, tr("Error..."), tr("Failed to load file: %1").arg(filename));
