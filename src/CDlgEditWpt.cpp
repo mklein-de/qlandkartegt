@@ -179,18 +179,25 @@ int CDlgEditWpt::exec()
             listBuddies->show();
             checkExportBuddies->show();
         }
+
+        webView->setHtml(html);
+        webView->page()->setLinkDelegationPolicy( QWebPage::DelegateAllLinks );
+        checkHint->setEnabled(wpt.hasHiddenInformation());
+
     }
     else
     {
         listBuddies->hide();
         checkExportBuddies->hide();
+        checkHint->hide();
+
+        if(!link.isEmpty())
+        {
+            webView->setUrl(link);
+        }
     }
 
 
-    webView->setHtml(html);
-    webView->page()->setLinkDelegationPolicy( QWebPage::DelegateAllLinks );
-
-    checkHint->setEnabled(wpt.hasHiddenInformation());
 
 
     QStringList caches;
