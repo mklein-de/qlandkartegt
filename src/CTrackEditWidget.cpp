@@ -1277,7 +1277,7 @@ void CTrackEditWidget::slotStagesChanged()
     textStages->clear();
     if(track.isNull() || originator) return;
 
-    // get waypoints near track    
+    // get waypoints near track
     originator = true;
     track->scaleWpt2Track(wpts);
     checkStages->setCheckState(track->getDoScaleWpt2Track());
@@ -1389,6 +1389,7 @@ void CTrackEditWidget::updateStages(QList<CTrack::wpt_t>& wpts)
     table->cellAt(0,eSym).setFormat(fmtCharHeader);
     table->cellAt(0,eEle).setFormat(fmtCharHeader);
     table->cellAt(0,eToLast).setFormat(fmtCharHeader);
+    table->cellAt(0,eToNext).setFormat(fmtCharHeader);
     table->cellAt(0,eTotal).setFormat(fmtCharHeader);
     table->cellAt(0,eInfo).setFormat(fmtCharHeader);
     table->cellAt(0,eComment).setFormat(fmtCharHeader);
@@ -1396,6 +1397,7 @@ void CTrackEditWidget::updateStages(QList<CTrack::wpt_t>& wpts)
     table->cellAt(0,eInfo).firstCursorPosition().insertText(tr("Info"));
     table->cellAt(0,eEle).firstCursorPosition().insertText(tr("Ele. wpt/trk"));
     table->cellAt(0,eToLast).firstCursorPosition().insertText(tr("to Last"));
+    table->cellAt(0,eToNext).firstCursorPosition().insertText(tr("to Next"));
     table->cellAt(0,eTotal).firstCursorPosition().insertText(tr("Total"));
     table->cellAt(0,eComment).firstCursorPosition().insertText(tr("Comment"));
 
@@ -1403,7 +1405,7 @@ void CTrackEditWidget::updateStages(QList<CTrack::wpt_t>& wpts)
     table->cellAt(1,eSym).firstCursorPosition().insertImage(":/icons/face-plain.png");
     table->cellAt(1,eInfo).firstCursorPosition().insertText(tr("Start"), fmtCharStandard);
     IUnit::self().meter2distance(0,val,unit);
-    table->cellAt(1,eToLast).firstCursorPosition().insertText(tr("%1 %2").arg(val).arg(unit), fmtCharStandard);    
+    table->cellAt(1,eToLast).firstCursorPosition().insertText(tr("%1 %2").arg(val).arg(unit), fmtCharStandard);
     table->cellAt(1,eTotal).firstCursorPosition().insertText(tr("%1 %2").arg(val).arg(unit), fmtCharStandard);
     if(track->getStartElevation() != WPT_NOFLOAT)
     {
@@ -1431,6 +1433,7 @@ void CTrackEditWidget::updateStages(QList<CTrack::wpt_t>& wpts)
             table->cellAt(cnt,eSym).setFormat(fmtCharShade);
             table->cellAt(cnt,eEle).setFormat(fmtCharShade);
             table->cellAt(cnt,eToLast).setFormat(fmtCharShade);
+            table->cellAt(cnt,eToNext).setFormat(fmtCharShade);
             table->cellAt(cnt,eTotal).setFormat(fmtCharShade);
             table->cellAt(cnt,eInfo).setFormat(fmtCharShade);
             table->cellAt(cnt,eComment).setFormat(fmtCharShade);
@@ -1497,6 +1500,7 @@ void CTrackEditWidget::updateStages(QList<CTrack::wpt_t>& wpts)
 
         table->cellAt(cnt,eEle).firstCursorPosition().insertText(tr("%1/%2 %3").arg(val).arg(val2).arg(unit), fmtCharStandard);
         table->cellAt(cnt,eToLast).firstCursorPosition().insertText(tr("%1 %2\n%3").arg(strDistToLast).arg(strTimeToLast).arg(strAscToLast), fmtCharStandard);
+        table->cellAt(cnt-1,eToNext).firstCursorPosition().insertText(tr("%1 %2\n%3").arg(strDistToLast).arg(strTimeToLast).arg(strAscToLast), fmtCharStandard);
         table->cellAt(cnt,eTotal).firstCursorPosition().insertText(tr("%1 %2\n%3").arg(strDistTotal).arg(strTimeTotal).arg(strAscTotal), fmtCharStandard);
 
         QString comment = wpt.wpt->getComment();
@@ -1578,7 +1582,12 @@ void CTrackEditWidget::updateStages(QList<CTrack::wpt_t>& wpts)
     strAscTotal += tr("%1%2 %3").arg(QChar(0x2198)).arg(val).arg(unit);
 
     table->cellAt(cnt,eToLast).firstCursorPosition().insertText(tr("%1 %2\n%3").arg(strDistToLast).arg(strTimeToLast).arg(strAscToLast), fmtCharStandard);
+    table->cellAt(cnt - 1,eToNext).firstCursorPosition().insertText(tr("%1 %2\n%3").arg(strDistToLast).arg(strTimeToLast).arg(strAscToLast), fmtCharStandard);
     table->cellAt(cnt,eTotal).firstCursorPosition().insertText(tr("%1 %2\n%3").arg(strDistTotal).arg(strTimeTotal).arg(strAscTotal), fmtCharStandard);
+
+    IUnit::self().meter2distance(0,val,unit);
+    table->cellAt(cnt,eToNext).firstCursorPosition().insertText(tr("%1 %2").arg(val).arg(unit), fmtCharStandard);
+
 
     textStages->setDocument(doc);
 
