@@ -145,8 +145,8 @@ void CTrackStatSpeedWidget::slotChanged()
         }
     }
 
-    plot->newLine(lineSpeed,focusSpeed, "speed");
-    plot->addLine(lineAvgSpeed, "med. speed");
+    plot->newLine(lineSpeed,focusSpeed, tr("speed"));
+    plot->addLine(lineAvgSpeed, tr("med. speed"));
     plot->newMarks(marksSpeed);
 
     plot->setLimits();

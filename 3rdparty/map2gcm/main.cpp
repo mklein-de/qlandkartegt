@@ -80,7 +80,7 @@ struct file_t
     file_t(): dataset(0), pj(0){memset(colortable,0, sizeof(colortable));}
     ~file_t()
     {
-        if(dataset) delete dataset;
+//        if(dataset) delete dataset;
         if(pj) pj_free(pj);
     }
 

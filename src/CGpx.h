@@ -57,6 +57,7 @@ class CGpx : public QObject, public QDomDocument
               eQlgtExport
             , eCleanExport
             , eOcmExport
+            , eBackupExport
         };
 
     public:
