@@ -1522,6 +1522,7 @@ void CTrackEditWidget::updateStages(QList<CTrack::wpt_t>& wpts)
         table->cellAt(cnt,eSym).setFormat(fmtCharShade);
         table->cellAt(cnt,eEle).setFormat(fmtCharShade);
         table->cellAt(cnt,eToLast).setFormat(fmtCharShade);
+        table->cellAt(cnt,eToNext).setFormat(fmtCharShade);
         table->cellAt(cnt,eTotal).setFormat(fmtCharShade);
         table->cellAt(cnt,eInfo).setFormat(fmtCharShade);
         table->cellAt(cnt,eComment).setFormat(fmtCharShade);
