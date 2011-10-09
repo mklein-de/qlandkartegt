@@ -1313,6 +1313,7 @@ void CTrackEditWidget::updateStages(QList<CTrack::wpt_t>& wpts)
 {
 
     if(track.isNull()) return;
+    if(wpts.isEmpty()) return;
 
     tabWidget->setTabEnabled(eStages, true);
     qSort(wpts.begin(), wpts.end(), qSortWptLessDistance);
