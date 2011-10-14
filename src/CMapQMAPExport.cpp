@@ -69,6 +69,9 @@ CMapQMAPExport::CMapQMAPExport(const CMapSelectionRaster& mapsel, QWidget * pare
     connect(&cmd4, SIGNAL(readyReadStandardOutput()), this, SLOT(slotStdout()));
     connect(&cmd4, SIGNAL(finished(int,QProcess::ExitStatus)), this, SLOT(slotFinished4(int,QProcess::ExitStatus)));
 
+    connect(&cmd5, SIGNAL(readyReadStandardError()), this, SLOT(slotStderr()));
+    connect(&cmd5, SIGNAL(readyReadStandardOutput()), this, SLOT(slotStdout()));
+    connect(&cmd5, SIGNAL(finished(int,QProcess::ExitStatus)), this, SLOT(slotFinished5(int,QProcess::ExitStatus)));
 
 #ifdef WIN32
     path_map2jnx = QCoreApplication::applicationDirPath()+QDir::separator()+"map2jnx.exe";
@@ -193,6 +196,10 @@ void CMapQMAPExport::slotStderr()
     {
         str = cmd4.readAllStandardError();
     }
+    else if(sender() == &cmd5)
+    {
+        str = cmd5.readAllStandardError();
+    }
 
 
 #ifndef WIN32
@@ -233,6 +240,10 @@ void CMapQMAPExport::slotStdout()
     else if(sender() == &cmd4)
     {
         str = cmd4.readAllStandardOutput();
+    }
+    else if(sender() == &cmd5)
+    {
+        str = cmd5.readAllStandardOutput();
     }
 
 #ifndef WIN32
@@ -368,7 +379,7 @@ void CMapQMAPExport::startQLM()
                     job.height=1;
                 }
 
-                quint64 div = (((job.width*job.height)/(1024*1024))*3);
+/*                quint64 div = (((job.width*job.height)/(1024*1024))*3);
 //                                 qDebug() << "xoff: 0 <" << job.xoff;
 //                                 qDebug() << "yoff: 0 <" << job.yoff;
 //                                 qDebug() << "x2  :    " << (job.xoff + job.width)  << " <" << mapfile->xsize_px;
@@ -420,15 +431,15 @@ void CMapQMAPExport::startQLM()
                         }
                     }
 
-                }
-                else
-                {
+                }*/
+                /*else
+                {*/
                     jobs        << job;
                     tmpOutFiles    << tarPath.relativeFilePath(job.tarFilename);
                     tardef.setValue(QString("level%1/files").arg(level), tmpOutFiles.join("|"));
                     tardef.setValue(QString("level%1/zoomLevelMin").arg(level), srcdef.value(QString("level%1/zoomLevelMin").arg(level)));
                     tardef.setValue(QString("level%1/zoomLevelMax").arg(level), srcdef.value(QString("level%1/zoomLevelMax").arg(level)));
-                }
+                //}
             }
             delete mapfile;
         }
@@ -532,6 +543,63 @@ void CMapQMAPExport::slotFinished1( int exitCode, QProcess::ExitStatus status)
             cmd4.start(path_map2gcm, args);
             return;
         }
+        else if(radioLOW->isChecked())
+        {
+            //QStringList args;
+            job_t job;
+
+            textBrowser->setTextColor(Qt::black);
+            textBrowser->append(tr("--- Lowrance MyNav Export ---\n"));
+            while (!jobsLowrance.empty())
+            {
+                job = jobsLowrance.takeFirst();
+                textBrowser->setTextColor(Qt::black);
+                textBrowser->append(job.tarFilename+"\n");
+                job.srcFilename=job.tarFilename;
+                quint64 div = (quint64)sqrt((job.width*job.height)/MAX_MYNAV);
+                div++;
+                int tilesX = job.width/div;
+                int tilesY = job.height/div;
+                int width = job.width;
+                int height = job.height;
+
+                for (unsigned int divY=0; divY<div; divY++)
+                {
+                    for (unsigned int divX=0; divX<div; divX++)
+                    {
+                        job.tarFilename = job.tarFilename.left(job.tarFilename.length()-4);
+                        job.tarFilename = job.tarFilename+"_"+QString::number(divX*tilesX)+"_"+QString::number(divY*tilesY)+".tif";
+                        job.xoff=divX*tilesX;
+                        job.yoff=divY*tilesY;
+
+                        if (divY == div-1)
+                        {
+                            job.height = height-divY*tilesY;
+                        }
+                        else
+                        {
+                            job.height=tilesY;
+                        }
+
+                        if (divX == div-1)
+                        {
+                            job.width = width-divX*tilesX;
+                        }
+                        else
+                        {
+                            job.width=tilesX;
+                        }
+                        tmpjobs << job;
+                        job.tarFilename=job.srcFilename;
+                    }
+                }
+
+            }
+            jobsLowrance=tmpjobs;
+            slotFinished5(0,QProcess::NormalExit);
+
+            return;
+        }
         else
         {
             textBrowser->setTextColor(Qt::black);
@@ -547,12 +615,12 @@ void CMapQMAPExport::slotFinished1( int exitCode, QProcess::ExitStatus status)
 
     job_t job = jobs.first();
     QStringList args;
-    if(radioLOW->isChecked())
+    /*if(radioLOW->isChecked())
     {
         //qDebug() << "Make Lowrance 24bit";
         args << "-expand" << "rgb";
         //args << "-co" << "compress=NONE";
-    }
+    }*/
     args << "-srcwin";
 
     args << QString::number(job.xoff) << QString::number(job.yoff);
@@ -571,6 +639,10 @@ void CMapQMAPExport::slotFinished1( int exitCode, QProcess::ExitStatus status)
 void CMapQMAPExport::slotFinished2( int exitCode, QProcess::ExitStatus status)
 {
     job_t job = jobs.takeFirst();
+    if (job.height*job.width>MAX_MYNAV)
+    {
+        jobsLowrance << job;
+    }
     QStringList args;
     QTemporaryFile * tmpFile = new QTemporaryFile();
     tmpFile->setFileName(job.tarFilename);
@@ -579,8 +651,14 @@ void CMapQMAPExport::slotFinished2( int exitCode, QProcess::ExitStatus status)
         tmpFile->remove();
     }
     outfiles << job.tarFilename;
-
-    args << "-t_srs" << "EPSG:4326";
+    if(radioLOW->isChecked())
+    {
+        args << "-t_srs" << "+proj=utm +zone=32 +a=6378388.0000 +b=6356911.9461 +towgs84=-87,-98,-121,0,0,0,0,0 +units=m  +no_defs";
+    }
+    else
+    {
+        args << "-t_srs" << "EPSG:4326";
+    }
     args << "-ts"    << QString::number(job.width) << QString::number(job.height);
     args << "-co" << "tiled=yes";
     args << "-co" << "blockxsize=256";
@@ -639,9 +717,35 @@ void CMapQMAPExport::slotFinished4( int exitCode, QProcess::ExitStatus status)
     textBrowser->append(tr("--- finished ---\n"));
 }
 
-//bool CMapQMAPExport::isEnduraMap(job_t job)
-//{
-//    if (job.height*job.width*24 > 512*1024*1024)
-//        return false;
-//    return true;
-//}
+void CMapQMAPExport::slotFinished5( int exitCode, QProcess::ExitStatus status)
+{
+    QStringList args;
+    job_t job;
+
+    if(jobsLowrance.empty())
+    {
+        while(!tmpjobs.empty())
+        {
+            job = tmpjobs.takeFirst();
+            QTemporaryFile * tmpFile = new QTemporaryFile();
+            tmpFile->setFileName(job.srcFilename);
+            if (tmpFile->exists())
+            {
+                tmpFile->remove();
+            }
+        }
+        textBrowser->setTextColor(Qt::black);
+        textBrowser->append(tr("--- finished ---\n"));
+        return;
+    }
+    job = jobsLowrance.takeFirst();
+    args << "-srcwin";
+    args << QString::number(job.xoff) << QString::number(job.yoff);
+    args << QString::number(job.width) << QString::number(job.height);
+    args << job.srcFilename;
+    args << job.tarFilename;
+
+    textBrowser->setTextColor(Qt::blue);
+    textBrowser->append(GDALTRANSLATE " " +  args.join(" ") + "\n");
+    cmd5.start(GDALTRANSLATE, args);
+}

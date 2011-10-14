@@ -24,7 +24,7 @@
 #include "ui_IMapQMAPExport.h"
 #include <projects.h>
 
-#define MAXENDURA 512
+#define MAX_MYNAV (1024*1024)
 
 class CMapSelectionRaster;
 class QTemporaryFile;
@@ -46,6 +46,7 @@ class CMapQMAPExport : public QDialog, private Ui::IMapQMAPExport
         void slotFinished2( int exitCode, QProcess::ExitStatus status);
 //        void slotFinished3( int exitCode, QProcess::ExitStatus status);
         void slotFinished4( int exitCode, QProcess::ExitStatus status);
+        void slotFinished5( int exitCode, QProcess::ExitStatus status);
 
         void slotBirdsEyeToggled(bool checked);
         void slotGCMToggled(bool checked);
@@ -59,6 +60,7 @@ class CMapQMAPExport : public QDialog, private Ui::IMapQMAPExport
         QProcess cmd2;
         QProcess cmd3;
         QProcess cmd4;
+        QProcess cmd5;
 
 
         QTemporaryFile * file1;
@@ -79,9 +81,10 @@ class CMapQMAPExport : public QDialog, private Ui::IMapQMAPExport
 
             int idx;
         };
-        //bool isEnduraMap(job_t job);
-        QList<job_t> jobs;
 
+        QList<job_t> jobs;
+        QList<job_t> jobsLowrance;
+        QList<job_t> tmpjobs;
         QStringList outfiles;
 
         bool has_map2jnx;
