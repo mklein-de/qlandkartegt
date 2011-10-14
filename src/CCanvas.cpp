@@ -59,6 +59,9 @@
 
 #include <QtGui>
 
+#include <sys/time.h>
+#include <stdio.h>
+
 QPen CCanvas::penBorderBlue(QColor(10,10,150,220),3);
 QPen CCanvas::penBorderBlack(QColor(0,0,0,200),3);
 QBrush CCanvas::brushBackWhite(QColor(255,255,255,210));
@@ -232,6 +235,15 @@ void CCanvas::resizeEvent(QResizeEvent * e)
 
 void CCanvas::paintEvent(QPaintEvent * e)
 {
+    static struct timeval tv0;
+    struct timeval tv1;
+    float dt;
+
+    gettimeofday(&tv1, NULL);
+    dt = tv1.tv_sec - tv0.tv_sec + 1e-6 * (tv1.tv_usec - tv0.tv_usec);
+    printf("fps=%f\n", 1 / dt);
+    tv0 = tv1;
+
     QWidget::paintEvent(e);
 
     QPainter p;
