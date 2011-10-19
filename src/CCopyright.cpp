@@ -87,8 +87,16 @@ CCopyright::CCopyright()
     }
     else
     {
-        textGdalFmts->setText(tr("running gdal_translate failed!"));
+        textGdalFmts->setText(tr("running gdal_translate failed!"));		
     }
+
+	textGdalFmts->append(tr("\nGDAL Environment\n"));
+	textGdalFmts->append(QString("\nPATH = %1").arg(QString(qgetenv("PATH"))));
+	textGdalFmts->append(QString("\nGDAL_DATA = %1").arg(QString(qgetenv("GDAL_DATA"))));
+	textGdalFmts->append(QString("\nGDAL_DRIVER_PATH = %1").arg(QString(qgetenv("GDAL_DRIVER_PATH"))));
+	textGdalFmts->append(QString("\nPYTHONPATH = %1").arg(QString(qgetenv("PYTHONPATH"))));
+	textGdalFmts->append(QString("\nPROJ_LIB = %1").arg(QString(qgetenv("PROJ_LIB"))));
+
 }
 
 
