@@ -112,6 +112,9 @@ CMapDB::CMapDB(QTabWidget * tb, QObject * parent)
     }
 
     maps = cfg.value("maps/visibleMaps","").toString().split("|",QString::SkipEmptyParts);
+    cfg.setValue("maps/visibleMaps","");
+    cfg.sync();
+
     foreach(map, maps)
     {
         openMap(map, false, *theMainWindow->getCanvas());
@@ -126,6 +129,8 @@ CMapDB::CMapDB(QTabWidget * tb, QObject * parent)
         //TODO: has to be removed for several layers
         break;
     }
+    cfg.setValue("maps/visibleMaps",maps.join("|"));
+
     emit sigChanged();
 
 }
@@ -194,6 +199,9 @@ void CMapDB::openMap(const QString& filename, bool asRaster, CCanvas& canvas)
 
     map_t map;
     QFileInfo fi(filename);
+
+    if(!fi.exists()) return;
+
     QString ext = fi.suffix().toLower();
     if(ext == "qmap")
     {
