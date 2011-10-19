@@ -624,7 +624,7 @@ int main(int argc, char ** argv)
                         xsize = (file.width - xoff);
                     }
 
-                    if(!selTiles.contains(tileCnt))
+                    if(!selTiles.isEmpty() && !selTiles.contains(tileCnt))
                     {
                         tileCnt++;
                         xoff += xsize;

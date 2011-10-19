@@ -37,9 +37,13 @@ include_directories(
     ${GDAL_INCLUDE_DIRS}
     ${PROJ_INCLUDE_DIRS}
     ${JPEG_INCLUDE_DIRS}
-    ${CMAKE_SOURCE_DIR}/3rdparty/QZip
-    ${CMAKE_SOURCE_DIR}/Win32/
+    ${CMAKE_SOURCE_DIR}/3rdparty/QZip    
 )
+if(WIN32)
+    include_directories(
+        ${CMAKE_SOURCE_DIR}/Win32/
+    )
+endif(WIN32)
 
 link_directories(
     ${CMAKE_BINARY_DIR}/lib
