@@ -59,7 +59,9 @@
 
 #include <QtGui>
 
+#ifndef WIN32
 #include <sys/time.h>
+#endif
 #include <stdio.h>
 
 QPen CCanvas::penBorderBlue(QColor(10,10,150,220),3);
@@ -239,10 +241,12 @@ void CCanvas::paintEvent(QPaintEvent * e)
     struct timeval tv1;
     float dt;
 
+#ifndef WIN32
     gettimeofday(&tv1, NULL);
     dt = tv1.tv_sec - tv0.tv_sec + 1e-6 * (tv1.tv_usec - tv0.tv_usec);
     printf("fps=%f\n", 1 / dt);
     tv0 = tv1;
+#endif
 
     QWidget::paintEvent(e);
 

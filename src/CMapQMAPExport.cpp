@@ -556,7 +556,7 @@ void CMapQMAPExport::slotFinished1( int exitCode, QProcess::ExitStatus status)
                 textBrowser->setTextColor(Qt::black);
                 textBrowser->append(job.tarFilename+"\n");
                 job.srcFilename=job.tarFilename;
-                quint64 div = (quint64)sqrt((job.width*job.height)/MAX_MYNAV);
+                quint64 div = (quint64)sqrt((double)(job.width*job.height)/MAX_MYNAV);
                 div++;
                 int tilesX = job.width/div;
                 int tilesY = job.height/div;

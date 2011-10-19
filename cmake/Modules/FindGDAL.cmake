@@ -30,8 +30,7 @@ else (GDAL_LIBRARIES AND GDAL_INCLUDE_DIRS)
         /usr/local/include/gdal
         /opt/local/include/gdal
         /sw/include/gdal
-        C:/Programme/FWTools2.4.7/include 
-		C:/Progra~1/FWTools2.4.7/include
+        ${CMAKE_SOURCE_DIR}/Win32/GDAL/include
     PATH_SUFFIXES
         gdal
   )
@@ -54,8 +53,7 @@ else (GDAL_LIBRARIES AND GDAL_INCLUDE_DIRS)
       /usr/local/lib
       /opt/local/lib
       /sw/lib
-      C:/Programme/FWTools2.4.7/lib
-	  C:/Progra~1/FWTools2.4.7/lib
+      ${CMAKE_SOURCE_DIR}/Win32/GDAL/lib
   )
 
   set(GDAL_INCLUDE_DIRS

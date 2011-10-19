@@ -27,8 +27,7 @@ else (PROJ_LIBRARIES AND PROJ_INCLUDE_DIRS)
         /usr/local/include
         /opt/local/include
         /sw/include
-        C:/Programme/FWTools2.4.7/include
-		C:/Progra~1/FWTools2.4.7/include
+        ${CMAKE_SOURCE_DIR}/Win32/GDAL/include
     PATH_SUFFIXES
         proj4
 
@@ -45,8 +44,7 @@ else (PROJ_LIBRARIES AND PROJ_INCLUDE_DIRS)
         /usr/local/lib
         /opt/local/lib
         /sw/lib
-        C:/Programme/FWTools2.4.7/lib  
-		C:/Progra~1/FWTools2.4.7/lib		
+        ${CMAKE_SOURCE_DIR}/Win32/GDAL/lib
   )
   mark_as_advanced(LIBPROJ_LIBRARY)
 

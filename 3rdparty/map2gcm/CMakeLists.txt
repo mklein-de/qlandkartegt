@@ -38,6 +38,7 @@ include_directories(
     ${PROJ_INCLUDE_DIRS}
     ${JPEG_INCLUDE_DIRS}
     ${CMAKE_SOURCE_DIR}/3rdparty/QZip
+    ${CMAKE_SOURCE_DIR}/Win32/
 )
 
 link_directories(
@@ -58,6 +59,11 @@ set_target_properties( map2gcm PROPERTIES
     RUNTIME_OUTPUT_DIRECTORY ${MAC_BUNDLE_PATH}/Contents/Resources
 )
 endif(APPLE)
+
+if(MSVC)
+  add_definitions(-D_CRT_SECURE_NO_DEPRECATE )
+endif(MSVC)
+
 
 if(WIN32)
 target_link_libraries( map2gcm

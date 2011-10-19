@@ -29,7 +29,7 @@ else (JPEG_LIBRARIES AND JPEG_INCLUDE_DIRS)
         /usr/local/include
         /opt/local/include
         /sw/include
-        ${CMAKE_SOURCE_DIR}/Win32
+        ${CMAKE_SOURCE_DIR}/Win32/GDAL/include
   )
   mark_as_advanced(JPEG_INCLUDE_DIR)
 
@@ -45,7 +45,7 @@ endif (WIN32)
         /usr/local/lib
         /opt/local/lib
         /sw/lib
-        ${CMAKE_SOURCE_DIR}/Win32
+        ${CMAKE_SOURCE_DIR}/Win32/GDAL/lib
   )
   mark_as_advanced(LIBJPEG_LIBRARY)
 
