@@ -46,6 +46,7 @@ CDlgConfig::CDlgConfig(QWidget * parent)
 
 #ifndef HAS_GEODB
     groupBoxGeoDB->hide();
+#else
     connect(toolPathGeoDB, SIGNAL(clicked()),this,SLOT(slotSelectPathGeoDB()));
     connect(checkUseGeoDB, SIGNAL(clicked(bool)), groupSaveWks, SLOT(setEnabled(bool)));
     connect(checkGeoDBSaveOnExit, SIGNAL(clicked(bool)), spinGeoDBMinutes, SLOT(setEnabled(bool)));
