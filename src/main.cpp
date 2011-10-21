@@ -179,12 +179,11 @@ int main(int argc, char ** argv)
 	QString apppath = QCoreApplication::applicationDirPath();
 
 	QString env_path = qgetenv("PATH");
-	env_path += QString("%1;%1\\gdal\\python\\osgeo;%1\\proj\\apps;%1\\gdal\\apps;%1\\ms\\apps;%1\\gdal\\csharp;%1\\ms\\csharp;%1\\curl;").arg(apppath);
+	env_path += QString("%1;%1\\proj\\apps;%1\\gdal\\apps;%1\\curl;").arg(apppath);
 	qputenv("PATH", env_path.toUtf8());
 
 	qputenv("GDAL_DATA", QString("%1\\gdal-data").arg(apppath).toUtf8());
-	qputenv("GDAL_DRIVER_PATH", QString("%1\\gdal\\plugins").arg(apppath).toUtf8());
-	qputenv("PYTHONPATH", QString("%1\\gdal\\python\\osgeo").arg(apppath).toUtf8());
+	qputenv("GDAL_DRIVER_PATH", QString("%1\\gdal\\plugins").arg(apppath).toUtf8());	
 	qputenv("PROJ_LIB", QString("%1\\proj\\SHARE").arg(apppath).toUtf8());
 #endif
 
