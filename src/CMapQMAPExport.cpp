@@ -721,19 +721,110 @@ void CMapQMAPExport::slotFinished5( int exitCode, QProcess::ExitStatus status)
 {
     QStringList args;
     job_t job;
+    GDALDataset * dataset;
+    QByteArray doc;
+    OGRSpatialReference oSRS;
+    QString tmpstr;
+    PJ *   pj;
+    QTemporaryFile * tmpFile = new QTemporaryFile();
+
+    char str[1024];
+    double adfGeoTransform[6];
+
+    /// width in number of px
+    quint32 xsize_px;
+    /// height in number of px
+    quint32 ysize_px;
+
+    /// scale [px/m]
+    double xscale;
+    /// scale [px/m]
+    double yscale;
+
+    /// x reference point
+    double xref[3];
+    /// y reference point
+    double yref[3];
+    QString str_xref[3];
+    QString str_yref[3];
+
+    const char * cfuHead = "RASTER_VERSION @ 1 @ 14872295\nRASTER_SCALE @ 150000 @ 0;\n";
+    const char * cfuOverlay ="RASTER %1 @ %2 @ %3 @ %4 @ %5 @ %6 @ %7\n";
+
+    doc.append(cfuHead);
 
     if(jobsLowrance.empty())
     {
         while(!tmpjobs.empty())
         {
             job = tmpjobs.takeFirst();
-            QTemporaryFile * tmpFile = new QTemporaryFile();
+            dataset = (GDALDataset*)GDALOpen(job.tarFilename.toUtf8(),GA_ReadOnly);            
+            dataset->GetGeoTransform(adfGeoTransform);
+            strncpy(str,dataset->GetProjectionRef(),sizeof(str));
+            char * ptr = str;
+
+            oSRS.importFromWkt(&ptr);
+            oSRS.exportToProj4(&ptr);
+            pj = pj_init_plus(ptr);
+
+            if(pj == 0)
+            {
+                delete dataset; dataset = 0;
+                QMessageBox::warning(0, tr("Error..."), tr("No georeference information found."));
+            }
+            else
+            {
+                xsize_px = dataset->GetRasterXSize();
+                ysize_px = dataset->GetRasterYSize();
+                if (pj_is_latlong(pj))
+                {
+                    xscale  = adfGeoTransform[1] * DEG_TO_RAD;
+                    yscale  = adfGeoTransform[5] * DEG_TO_RAD;
+
+                    xref[0]   = adfGeoTransform[0] * DEG_TO_RAD;
+                    yref[0]   = adfGeoTransform[3] * DEG_TO_RAD;
+                }
+                else
+                {
+                    xscale  = adfGeoTransform[1];
+                    yscale  = adfGeoTransform[5];
+
+                    xref[0]   = adfGeoTransform[0];
+                    yref[0]   = adfGeoTransform[3];
+                }
+
+                xref[1]   = xref[0];
+                yref[1]   = yref[0] + ysize_px * yscale;
+                xref[2]   = xref[0] + xsize_px * xscale;
+                yref[2]   = yref[0] + ysize_px * yscale;
+
+                //if (pj_is_geocent(pj)){
+                    pj_transform(pj, pj_latlong_from_proj(pj), 3, 1, xref, yref, 0);
+                //}
+                for (int i=0; i < 3; i++)
+                {
+                    xref[i]=xref[i]*RAD_TO_DEG;
+                    yref[i]=yref[i]*RAD_TO_DEG;
+                    str_xref[i]=tmpstr.sprintf("%f",xref[i]);
+                    str_yref[i]=tmpstr.sprintf("%f",yref[i]);
+                }
+
+                qDebug() << job.tarFilename;
+                qDebug() << ptr;
+                qDebug() << "xref1" << xref[0] << "yref1" << yref[0] << "xref2" << xref[1] << "yref2" << yref[1] << "xref3" << xref[2] << "yref3" << yref[2];
+                qDebug() << str_xref;
+                qDebug() << str_yref;
+                QFileInfo fileInfo(job.tarFilename);
+                QString fileStr = fileInfo.fileName();
+                doc.append(QString(cfuOverlay).arg(fileStr).arg(str_xref[0]).arg(str_yref[0]).arg(str_xref[1]).arg(str_yref[1]).arg(str_xref[2]).arg(str_yref[2]));
+            }
             tmpFile->setFileName(job.srcFilename);
             if (tmpFile->exists())
             {
                 tmpFile->remove();
             }
         }
+        qDebug() << doc;
         textBrowser->setTextColor(Qt::black);
         textBrowser->append(tr("--- finished ---\n"));
         return;
