@@ -1,5 +1,5 @@
 /**********************************************************************************************
-    Copyright (C) 2008 Oliver Eichler oliver.eichler@gmx.de
+    Copyright (C) 2011 Oliver Eichler oliver.eichler@gmx.de
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -21,13 +21,58 @@
 
 #include <QDialog>
 #include <QProcess>
+#include <QFile>
+#include <QList>
+#include <QPointer>
+#include <QTemporaryFile>
 #include "ui_IMapQMAPExport.h"
-#include <projects.h>
-
-#define MAX_MYNAV (1024*1024)
 
 class CMapSelectionRaster;
-class QTemporaryFile;
+class CMapQMAPExport;
+
+class IMapExportState : public QObject
+{
+    Q_OBJECT;
+    public:
+        IMapExportState(CMapQMAPExport * parent);
+        virtual ~IMapExportState();
+
+        virtual void nextJob(QProcess& cmd) = 0;
+
+    protected:
+        CMapQMAPExport * gui;
+};
+
+class CMapExportStateCutFiles : public IMapExportState
+{
+    Q_OBJECT;
+    public:
+        CMapExportStateCutFiles(CMapQMAPExport * parent);
+        virtual ~CMapExportStateCutFiles();
+
+        void nextJob(QProcess& cmd);
+
+        struct job_t
+        {
+            QString srcFile;
+            QString tarFile;
+
+            quint32 xoff;
+            quint32 yoff;
+            quint32 width;
+            quint32 height;
+
+            int level;
+        };
+
+        QList<job_t> jobs;
+
+
+
+    private:
+        int jobIdx;
+
+};
 
 
 class CMapQMAPExport : public QDialog, private Ui::IMapQMAPExport
@@ -37,58 +82,29 @@ class CMapQMAPExport : public QDialog, private Ui::IMapQMAPExport
         CMapQMAPExport(const CMapSelectionRaster& mapsel, QWidget * parent);
         virtual ~CMapQMAPExport();
 
-    private slots:
-        void slotStart();
-        void slotOutputPath();
-        void slotStderr();
-        void slotStdout();
-        void slotFinished1( int exitCode, QProcess::ExitStatus status);
-        void slotFinished2( int exitCode, QProcess::ExitStatus status);
-//        void slotFinished3( int exitCode, QProcess::ExitStatus status);
-        void slotFinished4( int exitCode, QProcess::ExitStatus status);
-        void slotFinished5( int exitCode, QProcess::ExitStatus status);
+        void stdout(const QString& str);
 
+    private slots:
         void slotBirdsEyeToggled(bool checked);
         void slotGCMToggled(bool checked);
+
+        void slotStderr();
+        void slotStdout();
+        void slotFinished(int exitCode, QProcess::ExitStatus status);
+
+        void slotStart();
     private:
-        void startQLM();
-        void startGCM();
         const CMapSelectionRaster& mapsel;
-
-
-        QProcess cmd1;
-        QProcess cmd2;
-        QProcess cmd3;
-        QProcess cmd4;
-        QProcess cmd5;
-
-
-        QTemporaryFile * file1;
-        QTemporaryFile * file2;        
-
-        struct job_t
-        {
-            QString name;
-            QString srcFilename;
-            QString tarFilename;
-            quint32 xoff;
-            quint32 yoff;
-            quint32 width;
-            quint32 height;
-
-            XY p1;
-            XY p2;
-
-            int idx;
-        };
-
-        QList<job_t> jobs;
-        QList<job_t> jobsLowrance;
-        QList<job_t> tmpjobs;
-        QStringList outfiles;
 
         bool has_map2jnx;
         QString path_map2jnx;
         QString path_map2gcm;
+
+        QProcess cmd;
+
+        QPointer<IMapExportState> state;
+
 };
-#endif                           //CMAPQMAPEXPORT_H
+
+#endif //CMAPQMAPEXPORT_H
+

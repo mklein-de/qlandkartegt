@@ -1,5 +1,5 @@
 /**********************************************************************************************
-    Copyright (C) 2008 Oliver Eichler oliver.eichler@gmx.de
+    Copyright (C) 2011 Oliver Eichler oliver.eichler@gmx.de
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -18,28 +18,78 @@
 **********************************************************************************************/
 
 #include "CMapQMAPExport.h"
-#include "CMapSelectionRaster.h"
 #include "CMapDB.h"
+#include "CMapSelectionRaster.h"
 #include "CMapFile.h"
-#include "GeoMath.h"
-
-#include "config.h"
-
 
 #include <QtGui>
-#include <QtXml/QDomDocument>
-#include <qzipwriter.h>
-#include <gdal_priv.h>
+
+IMapExportState::IMapExportState(CMapQMAPExport * parent)
+: QObject(parent)
+, gui(parent)
+{
+
+}
+
+IMapExportState::~IMapExportState()
+{
+
+}
+
+
+CMapExportStateCutFiles::CMapExportStateCutFiles(CMapQMAPExport * parent)
+: IMapExportState(parent)
+, jobIdx(0)
+{
+}
+
+CMapExportStateCutFiles::~CMapExportStateCutFiles()
+{
+
+}
+
+void CMapExportStateCutFiles::nextJob(QProcess& cmd)
+{
+    if(jobIdx < jobs.count())
+    {
+        job_t& job = jobs[jobIdx];
+
+        QStringList args;
+        args << "-srcwin";
+
+        args << QString::number(job.xoff) << QString::number(job.yoff);
+        args << QString::number(job.width) << QString::number(job.height);
+        args << job.srcFile;
+        args << job.tarFile;
+
+        gui->stdout(GDALTRANSLATE " " +  args.join(" ") + "\n");
+        cmd.start(GDALTRANSLATE, args);
+
+        jobIdx++;
+    }
+    else
+    {
+        gui->stdout("todo: next statemachine\n");
+    }
+}
 
 CMapQMAPExport::CMapQMAPExport(const CMapSelectionRaster& mapsel, QWidget * parent)
 : QDialog(parent)
 , mapsel(mapsel)
-, file1(0)
-, file2(0)
 , has_map2jnx(false)
 {
     setupUi(this);
     toolPath->setIcon(QPixmap(":/icons/iconFileLoad16x16.png"));
+
+    connect(toolPath, SIGNAL(clicked()), this, SLOT(slotOutputPath()));
+    connect(pushExport, SIGNAL(clicked()), this, SLOT(slotStart()));
+    connect(radioJNX, SIGNAL(toggled(bool)), this, SLOT(slotBirdsEyeToggled(bool)));
+    connect(radioGCM, SIGNAL(toggled(bool)), this, SLOT(slotGCMToggled(bool)));
+
+    connect(&cmd, SIGNAL(readyReadStandardError()), this, SLOT(slotStderr()));
+    connect(&cmd, SIGNAL(readyReadStandardOutput()), this, SLOT(slotStdout()));
+    connect(&cmd, SIGNAL(finished(int,QProcess::ExitStatus)), this, SLOT(slotFinished(int,QProcess::ExitStatus)));
+
 
     QSettings cfg;
     labelPath->setText(cfg.value("path/export","./").toString());
@@ -47,31 +97,6 @@ CMapQMAPExport::CMapQMAPExport(const CMapSelectionRaster& mapsel, QWidget * pare
     IMap& map = CMapDB::self().getMap();
     linePrefix->setText(QString("%1_%2_%3").arg(QFileInfo(map.getFilename()).baseName()).arg(mapsel.lon1 * RAD_TO_DEG).arg(mapsel.lat1 * RAD_TO_DEG));
     lineDescription->setText(QFileInfo(map.getFilename()).baseName());
-
-    connect(toolPath, SIGNAL(clicked()), this, SLOT(slotOutputPath()));
-    connect(pushExport, SIGNAL(clicked()), this, SLOT(slotStart()));
-    connect(radioJNX, SIGNAL(toggled(bool)), this, SLOT(slotBirdsEyeToggled(bool)));
-    connect(radioGCM, SIGNAL(toggled(bool)), this, SLOT(slotGCMToggled(bool)));
-
-    connect(&cmd1, SIGNAL(readyReadStandardError()), this, SLOT(slotStderr()));
-    connect(&cmd1, SIGNAL(readyReadStandardOutput()), this, SLOT(slotStdout()));
-    connect(&cmd1, SIGNAL(finished(int,QProcess::ExitStatus)), this, SLOT(slotFinished2(int,QProcess::ExitStatus)));
-
-    connect(&cmd2, SIGNAL(readyReadStandardError()), this, SLOT(slotStderr()));
-    connect(&cmd2, SIGNAL(readyReadStandardOutput()), this, SLOT(slotStdout()));
-    connect(&cmd2, SIGNAL(finished(int,QProcess::ExitStatus)), this, SLOT(slotFinished1(int,QProcess::ExitStatus)));
-
-//    connect(&cmd3, SIGNAL(readyReadStandardError()), this, SLOT(slotStderr()));
-//    connect(&cmd3, SIGNAL(readyReadStandardOutput()), this, SLOT(slotStdout()));
-//    connect(&cmd3, SIGNAL(finished(int,QProcess::ExitStatus)), this, SLOT(slotFinished1(int,QProcess::ExitStatus)));
-
-    connect(&cmd4, SIGNAL(readyReadStandardError()), this, SLOT(slotStderr()));
-    connect(&cmd4, SIGNAL(readyReadStandardOutput()), this, SLOT(slotStdout()));
-    connect(&cmd4, SIGNAL(finished(int,QProcess::ExitStatus)), this, SLOT(slotFinished4(int,QProcess::ExitStatus)));
-
-    connect(&cmd5, SIGNAL(readyReadStandardError()), this, SLOT(slotStderr()));
-    connect(&cmd5, SIGNAL(readyReadStandardOutput()), this, SLOT(slotStdout()));
-    connect(&cmd5, SIGNAL(finished(int,QProcess::ExitStatus)), this, SLOT(slotFinished5(int,QProcess::ExitStatus)));
 
 #ifdef WIN32
     path_map2jnx = QCoreApplication::applicationDirPath()+QDir::separator()+"map2jnx.exe";
@@ -115,7 +140,6 @@ CMapQMAPExport::CMapQMAPExport(const CMapSelectionRaster& mapsel, QWidget * pare
     }
 }
 
-
 CMapQMAPExport::~CMapQMAPExport()
 {
     QSettings cfg;
@@ -130,6 +154,7 @@ CMapQMAPExport::~CMapQMAPExport()
     cfg.setValue("map/export/jnx/productname",lineProductName->text());
     cfg.setValue("map/export/jnx/copyright",lineCopyright->text());
 }
+
 
 void CMapQMAPExport::slotBirdsEyeToggled(bool checked)
 {
@@ -165,42 +190,12 @@ void CMapQMAPExport::slotGCMToggled(bool checked)
     }
 }
 
-void CMapQMAPExport::slotOutputPath()
-{
-    QString path = QFileDialog::getExistingDirectory(this, tr("Select ouput path..."), labelPath->text(), FILE_DIALOG_FLAGS);
-    if(path.isEmpty()) return;
-
-    QSettings cfg;
-    cfg.setValue("path/export", path);
-    labelPath->setText(path);
-}
-
-
 void CMapQMAPExport::slotStderr()
 {
     QString str;
     textBrowser->setTextColor(Qt::red);
-    if(sender() == &cmd1)
-    {
-        str = cmd1.readAllStandardError();
-    }
-    else if(sender() == &cmd2)
-    {
-        str = cmd2.readAllStandardError();
-    }
-//    else if(sender() == &cmd3)
-//    {
-//        str = cmd3.readAllStandardError();
-//    }
-    else if(sender() == &cmd4)
-    {
-        str = cmd4.readAllStandardError();
-    }
-    else if(sender() == &cmd5)
-    {
-        str = cmd5.readAllStandardError();
-    }
 
+    str = cmd.readAllStandardError();
 
 #ifndef WIN32
     if(str[0] == '\r')
@@ -218,33 +213,12 @@ void CMapQMAPExport::slotStderr()
     textBrowser->verticalScrollBar()->setValue(textBrowser->verticalScrollBar()->maximum());
 
 }
-
 
 void CMapQMAPExport::slotStdout()
 {
     QString str;
     textBrowser->setTextColor(Qt::blue);
-
-    if(sender() == &cmd1)
-    {
-        str = cmd1.readAllStandardOutput();
-    }
-    else if(sender() == &cmd2)
-    {
-        str = cmd2.readAllStandardOutput();
-    }
-//    else if(sender() == &cmd3)
-//    {
-//        str = cmd3.readAllStandardOutput();
-//    }
-    else if(sender() == &cmd4)
-    {
-        str = cmd4.readAllStandardOutput();
-    }
-    else if(sender() == &cmd5)
-    {
-        str = cmd5.readAllStandardOutput();
-    }
+    str = cmd.readAllStandardOutput();
 
 #ifndef WIN32
     if(str[0] == '\r')
@@ -262,581 +236,109 @@ void CMapQMAPExport::slotStdout()
     textBrowser->verticalScrollBar()->setValue(textBrowser->verticalScrollBar()->maximum());
 }
 
-void CMapQMAPExport::slotStart()
-{
-    if(radioQLM->isChecked())
-    {
-        startQLM();
-    }
-    else if(radioGCM->isChecked())
-    {
-        startQLM();
-    }
-    else if(radioJNX->isChecked())
-    {
-        startQLM();
-    }
-    else if(radioLOW->isChecked())
-    {
-        startQLM();
-    }
 
+void CMapQMAPExport::stdout(const QString& str)
+{
+    textBrowser->setTextColor(Qt::black);
+    textBrowser->append(str);
 }
 
-void CMapQMAPExport::startQLM()
+void CMapQMAPExport::slotStart()
 {
-    // get map summary
+    // clean up left overs
+    if(!state.isNull()) delete state;
+
+    /// @todo disable start button
+
+    CMapExportStateCutFiles * cutState = new CMapExportStateCutFiles(this);
+    state = cutState;
+
     CMapDB::map_t& map = CMapDB::self().knownMaps[mapsel.mapkey];
-
-    QString prefix = linePrefix->text();
-
     QDir srcPath = QFileInfo(map.filename).absolutePath();
-    QDir tarPath(labelPath->text());
-
     QSettings srcdef(map.filename, QSettings::IniFormat);
-    QSettings tardef(tarPath.filePath(QString("%1.qmap").arg(prefix)), QSettings::IniFormat);
 
-    // [description]
-    // bottomright=" N43\xb0 43.980 E004\xb0 12.380 "
-    // comment=Vergeze IGN
-    // height=22075.3633436567
-    // topleft=" N43\xb0 55.901 E004\xb0 14.722 "
-    // width=3134.92507596005
-    //
-    // [home]
-    // center=N43 47.589 E004 10.133
-    // zoom=2
-    tardef.beginGroup("description");
-    QString pos;
-    GPS_Math_Deg_To_Str(mapsel.lon1 * RAD_TO_DEG, mapsel.lat1 * RAD_TO_DEG, pos);
-    tardef.setValue("topleft",pos);
-    GPS_Math_Deg_To_Str(mapsel.lon2 * RAD_TO_DEG, mapsel.lat2 * RAD_TO_DEG, pos);
-    tardef.setValue("bottomright",pos);
-    tardef.setValue("comment",lineDescription->text());
-    tardef.endGroup();
-
-    tardef.beginGroup("home");
-
-    float lon, lat;
-    lon = mapsel.lon1 + (mapsel.lon2 - mapsel.lon1) / 2;
-    lat = mapsel.lat1 + (mapsel.lat2 - mapsel.lat1) / 2;
-    GPS_Math_Deg_To_Str(lon * RAD_TO_DEG, lat * RAD_TO_DEG, pos);
-    tardef.setValue("center",pos);
-    tardef.setValue("zoom",1);
-    tardef.endGroup();
-
-    int idx = 0;
     int levels = srcdef.value("main/levels",0).toInt();
-    tardef.setValue("main/levels",levels);
 
+    // iterate over all map levels
     for(int level = 1; level <= levels; ++level)
     {
-        QStringList tmpOutFiles;
+        // iterate over all files in a level
         QStringList filenames = srcdef.value(QString("level%1/files").arg(level),"").toString().split("|", QString::SkipEmptyParts);
-        QString filename;
-        foreach(filename, filenames)
+        foreach(const QString& filename, filenames)
         {
-            CMapFile * mapfile = new CMapFile(srcPath.filePath(filename), this);
-            if(!mapfile->ok)
+            qDebug();
+            CMapFile mapfile(srcPath.filePath(filename), this);
+            if(!mapfile.ok)
             {
-                delete mapfile;
                 QMessageBox::critical(0,tr("Error ..."), tr("Failed to read %1").arg(filename), QMessageBox::Abort,  QMessageBox::Abort);
                 return QDialog::reject();
             }
 
+            // transform the WGS84 points that define the selection into the map files projection system
             PJ * pjWGS84 = pj_init_plus("+proj=longlat  +datum=WGS84 +no_defs");
             XY p1,p2;
             p1.u = mapsel.lon1;
             p1.v = mapsel.lat1;
-            pj_transform(pjWGS84,mapfile->pj,1,0,&p1.u,&p1.v,0);
+            pj_transform(pjWGS84,mapfile.pj,1,0,&p1.u,&p1.v,0);
 
             p2.u = mapsel.lon2;
             p2.v = mapsel.lat2;
-            pj_transform(pjWGS84,mapfile->pj,1,0,&p2.u,&p2.v,0);
+            pj_transform(pjWGS84,mapfile.pj,1,0,&p2.u,&p2.v,0);
             pj_free(pjWGS84);
 
-            QRectF maparea(QPointF(mapfile->xref1, mapfile->yref1), QPointF(mapfile->xref2, mapfile->yref2));
+            // cacluate the selected area on the map
+            QRectF maparea(QPointF(mapfile.xref1, mapfile.yref1), QPointF(mapfile.xref2, mapfile.yref2));
             QRectF selarea(QPointF(p1.u, p1.v), QPointF(p2.u, p2.v));
             QRectF intersect = selarea.intersected(maparea);
 
-            //             qDebug() << maparea << selarea << intersect;
             if(intersect.isValid())
             {
-                job_t job;
-                job.idx    = idx++;
-                job.srcFilename = mapfile->filename;
-                job.tarFilename = tarPath.filePath(QString("%1_%2.tif").arg(prefix).arg(job.idx));
-                job.xoff   = (intersect.left()   - mapfile->xref1) / mapfile->xscale;
-                job.yoff   = (intersect.bottom() - mapfile->yref1) / mapfile->yscale;
-                job.width  =  intersect.width()  / mapfile->xscale;
-                if(job.width==0)
+                CMapExportStateCutFiles::job_t job;
+
+                job.level  = level;
+                job.xoff   = (intersect.left()   - mapfile.xref1) / mapfile.xscale;
+                job.yoff   = (intersect.bottom() - mapfile.yref1) / mapfile.yscale;
+                job.width  =  intersect.width()  / mapfile.xscale;
+                if(job.width == 0)
                 {
-                    job.width=1;
+                    // no empty files
+                    continue;
                 }
-                job.height = -intersect.height() / mapfile->yscale;
-                if (job.height==0)
+                job.height = -intersect.height() / mapfile.yscale;
+                if (job.height == 0)
                 {
-                    job.height=1;
+                    // no empty files
+                    continue;
                 }
 
-/*                quint64 div = (((job.width*job.height)/(1024*1024))*3);
-//                                 qDebug() << "xoff: 0 <" << job.xoff;
-//                                 qDebug() << "yoff: 0 <" << job.yoff;
-//                                 qDebug() << "x2  :    " << (job.xoff + job.width)  << " <" << mapfile->xsize_px;
-//                                 qDebug() << "y2  :    " << (job.yoff + job.height) << " <" << mapfile->ysize_px;
-                if (radioLOW->isChecked() && (div > MAXENDURA))
-                {
-                    job_t tmpJob = job;
+                QTemporaryFile tmp;
+                tmp.open();
+                job.tarFile = tmp.fileName();
+                job.srcFile = mapfile.filename;
 
-                    div = (quint64)sqrt((float)div/(MAXENDURA));
-                    div += 1;
+                qDebug() << job.level << job.srcFile << ">>" << job.tarFile;
+                qDebug() << job.xoff << job.yoff << job.width << job.height;
 
-                    int tilesX = job.width/div;
-                    int tilesY = job.height/div;
-                    for (unsigned int divY=0; divY<div; divY++)
-                    {
-                        for (unsigned int divX=0; divX<div; divX++)
-                        {
-
-                            job.tarFilename = job.tarFilename.left(job.tarFilename.length()-4);
-                            job.tarFilename = job.tarFilename+"_"+QString::number(divX*tilesX)+"_"+QString::number(divY*tilesY)+".tif";
-                            job.xoff=tmpJob.xoff+divX*tilesX;
-                            job.yoff=tmpJob.yoff+divY*tilesY;
-
-                            if (divY == div-1)
-                            {
-                                job.height = tmpJob.height-divY*tilesY;
-                            }
-                            else
-                            {
-                                job.height=tilesY;
-                            }
-
-                            if (divX == div-1)
-                            {
-                                job.width = tmpJob.width-divX*tilesX;
-                            }
-                            else
-                            {
-                                job.width=tilesX;
-                            }
-
-                            jobs        << job;
-                            tmpOutFiles    << tarPath.relativeFilePath(job.tarFilename);
-
-                            tardef.setValue(QString("level%1/files").arg(level), tmpOutFiles.join("|"));
-                            tardef.setValue(QString("level%1/zoomLevelMin").arg(level), srcdef.value(QString("level%1/zoomLevelMin").arg(level)));
-                            tardef.setValue(QString("level%1/zoomLevelMax").arg(level), srcdef.value(QString("level%1/zoomLevelMax").arg(level)));
-                            job.tarFilename=tmpJob.tarFilename;
-                        }
-                    }
-
-                }*/
-                /*else
-                {*/
-                    jobs        << job;
-                    tmpOutFiles    << tarPath.relativeFilePath(job.tarFilename);
-                    tardef.setValue(QString("level%1/files").arg(level), tmpOutFiles.join("|"));
-                    tardef.setValue(QString("level%1/zoomLevelMin").arg(level), srcdef.value(QString("level%1/zoomLevelMin").arg(level)));
-                    tardef.setValue(QString("level%1/zoomLevelMax").arg(level), srcdef.value(QString("level%1/zoomLevelMax").arg(level)));
-                //}
+                cutState->jobs << job;
             }
-            delete mapfile;
+
         }
+
     }
 
-    outfiles.clear();
-    slotFinished1(0,QProcess::NormalExit);
+    state->nextJob(cmd);
 }
 
-static bool tileIndexLessThan(const QPair<int, int> &i1, const QPair<int, int> &i2)
+void CMapQMAPExport::slotFinished(int exitCode, QProcess::ExitStatus status)
 {
-    if(i1.second < i2.second)
+    if(exitCode || status)
     {
-        return true;
-    }
-    else if (i1.second == i2.second)
-    {
-        return i1.first < i2.first;
-    }
-    else{
-        return false;
-    }
-}
+        textBrowser->setTextColor(Qt::red);
+        textBrowser->append(tr("--- failed ---\n"));
 
-void CMapQMAPExport::slotFinished1( int exitCode, QProcess::ExitStatus status)
-{
-    //qDebug() << exitCode << status;
-    if(file1){delete file1; file1 = 0;}
-    if(file2){delete file2; file2 = 0;}
-    if(jobs.isEmpty())
-    {
-        if(has_map2jnx && radioJNX->isChecked())
-        {
-            QString prefix = linePrefix->text();
-            QDir tarPath(labelPath->text());
-
-            QStringList args;
-
-            args << "-q" << QString::number(spinJpegQuality->value());
-            args << "-s" << comboJpegSubsampling->currentText();
-            args << "-p" << QString::number(spinProductId->value());
-            args << "-m" << lineProductName->text();
-            args << "-n" << lineDescription->text();
-            args << "-c" << lineCopyright->text();
-            args << "-z" << QString::number(spinZOrder->value());
-
-            args += outfiles;
-
-            args << tarPath.filePath(QString("%1.jnx").arg(prefix));
-            textBrowser->setTextColor(Qt::black);
-            textBrowser->append(path_map2jnx + " " +  args.join(" ") + "\n");
-
-            cmd4.start(path_map2jnx, args);
-            return;
-        }
-        else if(radioGCM->isChecked())
-        {
-            QString prefix = linePrefix->text();
-            QDir tarPath(labelPath->text());
-
-            QStringList args;
-
-            args << "-q" << QString::number(spinJpegQuality->value());
-            args << "-s" << comboJpegSubsampling->currentText();
-            args << "-z" << QString::number(spinZOrder->value());
-
-            QList< QPair<int, int> > keys = mapsel.selTiles.keys();
-            if(keys.count())
-            {
-                QPair<int, int> key;
-                file1 = new QTemporaryFile();
-                file1->open();
-
-                qSort(keys.begin(), keys.end(), tileIndexLessThan);
-                key = keys.last();
-                int xmax = key.first  + 1;
-
-                QString index;
-                foreach(key, keys)
-                {
-                    if(mapsel.selTiles[key] == false)
-                    {
-                        index += QString("%1 ").arg(key.second * xmax + key.first);
-                    }
-                }
-
-                file1->write(index.toLatin1());
-                file1->flush();
-                file1->close();
-
-                args << "-t" << file1->fileName();
-            }
-
-
-            args += outfiles;
-
-            args << tarPath.filePath(QString("%1.kmz").arg(prefix));
-            textBrowser->setTextColor(Qt::black);
-            textBrowser->append(path_map2gcm + " " +  args.join(" ") + "\n");
-
-            cmd4.start(path_map2gcm, args);
-            return;
-        }
-        else if(radioLOW->isChecked())
-        {
-            //QStringList args;
-            job_t job;
-
-            textBrowser->setTextColor(Qt::black);
-            textBrowser->append(tr("--- Lowrance MyNav Export ---\n"));
-            while (!jobsLowrance.empty())
-            {
-                job = jobsLowrance.takeFirst();
-                textBrowser->setTextColor(Qt::black);
-                textBrowser->append(job.tarFilename+"\n");
-                job.srcFilename=job.tarFilename;
-                quint64 div = (quint64)sqrt((double)(job.width*job.height)/MAX_MYNAV);
-                div++;
-                int tilesX = job.width/div;
-                int tilesY = job.height/div;
-                int width = job.width;
-                int height = job.height;
-
-                for (unsigned int divY=0; divY<div; divY++)
-                {
-                    for (unsigned int divX=0; divX<div; divX++)
-                    {
-                        job.tarFilename = job.tarFilename.left(job.tarFilename.length()-4);
-                        job.tarFilename = job.tarFilename+"_"+QString::number(divX*tilesX)+"_"+QString::number(divY*tilesY)+".tif";
-                        job.xoff=divX*tilesX;
-                        job.yoff=divY*tilesY;
-
-                        if (divY == div-1)
-                        {
-                            job.height = height-divY*tilesY;
-                        }
-                        else
-                        {
-                            job.height=tilesY;
-                        }
-
-                        if (divX == div-1)
-                        {
-                            job.width = width-divX*tilesX;
-                        }
-                        else
-                        {
-                            job.width=tilesX;
-                        }
-                        tmpjobs << job;
-                        job.tarFilename=job.srcFilename;
-                    }
-                }
-
-            }
-            jobsLowrance=tmpjobs;
-            slotFinished5(0,QProcess::NormalExit);
-
-            return;
-        }
-        else
-        {
-            textBrowser->setTextColor(Qt::black);
-            textBrowser->append(tr("--- finished ---\n"));
-            return;
-        }
-    }
-
-    file1 = new QTemporaryFile();
-    file1->open();
-    file2 = new QTemporaryFile();
-    file2->open();
-
-    job_t job = jobs.first();
-    QStringList args;
-    /*if(radioLOW->isChecked())
-    {
-        //qDebug() << "Make Lowrance 24bit";
-        args << "-expand" << "rgb";
-        //args << "-co" << "compress=NONE";
-    }*/
-    args << "-srcwin";
-
-    args << QString::number(job.xoff) << QString::number(job.yoff);
-    args << QString::number(job.width) << QString::number(job.height);
-    args << job.srcFilename;
-    args << file1->fileName();
-
-    textBrowser->setTextColor(Qt::black);
-    textBrowser->append(GDALTRANSLATE " " +  args.join(" ") + "\n");
-
-    cmd1.start(GDALTRANSLATE, args);
-
-}
-
-
-void CMapQMAPExport::slotFinished2( int exitCode, QProcess::ExitStatus status)
-{
-    job_t job = jobs.takeFirst();
-    if (job.height*job.width>MAX_MYNAV)
-    {
-        jobsLowrance << job;
-    }
-    QStringList args;
-    QTemporaryFile * tmpFile = new QTemporaryFile();
-    tmpFile->setFileName(job.tarFilename);
-    if (tmpFile->exists())
-    {
-        tmpFile->remove();
-    }
-    outfiles << job.tarFilename;
-    if(radioLOW->isChecked())
-    {
-        args << "-t_srs" << "+proj=utm +zone=32 +a=6378388.0000 +b=6356911.9461 +towgs84=-87,-98,-121,0,0,0,0,0 +units=m  +no_defs";
-    }
-    else
-    {
-        args << "-t_srs" << "EPSG:4326";
-    }
-    args << "-ts"    << QString::number(job.width) << QString::number(job.height);
-    args << "-co" << "tiled=yes";
-    args << "-co" << "blockxsize=256";
-    args << "-co" << "blockysize=256";
-    if(radioLOW->isChecked())
-    {
-        args << "-co" << "compress=NONE";
-    }
-    else
-    {
-         args << "-co" << "compress=LZW";
-    }
-    args << file1->fileName();
-    //args << file2->fileName();
-    args << job.tarFilename;
-    textBrowser->setTextColor(Qt::black);
-    textBrowser->append(GDALWARP " " +  args.join(" ") + "\n");
-
-    cmd2.start(GDALWARP, args);
-}
-
-
-//void CMapQMAPExport::slotFinished3( int exitCode, QProcess::ExitStatus status)
-//{
-//    job_t job = jobs.takeFirst();
-
-//    outfiles << job.tarFilename;
-
-//    QStringList args;
-//    args << "-co" << "tiled=yes";
-//    args << "-co" << "blockxsize=256";
-//    args << "-co" << "blockysize=256";
-//    args << "-co" << "compress=LZW";
-//    args << file2->fileName();
-//    args << job.tarFilename;
-
-//    textBrowser->setTextColor(Qt::black);
-//    textBrowser->append(GDALTRANSLATE " " +  args.join(" ") + "\n");
-
-//    cmd3.start(GDALTRANSLATE, args);
-//}
-
-void CMapQMAPExport::slotFinished4( int exitCode, QProcess::ExitStatus status)
-{
-    QString prefix = linePrefix->text();
-    QDir tarPath(labelPath->text());
-    QFile::remove(tarPath.filePath(QString("%1.qmap").arg(prefix)));
-
-    for(int i = 0; i < outfiles.count(); i++)
-    {
-        QFile::remove(outfiles[i]);
-    }
-
-    if(file1){delete file1; file1 = 0;}
-    textBrowser->setTextColor(Qt::black);
-    textBrowser->append(tr("--- finished ---\n"));
-}
-
-void CMapQMAPExport::slotFinished5( int exitCode, QProcess::ExitStatus status)
-{
-    QStringList args;
-    job_t job;
-    GDALDataset * dataset;
-    QByteArray doc;
-    OGRSpatialReference oSRS;
-    QString tmpstr;
-    PJ *   pj;
-    QTemporaryFile * tmpFile = new QTemporaryFile();
-
-    char str[1024];
-    double adfGeoTransform[6];
-
-    /// width in number of px
-    quint32 xsize_px;
-    /// height in number of px
-    quint32 ysize_px;
-
-    /// scale [px/m]
-    double xscale;
-    /// scale [px/m]
-    double yscale;
-
-    /// x reference point
-    double xref[3];
-    /// y reference point
-    double yref[3];
-    QString str_xref[3];
-    QString str_yref[3];
-
-    const char * cfuHead = "RASTER_VERSION @ 1 @ 14872295\nRASTER_SCALE @ 150000 @ 0;\n";
-    const char * cfuOverlay ="RASTER %1 @ %2 @ %3 @ %4 @ %5 @ %6 @ %7\n";
-
-    doc.append(cfuHead);
-
-    if(jobsLowrance.empty())
-    {
-        while(!tmpjobs.empty())
-        {
-            job = tmpjobs.takeFirst();
-            dataset = (GDALDataset*)GDALOpen(job.tarFilename.toUtf8(),GA_ReadOnly);            
-            dataset->GetGeoTransform(adfGeoTransform);
-            strncpy(str,dataset->GetProjectionRef(),sizeof(str));
-            char * ptr = str;
-
-            oSRS.importFromWkt(&ptr);
-            oSRS.exportToProj4(&ptr);
-            pj = pj_init_plus(ptr);
-
-            if(pj == 0)
-            {
-                delete dataset; dataset = 0;
-                QMessageBox::warning(0, tr("Error..."), tr("No georeference information found."));
-            }
-            else
-            {
-                xsize_px = dataset->GetRasterXSize();
-                ysize_px = dataset->GetRasterYSize();
-                if (pj_is_latlong(pj))
-                {
-                    xscale  = adfGeoTransform[1] * DEG_TO_RAD;
-                    yscale  = adfGeoTransform[5] * DEG_TO_RAD;
-
-                    xref[0]   = adfGeoTransform[0] * DEG_TO_RAD;
-                    yref[0]   = adfGeoTransform[3] * DEG_TO_RAD;
-                }
-                else
-                {
-                    xscale  = adfGeoTransform[1];
-                    yscale  = adfGeoTransform[5];
-
-                    xref[0]   = adfGeoTransform[0];
-                    yref[0]   = adfGeoTransform[3];
-                }
-
-                xref[1]   = xref[0];
-                yref[1]   = yref[0] + ysize_px * yscale;
-                xref[2]   = xref[0] + xsize_px * xscale;
-                yref[2]   = yref[0] + ysize_px * yscale;
-
-                //if (pj_is_geocent(pj)){
-                    pj_transform(pj, pj_latlong_from_proj(pj), 3, 1, xref, yref, 0);
-                //}
-                for (int i=0; i < 3; i++)
-                {
-                    xref[i]=xref[i]*RAD_TO_DEG;
-                    yref[i]=yref[i]*RAD_TO_DEG;
-                    str_xref[i]=tmpstr.sprintf("%f",xref[i]);
-                    str_yref[i]=tmpstr.sprintf("%f",yref[i]);
-                }
-
-                qDebug() << job.tarFilename;
-                qDebug() << ptr;
-                qDebug() << "xref1" << xref[0] << "yref1" << yref[0] << "xref2" << xref[1] << "yref2" << yref[1] << "xref3" << xref[2] << "yref3" << yref[2];
-                qDebug() << str_xref;
-                qDebug() << str_yref;
-                QFileInfo fileInfo(job.tarFilename);
-                QString fileStr = fileInfo.fileName();
-                doc.append(QString(cfuOverlay).arg(fileStr).arg(str_xref[0]).arg(str_yref[0]).arg(str_xref[1]).arg(str_yref[1]).arg(str_xref[2]).arg(str_yref[2]));
-            }
-            tmpFile->setFileName(job.srcFilename);
-            if (tmpFile->exists())
-            {
-                tmpFile->remove();
-            }
-        }
-        qDebug() << doc;
-        textBrowser->setTextColor(Qt::black);
-        textBrowser->append(tr("--- finished ---\n"));
+        delete state;
         return;
     }
-    job = jobsLowrance.takeFirst();
-    args << "-srcwin";
-    args << QString::number(job.xoff) << QString::number(job.yoff);
-    args << QString::number(job.width) << QString::number(job.height);
-    args << job.srcFilename;
-    args << job.tarFilename;
 
-    textBrowser->setTextColor(Qt::blue);
-    textBrowser->append(GDALTRANSLATE " " +  args.join(" ") + "\n");
-    cmd5.start(GDALTRANSLATE, args);
+    state->nextJob(cmd);
 }
