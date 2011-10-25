@@ -39,6 +39,7 @@ class IMapExportState : public QObject
 
         virtual void nextJob(QProcess& cmd) = 0;
 
+        static QString getTempFilename();
     protected:
         CMapQMAPExport * gui;
 };
@@ -47,7 +48,7 @@ class CMapExportStateCutFiles : public IMapExportState
 {
     Q_OBJECT;
     public:
-        CMapExportStateCutFiles(CMapQMAPExport * parent);
+        CMapExportStateCutFiles(int levels, CMapQMAPExport * parent);
         virtual ~CMapExportStateCutFiles();
 
         void nextJob(QProcess& cmd);
@@ -65,15 +66,42 @@ class CMapExportStateCutFiles : public IMapExportState
             int level;
         };
 
-        QList<job_t> jobs;
+        void addJob(const job_t& job);
 
+    protected:
 
 
     private:
+        const int levels;
+        QList<job_t> jobs;
+        int jobIdx;
+};
+
+class CMapExportStateCombineFiles : public IMapExportState
+{
+    Q_OBJECT;
+    public:
+        CMapExportStateCombineFiles(int levels, CMapQMAPExport * parent);
+        virtual ~CMapExportStateCombineFiles();
+
+        void nextJob(QProcess& cmd);
+
+        struct job_t
+        {
+            QStringList srcFile;
+            QString tarFile;
+
+            int level;
+        };
+
+        void addJob(const job_t& job);
+
+    private:
+        const int levels;
+        QList<job_t> jobs;
         int jobIdx;
 
 };
-
 
 class CMapQMAPExport : public QDialog, private Ui::IMapQMAPExport
 {

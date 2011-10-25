@@ -24,6 +24,7 @@
 
 #include <QtGui>
 
+// --------------------------------------------------------------------------------------------
 IMapExportState::IMapExportState(CMapQMAPExport * parent)
 : QObject(parent)
 , gui(parent)
@@ -36,16 +37,29 @@ IMapExportState::~IMapExportState()
 
 }
 
+QString IMapExportState::getTempFilename()
+{
+    QTemporaryFile tmp;
+    tmp.open();
+    return tmp.fileName();
+}
 
-CMapExportStateCutFiles::CMapExportStateCutFiles(CMapQMAPExport * parent)
+// --------------------------------------------------------------------------------------------
+CMapExportStateCutFiles::CMapExportStateCutFiles(int levels, CMapQMAPExport * parent)
 : IMapExportState(parent)
+, levels(levels)
 , jobIdx(0)
 {
 }
 
 CMapExportStateCutFiles::~CMapExportStateCutFiles()
 {
+    qDebug() << "~CMapExportStateCutFiles()";
+}
 
+void CMapExportStateCutFiles::addJob(const job_t& job)
+{
+    jobs << job;
 }
 
 void CMapExportStateCutFiles::nextJob(QProcess& cmd)
@@ -69,10 +83,52 @@ void CMapExportStateCutFiles::nextJob(QProcess& cmd)
     }
     else
     {
-        gui->stdout("todo: next statemachine\n");
+        CMapExportStateCombineFiles * state = new CMapExportStateCombineFiles(levels, gui);
+
+        for(int level = 1; level <= levels; level++)
+        {
+            CMapExportStateCombineFiles::job_t job;
+            job.level   = level;
+            job.tarFile = getTempFilename();
+
+            foreach(const job_t& j, jobs)
+            {
+                if(j.level == level)
+                {
+                    job.srcFile << j.tarFile;
+                }
+            }
+
+            state->addJob(job);
+        }
     }
 }
 
+// --------------------------------------------------------------------------------------------
+CMapExportStateCombineFiles::CMapExportStateCombineFiles(int levels, CMapQMAPExport * parent)
+: IMapExportState(parent)
+, levels(levels)
+, jobIdx(0)
+{
+
+}
+
+CMapExportStateCombineFiles::~CMapExportStateCombineFiles()
+{
+    qDebug() << "~CMapExportStateCombineFiles()";
+}
+
+void CMapExportStateCombineFiles::nextJob(QProcess& cmd)
+{
+
+}
+
+void CMapExportStateCombineFiles::addJob(const job_t& job)
+{
+    jobs << job;
+}
+
+// --------------------------------------------------------------------------------------------
 CMapQMAPExport::CMapQMAPExport(const CMapSelectionRaster& mapsel, QWidget * parent)
 : QDialog(parent)
 , mapsel(mapsel)
@@ -250,14 +306,14 @@ void CMapQMAPExport::slotStart()
 
     /// @todo disable start button
 
-    CMapExportStateCutFiles * cutState = new CMapExportStateCutFiles(this);
-    state = cutState;
-
     CMapDB::map_t& map = CMapDB::self().knownMaps[mapsel.mapkey];
     QDir srcPath = QFileInfo(map.filename).absolutePath();
     QSettings srcdef(map.filename, QSettings::IniFormat);
 
     int levels = srcdef.value("main/levels",0).toInt();
+
+    CMapExportStateCutFiles * cutState = new CMapExportStateCutFiles(levels,this);
+    state = cutState;
 
     // iterate over all map levels
     for(int level = 1; level <= levels; ++level)
@@ -311,19 +367,15 @@ void CMapQMAPExport::slotStart()
                     continue;
                 }
 
-                QTemporaryFile tmp;
-                tmp.open();
-                job.tarFile = tmp.fileName();
+                job.tarFile = IMapExportState::getTempFilename();
                 job.srcFile = mapfile.filename;
 
                 qDebug() << job.level << job.srcFile << ">>" << job.tarFile;
                 qDebug() << job.xoff << job.yoff << job.width << job.height;
 
-                cutState->jobs << job;
+                cutState->addJob(job);
             }
-
         }
-
     }
 
     state->nextJob(cmd);
