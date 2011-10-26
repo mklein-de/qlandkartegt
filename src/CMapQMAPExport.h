@@ -103,6 +103,49 @@ class CMapExportStateCombineFiles : public IMapExportState
 
 };
 
+class CMapExportStateReproject : public IMapExportState
+{
+    Q_OBJECT;
+    public:
+        CMapExportStateReproject(int levels, const QString& proj, CMapQMAPExport * parent);
+        virtual ~CMapExportStateReproject();
+
+        void nextJob(QProcess& cmd);
+
+        struct job_t
+        {
+            QString srcFile;
+            QString tarFile;
+
+            int level;
+        };
+
+        void addJob(const job_t& job);
+
+    private:
+        const int levels;
+        QList<job_t> jobs;
+        int jobIdx;
+        QString proj;
+
+};
+
+class CMapExportStateOptimize : public IMapExportState
+{
+    Q_OBJECT;
+    public:
+        CMapExportStateOptimize(CMapQMAPExport * parent);
+        virtual ~CMapExportStateOptimize();
+
+        void nextJob(QProcess& cmd);
+        void addJob(const QString& job);
+
+    private:
+        QStringList jobs;
+        int jobIdx;
+};
+
+
 class CMapQMAPExport : public QDialog, private Ui::IMapQMAPExport
 {
     Q_OBJECT;
@@ -111,6 +154,8 @@ class CMapQMAPExport : public QDialog, private Ui::IMapQMAPExport
         virtual ~CMapQMAPExport();
 
         void stdout(const QString& str);
+
+        void setNextState(IMapExportState * next);
 
     private slots:
         void slotBirdsEyeToggled(bool checked);
@@ -121,6 +166,8 @@ class CMapQMAPExport : public QDialog, private Ui::IMapQMAPExport
         void slotFinished(int exitCode, QProcess::ExitStatus status);
 
         void slotStart();
+
+
     private:
         const CMapSelectionRaster& mapsel;
 
