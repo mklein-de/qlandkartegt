@@ -2516,7 +2516,7 @@ Erwartet: %1, empfangen %2.</translation>
     <message>
         <location filename="../CGeoDB.cpp" line="91"/>
         <source>Manage your Geo Data Base</source>
-        <translation>Verwalte deine Geodatenbank</translation>
+        <translation>Geodatenbank verwalten</translation>
     </message>
     <message>
         <location filename="../CGeoDB.cpp" line="95"/>
@@ -2568,7 +2568,7 @@ Erwartet: %1, empfangen %2.</translation>
     <message>
         <location filename="../CGeoDB.cpp" line="140"/>
         <source>All items that lost their parent folder as you deleted it.</source>
-        <translation>Alle Elemente, die ihren Ordner verloren haben, weil Sie ihn gelöscht haben.</translation>
+        <translation>Alle Elemente, die ihren übergeordneten Ordner verloren haben, weil Sie ihn gelöscht haben.</translation>
     </message>
     <message>
         <location filename="../CGeoDB.cpp" line="144"/>
@@ -2578,12 +2578,12 @@ Erwartet: %1, empfangen %2.</translation>
     <message>
         <location filename="../CGeoDB.cpp" line="148"/>
         <source>All your data grouped by folders.</source>
-        <translation>Alle Ihre Daten in Ordnern gruppiert.</translation>
+        <translation>Alle Ihre Daten nach Ordnern gruppiert.</translation>
     </message>
     <message>
         <location filename="../CGeoDB.cpp" line="183"/>
         <source>Edit</source>
-        <translation>Editieren</translation>
+        <translation>Bearbeiten</translation>
     </message>
     <message>
         <location filename="../CGeoDB.cpp" line="184"/>
@@ -2593,7 +2593,7 @@ Erwartet: %1, empfangen %2.</translation>
     <message>
         <location filename="../CGeoDB.cpp" line="185"/>
         <source>Show/hide diary</source>
-        <translation>Zeige/Schließe Tagebuch</translation>
+        <translation>Tagebuch zeigen/ausblenden</translation>
     </message>
     <message>
         <location filename="../CGeoDB.cpp" line="186"/>
@@ -2631,22 +2631,22 @@ Erwartet: %1, empfangen %2.</translation>
     <message>
         <location filename="../CGeoDB.cpp" line="454"/>
         <source>Migrating database from version 4 to 5.</source>
-        <translation>Aktualisiere Datenbank von Version 4 auf 5</translation>
+        <translation>Datenbank wird von Version 4 auf 5 aktualisiert.</translation>
     </message>
     <message>
         <location filename="../CGeoDB.cpp" line="505"/>
         <source>Migrating database from version 5 to 6.</source>
-        <translation>Aktualisiere Datenbank von Version 5 auf 6</translation>
+        <translation>Datenbank wird von Version 5 auf 6 aktualisiert.</translation>
     </message>
     <message>
         <location filename="../CGeoDB.cpp" line="562"/>
         <source>Migrating database from version 6 to 7.</source>
-        <translation>Aktualisiere Datenbank von Version 6 auf 7</translation>
+        <translation>Datenbank wird von Version 6 auf 7 aktualisiert.</translation>
     </message>
     <message>
         <location filename="../CGeoDB.cpp" line="627"/>
         <source>Migrating database from version 7 to 8.</source>
-        <translation>Aktualisiere Datenbank von Version 7 auf 8</translation>
+        <translation>Datenbank von Version 7 auf 8 aktualisiert.</translation>
     </message>
     <message>
         <source>Mirgrating database from version 4 to 5.</source>
@@ -2663,7 +2663,7 @@ Erwartet: %1, empfangen %2.</translation>
     <message>
         <location filename="../CGeoDB.cpp" line="702"/>
         <source>Loading workspace. Please wait.</source>
-        <translation>Der Arbeitsplatz wird geladen. Btte Warten.</translation>
+        <translation>Arbeitsplatz wird geladen. Bitte warten.</translation>
     </message>
     <message>
         <location filename="../CGeoDB.cpp" line="784"/>
@@ -2678,12 +2678,12 @@ Erwartet: %1, empfangen %2.</translation>
     <message>
         <location filename="../CGeoDB.cpp" line="1248"/>
         <source>Loading items from database.</source>
-        <translation>Lade Elemente aus der Datenbank.</translation>
+        <translation>Elemente werden aus der Datenbank geladen.</translation>
     </message>
     <message>
         <location filename="../CGeoDB.cpp" line="1807"/>
         <source>Saving workspace. Please wait.</source>
-        <translation>Sichere Arbeitsplatz. Bitte Warten.</translation>
+        <translation>Arbeitsplatz wird gespeichert. Bitte warten.</translation>
     </message>
     <message>
         <location filename="../CGeoDB.cpp" line="2504"/>
@@ -2694,7 +2694,7 @@ Erwartet: %1, empfangen %2.</translation>
         <location filename="../CGeoDB.cpp" line="2663"/>
         <location filename="../CGeoDB.cpp" line="2857"/>
         <source>Delete items.</source>
-        <translation>Elemente werden gelöscht</translation>
+        <translation>Elemente werden gelöscht.</translation>
     </message>
     <message>
         <location filename="../CGeoDB.cpp" line="2707"/>
@@ -2784,7 +2784,7 @@ Erwartet: %1, empfangen %2.</translation>
     <message>
         <location filename="../CGeoDB.cpp" line="2504"/>
         <source>You are sure you want to delete &apos;%1&apos; and all items below?</source>
-        <translation>Sicher dass Du &apos;%1&apos; löschen willst?</translation>
+        <translation>Sind Sie sicher, dass &apos;%1&apos; und alle darunter liegenden Elemente gelöscht werden sollen?</translation>
     </message>
     <message>
         <source>Edit comment?</source>
@@ -2822,35 +2822,35 @@ Erwartet: %1, empfangen %2.</translation>
     <message>
         <location filename="../CGpx.cpp" line="173"/>
         <source>File exists ...</source>
-        <translation>Datei existiert ...</translation>
+        <translation>Datei ist vorhanden ...</translation>
     </message>
     <message>
         <location filename="../CGpx.cpp" line="174"/>
         <source>The file exists and it has not been created by QLandkarte GT. If you press &apos;yes&apos; all data in this file will be lost. Even if this file contains GPX data, QLandkarte GT might not load and store all elements of this file. Those elements will be lost. I recommend to use another file. &lt;b&gt;Do you really want to overwrite the file?&lt;/b&gt;</source>
-        <translation>Diese Datei existiert und wurde nicht mit QLandkarte GT erzeugt. Wenn Du &apos;ja/yes&apos; drückst werden alle Daten in dieser Datei gelöscht. Wenn diese Datei GPX-Daten enthält, kann es sein, dass QLandkarte GT nich alle Elemente der Datei laden und speichern kann. Diese Elemente werden verloren gehen. Es wird empfohlen eine andere Datei zu verwenden. &lt;b&gt;Möchtest Du die Datei wirklich überschreiben?&lt;/b&gt;</translation>
+        <translation>Diese Datei ist vorhanden und wurde nicht mit QLandkarte GT erzeugt. Wenn Sie &apos;Ja&apos; wählen, gehen alle Daten in dieser Datei verloren. Selbst wenn diese Datei GPX-Daten enthält, kann es sein, dass QLandkarte GT nicht alle Elemente der Datei laden und speichern kann. Diese Elemente werden verloren gehen. Es wird empfohlen, eine andere Datei zu verwenden. &lt;b&gt;Möchten Sie die Datei wirklich überschreiben?&lt;/b&gt;</translation>
     </message>
     <message>
         <location filename="../CGpx.cpp" line="190"/>
         <location filename="../CGpx.cpp" line="206"/>
         <source>Failed to open: </source>
-        <translation>Öffnen gescheitert: </translation>
+        <translation>Öffnen fehlgeschlagen: </translation>
     </message>
     <message>
         <location filename="../CGpx.cpp" line="222"/>
         <source>Not a GPX file: </source>
-        <translation>Keine GPX-Dateien: </translation>
+        <translation>Keine GPX-Datei: </translation>
     </message>
     <message>
         <location filename="../CGpx.cpp" line="226"/>
         <source>GPX schema violation: no &quot;creator&quot; attribute.</source>
-        <translation>Kaputtes GPX Format: Kein \&quot;creator\&quot; Attribut</translation>
+        <translation>Defektes GPX-Format: Kein \&quot;creator\&quot; Attribut.</translation>
     </message>
     <message>
         <location filename="../CGpx.cpp" line="215"/>
         <source>Failed to read: %1
 line %2, column %3:
  %4</source>
-        <translation>Fehler beim Lesen:  %1 
+        <translation>Fehler beim Lesen: %1
 Zeile %2, Spalte %3:
 %4</translation>
     </message>
@@ -2870,17 +2870,17 @@ Zeile %2, Spalte %3:
     <message>
         <location filename="../CLiveLogDB.cpp" line="188"/>
         <source>2D (%1)</source>
-        <translation type="unfinished"></translation>
+        <translation>2D (%1)</translation>
     </message>
     <message>
         <location filename="../CLiveLogDB.cpp" line="190"/>
         <source>3D (%1)</source>
-        <translation type="unfinished"></translation>
+        <translation>3D (%1)</translation>
     </message>
     <message>
         <location filename="../CLiveLogDB.cpp" line="192"/>
         <source>DR (%1)</source>
-        <translation type="unfinished"></translation>
+        <translation>DR (%1)</translation>
     </message>
     <message>
         <location filename="../CLiveLogDB.cpp" line="197"/>
@@ -2893,22 +2893,22 @@ Zeile %2, Spalte %3:
     <message>
         <location filename="../CLiveLogDB.cpp" line="274"/>
         <source>GPS signal low (%1)</source>
-        <translation type="unfinished"></translation>
+        <translation>GPS-Signal schwach (%1)</translation>
     </message>
     <message>
         <location filename="../CLiveLogDB.cpp" line="287"/>
         <source>GPS connection failed</source>
-        <translation type="unfinished"></translation>
+        <translation>GPS-Verbindung fehlgeschlagen</translation>
     </message>
     <message>
         <location filename="../CLiveLogDB.cpp" line="291"/>
         <source>GPS connection established</source>
-        <translation type="unfinished"></translation>
+        <translation>GPS-Verbindung hergestellt</translation>
     </message>
     <message>
         <location filename="../CLiveLogDB.cpp" line="295"/>
         <source>GPS connection receiving %1 bytes</source>
-        <translation type="unfinished"></translation>
+        <translation>GPS-Verbindung empfängt %1 Byte</translation>
     </message>
     <message>
         <source>±%1 m</source>
@@ -2951,7 +2951,7 @@ Zeile %2, Spalte %3:
     <message>
         <location filename="../CMainWindow.cpp" line="240"/>
         <source>&lt;b&gt;GPS Device:&lt;/b&gt;</source>
-        <translation>&lt;b&gt;GPS Gerät:&lt;/b&gt;</translation>
+        <translation>&lt;b&gt;GPS-Gerät:&lt;/b&gt;</translation>
     </message>
     <message>
         <location filename="../CMainWindow.cpp" line="495"/>
@@ -2961,7 +2961,7 @@ Zeile %2, Spalte %3:
     <message>
         <location filename="../CMainWindow.cpp" line="495"/>
         <source>This will erase all project data like waypoints and tracks.</source>
-        <translation>Diese Aktion löscht alle Daten, wie Wegpunkte und Tracks.</translation>
+        <translation>Diese Aktion löscht alle Projektdaten wie Wegpunkte und Tracks.</translation>
     </message>
     <message>
         <location filename="../CMainWindow.cpp" line="539"/>
@@ -3019,7 +3019,7 @@ Zeile %2, Spalte %3:
     <message>
         <location filename="../CMainWindow.cpp" line="567"/>
         <source>Exit</source>
-        <translation type="unfinished">Beenden</translation>
+        <translation>Beenden</translation>
     </message>
     <message>
         <source>-</source>
@@ -3057,7 +3057,7 @@ Zeile %2, Spalte %3:
     <message>
         <location filename="../CMainWindow.cpp" line="945"/>
         <source>Save geo data?</source>
-        <translation>Sollen die Daten gespeichert werden?</translation>
+        <translation>Sollen die Geodaten gespeichert werden?</translation>
     </message>
     <message>
         <location filename="../CMainWindow.cpp" line="946"/>
@@ -3071,7 +3071,7 @@ Sollen die Änderungen gespeichert werden?</translation>
         <location filename="../CMainWindow.cpp" line="1011"/>
         <location filename="../CMainWindow.cpp" line="1230"/>
         <source>Select output file</source>
-        <translation>Zu speichernde Datei wählen</translation>
+        <translation>Ausgabedatei wählen</translation>
     </message>
     <message>
         <location filename="../CMainWindow.cpp" line="1180"/>
@@ -3091,22 +3091,22 @@ Sollen die Änderungen gespeichert werden?</translation>
     <message>
         <location filename="../CMainWindow.cpp" line="1279"/>
         <source>&lt;div style=&apos;float: left;&apos;&gt;&lt;b&gt;Project Summary (&lt;a href=&apos;Clear&apos;&gt;clear&lt;/a&gt; project):&lt;/b&gt;&lt;/div&gt;</source>
-        <translation>&lt;div style=&apos;float: left;&apos;&gt;&lt;b&gt;Projektzusammenfassung (&lt;a href=&apos;Clear&apos;&gt;lösche Projekt&lt;/a&gt;):&lt;/b&gt;&lt;/div&gt;</translation>
+        <translation>&lt;div style=&apos;float: left;&apos;&gt;&lt;b&gt;Projektzusammenfassung (&lt;a href=&apos;Clear&apos;&gt;Projekt&lt;/a&gt; löschen):&lt;/b&gt;&lt;/div&gt;</translation>
     </message>
     <message>
         <location filename="../CMainWindow.cpp" line="1287"/>
         <source>Currently there is %1 &lt;a href=&apos;Waypoints&apos;&gt;waypoint&lt;/a&gt;, </source>
-        <translation>Momentan sind %1 &lt;a href=&apos;Waypoints&apos;&gt;Wegpunkt&lt;/a&gt;, </translation>
+        <translation>Derzeit gibt es %1 &lt;a href=&apos;Waypoints&apos;&gt;Wegpunkt&lt;/a&gt;, </translation>
     </message>
     <message>
         <location filename="../CMainWindow.cpp" line="1291"/>
         <source>Currently there are %1 &lt;a href=&apos;Waypoints&apos;&gt;waypoints&lt;/a&gt;, </source>
-        <translation>Momentan sind %1 &lt;a href=&apos;Waypoints&apos;&gt;Wegpunkte&lt;/a&gt;, </translation>
+        <translation>Derzeit gibt es %1 &lt;a href=&apos;Waypoints&apos;&gt;Wegpunkte&lt;/a&gt;, </translation>
     </message>
     <message>
         <location filename="../CMainWindow.cpp" line="1296"/>
         <source>There are no waypoints, </source>
-        <translation>Keine Wegpunkte,</translation>
+        <translation>Es gibt keine Wegpunkte,</translation>
     </message>
     <message>
         <location filename="../CMainWindow.cpp" line="1338"/>
@@ -3121,7 +3121,7 @@ Sollen die Änderungen gespeichert werden?</translation>
     <message>
         <location filename="../CMainWindow.cpp" line="1347"/>
         <source>no overlays. </source>
-        <translation> keine Overlays vorhanden.</translation>
+        <translation> keine Overlays.</translation>
     </message>
     <message>
         <source>A &lt;a href=&apos;Diary&apos;&gt;diary&lt;/a&gt; is loaded.</source>
@@ -3154,7 +3154,7 @@ Sollen die Änderungen gespeichert werden?</translation>
     <message>
         <location filename="../CMainWindow.cpp" line="629"/>
         <source>&amp;Help</source>
-        <translation type="unfinished">&amp;Hilfe</translation>
+        <translation>&amp;Hilfe</translation>
     </message>
     <message>
         <location filename="../CMainWindow.cpp" line="608"/>
@@ -3164,22 +3164,22 @@ Sollen die Änderungen gespeichert werden?</translation>
     <message>
         <location filename="../CMainWindow.cpp" line="630"/>
         <source>http://FAQ</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../CMainWindow.cpp" line="631"/>
         <source>http://Help</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../CMainWindow.cpp" line="632"/>
         <source>http://Support</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../CMainWindow.cpp" line="634"/>
         <source>About &amp;QLandkarte GT</source>
-        <translation type="unfinished">&amp;Über QLandkarteGT</translation>
+        <translation>&amp;Über QLandkarteGT</translation>
     </message>
     <message>
         <location filename="../CMainWindow.cpp" line="616"/>
@@ -3239,7 +3239,7 @@ Sollen die Änderungen gespeichert werden?</translation>
         <location filename="../CMainWindow.cpp" line="728"/>
         <location filename="../CMainWindow.cpp" line="776"/>
         <source>Select input files</source>
-        <translation>Dateien auswählen</translation>
+        <translation>Eingabedateien auswählen</translation>
     </message>
     <message>
         <location filename="../CMainWindow.cpp" line="1304"/>
@@ -3254,17 +3254,17 @@ Sollen die Änderungen gespeichert werden?</translation>
     <message>
         <location filename="../CMainWindow.cpp" line="1313"/>
         <source>no tracks, </source>
-        <translation>keine Tracks,</translation>
+        <translation> keine Tracks,</translation>
     </message>
     <message>
         <location filename="../CMainWindow.cpp" line="1321"/>
         <source> %1 &lt;a href=&apos;Routes&apos;&gt;route&lt;/a&gt; and </source>
-        <translation> %1 &lt;a href=&apos;Routes&apos;&gt;Route&lt;/a&gt; and </translation>
+        <translation> %1 &lt;a href=&apos;Routes&apos;&gt;Route&lt;/a&gt; und </translation>
     </message>
     <message>
         <location filename="../CMainWindow.cpp" line="1325"/>
         <source> %1 &lt;a href=&apos;Routes&apos;&gt;routes&lt;/a&gt; and </source>
-        <translation> %1 &lt;a href=&apos;Routes&apos;&gt;Routen&lt;/a&gt; and </translation>
+        <translation> %1 &lt;a href=&apos;Routes&apos;&gt;Routen&lt;/a&gt; und </translation>
     </message>
     <message>
         <location filename="../CMainWindow.cpp" line="1330"/>
@@ -3397,17 +3397,17 @@ Sollen die Änderungen gespeichert werden?</translation>
     <message>
         <location filename="../CMapDB.cpp" line="816"/>
         <source>Search Map</source>
-        <translation>In der Karte finden</translation>
+        <translation>Karte durchsuchen</translation>
     </message>
     <message>
         <location filename="../CMapDB.cpp" line="830"/>
         <source>Sorry...</source>
-        <translation>Es tut mir leid...</translation>
+        <translation>Schade...</translation>
     </message>
     <message>
         <location filename="../CMapDB.cpp" line="830"/>
         <source>You can&apos;t select subareas from single file maps. Create a collection with F1-&gt;F6.</source>
-        <translation>Du kannst keine Ausschnitte aus einer einzelnen Kartendatei wählen. Erzeuge eine Kartensammlung mit F1-&gt;F6.</translation>
+        <translation>Sie können keine Ausschnitte aus einer einzelnen Kartendatei wählen. Erzeugen Sie eine Kartensammlung mit F1-&gt;F6.</translation>
     </message>
     <message>
         <source>You can&apos;t select subareas from single file maps.</source>
@@ -3432,12 +3432,12 @@ Sollen die Änderungen gespeichert werden?</translation>
         <source>Failed to load file: %1
 
 </source>
-        <translation>Das Laden der Datei %1 schlug fehl.</translation>
+        <translation>Das Laden der Datei %1 ist fehlgeschlagen.</translation>
     </message>
     <message>
         <location filename="../CMapDEM.cpp" line="58"/>
         <source>Failed to load file: %1</source>
-        <translation>Laden der Datei gescheitert: %1</translation>
+        <translation>Das Laden der Datei %1 ist fehlgeschlagen.</translation>
     </message>
 </context>
 <context>
