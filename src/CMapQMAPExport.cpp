@@ -152,10 +152,10 @@ void CMapExportStateCombineFiles::nextJob(QProcess& cmd)
         {
             gui->stdOut("copy " + job.srcFile[0] + " ->" + job.tarFile + "\n");
             QFile::rename(job.srcFile[0], job.tarFile);
-			jobIdx++;
+            jobIdx++;
 
-			gui->slotFinished(0, QProcess::NormalExit);
-			return;
+            gui->slotFinished(0, QProcess::NormalExit);
+            return;
         }
 
         QStringList args;
@@ -166,7 +166,7 @@ void CMapExportStateCombineFiles::nextJob(QProcess& cmd)
         jobIdx++;
 
         gui->stdOut(GDALWARP " " +  args.join(" ") + "\n");
-        cmd.start(GDALWARP, args);       
+        cmd.start(GDALWARP, args);
     }
     else
     {
@@ -216,10 +216,10 @@ void CMapExportStateConvColor::nextJob(QProcess& cmd)
         {
             gui->stdOut("copy " + job.srcFile + " ->" + job.tarFile + "\n");
             QFile::rename(job.srcFile, job.tarFile);
-			jobIdx++;
+            jobIdx++;
 
             gui->slotFinished(0, QProcess::NormalExit);
-			return;
+            return;
         }
         QStringList args;
         args << "-expand" << "rgb";
@@ -727,7 +727,11 @@ void CMapQMAPExport::slotStart()
                 job.srcFile << j.tarFile;
             }
         }
-        state2->addJob(job);
+
+        if(!job.srcFile.isEmpty())
+        {
+            state2->addJob(job);
+        }
     }
     states << state2;
 
@@ -748,7 +752,7 @@ void CMapQMAPExport::slotStart()
     // 4. step: reproject files
     // ---------------------------------------------
     int cnt = 0;
-    CMapExportStateReproject * state4 = new CMapExportStateReproject("EPSG:4326", this);    
+    CMapExportStateReproject * state4 = new CMapExportStateReproject("EPSG:4326", this);
     foreach(const CMapExportStateConvColor::job_t& j, state3->getJobs())
     {
         CMapExportStateReproject::job_t job;
@@ -898,7 +902,7 @@ void CMapQMAPExport::slotFinished(int exitCode, QProcess::ExitStatus status)
         return;
     }
 
-	QApplication::processEvents();
+    QApplication::processEvents();
     state->nextJob(cmd);
 }
 
