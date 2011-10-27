@@ -250,9 +250,12 @@ class CMapQMAPExport : public QDialog, private Ui::IMapQMAPExport
         CMapQMAPExport(const CMapSelectionRaster& mapsel, QWidget * parent);
         virtual ~CMapQMAPExport();
 
-        void stdout(const QString& str);
+        void stdOut(const QString& str);
 
         void setNextState();
+
+	public slots:
+		void slotFinished(int exitCode, QProcess::ExitStatus status);
 
     private slots:
         void slotBirdsEyeToggled(bool checked);
@@ -261,7 +264,7 @@ class CMapQMAPExport : public QDialog, private Ui::IMapQMAPExport
 
         void slotStderr();
         void slotStdout();
-        void slotFinished(int exitCode, QProcess::ExitStatus status);
+        
 
         void slotStart();
 

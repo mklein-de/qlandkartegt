@@ -79,9 +79,9 @@ CMapExportStateCutFiles::~CMapExportStateCutFiles()
 
 void CMapExportStateCutFiles::explain()
 {
-    gui->stdout(   "*************************************");
-    gui->stdout(tr("Cut area from files..."));
-    gui->stdout(   "-------------------------------------");
+    gui->stdOut(   "*************************************");
+    gui->stdOut(tr("Cut area from files..."));
+    gui->stdOut(   "-------------------------------------");
 }
 
 void CMapExportStateCutFiles::nextJob(QProcess& cmd)
@@ -99,7 +99,7 @@ void CMapExportStateCutFiles::nextJob(QProcess& cmd)
         args << job.srcFile;
         args << job.tarFile;
 
-        gui->stdout(GDALTRANSLATE " " +  args.join(" ") + "\n");
+        gui->stdOut(GDALTRANSLATE " " +  args.join(" ") + "\n");
         cmd.start(GDALTRANSLATE, args);
 
         jobIdx++;
@@ -133,9 +133,9 @@ CMapExportStateCombineFiles::~CMapExportStateCombineFiles()
 
 void CMapExportStateCombineFiles::explain()
 {
-    gui->stdout(   "*************************************");
-    gui->stdout(tr("Combine files for each level..."));
-    gui->stdout(   "-------------------------------------");
+    gui->stdOut(   "*************************************");
+    gui->stdOut(tr("Combine files for each level..."));
+    gui->stdOut(   "-------------------------------------");
 }
 
 void CMapExportStateCombineFiles::nextJob(QProcess& cmd)
@@ -146,22 +146,21 @@ void CMapExportStateCombineFiles::nextJob(QProcess& cmd)
 
         if(job.srcFile.count() == 1)
         {
-            QStringList args;
-            args << tr("done");
-            gui->stdout("copy " + job.srcFile[0] + " ->" + job.tarFile + "\n");
+            gui->stdOut("copy " + job.srcFile[0] + " ->" + job.tarFile + "\n");
             QFile::rename(job.srcFile[0], job.tarFile);
-            cmd.start("echo", args);
-        }
-        else
-        {
-            QStringList args;
-            args << "-co" << "tiled=yes" << "-co" << "compress=LZW";
-            args << job.srcFile;
-            args << job.tarFile;
+			jobIdx++;
 
-            gui->stdout(GDALWARP " " +  args.join(" ") + "\n");
-            cmd.start(GDALWARP, args);
+			gui->slotFinished(0, QProcess::NormalExit);
+			return;
         }
+
+        QStringList args;
+        args << "-co" << "tiled=yes" << "-co" << "compress=LZW";
+        args << job.srcFile;
+        args << job.tarFile;
+
+        gui->stdOut(GDALWARP " " +  args.join(" ") + "\n");
+        cmd.start(GDALWARP, args);
 
         jobIdx++;
     }
@@ -192,9 +191,9 @@ CMapExportStateConvColor::~CMapExportStateConvColor()
 
 void CMapExportStateConvColor::explain()
 {
-    gui->stdout(   "*************************************");
-    gui->stdout(tr("Convert color to 3 band RGB..."));
-    gui->stdout(   "-------------------------------------");
+    gui->stdOut(   "*************************************");
+    gui->stdOut(tr("Convert color to 3 band RGB..."));
+    gui->stdOut(   "-------------------------------------");
 }
 
 void CMapExportStateConvColor::nextJob(QProcess& cmd)
@@ -211,23 +210,22 @@ void CMapExportStateConvColor::nextJob(QProcess& cmd)
 
         if(isRgb)
         {
-            QStringList args;
-            args << tr("done");
-            gui->stdout("copy " + job.srcFile + " ->" + job.tarFile + "\n");
+            gui->stdOut("copy " + job.srcFile + " ->" + job.tarFile + "\n");
             QFile::rename(job.srcFile, job.tarFile);
-            cmd.start("echo", args);
-        }
-        else
-        {
-            QStringList args;
-            args << "-expand" << "rgb";
-            args << "-co" << "tiled=yes" << "-co" << "compress=jpeg";
-            args << job.srcFile;
-            args << job.tarFile;
+			jobIdx++;
 
-            gui->stdout(GDALTRANSLATE " " +  args.join(" ") + "\n");
-            cmd.start(GDALTRANSLATE, args);
+            gui->slotFinished(0, QProcess::NormalExit);
+			return;
         }
+        QStringList args;
+        args << "-expand" << "rgb";
+        args << "-co" << "tiled=yes" << "-co" << "compress=jpeg";
+        args << job.srcFile;
+        args << job.tarFile;
+
+        gui->stdOut(GDALTRANSLATE " " +  args.join(" ") + "\n");
+        cmd.start(GDALTRANSLATE, args);
+
         jobIdx++;
     }
     else
@@ -258,9 +256,9 @@ CMapExportStateReproject::~CMapExportStateReproject()
 
 void CMapExportStateReproject::explain()
 {
-    gui->stdout(   "*************************************");
-    gui->stdout(tr("Re-project files..."));
-    gui->stdout(   "-------------------------------------");
+    gui->stdOut(   "*************************************");
+    gui->stdOut(tr("Re-project files..."));
+    gui->stdOut(   "-------------------------------------");
 }
 
 void CMapExportStateReproject::nextJob(QProcess& cmd)
@@ -284,7 +282,7 @@ void CMapExportStateReproject::nextJob(QProcess& cmd)
         args << job.srcFile;
         args << job.tarFile;
 
-        gui->stdout(GDALWARP " " +  args.join(" ") + "\n");
+        gui->stdOut(GDALWARP " " +  args.join(" ") + "\n");
         cmd.start(GDALWARP, args);
 
         jobIdx++;
@@ -310,9 +308,9 @@ CMapExportStateOptimize::~CMapExportStateOptimize()
 
 void CMapExportStateOptimize::explain()
 {
-    gui->stdout(   "*************************************");
-    gui->stdout(tr("Optimize files..."));
-    gui->stdout(   "-------------------------------------");
+    gui->stdOut(   "*************************************");
+    gui->stdOut(tr("Optimize files..."));
+    gui->stdOut(   "-------------------------------------");
 }
 
 void CMapExportStateOptimize::nextJob(QProcess& cmd)
@@ -327,7 +325,7 @@ void CMapExportStateOptimize::nextJob(QProcess& cmd)
         args << job.srcFile;
         args << "4" << "16";
 
-        gui->stdout(GDALADDO " " +  args.join(" ") + "\n");
+        gui->stdOut(GDALADDO " " +  args.join(" ") + "\n");
         cmd.start(GDALADDO, args);
 
         jobIdx++;
@@ -363,9 +361,9 @@ CMapExportStateGCM::~CMapExportStateGCM()
 
 void CMapExportStateGCM::explain()
 {
-    gui->stdout(   "*************************************");
-    gui->stdout(tr("Create Garmin Custom Map..."));
-    gui->stdout(   "-------------------------------------");
+    gui->stdOut(   "*************************************");
+    gui->stdOut(tr("Create Garmin Custom Map..."));
+    gui->stdOut(   "-------------------------------------");
 }
 
 void CMapExportStateGCM::nextJob(QProcess& cmd)
@@ -383,7 +381,7 @@ void CMapExportStateGCM::nextJob(QProcess& cmd)
         args += job.srcFile;
         args << job.tarFile;
 
-        gui->stdout(app + " " +  args.join(" ") + "\n");
+        gui->stdOut(app + " " +  args.join(" ") + "\n");
         cmd.start(app, args);
 
         jobIdx++;
@@ -418,9 +416,9 @@ CMapExportStateJNX::~CMapExportStateJNX()
 
 void CMapExportStateJNX::explain()
 {
-    gui->stdout(   "*************************************");
-    gui->stdout(tr("Create Garmin JNX Map..."));
-    gui->stdout(   "-------------------------------------");
+    gui->stdOut(   "*************************************");
+    gui->stdOut(tr("Create Garmin JNX Map..."));
+    gui->stdOut(   "-------------------------------------");
 }
 
 void CMapExportStateJNX::nextJob(QProcess& cmd)
@@ -440,7 +438,7 @@ void CMapExportStateJNX::nextJob(QProcess& cmd)
         args += job.srcFile;
         args << job.tarFile;
 
-        gui->stdout(app + " " +  args.join(" ") + "\n");
+        gui->stdOut(app + " " +  args.join(" ") + "\n");
         cmd.start(app, args);
 
         jobIdx++;
@@ -616,7 +614,7 @@ void CMapQMAPExport::slotStdout()
 }
 
 
-void CMapQMAPExport::stdout(const QString& str)
+void CMapQMAPExport::stdOut(const QString& str)
 {
     textBrowser->setTextColor(Qt::black);
     textBrowser->append(str);
@@ -865,7 +863,7 @@ void CMapQMAPExport::setNextState()
 
     if(states.isEmpty())
     {
-        stdout(tr("--- done ---\n"));
+        stdOut(tr("--- done ---\n"));
         pushExport->setEnabled(true);
     }
     else
@@ -891,6 +889,7 @@ void CMapQMAPExport::slotFinished(int exitCode, QProcess::ExitStatus status)
         return;
     }
 
+	QApplication::processEvents();
     state->nextJob(cmd);
 }
 
