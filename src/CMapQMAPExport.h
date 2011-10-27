@@ -37,7 +37,9 @@ class IMapExportState : public QObject
         IMapExportState(CMapQMAPExport * parent);
         virtual ~IMapExportState();
 
+        virtual void explain() = 0;
         virtual void nextJob(QProcess& cmd) = 0;
+
 
         static QString getTempFilename();
     protected:
@@ -48,9 +50,10 @@ class CMapExportStateCutFiles : public IMapExportState
 {
     Q_OBJECT;
     public:
-        CMapExportStateCutFiles(int levels, CMapQMAPExport * parent);
+        CMapExportStateCutFiles(CMapQMAPExport * parent);
         virtual ~CMapExportStateCutFiles();
 
+        void explain();
         void nextJob(QProcess& cmd);
 
         struct job_t
@@ -66,13 +69,10 @@ class CMapExportStateCutFiles : public IMapExportState
             int level;
         };
 
-        void addJob(const job_t& job);
-
-    protected:
-
+        void addJob(const job_t& job){jobs << job;}
+        const QList<job_t>& getJobs(){return jobs;}
 
     private:
-        const int levels;
         QList<job_t> jobs;
         int jobIdx;
 };
@@ -81,49 +81,73 @@ class CMapExportStateCombineFiles : public IMapExportState
 {
     Q_OBJECT;
     public:
-        CMapExportStateCombineFiles(int levels, CMapQMAPExport * parent);
+        CMapExportStateCombineFiles(CMapQMAPExport * parent);
         virtual ~CMapExportStateCombineFiles();
 
+        void explain();
         void nextJob(QProcess& cmd);
 
         struct job_t
         {
             QStringList srcFile;
             QString tarFile;
-
-            int level;
         };
 
-        void addJob(const job_t& job);
+        void addJob(const job_t& job){jobs << job;}
+        const QList<job_t>& getJobs(){return jobs;}
 
     private:
-        const int levels;
         QList<job_t> jobs;
         int jobIdx;
 
 };
 
-class CMapExportStateReproject : public IMapExportState
+class CMapExportStateConvColor : public IMapExportState
 {
     Q_OBJECT;
     public:
-        CMapExportStateReproject(int levels, const QString& proj, CMapQMAPExport * parent);
-        virtual ~CMapExportStateReproject();
+        CMapExportStateConvColor(CMapQMAPExport * parent);
+        virtual ~CMapExportStateConvColor();
 
+        void explain();
         void nextJob(QProcess& cmd);
 
         struct job_t
         {
             QString srcFile;
             QString tarFile;
-
-            int level;
         };
 
-        void addJob(const job_t& job);
+        void addJob(const job_t& job){jobs << job;}
+        const QList<job_t>& getJobs(){return jobs;}
 
     private:
-        const int levels;
+        QList<job_t> jobs;
+        int jobIdx;
+
+};
+
+
+class CMapExportStateReproject : public IMapExportState
+{
+    Q_OBJECT;
+    public:
+        CMapExportStateReproject(const QString& proj, CMapQMAPExport * parent);
+        virtual ~CMapExportStateReproject();
+
+        void explain();
+        void nextJob(QProcess& cmd);
+
+        struct job_t
+        {
+            QString srcFile;
+            QString tarFile;
+        };
+
+        void addJob(const job_t& job){jobs << job;}
+        const QList<job_t>& getJobs(){return jobs;}
+
+    private:
         QList<job_t> jobs;
         int jobIdx;
         QString proj;
@@ -137,11 +161,19 @@ class CMapExportStateOptimize : public IMapExportState
         CMapExportStateOptimize(CMapQMAPExport * parent);
         virtual ~CMapExportStateOptimize();
 
+        void explain();
         void nextJob(QProcess& cmd);
-        void addJob(const QString& job);
+
+        struct job_t
+        {
+            QString srcFile;
+        };
+
+        void addJob(const job_t& job){jobs << job;}
+        const QList<job_t>& getJobs(){return jobs;}
 
     private:
-        QStringList jobs;
+        QList<job_t> jobs;
         int jobIdx;
 };
 
@@ -155,7 +187,7 @@ class CMapQMAPExport : public QDialog, private Ui::IMapQMAPExport
 
         void stdout(const QString& str);
 
-        void setNextState(IMapExportState * next);
+        void setNextState();
 
     private slots:
         void slotBirdsEyeToggled(bool checked);
@@ -177,6 +209,7 @@ class CMapQMAPExport : public QDialog, private Ui::IMapQMAPExport
 
         QProcess cmd;
 
+        QList<IMapExportState*> states;
         QPointer<IMapExportState> state;
 
 };

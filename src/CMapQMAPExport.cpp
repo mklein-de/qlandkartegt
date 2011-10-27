@@ -39,20 +39,20 @@ IMapExportState::~IMapExportState()
 
 QString IMapExportState::getTempFilename()
 {
-    QTemporaryFile tmp;
-    tmp.open();
-    return tmp.fileName();
+    QTemporaryFile * tmp = new QTemporaryFile();
+    tmp->open();
+    QString fn =  tmp->fileName();
+    tmp->close();
+    delete tmp;
+
+    return fn;
 }
 
 // --------------------------------------------------------------------------------------------
-CMapExportStateCutFiles::CMapExportStateCutFiles(int levels, CMapQMAPExport * parent)
+CMapExportStateCutFiles::CMapExportStateCutFiles(CMapQMAPExport * parent)
 : IMapExportState(parent)
-, levels(levels)
 , jobIdx(0)
 {
-    gui->stdout(   "*************************************");
-    gui->stdout(tr("Cut area from files..."));
-    gui->stdout(   "-------------------------------------");
 }
 
 CMapExportStateCutFiles::~CMapExportStateCutFiles()
@@ -60,9 +60,11 @@ CMapExportStateCutFiles::~CMapExportStateCutFiles()
     qDebug() << "~CMapExportStateCutFiles()";
 }
 
-void CMapExportStateCutFiles::addJob(const job_t& job)
+void CMapExportStateCutFiles::explain()
 {
-    jobs << job;
+    gui->stdout(   "*************************************");
+    gui->stdout(tr("Cut area from files..."));
+    gui->stdout(   "-------------------------------------");
 }
 
 void CMapExportStateCutFiles::nextJob(QProcess& cmd)
@@ -73,7 +75,6 @@ void CMapExportStateCutFiles::nextJob(QProcess& cmd)
 
         QStringList args;
         args << "-co" << "tiled=yes" << "-co" << "compress=LZW";
-        args << "-expand" << "rgb";
         args << "-srcwin";
 
         args << QString::number(job.xoff) << QString::number(job.yoff);
@@ -88,38 +89,16 @@ void CMapExportStateCutFiles::nextJob(QProcess& cmd)
     }
     else
     {
-        CMapExportStateCombineFiles * nextState = new CMapExportStateCombineFiles(levels, gui);
-
-        for(int level = 1; level <= levels; level++)
-        {
-            CMapExportStateCombineFiles::job_t job;
-            job.level   = level;
-            job.tarFile = getTempFilename();
-
-            foreach(const job_t& j, jobs)
-            {
-                if(j.level == level)
-                {
-                    job.srcFile << j.tarFile;
-                }
-            }
-
-            nextState->addJob(job);
-        }
-
-        gui->setNextState(nextState);
+        gui->setNextState();
     }
 }
 
 // --------------------------------------------------------------------------------------------
-CMapExportStateCombineFiles::CMapExportStateCombineFiles(int levels, CMapQMAPExport * parent)
+CMapExportStateCombineFiles::CMapExportStateCombineFiles(CMapQMAPExport * parent)
 : IMapExportState(parent)
-, levels(levels)
 , jobIdx(0)
 {
-    gui->stdout(   "*************************************");
-    gui->stdout(tr("Combine files for each level..."));
-    gui->stdout(   "-------------------------------------");
+
 }
 
 CMapExportStateCombineFiles::~CMapExportStateCombineFiles()
@@ -133,7 +112,13 @@ CMapExportStateCombineFiles::~CMapExportStateCombineFiles()
             QFile::remove(file);
         }
     }
+}
 
+void CMapExportStateCombineFiles::explain()
+{
+    gui->stdout(   "*************************************");
+    gui->stdout(tr("Combine files for each level..."));
+    gui->stdout(   "-------------------------------------");
 }
 
 void CMapExportStateCombineFiles::nextJob(QProcess& cmd)
@@ -165,38 +150,82 @@ void CMapExportStateCombineFiles::nextJob(QProcess& cmd)
     }
     else
     {
-        CMapExportStateReproject * nextState = new CMapExportStateReproject(levels, "EPSG:4326",gui);
-
-        foreach(const job_t& j, jobs)
-        {
-            CMapExportStateReproject::job_t job;
-
-            job.level   = j.level;
-            job.srcFile = j.tarFile;
-            job.tarFile = getTempFilename();
-
-            nextState->addJob(job);
-        }
-
-        gui->setNextState(nextState);
+        gui->setNextState();
     }
 }
 
-void CMapExportStateCombineFiles::addJob(const job_t& job)
+// --------------------------------------------------------------------------------------------
+CMapExportStateConvColor::CMapExportStateConvColor(CMapQMAPExport * parent)
+: IMapExportState(parent)
+, jobIdx(0)
 {
-    jobs << job;
+
+}
+
+CMapExportStateConvColor::~CMapExportStateConvColor()
+{
+    qDebug() << "~CMapExportStateConvColor()";
+
+    foreach(const job_t& job, jobs)
+    {
+        QFile::remove(job.srcFile);
+    }
+
+}
+
+void CMapExportStateConvColor::explain()
+{
+    gui->stdout(   "*************************************");
+    gui->stdout(tr("Convert color to 3 band RGB..."));
+    gui->stdout(   "-------------------------------------");
+}
+
+void CMapExportStateConvColor::nextJob(QProcess& cmd)
+{
+    if(jobIdx < jobs.count())
+    {
+        job_t& job = jobs[jobIdx];
+
+        bool isRgb;
+        {
+            CMapFile mapfile(job.srcFile, this);
+            isRgb = mapfile.rasterBandCount != 1;
+        }
+
+        if(isRgb)
+        {
+            QStringList args;
+            args << tr("done");
+            gui->stdout("copy " + job.srcFile + " ->" + job.tarFile + "\n");
+            QFile::rename(job.srcFile, job.tarFile);
+            cmd.start("echo", args);
+        }
+        else
+        {
+            QStringList args;
+            args << "-expand" << "rgb";
+            args << "-co" << "tiled=yes" << "-co" << "compress=jpeg";
+            args << job.srcFile;
+            args << job.tarFile;
+
+            gui->stdout(GDALTRANSLATE " " +  args.join(" ") + "\n");
+            cmd.start(GDALTRANSLATE, args);
+        }
+        jobIdx++;
+    }
+    else
+    {
+        gui->setNextState();
+    }
 }
 
 // --------------------------------------------------------------------------------------------
-CMapExportStateReproject::CMapExportStateReproject(int levels, const QString& proj, CMapQMAPExport * parent)
+CMapExportStateReproject::CMapExportStateReproject(const QString& proj, CMapQMAPExport * parent)
 : IMapExportState(parent)
-, levels(levels)
 , jobIdx(0)
 , proj(proj)
 {
-    gui->stdout(   "*************************************");
-    gui->stdout(tr("Re-project files..."));
-    gui->stdout(   "-------------------------------------");
+
 }
 
 CMapExportStateReproject::~CMapExportStateReproject()
@@ -208,6 +237,13 @@ CMapExportStateReproject::~CMapExportStateReproject()
         QFile::remove(job.srcFile);
     }
 
+}
+
+void CMapExportStateReproject::explain()
+{
+    gui->stdout(   "*************************************");
+    gui->stdout(tr("Re-project files..."));
+    gui->stdout(   "-------------------------------------");
 }
 
 void CMapExportStateReproject::nextJob(QProcess& cmd)
@@ -238,20 +274,8 @@ void CMapExportStateReproject::nextJob(QProcess& cmd)
     }
     else
     {
-        CMapExportStateOptimize * nextState = new CMapExportStateOptimize(gui);
-
-        foreach(const job_t& j, jobs)
-        {
-            nextState->addJob(j.tarFile);
-        }
-
-        gui->setNextState(nextState);
+        gui->setNextState();
     }
-}
-
-void CMapExportStateReproject::addJob(const job_t& job)
-{
-    jobs << job;
 }
 
 // --------------------------------------------------------------------------------------------
@@ -259,9 +283,7 @@ CMapExportStateOptimize::CMapExportStateOptimize(CMapQMAPExport * parent)
 : IMapExportState(parent)
 , jobIdx(0)
 {
-    gui->stdout(   "*************************************");
-    gui->stdout(tr("Optimize files..."));
-    gui->stdout(   "-------------------------------------");
+
 }
 
 CMapExportStateOptimize::~CMapExportStateOptimize()
@@ -269,16 +291,23 @@ CMapExportStateOptimize::~CMapExportStateOptimize()
     qDebug() << "~CMapExportStateOptimize()";
 }
 
+void CMapExportStateOptimize::explain()
+{
+    gui->stdout(   "*************************************");
+    gui->stdout(tr("Optimize files..."));
+    gui->stdout(   "-------------------------------------");
+}
+
 void CMapExportStateOptimize::nextJob(QProcess& cmd)
 {
     if(jobIdx < jobs.count())
     {
-        QString& job = jobs[jobIdx];
+        job_t& job = jobs[jobIdx];
 
         QStringList args;
         args << "-r" << "cubic";
         args << "--config" << "COMPRESS_OVERVIEW" << "JPEG";
-        args << job;
+        args << job.srcFile;
         args << "4" << "16";
 
         gui->stdout(GDALADDO " " +  args.join(" ") + "\n");
@@ -288,14 +317,10 @@ void CMapExportStateOptimize::nextJob(QProcess& cmd)
     }
     else
     {
-        gui->stdout("---done---\n");
+        gui->setNextState();
     }
 }
 
-void CMapExportStateOptimize::addJob(const QString& job)
-{
-    jobs << job;
-}
 
 
 // --------------------------------------------------------------------------------------------
@@ -471,17 +496,23 @@ void CMapQMAPExport::stdout(const QString& str)
 
 void CMapQMAPExport::slotStart()
 {
+    if(!states.isEmpty() || !state.isNull()) return;
 
-    /// @todo disable start button
+    qDebug() << "CMapQMAPExport::slotStart()";
+    pushExport->setEnabled(false);
 
     CMapDB::map_t& map = CMapDB::self().knownMaps[mapsel.mapkey];
     QDir srcPath = QFileInfo(map.filename).absolutePath();
+    QDir tarPath(labelPath->text());
+    QString prefix = linePrefix->text();
     QSettings srcdef(map.filename, QSettings::IniFormat);
 
     int levels = srcdef.value("main/levels",0).toInt();
 
-    CMapExportStateCutFiles * nextState = new CMapExportStateCutFiles(levels,this);
-
+    // *********************************************
+    // 1. step: cut defined areas from all map files
+    // ---------------------------------------------
+    CMapExportStateCutFiles * state1 = new CMapExportStateCutFiles(this);
     // iterate over all map levels
     for(int level = 1; level <= levels; ++level)
     {
@@ -540,19 +571,109 @@ void CMapQMAPExport::slotStart()
                 qDebug() << job.level << job.srcFile << ">>" << job.tarFile;
                 qDebug() << job.xoff << job.yoff << job.width << job.height;
 
-                nextState->addJob(job);
+                state1->addJob(job);
             }
         }
     }
 
-    setNextState(nextState);
+    states << state1;
+
+    // *********************************************
+    // 2. step: combine files on a level
+    // ---------------------------------------------
+    CMapExportStateCombineFiles * state2 = new CMapExportStateCombineFiles(this);
+    for(int level = 1; level <= levels; level++)
+    {
+        CMapExportStateCombineFiles::job_t job;
+        job.tarFile = IMapExportState::getTempFilename();
+        foreach(const CMapExportStateCutFiles::job_t& j, state1->getJobs())
+        {
+            if(j.level == level)
+            {
+                job.srcFile << j.tarFile;
+            }
+        }
+        state2->addJob(job);
+    }
+    states << state2;
+
+    // *********************************************
+    // 3. step: move 8 bit files into rgb color space
+    // ---------------------------------------------
+    CMapExportStateConvColor * state3 = new CMapExportStateConvColor(this);
+    {
+        CMapExportStateConvColor::job_t job;
+        foreach(const CMapExportStateCombineFiles::job_t& j, state2->getJobs())
+        {
+            job.srcFile = j.tarFile;
+            job.tarFile = IMapExportState::getTempFilename();
+            state3->addJob(job);
+        }
+    }
+    states << state3;
+
+    // *********************************************
+    // 4. step: reproject files
+    // ---------------------------------------------
+    CMapExportStateReproject * state4 = new CMapExportStateReproject("EPSG:4326", this);
+    {
+        int cnt = 0;
+        CMapExportStateReproject::job_t job;
+        foreach(const CMapExportStateConvColor::job_t& j, state3->getJobs())
+        {
+            job.srcFile = j.tarFile;
+
+            if(radioQLM->isChecked())
+            {
+                job.tarFile = tarPath.filePath(QString("%1_%2.tif").arg(prefix).arg(cnt++));
+                QFile::remove(job.tarFile);
+            }
+            else
+            {
+                job.tarFile = IMapExportState::getTempFilename();
+            }
+            state4->addJob(job);
+        }
+    }
+    states << state4;
+
+    // only for QLM export
+    if(radioQLM->isChecked())
+    {
+        // *********************************************
+        // 5. step: add overview levels
+        // ---------------------------------------------
+        CMapExportStateOptimize * state5 = new CMapExportStateOptimize(this);
+        {
+            CMapExportStateOptimize::job_t job;
+            foreach(const CMapExportStateReproject::job_t& j, state4->getJobs())
+            {
+                job.srcFile = j.tarFile;
+                state5->addJob(job);
+            }
+        }
+        states << state5;
+    }
+
+    // start the statemachine
+    setNextState();
 }
 
-void CMapQMAPExport::setNextState(IMapExportState * next)
+void CMapQMAPExport::setNextState()
 {
     if(!state.isNull()) state->deleteLater();
-    state = next;
-    state->nextJob(cmd);
+
+    if(states.isEmpty())
+    {
+        stdout(tr("--- done ---\n"));
+        pushExport->setEnabled(true);
+    }
+    else
+    {
+        state = states.takeFirst();
+        state->explain();
+        state->nextJob(cmd);
+    }
 }
 
 void CMapQMAPExport::slotFinished(int exitCode, QProcess::ExitStatus status)
@@ -562,7 +683,11 @@ void CMapQMAPExport::slotFinished(int exitCode, QProcess::ExitStatus status)
         textBrowser->setTextColor(Qt::red);
         textBrowser->append(tr("--- failed ---\n"));
 
-        delete state;
+        qDeleteAll(states);
+        states.clear();
+        state->deleteLater();
+
+        pushExport->setEnabled(true);
         return;
     }
 
