@@ -1859,13 +1859,8 @@ void CMapTDB::getArea_n_Scaling(XY& p1, XY& p2, float& my_xscale, float& my_ysca
     p1 = topLeft;
     p2 = bottomRight;
 
-    XY p3;
-    p3.u = p1.u;
-    p3.v = p2.v;
-
     my_xscale = zoomFactor * lon_factor;
     my_yscale = zoomFactor * lat_factor;
-
 }
 
 
@@ -1959,7 +1954,7 @@ void CMapTDB::draw(const QSize& s, bool needsRedraw, QPainter& p)
 
         for(i=0; i < MAX_IDX_ZOOM; ++i)
         {
-            if(scales[i].scale <= sx) break;
+            if(scales[i].scale <= zoomFactor) break;
         }
 
         zoomidx     = i;
@@ -1972,7 +1967,7 @@ void CMapTDB::draw(const QSize& s, bool needsRedraw, QPainter& p)
         {
             if(*ptr & 0xFF000000)
             {
-                *ptr = (*ptr & 0x00FFFFFF) | 0xB0000000;
+                *ptr = (*ptr & 0x00FFFFFF) | 0xFF000000;
             }
             ++ptr;
         }
