@@ -42,6 +42,9 @@ static bool tileIndexLessThan(const QPair<int, int> &i1, const QPair<int, int> &
 
 
 // --------------------------------------------------------------------------------------------
+
+quint32 IMapExportState::tmpFileCnt = 0;
+
 IMapExportState::IMapExportState(CMapQMAPExport * parent)
 : QObject(parent)
 , gui(parent)
@@ -56,7 +59,7 @@ IMapExportState::~IMapExportState()
 
 QString IMapExportState::getTempFilename()
 {
-    QTemporaryFile * tmp = new QTemporaryFile();
+    QTemporaryFile * tmp = new QTemporaryFile(QString("qlgt_%1.XXXXXX.tif").arg(tmpFileCnt++));
     tmp->open();
     QString fn =  tmp->fileName();
     tmp->close();
@@ -99,10 +102,11 @@ void CMapExportStateCutFiles::nextJob(QProcess& cmd)
         args << job.srcFile;
         args << job.tarFile;
 
+        jobIdx++;
+
         gui->stdOut(GDALTRANSLATE " " +  args.join(" ") + "\n");
         cmd.start(GDALTRANSLATE, args);
 
-        jobIdx++;
     }
     else
     {
@@ -159,10 +163,10 @@ void CMapExportStateCombineFiles::nextJob(QProcess& cmd)
         args << job.srcFile;
         args << job.tarFile;
 
-        gui->stdOut(GDALWARP " " +  args.join(" ") + "\n");
-        cmd.start(GDALWARP, args);
-
         jobIdx++;
+
+        gui->stdOut(GDALWARP " " +  args.join(" ") + "\n");
+        cmd.start(GDALWARP, args);       
     }
     else
     {
@@ -223,10 +227,11 @@ void CMapExportStateConvColor::nextJob(QProcess& cmd)
         args << job.srcFile;
         args << job.tarFile;
 
+        jobIdx++;
+
         gui->stdOut(GDALTRANSLATE " " +  args.join(" ") + "\n");
         cmd.start(GDALTRANSLATE, args);
 
-        jobIdx++;
     }
     else
     {
@@ -282,10 +287,12 @@ void CMapExportStateReproject::nextJob(QProcess& cmd)
         args << job.srcFile;
         args << job.tarFile;
 
+        jobIdx++;
+
         gui->stdOut(GDALWARP " " +  args.join(" ") + "\n");
         cmd.start(GDALWARP, args);
 
-        jobIdx++;
+
     }
     else
     {
@@ -325,10 +332,11 @@ void CMapExportStateOptimize::nextJob(QProcess& cmd)
         args << job.srcFile;
         args << "4" << "16";
 
+        jobIdx++;
+
         gui->stdOut(GDALADDO " " +  args.join(" ") + "\n");
         cmd.start(GDALADDO, args);
 
-        jobIdx++;
     }
     else
     {
@@ -381,10 +389,11 @@ void CMapExportStateGCM::nextJob(QProcess& cmd)
         args += job.srcFile;
         args << job.tarFile;
 
+        jobIdx++;
+
         gui->stdOut(app + " " +  args.join(" ") + "\n");
         cmd.start(app, args);
 
-        jobIdx++;
     }
     else
     {
@@ -438,10 +447,10 @@ void CMapExportStateJNX::nextJob(QProcess& cmd)
         args += job.srcFile;
         args << job.tarFile;
 
+        jobIdx++;
+
         gui->stdOut(app + " " +  args.join(" ") + "\n");
         cmd.start(app, args);
-
-        jobIdx++;
     }
     else
     {

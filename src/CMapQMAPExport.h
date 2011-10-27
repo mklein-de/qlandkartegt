@@ -44,6 +44,8 @@ class IMapExportState : public QObject
         static QString getTempFilename();
     protected:
         CMapQMAPExport * gui;
+    private:
+        static quint32 tmpFileCnt;
 };
 
 class CMapExportStateCutFiles : public IMapExportState
