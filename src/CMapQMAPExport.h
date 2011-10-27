@@ -257,6 +257,7 @@ class CMapQMAPExport : public QDialog, private Ui::IMapQMAPExport
     private slots:
         void slotBirdsEyeToggled(bool checked);
         void slotGCMToggled(bool checked);
+        void slotOutputPath();
 
         void slotStderr();
         void slotStdout();

@@ -21,6 +21,7 @@
 #include "CMapDB.h"
 #include "CMapSelectionRaster.h"
 #include "CMapFile.h"
+#include "config.h"
 
 #include <QtGui>
 
@@ -891,4 +892,14 @@ void CMapQMAPExport::slotFinished(int exitCode, QProcess::ExitStatus status)
     }
 
     state->nextJob(cmd);
+}
+
+void CMapQMAPExport::slotOutputPath()
+{
+    QString path = QFileDialog::getExistingDirectory(this, tr("Select ouput path..."), labelPath->text(), FILE_DIALOG_FLAGS);
+    if(path.isEmpty()) return;
+
+    QSettings cfg;
+    cfg.setValue("path/export", path);
+    labelPath->setText(path);
 }
