@@ -177,6 +177,71 @@ class CMapExportStateOptimize : public IMapExportState
         int jobIdx;
 };
 
+class CMapExportStateGCM : public IMapExportState
+{
+    Q_OBJECT;
+    public:
+        CMapExportStateGCM(const QString& app, CMapQMAPExport * parent);
+        virtual ~CMapExportStateGCM();
+
+        void explain();
+        void nextJob(QProcess& cmd);
+
+        struct job_t
+        {
+            QString jpegQuality;
+            QString jpegSubSmpl;
+            QString zOrder;
+            QString tileFile;
+            QStringList srcFile;
+            QString tarFile;
+        };
+
+        void addJob(const job_t& job){jobs << job;}
+        const QList<job_t>& getJobs(){return jobs;}
+
+    private:
+        QList<job_t> jobs;
+        int jobIdx;
+
+        const QString app;
+
+};
+
+class CMapExportStateJNX : public IMapExportState
+{
+    Q_OBJECT;
+    public:
+        CMapExportStateJNX(const QString& app, CMapQMAPExport * parent);
+        virtual ~CMapExportStateJNX();
+
+        void explain();
+        void nextJob(QProcess& cmd);
+
+        struct job_t
+        {
+            QString jpegQuality;
+            QString jpegSubSmpl;
+            QString zOrder;
+            QString productId;
+            QString productName;
+            QString description;
+            QString copyright;
+            QStringList srcFile;
+            QString tarFile;
+        };
+
+        void addJob(const job_t& job){jobs << job;}
+        const QList<job_t>& getJobs(){return jobs;}
+
+    private:
+        QList<job_t> jobs;
+        int jobIdx;
+
+        const QString app;
+
+};
+
 
 class CMapQMAPExport : public QDialog, private Ui::IMapQMAPExport
 {

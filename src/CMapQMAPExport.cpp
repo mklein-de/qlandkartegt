@@ -24,6 +24,22 @@
 
 #include <QtGui>
 
+static bool tileIndexLessThan(const QPair<int, int> &i1, const QPair<int, int> &i2)
+{
+    if(i1.second < i2.second)
+    {
+        return true;
+    }
+    else if (i1.second == i2.second)
+    {
+        return i1.first < i2.first;
+    }
+    else{
+        return false;
+    }
+}
+
+
 // --------------------------------------------------------------------------------------------
 IMapExportState::IMapExportState(CMapQMAPExport * parent)
 : QObject(parent)
@@ -321,7 +337,118 @@ void CMapExportStateOptimize::nextJob(QProcess& cmd)
     }
 }
 
+// --------------------------------------------------------------------------------------------
+CMapExportStateGCM::CMapExportStateGCM(const QString& app, CMapQMAPExport * parent)
+: IMapExportState(parent)
+, jobIdx(0)
+, app(app)
+{
 
+}
+
+CMapExportStateGCM::~CMapExportStateGCM()
+{
+    qDebug() << "~CMapExportStateGCM()";
+
+    foreach(const job_t& job, jobs)
+    {
+        QFile::remove(job.tileFile);
+        foreach(const QString& file, job.srcFile)
+        {
+            QFile::remove(file);
+        }
+    }
+}
+
+void CMapExportStateGCM::explain()
+{
+    gui->stdout(   "*************************************");
+    gui->stdout(tr("Create Garmin Custom Map..."));
+    gui->stdout(   "-------------------------------------");
+}
+
+void CMapExportStateGCM::nextJob(QProcess& cmd)
+{
+    if(jobIdx < jobs.count())
+    {
+        job_t& job = jobs[jobIdx];
+
+        QStringList args;
+        args << "-q" << job.jpegQuality;
+        args << "-s" << job.jpegSubSmpl;
+        args << "-z" << job.zOrder;
+        args << "-t" << job.tileFile;
+
+        args += job.srcFile;
+        args << job.tarFile;
+
+        gui->stdout(app + " " +  args.join(" ") + "\n");
+        cmd.start(app, args);
+
+        jobIdx++;
+    }
+    else
+    {
+        gui->setNextState();
+    }
+}
+
+// --------------------------------------------------------------------------------------------
+CMapExportStateJNX::CMapExportStateJNX(const QString& app, CMapQMAPExport * parent)
+: IMapExportState(parent)
+, jobIdx(0)
+, app(app)
+{
+
+}
+
+CMapExportStateJNX::~CMapExportStateJNX()
+{
+    qDebug() << "~CMapExportStateJNX()";
+
+    foreach(const job_t& job, jobs)
+    {
+        foreach(const QString& file, job.srcFile)
+        {
+            QFile::remove(file);
+        }
+    }
+}
+
+void CMapExportStateJNX::explain()
+{
+    gui->stdout(   "*************************************");
+    gui->stdout(tr("Create Garmin JNX Map..."));
+    gui->stdout(   "-------------------------------------");
+}
+
+void CMapExportStateJNX::nextJob(QProcess& cmd)
+{
+    if(jobIdx < jobs.count())
+    {
+        job_t& job = jobs[jobIdx];
+
+        QStringList args;
+        args << "-q" << job.jpegQuality;
+        args << "-s" << job.jpegSubSmpl;
+        args << "-p" << job.productId;
+        args << "-m" << job.productName;
+        args << "-n" << job.description;
+        args << "-c" << job.copyright;
+        args << "-z" << job.zOrder;
+        args += job.srcFile;
+        args << job.tarFile;
+
+        gui->stdout(app + " " +  args.join(" ") + "\n");
+        cmd.start(app, args);
+
+        jobIdx++;
+    }
+    else
+    {
+        gui->setNextState();
+    }
+}
 
 // --------------------------------------------------------------------------------------------
 CMapQMAPExport::CMapQMAPExport(const CMapSelectionRaster& mapsel, QWidget * parent)
@@ -575,7 +702,6 @@ void CMapQMAPExport::slotStart()
             }
         }
     }
-
     states << state1;
 
     // *********************************************
@@ -601,57 +727,130 @@ void CMapQMAPExport::slotStart()
     // 3. step: move 8 bit files into rgb color space
     // ---------------------------------------------
     CMapExportStateConvColor * state3 = new CMapExportStateConvColor(this);
+    foreach(const CMapExportStateCombineFiles::job_t& j, state2->getJobs())
     {
         CMapExportStateConvColor::job_t job;
-        foreach(const CMapExportStateCombineFiles::job_t& j, state2->getJobs())
-        {
-            job.srcFile = j.tarFile;
-            job.tarFile = IMapExportState::getTempFilename();
-            state3->addJob(job);
-        }
+        job.srcFile = j.tarFile;
+        job.tarFile = IMapExportState::getTempFilename();
+        state3->addJob(job);
     }
     states << state3;
 
     // *********************************************
     // 4. step: reproject files
     // ---------------------------------------------
-    CMapExportStateReproject * state4 = new CMapExportStateReproject("EPSG:4326", this);
+    int cnt = 0;
+    CMapExportStateReproject * state4 = new CMapExportStateReproject("EPSG:4326", this);    
+    foreach(const CMapExportStateConvColor::job_t& j, state3->getJobs())
     {
-        int cnt = 0;
         CMapExportStateReproject::job_t job;
-        foreach(const CMapExportStateConvColor::job_t& j, state3->getJobs())
-        {
-            job.srcFile = j.tarFile;
+        job.srcFile = j.tarFile;
 
-            if(radioQLM->isChecked())
-            {
-                job.tarFile = tarPath.filePath(QString("%1_%2.tif").arg(prefix).arg(cnt++));
-                QFile::remove(job.tarFile);
-            }
-            else
-            {
-                job.tarFile = IMapExportState::getTempFilename();
-            }
-            state4->addJob(job);
+        if(radioQLM->isChecked())
+        {
+            job.tarFile = tarPath.filePath(QString("%1_%2.tif").arg(prefix).arg(cnt++));
+            QFile::remove(job.tarFile);
         }
+        else
+        {
+            job.tarFile = IMapExportState::getTempFilename();
+        }
+        state4->addJob(job);
     }
     states << state4;
 
-    // only for QLM export
+
     if(radioQLM->isChecked())
     {
         // *********************************************
         // 5. step: add overview levels
         // ---------------------------------------------
         CMapExportStateOptimize * state5 = new CMapExportStateOptimize(this);
+        foreach(const CMapExportStateReproject::job_t& j, state4->getJobs())
         {
             CMapExportStateOptimize::job_t job;
-            foreach(const CMapExportStateReproject::job_t& j, state4->getJobs())
-            {
-                job.srcFile = j.tarFile;
-                state5->addJob(job);
-            }
+            job.srcFile = j.tarFile;
+            state5->addJob(job);
         }
+        states << state5;
+    }
+    else if(radioGCM->isChecked())
+    {
+        // *********************************************
+        // 5. step: convert Geotiff to Garmin Custom Map
+        // ---------------------------------------------
+        QString tileFile;
+        QList< QPair<int, int> > keys = mapsel.selTiles.keys();
+        if(keys.count())
+        {
+            QPair<int, int> key;
+
+            qSort(keys.begin(), keys.end(), tileIndexLessThan);
+            key = keys.last();
+            int xmax = key.first  + 1;
+
+            QString index;
+            foreach(key, keys)
+            {
+                if(mapsel.selTiles[key] == false)
+                {
+                    index += QString("%1 ").arg(key.second * xmax + key.first);
+                }
+            }
+
+            QFile file(IMapExportState::getTempFilename());
+            file.open(QIODevice::WriteOnly);
+            file.write(index.toLatin1());
+            file.flush();
+            file.close();
+            tileFile = file.fileName();
+        }
+
+
+        CMapExportStateGCM * state5 = new CMapExportStateGCM(path_map2gcm, this);
+
+        CMapExportStateGCM::job_t job;
+
+        job.jpegQuality = QString::number(spinJpegQuality->value());
+        job.jpegSubSmpl = comboJpegSubsampling->currentText();
+        job.zOrder      = QString::number(spinZOrder->value());
+        job.tileFile    = tileFile;
+
+        foreach(const CMapExportStateReproject::job_t& j, state4->getJobs())
+        {
+            job.srcFile << j.tarFile;
+
+        }
+        job.tarFile     = tarPath.filePath(QString("%1.kmz").arg(prefix));
+
+        state5->addJob(job);
+        states << state5;
+    }
+    else if(radioJNX->isChecked())
+    {
+        // *********************************************
+        // 5. step: convert Geotiff to Garmin JNX Map
+        // ---------------------------------------------
+        CMapExportStateJNX * state5 = new CMapExportStateJNX(path_map2jnx, this);
+
+        CMapExportStateJNX::job_t job;
+
+        job.jpegQuality = QString::number(spinJpegQuality->value());
+        job.jpegSubSmpl = comboJpegSubsampling->currentText();
+        job.zOrder      = QString::number(spinZOrder->value());
+        job.productId   = QString::number(spinProductId->value());
+        job.productName = lineProductName->text();
+        job.description = lineDescription->text();
+        job.copyright   = lineCopyright->text();
+
+        foreach(const CMapExportStateReproject::job_t& j, state4->getJobs())
+        {
+            job.srcFile << j.tarFile;
+
+        }
+        job.tarFile     = tarPath.filePath(QString("%1.jnx").arg(prefix));
+
+        state5->addJob(job);
         states << state5;
     }
 
