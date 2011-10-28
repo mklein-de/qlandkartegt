@@ -287,6 +287,67 @@
     </layout>
    </item>
    <item>
+    <widget class="QGroupBox" name="groupOptimization">
+     <property name="title">
+      <string>Optimization</string>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout_3">
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_6">
+        <item>
+         <widget class="QLabel" name="label_9">
+          <property name="text">
+           <string>Overviews</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QCheckBox" name="checkOverview2x">
+          <property name="text">
+           <string>2x</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QCheckBox" name="checkOverview4x">
+          <property name="text">
+           <string>4x</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QCheckBox" name="checkOverview8x">
+          <property name="text">
+           <string>8x</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QCheckBox" name="checkOverview16x">
+          <property name="text">
+           <string>16x</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="horizontalSpacer_2">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
     <widget class="QTextBrowser" name="textBrowser">
      <property name="lineWrapMode">
       <enum>QTextEdit::NoWrap</enum>

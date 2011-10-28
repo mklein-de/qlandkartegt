@@ -168,6 +168,7 @@ class CMapExportStateOptimize : public IMapExportState
 
         struct job_t
         {
+            QStringList overviews;
             QString srcFile;
         };
 
@@ -261,6 +262,7 @@ class CMapQMAPExport : public QDialog, private Ui::IMapQMAPExport
 
     private slots:
         void slotBirdsEyeToggled(bool checked);
+        void slotQLMToggled(bool checked);
         void slotGCMToggled(bool checked);
         void slotOutputPath();
 
