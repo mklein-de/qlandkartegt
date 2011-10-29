@@ -200,7 +200,7 @@ void CMapDB::openMap(const QString& filename, bool asRaster, CCanvas& canvas)
     map_t map;
     QFileInfo fi(filename);
 
-    if(!fi.exists()) return;
+    if(filename != "OSMTileServer" && !fi.exists()) return;
 
     QString ext = fi.suffix().toLower();
     if(ext == "qmap")
