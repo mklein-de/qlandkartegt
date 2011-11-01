@@ -47,7 +47,7 @@ CMapDEM::CMapDEM(const QString& filename, CCanvas * parent)
 #endif
     if(dataset == 0)
     {
-        QMessageBox::warning(0, tr("Error..."), 
+        QMessageBox::warning(0, tr("Error..."),
             tr("Failed to load file: %1\n\n").arg(filename).append(tr(CPLGetLastErrorMsg())));
         status = 0;
         return;
@@ -429,7 +429,7 @@ void CMapDEM::draw()
     XY r1 = { std::max(_p1.u, xref1), std::min(_p1.v, yref1) };
     XY r2 = { std::min(_p2.u, xref2), std::max(_p2.v, yref2) };
 
-    if (r1.u > p2.u || r1.v < p2.v || r2.u < p1.u || r2.v > p1.v)
+    if (r1.u > _p2.u || r1.v < _p2.v || r2.u < _p1.u || r2.v > _p1.v)
     {
         // no interscetion
         return;
