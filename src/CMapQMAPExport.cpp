@@ -566,7 +566,7 @@ QString IMapExportState::getTempFilename()
     tmp->close();
     delete tmp;
 
-    return fn;
+    return QDir::temp().absoluteFilePath(fn);
 }
 
 // --------------------------------------------------------------------------------------------
