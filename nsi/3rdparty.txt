@@ -16,11 +16,8 @@ https://sourceforge.net/apps/mediawiki/qlandkartegt/index.php?title=Compiling_QL
   They  are part of the "Qt libraries for Windows (VS 2008)" package.
   This can be retrieved from http://qt.nokia.com/downloads/windows-cpp-vs2008.
 
-3.) A complete FWTools installation (version 2.4.7 or later)
-  The FWtools installer can be obtained from http://fwtools.maptools.org/.
-  Since it is quite large (22MB), it it *not* included in the QLGT Installer.
-  But the QLGT installer contains a hook to download and run the FWtools installer.
-  If this does not work, you can download and install FWtools separately - before QLGT installation
+3.) The GDAl SDK packaged by Tamas Szekeres.
+  This be obtained from http://www.gisinternals.com/sdk/.
 
 4.) libjpeg
   The libjpeg.lib and header files are needed to compile the helper program map2gcm.exe

@@ -3,11 +3,14 @@
 ;NSIS References/Documentation 
 ;http://nsis.sourceforge.net/Docs/Modern%20UI%202/Readme.html
 ;http://nsis.sourceforge.net/Docs/Modern%20UI/Readme.html
+;http://nsis.sourceforge.net/Docs/Chapter4.html
+;http://nsis.sourceforge.net/Many_Icons_Many_shortcuts
 
 ;Revision Log
 ; 01-Jun-2010 Rework Installer - create batch file to set FWTools environment correctly
-; 24-Jun-2010 Copy all transölation files
+; 24-Jun-2010 Copy all translation files
 ; 23-Oct-2010 Rework installation of Microsoft Runtime Libraries, pass through parameters in start script, add german translation
+; 02-Nov-2011 Replace FWTools by GDAL
 
 ;=================== BEGIN SCRIPT ====================
 ; Include for nice Setup UI
@@ -78,25 +81,6 @@ Var StartMenuFolder
 ;------------------------------------------------------------------------
 ;Components description
 
-Section "FWTools 2.4.7" FWTools
-
-	ReadRegStr $0 HKLM "Software\FWtools" Install_Dir
-	!define TMP_PATH $0
-
-	ExecWait '"${TMP_PATH}\uninstall.exe"'
-
-	; Don't do it if we can package install
- 	NSISdl::download http://home.gdal.org/fwtools/FWTools247.exe $TEMP\FWTools247.exe
- 	Pop $R0 ;Get the return value
- 	StrCmp $R0 "success" +3
- 	  MessageBox MB_OK "Download failed: $R0"
- 	  Quit
- 	ExecWait '"$TEMP\FWTools247.exe"'
-
-SectionEnd
-LangString DESC_FWTools ${LANG_ENGLISH} "Required Libraries for MAP and coordinate system transformation. This package will be downloaded from the internet. It needs to be installed only once - for the first QLandkarteGT installation."
-LangString DESC_FWTools ${LANG_GERMAN}  "Benötigte Bibliotheken für Karten- und Koordinatentransformationen. Wird aus dem Internet heruntergeladen. Muss nur einmal installiert werden - bei der ersten QLandkarteGT Installation."
-
 Section "MSVC++ 2008 SP1 Runtime" MSVC
 
   SetOutPath $INSTDIR
@@ -142,7 +126,13 @@ Section "QLandkarte GT" QLandkarteGT
 
 	SetOutPath "$INSTDIR\sqldrivers\"
     File Files\sqldrivers\qsqlite4.dll
-
+  ;END Qt Files
+    
+  ;BEGIN GDAL Files    
+  SetOutPath $INSTDIR
+    File /r Files\gdal_bin\*.*
+  ;END GDAL Files        
+    
   ;BEGIN additional Files    
   SetOutPath $INSTDIR
     File Files\3rdparty.txt
@@ -151,25 +141,31 @@ Section "QLandkarte GT" QLandkarteGT
     
   ;the last "SetOutPath" will be the default directory
   SetOutPath $INSTDIR    
-    
-  ;END Qt Files
+  
 
   WriteUninstaller "$INSTDIR\Uninstall.exe"
 
   ;create batch file to run qlandkartegt.exe
-  ReadRegStr $0 HKLM "Software\FWtools" Install_Dir
-  StrCpy $1 "call $\"$0\setfw.bat$\"$\r$\n"
-  fileOpen $0 "$INSTDIR\QLandkarteGT.bat" w
-  fileWrite $0 $1
-  fileWrite $0 "cd /D $\"$INSTDIR$\"$\r$\n" 
-  fileWrite $0 "start qlandkartegt.exe %*"
+  fileOpen $0 "$INSTDIR\gdal.bat" w
+  fileWrite $0 "cd /D $\"$INSTDIR\gdal\apps$\"$\r$\n" 
+  fileWrite $0 "SET PATH=$INSTDIR;$INSTDIR\gdal\python\osgeo;$INSTDIR\proj\apps;$INSTDIR\gdal\apps;$INSTDIR\curl;%PATH%$\r$\n"
+  fileWrite $0 "SET GDAL_DATA=$INSTDIR\gdal-data$\r$\n"
+  fileWrite $0 "SET GDAL_DRIVER_PATH=$INSTDIR\gdal\plugins$\r$\n"
+  fileWrite $0 "SET PYTHONPATH=$INSTDIR\gdal\python\osgeo$\r$\n"
+  fileWrite $0 "SET PROJ_LIB=$INSTDIR\proj\SHARE$\r$\n"
+  
+  ;fileWrite $0 "start qlandkartegt.exe %*"
   fileClose $0
 
   !insertmacro MUI_STARTMENU_WRITE_BEGIN Application
    	;Create shortcuts
   	CreateDirectory "$SMPROGRAMS\$StartMenuFolder"
     CreateShortCut "$SMPROGRAMS\$StartMenuFolder\Uninstall.lnk" "$INSTDIR\Uninstall.exe"
-    CreateShortCut "$SMPROGRAMS\$StartMenuFolder\QLandkarteGT.lnk" "$INSTDIR\QLandkarteGT.bat" "" "$INSTDIR\Globe128x128.ico"
+    CreateShortCut "$SMPROGRAMS\$StartMenuFolder\QLandkarteGT.lnk" "$INSTDIR\qlandkartegt.exe" "" "$INSTDIR\Globe128x128.ico"
+    CreateShortCut "$SMPROGRAMS\$StartMenuFolder\WWW.lnk" "http://www.qlandkarte.org/" "" "$INSTDIR\Globe128x128.ico"
+    CreateShortCut "$SMPROGRAMS\$StartMenuFolder\Help.lnk" "https://sourceforge.net/apps/mediawiki/qlandkartegt/index.php?title=Help_for_QLandkarte_GT" "" "$INSTDIR\Globe128x128.ico"
+    CreateShortCut "$SMPROGRAMS\$StartMenuFolder\Download.lnk" "http://www.qlandkarte.org/" "" "$INSTDIR\Globe128x128.ico"
+    CreateShortCut "$SMPROGRAMS\$StartMenuFolder\GDAL.lnk" %COMSPEC% "/k $INSTDIR\gdal.bat"
  	!insertmacro MUI_STARTMENU_WRITE_END
 
   ;Create registry entries
@@ -183,7 +179,6 @@ LangString DESC_QLandkarteGT ${LANG_GERMAN}  "Landkarten im GeoTiff und Garmin F
 
 !insertmacro MUI_FUNCTION_DESCRIPTION_BEGIN
    !insertmacro MUI_DESCRIPTION_TEXT ${QLandkarteGT} $(DESC_QLandkarteGT)
-   !insertmacro MUI_DESCRIPTION_TEXT ${FWTools} $(DESC_FWTools)
    !insertmacro MUI_DESCRIPTION_TEXT ${MSVC} $(DESC_MSVC)
 !insertmacro MUI_FUNCTION_DESCRIPTION_END
 

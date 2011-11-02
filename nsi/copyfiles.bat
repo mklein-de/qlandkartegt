@@ -1,10 +1,15 @@
 rem Batch file to copy the necessary files for the Windows Installer
 rem Please adapt environment variables in section 1) to your system
 
+rem useful links
+rem http://technet.microsoft.com/en-us/library/bb491035.aspx
+rem http://vlaurie.com/computers2/Articles/environment.htm
+
 rem Section 1.) Define path to Qt, MSVC, .... installations
-set QLGTI_QT_PATH=C:\Qt\4.7.0
+set QLGTI_QT_PATH=C:\Qt\4.7.4
 set QLGTI_VCREDIST_PATH="E:\qlgt\tools\vcredist_VS2008SP1"
 set QLGTI_LIBEXIF_PATH="E:\qlgt\tools\libexif"
+set QLGTI_GDAL_PATH="%CD%\..\Win32\gdal\bin"
 
 rem Section 2.) Copy Files
 del /s/q Files
@@ -35,16 +40,32 @@ rem  The qt_??.qm files must have been created before by
 rem opening a qt shell, going to the translations directory and running
 rem for %f in (qt_??.ts) do lrelease %f
 copy %QLGTI_QT_PATH%\translations\qt_??.qm
-rem section 2.2) Copy MSVC Redist Files
+rem section 2.2) Copy GDAL Files
+mkdir gdal_bin
+cd gdal_bin
+xcopy %QLGTI_GDAL_PATH%\curl curl /s /i
+xcopy %QLGTI_GDAL_PATH%\debug debug /s /i
+mkdir gdal
+cd gdal
+xcopy %QLGTI_GDAL_PATH%\gdal\apps apps /s /i
+xcopy %QLGTI_GDAL_PATH%\gdal\plugins plugins /s /i
+xcopy %QLGTI_GDAL_PATH%\gdal\plugins-optional plugins-optional /s /i
+xcopy %QLGTI_GDAL_PATH%\gdal\python python /s /i
+cd ..
+xcopy %QLGTI_GDAL_PATH%\gdal-data gdal-data /s /i
+xcopy %QLGTI_GDAL_PATH%\proj proj /s /i
+copy %QLGTI_GDAL_PATH%\*.dll
+cd ..
+rem section 2.3) Copy MSVC Redist Files
 copy %QLGTI_VCREDIST_PATH%\vcredist_x86.exe
-rem section 2.3) Copy libexif Files
+rem section 2.4) Copy libexif Files
 copy %QLGTI_LIBEXIF_PATH%\libexif-12.dll
-rem section 2.4) Copy QLandkarte GT Files
+rem section 2.5) Copy QLandkarte GT Files
 copy ..\..\build\bin\Release\qlandkartegt.exe
 copy ..\..\build\bin\Release\map2gcm.exe
 copy ..\..\build\src\*.qm
 copy ..\..\src\icons\Globe128x128.ico
-rem section 2.5) 3rd party SW description
+rem section 2.6) 3rd party SW description
 copy ..\3rdparty.txt
 
 pause
