@@ -164,8 +164,8 @@ Section "QLandkarte GT" QLandkarteGT
     CreateShortCut "$SMPROGRAMS\$StartMenuFolder\QLandkarteGT.lnk" "$INSTDIR\qlandkartegt.exe" "" "$INSTDIR\Globe128x128.ico"
     CreateShortCut "$SMPROGRAMS\$StartMenuFolder\WWW.lnk" "http://www.qlandkarte.org/" "" "$INSTDIR\Globe128x128.ico"
     CreateShortCut "$SMPROGRAMS\$StartMenuFolder\Help.lnk" "https://sourceforge.net/apps/mediawiki/qlandkartegt/index.php?title=Help_for_QLandkarte_GT" "" "$INSTDIR\Globe128x128.ico"
-    CreateShortCut "$SMPROGRAMS\$StartMenuFolder\Download.lnk" "http://www.qlandkarte.org/" "" "$INSTDIR\Globe128x128.ico"
-    CreateShortCut "$SMPROGRAMS\$StartMenuFolder\GDAL.lnk" %COMSPEC% "/k $INSTDIR\gdal.bat"
+    CreateShortCut "$SMPROGRAMS\$StartMenuFolder\Download.lnk" "http://sourceforge.net/projects/qlandkartegt/" "" "$INSTDIR\Globe128x128.ico"
+    CreateShortCut "$SMPROGRAMS\$StartMenuFolder\GDAL.lnk" %COMSPEC% "/k $\"$INSTDIR\gdal.bat$\""
  	!insertmacro MUI_STARTMENU_WRITE_END
 
   ;Create registry entries
@@ -207,4 +207,8 @@ Section "Uninstall"
 
 SectionEnd
 
+Function .onInit
+  # set section 'MSVC' as unselected
+  SectionSetFlags ${MSVC} 0
+FunctionEnd
 
