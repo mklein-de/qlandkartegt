@@ -370,7 +370,7 @@ void CMapDEM::draw(QPainter& p)
     if(pjsrc == 0) return;
 
     draw();
-    p.drawImage(0,0, buffer);
+    p.drawPixmap(0,0, pixBuffer);
     //     qDebug() << "--------------------------";
 }
 
@@ -382,8 +382,7 @@ void CMapDEM::draw()
     if(overlay == IMap::eNone)
     {
         old_overlay = overlay;
-        buffer.fill(qRgba(0,0,0,0));
-        //buffer.fill(Qt::transparent);
+        pixBuffer.fill(Qt::transparent);
         return;
     }
 
@@ -410,7 +409,7 @@ void CMapDEM::draw()
     old_my_yscale   = my_yscale;
     old_overlay     = overlay;
 
-    buffer.fill(qRgba(0,0,0,0));
+    pixBuffer.fill(Qt::transparent);
 
     if(pjsrc == 0) return;
 
@@ -509,7 +508,7 @@ void CMapDEM::draw()
     // Finally scale the image to viewport size. QT will do the smoothing
     img = img.scaled(w2,h2, Qt::IgnoreAspectRatio,Qt::SmoothTransformation);
 
-    QPainter p(&buffer);
+    QPainter p(&pixBuffer);
     p.drawImage(-pxx, -pxy, img);
 }
 

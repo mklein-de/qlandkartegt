@@ -194,7 +194,7 @@ void CMapGeoTiff::draw(QPainter& p)
     draw();
 
 
-    p.drawImage(0,0,buffer);
+    p.drawPixmap(0,0,pixBuffer);
 
     // render overlay
     if(!ovlMap.isNull() && !doFastDraw)
@@ -239,8 +239,8 @@ void CMapGeoTiff::draw()
 {
     if(pjsrc == 0) return IMap::draw();
 
-    buffer.fill(Qt::white);
-    QPainter _p_(&buffer);
+    pixBuffer.fill(Qt::white);
+    QPainter _p_(&pixBuffer);
 
     QRectF viewport  = QRectF(x, y, size.width() * xscale * zoomFactor,  size.height() * yscale * zoomFactor);
     QRectF maparea   = QRectF(QPointF(xref1, yref1), QPointF(xref2, yref2));

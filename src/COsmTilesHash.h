@@ -20,7 +20,7 @@
 #include <QString>
 #include <QRect>
 #include <QPainter>
-#include <QImage>
+#include <QPixmap>
 #include <QHash>
 
 class QHttp;
@@ -34,7 +34,7 @@ class COsmTilesHash: public QObject
         void startNewDrawing( double lon, double lat, int osm_zoom, const QRect& window);
         static const QString &getCacheFolder(void) { return cacheFolder; };
         signals:
-        void newImageReady(QImage image, bool lastTileLoaded);
+        void newImageReady(const QPixmap& image, bool lastTileLoaded);
     private:
         QString tileServer;
         QString tileUrlPart;
@@ -48,12 +48,12 @@ class COsmTilesHash: public QObject
         double tile2long(int x, int zoom);
         double tile2lat(int y, int zoom);
         void getImage(int osm_zoom, int osm_x, int osm_y, QPoint startPoint);
-        QImage image;
+        QPixmap pixmap;
         QHttp *tilesConnection;
         //         CMapOSM *cmapOSM;
         QString osmTileBaseUrl;
         bool requestInProgress;
-        QHash<QString,QImage> tiles;
+        QHash<QString,QPixmap> tiles;
         int getid;
         static QString cacheFolder;
     private slots:

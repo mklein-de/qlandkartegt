@@ -86,7 +86,8 @@ void IMap::resize(const QSize& s)
 {
     size = s;
     rect.setSize(s);
-    buffer = QImage(size, QImage::Format_ARGB32_Premultiplied);
+    pixBuffer = QPixmap(size);
+    imgBuffer = QImage(size,QImage::Format_ARGB32_Premultiplied);
 
     needsRedraw = true;
     emit sigResize(s);
@@ -119,7 +120,7 @@ void IMap::draw(QPainter& p)
 
 void IMap::draw()
 {
-    QPainter p(&buffer);
+    QPainter p(&pixBuffer);
     p.fillRect(rect,QColor("#ffffcc"));
     p.drawText(rect,Qt::AlignCenter,"no map");
     needsRedraw = false;

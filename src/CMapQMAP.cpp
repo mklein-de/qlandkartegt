@@ -245,7 +245,7 @@ void CMapQMAP::draw(QPainter& p)
     }
     else
     {
-        p.drawImage(0,0,buffer);
+        p.drawPixmap(0,0,pixBuffer);
     }
 
     // render overlay
@@ -336,8 +336,8 @@ void CMapQMAP::draw()
 {
     //     __test();
 
-    buffer.fill(Qt::white);
-    QPainter _p_(&buffer);
+    pixBuffer.fill(Qt::white);
+    QPainter _p_(&pixBuffer);
 
     foundMap = false;
 
@@ -731,7 +731,7 @@ void CMapQMAP::zoom(double lon1, double lat1, double lon2, double lat2)
                 pMaplevel   = *maplevel;
                 pjsrc       = map->pj;
 
-                zoomidx = pMaplevel->min + z - 1;                
+                zoomidx = pMaplevel->min + z - 1;
                 if(quadraticZoom)
                 {
                     zoomidx = pow(2.0, ceil(log(zoomidx*1.0)/log(2.0)));

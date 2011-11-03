@@ -216,7 +216,7 @@ void CMapOSM::setNewTileUrl(int cbIndex)
         }
 
         osmTiles = new COsmTilesHash(tileList.at(index).path);
-        connect(osmTiles,SIGNAL(newImageReady(QImage,bool)),this,SLOT(newImageReady(QImage,bool)));
+        connect(osmTiles,SIGNAL(newImageReady(const QPixmap&,bool)),this,SLOT(newImageReady(const QPixmap&,bool)));
 
         needsRedraw = true;
         emit sigChanged();
@@ -370,7 +370,7 @@ void CMapOSM::draw(QPainter& p)
         draw();
     }
 
-    p.drawImage(0,0,buffer);
+    p.drawPixmap(0,0,pixBuffer);
 
     // render overlay
     if(!ovlMap.isNull() && lastTileLoaded && !doFastDraw)
@@ -437,9 +437,9 @@ void CMapOSM::draw()
 }
 
 
-void CMapOSM::newImageReady(QImage image, bool done)
+void CMapOSM::newImageReady(const QPixmap& image, bool done)
 {
-    buffer            = image;
+    pixBuffer         = image;
     lastTileLoaded    = done;
     needsRedraw       = false;
     emit sigChanged();

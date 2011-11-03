@@ -23,6 +23,7 @@
 #include <QObject>
 #include <QRect>
 #include <QSize>
+#include <QPixmap>
 #include <QImage>
 #include <QPointer>
 #include <QPolygonF>
@@ -185,7 +186,7 @@ class IMap : public QObject
         const QString& getKey(){return key;}
 
         /// get read access to the internally used pixmap buffer
-        const QImage& getBuffer(){return buffer;}
+        const QImage& getBuffer(){imgBuffer = pixBuffer.toImage(); return imgBuffer;}
 
         /// get proj4 compatible projection string
         char * getProjection();
@@ -352,7 +353,8 @@ class IMap : public QObject
         /// the key used to register the map
         QString key;
         /// the internal pixmap buffer to draw a map on
-        QImage buffer;
+        QPixmap pixBuffer;
+        QImage  imgBuffer;
 
         QPointer<IMap> ovlMap;
 

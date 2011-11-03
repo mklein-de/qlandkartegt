@@ -207,7 +207,7 @@ void CMapRaster::draw(QPainter& p)
 
     draw();
 
-    p.drawImage(0,0,buffer);
+    p.drawPixmap(0,0,pixBuffer);
 
     QString str;
     if(zoomfactor < 1.0)
@@ -237,8 +237,8 @@ void CMapRaster::draw()
 {
     if(!dataset) return;
 
-    buffer.fill(Qt::white);
-    QPainter _p_(&buffer);
+    pixBuffer.fill(Qt::white);
+    QPainter _p_(&pixBuffer);
 
     QRectF viewport(x, y, size.width() * zoomfactor,  size.height() *  zoomfactor);
     QRectF intersect = viewport.intersected(maparea);

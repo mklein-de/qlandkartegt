@@ -1884,12 +1884,13 @@ void CMapTDB::draw(QPainter& p)
     if(needsRedraw)
     {
         draw();
-        pixBuffer = QPixmap::fromImage(buffer);
+        pixBuffer = QPixmap::fromImage(imgBuffer);
         // wenn man Speicher sparen will/muss
         //buffer = QImage();
     }
 
     // copy internal buffer to paint device
+    //p.drawPixmap(0,0,pixBuffer);
     p.drawPixmap(0,0,pixBuffer);
 
     // render overlay
@@ -1973,7 +1974,7 @@ void CMapTDB::draw(const QSize& s, bool needsRedraw, QPainter& p)
 //        }
     }
 
-    p.drawImage(0,0,buffer);
+    p.drawImage(0,0,imgBuffer);
 
     if(ovlMap) ovlMap->draw(s, needsRedraw, p);
 }
@@ -1981,8 +1982,8 @@ void CMapTDB::draw(const QSize& s, bool needsRedraw, QPainter& p)
 
 void CMapTDB::draw()
 {
-    buffer.fill(Qt::transparent);
-    QPainter p(&buffer);
+    imgBuffer.fill(Qt::transparent);
+    QPainter p(&imgBuffer);
 
     QFont f = CResources::self().getMapFont();
     fm = QFontMetrics(f);

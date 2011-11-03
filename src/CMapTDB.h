@@ -353,8 +353,6 @@ class CMapTDB : public IMap
 
         qint8 selectedLanguage;
 
-        QPixmap pixBuffer;
-
         QComboBox * comboTypfiles;
 
         QTimer * toolTipTimer;
