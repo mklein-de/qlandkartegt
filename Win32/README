@@ -5,3 +5,5 @@ svn co https://qlandkartegt.svn.sourceforge.net/svnroot/qlandkartegt/GDAL/
 
 To run QLandkarte GT all files below the GDAL/bin path have to copied into the qlandkartegt.exe 
 path.
+
+This GDAL version has been compiled by Tamas Szekeres http://www.gisinternals.com/sdk/.
