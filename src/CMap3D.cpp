@@ -34,7 +34,11 @@
 #include <QtGui>
 #include <QtOpenGL>
 #include <math.h>
+#if defined(Q_WS_MAC)
+#include <OpenGL/glu.h>
+#else
 #include <GL/glu.h>
+#endif
 
 #ifndef GL_CLAMP_TO_EDGE
 #define GL_CLAMP_TO_EDGE 0x812F

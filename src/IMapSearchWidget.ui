@@ -1,7 +1,8 @@
-<ui version="4.0" >
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
  <class>IMapSearchWidget</class>
- <widget class="QWidget" name="IMapSearchWidget" >
-  <property name="geometry" >
+ <widget class="QWidget" name="IMapSearchWidget">
+  <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
@@ -9,155 +10,49 @@
     <height>250</height>
    </rect>
   </property>
-  <property name="minimumSize" >
+  <property name="minimumSize">
    <size>
     <width>1024</width>
     <height>196</height>
    </size>
   </property>
-  <property name="maximumSize" >
+  <property name="maximumSize">
    <size>
     <width>16777214</width>
     <height>250</height>
    </size>
   </property>
-  <property name="windowTitle" >
+  <property name="windowTitle">
    <string>Form</string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout" >
+  <layout class="QVBoxLayout" name="verticalLayout">
    <item>
-    <widget class="QTabWidget" name="tabWidget" >
-     <property name="currentIndex" >
+    <widget class="QTabWidget" name="tabWidget">
+     <property name="currentIndex">
       <number>0</number>
      </property>
-     <widget class="QWidget" name="lines" >
-      <attribute name="title" >
-       <string>Database</string>
-      </attribute>
-      <layout class="QHBoxLayout" name="horizontalLayout" >
-       <item>
-        <widget class="QGroupBox" name="groupLines" >
-         <property name="title" >
-          <string>Lines</string>
-         </property>
-         <layout class="QGridLayout" name="gridLayout" >
-          <item row="0" column="0" >
-           <widget class="QLabel" name="label_3" >
-            <property name="text" >
-             <string>Text to find:</string>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="1" >
-           <widget class="QListWidget" name="listResultLines" >
-            <property name="selectionMode" >
-             <enum>QAbstractItemView::ExtendedSelection</enum>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="1" >
-           <widget class="QLineEdit" name="lineTextToFindLines" />
-          </item>
-         </layout>
-        </widget>
-       </item>
-       <item>
-        <widget class="QGroupBox" name="groupPoints" >
-         <property name="title" >
-          <string>Points</string>
-         </property>
-         <layout class="QGridLayout" name="gridLayout_2" >
-          <item row="0" column="0" >
-           <widget class="QLabel" name="label_4" >
-            <property name="text" >
-             <string>Text to find:</string>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="1" >
-           <widget class="QLineEdit" name="lineTextToFindPoints" >
-            <property name="enabled" >
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="1" >
-           <widget class="QListWidget" name="listResultPoints" >
-            <property name="selectionMode" >
-             <enum>QAbstractItemView::ExtendedSelection</enum>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </widget>
-       </item>
-       <item>
-        <widget class="QGroupBox" name="groupBox_3" >
-         <property name="title" >
-          <string>Database</string>
-         </property>
-         <layout class="QVBoxLayout" name="verticalLayout_3" >
-          <item>
-           <widget class="QProgressBar" name="progressBar2" >
-            <property name="value" >
-             <number>0</number>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QCheckBox" name="checkSearchViewport" >
-            <property name="text" >
-             <string>Limit search to viewport</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLabel" name="labelProgress2" >
-            <property name="text" >
-             <string/>
-            </property>
-            <property name="wordWrap" >
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QPushButton" name="pushCreateIndex" >
-            <property name="enabled" >
-             <bool>true</bool>
-            </property>
-            <property name="text" >
-             <string>Create Index</string>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </widget>
-       </item>
-      </layout>
-     </widget>
-     <widget class="QWidget" name="symbols" >
-      <attribute name="title" >
+     <widget class="QWidget" name="symbols">
+      <attribute name="title">
        <string>Symbols</string>
       </attribute>
-      <layout class="QVBoxLayout" name="verticalLayout_2" >
+      <layout class="QVBoxLayout" name="verticalLayout_2">
        <item>
-        <layout class="QHBoxLayout" >
+        <layout class="QHBoxLayout">
          <item>
-          <widget class="QFrame" name="frame_2" >
-           <property name="frameShape" >
+          <widget class="QFrame" name="frame_2">
+           <property name="frameShape">
             <enum>QFrame::StyledPanel</enum>
            </property>
-           <property name="frameShadow" >
+           <property name="frameShadow">
             <enum>QFrame::Raised</enum>
            </property>
-           <layout class="QVBoxLayout" >
+           <layout class="QVBoxLayout">
             <item>
-             <layout class="QHBoxLayout" >
+             <layout class="QHBoxLayout">
               <item>
-               <widget class="QLineEdit" name="lineMaskName" >
-                <property name="sizePolicy" >
-                 <sizepolicy vsizetype="Fixed" hsizetype="Minimum" >
+               <widget class="QLineEdit" name="lineMaskName">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
                   <horstretch>0</horstretch>
                   <verstretch>0</verstretch>
                  </sizepolicy>
@@ -165,25 +60,25 @@
                </widget>
               </item>
               <item>
-               <widget class="QToolButton" name="toolNewMask" >
-                <property name="text" >
+               <widget class="QToolButton" name="toolNewMask">
+                <property name="text">
                  <string>...</string>
                 </property>
                </widget>
               </item>
               <item>
-               <widget class="QToolButton" name="toolDeleteMask" >
-                <property name="text" >
+               <widget class="QToolButton" name="toolDeleteMask">
+                <property name="text">
                  <string>...</string>
                 </property>
                </widget>
               </item>
               <item>
-               <widget class="QToolButton" name="toolSaveMask" >
-                <property name="enabled" >
+               <widget class="QToolButton" name="toolSaveMask">
+                <property name="enabled">
                  <bool>false</bool>
                 </property>
-                <property name="text" >
+                <property name="text">
                  <string>...</string>
                 </property>
                </widget>
@@ -191,20 +86,20 @@
              </layout>
             </item>
             <item>
-             <widget class="QComboBox" name="comboSymbols" />
+             <widget class="QComboBox" name="comboSymbols"/>
             </item>
             <item>
-             <widget class="QLabel" name="labelMask" >
-              <property name="sizePolicy" >
-               <sizepolicy vsizetype="MinimumExpanding" hsizetype="Preferred" >
+             <widget class="QLabel" name="labelMask">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Preferred" vsizetype="MinimumExpanding">
                 <horstretch>0</horstretch>
                 <verstretch>0</verstretch>
                </sizepolicy>
               </property>
-              <property name="text" >
+              <property name="text">
                <string>No mask selected</string>
               </property>
-              <property name="alignment" >
+              <property name="alignment">
                <set>Qt::AlignCenter</set>
               </property>
              </widget>
@@ -213,49 +108,49 @@
           </widget>
          </item>
          <item>
-          <widget class="QFrame" name="frame_3" >
-           <property name="frameShape" >
+          <widget class="QFrame" name="frame_3">
+           <property name="frameShape">
             <enum>QFrame::StyledPanel</enum>
            </property>
-           <property name="frameShadow" >
+           <property name="frameShadow">
             <enum>QFrame::Raised</enum>
            </property>
-           <layout class="QVBoxLayout" >
+           <layout class="QVBoxLayout">
             <item>
-             <widget class="QLabel" name="label_2" >
-              <property name="text" >
+             <widget class="QLabel" name="label_2">
+              <property name="text">
                <string>Gray Threshold</string>
               </property>
              </widget>
             </item>
             <item>
-             <widget class="QSlider" name="sliderThreshold" >
-              <property name="sizePolicy" >
-               <sizepolicy vsizetype="Fixed" hsizetype="Minimum" >
+             <widget class="QSlider" name="sliderThreshold">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
                 <horstretch>0</horstretch>
                 <verstretch>0</verstretch>
                </sizepolicy>
               </property>
-              <property name="maximum" >
+              <property name="maximum">
                <number>255</number>
               </property>
-              <property name="singleStep" >
+              <property name="singleStep">
                <number>10</number>
               </property>
-              <property name="orientation" >
+              <property name="orientation">
                <enum>Qt::Horizontal</enum>
               </property>
-              <property name="tickPosition" >
+              <property name="tickPosition">
                <enum>QSlider::TicksBelow</enum>
               </property>
              </widget>
             </item>
             <item>
              <spacer>
-              <property name="orientation" >
+              <property name="orientation">
                <enum>Qt::Vertical</enum>
               </property>
-              <property name="sizeHint" stdset="0" >
+              <property name="sizeHint" stdset="0">
                <size>
                 <width>20</width>
                 <height>40</height>
@@ -264,17 +159,17 @@
              </spacer>
             </item>
             <item>
-             <layout class="QHBoxLayout" >
+             <layout class="QHBoxLayout">
               <item>
-               <widget class="QLabel" name="label" >
-                <property name="text" >
+               <widget class="QLabel" name="label">
+                <property name="text">
                  <string>Area:</string>
                 </property>
                </widget>
               </item>
               <item>
-               <widget class="QToolButton" name="toolSelectArea" >
-                <property name="text" >
+               <widget class="QToolButton" name="toolSelectArea">
+                <property name="text">
                  <string>...</string>
                 </property>
                </widget>
@@ -282,20 +177,20 @@
              </layout>
             </item>
             <item>
-             <widget class="QLabel" name="labelArea" >
-              <property name="sizePolicy" >
-               <sizepolicy vsizetype="MinimumExpanding" hsizetype="Preferred" >
+             <widget class="QLabel" name="labelArea">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Preferred" vsizetype="MinimumExpanding">
                 <horstretch>0</horstretch>
                 <verstretch>0</verstretch>
                </sizepolicy>
               </property>
-              <property name="text" >
+              <property name="text">
                <string>No area selected.</string>
               </property>
-              <property name="alignment" >
+              <property name="alignment">
                <set>Qt::AlignCenter</set>
               </property>
-              <property name="wordWrap" >
+              <property name="wordWrap">
                <bool>true</bool>
               </property>
              </widget>
@@ -308,33 +203,33 @@
           </widget>
          </item>
          <item>
-          <layout class="QVBoxLayout" >
+          <layout class="QVBoxLayout">
            <item>
-            <widget class="QPushButton" name="pushSearch" >
-             <property name="enabled" >
+            <widget class="QPushButton" name="pushSearch">
+             <property name="enabled">
               <bool>false</bool>
              </property>
-             <property name="text" >
+             <property name="text">
               <string>Search...</string>
              </property>
             </widget>
            </item>
            <item>
-            <widget class="QPushButton" name="pushCancel" >
-             <property name="enabled" >
+            <widget class="QPushButton" name="pushCancel">
+             <property name="enabled">
               <bool>false</bool>
              </property>
-             <property name="text" >
+             <property name="text">
               <string>Cancel</string>
              </property>
             </widget>
            </item>
            <item>
             <spacer>
-             <property name="orientation" >
+             <property name="orientation">
               <enum>Qt::Vertical</enum>
              </property>
-             <property name="sizeHint" stdset="0" >
+             <property name="sizeHint" stdset="0">
               <size>
                <width>20</width>
                <height>40</height>
@@ -343,30 +238,30 @@
             </spacer>
            </item>
            <item>
-            <widget class="QLabel" name="labelProgress" >
-             <property name="text" >
+            <widget class="QLabel" name="labelProgress">
+             <property name="text">
               <string/>
              </property>
             </widget>
            </item>
            <item>
-            <widget class="QProgressBar" name="progressBar" >
-             <property name="sizePolicy" >
-              <sizepolicy vsizetype="Fixed" hsizetype="Minimum" >
+            <widget class="QProgressBar" name="progressBar">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
                <horstretch>0</horstretch>
                <verstretch>0</verstretch>
               </sizepolicy>
              </property>
-             <property name="value" >
+             <property name="value">
               <number>0</number>
              </property>
-             <property name="alignment" >
+             <property name="alignment">
               <set>Qt::AlignHCenter</set>
              </property>
-             <property name="textVisible" >
+             <property name="textVisible">
               <bool>true</bool>
              </property>
-             <property name="invertedAppearance" >
+             <property name="invertedAppearance">
               <bool>false</bool>
              </property>
             </widget>

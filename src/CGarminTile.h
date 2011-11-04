@@ -183,21 +183,6 @@ class CGarminTile : public QObject
         */
         void loadPolygonsOfType(polytype_t& polygons, quint16 type, unsigned level);
 
-#ifdef SQL_SEARCH_GARMIN
-
-        /// create database index for later element lookup
-        void createIndex(QSqlDatabase& db);
-        /// read a single polyline
-        /**
-            @param subfile      the subfile by identifier the polyline is stored in
-            @param subdiv       the subdiv by index the  the polyline is stored in
-            @param offset       the offset into RGN part
-            @param polylines    vector to place result
-        */
-        void readPolyline(const QString& subfile, quint32 subdiv, quint32 offset, polytype_t& polylines);
-
-        void readPoint(const QString& subfile, quint32 n, quint32 offset, pointtype_t& point);
-#endif                       //SQL_SEARCH_GARMIN
 
     private:
         void readFile(QFileExt& file, quint32 offset, quint32 size, QByteArray& data);

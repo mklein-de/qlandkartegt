@@ -21,9 +21,6 @@
 #include "CMapDEM.h"
 #include "Garmin.h"
 #include "CGarminTile.h"
-#ifdef SQL_SEARCH_GARMIN
-#include "CGarminIndex.h"
-#endif                           //SQL_SEARCH_GARMIN
 #include "GeoMath.h"
 #include "CResources.h"
 #include "CMainWindow.h"
@@ -40,7 +37,7 @@
 #include <QSqlDatabase>
 #include <algorithm>
 
-//#include <sys/time.h>
+#include <QElapsedTimer>
 
 #ifdef WIN32
 #define CMAPTDB_MIN(x,y) _cpp_min(x,y)
@@ -53,6 +50,9 @@
 #define MIN_IDX_ZOOM 0
 #undef DEBUG_SHOW_SECTION_BORDERS
 #define DEBUG_SHOW_MAPLEVELS
+
+#define POLYLINE_SIMPLIFICATION_THRESHOLD 1.0
+#define STREETNAME_THRESHOLD 5.0
 
 #define TEXTWIDTH   300
 
@@ -290,11 +290,6 @@ CMapTDB::CMapTDB(const QString& key, const QString& filename, CCanvas * parent)
 
     parent->installEventFilter(this);
 
-#ifdef SQL_SEARCH_GARMIN
-    index = new CGarminIndex(this);
-    index->setDBName(name);
-#endif                       //SQL_SEARCH_GARMIN
-
     checkPoiLabels = new QCheckBox(theMainWindow->getCanvas());
     checkPoiLabels->setText(tr("POI labels"));
     theMainWindow->statusBar()->insertPermanentWidget(0,checkPoiLabels);
@@ -398,12 +393,6 @@ CMapTDB::CMapTDB(const QString& key, const QString& filename)
     info          = 0;
     isTransparent = true;
 
-#ifdef SQL_SEARCH_GARMIN
-    index = new CGarminIndex(this);
-    index->setDBName(name);
-#endif                       //SQL_SEARCH_GARMIN
-
-
     toolTipTimer = new QTimer(this);
     toolTipTimer->setSingleShot(true);
     connect(toolTipTimer, SIGNAL(timeout()), this, SLOT(slotToolTip()));
@@ -442,30 +431,11 @@ CMapTDB::~CMapTDB()
 
     if(pjsrc) pj_free(pjsrc);
 
-    if(checkPoiLabels)
-    {
-        delete checkPoiLabels;
-    }
-
-    if(checkNightView)
-    {
-        delete checkNightView;
-    }
-
-    if(comboDetails)
-    {
-        delete comboDetails;
-    }
-
-    if(comboLanguages)
-    {
-        delete comboLanguages;
-    }
-
-    if(comboTypfiles)
-    {
-        delete comboTypfiles;
-    }
+    delete checkPoiLabels;
+    delete checkNightView;
+    delete comboDetails;
+    delete comboLanguages;
+    delete comboTypfiles;
 
     qDebug() << "CMapTDB::~CMapTDB()";
 }
@@ -693,7 +663,6 @@ QString CMapTDB::getLegendArea()
             filename = tempDir.filePath(QString("a%1d.png").arg(key,8,16,QChar('0')));
             pixmap.save(filename);
 
-            //str += QString("<td><img alt='' src='file://%1'></td>").arg(filename);
             str += "<td><img alt='' src='"+QUrl::fromLocalFile(filename).toString()+"'></td>";
         }
 
@@ -707,7 +676,6 @@ QString CMapTDB::getLegendArea()
             filename = tempDir.filePath(QString("a%1n.png").arg(key,8,16,QChar('0')));
             pixmap.save(filename);
 
-            //str += QString("<td style='background-color: black;'><img alt='' src='file://%1'></td>").arg(filename);
             str += "<td style='background-color: black;'><img alt='' src='"+QUrl::fromLocalFile(filename).toString()+"'></td>";
         }
 
@@ -1302,7 +1270,6 @@ void CMapTDB::readTDB(const QString& filename)
     tdb_hdr_t * pRecord     = (tdb_hdr_t*)pRawData;
 
     quint32 basemapId   = 0;
-//    bool    tainted     = false;
 
     while((quint8*)pRecord < pRawData + data.size())
     {
@@ -1381,7 +1348,6 @@ void CMapTDB::readTDB(const QString& filename)
                 QString tilename = QString::fromLatin1(p->name);
                 // produce a unique key form the tile name and it's ID. Some tiles
                 // might have the same name but never the same ID
-                //QString key = QString("%1 %2").arg(tilename).arg(p->id,8,10,QChar('0'));
                 QString key = QString("%1").arg(p->id,8,10,QChar('0'));
 
                 tile_t& tile    = tiles[key];
@@ -1622,8 +1588,6 @@ bool CMapTDB::processPrimaryMapData()
                 }
                 ++subfile;
             }
-
-            //             isTransparent = img->isTransparent();
         }
         /* Sort all entries, note that stable sort should insure that basemap is preferred when available. */
         qStableSort(maplevels.begin(), maplevels.end(), map_level_t::GreaterThan);
@@ -1884,14 +1848,10 @@ void CMapTDB::draw(QPainter& p)
     if(needsRedraw)
     {
         draw();
-        pixBuffer = QPixmap::fromImage(imgBuffer);
-        // wenn man Speicher sparen will/muss
-        //buffer = QImage();
     }
 
     // copy internal buffer to paint device
-    //p.drawPixmap(0,0,pixBuffer);
-    p.drawPixmap(0,0,pixBuffer);
+    p.drawImage(0,0,imgBuffer);
 
     // render overlay
     if(!ovlMap.isNull() && !doFastDraw)
@@ -1934,6 +1894,104 @@ void CMapTDB::draw(QPainter& p)
 }
 
 
+void CMapTDB::simplifyPolyline(QPolygonF & line) const
+{
+    // disable polyline simplification for closer zoom levels
+    if (zoomFactor >= POLYLINE_SIMPLIFICATION_THRESHOLD)
+    {
+        simplifyPolyline(line.begin(), line.end());
+        line.resize(std::unique(line.begin(), line.end()) - line.begin());
+    }
+}
+
+
+void CMapTDB::simplifyPolyline(QPolygonF::iterator begin, QPolygonF::iterator end) const
+{
+    if (std::distance(begin, end) > 2)
+    {
+        const QPointF & p1 = *begin++;
+        const QPointF & p2 = *--end;
+
+        double dist, max_dist = 0.0;
+        QPolygonF::iterator pos, max_pos = end;
+
+        if (p2.x() == p1.x())
+        {
+            double min_y = std::min(p1.y(), p2.y());
+            double max_y = std::max(p1.y(), p2.y());
+
+            for (pos = begin; pos != end; pos++)
+            {
+                const QPointF & p = *pos;
+
+                if (p.y() < min_y)
+                {
+                    dist = sqrt((p1.x() - p.x()) * (p1.x() - p.x()) + (min_y - p.y()) * (min_y - p.y()));
+                }
+                else if (p.y() > max_y)
+                {
+                    dist = sqrt((p1.x() - p.x()) * (p1.x() - p.x()) + (max_y - p.y()) * (max_y - p.y()));
+                }
+                else
+                {
+                    dist = abs(p.x() - p1.x());
+                }
+
+                if (dist > max_dist)
+                {
+                    max_pos = pos;
+                    max_dist = dist;
+                }
+            }
+        }
+        else
+        {
+            double m = (p2.y() - p1.y()) / (p2.x() - p1.x());
+            double n = -1.0 / m;
+            double c = p1.y() - m * p1.x();
+
+            double min_x = std::min(p1.x(), p2.x());
+            double max_x = std::max(p1.x(), p2.x());
+
+            for (pos = begin; pos != end; pos++)
+            {
+                const QPointF & p = *pos;
+
+                double d = p.y() - n * p.x();
+                double x = (c - d) / (n - m);
+
+                if (x >= min_x && x <= max_x)
+                {
+                    double y = m * x + c;
+                    dist = sqrt((p.x() - x) * (p.x() - x) + (p.y() - y) * (p.y() - y));
+                }
+                else
+                {
+                    dist = std::min(sqrt((p1.x() - p.x()) * (p1.x() - p.x()) + (p1.y() - p.y()) * (p1.y() - p.y())),
+                                    sqrt((p2.x() - p.x()) * (p2.x() - p.x()) + (p2.y() - p.y()) * (p2.y() - p.y())));
+                }
+
+                if (dist > max_dist)
+                {
+                    max_pos = pos;
+                    max_dist = dist;
+                }
+            }
+        }
+
+        if (max_dist >= CResources::self().polylineSimplificationEpsilon())
+        {
+            simplifyPolyline(max_pos, end);
+            simplifyPolyline(begin, max_pos + 1);
+        }
+        else
+        {
+            std::fill(begin, end, p1);
+        }
+    }
+}
+
+
 void CMapTDB::draw(const QSize& s, bool needsRedraw, QPainter& p)
 {
     int i;
@@ -1962,16 +2020,6 @@ void CMapTDB::draw(const QSize& s, bool needsRedraw, QPainter& p)
 
         draw();
 
-//        // make map semi transparent
-//        quint32 * ptr  = (quint32*)buffer.bits();
-//        for(int i = 0; i < (buffer.numBytes()>>2); ++i)
-//        {
-//            if(*ptr & 0xFF000000)
-//            {
-//                *ptr = (*ptr & 0x00FFFFFF) | 0xFF000000;
-//            }
-//            ++ptr;
-//        }
     }
 
     p.drawImage(0,0,imgBuffer);
@@ -1989,6 +2037,7 @@ void CMapTDB::draw()
     fm = QFontMetrics(f);
 
     USE_ANTI_ALIASING(p,!doFastDraw && CResources::self().useAntiAliasing());
+
     p.setFont(f);
     p.setPen(Qt::black);
     p.setBrush(Qt::NoBrush);
@@ -2018,8 +2067,6 @@ void CMapTDB::draw()
     points.clear();
     labels.clear();
 
-    //  struct timeval tv1, tv2, tv3;
-    //  gettimeofday(&tv1, NULL);
 
     if(maplevel->useBaseMap)
     {
@@ -2043,13 +2090,6 @@ void CMapTDB::draw()
         }
     }
 
-    //  gettimeofday(&tv2, NULL);
-    //  qint64 diff = tv2.tv_usec - tv1.tv_usec;
-    //  if(diff < 0)
-    //    diff = 1000000 + tv2.tv_usec - tv1.tv_usec;
-    //  fprintf(stderr, "loadVisibleData complete: %d\n", diff);
-
-
     if(!isTransparent)
     {
         drawPolygons(p, polygons);
@@ -2057,26 +2097,25 @@ void CMapTDB::draw()
 
     if(!doFastDraw)
     {
+        QElapsedTimer et;
         QVector<QRect> rectPois;
 
+        et.start();
         drawPolylines(p, polylines);
+//        qDebug() << "drawPolylines: " << et.restart() << "ms";
         drawPoints(p, points, rectPois);
+//        qDebug() << "drawPoints: " << et.restart() << "ms";
         drawPois(p, pois, rectPois);
+//        qDebug() << "drawPois: " << et.restart() << "ms";
         drawText(p);
+//        qDebug() << "drawText: " << et.restart() << "ms";
         drawLabels(p, labels);
+//        qDebug() << "drawLabels: " << et.restart() << "ms";
 
     }
-
-    //  gettimeofday(&tv3, NULL);
-    //  diff = tv3.tv_usec - tv2.tv_usec;
-    //  if(diff < 0)
-    //    diff = 1000000 + tv3.tv_usec - tv2.tv_usec;
-    //  fprintf(stderr, "draw complete: %d\n", diff);
-
 }
 
 
-#define STREETNAME_THRESHOLD 5.0
 void CMapTDB::drawLine(QPainter& p, CGarminPolygon& l, const IGarminTyp::polyline_property& property, const QFontMetricsF& metrics, const QFont& font)
 {
     double * u          = l.u.data();
@@ -2098,6 +2137,8 @@ void CMapTDB::drawLine(QPainter& p, CGarminPolygon& l, const IGarminTyp::polylin
     {
         line.append(QPointF(*u++, *v++));
     }
+
+    simplifyPolyline(line);
 
     if (zoomFactor < STREETNAME_THRESHOLD && property.labelType != IGarminTyp::eNone)
     {
@@ -2126,6 +2167,8 @@ void CMapTDB::drawLine(QPainter& p, const CGarminPolygon& l)
     {
         line.append(QPointF(*u++, *v++));
     }
+
+    simplifyPolyline(line);
 
     p.drawPolyline(line);
 }
@@ -2164,11 +2207,6 @@ void CMapTDB::drawPolylines(QPainter& p, polytype_t& lines)
     textpaths.clear();
     QFont font = CResources::self().getMapFont();
 
-//    int fontsize = 6 + 3.0/zoomFactor;
-
-//    if(fontsize < font.pixelSize()){
-//        font.setPixelSize(fontsize);
-//    }
     font.setPixelSize(12);
     font.setBold(false);
     QFontMetricsF metrics(font);
@@ -2179,6 +2217,8 @@ void CMapTDB::drawPolylines(QPainter& p, polytype_t& lines)
     int pixmapCount = 0;
     int borderCount = 0;
     int normalCount = 0;
+    int imageCount = 0;
+    int deletedCount = 0;
 
     QHash<quint32, QList<quint32> > dict;
     for(int i = 0; i < lines.count(); ++i)
@@ -2211,9 +2251,9 @@ void CMapTDB::drawPolylines(QPainter& p, polytype_t& lines)
 
                     pixmapCount++;
 
-                    double * u      = item.u.data();
-                    double * v      = item.v.data();
-                    const int size  = item.u.size();
+                    double * u = item.u.data();
+                    double * v = item.v.data();
+                    int size   = item.u.size();
 
                     if(size < 2)
                     {
@@ -2222,27 +2262,36 @@ void CMapTDB::drawPolylines(QPainter& p, polytype_t& lines)
 
                     convertRad2Pt(u,v,size);
 
+                    int i;
+
                     line.resize(0);
                     line.reserve(size);
 
                     lengths.resize(0);
+
+                    for(i = 0; i < size; ++i)
+                    {
+                        line.append(QPointF(u[i], v[i]));
+                    }
+
+                    deletedCount += line.size();
+                    simplifyPolyline(line);
+                    deletedCount -= line.size();
+                    size = line.size();
+
                     lengths.reserve(size);
 
                     double u1, u2, v1, v2;
                     QPainterPath path;
                     double segLength, totalLength = 0;
-                    int i;
 
-                    u1 = u[0];
-                    v1 = v[0];
-                    line.append(QPointF(u1,v1));
+                    u1 = line[0].x();
+                    v1 = line[0].y();
 
                     for(i = 1; i < size; ++i)
                     {
-                        u2 = u[i];
-                        v2 = v[i];
-
-                        line.append(QPointF(u2,v2));
+                        u2 = line[i].x();
+                        v2 = line[i].y();
 
                         segLength    = sqrt((u2 - u1) * (u2 - u1) + (v2 - v1) * (v2 - v1));
                         totalLength += segLength;
@@ -2280,26 +2329,8 @@ void CMapTDB::drawPolylines(QPainter& p, polytype_t& lines)
                         p.save();
                         p.translate(p1);
                         p.rotate(angle);
-#if 0
-                        const double w          = pixmap.width();
-                        double l = 0;
-                        p.translate(0,-h/2);
-
-                        while(l < segLength)
-                        {
-                            if((segLength - l) < w)
-                            {
-                                QRectF r = pixmap.rect();
-                                r.setRight(segLength - l);
-                                p.setClipRect(r, Qt::ReplaceClip);
-                            }
-                            p.drawImage(0,0,pixmap);
-                            p.translate(w,0);
-                            l += w;
-                        }
-#else
                         p.drawImage(0,-h/2, img2line(pixmap, segLength));
-#endif
+                        imageCount++;
 
                         p.restore();
                         curLength += segLength;
@@ -2343,7 +2374,11 @@ void CMapTDB::drawPolylines(QPainter& p, polytype_t& lines)
         }
 
     }
-    //    fprintf(stderr, "pixmapCount: %d, borderCount: %d, normalCount: %d\n", pixmapCount, borderCount, normalCount);
+//    qDebug() << "pixmapCount:" << pixmapCount
+//        << "borderCount:" << borderCount
+//        << "normalCount:" << normalCount
+//        << "imageCount:" << imageCount
+//        << "deletedCount:" << deletedCount;
 }
 
 
@@ -2685,7 +2720,6 @@ inline bool isCluttered(QVector<QRect>& rectPois, const QRect& rect)
 
 void CMapTDB::drawPoints(QPainter& p, pointtype_t& pts, QVector<QRect>& rectPois)
 {
-
     pointtype_t::iterator pt = pts.begin();
     while(pt != pts.end())
     {
@@ -2753,6 +2787,9 @@ void CMapTDB::drawPois(QPainter& p, pointtype_t& pts, QVector<QRect>& rectPois)
     IGarminTyp::label_type_e labelType = IGarminTyp::eStandard;
     bool showLabel = true;
 
+    QPixmap blueBullet(":/icons/small_bullet_blue.png");
+    QPixmap redBullet(":/icons/small_bullet_red.png");
+
     pointtype_t::iterator pt = pts.begin();
     while(pt != pts.end())
     {
@@ -2760,7 +2797,7 @@ void CMapTDB::drawPois(QPainter& p, pointtype_t& pts, QVector<QRect>& rectPois)
 
         if(isCluttered(rectPois, QRect(pt->lon, pt->lat,16,16)))
         {
-            p.drawPixmap(pt->lon - 4, pt->lat - 4, QPixmap(":/icons/small_bullet_blue.png"));
+            p.drawPixmap(pt->lon - 4, pt->lat - 4, blueBullet);
             ++pt;
             continue;
         }
@@ -2775,7 +2812,7 @@ void CMapTDB::drawPois(QPainter& p, pointtype_t& pts, QVector<QRect>& rectPois)
         }
         else
         {
-            p.drawPixmap(pt->lon - 4, pt->lat - 4, QPixmap(":/icons/small_bullet_red.png"));
+            p.drawPixmap(pt->lon - 4, pt->lat - 4, redBullet);
         }
 
         if(showLabel)
@@ -3388,47 +3425,12 @@ void CMapTDB::readTYP()
             break;
         }
 
-        //         default:
-        //             qDebug() << "CMapTDB::readTYP() not a known typ file = " << descriptor;
-        //             QMessageBox::warning(0, tr("Warning..."), tr("Unknown typ file format in '%1'. Use http://ati.land.cz/gps/typdecomp/editor.cgi to convert file to either old or NT format.").arg(typfile), QMessageBox::Abort, QMessageBox::Abort);
-        //             return;
     }
 
     file.close();
 
 }
 
-
-#ifdef SQL_SEARCH_GARMIN
-void CMapTDB::createSearchIndex(QObject * receiver, const char * slot)
-{
-    QStringList files;
-    QMap<QString,tile_t>::const_iterator tile = tiles.begin();
-    while(tile != tiles.end())
-    {
-        files << tile->file;
-        ++tile;
-    }
-    connect(index, SIGNAL(sigProgress(const QString&, const int)), receiver, slot);
-    index->create(files);
-}
-
-
-void CMapTDB::highlight(QVector<CGarminPolygon>& res)
-{
-    query1 = res;
-    needsRedraw = true;
-    emit sigChanged();
-}
-
-
-void CMapTDB::highlight(QVector<CGarminPoint>& res)
-{
-    query2 = res;
-    needsRedraw = true;
-    emit sigChanged();
-}
-#endif                           //SQL_SEARCH_GARMIN
 
 void CMapTDB::config()
 {

@@ -29,9 +29,6 @@
 #include "CImage.h"
 #include "CMapSearchThread.h"
 #include "IMap.h"
-#ifdef SQL_SEARCH_GARMIN
-#include "CGarminIndex.h"
-#endif                           //SQL_SEARCH_GARMIN
 #include "config.h"
 
 #include <QtGui>
@@ -66,33 +63,9 @@ CMapSearchWidget::CMapSearchWidget(QWidget * parent)
     mask = new CImage(this);
     loadMaskCollection();
 
-#ifdef SQL_SEARCH_GARMIN
-    connect(pushCreateIndex, SIGNAL(clicked()), this, SLOT(slotCreateIndex()));
-    connect(&CMapDB::self(), SIGNAL(sigChanged()), this, SLOT(slotIndexChanged()));
-    slotIndexChanged();
-
-    triggerLineSearch = new QTimer(this);
-    triggerLineSearch->setSingleShot(true);
-    connect(triggerLineSearch, SIGNAL(timeout()), this, SLOT(slotLineSearchChanged()));
-    connect(lineTextToFindLines, SIGNAL( textChanged(const QString &)), SLOT(slotLineSearchChanged( const QString& )));
-    connect(lineTextToFindLines, SIGNAL( returnPressed()), SLOT(slotLineSearchChanged()));
-    connect(listResultLines, SIGNAL(itemSelectionChanged ()), this, SLOT(slotLineSelected()));
-
-    triggerPointSearch = new QTimer(this);
-    triggerPointSearch->setSingleShot(true);
-    connect(triggerPointSearch, SIGNAL(timeout()), this, SLOT(slotPointSearchChanged()));
-    connect(lineTextToFindPoints, SIGNAL( textChanged(const QString &)), SLOT(slotPointSearchChanged( const QString& )));
-    connect(lineTextToFindPoints, SIGNAL( returnPressed()), SLOT(slotPointSearchChanged()));
-    connect(listResultPoints, SIGNAL(itemSelectionChanged ()), this, SLOT(slotPointSelected()));
-#else
-    tabWidget->removeTab(0);
-#endif                       //SQL_SEARCH_GARMIN
-
     connect(&CMapDB::self(), SIGNAL(sigChanged()), this, SLOT(slotMapChanged()));
     slotMapChanged();
 
-    QSettings cfg;
-    checkSearchViewport->setChecked(cfg.value("search/viewportlimit", false).toBool());
 }
 
 
@@ -103,20 +76,10 @@ CMapSearchWidget::~CMapSearchWidget()
         delete canvas;
     }
 
-    QSettings cfg;
-    cfg.setValue("search/viewportlimit", checkSearchViewport->isChecked());
-
     IMap * map      = &CMapDB::self().getMap();
     while(map && map->maptype != IMap::eGarmin) map = map->getOverlay();
     if(map == 0) return;
 
-#ifdef SQL_SEARCH_GARMIN
-    CMapTDB * tdb = qobject_cast<CMapTDB *>(map);
-    QVector<CGarminPoint>   res1;
-    QVector<CGarminPolygon> res2;
-    tdb->highlight(res1);
-    tdb->highlight(res2);
-#endif                       //SQL_SEARCH_GARMIN
 }
 
 
@@ -382,270 +345,6 @@ void CMapSearchWidget::checkGui()
 void CMapSearchWidget::slotMapChanged()
 {
     IMap& map  = CMapDB::self().getMap();
-#ifdef SQL_SEARCH_GARMIN
-    IMap * ovl = map.getOverlay();
-#endif                       //SQL_SEARCH_GARMIN
-
-#ifdef SQL_SEARCH_GARMIN
-    tabWidget->widget(1)->setEnabled(map.maptype == IMap::eRaster || map.maptype == IMap::eTile);
-    tabWidget->widget(0)->setEnabled(map.maptype == IMap::eGarmin || (ovl && (ovl->maptype == IMap::eGarmin)));
-#else
     tabWidget->widget(0)->setEnabled(map.maptype == IMap::eRaster || map.maptype == IMap::eTile);
-#endif                       //SQL_SEARCH_GARMIN
 }
 
-
-#ifdef SQL_SEARCH_GARMIN
-void CMapSearchWidget::slotProgressIndex(const QString& status, const int progress)
-{
-    labelProgress2->setText(status);
-    progressBar2->setValue(progress);
-    slotIndexChanged();
-}
-
-
-void CMapSearchWidget::slotCreateIndex()
-{
-    IMap * map      = &CMapDB::self().getMap();
-    while(map && map->maptype != IMap::eGarmin) map = map->getOverlay();
-    if(map == 0) return;
-
-    CMapTDB * tdb = qobject_cast<CMapTDB *>(map);
-    tdb->createSearchIndex(this, SLOT(slotProgressIndex(const QString&, const int)));
-}
-
-
-void CMapSearchWidget::slotIndexChanged()
-{
-    IMap * map      = &CMapDB::self().getMap();
-    while(map && map->maptype != IMap::eGarmin) map = map->getOverlay();
-    if(map == 0) return;
-
-    CMapTDB * tdb = qobject_cast<CMapTDB *>(map);
-    CGarminIndex * index = tdb->getSearchIndex();
-
-    if(index->created())
-    {
-        groupLines->setEnabled(true);
-        groupPoints->setEnabled(true);
-    }
-    else
-    {
-        groupLines->setEnabled(false);
-        groupPoints->setEnabled(false);
-    }
-
-    listResultLines->clear();
-    lineTextToFindLines->clear();
-    listResultPoints->clear();
-    lineTextToFindPoints->clear();
-}
-
-
-void CMapSearchWidget::slotLineSearchChanged(const QString& text)
-{
-    listResultLines->clear();
-    if(text.isEmpty()) return;
-
-    //     triggerLineSearch->start(SEARCHDELAY);
-}
-
-
-void CMapSearchWidget::slotLineSearchChanged()
-{
-    QString text = lineTextToFindLines->text();
-    if(text.isEmpty()) return;
-
-    IMap * map      = &CMapDB::self().getMap();
-    while(map && map->maptype != IMap::eGarmin) map = map->getOverlay();
-    if(map == 0) return;
-
-    QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
-    lineTextToFindLines->setEnabled(false);
-
-    CMapTDB * tdb = qobject_cast<CMapTDB *>(map);
-    CGarminIndex * index = tdb->getSearchIndex();
-
-    QSet<QString> results;
-
-    if(checkSearchViewport->isChecked())
-    {
-        double u = 0;
-        double v = 0;
-        map->convertPt2Rad(u,v);
-        QPointF p1(u,v);
-
-        u = map->getSize().width();
-        v = map->getSize().height();
-        map->convertPt2Rad(u,v);
-        QPointF p2(u,v);
-
-        index->searchPolyline(text, QRectF(p1, p2), results);
-    }
-    else
-    {
-        index->searchPolyline(text, results);
-    }
-
-    QString result;
-    foreach(result, results)
-    {
-        listResultLines->addItem(result);
-    }
-    listResultLines->sortItems();
-
-    labelProgress2->setText(tr("Found %1 items").arg(results.count()));
-
-    lineTextToFindLines->setEnabled(true);
-    lineTextToFindLines->setFocus();
-    QApplication::restoreOverrideCursor();
-}
-
-
-void CMapSearchWidget::slotLineSelected()
-{
-
-    IMap * map      = &CMapDB::self().getMap();
-    while(map && map->maptype != IMap::eGarmin) map = map->getOverlay();
-    if(map == 0) return;
-
-    CMapTDB * tdb = qobject_cast<CMapTDB *>(map);
-    CGarminIndex * index = tdb->getSearchIndex();
-
-    QListWidgetItem * item;
-    QList<QListWidgetItem *> items = listResultLines->selectedItems();
-
-    QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
-    QVector<CGarminPolygon> result;
-
-    foreach(item, items)
-    {
-        QString text = item->text();
-        if(checkSearchViewport->isChecked())
-        {
-            double u = 0;
-            double v = 0;
-            map->convertPt2Rad(u,v);
-            QPointF p1(u,v);
-
-            u = map->getSize().width();
-            v = map->getSize().height();
-            map->convertPt2Rad(u,v);
-            QPointF p2(u,v);
-
-            index->searchPolyline(text, QRectF(p1, p2), result);
-        }
-        else
-        {
-            index->searchPolyline(text, result);
-        }
-    }
-
-    tdb->highlight(result);
-
-    QApplication::restoreOverrideCursor();
-}
-
-
-void CMapSearchWidget::slotPointSearchChanged(const QString& text)
-{
-    listResultPoints->clear();
-    if(text.isEmpty()) return;
-
-    //     triggerPointSearch->start(SEARCHDELAY);
-}
-
-
-void CMapSearchWidget::slotPointSearchChanged()
-{
-    QString text = lineTextToFindPoints->text();
-    if(text.isEmpty()) return;
-
-    IMap * map      = &CMapDB::self().getMap();
-    while(map && map->maptype != IMap::eGarmin) map = map->getOverlay();
-    if(map == 0) return;
-
-    QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
-    lineTextToFindPoints->setEnabled(false);
-
-    CMapTDB * tdb = qobject_cast<CMapTDB *>(map);
-    CGarminIndex * index = tdb->getSearchIndex();
-
-    QSet<QString> results;
-    if(checkSearchViewport->isChecked())
-    {
-        double u = 0;
-        double v = 0;
-        map->convertPt2Rad(u,v);
-        QPointF p1(u,v);
-
-        u = map->getSize().width();
-        v = map->getSize().height();
-        map->convertPt2Rad(u,v);
-        QPointF p2(u,v);
-
-        index->searchPoint(text, QRectF(p1, p2), results);
-    }
-    else
-    {
-        index->searchPoint(text, results);
-    }
-
-    QString result;
-    foreach(result, results)
-    {
-        listResultPoints->addItem(result);
-    }
-    listResultPoints->sortItems();
-
-    labelProgress2->setText(tr("Found %1 items").arg(results.count()));
-
-    lineTextToFindPoints->setEnabled(true);
-    lineTextToFindPoints->setFocus();
-    QApplication::restoreOverrideCursor();
-}
-
-
-void CMapSearchWidget::slotPointSelected()
-{
-    IMap * map      = &CMapDB::self().getMap();
-    while(map && map->maptype != IMap::eGarmin) map = map->getOverlay();
-    if(map == 0) return;
-
-    CMapTDB * tdb = qobject_cast<CMapTDB *>(map);
-    CGarminIndex * index = tdb->getSearchIndex();
-
-    QListWidgetItem * item;
-    QList<QListWidgetItem *> items = listResultPoints->selectedItems();
-
-    QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
-    QVector<CGarminPoint> result;
-
-    foreach(item, items)
-    {
-        QString text = item->text();
-        if(checkSearchViewport->isChecked())
-        {
-            double u = 0;
-            double v = 0;
-            map->convertPt2Rad(u,v);
-            QPointF p1(u,v);
-
-            u = map->getSize().width();
-            v = map->getSize().height();
-            map->convertPt2Rad(u,v);
-            QPointF p2(u,v);
-
-            index->searchPoint(text, QRectF(p1, p2), result);
-        }
-        else
-        {
-            index->searchPoint(text, result);
-        }
-    }
-
-    tdb->highlight(result);
-
-    QApplication::restoreOverrideCursor();
-}
-#endif                           //SQL_SEARCH_GARMIN

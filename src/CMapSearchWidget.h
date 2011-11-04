@@ -54,19 +54,6 @@ class CMapSearchWidget : public QWidget, private Ui::IMapSearchWidget
         void slotCancel();
         void slotMapChanged();
 
-#ifdef SQL_SEARCH_GARMIN
-        void slotProgressIndex(const QString& status, const int progress);
-        void slotCreateIndex();
-        void slotIndexChanged();
-        void slotLineSearchChanged();
-        void slotLineSearchChanged(const QString&);
-        void slotLineSelected();
-
-        void slotPointSearchChanged();
-        void slotPointSearchChanged(const QString&);
-        void slotPointSelected();
-#endif                       //SQL_SEARCH_GARMIN
-
     private:
         void binarizeViewport(int t);
         void loadMaskCollection();
@@ -78,9 +65,5 @@ class CMapSearchWidget : public QWidget, private Ui::IMapSearchWidget
 
         CMapSearchThread * thread;
 
-#ifdef SQL_SEARCH_GARMIN
-        QTimer * triggerLineSearch;
-        QTimer * triggerPointSearch;
-#endif
 };
 #endif                           //CMAPSEARCHWIDGET_H

@@ -32,10 +32,6 @@
 class QTimer;
 class QTextDocument;
 
-#ifdef SQL_SEARCH_GARMIN
-class CGarminIndex;
-#endif                           //SQL_SEARCH_GARMIN
-
 class QCheckBox;
 class QComboBox;
 
@@ -69,14 +65,6 @@ class CMapTDB : public IMap
         QString getLegendLines();
         QString getLegendArea();
         QString getLegendPoints();
-
-#ifdef SQL_SEARCH_GARMIN
-        void createSearchIndex(QObject * reveiver, const char * slot);
-        CGarminIndex * getSearchIndex(){return index;}
-
-        void highlight(QVector<CGarminPolygon>& res);
-        void highlight(QVector<CGarminPoint>& res);
-#endif                       //SQL_SEARCH_GARMIN
 
         void config();
     protected:
@@ -136,6 +124,9 @@ class CMapTDB : public IMap
 
         void drawLine(QPainter& p, CGarminPolygon& l, const IGarminTyp::polyline_property& property, const QFontMetricsF& metrics, const QFont& font);
         void drawLine(QPainter& p, const CGarminPolygon& l);
+
+        void simplifyPolyline(QPolygonF & line) const;
+        void simplifyPolyline(QPolygonF::iterator begin, QPolygonF::iterator end) const;
 
         QString createLegendString(const QMap<int,QString>& strings);
 
@@ -326,10 +317,6 @@ class CMapTDB : public IMap
         };
 
         QVector<textpath_t> textpaths;
-
-#ifdef SQL_SEARCH_GARMIN
-        CGarminIndex * index;
-#endif                       //SQL_SEARCH_GARMIN
 
         QVector<CGarminPolygon> query1;
         QVector<CGarminPoint> query2;
