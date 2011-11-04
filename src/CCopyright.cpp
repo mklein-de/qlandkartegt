@@ -51,6 +51,7 @@ CCopyright::CCopyright()
         "Albrecht Dre&szlig;<br>"
         "Christian Ehrlicher<br/>"
         "Christian Treffs<br/>"
+        "Michael Klein<br/>"
         "</p>"
         "<p>Translation:<br>"
         "Sarah Neumann (German)<br>"
