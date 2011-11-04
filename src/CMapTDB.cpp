@@ -51,7 +51,12 @@
 #undef DEBUG_SHOW_SECTION_BORDERS
 #define DEBUG_SHOW_MAPLEVELS
 
+// epsilon for douglas-peucker polyline simplification
+#define POLYLINE_SIMPLIFICATION_EPSILON 1.9
+
+// disable polyline simplification for close-up zoom
 #define POLYLINE_SIMPLIFICATION_THRESHOLD 1.0
+
 #define STREETNAME_THRESHOLD 5.0
 
 #define TEXTWIDTH   300
@@ -1979,7 +1984,7 @@ void CMapTDB::simplifyPolyline(QPolygonF::iterator begin, QPolygonF::iterator en
             }
         }
 
-        if (max_dist >= CResources::self().polylineSimplificationEpsilon())
+        if (max_dist >= POLYLINE_SIMPLIFICATION_EPSILON)
         {
             simplifyPolyline(max_pos, end);
             simplifyPolyline(begin, max_pos + 1);

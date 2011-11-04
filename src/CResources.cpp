@@ -64,7 +64,6 @@ CResources::CResources(QObject * parent)
 , m_showZoomLevel(true)
 , m_useAntiAliasing(true)
 , m_reducePoiIcons(true)
-, m_polylineSimplificationEpsilon(2.5)
 , m_WptTextColor(Qt::black)
 
 {
@@ -140,8 +139,6 @@ CResources::CResources(QObject * parent)
     m_useAntiAliasing  = cfg.value("environment/useAntiAliasing",m_useAntiAliasing).toBool();
     m_reducePoiIcons   = cfg.value("environment/reducePoiIcons",m_reducePoiIcons).toBool();
 
-    m_polylineSimplificationEpsilon = cfg.value("environment/polylineSimplificationEpsilon",m_polylineSimplificationEpsilon).toDouble();
-
     m_WptTextColor = QColor(cfg.value("environment/wptTextColor", m_WptTextColor.name()).toString());
 
     QDir dirWeb(QDir::home().filePath(CONFIGDIR));
@@ -206,7 +203,6 @@ CResources::~CResources()
     cfg.setValue("environment/showZoomLevel",m_showZoomLevel);
     cfg.setValue("environment/useAntiAliasing",m_useAntiAliasing);
     cfg.setValue("environment/reducePoiIcons",m_reducePoiIcons);
-    cfg.setValue("environment/polylineSimplificationEpsilon",m_polylineSimplificationEpsilon);
 
     cfg.setValue("environment/wptTextColor", m_WptTextColor.name());
 }

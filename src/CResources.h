@@ -72,7 +72,6 @@ class CResources : public QObject
         bool playSound(){return m_playSound;}
         bool useAntiAliasing(){return m_useAntiAliasing;}
         bool reducePoiIcons(){return m_reducePoiIcons;}
-        double polylineSimplificationEpsilon(){return m_polylineSimplificationEpsilon;}
 
         QColor wptTextColor(){return m_WptTextColor;}
 
@@ -146,7 +145,6 @@ class CResources : public QObject
         bool m_showZoomLevel;
         bool m_useAntiAliasing;
         bool m_reducePoiIcons;
-        double m_polylineSimplificationEpsilon;
 
         QColor m_WptTextColor;
 
