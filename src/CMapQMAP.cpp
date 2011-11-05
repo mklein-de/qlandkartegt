@@ -245,7 +245,16 @@ void CMapQMAP::draw(QPainter& p)
     }
     else
     {
-        p.drawPixmap(0,0,pixBuffer);
+        bool isThread = QApplication::instance()->thread() != QThread::currentThread();
+        qDebug() << "is thread" << isThread;
+        if(isThread)
+        {
+            p.drawImage(0,0,imgBuffer);
+        }
+        else
+        {
+            p.drawPixmap(0,0,pixBuffer);
+        }
     }
 
     // render overlay
@@ -334,10 +343,20 @@ void CMapQMAP::__test()
 
 void CMapQMAP::draw()
 {
-    //     __test();
 
-    pixBuffer.fill(Qt::white);
-    QPainter _p_(&pixBuffer);
+    bool isThread = QApplication::instance()->thread() != QThread::currentThread();
+
+    qDebug() << "is thread" << isThread;
+
+    if(isThread)
+    {
+        imgBuffer.fill(Qt::white);
+    }
+    else
+    {
+        pixBuffer.fill(Qt::white);
+    }
+    QPainter _p_(isThread ? (QPaintDevice*)&imgBuffer : (QPaintDevice*)&pixBuffer);
 
     foundMap = false;
 
