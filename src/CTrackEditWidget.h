@@ -65,6 +65,10 @@ class CTrackEditWidget : public QWidget, private Ui::ITrackEditWidget
         CTrackEditWidget(QWidget * parent);
         virtual ~CTrackEditWidget();
 
+    signals:
+        void sigZoomToDistance(float d1, float d2);
+        void sigZoomToTime(quint32 t1, quint32 t2);
+
     public slots:
         void slotSetTrack(CTrack * t);
         void slotPointSelectionChanged();
@@ -122,7 +126,7 @@ class CTrackEditWidget : public QWidget, private Ui::ITrackEditWidget
             ,eMaxColumn = 10
         };
 
-        enum eTblCol{eSym, eInfo, eEle, eTotal, eToNext, eToLast, eComment, eMax};
+        enum eTblCol{eSym, eInfo, eEle, eToNext, eTotal, eComment, eMax};
 
         enum eTabs {eStages, ePoints, eSetup};
 
@@ -153,6 +157,7 @@ class CTrackEditWidget : public QWidget, private Ui::ITrackEditWidget
         QAction * actSplit;
 
         QList<CTrack::wpt_t> wpts;
+        QPointer<QTextTable> table;
 
         QSize oldSize;
 };

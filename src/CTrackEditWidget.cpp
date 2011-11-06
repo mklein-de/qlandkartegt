@@ -193,6 +193,8 @@ CTrackEditWidget::CTrackEditWidget(QWidget * parent)
     connect(&CWptDB::self(), SIGNAL(sigChanged()), this, SLOT(slotStagesChanged()));
     connect(&CTrackDB::self(), SIGNAL(sigChanged()), this, SLOT(slotStagesChanged()));
     connect(checkStages, SIGNAL(stateChanged(int)), this, SLOT(slotStagesChanged(int)));
+
+    connect(textStages, SIGNAL(cursorPositionChanged()), this, SLOT(slotCursorPositionChanged()));
 }
 
 
@@ -1309,6 +1311,7 @@ void CTrackEditWidget::slotStagesChanged()
 #define ROOT_FRAME_MARGIN 5
 
 
+
 void CTrackEditWidget::updateStages(QList<CTrack::wpt_t>& wpts)
 {
 
@@ -1320,7 +1323,7 @@ void CTrackEditWidget::updateStages(QList<CTrack::wpt_t>& wpts)
 
     // resize font
 
-    QTextDocument * doc = new QTextDocument(textStages);//textStages->document();
+    QTextDocument * doc = new QTextDocument(textStages);
 
     doc->setTextWidth(textStages->size().width() - 20);
     QFontMetrics fm(QFont(textStages->font().family(),10));
@@ -1380,33 +1383,32 @@ void CTrackEditWidget::updateStages(QList<CTrack::wpt_t>& wpts)
     constraints << QTextLength(QTextLength::VariableLength, 50);
     constraints << QTextLength(QTextLength::VariableLength, 30);
     constraints << QTextLength(QTextLength::VariableLength, 30);
+    constraints << QTextLength(QTextLength::VariableLength, 30);
     constraints << QTextLength(QTextLength::VariableLength, 100);
     fmtTableStandard.setColumnWidthConstraints(constraints);
 
     doc->rootFrame()->setFrameFormat(fmtFrameRoot);
     QTextCursor cursor = doc->rootFrame()->firstCursorPosition();
 
-    QTextTable * table = cursor.insertTable(wpts.count()+1+2, eMax, fmtTableStandard);
-    table->cellAt(0,eSym).setFormat(fmtCharHeader);
-    table->cellAt(0,eEle).setFormat(fmtCharHeader);
-    table->cellAt(0,eToLast).setFormat(fmtCharHeader);
-    table->cellAt(0,eToNext).setFormat(fmtCharHeader);
-    table->cellAt(0,eTotal).setFormat(fmtCharHeader);
-    table->cellAt(0,eInfo).setFormat(fmtCharHeader);
-    table->cellAt(0,eComment).setFormat(fmtCharHeader);
+    table = cursor.insertTable(wpts.count()+1+2, eMax, fmtTableStandard);
 
+    for(int i = eSym; i < eMax; i++)
+    {
+        table->cellAt(0,i).setFormat(fmtCharHeader);
+    }
+
+    // header -------------------------
     table->cellAt(0,eInfo).firstCursorPosition().insertText(tr("Info"));
     table->cellAt(0,eEle).firstCursorPosition().insertText(tr("Ele. wpt/trk"));
-    table->cellAt(0,eToLast).firstCursorPosition().insertText(tr("to Last"));
     table->cellAt(0,eToNext).firstCursorPosition().insertText(tr("to Next"));
     table->cellAt(0,eTotal).firstCursorPosition().insertText(tr("Total"));
     table->cellAt(0,eComment).firstCursorPosition().insertText(tr("Comment"));
 
+    // first entry -------------------------
     QString val, val2, unit;
     table->cellAt(1,eSym).firstCursorPosition().insertImage(":/icons/face-plain.png");
     table->cellAt(1,eInfo).firstCursorPosition().insertText(tr("Start"), fmtCharStandard);
     IUnit::self().meter2distance(0,val,unit);
-    table->cellAt(1,eToLast).firstCursorPosition().insertText(tr("%1 %2").arg(val).arg(unit), fmtCharStandard);
     table->cellAt(1,eTotal).firstCursorPosition().insertText(tr("%1 %2").arg(val).arg(unit), fmtCharStandard);
     if(track->getStartElevation() != WPT_NOFLOAT)
     {
@@ -1420,6 +1422,7 @@ void CTrackEditWidget::updateStages(QList<CTrack::wpt_t>& wpts)
     table->cellAt(1,eEle).firstCursorPosition().insertText(tr("-/%1 %2").arg(val).arg(unit), fmtCharStandard);
     table->cellAt(1,eComment).firstCursorPosition().insertText(tr("Start of track."), fmtCharStandard);
 
+
     int cnt = 2;
 
     float   distLast = 0;
@@ -1429,15 +1432,14 @@ void CTrackEditWidget::updateStages(QList<CTrack::wpt_t>& wpts)
 
     foreach(const CTrack::wpt_t& wpt, wpts)
     {
+
+        // n...N-2  entry-------------------------
         if(!(cnt & 0x1))
         {
-            table->cellAt(cnt,eSym).setFormat(fmtCharShade);
-            table->cellAt(cnt,eEle).setFormat(fmtCharShade);
-            table->cellAt(cnt,eToLast).setFormat(fmtCharShade);
-            table->cellAt(cnt,eToNext).setFormat(fmtCharShade);
-            table->cellAt(cnt,eTotal).setFormat(fmtCharShade);
-            table->cellAt(cnt,eInfo).setFormat(fmtCharShade);
-            table->cellAt(cnt,eComment).setFormat(fmtCharShade);
+            for(int i = eSym; i < eMax; i++)
+            {
+                table->cellAt(cnt,i).setFormat(fmtCharShade);
+            }
         }
 
         table->cellAt(cnt,eSym).firstCursorPosition().insertImage(wpt.wpt->getIcon().toImage().scaledToWidth(16, Qt::SmoothTransformation));
@@ -1500,7 +1502,6 @@ void CTrackEditWidget::updateStages(QList<CTrack::wpt_t>& wpts)
         }
 
         table->cellAt(cnt,eEle).firstCursorPosition().insertText(tr("%1/%2 %3").arg(val).arg(val2).arg(unit), fmtCharStandard);
-        table->cellAt(cnt,eToLast).firstCursorPosition().insertText(tr("%1 %2\n%3").arg(strDistToLast).arg(strTimeToLast).arg(strAscToLast), fmtCharStandard);
         table->cellAt(cnt-1,eToNext).firstCursorPosition().insertText(tr("%1 %2\n%3").arg(strDistToLast).arg(strTimeToLast).arg(strAscToLast), fmtCharStandard);
         table->cellAt(cnt,eTotal).firstCursorPosition().insertText(tr("%1 %2\n%3").arg(strDistTotal).arg(strTimeTotal).arg(strAscTotal), fmtCharStandard);
 
@@ -1520,15 +1521,13 @@ void CTrackEditWidget::updateStages(QList<CTrack::wpt_t>& wpts)
 
     if(!(cnt & 0x1))
     {
-        table->cellAt(cnt,eSym).setFormat(fmtCharShade);
-        table->cellAt(cnt,eEle).setFormat(fmtCharShade);
-        table->cellAt(cnt,eToLast).setFormat(fmtCharShade);
-        table->cellAt(cnt,eToNext).setFormat(fmtCharShade);
-        table->cellAt(cnt,eTotal).setFormat(fmtCharShade);
-        table->cellAt(cnt,eInfo).setFormat(fmtCharShade);
-        table->cellAt(cnt,eComment).setFormat(fmtCharShade);
+        for(int i = eSym; i < eMaxColumn; i++)
+        {
+            table->cellAt(cnt,i).setFormat(fmtCharShade);
+        }
     }
 
+    // last entry -------------------------
     table->cellAt(cnt,eSym).firstCursorPosition().insertImage(":/icons/face-laugh.png");
     table->cellAt(cnt,eInfo).firstCursorPosition().insertText(tr("End"), fmtCharStandard);
     table->cellAt(cnt,eComment).firstCursorPosition().insertText(tr("End of track."), fmtCharStandard);
@@ -1583,7 +1582,6 @@ void CTrackEditWidget::updateStages(QList<CTrack::wpt_t>& wpts)
     IUnit::self().meter2elevation(track->getDescend(), val, unit);
     strAscTotal += tr("%1%2 %3").arg(QChar(0x2198)).arg(val).arg(unit);
 
-    table->cellAt(cnt,eToLast).firstCursorPosition().insertText(tr("%1 %2\n%3").arg(strDistToLast).arg(strTimeToLast).arg(strAscToLast), fmtCharStandard);
     table->cellAt(cnt - 1,eToNext).firstCursorPosition().insertText(tr("%1 %2\n%3").arg(strDistToLast).arg(strTimeToLast).arg(strAscToLast), fmtCharStandard);
     table->cellAt(cnt,eTotal).firstCursorPosition().insertText(tr("%1 %2\n%3").arg(strDistTotal).arg(strTimeTotal).arg(strAscTotal), fmtCharStandard);
 
