@@ -506,10 +506,10 @@ void CMapDEM::draw()
     }
 
     // Finally scale the image to viewport size. QT will do the smoothing
-    img = img.scaled(w2,h2, Qt::IgnoreAspectRatio,Qt::SmoothTransformation);
+    //img = img.scaled(w2,h2, Qt::IgnoreAspectRatio,Qt::SmoothTransformation);
 
     QPainter p(&pixBuffer);
-    p.drawImage(-pxx, -pxy, img);
+    p.drawImage(-pxx, -pxy, img.scaled(w2,h2, Qt::IgnoreAspectRatio,Qt::SmoothTransformation));
 }
 
 

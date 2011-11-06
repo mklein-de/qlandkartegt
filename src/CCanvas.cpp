@@ -59,9 +59,6 @@
 
 #include <QtGui>
 
-#ifndef WIN32
-#include <sys/time.h>
-#endif
 #include <stdio.h>
 
 QPen CCanvas::penBorderBlue(QColor(10,10,150,220),3);
@@ -237,17 +234,6 @@ void CCanvas::resizeEvent(QResizeEvent * e)
 
 void CCanvas::paintEvent(QPaintEvent * e)
 {
-    static struct timeval tv0;
-    struct timeval tv1;
-    float dt;
-
-#ifndef WIN32
-    gettimeofday(&tv1, NULL);
-    dt = tv1.tv_sec - tv0.tv_sec + 1e-6 * (tv1.tv_usec - tv0.tv_usec);
-    printf("fps=%f\n", 1 / dt);
-    tv0 = tv1;
-#endif
-
     QWidget::paintEvent(e);
 
     QPainter p;
@@ -398,40 +384,6 @@ void CCanvas::print(QImage& img, const QSize& pagesize)
         matrix.rotate(90);
         img = img.transformed(matrix, Qt::SmoothTransformation);
     }
-
-
-//    bool rotate = false;
-//    QImage _img_(size(), QImage::Format_ARGB32);
-//    if(pagesize.height() > pagesize.width())
-//    {
-//        _img_ = QImage(size().height(), size().width(), QImage::Format_ARGB32);
-//        rotate = true;
-//    }
-
-//    _img_.fill(Qt::white);
-
-//    QPainter p;
-//    p.begin(&_img_);
-//    if(rotate)
-//    {
-//        p.rotate(90.0);
-//        p.translate(0,-size().height());
-//    }
-//    draw(p);
-//    p.end();
-
-//    qreal s1 = (qreal)(_img_.width())  / (qreal)pagesize.width();
-//    qreal s2 = (qreal)(_img_.height()) / (qreal)pagesize.height();
-
-//    if(s1 < s2)
-//    {
-//        img = _img_.scaledToHeight(pagesize.height(),  Qt::SmoothTransformation);
-//    }
-//    else
-//    {
-//        img = _img_.scaledToWidth(pagesize.width(),  Qt::SmoothTransformation);
-//    }
-
 }
 
 
@@ -439,8 +391,6 @@ void CCanvas::draw(QPainter& p)
 {
     IMap& map = CMapDB::self().getMap();
     bool needsRedraw = map.getNeedsRedraw();
-
-    // printf("draw canvas %d\n",needsRedraw);
 
     USE_ANTI_ALIASING(p,!map.getFastDrawFlag() && CResources::self().useAntiAliasing());
 
@@ -497,7 +447,7 @@ void CCanvas::drawScale(QPainter& p)
 
     double a,b,d;
     int yshift = 0;
-//    if (QApplication::desktop()->height() < 650) yshift = 60 ;
+
     QPoint px1(rect().bottomRight() - QPoint(50,30 + yshift));
 
     // step I: get the approximate distance for 200px in the bottom right corner
