@@ -594,10 +594,21 @@ void CMapExportStateCutFiles::nextJob(QProcess& cmd)
     {
         job_t& job = jobs[jobIdx];
 
+        bool isRgb;
+        {
+            CMapFile mapfile(job.srcFile, this);
+            isRgb = mapfile.rasterBandCount != 1;
+        }
+
         QStringList args;
         args << "-co" << "tiled=yes" << "-co" << "compress=LZW";
-        args << "-srcwin";
 
+        if(!isRgb)
+        {
+            args << "-expand" << "rgba";
+        }
+
+        args << "-srcwin";
         args << QString::number(job.xoff) << QString::number(job.yoff);
         args << QString::number(job.width) << QString::number(job.height);
         args << job.srcFile;
@@ -697,7 +708,7 @@ CMapExportStateConvColor::~CMapExportStateConvColor()
 void CMapExportStateConvColor::explain()
 {
     gui->stdOut(   "*************************************");
-    gui->stdOut(tr("Convert color to 3 band RGB..."));
+    gui->stdOut(tr("Reduce color bands to 3 (RGB)..."));
     gui->stdOut(   "-------------------------------------");
 }
 
@@ -707,24 +718,14 @@ void CMapExportStateConvColor::nextJob(QProcess& cmd)
     {
         job_t& job = jobs[jobIdx];
 
-        bool isRgb;
-        {
-            CMapFile mapfile(job.srcFile, this);
-            isRgb = mapfile.rasterBandCount != 1;
-        }
-
-        if(isRgb)
-        {
-            gui->stdOut("copy " + job.srcFile + " ->" + job.tarFile + "\n");
-            QFile::rename(job.srcFile, job.tarFile);
-            jobIdx++;
-
-            gui->slotFinished(0, QProcess::NormalExit);
-            return;
-        }
         QStringList args;
-        args << "-expand" << "rgb";
+
+        args << "-b" << "1";
+        args << "-b" << "2";
+        args << "-b" << "3";
+
         args << "-co" << "tiled=yes" << "-co" << "compress=jpeg";
+
         args << job.srcFile;
         args << job.tarFile;
 
