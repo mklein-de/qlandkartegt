@@ -245,9 +245,7 @@ void CMapQMAP::draw(QPainter& p)
     }
     else
     {
-        bool isThread = QApplication::instance()->thread() != QThread::currentThread();
-        qDebug() << "is thread" << isThread;
-        if(isThread)
+        if(isThread())
         {
             p.drawImage(0,0,imgBuffer);
         }
@@ -343,12 +341,7 @@ void CMapQMAP::__test()
 
 void CMapQMAP::draw()
 {
-
-    bool isThread = QApplication::instance()->thread() != QThread::currentThread();
-
-    qDebug() << "is thread" << isThread;
-
-    if(isThread)
+    if(isThread())
     {
         imgBuffer.fill(Qt::white);
     }
@@ -356,7 +349,7 @@ void CMapQMAP::draw()
     {
         pixBuffer.fill(Qt::white);
     }
-    QPainter _p_(isThread ? (QPaintDevice*)&imgBuffer : (QPaintDevice*)&pixBuffer);
+    QPainter _p_(isThread() ? (QPaintDevice*)&imgBuffer : (QPaintDevice*)&pixBuffer);
 
     foundMap = false;
 

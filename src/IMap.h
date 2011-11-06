@@ -27,6 +27,8 @@
 #include <QImage>
 #include <QPointer>
 #include <QPolygonF>
+#include <QApplication>
+#include <QThread>
 
 #include <projects.h>
 #include <ogr_spatialref.h>
@@ -323,6 +325,8 @@ class IMap : public QObject
         virtual void getArea_n_Scaling(XY& p1, XY& p2, float& my_xscale, float& my_yscale){}
         virtual void getArea_n_Scaling_fromBase(XY& p1, XY& p2, float& my_xscale, float& my_yscale);
         virtual void setFastDrawTimer();
+
+        inline bool isThread(){return QApplication::instance()->thread() != QThread::currentThread();}
 
         void setAngleNorth();
 

@@ -86,8 +86,8 @@ void IMap::resize(const QSize& s)
 {
     size = s;
     rect.setSize(s);
-    bool isThread = QApplication::instance()->thread() != QThread::currentThread();
-    if(!isThread)
+
+    if(!isThread())
     {
         pixBuffer = QPixmap(size);
     }
@@ -124,9 +124,7 @@ void IMap::draw(QPainter& p)
 
 void IMap::draw()
 {
-    bool isThread = QApplication::instance()->thread() != QThread::currentThread();
-
-    QPainter p(isThread ? (QPaintDevice*)&imgBuffer : (QPaintDevice*)&pixBuffer);
+    QPainter p(isThread() ? (QPaintDevice*)&imgBuffer : (QPaintDevice*)&pixBuffer);
 
     p.fillRect(rect,QColor("#ffffcc"));
     p.drawText(rect,Qt::AlignCenter,"no map");
