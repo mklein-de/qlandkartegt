@@ -2696,6 +2696,7 @@ void CMapTDB::drawPolygons(QPainter& p, polytype_t& lines)
                 line.append(QPointF(*u++, *v++));
             }
 
+            simplifyPolyline(line);
             p.drawPolygon(line);
 
             if(!polygonProperties[type].known) qDebug() << "unknown polygon" << hex << type;
