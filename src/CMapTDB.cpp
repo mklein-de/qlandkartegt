@@ -37,7 +37,11 @@
 #include <QSqlDatabase>
 #include <algorithm>
 
+// define DEBUG_DRAW to get drawing performance (needs Qt >= 4.7)
+#undef DEBUG_DRAW
+#ifdef DEBUG_DRAW
 #include <QElapsedTimer>
+#endif
 
 #ifdef WIN32
 #define CMAPTDB_MIN(x,y) _cpp_min(x,y)
@@ -2102,20 +2106,34 @@ void CMapTDB::draw()
 
     if(!doFastDraw)
     {
+#ifdef DEBUG_DRAW
         QElapsedTimer et;
+#endif
         QVector<QRect> rectPois;
 
+#ifdef DEBUG_DRAW
         et.start();
+#endif
         drawPolylines(p, polylines);
-//        qDebug() << "drawPolylines: " << et.restart() << "ms";
+#ifdef DEBUG_DRAW
+        qDebug() << "drawPolylines: " << et.restart() << "ms";
+#endif
         drawPoints(p, points, rectPois);
-//        qDebug() << "drawPoints: " << et.restart() << "ms";
+#ifdef DEBUG_DRAW
+        qDebug() << "drawPoints: " << et.restart() << "ms";
+#endif
         drawPois(p, pois, rectPois);
-//        qDebug() << "drawPois: " << et.restart() << "ms";
+#ifdef DEBUG_DRAW
+        qDebug() << "drawPois: " << et.restart() << "ms";
+#endif
         drawText(p);
-//        qDebug() << "drawText: " << et.restart() << "ms";
+#ifdef DEBUG_DRAW
+        qDebug() << "drawText: " << et.restart() << "ms";
+#endif
         drawLabels(p, labels);
-//        qDebug() << "drawLabels: " << et.restart() << "ms";
+#ifdef DEBUG_DRAW
+        qDebug() << "drawLabels: " << et.restart() << "ms";
+#endif
 
     }
 }
