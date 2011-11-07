@@ -1,3 +1,43 @@
+--- 2011.11.07 ---
+
+Request #328:
+Scale on-screen track profile for small screens
+
+Request #329:
+Show waypoint link in browser view if no waypoint is no geocache
+
+Request #330:
+Win32: Drop FWTool in favour of more recent GDAL binaries.
+
+Request #331:
+Win32: Add GDAL binaries as part of installer
+
+Request #332:
+Stages of a track: change "to last" into "to next"
+
+Bug     #333:
+Fixed: Map that makes QLGT crash is loaded on startup to make it crash again and again
+
+Request #334:
+Rework raster map export to be more robust on all kinds of maps
+
+Bug     #335:
+Fixed: DEM overlay is not drawn when viewport is not covered 100% by DEM
+
+Bug     #336:
+Fixed: Vector overlay looks ugly
+
+Request #337:
+Switch from QImage to QPixmap as canvas buffer to speed up drawing.
+
+Request #338:
+Use Douglas-Peucker algorithm to simply polylines and polygons on Garmin maps.
+
+Bug     #339:
+fixed: OS X: missing 3D support
+
+
+
 --- 2011.09.19 ---
 
 Bug     #321:
@@ -1346,6 +1386,7 @@ Fixed bad calculation of proximity circle size
 
 Request #1:
 Initial release
+
 
 
 
