@@ -1521,7 +1521,7 @@ void CTrackEditWidget::updateStages(QList<CTrack::wpt_t>& wpts)
 
     if(!(cnt & 0x1))
     {
-        for(int i = eSym; i < eMaxColumn; i++)
+        for(int i = eSym; i < eMax; i++)
         {
             table->cellAt(cnt,i).setFormat(fmtCharShade);
         }
