@@ -59,7 +59,6 @@ CMapQMAPExport::CMapQMAPExport(const CMapSelectionRaster& mapsel, QWidget * pare
     connect(&cmd, SIGNAL(readyReadStandardOutput()), this, SLOT(slotStdout()));
     connect(&cmd, SIGNAL(finished(int,QProcess::ExitStatus)), this, SLOT(slotFinished(int,QProcess::ExitStatus)));
 
-
     QSettings cfg;
     labelPath->setText(cfg.value("path/export","./").toString());
 
