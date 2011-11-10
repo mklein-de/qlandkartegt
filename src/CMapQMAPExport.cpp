@@ -560,13 +560,13 @@ IMapExportState::~IMapExportState()
 
 QString IMapExportState::getTempFilename()
 {
-    QTemporaryFile * tmp = new QTemporaryFile(QString("qlgt_%1.XXXXXX.tif").arg(tmpFileCnt++));
+    QTemporaryFile * tmp = new QTemporaryFile(QDir::temp().absoluteFilePath(QString("qlgt_%1.XXXXXX.tif").arg(tmpFileCnt++)));
     tmp->open();
     QString fn =  tmp->fileName();
     tmp->close();
     delete tmp;
 
-    return QDir::temp().absoluteFilePath(fn);
+    return fn;
 }
 
 // --------------------------------------------------------------------------------------------

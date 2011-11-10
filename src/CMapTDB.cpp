@@ -45,8 +45,10 @@
 
 #ifdef WIN32
 #define CMAPTDB_MIN(x,y) _cpp_min(x,y)
+#define CMAPTDB_MAX(x,y) _cpp_max(x,y)
 #else //WIN32
 #define CMAPTDB_MIN(x,y) std::min(x,y)
+#define CMAPTDB_MAX(x,y) std::max(x,y)
 #include <pwd.h>
 #endif //WIN32
 
@@ -1926,8 +1928,8 @@ void CMapTDB::simplifyPolyline(QPolygonF::iterator begin, QPolygonF::iterator en
 
         if (p2.x() == p1.x())
         {
-            double min_y = std::min(p1.y(), p2.y());
-            double max_y = std::max(p1.y(), p2.y());
+            double min_y = CMAPTDB_MIN(p1.y(), p2.y());
+            double max_y = CMAPTDB_MAX(p1.y(), p2.y());
 
             for (pos = begin; pos != end; pos++)
             {
@@ -1959,8 +1961,8 @@ void CMapTDB::simplifyPolyline(QPolygonF::iterator begin, QPolygonF::iterator en
             double n = -1.0 / m;
             double c = p1.y() - m * p1.x();
 
-            double min_x = std::min(p1.x(), p2.x());
-            double max_x = std::max(p1.x(), p2.x());
+            double min_x = CMAPTDB_MIN(p1.x(), p2.x());
+            double max_x = CMAPTDB_MAX(p1.x(), p2.x());
 
             for (pos = begin; pos != end; pos++)
             {
@@ -1976,7 +1978,7 @@ void CMapTDB::simplifyPolyline(QPolygonF::iterator begin, QPolygonF::iterator en
                 }
                 else
                 {
-                    dist = std::min(sqrt((p1.x() - p.x()) * (p1.x() - p.x()) + (p1.y() - p.y()) * (p1.y() - p.y())),
+                    dist = CMAPTDB_MIN(sqrt((p1.x() - p.x()) * (p1.x() - p.x()) + (p1.y() - p.y()) * (p1.y() - p.y())),
                                     sqrt((p2.x() - p.x()) * (p2.x() - p.x()) + (p2.y() - p.y()) * (p2.y() - p.y())));
                 }
 
