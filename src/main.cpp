@@ -180,7 +180,7 @@ int main(int argc, char ** argv)
 	apppath = apppath.replace("/", "\\");
 
 	QString env_path = qgetenv("PATH");
-	env_path += QString("%1;%1\\proj\\apps;%1\\gdal\\apps;%1\\curl;").arg(apppath);
+	env_path += QString(";%1;%1\\proj\\apps;%1\\gdal\\apps;%1\\curl;").arg(apppath);
 	qputenv("PATH", env_path.toUtf8());
 
 	qputenv("GDAL_DATA", QString("%1\\gdal-data").arg(apppath).toUtf8());

@@ -17,7 +17,7 @@
 !include MUI2.nsh
 
 ;------------------------------------------------------------------------
-; Modern UI2 definition							                                    -
+; Modern UI2 definition                                                  -
 ;------------------------------------------------------------------------
 ; Description
 Name "QLandkarte GT"
@@ -36,7 +36,7 @@ RequestExecutionLevel admin
 OutFile "QLandkarteGT.exe"
 
 ;------------------------------------------------------------------------
-; Modern UI definition   	   					                                  -
+; Modern UI definition                                                    -
 ;------------------------------------------------------------------------
 ;!define MUI_COMPONENTSPAGE_SMALLDESC ;No value
 !define MUI_INSTFILESPAGE_COLORS "FFFFFF 000000" ;Two colors
@@ -53,7 +53,7 @@ OutFile "QLandkarteGT.exe"
 !define MUI_LICENSEPAGE_CHECKBOX
 
 ;------------------------------------------------------------------------
-; Pages definition order						                                    -
+; Pages definition order                                                -
 ;------------------------------------------------------------------------
 !insertmacro MUI_PAGE_WELCOME
 !insertmacro MUI_PAGE_LICENSE "License.rtf"
@@ -77,7 +77,7 @@ Var StartMenuFolder
 
 
 ;------------------------------------------------------------------------
-; Component add		   	   					                                      -
+; Component add                                                            -
 ;------------------------------------------------------------------------
 ;Components description
 
@@ -101,30 +101,30 @@ Section "QLandkarte GT" QLandkarteGT
   SetOutPath $INSTDIR
     File Files\qlandkartegt.exe
     File Files\map2gcm.exe
-    File Files\Globe128x128.ico
+    File Files\*.ico
     File Files\qlandkartegt_*.qm
     File Files\qt_??.qm
   ;END QLandkarte GT Files    
    
   ;BEGIN Qt Files
-	SetOutPath $INSTDIR
-  	File Files\QtCore4.dll
-  	File Files\QtGui4.dll
-  	File Files\QtNetwork4.dll
-  	File Files\QtSvg4.dll
-  	File Files\QtXml4.dll
+  SetOutPath $INSTDIR
+    File Files\QtCore4.dll
+    File Files\QtGui4.dll
+    File Files\QtNetwork4.dll
+    File Files\QtSvg4.dll
+    File Files\QtXml4.dll
     File Files\QtOpenGL4.dll
     File Files\QtSql4.dll
     File Files\QtWebKit4.dll
     File Files\phonon4.dll
 
-	SetOutPath "$INSTDIR\imageformats\"
-  	File Files\imageformats\qgif4.dll
-  	File Files\imageformats\qjpeg4.dll
-  	File Files\imageformats\qmng4.dll
-  	File Files\imageformats\qsvg4.dll
+  SetOutPath "$INSTDIR\imageformats\"
+    File Files\imageformats\qgif4.dll
+    File Files\imageformats\qjpeg4.dll
+    File Files\imageformats\qmng4.dll
+    File Files\imageformats\qsvg4.dll
 
-	SetOutPath "$INSTDIR\sqldrivers\"
+  SetOutPath "$INSTDIR\sqldrivers\"
     File Files\sqldrivers\qsqlite4.dll
   ;END Qt Files
     
@@ -145,7 +145,7 @@ Section "QLandkarte GT" QLandkarteGT
 
   WriteUninstaller "$INSTDIR\Uninstall.exe"
 
-  ;create batch file to run qlandkartegt.exe
+  ;create batch file for a GDAL shell
   fileOpen $0 "$INSTDIR\gdal.bat" w
   fileWrite $0 "cd /D $\"$INSTDIR\gdal\apps$\"$\r$\n" 
   fileWrite $0 "SET PATH=$INSTDIR;$INSTDIR\gdal\python\osgeo;$INSTDIR\proj\apps;$INSTDIR\gdal\apps;$INSTDIR\curl;%PATH%$\r$\n"
@@ -153,24 +153,22 @@ Section "QLandkarte GT" QLandkarteGT
   fileWrite $0 "SET GDAL_DRIVER_PATH=$INSTDIR\gdal\plugins$\r$\n"
   fileWrite $0 "SET PYTHONPATH=$INSTDIR\gdal\python\osgeo$\r$\n"
   fileWrite $0 "SET PROJ_LIB=$INSTDIR\proj\SHARE$\r$\n"
-  
-  ;fileWrite $0 "start qlandkartegt.exe %*"
   fileClose $0
 
   !insertmacro MUI_STARTMENU_WRITE_BEGIN Application
-   	;Create shortcuts
-  	CreateDirectory "$SMPROGRAMS\$StartMenuFolder"
+     ;Create shortcuts
+    CreateDirectory "$SMPROGRAMS\$StartMenuFolder"
     CreateShortCut "$SMPROGRAMS\$StartMenuFolder\Uninstall.lnk" "$INSTDIR\Uninstall.exe"
-    CreateShortCut "$SMPROGRAMS\$StartMenuFolder\QLandkarteGT.lnk" "$INSTDIR\qlandkartegt.exe" "" "$INSTDIR\Globe128x128.ico"
-    CreateShortCut "$SMPROGRAMS\$StartMenuFolder\WWW.lnk" "http://www.qlandkarte.org/" "" "$INSTDIR\Globe128x128.ico"
-    CreateShortCut "$SMPROGRAMS\$StartMenuFolder\Help.lnk" "https://sourceforge.net/apps/mediawiki/qlandkartegt/index.php?title=Help_for_QLandkarte_GT" "" "$INSTDIR\Globe128x128.ico"
-    CreateShortCut "$SMPROGRAMS\$StartMenuFolder\Download.lnk" "http://sourceforge.net/projects/qlandkartegt/" "" "$INSTDIR\Globe128x128.ico"
+    CreateShortCut "$SMPROGRAMS\$StartMenuFolder\QLandkarteGT.lnk" "$INSTDIR\qlandkartegt.exe" "" "$INSTDIR\GlobeWin.ico"
+    CreateShortCut "$SMPROGRAMS\$StartMenuFolder\qlandkarte.org.lnk" "http://www.qlandkarte.org/" "" "$INSTDIR\kfm_home.ico"
+    CreateShortCut "$SMPROGRAMS\$StartMenuFolder\Help.lnk" "https://sourceforge.net/apps/mediawiki/qlandkartegt/index.php?title=Help_for_QLandkarte_GT" "" "$INSTDIR\khelpcenter.ico"
+    CreateShortCut "$SMPROGRAMS\$StartMenuFolder\Download.lnk" "http://sourceforge.net/projects/qlandkartegt/" "" "$INSTDIR\kget.ico"
     CreateShortCut "$SMPROGRAMS\$StartMenuFolder\GDAL.lnk" %COMSPEC% "/k $\"$INSTDIR\gdal.bat$\""
- 	!insertmacro MUI_STARTMENU_WRITE_END
+   !insertmacro MUI_STARTMENU_WRITE_END
 
   ;Create registry entries
-	WriteRegStr HKCU "Software\Microsoft\Windows\CurrentVersion\Uninstall\QLandkarte GT" "DisplayName" "QLandkarte GT (remove only)"
-	WriteRegStr HKCU "Software\Microsoft\Windows\CurrentVersion\Uninstall\QLandkarte GT" "UninstallString" "$INSTDIR\Uninstall.exe"
+  WriteRegStr HKCU "Software\Microsoft\Windows\CurrentVersion\Uninstall\QLandkarte GT" "DisplayName" "QLandkarte GT (remove only)"
+  WriteRegStr HKCU "Software\Microsoft\Windows\CurrentVersion\Uninstall\QLandkarte GT" "UninstallString" "$INSTDIR\Uninstall.exe"
 
 SectionEnd
 LangString DESC_QLandkarteGT ${LANG_ENGLISH} "View GeoTiff and Garmin Maps. Visualize and analyze GPX files and much more!"
@@ -183,7 +181,7 @@ LangString DESC_QLandkarteGT ${LANG_GERMAN}  "Landkarten im GeoTiff und Garmin F
 !insertmacro MUI_FUNCTION_DESCRIPTION_END
 
 ;------------------------------------------------------------------------
-;Uninstaller Sections							                                      -
+;Uninstaller Sections                                                    -
 ;------------------------------------------------------------------------
 Section "Uninstall"
 
@@ -200,6 +198,11 @@ Section "Uninstall"
 
   Delete "$SMPROGRAMS\$StartMenuFolder\Uninstall.lnk"
   Delete "$SMPROGRAMS\$StartMenuFolder\QLandkarteGT.lnk"
+  Delete "$SMPROGRAMS\$StartMenuFolder\qlandkarte.org.lnk"
+  Delete "$SMPROGRAMS\$StartMenuFolder\Help.lnk"
+  Delete "$SMPROGRAMS\$StartMenuFolder\Download.lnk"
+  Delete "$SMPROGRAMS\$StartMenuFolder\GDAL.lnk"
+  
   RMDir "$SMPROGRAMS\$StartMenuFolder"
 
   DeleteRegKey /ifempty HKCU "Software\QLandkarteGT"

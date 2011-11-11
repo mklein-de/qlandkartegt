@@ -64,7 +64,8 @@ rem section 2.5) Copy QLandkarte GT Files
 copy ..\..\build\bin\Release\qlandkartegt.exe
 copy ..\..\build\bin\Release\map2gcm.exe
 copy ..\..\build\src\*.qm
-copy ..\..\src\icons\Globe128x128.ico
+copy ..\..\src\icons\GlobeWin.ico
+copy ..\*.ico
 rem section 2.6) 3rd party SW description
 copy ..\3rdparty.txt
 
