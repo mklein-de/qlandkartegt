@@ -42,6 +42,7 @@ class COsmTilesHash: public QObject
         QString m_tilePath;
 
         QHash<QNetworkReply*, QPoint> replyStartPointHash;
+        QHash<QString, QPixmap> m_tileHash;
         int long2tile(double lon, int zoom);
         int lat2tile(double lat, int zoom);
         double tile2long(int x, int zoom);

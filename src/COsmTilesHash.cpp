@@ -137,6 +137,7 @@ void COsmTilesHash::startNewDrawing( double lon, double lat, int osm_zoom, const
             getImage(osm_zoom,osm_x+x,osm_y+y,t.map(point));
         }
     }
+    emit newImageReady(pixmap,!replyStartPointHash.count());
 }
 
 void COsmTilesHash::abortRequests()
@@ -157,6 +158,13 @@ void COsmTilesHash::getImage(int osm_zoom, int osm_x, int osm_y, QPoint point)
     // * Each zoom level is a directory, each column is a subdirectory, and each tile in that column is a file
     // * Filename(url) format is /zoom/x/y.png
     m_tileUrl.setPath(QString(m_tilePath).arg(osm_zoom).arg(osm_x).arg(osm_y));
+
+    if(m_tileHash.contains(m_tileUrl.toString()))
+    {
+      QPainter p(&pixmap);
+      p.drawPixmap(point,m_tileHash.value(m_tileUrl.toString()));
+      return;
+    }
     QNetworkRequest request;
     request.setUrl(m_tileUrl);
     QNetworkReply *reply = m_networkAccessManager->get(request);
@@ -189,6 +197,7 @@ void COsmTilesHash::slotRequestFinished(QNetworkReply* reply)
     }
     else
     {
+        m_tileHash.insert(reply->url().toString(),img1);
         QPainter p(&pixmap);
         p.drawPixmap(startPoint,img1);
         emit newImageReady(pixmap,replyStartPointHash.isEmpty());
