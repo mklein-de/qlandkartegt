@@ -1,6 +1,6 @@
 //C-  -*- C++ -*-
 //C- -------------------------------------------------------------------
-//C- Copyright (c) 2009 Marc Feld
+//C- Copyright (c) 2011 Marc Feld
 //C-
 //C- This software is subject to, and may be distributed under, the
 //C- GNU General Public License, either version 2 of the license,
@@ -22,8 +22,10 @@
 #include <QPainter>
 #include <QPixmap>
 #include <QHash>
+#include <QUrl>
 
-class QHttp;
+class QNetworkAccessManager;
+class QNetworkReply;
 class CMapOSM;
 class COsmTilesHash: public QObject
 {
@@ -32,34 +34,25 @@ class COsmTilesHash: public QObject
         COsmTilesHash(QString tileUrl);
         virtual ~COsmTilesHash();
         void startNewDrawing( double lon, double lat, int osm_zoom, const QRect& window);
-        static const QString &getCacheFolder(void) { return cacheFolder; };
-        signals:
+        static const QString &getCacheFolder(void) { return cacheFolder; }
+    signals:
         void newImageReady(const QPixmap& image, bool lastTileLoaded);
     private:
-        QString tileServer;
-        QString tileUrlPart;
-        int osm_zoom;
-        QRect window;
-        QHash<int, QPoint> startPointHash;
-        QHash<int, QString> osmUrlPartHash;
-        QHash<QString,int> osmRunningHash;
+        QUrl m_tileUrl;
+        QString m_tilePath;
+
+        QHash<QNetworkReply*, QPoint> replyStartPointHash;
         int long2tile(double lon, int zoom);
         int lat2tile(double lat, int zoom);
         double tile2long(int x, int zoom);
         double tile2lat(int y, int zoom);
         void getImage(int osm_zoom, int osm_x, int osm_y, QPoint startPoint);
         QPixmap pixmap;
-        QHttp *tilesConnection;
-        //         CMapOSM *cmapOSM;
-        QString osmTileBaseUrl;
-        bool requestInProgress;
-        QHash<QString,QPixmap> tiles;
-        int getid;
+        QNetworkAccessManager *m_networkAccessManager;
         static QString cacheFolder;
     private slots:
-        // void slotCreate();
-        void slotRequestFinished(int , bool error);
+        void abortRequests();
+        void slotRequestFinished(QNetworkReply*);
         void slotSetupLink();
-        // void slotSelectPath();
 };
 #endif                           /* COSMTILESHASH_H_ */

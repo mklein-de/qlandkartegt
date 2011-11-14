@@ -1,6 +1,6 @@
 //C-  -*- C++ -*-
 //C- -------------------------------------------------------------------
-//C- Copyright (c) 2009 Marc Feld
+//C- Copyright (c) 2011 Marc Feld
 //C-
 //C- This software is subject to, and may be distributed under, the
 //C- GNU General Public License, either version 2 of the license,
@@ -20,8 +20,10 @@
 #include "CResources.h"
 
 #include <QtGui>
-#include <QtNetwork/QHttp>
-
+#include <QtNetwork/QNetworkAccessManager>
+#include <QtNetwork/QNetworkDiskCache>
+#include <QtNetwork/QNetworkReply>
+#include <QtNetwork/QNetworkProxy>
 #ifndef Q_OS_WIN32
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -34,57 +36,6 @@
 #endif
 
 QString COsmTilesHash::cacheFolder;
-
-class COsmTilesHashCacheCleanup: public QThread
-{
-    public:
-        COsmTilesHashCacheCleanup(QObject * p) : QThread(p)
-        {
-            QSettings cfg;
-
-            if (!cfg.contains("osm/maxcachevalueMB"))
-                cfg.setValue("osm/maxcachevalueMB",100);
-            maxSizeInMB = cfg.value("osm/maxcachevalueMB").toInt();
-            start(QThread::IdlePriority);
-        };
-
-        virtual ~COsmTilesHashCacheCleanup()
-        {
-            //            qDebug() << "~COsmTilesHashCacheCleanup()";
-        }
-
-        void run()
-        {
-            qint32 totalSize = 0;
-            QFileInfoList fileList;
-            QDirIterator it(COsmTilesHash::getCacheFolder(), QStringList("*.png"), QDir::Files | QDir::Writable, QDirIterator::Subdirectories);
-            while (it.hasNext())
-            {
-                it.next();
-                totalSize += it.fileInfo().size();
-                fileList << it.fileInfo();
-            }
-            qSort(fileList.begin(), fileList.end(), COsmTilesHashCacheCleanup::olderThan);
-
-            qint32 currentSize = totalSize;
-            foreach(QFileInfo fi, fileList)
-            {
-                if (currentSize < maxSizeInMB * 1024*1024)
-                    break;
-                QFile::remove ( fi.absoluteFilePath () );
-                currentSize -= fi.size();
-                // qDebug() << fi.lastRead() << fi.absoluteFilePath ();
-            }
-            qDebug() << QString("cache size before (%1) and after (%2) cleanup. maxcachevalueMB: %3").arg(totalSize).arg(currentSize).arg(maxSizeInMB);
-        };
-
-        static bool olderThan(const QFileInfo &fi1, const QFileInfo &fi2)
-        {
-            return fi1.lastRead() < fi2.lastRead();
-        };
-    private:
-        qint32 maxSizeInMB;
-};
 
 COsmTilesHash::COsmTilesHash(QString tileUrl)
 {
@@ -108,14 +59,8 @@ COsmTilesHash::COsmTilesHash(QString tileUrl)
         qDebug() << "using OSM tile cache folder" << cacheFolder;
     }
 
-    int index = tileUrl.indexOf('/');
-    tileServer = tileUrl.left(index);
-
-    tileUrlPart = tileUrl.right(tileUrl.size()-index);
-    /*COsmTilesHashCacheCleanup *cleanup = */new COsmTilesHashCacheCleanup(this);
-
-    getid = -1;
-    requestInProgress =false;
+    m_tileUrl = QUrl(tileUrl.startsWith("http://") ? tileUrl : "http://" + tileUrl);
+    m_tilePath = m_tileUrl.path();
 
     QString url;
     quint16 port;
@@ -123,14 +68,22 @@ COsmTilesHash::COsmTilesHash(QString tileUrl)
 
     enableProxy = CResources::self().getHttpProxy(url,port);
 
-    tilesConnection = new QHttp(this);
-    tilesConnection->setHost(tileServer);
+    QNetworkDiskCache *diskCache = new QNetworkDiskCache(this);
+    diskCache->setCacheDirectory(cacheFolder);
+    QSettings cfg;
+    if (!cfg.contains("osm/maxcachevalueMB"))
+        cfg.setValue("osm/maxcachevalueMB",100);
+    diskCache->setMaximumCacheSize(cfg.value("osm/maxcachevalueMB").toInt() * 1024*1024);
+
+    m_networkAccessManager = new QNetworkAccessManager(this);
+    m_networkAccessManager->setCache(diskCache);
+
     if(enableProxy)
     {
-        tilesConnection->setProxy(url,port);
+        m_networkAccessManager->setProxy(QNetworkProxy(QNetworkProxy::DefaultProxy,url,port));
     }
 
-    connect(tilesConnection,SIGNAL(requestFinished(int,bool)),this,SLOT(slotRequestFinished(int,bool)));
+    connect(m_networkAccessManager,SIGNAL(finished(QNetworkReply*)),this,SLOT(slotRequestFinished(QNetworkReply*)));
     connect(&CResources::self(), SIGNAL(sigProxyChanged()), this, SLOT(slotSetupLink()));
 }
 
@@ -145,28 +98,18 @@ void COsmTilesHash::slotSetupLink()
 {
     QString url;
     quint16 port;
-    bool enableProxy;
 
-    enableProxy = CResources::self().getHttpProxy(url,port);
-
-    if(tilesConnection) delete tilesConnection;
-    tilesConnection = new QHttp(this);
-    if(enableProxy)
+    if(CResources::self().getHttpProxy(url,port))
     {
-        tilesConnection->setProxy(url,port);
+        m_networkAccessManager->setProxy(QNetworkProxy(QNetworkProxy::DefaultProxy,url,port));
     }
-    tilesConnection->setHost(tileServer);
-    connect(tilesConnection,SIGNAL(requestFinished(int,bool)),this,SLOT(slotRequestFinished(int,bool)));
+
+    connect(m_networkAccessManager,SIGNAL(requestFinished(int,bool)),this,SLOT(slotRequestFinished(int,bool)));
 }
 
 
 void COsmTilesHash::startNewDrawing( double lon, double lat, int osm_zoom, const QRect& window)
 {
-    this->osm_zoom=osm_zoom;
-    this->window = window;
-    tilesConnection->clearPendingRequests();
-    osmRunningHash.clear();
-
     int osm_x_256 = long2tile(lon, osm_zoom);
     int osm_y_256 = lat2tile(lat, osm_zoom);
 
@@ -181,10 +124,10 @@ void COsmTilesHash::startNewDrawing( double lon, double lat, int osm_zoom, const
     int xCount = qMin((floorf((window.width() + dx) / 256.) ) + 1., floorf(pow(2.,osm_zoom))*1.);
     int yCount = qMin((floorf((window.height() + dy ) / 256.) ) + 1., floorf(pow(2.,osm_zoom))*1.) ;
 
-    //qDebug() << xCount << yCount << window;
-
     pixmap = QPixmap(window.size());
     pixmap.fill(Qt::white);
+    abortRequests();
+
     for(int x=0; x<xCount; x++)
     {
         for (int y=0; y<yCount; y++)
@@ -194,87 +137,47 @@ void COsmTilesHash::startNewDrawing( double lon, double lat, int osm_zoom, const
             getImage(osm_zoom,osm_x+x,osm_y+y,t.map(point));
         }
     }
-    emit newImageReady(pixmap,!osmRunningHash.count());
 }
 
+void COsmTilesHash::abortRequests()
+{
+  foreach(QNetworkReply *reply, replyStartPointHash.keys())
+  {
+    if(replyStartPointHash.contains(reply))
+    {
+      replyStartPointHash.remove(reply);
+      reply->abort();
+    }
+  }
+}
 
 void COsmTilesHash::getImage(int osm_zoom, int osm_x, int osm_y, QPoint point)
 {
     // *  Tiles are 256  256 pixel PNG files
     // * Each zoom level is a directory, each column is a subdirectory, and each tile in that column is a file
     // * Filename(url) format is /zoom/x/y.png
-    QString osmUrlPart = QString(tileUrlPart).arg(osm_zoom).arg(osm_x).arg(osm_y);
-    QString osmFilePath = QString("%1/%2/%3").arg(cacheFolder).arg(tileServer).arg(osmUrlPart);
-//        qDebug() << osmUrlPart;
-//        qDebug() << osmFilePath;
-    bool needHttpAction = true;
-    bool outOfDate = false;
-    if (tiles.contains(osmUrlPart))
-    {
-        QPainter p(&pixmap);
-        p.drawPixmap(point,tiles.value(osmUrlPart));
-#ifdef COSMTILESHASHDEBUG
-        p.drawRect(QRect(point,QSize(255,255)));
-        p.drawText(point + QPoint(10,10), "cached " + osmUrlPart);
-#endif
-        needHttpAction = false;
-    }
-    else if (QFileInfo(osmFilePath).exists())
-    {
-        QFile f(osmFilePath);
-        if (f.open(QIODevice::ReadOnly))
-        {
-            QPixmap img1;
-            img1.loadFromData(f.readAll());
-
-            if(!img1.isNull())
-            {
-                QPainter p(&pixmap);
-                p.drawPixmap(point,img1);
-                tiles.insert(osmUrlPart,img1);
-                int days = QFileInfo(osmFilePath).lastModified().daysTo(QDateTime::currentDateTime());
-                if ( days < 8)
-                {
-                    needHttpAction = false;
-                }
-                else
-                {
-                    outOfDate = true;
-                    needHttpAction = true;
-                    p.drawText(point + QPoint(10,256-10), tr("Tile %1 was loaded from %2 days old File. Reloading ...").arg(osmUrlPart).arg(days));
-                }
-            }
-        }
-    }
-    if (needHttpAction && !osmRunningHash.contains(osmUrlPart))
-    {
-        getid = tilesConnection->get(osmUrlPart);
-        osmRunningHash.insert(osmUrlPart,getid);
-        if (!outOfDate)
-        {
-            QPainter p(&pixmap);
-            //       p.drawText(point + QPoint(20,128), tr("Image is loading: %1").arg(osmUrlPart));
-            //       p.drawText(point + QPoint(20,148), tr("%1 of %2 stored.").arg(tiles.count()).arg(getid));
-        }
-        startPointHash.insert(getid, point);
-        osmUrlPartHash.insert(getid, osmUrlPart);
-    }
+    m_tileUrl.setPath(QString(m_tilePath).arg(osm_zoom).arg(osm_x).arg(osm_y));
+    QNetworkRequest request;
+    request.setUrl(m_tileUrl);
+    QNetworkReply *reply = m_networkAccessManager->get(request);
+    replyStartPointHash.insert(reply, point);
 }
 
 
-void COsmTilesHash::slotRequestFinished(int id, bool error)
+void COsmTilesHash::slotRequestFinished(QNetworkReply* reply)
 {
-    if (error)
-        return;
+    QPoint startPoint = replyStartPointHash.value(reply);
+    replyStartPointHash.remove(reply);
 
-    if (!startPointHash.contains(id))
+    if (reply->error() != QNetworkReply::NoError)
+    {
+        //qDebug() << reply->errorString();
+        reply->deleteLater();
         return;
+    }
 
-    //qDebug() << osmUrlPartHash.value(id) << id << error << tilesConnection->state();
     QPixmap img1;
-
-    QByteArray ba = tilesConnection->readAll();
-    img1.loadFromData(ba);
+    img1.loadFromData(reply->readAll());
 
     if(img1.isNull())
     {
@@ -283,45 +186,14 @@ void COsmTilesHash::slotRequestFinished(int id, bool error)
         // will cause a requestFinished() signal, too.
         // let's ignore it
         qDebug() << tr("The recieved data is not an valid image. Maybe it isn't an image ...");
-        return;
     }
-    QString osmUrlPart = osmUrlPartHash.value(id);
-
-    QString filePath = QString("%1/%2/%3").arg(cacheFolder).arg(tileServer).arg(osmUrlPart);
-
-    //qDebug() << filePath;
-    QFileInfo fi(filePath);
-
-    if( ! (fi.dir().exists()) )
+    else
     {
-#ifndef Q_OS_WIN32
-        mode_t mask = umask(S_IRWXG | S_IRWXO);
-#endif
-        QDir().mkpath(fi.dir().path());
-#ifndef Q_OS_WIN32
-        umask(mask);
-#endif
+        QPainter p(&pixmap);
+        p.drawPixmap(startPoint,img1);
+        emit newImageReady(pixmap,replyStartPointHash.isEmpty());
+        reply->deleteLater();
     }
-
-    QFile f(filePath);
-    if (f.open(QIODevice::WriteOnly))
-    {
-        img1.save ( &f);
-    }
-
-    tiles.insert(osmUrlPart,img1);
-    // if (osmUrlPart.startsWith(QString("/%1/").arg(osm_zoom))) {
-    QPainter p(&pixmap);
-    p.drawPixmap(startPointHash.value(id),img1);
-#ifdef COSMTILESHASHDEBUG
-    p.drawRect(QRect(startPointHash.value(id),QSize(255,255)));
-    p.drawText(startPointHash.value(id) + QPoint(10,10), QString::number(id) + osmUrlPartHash.value(id));
-#endif
-    osmUrlPartHash.remove(id);
-    startPointHash.remove(id);
-    osmRunningHash.remove(osmUrlPart);
-    emit newImageReady(pixmap,!osmRunningHash.count());
-    //}
     return;
 }
 
