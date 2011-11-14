@@ -31,6 +31,7 @@
 #include <QPointer>
 
 class COverlayDistanceEditWidget;
+class IMap;
 
 /// the one and only edit widget fo rdistance lines
 extern QPointer<COverlayDistanceEditWidget> overlayDistanceEditWidget;
@@ -101,6 +102,7 @@ class COverlayDistance : public IOverlay
 
         void calcDistance();
         void drawArrows(const QPolygon& line, const QRect& viewport, QPainter& p);
+        void drawDistanceInfo(XY p1, XY p2, QPainter& p, IMap& map);
 
         /// the polyline as list of points [rad]
         QList<pt_t> points;
@@ -108,6 +110,8 @@ class COverlayDistance : public IOverlay
         QList<int> selectedPoints;
         /// pointer to point of polyline if cursor is closer than 30px
         pt_t * thePoint;
+        pt_t * thePointBefor;
+        pt_t * thePointAfter;
         /// need to restore point if move command is aborted
         pt_t savePoint;
 
