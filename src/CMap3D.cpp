@@ -1601,6 +1601,8 @@ void CMap3D::keyPressEvent ( QKeyEvent * e )
 {
     bool changePOV2Track = false;
 
+    qDebug() << hex << e->key();
+
     switch (e->key())
     {
         case Qt::Key_W:
@@ -1672,6 +1674,15 @@ void CMap3D::keyPressEvent ( QKeyEvent * e )
             ypos -= sin(zRotRad) * 4;
             break;
         }
+
+        case Qt::Key_Asterisk:
+            zoomFactorEle *= 1.1;
+            break;
+
+        case Qt::Key_Underscore:
+            zoomFactorEle /= 1.1;
+            break;
+
 
         default:
             e->ignore();
@@ -1790,6 +1801,21 @@ bool CMap3D::eventFilter(QObject *o, QEvent *e)
         {
             keyLPressed = true;
         }
+        else if(keyEvent->key() == Qt::Key_Plus)
+        {
+            zoomFactor *= 1.1;
+            e->accept();
+            update();
+            return true;
+        }
+        else if(keyEvent->key() == Qt::Key_Minus)
+        {
+            zoomFactor /= 1.1;
+            e->accept();
+            update();
+            return true;
+        }
+
     }
     else if (e->type() == QEvent::KeyRelease)
     {
