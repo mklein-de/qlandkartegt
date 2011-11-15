@@ -65,14 +65,11 @@ COsmTilesHash::COsmTilesHash(QString tileUrl)
     QString url;
     quint16 port;
     bool enableProxy;
+    QSettings cfg;
 
     enableProxy = CResources::self().getHttpProxy(url,port);
-
-    QNetworkDiskCache *diskCache = new QNetworkDiskCache(this);
+    diskCache = new QNetworkDiskCache(this);
     diskCache->setCacheDirectory(cacheFolder);
-    QSettings cfg;
-    if (!cfg.contains("osm/maxcachevalueMB"))
-        cfg.setValue("osm/maxcachevalueMB",100);
     diskCache->setMaximumCacheSize(cfg.value("osm/maxcachevalueMB").toInt() * 1024*1024);
 
     m_networkAccessManager = new QNetworkAccessManager(this);
@@ -90,7 +87,8 @@ COsmTilesHash::COsmTilesHash(QString tileUrl)
 
 COsmTilesHash::~COsmTilesHash()
 {
-
+    QSettings cfg;
+    cfg.setValue("osm/maxcachevalueMB",diskCache->maximumCacheSize());
 }
 
 
@@ -163,7 +161,7 @@ void COsmTilesHash::getImage(int osm_zoom, int osm_x, int osm_y, QPoint point)
 
 void COsmTilesHash::dequeue()
 {
-     if(m_queuedRequests.size() && m_activeRequests.size() < 2)
+     if(m_queuedRequests.size() && m_activeRequests.size() < 6)
      {
          QPair<QNetworkRequest, QPoint > pair = m_queuedRequests.dequeue();
          QNetworkReply *reply = m_networkAccessManager->get(pair.first);

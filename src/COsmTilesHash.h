@@ -29,6 +29,8 @@
 class QNetworkAccessManager;
 class QNetworkReply;
 class CMapOSM;
+class QNetworkDiskCache;
+
 class COsmTilesHash: public QObject
 {
     Q_OBJECT
@@ -42,6 +44,7 @@ class COsmTilesHash: public QObject
     private:
         QUrl m_tileUrl;
         QString m_tilePath;
+        QNetworkDiskCache * diskCache;
 
         QQueue<QPair<QNetworkRequest, QPoint > > m_queuedRequests;
         QHash<QNetworkReply*, QPoint> m_activeRequests;
