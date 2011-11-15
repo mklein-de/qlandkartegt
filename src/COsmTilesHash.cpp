@@ -102,7 +102,7 @@ void COsmTilesHash::slotSetupLink()
         m_networkAccessManager->setProxy(QNetworkProxy(QNetworkProxy::DefaultProxy,url,port));
     }
 
-    connect(m_networkAccessManager,SIGNAL(requestFinished(int,bool)),this,SLOT(slotRequestFinished(int,bool)));
+    //connect(m_networkAccessManager,SIGNAL(requestFinished(int,bool)),this,SLOT(slotRequestFinished(int,bool)));
 }
 
 
@@ -134,7 +134,6 @@ void COsmTilesHash::startNewDrawing( double lon, double lat, int osm_zoom, const
             QTransform t;
             t = t.translate(x*256,y*256);
             getImage(osm_zoom,osm_x+x,osm_y+y,t.map(point));
-            dequeue();
         }
     }
 
@@ -157,6 +156,7 @@ void COsmTilesHash::getImage(int osm_zoom, int osm_x, int osm_y, QPoint point)
     QNetworkRequest request;
     request.setUrl(m_tileUrl);
     m_queuedRequests.enqueue(qMakePair(request,point));
+    dequeue();
 }
 
 void COsmTilesHash::dequeue()
