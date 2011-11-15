@@ -126,7 +126,8 @@ void COsmTilesHash::startNewDrawing( double lon, double lat, int osm_zoom, const
 
     pixmap = QPixmap(window.size());
     pixmap.fill(Qt::white);
-    abortRequests();
+
+    m_queuedRequests.clear();
 
     for(int x=0; x<xCount; x++)
     {
@@ -135,21 +136,11 @@ void COsmTilesHash::startNewDrawing( double lon, double lat, int osm_zoom, const
             QTransform t;
             t = t.translate(x*256,y*256);
             getImage(osm_zoom,osm_x+x,osm_y+y,t.map(point));
+            dequeue();
         }
     }
-    emit newImageReady(pixmap,!replyStartPointHash.count());
-}
 
-void COsmTilesHash::abortRequests()
-{
-  foreach(QNetworkReply *reply, replyStartPointHash.keys())
-  {
-    if(replyStartPointHash.contains(reply))
-    {
-      replyStartPointHash.remove(reply);
-      reply->abort();
-    }
-  }
+    emit newImageReady(pixmap,!m_activeRequests.count());
 }
 
 void COsmTilesHash::getImage(int osm_zoom, int osm_x, int osm_y, QPoint point)
@@ -167,16 +158,25 @@ void COsmTilesHash::getImage(int osm_zoom, int osm_x, int osm_y, QPoint point)
     }
     QNetworkRequest request;
     request.setUrl(m_tileUrl);
-    QNetworkReply *reply = m_networkAccessManager->get(request);
-    replyStartPointHash.insert(reply, point);
+    m_queuedRequests.enqueue(qMakePair(request,point));
 }
 
+void COsmTilesHash::dequeue()
+{
+     if(m_queuedRequests.size() && m_activeRequests.size() < 2)
+     {
+         QPair<QNetworkRequest, QPoint > pair = m_queuedRequests.dequeue();
+         QNetworkReply *reply = m_networkAccessManager->get(pair.first);
+         m_activeRequests.insert(reply,pair.second);
+     }
+}
 
 void COsmTilesHash::slotRequestFinished(QNetworkReply* reply)
 {
-    QPoint startPoint = replyStartPointHash.value(reply);
-    replyStartPointHash.remove(reply);
 
+    QPoint startPoint = m_activeRequests.value(reply);
+    m_activeRequests.remove(reply);
+    dequeue();
     if (reply->error() != QNetworkReply::NoError)
     {
         //qDebug() << reply->errorString();
@@ -200,7 +200,7 @@ void COsmTilesHash::slotRequestFinished(QNetworkReply* reply)
         m_tileHash.insert(reply->url().toString(),img1);
         QPainter p(&pixmap);
         p.drawPixmap(startPoint,img1);
-        emit newImageReady(pixmap,replyStartPointHash.isEmpty());
+        emit newImageReady(pixmap,m_activeRequests.isEmpty());
         reply->deleteLater();
     }
     return;

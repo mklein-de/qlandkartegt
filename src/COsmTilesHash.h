@@ -22,7 +22,9 @@
 #include <QPainter>
 #include <QPixmap>
 #include <QHash>
+#include <QQueue>
 #include <QUrl>
+#include <QNetworkRequest>
 
 class QNetworkAccessManager;
 class QNetworkReply;
@@ -41,8 +43,9 @@ class COsmTilesHash: public QObject
         QUrl m_tileUrl;
         QString m_tilePath;
 
-        QHash<QNetworkReply*, QPoint> replyStartPointHash;
-        QHash<QString, QPixmap> m_tileHash;
+        QQueue<QPair<QNetworkRequest, QPoint > > m_queuedRequests;
+        QHash<QNetworkReply*, QPoint> m_activeRequests;
+        QHash<QString, QPixmap>  m_tileHash;
         int long2tile(double lon, int zoom);
         int lat2tile(double lat, int zoom);
         double tile2long(int x, int zoom);
@@ -51,8 +54,8 @@ class COsmTilesHash: public QObject
         QPixmap pixmap;
         QNetworkAccessManager *m_networkAccessManager;
         static QString cacheFolder;
+        void dequeue();
     private slots:
-        void abortRequests();
         void slotRequestFinished(QNetworkReply*);
         void slotSetupLink();
 };
