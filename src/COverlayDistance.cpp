@@ -31,6 +31,7 @@
 #include "CRoute.h"
 #include "CMegaMenu.h"
 #include "CDlgConvertToTrack.h"
+#include "CResources.h"
 
 #include <QtGui>
 
@@ -1021,6 +1022,14 @@ void COverlayDistance::drawDistanceInfo(XY p1, XY p2, QPainter& p, IMap& map)
 
     map.convertRad2Pt(p1.u, p1.v);
     map.convertRad2Pt(p2.u, p2.v);
+
+    QFontMetrics fm(CResources::self().getMapFont());
+    qint32 pixel = sqrt((p2.u - p1.u)*(p2.u - p1.u) + (p2.v - p1.v)*(p2.v - p1.v));
+
+    if(fm.width(str) > pixel)
+    {
+        return;
+    }
 
     p.save();
     p.translate(p1.u + (p2.u - p1.u) / 2, p1.v + (p2.v - p1.v) / 2);
