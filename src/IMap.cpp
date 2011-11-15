@@ -390,3 +390,13 @@ void IMap::getClosePolyline(QPoint& pt1, QPoint& pt2, qint32 threshold, QPolygon
 {
     line.clear();
 }
+
+const QImage& IMap::getBuffer()
+{
+    if(!isThread())
+    {
+        imgBuffer = pixBuffer.toImage();
+    }
+
+    return imgBuffer;
+}

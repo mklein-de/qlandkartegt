@@ -188,7 +188,7 @@ class IMap : public QObject
         const QString& getKey(){return key;}
 
         /// get read access to the internally used pixmap buffer
-        const QImage& getBuffer(){return imgBuffer;}
+        const QImage& getBuffer();
 
         /// get proj4 compatible projection string
         char * getProjection();
