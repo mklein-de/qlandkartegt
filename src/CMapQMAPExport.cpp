@@ -51,6 +51,8 @@ CMapQMAPExport::CMapQMAPExport(const CMapSelectionRaster& mapsel, QWidget * pare
 
     connect(toolPath, SIGNAL(clicked()), this, SLOT(slotOutputPath()));
     connect(pushExport, SIGNAL(clicked()), this, SLOT(slotStart()));
+    connect(pushCancel, SIGNAL(clicked()), this, SLOT(slotCancel()));
+    connect(pushDetails, SIGNAL(clicked()), this, SLOT(slotDetails()));
     connect(radioQLM, SIGNAL(toggled(bool)), this, SLOT(slotQLMToggled(bool)));
     connect(radioJNX, SIGNAL(toggled(bool)), this, SLOT(slotBirdsEyeToggled(bool)));
     connect(radioGCM, SIGNAL(toggled(bool)), this, SLOT(slotGCMToggled(bool)));
@@ -112,6 +114,20 @@ CMapQMAPExport::CMapQMAPExport(const CMapSelectionRaster& mapsel, QWidget * pare
     checkOverview8x->setChecked(cfg.value("map/export/over8x", true).toBool());
     checkOverview16x->setChecked(cfg.value("map/export/over16x", true).toBool());
 
+    progressBar->setMinimum(0);
+    progressBar->setMaximum(100);
+    progressBar->setValue(0);
+
+    if(cfg.value("map/export/hidedetails", true).toBool())
+    {
+        textBrowser->hide();
+    }
+    else
+    {
+        textBrowser->show();
+    }
+
+    adjustSize();
 }
 
 CMapQMAPExport::~CMapQMAPExport()
@@ -132,6 +148,8 @@ CMapQMAPExport::~CMapQMAPExport()
     cfg.setValue("map/export/over4x",checkOverview4x->isChecked());
     cfg.setValue("map/export/over8x",checkOverview8x->isChecked());
     cfg.setValue("map/export/over16x",checkOverview16x->isChecked());
+
+    cfg.setValue("map/export/hidedetails", textBrowser->isHidden());
 }
 
 
@@ -233,15 +251,68 @@ void CMapQMAPExport::slotStdout()
     }
 #endif
 
+
+    progress(str);
+
     textBrowser->insertPlainText(str);
     textBrowser->verticalScrollBar()->setValue(textBrowser->verticalScrollBar()->maximum());
 }
 
+void CMapQMAPExport::progress(const QString& str)
+{
+    QRegExp re("^(0[0-9\\.]*).*$");
 
-void CMapQMAPExport::stdOut(const QString& str)
+    output += str;
+    QStringList lines = output.split("\n");
+
+    foreach(const QString& line, lines)
+    {
+        if(re.exactMatch(line))
+        {
+            qDebug() << re.cap(1);
+            break;
+        }
+    }
+}
+
+void CMapQMAPExport::stdOut(const QString& str, bool gui)
 {
     textBrowser->setTextColor(Qt::black);
     textBrowser->append(str);
+
+    if(gui)
+    {
+        labelStatus->setText(str.simplified());
+    }
+}
+
+void CMapQMAPExport::slotDetails()
+{
+    if(textBrowser->isHidden())
+    {
+        textBrowser->show();
+    }
+    else
+    {
+        textBrowser->hide();
+    }
+
+    adjustSize();
+}
+
+void CMapQMAPExport::slotCancel()
+{
+    if(cmd.state() != QProcess::NotRunning)
+    {
+        stdOut(tr("\nCanceled by user's request.\n"));
+
+        cmd.kill();
+        cmd.waitForFinished(1000);
+    }
+    else
+    {
+        reject();
+    }
 }
 
 void CMapQMAPExport::slotStart()
@@ -250,6 +321,8 @@ void CMapQMAPExport::slotStart()
 
     qDebug() << "CMapQMAPExport::slotStart()";
     pushExport->setEnabled(false);
+    pushCancel->setText(tr("Cancel"));
+    textBrowser->clear();
 
     CMapDB::map_t& map = CMapDB::self().knownMaps[mapsel.mapkey];
     QDir srcPath = QFileInfo(map.filename).absolutePath();
@@ -495,12 +568,15 @@ void CMapQMAPExport::slotStart()
 
 void CMapQMAPExport::setNextState()
 {
+    output.clear();
+
     if(!state.isNull()) state->deleteLater();
 
     if(states.isEmpty())
     {
-        stdOut(tr("--- done ---\n"));
+        stdOut(tr("--- done ---\n"), true);
         pushExport->setEnabled(true);
+        pushCancel->setText(tr("Close"));
     }
     else
     {
@@ -512,16 +588,22 @@ void CMapQMAPExport::setNextState()
 
 void CMapQMAPExport::slotFinished(int exitCode, QProcess::ExitStatus status)
 {
+    output.clear();
+
     if(exitCode || status)
     {
+
         textBrowser->setTextColor(Qt::red);
         textBrowser->append(tr("--- failed ---\n"));
+
+        labelStatus->setText(tr("Failed. See \"Details\" for more information."));
 
         qDeleteAll(states);
         states.clear();
         state->deleteLater();
 
         pushExport->setEnabled(true);
+        pushCancel->setText(tr("Close"));
         return;
     }
 
@@ -583,7 +665,7 @@ CMapExportStateCutFiles::~CMapExportStateCutFiles()
 void CMapExportStateCutFiles::explain()
 {
     gui->stdOut(   "*************************************");
-    gui->stdOut(tr("Cut area from files..."));
+    gui->stdOut(tr("Cut area from files..."), true);
     gui->stdOut(   "-------------------------------------");
 }
 
@@ -649,7 +731,7 @@ CMapExportStateCombineFiles::~CMapExportStateCombineFiles()
 void CMapExportStateCombineFiles::explain()
 {
     gui->stdOut(   "*************************************");
-    gui->stdOut(tr("Combine files for each level..."));
+    gui->stdOut(tr("Combine files for each level..."), true);
     gui->stdOut(   "-------------------------------------");
 }
 
@@ -707,7 +789,7 @@ CMapExportStateConvColor::~CMapExportStateConvColor()
 void CMapExportStateConvColor::explain()
 {
     gui->stdOut(   "*************************************");
-    gui->stdOut(tr("Reduce color bands to 3 (RGB)..."));
+    gui->stdOut(tr("Reduce color bands to 3 (RGB)..."), true);
     gui->stdOut(   "-------------------------------------");
 }
 
@@ -763,7 +845,7 @@ CMapExportStateReproject::~CMapExportStateReproject()
 void CMapExportStateReproject::explain()
 {
     gui->stdOut(   "*************************************");
-    gui->stdOut(tr("Re-project files..."));
+    gui->stdOut(tr("Re-project files..."), true);
     gui->stdOut(   "-------------------------------------");
 }
 
@@ -817,7 +899,7 @@ CMapExportStateOptimize::~CMapExportStateOptimize()
 void CMapExportStateOptimize::explain()
 {
     gui->stdOut(   "*************************************");
-    gui->stdOut(tr("Optimize files..."));
+    gui->stdOut(tr("Optimize files..."), true);
     gui->stdOut(   "-------------------------------------");
 }
 
@@ -879,7 +961,7 @@ CMapExportStateGCM::~CMapExportStateGCM()
 void CMapExportStateGCM::explain()
 {
     gui->stdOut(   "*************************************");
-    gui->stdOut(tr("Create Garmin Custom Map..."));
+    gui->stdOut(tr("Create Garmin Custom Map..."), true);
     gui->stdOut(   "-------------------------------------");
 }
 
@@ -935,7 +1017,7 @@ CMapExportStateJNX::~CMapExportStateJNX()
 void CMapExportStateJNX::explain()
 {
     gui->stdOut(   "*************************************");
-    gui->stdOut(tr("Create Garmin JNX Map..."));
+    gui->stdOut(tr("Create Garmin JNX Map..."), true);
     gui->stdOut(   "-------------------------------------");
 }
 

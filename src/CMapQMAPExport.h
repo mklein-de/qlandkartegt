@@ -253,12 +253,12 @@ class CMapQMAPExport : public QDialog, private Ui::IMapQMAPExport
         CMapQMAPExport(const CMapSelectionRaster& mapsel, QWidget * parent);
         virtual ~CMapQMAPExport();
 
-        void stdOut(const QString& str);
+        void stdOut(const QString& str, bool gui = false);
 
         void setNextState();
 
-	public slots:
-		void slotFinished(int exitCode, QProcess::ExitStatus status);
+    public slots:
+        void slotFinished(int exitCode, QProcess::ExitStatus status);
 
     private slots:
         void slotBirdsEyeToggled(bool checked);
@@ -268,12 +268,14 @@ class CMapQMAPExport : public QDialog, private Ui::IMapQMAPExport
 
         void slotStderr();
         void slotStdout();
-        
-
         void slotStart();
+        void slotCancel();
+        void slotDetails();
 
 
     private:
+        void progress(const QString& str);
+
         const CMapSelectionRaster& mapsel;
 
         bool has_map2jnx;
@@ -285,6 +287,7 @@ class CMapQMAPExport : public QDialog, private Ui::IMapQMAPExport
         QList<IMapExportState*> states;
         QPointer<IMapExportState> state;
 
+        QString output;
 };
 
 #endif //CMAPQMAPEXPORT_H

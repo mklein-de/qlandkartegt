@@ -999,12 +999,12 @@ void COverlayDistance::draw(QPainter& p, const QRect& viewport)
     }
 
     // draw distance information to neighbour points
-    if(thePointBefor)
+    if(thePointBefor && subline.isEmpty())
     {
         drawDistanceInfo(*thePointBefor, *thePoint, p, map);
     }
 
-    if(thePointAfter)
+    if(thePointAfter && subline.isEmpty())
     {
         drawDistanceInfo(*thePoint, *thePointAfter, p, map);
     }
