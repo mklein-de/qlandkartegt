@@ -47,7 +47,7 @@ class COsmTilesHash: public QObject
         QNetworkDiskCache * diskCache;
 
         QQueue<QPair<QNetworkRequest, QPoint > > m_queuedRequests;
-        QHash<QNetworkReply*, QPoint> m_activeRequests;
+        QHash<QString, QPoint> m_activeRequests;
         QHash<QString, QPixmap>  m_tileHash;
         int long2tile(double lon, int zoom);
         int lat2tile(double lat, int zoom);

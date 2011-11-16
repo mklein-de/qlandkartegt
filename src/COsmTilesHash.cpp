@@ -148,6 +148,11 @@ void COsmTilesHash::getImage(int osm_zoom, int osm_x, int osm_y, QPoint point)
     // * Filename(url) format is /zoom/x/y.png
     m_tileUrl.setPath(QString(m_tilePath).arg(osm_zoom).arg(osm_x).arg(osm_y));
 
+    if(m_activeRequests.contains(m_tileUrl.toString()))
+    {
+      m_activeRequests.insert(m_tileUrl.toString(),point);
+      return;
+    }
     if(m_tileHash.contains(m_tileUrl.toString()))
     {
       QPainter p(&pixmap);
@@ -166,15 +171,15 @@ void COsmTilesHash::dequeue()
      {
          QPair<QNetworkRequest, QPoint > pair = m_queuedRequests.dequeue();
          QNetworkReply *reply = m_networkAccessManager->get(pair.first);
-         m_activeRequests.insert(reply,pair.second);
+         m_activeRequests.insert(reply->url().toString(),pair.second);
      }
 }
 
 void COsmTilesHash::slotRequestFinished(QNetworkReply* reply)
 {
 
-    QPoint startPoint = m_activeRequests.value(reply);
-    m_activeRequests.remove(reply);
+    QPoint startPoint = m_activeRequests.value(reply->url().toString());
+    m_activeRequests.remove(reply->url().toString());
     dequeue();
     if (reply->error() != QNetworkReply::NoError)
     {
