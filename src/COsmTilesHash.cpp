@@ -199,8 +199,8 @@ void COsmTilesHash::slotRequestFinished(QNetworkReply* reply)
         QPainter p(&pixmap);
         p.drawPixmap(startPoint,img1);
         emit newImageReady(pixmap,m_activeRequests.isEmpty());
-        reply->deleteLater();
     }
+    reply->deleteLater();
     return;
 }
 
