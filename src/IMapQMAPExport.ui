@@ -130,6 +130,9 @@
      <property name="text">
       <string>Tile selection is only supported by Garmin Custom Map. All other formats will export the whole area as is.</string>
      </property>
+     <property name="wordWrap">
+      <bool>true</bool>
+     </property>
     </widget>
    </item>
    <item>
