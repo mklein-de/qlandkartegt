@@ -71,7 +71,7 @@ COsmTilesHash::COsmTilesHash(QString tileUrl)
     enableProxy = CResources::self().getHttpProxy(url,port);
     diskCache = new QNetworkDiskCache(this);
     diskCache->setCacheDirectory(cacheFolder);
-    diskCache->setMaximumCacheSize(cfg.value("osm/maxcachevalueMB").toInt() * 1024*1024);
+    diskCache->setMaximumCacheSize(cfg.value("osm/maxcachevalueMB", 100).toInt() * 1024*1024);
 
     m_networkAccessManager = new QNetworkAccessManager(this);
     m_networkAccessManager->setCache(diskCache);

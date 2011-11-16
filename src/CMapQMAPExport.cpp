@@ -45,6 +45,7 @@ CMapQMAPExport::CMapQMAPExport(const CMapSelectionRaster& mapsel, QWidget * pare
 : QDialog(parent)
 , mapsel(mapsel)
 , has_map2jnx(false)
+, totalNumberOfStates(0)
 {
     setupUi(this);
     toolPath->setIcon(QPixmap(":/icons/iconFileLoad16x16.png"));
@@ -117,6 +118,7 @@ CMapQMAPExport::CMapQMAPExport(const CMapSelectionRaster& mapsel, QWidget * pare
     progressBar->setMinimum(0);
     progressBar->setMaximum(100);
     progressBar->setValue(0);
+    progressBar->resize(300, progressBar->height());
 
     if(cfg.value("map/export/hidedetails", true).toBool())
     {
@@ -169,6 +171,8 @@ void CMapQMAPExport::slotBirdsEyeToggled(bool checked)
         groupDevice->hide();
         groupOptimization->hide();
     }
+
+    adjustSize();
 }
 
 void CMapQMAPExport::slotGCMToggled(bool checked)
@@ -188,6 +192,8 @@ void CMapQMAPExport::slotGCMToggled(bool checked)
         labelTileSelection->show();
         groupOptimization->hide();
     }
+
+    adjustSize();
 }
 
 void CMapQMAPExport::slotQLMToggled(bool checked)
@@ -207,6 +213,8 @@ void CMapQMAPExport::slotQLMToggled(bool checked)
         labelTileSelection->show();
         groupOptimization->hide();
     }
+
+    adjustSize();
 }
 
 void CMapQMAPExport::slotStderr()
@@ -265,14 +273,17 @@ void CMapQMAPExport::progress(const QString& str)
     output += str;
     QStringList lines = output.split("\n");
 
-    foreach(const QString& line, lines)
+    if(re.exactMatch(lines.last()))
     {
-        if(re.exactMatch(line))
-        {
-            qDebug() << re.cap(1);
-            break;
-        }
+        QString prog    = re.cap(1);
+        int points      = prog.count('.');
+        int zeros       = prog.count('0');
+        int p = (zeros - 1) * 10 + (points%3) * 2.5 + ((points/3) == zeros ? 7.5 : 0);
+        if(p > 100) p = 100;
+
+        progressBar->setValue(p);
     }
+
 }
 
 void CMapQMAPExport::stdOut(const QString& str, bool gui)
@@ -562,6 +573,7 @@ void CMapQMAPExport::slotStart()
         states << state5;
     }
 
+    totalNumberOfStates = states.count();
     // start the statemachine
     setNextState();
 }
@@ -574,7 +586,8 @@ void CMapQMAPExport::setNextState()
 
     if(states.isEmpty())
     {
-        stdOut(tr("--- done ---\n"), true);
+        stdOut(tr("*** done ***\n"), true);
+        progressBar->setValue(100);
         pushExport->setEnabled(true);
         pushCancel->setText(tr("Close"));
     }
@@ -583,6 +596,9 @@ void CMapQMAPExport::setNextState()
         state = states.takeFirst();
         state->explain();
         state->nextJob(cmd);
+
+        labelStep->setText(tr("Step %1/%2,").arg(totalNumberOfStates - states.count()).arg(totalNumberOfStates));
+        labelJob->setText(tr("Job %1/%2 - ").arg(state->getJobIdx()).arg(state->getJobCnt()));
     }
 }
 
@@ -594,7 +610,7 @@ void CMapQMAPExport::slotFinished(int exitCode, QProcess::ExitStatus status)
     {
 
         textBrowser->setTextColor(Qt::red);
-        textBrowser->append(tr("--- failed ---\n"));
+        textBrowser->append(tr("!!! failed !!!\n"));
 
         labelStatus->setText(tr("Failed. See \"Details\" for more information."));
 
@@ -609,6 +625,7 @@ void CMapQMAPExport::slotFinished(int exitCode, QProcess::ExitStatus status)
 
     QApplication::processEvents();
     state->nextJob(cmd);
+    labelJob->setText(tr("Job %1/%2 - ").arg(state->getJobIdx()).arg(state->getJobCnt()));
 }
 
 void CMapQMAPExport::slotOutputPath()
@@ -630,6 +647,7 @@ quint32 IMapExportState::tmpFileCnt = 0;
 IMapExportState::IMapExportState(CMapQMAPExport * parent)
 : QObject(parent)
 , gui(parent)
+, jobIdx(0)
 {
 
 }
@@ -653,7 +671,7 @@ QString IMapExportState::getTempFilename()
 // --------------------------------------------------------------------------------------------
 CMapExportStateCutFiles::CMapExportStateCutFiles(CMapQMAPExport * parent)
 : IMapExportState(parent)
-, jobIdx(0)
+
 {
 }
 
@@ -710,7 +728,7 @@ void CMapExportStateCutFiles::nextJob(QProcess& cmd)
 // --------------------------------------------------------------------------------------------
 CMapExportStateCombineFiles::CMapExportStateCombineFiles(CMapQMAPExport * parent)
 : IMapExportState(parent)
-, jobIdx(0)
+
 {
 
 }
@@ -770,7 +788,7 @@ void CMapExportStateCombineFiles::nextJob(QProcess& cmd)
 // --------------------------------------------------------------------------------------------
 CMapExportStateConvColor::CMapExportStateConvColor(CMapQMAPExport * parent)
 : IMapExportState(parent)
-, jobIdx(0)
+
 {
 
 }
@@ -825,7 +843,7 @@ void CMapExportStateConvColor::nextJob(QProcess& cmd)
 // --------------------------------------------------------------------------------------------
 CMapExportStateReproject::CMapExportStateReproject(const QString& proj, CMapQMAPExport * parent)
 : IMapExportState(parent)
-, jobIdx(0)
+
 , proj(proj)
 {
 
@@ -886,7 +904,7 @@ void CMapExportStateReproject::nextJob(QProcess& cmd)
 // --------------------------------------------------------------------------------------------
 CMapExportStateOptimize::CMapExportStateOptimize(CMapQMAPExport * parent)
 : IMapExportState(parent)
-, jobIdx(0)
+
 {
 
 }
@@ -938,7 +956,7 @@ void CMapExportStateOptimize::nextJob(QProcess& cmd)
 // --------------------------------------------------------------------------------------------
 CMapExportStateGCM::CMapExportStateGCM(const QString& app, CMapQMAPExport * parent)
 : IMapExportState(parent)
-, jobIdx(0)
+
 , app(app)
 {
 
@@ -995,7 +1013,7 @@ void CMapExportStateGCM::nextJob(QProcess& cmd)
 // --------------------------------------------------------------------------------------------
 CMapExportStateJNX::CMapExportStateJNX(const QString& app, CMapQMAPExport * parent)
 : IMapExportState(parent)
-, jobIdx(0)
+
 , app(app)
 {
 

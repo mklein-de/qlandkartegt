@@ -338,6 +338,50 @@ static uint32_t writeTile(uint32_t xsize, uint32_t ysize, uint32_t * raw_image, 
     return jpgbuf.size();
 }
 
+/// this code is from the GDAL project
+static void printProgress(int current, int total)
+{
+    double dfComplete = double(current)/double(total);
+
+    static int nLastTick = -1;
+    int nThisTick = (int) (dfComplete * 40.0);
+
+    nThisTick = MIN(40,MAX(0,nThisTick));
+
+    // Have we started a new progress run?
+    if( nThisTick < nLastTick && nLastTick >= 39 )
+    {
+        nLastTick = -1;
+    }
+
+    if( nThisTick <= nLastTick )
+    {
+        return;
+    }
+
+    while( nThisTick > nLastTick )
+    {
+        nLastTick++;
+        if( nLastTick % 4 == 0 )
+        {
+            fprintf( stdout, "%d", (nLastTick / 4) * 10 );
+        }
+        else
+        {
+            fprintf( stdout, "." );
+        }
+    }
+
+    if( nThisTick == 40 )
+    {
+        fprintf( stdout, " - done.\n" );
+    }
+    else
+    {
+        fflush( stdout );
+    }
+
+}
 
 int main(int argc, char ** argv)
 {
@@ -536,6 +580,8 @@ int main(int argc, char ** argv)
     double left     =  180.0;
     double bottom   =   90.0;
 
+    int totalTiles  = 0;
+
     double scale = 0.0;
     files.sort();
     std::list<file_t>::iterator f;
@@ -551,28 +597,20 @@ int main(int argc, char ** argv)
 
         if(scale != 0.0 && ((fabs(scale - file.xscale)) / scale) > 0.02)
         {
-            nLevels++;
-            if(nLevels > 4)
-            {
-                fprintf(stderr,"\nToo many different detail levels.\n");
-                exit(-1);
-            }
+            printf("\n");
+            fprintf(stderr, "\nWARNING! There is more than one detail level. I will just convert files on level 1 (best m/px ratio).");
+            printf("\n");
+            break;
         }
         scale = file.xscale;
 
+        double xTiles = file.width  / double(1024);
+        double yTiles = file.height / double(1024);
+        totalTiles += int(ceil(xTiles)) * int(ceil(yTiles));
+
         levels[nLevels].files.push_back(&file);
     }
-    nLevels++;
-
-    printf("\n");
-
-    if(nLevels > 1)
-    {
-        fprintf(stderr, "\nWARNING! There is more than one detail level. I will just convert files on level 1 (best m/px ratio).");
-        printf("\n");
-        nLevels = 1;
-    }
-
+    nLevels = 1;
 
     QFile zipfile(argv[argc-1]);
     zipfile.remove();
@@ -686,8 +724,7 @@ int main(int argc, char ** argv)
 
                     doc.append(QString(kmzOverlay).arg(str).arg(str).arg(zorder).arg(tile.top).arg(tile.bottom).arg(tile.right).arg(tile.left));
 
-                    printf("\r    tile %i", tileCnt);
-                    fflush(stdout);
+                    printProgress(tileCnt, totalTiles);
 
                     xoff += xsize;
                 }

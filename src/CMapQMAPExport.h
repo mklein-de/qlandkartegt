@@ -40,10 +40,13 @@ class IMapExportState : public QObject
         virtual void explain() = 0;
         virtual void nextJob(QProcess& cmd) = 0;
 
+        int getJobIdx(){return jobIdx;}
+        virtual int getJobCnt() = 0;
 
         static QString getTempFilename();
     protected:
         CMapQMAPExport * gui;
+        int jobIdx;
     private:
         static quint32 tmpFileCnt;
 };
@@ -57,6 +60,7 @@ class CMapExportStateCutFiles : public IMapExportState
 
         void explain();
         void nextJob(QProcess& cmd);
+        int getJobCnt(){return jobs.count();}
 
         struct job_t
         {
@@ -76,7 +80,7 @@ class CMapExportStateCutFiles : public IMapExportState
 
     private:
         QList<job_t> jobs;
-        int jobIdx;
+
 };
 
 class CMapExportStateCombineFiles : public IMapExportState
@@ -88,6 +92,7 @@ class CMapExportStateCombineFiles : public IMapExportState
 
         void explain();
         void nextJob(QProcess& cmd);
+        int getJobCnt(){return jobs.count();}
 
         struct job_t
         {
@@ -100,7 +105,6 @@ class CMapExportStateCombineFiles : public IMapExportState
 
     private:
         QList<job_t> jobs;
-        int jobIdx;
 
 };
 
@@ -113,6 +117,7 @@ class CMapExportStateConvColor : public IMapExportState
 
         void explain();
         void nextJob(QProcess& cmd);
+        int getJobCnt(){return jobs.count();}
 
         struct job_t
         {
@@ -125,7 +130,6 @@ class CMapExportStateConvColor : public IMapExportState
 
     private:
         QList<job_t> jobs;
-        int jobIdx;
 
 };
 
@@ -139,6 +143,7 @@ class CMapExportStateReproject : public IMapExportState
 
         void explain();
         void nextJob(QProcess& cmd);
+        int getJobCnt(){return jobs.count();}
 
         struct job_t
         {
@@ -151,7 +156,6 @@ class CMapExportStateReproject : public IMapExportState
 
     private:
         QList<job_t> jobs;
-        int jobIdx;
         QString proj;
 
 };
@@ -165,6 +169,7 @@ class CMapExportStateOptimize : public IMapExportState
 
         void explain();
         void nextJob(QProcess& cmd);
+        int getJobCnt(){return jobs.count();}
 
         struct job_t
         {
@@ -177,7 +182,7 @@ class CMapExportStateOptimize : public IMapExportState
 
     private:
         QList<job_t> jobs;
-        int jobIdx;
+
 };
 
 class CMapExportStateGCM : public IMapExportState
@@ -189,6 +194,7 @@ class CMapExportStateGCM : public IMapExportState
 
         void explain();
         void nextJob(QProcess& cmd);
+        int getJobCnt(){return jobs.count();}
 
         struct job_t
         {
@@ -205,7 +211,6 @@ class CMapExportStateGCM : public IMapExportState
 
     private:
         QList<job_t> jobs;
-        int jobIdx;
 
         const QString app;
 
@@ -220,6 +225,7 @@ class CMapExportStateJNX : public IMapExportState
 
         void explain();
         void nextJob(QProcess& cmd);
+        int getJobCnt(){return jobs.count();}
 
         struct job_t
         {
@@ -239,7 +245,6 @@ class CMapExportStateJNX : public IMapExportState
 
     private:
         QList<job_t> jobs;
-        int jobIdx;
 
         const QString app;
 
@@ -288,6 +293,8 @@ class CMapQMAPExport : public QDialog, private Ui::IMapQMAPExport
         QPointer<IMapExportState> state;
 
         QString output;
+
+        int totalNumberOfStates;
 };
 
 #endif //CMAPQMAPEXPORT_H
