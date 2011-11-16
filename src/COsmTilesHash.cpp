@@ -88,7 +88,8 @@ COsmTilesHash::COsmTilesHash(QString tileUrl)
 COsmTilesHash::~COsmTilesHash()
 {
     QSettings cfg;
-    cfg.setValue("osm/maxcachevalueMB",diskCache->maximumCacheSize());
+    if (!cfg.contains("osm/maxcachevalueMB") || cfg.value("osm/maxcachevalueMB") == 0)
+        cfg.setValue("osm/maxcachevalueMB",100);
 }
 
 
