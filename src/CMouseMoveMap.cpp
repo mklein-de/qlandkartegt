@@ -228,7 +228,7 @@ void CMouseMoveMap::contextMenu(QMenu& menu)
 
     map.convertPt2M(u,v);
     if(!map.isLonLat())
-    {        
+    {
         QString posMeter = tr("N %1m E %2m").arg(u, 0,'f',0).arg(v,0,'f',0);
         menu.addAction(QIcon(":/icons/iconClipboard16x16.png"), posMeter, this, SLOT(slotCopyPosMeter()));
     }
@@ -388,7 +388,8 @@ void CMouseMoveMap::slotAddWpt()
     double v = mousePos.y();
     map.convertPt2Rad(u,v);
     float ele = dem.getElevation(u,v);
-    CWptDB::self().newWpt(u, v, ele,"");
+
+    CWptDB::self().newWpt(u, v, ele,CWptDB::self().getNewWptName());
 
 }
 

@@ -63,7 +63,8 @@ CWptDB::CWptDB(QTabWidget * tb, QObject * parent)
 , showNames(true)
 {
     QSettings cfg;
-    showNames = cfg.value("waypoint/showNames", showNames).toBool();
+    showNames   = cfg.value("waypoint/showNames", showNames).toBool();
+    lastWptName = cfg.value("waypoint/lastName","").toString();
 
     m_self      = this;
     toolview    = new CWptToolWidget(tb);
@@ -100,6 +101,7 @@ CWptDB::~CWptDB()
 {
     QSettings cfg;
     cfg.setValue("waypoint/showNames", showNames);
+    cfg.setValue("waypoint/lastName", lastWptName);
 
     CQlb qlb(this);
 
@@ -116,6 +118,32 @@ CWptDB::~CWptDB()
     qlb.save(QDir::home().filePath(CONFIGDIR "sticky.qlb"));
 }
 
+QString CWptDB::getNewWptName()
+{
+    const int s = lastWptName.size();
+    int idx;
+
+    for(idx = s; idx > 0; idx--)
+    {
+        if(!lastWptName[idx - 1].isDigit())
+        {
+            break;
+        }
+    }
+
+    if(idx == s)
+    {
+        return lastWptName + "1";
+    }
+    else if(idx == 0)
+    {
+        return QString::number(lastWptName.toInt() + 1);
+    }
+    else
+    {
+        return lastWptName.left(idx) + QString::number(lastWptName.mid(idx).toInt() + 1);
+    }
+}
 
 bool CWptDB::keyLessThanAlpha(CWptDB::keys_t&  s1, CWptDB::keys_t&  s2)
 {
@@ -262,11 +290,14 @@ CWpt * CWptDB::newWpt(float lon, float lat, float ele, const QString& name)
     QSettings cfg;
     wpt->setIcon(cfg.value("waypoint/lastSymbol","").toString());
 
-    CDlgEditWpt dlg(*wpt,theMainWindow->getCanvas());
-    if(dlg.exec() == QDialog::Rejected)
+    if(name.isEmpty())
     {
-        delete wpt;
-        return 0;
+        CDlgEditWpt dlg(*wpt,theMainWindow->getCanvas());
+        if(dlg.exec() == QDialog::Rejected)
+        {
+            delete wpt;
+            return 0;
+        }
     }
     wpts[wpt->getKey()] = wpt;
 
@@ -274,6 +305,8 @@ CWpt * CWptDB::newWpt(float lon, float lat, float ele, const QString& name)
 
     emit sigChanged();
     emit sigModified();
+
+    lastWptName = wpt->getName();
 
     return wpt;
 }

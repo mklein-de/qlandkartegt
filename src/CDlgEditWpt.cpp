@@ -66,7 +66,7 @@ CDlgEditWpt::CDlgEditWpt(CWpt &wpt, QWidget * parent)
 
 #ifdef HAS_DMTX
     enc = dmtxEncodeCreate();
-#endif    
+#endif
 }
 
 
@@ -295,6 +295,8 @@ void CDlgEditWpt::accept()
     emit CWptDB::self().sigChanged();
     emit CWptDB::self().sigModified();
     emit CWptDB::self().sigModified(wpt.getKey());
+
+    CWptDB::self().setNewWptName(wpt.getName());
 
     QDialog::accept();
 }

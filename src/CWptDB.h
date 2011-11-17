@@ -93,6 +93,8 @@ class CWptDB : public IDB
 
         int count(){return wpts.count();}
 
+        QString getNewWptName();
+        void    setNewWptName(const QString& name){lastWptName = name;}
 
 #ifdef HAS_EXIF
         void createWaypointsFromImages();
@@ -138,5 +140,6 @@ class CWptDB : public IDB
 
         bool showNames;
 
+        QString lastWptName;
 };
 #endif                           //CWPTDB_H
