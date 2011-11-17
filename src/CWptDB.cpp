@@ -704,13 +704,11 @@ void CWptDB::saveGPX(CGpx& gpx, const QStringList& keys)
             QDomElement gpxx_ext = gpx.createElement("wptx1:WaypointExtension");
             extensions.appendChild(gpxx_ext);
 
-            if(wpt->prx != 1e25f)
-            {
-                QDomElement proximity = gpx.createElement("wptx1:Proximity");
-                gpxx_ext.appendChild(proximity);
-                QDomText _proximity_ = gpx.createTextNode(QString::number(wpt->prx));
-                proximity.appendChild(_proximity_);
-            }
+            QDomElement proximity = gpx.createElement("wptx1:Proximity");
+            gpxx_ext.appendChild(proximity);
+            QDomText _proximity_ = gpx.createTextNode(QString::number(wpt->prx));
+            proximity.appendChild(_proximity_);
+
         }
 
         wpt->saveGpxExt(waypoint, gpx.getExportMode());
@@ -869,16 +867,6 @@ void CWptDB::selWptByKey(const QString& key, bool selectMode)
         gainFocus();
     }
 }
-
-//void CWptDB::updateToolview()
-//{
-//    CWptToolWidget * t = qobject_cast<CWptToolWidget*>(toolview);
-//    if(t)
-//    {
-//        t->slotDBChanged();
-//        gainFocus();
-//    }
-//}
 
 
 void CWptDB::draw(QPainter& p, const QRect& rect, bool& needsRedraw)
