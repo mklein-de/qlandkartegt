@@ -27,12 +27,13 @@
 class CRoute;
 class QDomDocument;
 class QDomElement;
-class QHttp;
+class QNetworkAccessManager;
+class QNetworkReply;
 class QTimer;
 
 class CRouteToolWidget : public QWidget, private Ui::IRouteToolWidget
 {
-    Q_OBJECT;
+    Q_OBJECT
     public:
         CRouteToolWidget(QTabWidget * parent);
         virtual ~CRouteToolWidget();
@@ -59,8 +60,7 @@ class CRouteToolWidget : public QWidget, private Ui::IRouteToolWidget
         void slotResetRoute();
 
         void slotSetupLink();
-        void slotRequestStarted(int );
-        void slotRequestFinished(int , bool error);
+        void slotRequestFinished(QNetworkReply* );
         void slotSelectionChanged();
 
         void slotToOverlay();
@@ -95,7 +95,7 @@ class CRouteToolWidget : public QWidget, private Ui::IRouteToolWidget
         static const QString xlink_ns;
         static const QString schemaLocation;
 
-        QHttp * http;
+        QNetworkAccessManager * m_networkAccessManager;
 
         QSet<QString> knownLocale;
 

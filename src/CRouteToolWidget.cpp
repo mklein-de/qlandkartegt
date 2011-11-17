@@ -29,11 +29,15 @@
 #include "CTrack.h"
 #include "CDlgConvertToTrack.h"
 #include "CMegaMenu.h"
+#include "version.h"
 
 
 #include <QtGui>
 #include <QtXml>
-#include <QHttp>
+#include <QNetworkAccessManager>
+#include <QNetworkRequest>
+#include <QNetworkReply>
+#include <QNetworkProxy>
 
 #define N_LINES 3
 
@@ -42,12 +46,23 @@ CRouteToolWidget::sortmode_e CRouteToolWidget::sortmode = CRouteToolWidget::eSor
 CRouteToolWidget::CRouteToolWidget(QTabWidget * parent)
 : QWidget(parent)
 , originator(false)
-, http(0)
 {
     setupUi(this);
     setObjectName("Routes");
     parent->addTab(this,QIcon(":/icons/iconRoute16x16.png"),"");
     parent->setTabToolTip(parent->indexOf(this), tr("Routes"));
+
+    QString url;
+    quint16 port;
+    bool enableProxy;
+    enableProxy = CResources::self().getHttpProxy(url,port);
+    m_networkAccessManager = new QNetworkAccessManager(this);
+
+    if(enableProxy)
+    {
+        m_networkAccessManager->setProxy(QNetworkProxy(QNetworkProxy::DefaultProxy,url,port));
+    }
+    connect(m_networkAccessManager,SIGNAL(finished(QNetworkReply*)),this,SLOT(slotRequestFinished(QNetworkReply*)));
 
     connect(&CRouteDB::self(), SIGNAL(sigChanged()), this, SLOT(slotDBChanged()));
 
@@ -295,15 +310,10 @@ void CRouteToolWidget::slotSetupLink()
 
     enableProxy = CResources::self().getHttpProxy(url,port);
 
-    if(http) delete http;
-    http = new QHttp(this);
     if(enableProxy)
     {
-        http->setProxy(url,port);
+         m_networkAccessManager->setProxy(QNetworkProxy(QNetworkProxy::DefaultProxy,url,port));
     }
-
-    connect(http,SIGNAL(requestStarted(int)),this,SLOT(slotRequestStarted(int)));
-    connect(http,SIGNAL(requestFinished(int,bool)),this,SLOT(slotRequestFinished(int,bool)));
 }
 
 void CRouteToolWidget::slotCalcRoute()
@@ -357,8 +367,6 @@ const QString CRouteToolWidget::schemaLocation = "http://www.opengis.net/xls htt
 
 void CRouteToolWidget::startOpenRouteService(CRoute& rte)
 {
-    if(http == 0) return;
-
     QDomDocument xml;
     QDomElement root = xml.createElement("xls:XLS");
     xml.appendChild(root);
@@ -434,12 +442,14 @@ void CRouteToolWidget::startOpenRouteService(CRoute& rte)
     out << "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
     out << xml.toString() << endl;
 
-    http->setHost("openls.geog.uni-heidelberg.de");
-
-    QUrl url;
+    QUrl url("http://openls.geog.uni-heidelberg.de");
     url.setPath("/qlandkarte/route");
 
-    http->post(url.toEncoded(), array);
+    QNetworkRequest request;
+    request.setUrl(url);
+    request.setRawHeader("User-Agent", WHAT_STR);
+
+    m_networkAccessManager->post(request, array);
 
     timer->start(15000);
 
@@ -491,22 +501,20 @@ void CRouteToolWidget::addOpenLSPos(QDomDocument& xml, QDomElement& Parent, CRou
     Pos.appendChild(_Pos_);
 }
 
-void CRouteToolWidget::slotRequestStarted(int i)
+
+void CRouteToolWidget::slotRequestFinished(QNetworkReply* reply)
 {
-
-}
-
-
-void CRouteToolWidget::slotRequestFinished(int i, bool error)
-{
-    if(error)
+    if(reply->error() != QNetworkReply::NoError)
     {
         timer->stop();
-        QMessageBox::warning(0,tr("Failed..."), tr("Bad response from server:\n%1").arg(http->errorString()), QMessageBox::Abort);
+        QMessageBox::warning(0,tr("Failed..."), tr("Bad response from server:\n%1").arg(reply->errorString()), QMessageBox::Abort);
+        reply->deleteLater();
         return;
     }
 
-    QByteArray res = http->readAll();
+    QByteArray res = reply->readAll();
+    reply->deleteLater();
+
     if(res.isEmpty())
     {
         return;
