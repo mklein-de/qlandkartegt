@@ -64,7 +64,6 @@ CWptDB::CWptDB(QTabWidget * tb, QObject * parent)
 {
     QSettings cfg;
     showNames   = cfg.value("waypoint/showNames", showNames).toBool();
-    lastWptName = cfg.value("waypoint/lastName","").toString();
 
     m_self      = this;
     toolview    = new CWptToolWidget(tb);
@@ -101,7 +100,6 @@ CWptDB::~CWptDB()
 {
     QSettings cfg;
     cfg.setValue("waypoint/showNames", showNames);
-    cfg.setValue("waypoint/lastName", lastWptName);
 
     CQlb qlb(this);
 
@@ -122,6 +120,8 @@ QString CWptDB::getNewWptName()
 {
     const int s = lastWptName.size();
     int idx;
+
+    if(s == 0) return lastWptName;
 
     for(idx = s; idx > 0; idx--)
     {
