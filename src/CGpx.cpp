@@ -24,14 +24,15 @@
 #include <QMessageBox>
 #include <iostream>
 
-const QString CGpx::gpx_ns = "http://www.topografix.com/GPX/1/1";
-const QString CGpx::xsi_ns = "http://www.w3.org/2001/XMLSchema-instance";
-const QString CGpx::gpxx_ns = "http://www.garmin.com/xmlschemas/GpxExtensions/v3";
-const QString CGpx::gpxtpx_ns = "http://www.garmin.com/xmlschemas/TrackPointExtension/v1";
-const QString CGpx::gpxwpx_ns = "http://www.garmin.com/xmlschemas/WaypointExtension/v1";
-const QString CGpx::rmc_ns = "urn:net:trekbuddy:1.0:nmea:rmc";
-const QString CGpx::ql_ns = "http://www.qlandkarte.org/xmlschemas/v1.1";
-const QString CGpx::gs_ns = "http://www.groundspeak.com/cache/1/0";
+const QString CGpx::gpx_ns      = "http://www.topografix.com/GPX/1/1";
+const QString CGpx::xsi_ns      = "http://www.w3.org/2001/XMLSchema-instance";
+const QString CGpx::gpxx_ns     = "http://www.garmin.com/xmlschemas/GpxExtensions/v3";
+const QString CGpx::gpxtpx_ns   = "http://www.garmin.com/xmlschemas/TrackPointExtension/v1";
+const QString CGpx::wptx1_ns    = "http://www.garmin.com/xmlschemas/WaypointExtension/v1";
+const QString CGpx::rmc_ns      = "urn:net:trekbuddy:1.0:nmea:rmc";
+const QString CGpx::ql_ns       = "http://www.qlandkarte.org/xmlschemas/v1.1";
+const QString CGpx::gs_ns       = "http://www.groundspeak.com/cache/1/0";
+
 
 
 
@@ -105,17 +106,19 @@ void CGpx::writeMetadata()
     root.setAttribute("xmlns:xsi",xsi_ns);
     root.setAttribute("xmlns:gpxx",gpxx_ns);
     root.setAttribute("xmlns:gpxtpx",gpxtpx_ns);
+    root.setAttribute("xmlns:wptx1",wptx1_ns);
     root.setAttribute("xmlns:rmc",rmc_ns);
-//    root.setAttribute("xmlns:groundspeak",gs_ns);
-
     if (exportMode == eQlgtExport)
     {
         root.setAttribute("xmlns:ql",ql_ns);
     }
+
+
     QString schemaLocation = QString()
         + gpx_ns    + " http://www.topografix.com/GPX/1/1/gpx.xsd "
         + gpxx_ns   + " http://www.garmin.com/xmlschemas/GpxExtensionsv3.xsd "
-        + gpxtpx_ns + " http://www.garmin.com/xmlschemas/TrackPointExtensionv1.xsd";
+        + gpxtpx_ns + " http://www.garmin.com/xmlschemas/TrackPointExtensionv1.xsd "
+        + wptx1_ns  + " http://www.garmin.com/xmlschemas/WaypointExtensionv1.xsd";
 
     if (exportMode == eQlgtExport)
     {
@@ -132,13 +135,6 @@ void CGpx::writeMetadata()
     metadata.appendChild(time);
     QDomText _time_ = createTextNode(QDateTime::currentDateTime().toUTC().toString("yyyy-MM-dd'T'hh:mm:ss'Z'"));
     time.appendChild(_time_);
-
-    //     QDomElement bounds = createElement("bounds");
-    //     metadata.appendChild(bounds);
-    //     bounds.setAttribute("minlat",0.0);
-    //     bounds.setAttribute("minlon",0.0);
-    //     bounds.setAttribute("maxlat",0.0);
-    //     bounds.setAttribute("maxlon",0.0);
 }
 
 

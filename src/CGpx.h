@@ -40,7 +40,7 @@ class CGpx : public QObject, public QDomDocument
         // Those are the URIs of the GPX extensions we support
         static const QString gpxx_ns;
         static const QString gpxtpx_ns;
-        static const QString gpxwpx_ns;
+        static const QString wptx1_ns;
         static const QString rmc_ns;
         static const QString ql_ns;
         static const QString gs_ns;

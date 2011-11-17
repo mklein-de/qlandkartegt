@@ -505,12 +505,12 @@ void CWptDB::loadGPX(CGpx& gpx)
             }
 
             // new garmin proximity format namespace
-            tmpelem = extensionsmap.value(CGpx::gpxwpx_ns + ":" + "WaypointExtension");
+            tmpelem = extensionsmap.value(CGpx::wptx1_ns + ":" + "WaypointExtension");
             if(!tmpelem.isNull())
             {
                 QMap<QString,QDomElement> waypointextensionmap = CGpx::mapChildElements(tmpelem);
 
-                tmpelem = waypointextensionmap.value(CGpx::gpxwpx_ns + ":" + "Proximity");
+                tmpelem = waypointextensionmap.value(CGpx::wptx1_ns + ":" + "Proximity");
                 if(!tmpelem.isNull())
                 {
                     wpt->prx = tmpelem.text().toDouble();
@@ -680,20 +680,12 @@ void CWptDB::saveGPX(CGpx& gpx, const QStringList& keys)
         }
 
 
-        if(wpt->prx != 1e25f || !wpt->getParentWpt().isEmpty())
+        if(!wpt->getParentWpt().isEmpty())
         {
             QDomElement extensions = gpx.createElement("extensions");
             waypoint.appendChild(extensions);
             QDomElement gpxx_ext = gpx.createElement("gpxx:WaypointExtension");
             extensions.appendChild(gpxx_ext);
-
-            if(wpt->prx != 1e25f)
-            {
-                QDomElement proximity = gpx.createElement("gpxx:Proximity");
-                gpxx_ext.appendChild(proximity);
-                QDomText _proximity_ = gpx.createTextNode(QString::number(wpt->prx));
-                proximity.appendChild(_proximity_);
-            }
 
 
             if(!wpt->getParentWpt().isEmpty() && (gpx.getExportMode() == CGpx::eQlgtExport))
@@ -702,6 +694,22 @@ void CWptDB::saveGPX(CGpx& gpx, const QStringList& keys)
                 extensions.appendChild(parent);
                 QDomText _parent_ = gpx.createTextNode(wpt->getParentWpt());
                 parent.appendChild(_parent_);
+            }
+        }
+
+        if(wpt->prx != 1e25f)
+        {
+            QDomElement extensions = gpx.createElement("extensions");
+            waypoint.appendChild(extensions);
+            QDomElement gpxx_ext = gpx.createElement("wptx1:WaypointExtension");
+            extensions.appendChild(gpxx_ext);
+
+            if(wpt->prx != 1e25f)
+            {
+                QDomElement proximity = gpx.createElement("wptx1:Proximity");
+                gpxx_ext.appendChild(proximity);
+                QDomText _proximity_ = gpx.createTextNode(QString::number(wpt->prx));
+                proximity.appendChild(_proximity_);
             }
         }
 
