@@ -65,5 +65,6 @@ class CDlgEditWpt : public QDialog, private Ui::IDlgEditWpt
 #ifdef HAS_DMTX
         DmtxEncode * enc;
 #endif
+        QString name;
 };
 #endif                           //CDLGEDITWPT_H
