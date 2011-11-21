@@ -67,7 +67,7 @@ CMainWindow::CMainWindow()
 #else
     : modified(false)
 #endif
-
+    , crashed(false)
 {
     theMainWindow = this;
     groupProvidedMenu = 0;
@@ -257,7 +257,10 @@ CMainWindow::CMainWindow()
     statusBar()->addPermanentWidget(statusCoord);
 
     QSettings cfg;
-    pathData = cfg.value("path/data","./").toString();
+    crashed     = cfg.value("mainWidget/crashed",false).toBool();
+    cfg.setValue("mainWidget/crashed",true);
+
+    pathData    = cfg.value("path/data","./").toString();
 
     mapdb       = new CMapDB(tabbar, this);
     wptdb       = new CWptDB(tabbar, this);
@@ -437,9 +440,11 @@ CMainWindow::~CMainWindow()
     QSettings cfg;
     cfg.setValue("mainWidget/mainSplitter",mainSplitter->saveState());
     cfg.setValue("mainWidget/leftSplitter",leftSplitter->saveState());
-    cfg.setValue("path/data",pathData);
     cfg.setValue("mainWidget/geometry", geometry());
+    cfg.setValue("mainWidget/crashed",false);
+    cfg.setValue("path/data",pathData);
     cfg.setValue("geodata/mostRecent", mostRecent);
+
     canvas = 0;
 }
 

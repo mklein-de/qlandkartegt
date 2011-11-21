@@ -111,6 +111,17 @@ CMapDB::CMapDB(QTabWidget * tb, QObject * parent)
         knownMaps[m.key] = m;
     }
 
+    if(theMainWindow->didCrash())
+    {
+        int res = QMessageBox::warning(0,tr("Crash detected...."), tr("QLandkarte GT was terminated with a crash. This is really bad. A common reason for that is a bad map. Do you really want to load the last map?"), QMessageBox::Yes|QMessageBox::No, QMessageBox::Yes);
+        if(res == QMessageBox::No)
+        {
+            cfg.setValue("maps/visibleMaps","");
+            emit sigChanged();
+            return;
+        }
+    }
+
     maps = cfg.value("maps/visibleMaps","").toString().split("|",QString::SkipEmptyParts);
     cfg.setValue("maps/visibleMaps","");
     cfg.sync();
@@ -118,18 +129,10 @@ CMapDB::CMapDB(QTabWidget * tb, QObject * parent)
     foreach(map, maps)
     {
         openMap(map, false, *theMainWindow->getCanvas());
-        //         QFileInfo fi(map);
-        //         QString ext = fi.suffix();
-        //         if(ext == "qmap") {
-        //             theMap = new CMapQMAP(map,theMainWindow->getCanvas());
-        //         }
-        //         else{
-        //             theMap = new CMapRaster(map,theMainWindow->getCanvas());
-        //         }
-        //TODO: has to be removed for several layers
         break;
     }
     cfg.setValue("maps/visibleMaps",maps.join("|"));
+
 
     emit sigChanged();
 

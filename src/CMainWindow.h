@@ -71,6 +71,8 @@ class CMainWindow : public QMainWindow
         void exportToOcm();
         void loadData(const QString& filename, const QString& filter);
 
+        bool didCrash(){return crashed;}
+
     protected:
         void closeEvent(QCloseEvent * e);
         void dragEnterEvent(QDragEnterEvent *event);
@@ -185,6 +187,8 @@ class CMainWindow : public QMainWindow
 #ifdef HAS_DBUS
         CDBus * dbus;
 #endif
+        bool locked;
+        bool crashed;
 
 };
 
