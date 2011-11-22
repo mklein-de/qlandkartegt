@@ -348,7 +348,7 @@ CMainWindow::CMainWindow()
     }
 
     sizes.clear();
-    sizes << 200 << 50 << 50;
+    sizes << 40 << 60;
     rightSplitter->setSizes(sizes);
 
     connect(&CMapDB::self(), SIGNAL(sigChanged()), this, SLOT(slotDataChanged()));
@@ -1477,7 +1477,6 @@ void CMainWindow::addRecent(const QString& filename)
 
 void CMainWindow::setTempWidget(QWidget * w, const QString& label)
 {
-//    rightSplitter->addWidget(w);
     tmpTabWidget->addTab(w, label);
     tmpTabWidget->show();
     tmpTabWidget->setCurrentWidget(w);
