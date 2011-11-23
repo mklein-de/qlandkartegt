@@ -194,7 +194,7 @@ CTrackEditWidget::CTrackEditWidget(QWidget * parent)
     connect(&CTrackDB::self(), SIGNAL(sigChanged()), this, SLOT(slotStagesChanged()));
     connect(checkStages, SIGNAL(stateChanged(int)), this, SLOT(slotStagesChanged(int)));
 
-    connect(textStages, SIGNAL(cursorPositionChanged()), this, SLOT(slotCursorPositionChanged()));
+    //connect(textStages, SIGNAL(cursorPositionChanged()), this, SLOT(slotCursorPositionChanged()));
 }
 
 
