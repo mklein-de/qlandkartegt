@@ -122,12 +122,31 @@ void CDeviceGarminBulk::downloadWpts(QList<CWpt*>& /*wpts*/)
         return;
     }
 
+    dir.cd("GPX");
+
     QStringList files = dir.entryList(QStringList("*gpx"));
     foreach(const QString& filename, files)
     {
         CGpx gpx(this, CGpx::eCleanExport);
         gpx.load(dir.absoluteFilePath(filename));
         CWptDB::self().loadGPX(gpx);
+    }
+
+    dir.cdUp();
+    dir.cd("JPEG");
+
+    const QMap<QString,CWpt*>& wpts = CWptDB::self().getWpts();
+    foreach(CWpt * wpt, wpts)
+    {
+        if(wpt->link.startsWith("Garmin/JPEG/"))
+        {
+            CWpt::image_t img;
+            img.pixmap.load(dir.absoluteFilePath(wpt->link.mid(12)));
+            if(!img.pixmap.isNull())
+            {
+                wpt->images << img;
+            }
+        }
     }
 }
 
