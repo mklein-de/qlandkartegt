@@ -22,6 +22,9 @@
 **********************************************************************************************/
 
 #include "CDeviceGarminBulk.h"
+#include "CGpx.h"
+#include "CWptDB.h"
+#include "CTrackDB.h"
 
 #include <QtGui>
 
@@ -36,15 +39,96 @@ CDeviceGarminBulk::~CDeviceGarminBulk()
 
 }
 
-void CDeviceGarminBulk::uploadWpts(const QList<CWpt*>& /*wpts*/)
+bool CDeviceGarminBulk::aquire(QDir& dir)
 {
-    QMessageBox::information(0,tr("Error..."), tr("Garmin Mass Storage: Upload waypoints is not implemented."),QMessageBox::Abort,QMessageBox::Abort);
+    QSettings cfg;
+    QString path = cfg.value("device/path","").toString();
+    dir.setPath(path);
+
+    if(!dir.exists() || dir.absolutePath() != path || !dir.exists("GPX") || !dir.exists("JPEG"))
+    {
+        while(1)
+        {
+            path = QFileDialog::getExistingDirectory(0, "Path to Garmin device...", dir.absolutePath());
+            if(path.isEmpty())
+            {
+                return false;
+            }
+            dir.setPath(path);
+
+            if(!dir.exists("GPX"))
+            {
+                QMessageBox::critical(0, tr("Missing..."), tr("The selected path must have a subdirectory 'GPX'."), QMessageBox::Abort, QMessageBox::Abort);
+                continue;
+            }
+
+            if(!dir.exists("JPEG"))
+            {
+                QMessageBox::critical(0, tr("Missing..."), tr("The selected path must have a subdirectory 'JPEG'."), QMessageBox::Abort, QMessageBox::Abort);
+                continue;
+            }
+
+            break;
+        }
+    }
+    cfg.setValue("device/path", path);
+    return true;
+}
+
+void CDeviceGarminBulk::uploadWpts(const QList<CWpt*>& wpts)
+{
+    //QMessageBox::information(0,tr("Error..."), tr("Garmin Mass Storage: Upload waypoints is not implemented."),QMessageBox::Abort,QMessageBox::Abort);
+    QDir dir;
+    if(!aquire(dir))
+    {
+        return;
+    }
+
+
+    dir.cd("JPEG");
+
+    QStringList keys;
+    foreach(CWpt* wpt, wpts)
+    {
+        keys << wpt->getKey();
+        if(!wpt->images.isEmpty())
+        {
+            CWpt::image_t img = wpt->images.first();
+            img.pixmap.save(dir.absoluteFilePath(wpt->getName() + ".jpg"));
+            wpt->link = "Garmin/JPEG/" + wpt->getName() + ".jpg";
+        }
+    }
+
+    dir.cdUp();
+    dir.cd("GPX");
+
+    CGpx gpx(this, CGpx::eCleanExport);
+    CWptDB::self().saveGPX(gpx, keys);
+    //2008-04-28T20:38:19Z
+    QString filename = QString("WPT_%1.gpx").arg(QDateTime::currentDateTimeUtc().toString("yyyy-MM-dd"));
+    gpx.save(dir.absoluteFilePath(filename));
+
+    dir.cdUp();
+
 }
 
 
 void CDeviceGarminBulk::downloadWpts(QList<CWpt*>& /*wpts*/)
 {
-    QMessageBox::information(0,tr("Error..."), tr("Garmin Mass Storage: Download waypoints is not implemented."),QMessageBox::Abort,QMessageBox::Abort);
+    //QMessageBox::information(0,tr("Error..."), tr("Garmin Mass Storage: Download waypoints is not implemented."),QMessageBox::Abort,QMessageBox::Abort);
+    QDir dir;
+    if(!aquire(dir))
+    {
+        return;
+    }
+
+    QStringList files = dir.entryList(QStringList("*gpx"));
+    foreach(const QString& filename, files)
+    {
+        CGpx gpx(this, CGpx::eCleanExport);
+        gpx.load(dir.absoluteFilePath(filename));
+        CWptDB::self().loadGPX(gpx);
+    }
 }
 
 

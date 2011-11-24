@@ -49,6 +49,9 @@ class CDeviceGarminBulk : public IDevice
 
         void downloadScreenshot(QImage& image);
 
+
+    private:
+        bool aquire(QDir& dir);
 };
 
 #endif //CDEVICEGARMINBULK_H
