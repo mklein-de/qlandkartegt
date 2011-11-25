@@ -176,51 +176,95 @@ void IMouse::drawSelWpt(QPainter& p)
             return;
         }
 
-        QString         str = selWpt->getInfo();
-        QFont           f   = CResources::self().getMapFont();
-        QFontMetrics    fm(f);
-        QRect           r1  = fm.boundingRect(QRect(0,0,300,0), Qt::AlignLeft|Qt::AlignTop|Qt::TextWordWrap, str);
-        r1.moveTopLeft(QPoint(u + 55, v));
+        QPixmap pic;
+        int wPic = 0;
+        int hPic = 0;
+        if(!selWpt->images.isEmpty())
+        {
+            pic = selWpt->images[0].pixmap.scaledToWidth(80);
+            wPic = pic.width();
+            hPic = pic.height();
+        }
 
-        QRect           r2 = r1;
-        r2.setWidth(r1.width() + 20);
-        r2.moveLeft(r1.left() - 10);
-        r2.setHeight(r1.height() + 20);
-        r2.moveTop(r1.top() - 10);
+        QString         str     = selWpt->getInfo();
+        QFont           f       = CResources::self().getMapFont();
+        QFontMetrics    fm(f);
+        QRect           rText   = fm.boundingRect(QRect(0,0,300,0), Qt::AlignLeft|Qt::AlignTop|Qt::TextWordWrap, str);
+
+        QRect           rFrame(0, 0, 1,1);
+
+        if(!pic.isNull())
+        {
+            rFrame.setWidth(rText.width() + 30 + wPic);
+            rFrame.setHeight((hPic > rText.height() ? hPic : rText.height()) + 20);
+            rText.moveTopLeft(QPoint(20 + wPic, 10));
+        }
+        else
+        {
+            rFrame.setWidth(rText.width() + 20);
+            rFrame.setHeight(rText.height() + 20);
+            rText.moveTopLeft(QPoint(10, 10));
+        }
+
+        p.save();
+        p.translate(u + 45, v);
 
         p.setPen(CCanvas::penBorderBlue);
         p.setBrush(CCanvas::brushBackWhite);
-        PAINT_ROUNDED_RECT(p,r2);
-
+        PAINT_ROUNDED_RECT(p,rFrame);
 
         p.setFont(CResources::self().getMapFont());
         p.setPen(Qt::darkBlue);
-        p.drawText(r1, Qt::AlignJustify|Qt::AlignTop|Qt::TextWordWrap,str);
+        p.drawText(rText, Qt::AlignJustify|Qt::AlignTop|Qt::TextWordWrap,str);
 
-        if(!selWpt->images.isEmpty())
+        if(!pic.isNull())
         {
-            QRect r = selWpt->images[0].pixmap.rect();
-
-            if(r.width() > 300)
-            {
-                qint32 h = r.height() * 300 / r.width();
-
-                r.setWidth(300);
-                r.setHeight(h);
-            }
-
-            p.save();
-            p.translate(u - (r.width() + 45), v);
-            r.adjust(-1,-1,+1,+1);
-
-            p.drawPixmap(0,0,selWpt->images[0].pixmap.scaled(r.size(), Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
-
-            p.setPen(CCanvas::penBorderBlue);
-            p.setBrush(Qt::NoBrush);
-            PAINT_ROUNDED_RECT(p,r);
-
-            p.restore();
+            p.drawPixmap(10,10, pic);
         }
+
+        p.restore();
+
+//        r1.moveTopLeft(QPoint(u + 55, v));
+
+//        QRect           r2 = r1;
+//        r2.setWidth(r1.width() + 20 + wPic);
+//        r2.moveLeft(r1.left() - 10);
+//        r2.setHeight((hPic > r1.height() ? hPic : r1.height()) + 20);
+//        r2.moveTop(r1.top() - 10);
+
+//        p.setPen(CCanvas::penBorderBlue);
+//        p.setBrush(CCanvas::brushBackWhite);
+//        PAINT_ROUNDED_RECT(p,r2);
+
+
+//        p.setFont(CResources::self().getMapFont());
+//        p.setPen(Qt::darkBlue);
+//        p.drawText(r1, Qt::AlignJustify|Qt::AlignTop|Qt::TextWordWrap,str);
+
+//        if(!selWpt->images.isEmpty())
+//        {
+//            QRect r = selWpt->images[0].pixmap.rect();
+
+//            if(r.width() > 300)
+//            {
+//                qint32 h = r.height() * 300 / r.width();
+
+//                r.setWidth(300);
+//                r.setHeight(h);
+//            }
+
+//            p.save();
+//            p.translate(u - (r.width() + 45), v);
+//            r.adjust(-1,-1,+1,+1);
+
+//            p.drawPixmap(0,0,selWpt->images[0].pixmap.scaled(r.size(), Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
+
+//            p.setPen(CCanvas::penBorderBlue);
+//            p.setBrush(Qt::NoBrush);
+//            PAINT_ROUNDED_RECT(p,r);
+
+//            p.restore();
+//        }
 
     }
 }
@@ -624,7 +668,7 @@ void IMouse::mouseMoveEventTrack(QMouseEvent * e)
     }
 
     if(oldTrackPt != selTrkPt)
-    {        
+    {
         canvas->update();
         emit sigTrkPt(selTrkPt);
     }
