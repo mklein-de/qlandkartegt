@@ -126,7 +126,7 @@ class CTrackEditWidget : public QWidget, private Ui::ITrackEditWidget
             ,eMaxColumn = 10
         };
 
-        enum eTblCol{eSym, eInfo, eEle, eToNext, eTotal, eComment, eMax};
+        enum eTblCol{eSym, eInfo, ePic, eEle, eToNext, eTotal, eComment, eMax};
 
         enum eTabs {eStages, ePoints, eSetup};
 

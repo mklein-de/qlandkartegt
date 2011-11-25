@@ -173,6 +173,7 @@ void CRouteDB::loadGPX(CGpx& gpx)
     for(uint n = 0; n < N; ++n)
     {
         hasItems = true;
+        QDomElement tmpelem;
         const QDomNode& rte = rtes.item(n);
 
         CRoute * r = 0;
@@ -195,6 +196,19 @@ void CRouteDB::loadGPX(CGpx& gpx)
                 r = new CRoute(this);
                 r->setName(tr("Unnamed"));
             }
+        }
+
+        tmpelem = rte.namedItem("extensions").toElement();
+        if(!tmpelem.isNull())
+        {
+            QMap<QString,QDomElement> extensionsmap = CGpx::mapChildElements(tmpelem);
+
+            tmpelem = extensionsmap.value(CGpx::ql_ns + ":" + "key");
+            if(!tmpelem.isNull())
+            {
+                r->setKey(tmpelem.text());
+            }
+
         }
 
         if(rte.namedItem("parent").isElement())
@@ -264,19 +278,27 @@ void CRouteDB::saveGPX(CGpx& gpx, const QStringList& keys)
         }
 
 
-        QDomElement gpxRoute = gpx.createElement("rte");
-        root.appendChild(gpxRoute);
+        QDomElement rte = gpx.createElement("rte");
+        root.appendChild(rte);
 
         QDomElement name = gpx.createElement("name");
-        gpxRoute.appendChild(name);
+        rte.appendChild(name);
         QDomText _name_ = gpx.createTextNode((*route)->getName());
         name.appendChild(_name_);
+
+        QDomElement extensions = gpx.createElement("extensions");
+        rte.appendChild(extensions);
+
+        QDomElement qlkey = gpx.createElement("ql:key");
+        extensions.appendChild(qlkey);
+        QDomText _qlkey_ = gpx.createTextNode((*route)->getKey());
+        qlkey.appendChild(_qlkey_);
 
         if(!(*route)->getParentWpt().isEmpty())
         {
             QDomElement parent = gpx.createElement("parent");
             parent.setAttribute("xmlns", "http://opencachemanage.sourceforge.net/schema1");
-            gpxRoute.appendChild(parent);
+            rte.appendChild(parent);
             QDomText _parent_ = gpx.createTextNode((*route)->getParentWpt());
             parent.appendChild(_parent_);
         }
@@ -301,7 +323,7 @@ void CRouteDB::saveGPX(CGpx& gpx, const QStringList& keys)
             }
 
             QDomElement gpxRtept = gpx.createElement("rtept");
-            gpxRoute.appendChild(gpxRtept);
+            rte.appendChild(gpxRtept);
 
             gpxRtept.setAttribute("lat",QString::number(rtept->lat,'f',6));
             gpxRtept.setAttribute("lon",QString::number(rtept->lon,'f',6));

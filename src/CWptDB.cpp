@@ -483,7 +483,6 @@ void CWptDB::loadGPX(CGpx& gpx)
             wpt->setParentWpt(waypoint.namedItem("parent").toElement().text());
         }
 
-
         if(waypoint.namedItem("extensions").isElement())
         {
             QDomElement tmpelem;
@@ -517,13 +516,19 @@ void CWptDB::loadGPX(CGpx& gpx)
                 }
             }
 
-
+            // parent (cache) waypoint
             tmpelem = extensionsmap.value(CGpx::ql_ns + ":" + "parent");
             if(!tmpelem.isNull())
             {
                 wpt->setParentWpt(tmpelem.text());
             }
 
+            // the qlgt internal item key
+            tmpelem = extensionsmap.value(CGpx::ql_ns + ":" + "key");
+            if(!tmpelem.isNull())
+            {
+                wpt->setKey(tmpelem.text());
+            }
 
             // QLandkarteGT backward compatibility
             if (gpx.version() == CGpx::qlVer_1_0)
@@ -680,10 +685,10 @@ void CWptDB::saveGPX(CGpx& gpx, const QStringList& keys)
         }
 
 
+        QDomElement extensions = gpx.createElement("extensions");
+        waypoint.appendChild(extensions);
         if(!wpt->getParentWpt().isEmpty())
         {
-            QDomElement extensions = gpx.createElement("extensions");
-            waypoint.appendChild(extensions);
             QDomElement gpxx_ext = gpx.createElement("gpxx:WaypointExtension");
             extensions.appendChild(gpxx_ext);
 
@@ -699,8 +704,6 @@ void CWptDB::saveGPX(CGpx& gpx, const QStringList& keys)
 
         if(wpt->prx != 1e25f)
         {
-            QDomElement extensions = gpx.createElement("extensions");
-            waypoint.appendChild(extensions);
             QDomElement gpxx_ext = gpx.createElement("wptx1:WaypointExtension");
             extensions.appendChild(gpxx_ext);
 
@@ -710,6 +713,12 @@ void CWptDB::saveGPX(CGpx& gpx, const QStringList& keys)
             proximity.appendChild(_proximity_);
 
         }
+
+        QDomElement qlkey = gpx.createElement("ql:key");
+        extensions.appendChild(qlkey);
+        QDomText _qlkey_ = gpx.createTextNode(wpt->getKey());
+        qlkey.appendChild(_qlkey_);
+
 
         wpt->saveGpxExt(waypoint, gpx.getExportMode());
 

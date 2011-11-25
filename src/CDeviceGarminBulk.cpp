@@ -25,6 +25,9 @@
 #include "CGpx.h"
 #include "CWptDB.h"
 #include "CTrackDB.h"
+#include "CTrack.h"
+#include "CRouteDB.h"
+#include "CRoute.h"
 
 #include <QtGui>
 
@@ -45,7 +48,7 @@ bool CDeviceGarminBulk::aquire(QDir& dir)
     QString path = cfg.value("device/path","").toString();
     dir.setPath(path);
 
-    if(!dir.exists() || dir.absolutePath() != path || !dir.exists("GPX") || !dir.exists("JPEG"))
+    if(!dir.exists() || dir.absolutePath() != path || !dir.exists("GPX") || (!dir.exists("JPEG") && !dir.exists("Pictures")))
     {
         while(1)
         {
@@ -62,9 +65,9 @@ bool CDeviceGarminBulk::aquire(QDir& dir)
                 continue;
             }
 
-            if(!dir.exists("JPEG"))
+            if(!dir.exists("JPEG") && !dir.exists("Pictures"))
             {
-                QMessageBox::critical(0, tr("Missing..."), tr("The selected path must have a subdirectory 'JPEG'."), QMessageBox::Abort, QMessageBox::Abort);
+                QMessageBox::critical(0, tr("Missing..."), tr("The selected path must have a subdirectory 'JPEG' or 'Pictures'."), QMessageBox::Abort, QMessageBox::Abort);
                 continue;
             }
 
@@ -84,8 +87,14 @@ void CDeviceGarminBulk::uploadWpts(const QList<CWpt*>& wpts)
         return;
     }
 
-
-    dir.cd("JPEG");
+    if(dir.exists("JPEG"))
+    {
+        dir.cd("JPEG");
+    }
+    else if(dir.exists("Pictures"))
+    {
+        dir.cd("Pictures");
+    }
 
     QStringList keys;
     foreach(CWpt* wpt, wpts)
@@ -104,7 +113,6 @@ void CDeviceGarminBulk::uploadWpts(const QList<CWpt*>& wpts)
 
     CGpx gpx(this, CGpx::eCleanExport);
     CWptDB::self().saveGPX(gpx, keys);
-    //2008-04-28T20:38:19Z
     QString filename = QString("WPT_%1.gpx").arg(QDateTime::currentDateTimeUtc().toString("yyyy-MM-dd"));
     gpx.save(dir.absoluteFilePath(filename));
 
@@ -151,27 +159,114 @@ void CDeviceGarminBulk::downloadWpts(QList<CWpt*>& /*wpts*/)
 }
 
 
-void CDeviceGarminBulk::uploadTracks(const QList<CTrack*>& /*trks*/)
+void CDeviceGarminBulk::uploadTracks(const QList<CTrack*>& trks)
 {
-    QMessageBox::information(0,tr("Error..."), tr("Garmin Mass Storage: Upload tracks is not implemented."),QMessageBox::Abort,QMessageBox::Abort);
+    //QMessageBox::information(0,tr("Error..."), tr("Garmin Mass Storage: Upload tracks is not implemented."),QMessageBox::Abort,QMessageBox::Abort);
+    QDir dir;
+    if(!aquire(dir))
+    {
+        return;
+    }
+
+    QStringList keys;
+    foreach(CTrack* trk, trks)
+    {
+        keys << trk->getKey();
+    }
+
+    dir.cd("GPX");
+
+    CGpx gpx(this, CGpx::eCleanExport);
+    CTrackDB::self().saveGPX(gpx, keys);
+    QString filename = QString("TRK_%1.gpx").arg(QDateTime::currentDateTimeUtc().toString("yyyy-MM-dd"));
+    gpx.save(dir.absoluteFilePath(filename));
+
+    dir.cdUp();
 }
 
 
 void CDeviceGarminBulk::downloadTracks(QList<CTrack*>& /*trks*/)
 {
-    QMessageBox::information(0,tr("Error..."), tr("Garmin Mass Storage: Download tracks is not implemented."),QMessageBox::Abort,QMessageBox::Abort);
+    //QMessageBox::information(0,tr("Error..."), tr("Garmin Mass Storage: Download tracks is not implemented."),QMessageBox::Abort,QMessageBox::Abort);
+    QDir dir;
+    if(!aquire(dir))
+    {
+        return;
+    }
+
+    dir.cd("GPX");
+
+    QStringList files = dir.entryList(QStringList("*gpx"));
+    foreach(const QString& filename, files)
+    {
+        CGpx gpx(this, CGpx::eCleanExport);
+        gpx.load(dir.absoluteFilePath(filename));
+        CTrackDB::self().loadGPX(gpx);
+    }
+
+    if(dir.exists("Current"))
+    {
+        dir.cd("Current");
+        QStringList files = dir.entryList(QStringList("*gpx"));
+        foreach(const QString& filename, files)
+        {
+            CGpx gpx(this, CGpx::eCleanExport);
+            gpx.load(dir.absoluteFilePath(filename));
+            CTrackDB::self().loadGPX(gpx);
+        }
+        dir.cdUp();
+    }
+
+    dir.cdUp();
 }
 
 
-void CDeviceGarminBulk::uploadRoutes(const QList<CRoute*>& /*rtes*/)
+void CDeviceGarminBulk::uploadRoutes(const QList<CRoute*>& rtes)
 {
-    QMessageBox::information(0,tr("Error..."), tr("Garmin Mass Storage: Upload routes is not implemented."),QMessageBox::Abort,QMessageBox::Abort);
+    //QMessageBox::information(0,tr("Error..."), tr("Garmin Mass Storage: Upload routes is not implemented."),QMessageBox::Abort,QMessageBox::Abort);
+    QDir dir;
+    if(!aquire(dir))
+    {
+        return;
+    }
+
+    QStringList keys;
+    foreach(CRoute* rte, rtes)
+    {
+        keys << rte->getKey();
+    }
+
+    dir.cd("GPX");
+
+    CGpx gpx(this, CGpx::eCleanExport);
+    CRouteDB::self().saveGPX(gpx, keys);
+    QString filename = QString("RTE_%1.gpx").arg(QDateTime::currentDateTimeUtc().toString("yyyy-MM-dd"));
+    gpx.save(dir.absoluteFilePath(filename));
+
+    dir.cdUp();
 }
 
 
 void CDeviceGarminBulk::downloadRoutes(QList<CRoute*>& /*rtes*/)
 {
-    QMessageBox::information(0,tr("Error..."), tr("Garmin Mass Storage: Download routes is not implemented."),QMessageBox::Abort,QMessageBox::Abort);
+    //QMessageBox::information(0,tr("Error..."), tr("Garmin Mass Storage: Download routes is not implemented."),QMessageBox::Abort,QMessageBox::Abort);
+    QDir dir;
+    if(!aquire(dir))
+    {
+        return;
+    }
+
+    dir.cd("GPX");
+
+    QStringList files = dir.entryList(QStringList("*gpx"));
+    foreach(const QString& filename, files)
+    {
+        CGpx gpx(this, CGpx::eCleanExport);
+        gpx.load(dir.absoluteFilePath(filename));
+        CRouteDB::self().loadGPX(gpx);
+    }
+
+    dir.cdUp();
 }
 
 

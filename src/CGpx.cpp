@@ -108,7 +108,7 @@ void CGpx::writeMetadata()
     root.setAttribute("xmlns:gpxtpx",gpxtpx_ns);
     root.setAttribute("xmlns:wptx1",wptx1_ns);
     root.setAttribute("xmlns:rmc",rmc_ns);
-    if (exportMode == eQlgtExport)
+    //if (exportMode == eQlgtExport)
     {
         root.setAttribute("xmlns:ql",ql_ns);
     }
@@ -120,7 +120,7 @@ void CGpx::writeMetadata()
         + gpxtpx_ns + " http://www.garmin.com/xmlschemas/TrackPointExtensionv1.xsd "
         + wptx1_ns  + " http://www.garmin.com/xmlschemas/WaypointExtensionv1.xsd";
 
-    if (exportMode == eQlgtExport)
+    //if (exportMode == eQlgtExport)
     {
         schemaLocation += " ";
         schemaLocation += ql_ns;

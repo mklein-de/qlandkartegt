@@ -226,6 +226,13 @@ void CTrackDB::loadGPX(CGpx& gpx)
                     if (colorID >= 0) track->setColor(colorID);
                 }
             }
+
+            tmpelem = extensionsmap.value(CGpx::ql_ns + ":" + "key");
+            if(!tmpelem.isNull())
+            {
+                track->setKey(tmpelem.text());
+            }
+
         }
 
         // QLandkarteGT backward compatibility
@@ -235,9 +242,9 @@ void CTrackDB::loadGPX(CGpx& gpx)
             tmpelem = trkmap.value("extension");
             if(!tmpelem.isNull())
             {
-                QMap<QString,QDomElement> trkextensionmap = CGpx::mapChildElements(tmpelem);
+                QMap<QString,QDomElement> extensionsmap = CGpx::mapChildElements(tmpelem);
 
-                tmpelem = trkextensionmap.value("color");
+                tmpelem = extensionsmap.value("color");
                 if(!tmpelem.isNull()) track->setColor(tmpelem.text().toUInt());
             }
         }
@@ -462,11 +469,11 @@ void CTrackDB::saveGPX(CGpx& gpx, const QStringList& keys)
             parent.appendChild(_parent_);
         }
 
-        QDomElement ext = gpx.createElement("extensions");
-        trk.appendChild(ext);
+        QDomElement extensions = gpx.createElement("extensions");
+        trk.appendChild(extensions);
 
         QDomElement gpxx_ext = gpx.createElement("gpxx:TrackExtension");
-        ext.appendChild(gpxx_ext);
+        extensions.appendChild(gpxx_ext);
 
         QDomElement color = gpx.createElement("gpxx:DisplayColor");
         gpxx_ext.appendChild(color);
@@ -475,6 +482,10 @@ void CTrackDB::saveGPX(CGpx& gpx, const QStringList& keys)
         QDomText _color_ = gpx.createTextNode(colname);
         color.appendChild(_color_);
 
+        QDomElement qlkey = gpx.createElement("ql:key");
+        extensions.appendChild(qlkey);
+        QDomText _qlkey_ = gpx.createTextNode(track->getKey());
+        qlkey.appendChild(_qlkey_);
 
         QDomElement trkseg = gpx.createElement("trkseg");
         trk.appendChild(trkseg);
