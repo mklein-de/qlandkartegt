@@ -484,5 +484,6 @@
         <file>icons/face-laugh.png</file>
         <file>icons/face-plain.png</file>
         <file>icons/iconGraph32x32.png</file>
+        <file>icons/iconNewImage32x32.png</file>
     </qresource>
 </RCC>

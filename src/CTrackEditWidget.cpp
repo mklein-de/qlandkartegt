@@ -1399,6 +1399,7 @@ void CTrackEditWidget::updateStages(QList<CTrack::wpt_t>& wpts)
 
     // header -------------------------
     table->cellAt(0,eInfo).firstCursorPosition().insertText(tr("Info"));
+    table->cellAt(0,ePic).firstCursorPosition().insertText(tr("Picture"));
     table->cellAt(0,eEle).firstCursorPosition().insertText(tr("Ele. wpt/trk"));
     table->cellAt(0,eToNext).firstCursorPosition().insertText(tr("to Next"));
     table->cellAt(0,eTotal).firstCursorPosition().insertText(tr("Total"));
@@ -1444,6 +1445,14 @@ void CTrackEditWidget::updateStages(QList<CTrack::wpt_t>& wpts)
 
         table->cellAt(cnt,eSym).firstCursorPosition().insertImage(wpt.wpt->getIcon().toImage().scaledToWidth(16, Qt::SmoothTransformation));
         table->cellAt(cnt,eInfo).firstCursorPosition().insertText(wpt.wpt->getName(), fmtCharStandard);
+        if(!wpt.wpt->images.isEmpty())
+        {
+            table->cellAt(cnt,ePic).firstCursorPosition().insertImage(wpt.wpt->images.first().pixmap.scaledToWidth(32, Qt::SmoothTransformation).toImage());
+        }
+//        else
+//        {
+//            table->cellAt(cnt,ePic).firstCursorPosition().insertImage(":/icons/iconNewImage32x32.png");
+//        }
 
         QString strTimeToLast;
         QString strTimeTotal;
