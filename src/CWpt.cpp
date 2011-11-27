@@ -536,21 +536,27 @@ QString CWpt::getInfo()
             str += description.left(197) + "...";
         }
     }
+    else
+    {
+        QString cmt = comment;
+        cmt.remove(QRegExp("<head.*[^>]*><\\/head>"));
+        cmt.remove(QRegExp("<[^>]*>"));
+        cmt = cmt.simplified();
 
-//    if(comment.count())
-//    {
-//        if(str.count()) str += "\n";
+        if(cmt.count())
+        {
+            if(str.count()) str += "\n";
 
-//        if(comment.count() < 200)
-//        {
-//            str += comment;
-//        }
-//        else
-//        {
-//            str += comment.left(197) + "...";
-//        }
-
-//    }
+            if(cmt.count() < 200)
+            {
+                str += cmt;
+            }
+            else
+            {
+                str += cmt.left(197) + "...";
+            }
+        }
+    }
     return str;
 }
 

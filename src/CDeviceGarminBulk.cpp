@@ -102,9 +102,15 @@ void CDeviceGarminBulk::uploadWpts(const QList<CWpt*>& wpts)
         keys << wpt->getKey();
         if(!wpt->images.isEmpty())
         {
-            CWpt::image_t img = wpt->images.first();
-            img.pixmap.save(dir.absoluteFilePath(wpt->getName() + ".jpg"));
-            wpt->link = "Garmin/JPEG/" + wpt->getName() + ".jpg";
+            CWpt::image_t img   = wpt->images.first();
+            QString fn          = img.filename;
+            if(fn.isEmpty())
+            {
+                fn = wpt->getName() + ".jpg";
+            }
+
+            img.pixmap.save(dir.absoluteFilePath(fn));
+            wpt->link = "Garmin/JPEG/" + fn;
         }
     }
 

@@ -70,7 +70,7 @@ CDlgEditWpt::CDlgEditWpt(CWpt &wpt, QWidget * parent)
 
     name = wpt.getName();
     imageSelect->setWpt(&wpt);
-    connect(imageSelect, SIGNAL(sigChangedImage(int)), this, SLOT(showImage(int)));
+    connect(imageSelect, SIGNAL(sigSelectImage(const CImageSelect::img_t&)), this, SLOT(slotSelectImage(const CImageSelect::img_t&)));
 
 }
 
@@ -501,4 +501,21 @@ void CDlgEditWpt::slotToggleHint(bool show)
         }
     }
     webView->setHtml(html);
+}
+
+void CDlgEditWpt::slotSelectImage(const CImageSelect::img_t& src)
+{
+    wpt.images.clear();
+
+    CWpt::image_t tar;
+    tar.filename    = src.filename;
+    tar.info        = src.title;
+    tar.pixmap      = src.img;
+
+    wpt.images << tar;
+
+    showImage(0);
+
+    textComment->setText(src.title);
+
 }

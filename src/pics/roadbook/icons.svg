@@ -975,6 +975,44 @@
      inkscape:groupmode="layer"
      id="layer1">
     <g
+       id="g18519"
+       inkscape:export-filename="/home/oliver/data/cpp/QLandkarteGT/src/pics/roadbook/15.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90">
+      <rect
+         transform="scale(-1,1)"
+         y="572.36218"
+         x="-550"
+         height="150"
+         width="150"
+         id="rect3755-7-7-4-5-3-6"
+         style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:0.1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
+      <g
+         transform="translate(-5.433559,-3.5602937)"
+         id="g18513">
+        <g
+           id="g17939"
+           style="stroke-width:5;stroke-miterlimit:4;stroke-dasharray:none">
+          <path
+             inkscape:connector-curvature="0"
+             id="path17933"
+             d="m 475,697.36218 0,-50 -50,-50"
+             style="fill:none;stroke:#000000;stroke-width:5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
+          <path
+             inkscape:connector-curvature="0"
+             id="path17935"
+             d="m 475,647.36218 50,-50"
+             style="fill:none;stroke:#000000;stroke-width:5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
+        </g>
+        <path
+           style="fill:none;stroke:#000000;stroke-width:9;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;marker-start:url(#DotM-9-0-7-8-6);marker-end:url(#Arrow2Mend-2-6-8-8-8)"
+           d="m 475,697.36218 0,-50 55,-55"
+           id="path17943"
+           inkscape:connector-curvature="0"
+           sodipodi:nodetypes="ccc" />
+      </g>
+    </g>
+    <g
        id="g17150"
        inkscape:export-filename="/home/oliver/data/cpp/QLandkarteGT/src/pics/roadbook/01.png"
        inkscape:export-xdpi="90"
@@ -1466,44 +1504,6 @@
            d="m 475,692.36218 0,-80 65,0"
            id="path17239-5"
            inkscape:connector-curvature="0" />
-      </g>
-    </g>
-    <g
-       id="g18519"
-       inkscape:export-filename="/home/oliver/data/cpp/QLandkarteGT/src/pics/roadbook/15.png"
-       inkscape:export-xdpi="90"
-       inkscape:export-ydpi="90">
-      <rect
-         transform="scale(-1,1)"
-         y="572.36218"
-         x="-550"
-         height="150"
-         width="150"
-         id="rect3755-7-7-4-5-3-6"
-         style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:0.1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
-      <g
-         transform="translate(-5.433559,-3.5602937)"
-         id="g18513">
-        <g
-           id="g17939"
-           style="stroke-width:5;stroke-miterlimit:4;stroke-dasharray:none">
-          <path
-             inkscape:connector-curvature="0"
-             id="path17933"
-             d="m 475,697.36218 0,-50 -50,-50"
-             style="fill:none;stroke:#000000;stroke-width:5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
-          <path
-             inkscape:connector-curvature="0"
-             id="path17935"
-             d="m 475,647.36218 50,-50"
-             style="fill:none;stroke:#000000;stroke-width:5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
-        </g>
-        <path
-           style="fill:none;stroke:#000000;stroke-width:9;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;marker-start:url(#DotM-9-0-7-8-6);marker-end:url(#Arrow2Mend-2-6-8-8-8)"
-           d="m 475,697.36218 0,-50 55,-55"
-           id="path17943"
-           inkscape:connector-curvature="0"
-           sodipodi:nodetypes="ccc" />
       </g>
     </g>
     <g

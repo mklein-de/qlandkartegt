@@ -172,7 +172,7 @@ class CWpt : public IItem
         QString getEntry(const QString& tag, const QDomNode& parent);
         QString getEntryHtml(const QString& tag, const QDomNode& parent);
         QString htmlScale(float val);
-        QString insertBuddies(const QString& html);        
+        QString insertBuddies(const QString& html);
 
         geocache_t geocache;
 
@@ -196,6 +196,7 @@ class CWpt : public IItem
             QString info;
             QPixmap pixmap;
             QString filePath;
+            QString filename;
         };
         QList<image_t> images;
 

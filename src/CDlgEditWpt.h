@@ -22,6 +22,8 @@
 #include <QDialog>
 
 #include "ui_IDlgEditWpt.h"
+#include "CImageSelect.h"
+
 #ifdef HAS_DMTX
 #include <dmtx.h>
 #endif //HAS_DMTX
@@ -53,9 +55,10 @@ class CDlgEditWpt : public QDialog, private Ui::IDlgEditWpt
         void slotSaveBarcode();
         void slotUpdateBarcode();
         void slotToggleHint(bool show);
-        void showImage(int idx);
+        void slotSelectImage(const CImageSelect::img_t& img);
 
     private:
+        void showImage(int idx);
 
         CWpt &wpt;
         qint32 idxImg;

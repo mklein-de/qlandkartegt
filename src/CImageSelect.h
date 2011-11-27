@@ -37,9 +37,23 @@ class CImageSelect : public QWidget, private Ui::IImageSelect
 
         void setWpt(CWpt * pt){wpt = pt;}
 
+        struct img_t
+        {
+            img_t(const QString& title, const QString& fn, const QString& src)
+                : img(src)
+                , title(title)
+                , filename(fn)
+            {
+
+            }
+
+            QPixmap img;
+            QString title;
+            QString filename;
+        };
 
     signals:
-        void sigChangedImage(int);
+        void sigSelectImage(const CImageSelect::img_t& img);
 
     protected:
         void paintEvent(QPaintEvent * e);
@@ -47,18 +61,6 @@ class CImageSelect : public QWidget, private Ui::IImageSelect
         void mousePressEvent(QMouseEvent * e);
         void wheelEvent(QWheelEvent * e);
 
-        struct img_t
-        {
-            img_t(const QString& title, const QString& src)
-                : img(src)
-                , title(title)
-            {
-
-            }
-
-            QPixmap img;
-            QString title;
-        };
 
         QList<img_t> images;
         CWpt * wpt;
