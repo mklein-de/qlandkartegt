@@ -181,7 +181,7 @@ void IMouse::drawSelWpt(QPainter& p)
         int hPic = 0;
         if(!selWpt->images.isEmpty())
         {
-            pic = selWpt->images[0].pixmap.scaledToWidth(80);
+            pic = selWpt->images[0].pixmap.scaledToWidth(80,Qt::SmoothTransformation);
             wPic = pic.width();
             hPic = pic.height();
         }
@@ -223,48 +223,6 @@ void IMouse::drawSelWpt(QPainter& p)
         }
 
         p.restore();
-
-//        r1.moveTopLeft(QPoint(u + 55, v));
-
-//        QRect           r2 = r1;
-//        r2.setWidth(r1.width() + 20 + wPic);
-//        r2.moveLeft(r1.left() - 10);
-//        r2.setHeight((hPic > r1.height() ? hPic : r1.height()) + 20);
-//        r2.moveTop(r1.top() - 10);
-
-//        p.setPen(CCanvas::penBorderBlue);
-//        p.setBrush(CCanvas::brushBackWhite);
-//        PAINT_ROUNDED_RECT(p,r2);
-
-
-//        p.setFont(CResources::self().getMapFont());
-//        p.setPen(Qt::darkBlue);
-//        p.drawText(r1, Qt::AlignJustify|Qt::AlignTop|Qt::TextWordWrap,str);
-
-//        if(!selWpt->images.isEmpty())
-//        {
-//            QRect r = selWpt->images[0].pixmap.rect();
-
-//            if(r.width() > 300)
-//            {
-//                qint32 h = r.height() * 300 / r.width();
-
-//                r.setWidth(300);
-//                r.setHeight(h);
-//            }
-
-//            p.save();
-//            p.translate(u - (r.width() + 45), v);
-//            r.adjust(-1,-1,+1,+1);
-
-//            p.drawPixmap(0,0,selWpt->images[0].pixmap.scaled(r.size(), Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
-
-//            p.setPen(CCanvas::penBorderBlue);
-//            p.setBrush(Qt::NoBrush);
-//            PAINT_ROUNDED_RECT(p,r);
-
-//            p.restore();
-//        }
 
     }
 }

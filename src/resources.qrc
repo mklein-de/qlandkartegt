@@ -485,5 +485,32 @@
         <file>icons/face-plain.png</file>
         <file>icons/iconGraph32x32.png</file>
         <file>icons/iconNewImage32x32.png</file>
+        <file>pics/roadbook/01.png</file>
+        <file>pics/roadbook/02.png</file>
+        <file>pics/roadbook/03.png</file>
+        <file>pics/roadbook/04.png</file>
+        <file>pics/roadbook/05.png</file>
+        <file>pics/roadbook/06.png</file>
+        <file>pics/roadbook/07.png</file>
+        <file>pics/roadbook/08.png</file>
+        <file>pics/roadbook/09.png</file>
+        <file>pics/roadbook/10.png</file>
+        <file>pics/roadbook/11.png</file>
+        <file>pics/roadbook/12.png</file>
+        <file>pics/roadbook/13.png</file>
+        <file>pics/roadbook/14.png</file>
+        <file>pics/roadbook/15.png</file>
+        <file>pics/roadbook/16.png</file>
+        <file>pics/roadbook/17.png</file>
+        <file>pics/roadbook/18.png</file>
+        <file>pics/roadbook/19.png</file>
+        <file>pics/roadbook/20.png</file>
+        <file>pics/roadbook/21.png</file>
+        <file>pics/roadbook/22.png</file>
+        <file>pics/roadbook/23.png</file>
+        <file>pics/roadbook/25.png</file>
+        <file>pics/roadbook/26.png</file>
+        <file>pics/roadbook/27.png</file>
+        <file>pics/roadbook/28.png</file>
     </qresource>
 </RCC>

@@ -1398,11 +1398,11 @@ void CTrackEditWidget::updateStages(QList<CTrack::wpt_t>& wpts)
     }
 
     // header -------------------------
-    table->cellAt(0,eInfo).firstCursorPosition().insertText(tr("Info"));
+    table->cellAt(0,eInfo).firstCursorPosition().insertText(tr("Name\nProximity"));
     table->cellAt(0,ePic).firstCursorPosition().insertText(tr("Picture"));
     table->cellAt(0,eEle).firstCursorPosition().insertText(tr("Ele. wpt/trk"));
-    table->cellAt(0,eToNext).firstCursorPosition().insertText(tr("to Next"));
-    table->cellAt(0,eTotal).firstCursorPosition().insertText(tr("Total"));
+    table->cellAt(0,eToNext).firstCursorPosition().insertText(tr("to Next Dist./Time\nAsc./Desc."));
+    table->cellAt(0,eTotal).firstCursorPosition().insertText(tr("Total Dist./Time\nAsc./Desc."));
     table->cellAt(0,eComment).firstCursorPosition().insertText(tr("Comment"));
 
     // first entry -------------------------
@@ -1443,8 +1443,20 @@ void CTrackEditWidget::updateStages(QList<CTrack::wpt_t>& wpts)
             }
         }
 
+        QString proximity;
+        if(wpt.wpt->prx != WPT_NOFLOAT)
+        {
+            IUnit::self().meter2distance(wpt.wpt->prx, val, unit);
+
+            proximity = tr("%1 %2 %3").arg(QChar(0x27F4)).arg(val).arg(unit);
+        }
+        else
+        {
+            proximity = "-";
+        }
+
         table->cellAt(cnt,eSym).firstCursorPosition().insertImage(wpt.wpt->getIcon().toImage().scaledToWidth(16, Qt::SmoothTransformation));
-        table->cellAt(cnt,eInfo).firstCursorPosition().insertText(wpt.wpt->getName(), fmtCharStandard);
+        table->cellAt(cnt,eInfo).firstCursorPosition().insertText(tr("%1\n%2").arg(wpt.wpt->getName()).arg(proximity), fmtCharStandard);
         if(!wpt.wpt->images.isEmpty())
         {
             table->cellAt(cnt,ePic).firstCursorPosition().insertImage(wpt.wpt->images.first().pixmap.scaledToWidth(32, Qt::SmoothTransformation).toImage());
@@ -1509,6 +1521,7 @@ void CTrackEditWidget::updateStages(QList<CTrack::wpt_t>& wpts)
         {
             val2 = "-";
         }
+
 
         table->cellAt(cnt,eEle).firstCursorPosition().insertText(tr("%1/%2 %3").arg(val).arg(val2).arg(unit), fmtCharStandard);
         table->cellAt(cnt-1,eToNext).firstCursorPosition().insertText(tr("%1 %2\n%3").arg(strDistToLast).arg(strTimeToLast).arg(strAscToLast), fmtCharStandard);

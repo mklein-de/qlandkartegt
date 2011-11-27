@@ -222,6 +222,7 @@ set(qlandkarte_SRCS
     CHelpButton.cpp
     CSpline.cpp
     IItem.cpp
+    CImageSelect.cpp
 )
 
 if (WIN32)
@@ -378,6 +379,7 @@ set(qlandkarte_HDRS
     CHelpButton.h
     CSpline.h
     IItem.h
+    CImageSelect.h
 )
 
 SET(qlandkarte_UIS
@@ -426,6 +428,7 @@ SET(qlandkarte_UIS
     IGarminExport.ui
     IHelpDlg.ui
     IDiaryEdit.ui
+    IImageSelect.ui
 )
 
 SET(qlandkarte_RCS

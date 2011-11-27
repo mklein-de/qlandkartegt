@@ -69,6 +69,9 @@ CDlgEditWpt::CDlgEditWpt(CWpt &wpt, QWidget * parent)
 #endif
 
     name = wpt.getName();
+    imageSelect->setWpt(&wpt);
+    connect(imageSelect, SIGNAL(sigChangedImage(int)), this, SLOT(showImage(int)));
+
 }
 
 
