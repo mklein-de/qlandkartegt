@@ -158,6 +158,8 @@ void CDeviceGarminBulk::downloadWpts(QList<CWpt*>& /*wpts*/)
             img.pixmap.load(dir.absoluteFilePath(wpt->link.mid(12)));
             if(!img.pixmap.isNull())
             {
+                img.filename    = wpt->link.mid(12);
+                img.info        = wpt->getComment();
                 wpt->images << img;
             }
         }
