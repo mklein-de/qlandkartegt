@@ -1,3 +1,37 @@
+--- 2011.12.01 ---
+
+Request #340:
+3DView: add key bindings to raise and lower elevation
+
+Request #341:
+Add distance info for segments of a distance polyline
+
+Request #342:
+Improve performance of the ---OSM--- map
+
+Request #343:
+Enhance map export dialog
+
+Request #344:
+Automatically add name to new waypoints (auto-numbering)
+
+Bug     #345:
+Garmin: Fix GPX export for proximity distance
+
+Request #346:
+Add up and download support for Garmin Mass Storage devices.
+
+Request #347:
+Add pictures attached to waypoints to the track s stages table
+
+Request #348:
+Add pre-defined icons for driving instructions to waypoint edit dialog
+
+Request #349:
+Show picture attached to waypoint in waypoint info bubble, remove separate one
+
+
+
 --- 2011.11.07 ---
 
 Request #328:
@@ -1386,6 +1420,7 @@ Fixed bad calculation of proximity circle size
 
 Request #1:
 Initial release
+
 
 
 
