@@ -223,6 +223,7 @@ set(qlandkarte_SRCS
     CSpline.cpp
     IItem.cpp
     CImageSelect.cpp
+    CGridDB.cpp
 )
 
 if (WIN32)
@@ -380,7 +381,9 @@ set(qlandkarte_HDRS
     CSpline.h
     IItem.h
     CImageSelect.h
+    CGridDB.h
 )
+
 
 SET(qlandkarte_UIS
     ICopyright.ui

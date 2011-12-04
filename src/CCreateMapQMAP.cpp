@@ -55,7 +55,7 @@ CCreateMapQMAP::CCreateMapQMAP(QWidget * parent)
     connect(pushUp, SIGNAL(clicked()), this, SLOT(slotUp()));
     connect(pushDown, SIGNAL(clicked()), this, SLOT(slotDown()));
     connect(pushSave, SIGNAL(clicked()), this, SLOT(slotSaveMap()));
-    
+
     toolBox->setItemEnabled(1, false);
 }
 
@@ -135,8 +135,6 @@ void CCreateMapQMAP::mapData2Item(QTreeWidgetItem *& item)
     QStringList files = item->text(eFiles).split("; ",QString::SkipEmptyParts);
     QString     file;
     QString     projection;
-    double      xscale  = 0;
-    double      yscale  = 0;
     double      north   =  -90.0 * DEG_TO_RAD;
     double      west    = -180.0 * DEG_TO_RAD;
     double      south   =   90.0 * DEG_TO_RAD;
@@ -160,8 +158,6 @@ void CCreateMapQMAP::mapData2Item(QTreeWidgetItem *& item)
         }
         projection = map.strProj;
 
-        xscale = map.xscale;
-        yscale = map.yscale;
 
         if(north < map.lat1) north = map.lat1;
         if(south > map.lat2) south = map.lat2;

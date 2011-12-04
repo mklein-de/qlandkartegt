@@ -50,6 +50,7 @@
 #ifdef HAS_DBUS
 #include "CDBus.h"
 #endif
+#include "CGridDB.h"
 
 #include <QtGui>
 #ifdef WIN32
@@ -262,6 +263,7 @@ CMainWindow::CMainWindow()
 
     pathData    = cfg.value("path/data","./").toString();
 
+    griddb      = new CGridDB(this);
     mapdb       = new CMapDB(tabbar, this);
     wptdb       = new CWptDB(tabbar, this);
     trackdb     = new CTrackDB(tabbar, this);
@@ -271,6 +273,7 @@ CMainWindow::CMainWindow()
 
     diarydb     = new CDiaryDB(canvasTab, this);
     searchdb    = new CSearchDB(tabbar, this);
+
 #ifdef HAS_GEODB
     if(resources->useGeoDB())
     {

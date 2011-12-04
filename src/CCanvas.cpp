@@ -56,6 +56,7 @@
 #include "CCanvasUndoCommandZoom.h"
 #include "CMapUndoCommandMove.h"
 #include "CPlot.h"
+#include "CGridDB.h"
 
 #include <QtGui>
 
@@ -401,6 +402,7 @@ void CCanvas::draw(QPainter& p)
     CLiveLogDB::self().draw(p, rect(), needsRedraw);
     CWptDB::self().draw(p, rect(), needsRedraw);
     CSearchDB::self().draw(p, rect(), needsRedraw);
+    CGridDB::self().draw(p, rect(), needsRedraw);
 
     drawRefPoints(p);
     drawScale(p);

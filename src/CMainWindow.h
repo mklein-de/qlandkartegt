@@ -45,6 +45,7 @@ class CGeoDB;
 #ifdef HAS_DBUS
 class CDBus;
 #endif
+class CGridDB;
 
 class CMainWindow : public QMainWindow
 {
@@ -166,6 +167,8 @@ class CMainWindow : public QMainWindow
         CRouteDB * routedb;
 
         CGeoDB * geodb;
+
+        CGridDB * griddb;
 
         /// the current loaded geo data (workspace) file
         QString wksFile;

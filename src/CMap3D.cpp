@@ -999,7 +999,7 @@ void CMap3D::draw3DMap()
     double current_step_x = w / (double) (xcount - 1);
     double current_step_y = h / (double) (ycount - 1);
 
-    int ix=0, iy, iv, it, j, k, end;
+    int ix=0, iy, iv, it, j, k;
     double x, y, u, v;
     GLuint idx[4];
 
@@ -1037,7 +1037,7 @@ void CMap3D::draw3DMap()
          */
         iv = iv % (xcount * 3 * 2);
         it = it % (xcount * 2 * 2);
-        end = ix + xcount;
+
         for (x = 0, ix = 0; ix < xcount; x += current_step_x, iv += 3, it += 2, ix++)
         {
             vertices[iv + 0] = x;
@@ -1118,7 +1118,7 @@ void CMap3D::quadTexture(GLdouble x, GLdouble y, GLdouble xsize, GLdouble ysize,
 
 void CMap3D::drawWaypoints()
 {
-    const QSize mapSize = theMap->getSize();
+
     const double wsize = 5;
 
     GLint iconId, iconMaskId, textId, textMaskId;
