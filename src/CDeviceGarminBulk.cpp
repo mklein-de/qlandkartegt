@@ -119,7 +119,7 @@ void CDeviceGarminBulk::uploadWpts(const QList<CWpt*>& wpts)
 
     CGpx gpx(this, CGpx::eCleanExport);
     CWptDB::self().saveGPX(gpx, keys);
-    QString filename = QString("WPT_%1.gpx").arg(QDateTime::currentDateTimeUtc().toString("yyyy-MM-dd"));
+    QString filename = QString("WPT_%1.gpx").arg(QDateTime::currentDateTime().toUTC().toString("yyyy-MM-dd"));
     gpx.save(dir.absoluteFilePath(filename));
 
     dir.cdUp();
@@ -186,7 +186,7 @@ void CDeviceGarminBulk::uploadTracks(const QList<CTrack*>& trks)
 
     CGpx gpx(this, CGpx::eCleanExport);
     CTrackDB::self().saveGPX(gpx, keys);
-    QString filename = QString("TRK_%1.gpx").arg(QDateTime::currentDateTimeUtc().toString("yyyy-MM-dd"));
+    QString filename = QString("TRK_%1.gpx").arg(QDateTime::currentDateTime().toUTC().toString("yyyy-MM-dd"));
     gpx.save(dir.absoluteFilePath(filename));
 
     dir.cdUp();
@@ -248,7 +248,7 @@ void CDeviceGarminBulk::uploadRoutes(const QList<CRoute*>& rtes)
 
     CGpx gpx(this, CGpx::eCleanExport);
     CRouteDB::self().saveGPX(gpx, keys);
-    QString filename = QString("RTE_%1.gpx").arg(QDateTime::currentDateTimeUtc().toString("yyyy-MM-dd"));
+    QString filename = QString("RTE_%1.gpx").arg(QDateTime::currentDateTime().toUTC().toString("yyyy-MM-dd"));
     gpx.save(dir.absoluteFilePath(filename));
 
     dir.cdUp();
