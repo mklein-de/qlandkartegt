@@ -34,8 +34,8 @@ CGridDB::CGridDB(QObject * parent)
     m_pSelf = this;
     pjWGS84 = pj_init_plus("+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs");
     //pjGrid  = pj_init_plus("+proj=utm +zone=32  +ellps=WGS84 +datum=WGS84 +no_defs");
-    pjGrid  = pj_init_plus("+proj=merc  +ellps=WGS84 +datum=WGS84 +no_defs");
-    //pjGrid  = pj_init_plus("+proj=longlat  +ellps=WGS84 +datum=WGS84 +no_defs");
+    //pjGrid  = pj_init_plus("+proj=merc  +ellps=WGS84 +datum=WGS84 +no_defs");
+    pjGrid  = pj_init_plus("+proj=longlat  +ellps=WGS84 +datum=WGS84 +no_defs");
 
     checkGrid = new QCheckBox(theMainWindow);
     checkGrid->setText(tr("Grid"));
@@ -59,6 +59,107 @@ CGridDB::~CGridDB()
     cfg.setValue("map/grid", showGrid);
 }
 
+void CGridDB::findGridSpace(double min, double max, double& xSpace, double& ySpace)
+{
+    double dX = fabs(min - max) / 10;
+    if(dX < PI/180000)
+    {
+        xSpace = 5*PI/1800000;
+        ySpace = 5*PI/1800000;
+    }
+    else if(dX < PI/18000)
+    {
+        xSpace = 5*PI/180000;
+        ySpace = 5*PI/180000;
+    }
+    else if(dX < PI/1800)
+    {
+        xSpace = 5*PI/18000;
+        ySpace = 5*PI/18000;
+    }
+    else if(dX < PI/180)
+    {
+        xSpace = 5*PI/1800;
+        ySpace = 5*PI/1800;
+    }
+
+    else if(dX < 3000)
+    {
+        xSpace = 1000;
+        ySpace = 1000;
+    }
+    else if(dX < 7000)
+    {
+        xSpace = 5000;
+        ySpace = 5000;
+    }
+    else if(dX < 30000)
+    {
+        xSpace = 10000;
+        ySpace = 10000;
+    }
+    else if(dX < 70000)
+    {
+        xSpace = 50000;
+        ySpace = 50000;
+    }
+    else if(dX < 300000)
+    {
+        xSpace = 100000;
+        ySpace = 100000;
+    }
+    else if(dX < 700000)
+    {
+        xSpace = 500000;
+        ySpace = 500000;
+    }
+    else if(dX < 3000000)
+    {
+        xSpace = 1000000;
+        ySpace = 1000000;
+    }
+    else if(dX < 7000000)
+    {
+        xSpace = 5000000;
+        ySpace = 5000000;
+    }
+    else if(dX < 30000000)
+    {
+        xSpace = 10000000;
+        ySpace = 10000000;
+    }
+    else if(dX < 70000000)
+    {
+        xSpace = 50000000;
+        ySpace = 50000000;
+    }
+
+}
+
+bool CGridDB::calcIntersection(double x1, double y1, double x2, double y2, double x3, double y3, double x4, double y4, double& x, double& y)
+{
+    double ua = ((x4 - x3)*(y1 - y3) - (y4 - y3)*(x1 - x3))/((y4 - y3)*(x2 - x1) - (x4 - x3)*(y2 - y1));
+
+    x = x1 + ua * (x2 - x1);
+    y = y1 + ua * (y2 - y1);
+
+    double d12 = (x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1);
+    double d1x = (x1 - x)  * (x1 - x)  + (y1 - y)  * (y1 - y);
+    double d2x = (x2 - x)  * (x2 - x)  + (y2 - y)  * (y2 - y);
+    double d34 = (x4 - x3) * (x4 - x3) + (y4 - y3) * (y4 - y3);
+    double d3x = (x3 - x)  * (x3 - x)  + (y3 - y)  * (y3 - y);
+    double d4x = (x4 - x)  * (x4 - x)  + (y4 - y)  * (y4 - y);
+
+
+    return (d12 >= d1x) && (d12 >= d2x) && (d34 >= d3x) && (d34 >= d4x);
+}
+
+struct val_t
+{
+    val_t(qint32 pos, double val) : pos(pos), val(val){}
+    qint32 pos;
+    double val;
+};
 
 void CGridDB::draw(QPainter& p, const QRect& rect, bool& needsRedraw)
 {
@@ -104,79 +205,7 @@ void CGridDB::draw(QPainter& p, const QRect& rect, bool& needsRedraw)
 
     double xGridSpace = 1000;
     double yGridSpace = 1000;
-    double dX = fabs(leftMin - rightMax) / 10;
-    if(dX < PI/180000)
-    {
-        xGridSpace = PI/1800000;
-        yGridSpace = PI/1800000;
-    }
-    else if(dX < PI/18000)
-    {
-        xGridSpace = PI/180000;
-        yGridSpace = PI/180000;
-    }
-    else if(dX < PI/1800)
-    {
-        xGridSpace = PI/18000;
-        yGridSpace = PI/18000;
-    }
-    else if(dX < PI/180)
-    {
-        xGridSpace = PI/1800;
-        yGridSpace = PI/1800;
-    }
-
-    else if(dX < 3000)
-    {
-        xGridSpace = 1000;
-        yGridSpace = 1000;
-    }
-    else if(dX < 7000)
-    {
-        xGridSpace = 5000;
-        yGridSpace = 5000;
-    }
-    else if(dX < 30000)
-    {
-        xGridSpace = 10000;
-        yGridSpace = 10000;
-    }
-    else if(dX < 70000)
-    {
-        xGridSpace = 50000;
-        yGridSpace = 50000;
-    }
-    else if(dX < 300000)
-    {
-        xGridSpace = 100000;
-        yGridSpace = 100000;
-    }
-    else if(dX < 700000)
-    {
-        xGridSpace = 500000;
-        yGridSpace = 500000;
-    }
-    else if(dX < 3000000)
-    {
-        xGridSpace = 1000000;
-        yGridSpace = 1000000;
-    }
-    else if(dX < 7000000)
-    {
-        xGridSpace = 5000000;
-        yGridSpace = 5000000;
-    }
-    else if(dX < 30000000)
-    {
-        xGridSpace = 10000000;
-        yGridSpace = 10000000;
-    }
-    else if(dX < 70000000)
-    {
-        xGridSpace = 50000000;
-        yGridSpace = 50000000;
-    }
-
+    findGridSpace(leftMin, rightMax, xGridSpace, yGridSpace);
 
     double xStart = floor(leftMin / xGridSpace) * xGridSpace;
     double yStart = ceil(topMax / yGridSpace) * yGridSpace;
@@ -187,9 +216,17 @@ void CGridDB::draw(QPainter& p, const QRect& rect, bool& needsRedraw)
 //    qDebug() << xStart  << yStart ;
 //    qDebug() << xGridSpace  << yGridSpace ;
 
+    QList< val_t > horzTopTicks;
+    QList< val_t > horzBtmTicks;
+    QList< val_t > vertLftTicks;
+    QList< val_t > vertRgtTicks;
+
     p.save();
     p.setBrush(Qt::NoBrush);
     p.setPen(QPen(Qt::magenta,2));
+
+    double h = rect.height();
+    double w = rect.width();
 
     while(y > btmMin)
     {
@@ -204,6 +241,9 @@ void CGridDB::draw(QPainter& p, const QRect& rect, bool& needsRedraw)
             double x4 = x;
             double y4 = y - yGridSpace;
 
+            double xVal = x1;
+            double yVal = y1;
+
             pj_transform(pjGrid, pjWGS84, 1, 0, &x1, &y1, 0);
             pj_transform(pjGrid, pjWGS84, 1, 0, &x2, &y2, 0);
             pj_transform(pjGrid, pjWGS84, 1, 0, &x3, &y3, 0);
@@ -213,6 +253,28 @@ void CGridDB::draw(QPainter& p, const QRect& rect, bool& needsRedraw)
             map.convertRad2Pt(x2, y2);
             map.convertRad2Pt(x3, y3);
             map.convertRad2Pt(x4, y4);
+
+            double xx,yy;
+            if(calcIntersection(0,0,w,0, x1, y1, x4, y4, xx, yy))
+            {
+                horzTopTicks << val_t(xx, xVal);
+//                p.drawEllipse(QPoint(xx,0), 5, 5);
+            }
+            if(calcIntersection(0,h,w,h, x1, y1, x4, y4, xx, yy))
+            {
+                horzBtmTicks << val_t(xx, xVal);
+//                p.drawEllipse(QPoint(xx,h), 5, 5);
+            }
+            if(calcIntersection(0,0,0,h, x1, y1, x2, y2, xx, yy))
+            {
+                vertLftTicks << val_t(yy, yVal);
+//                p.drawEllipse(QPoint(0,yy), 5, 5);
+            }
+            if(calcIntersection(w,0,w,h, x1, y1, x2, y2, xx, yy))
+            {
+                vertRgtTicks << val_t(yy, yVal);
+//                p.drawEllipse(QPoint(w,yy), 5, 5);
+            }
 
             p.drawLine(x1, y1, x2, y2);
             p.drawLine(x2, y2, x3, y3);
@@ -224,6 +286,26 @@ void CGridDB::draw(QPainter& p, const QRect& rect, bool& needsRedraw)
         x  = xStart;
         y -= yGridSpace;
     }
-
     p.restore();
+
+
+    foreach(const val_t& val, horzTopTicks)
+    {
+        CCanvas::drawText(QString::number(val.val * RAD_TO_DEG), p, QPoint(val.pos, 20), Qt::magenta);
+    }
+
+    foreach(const val_t& val, horzBtmTicks)
+    {
+        CCanvas::drawText(QString::number(val.val * RAD_TO_DEG), p, QPoint(val.pos, h), Qt::magenta);
+    }
+
+    foreach(const val_t& val, vertLftTicks)
+    {
+        CCanvas::drawText(QString::number(val.val * RAD_TO_DEG), p, QPoint(15, val.pos), Qt::magenta);
+    }
+
+    foreach(const val_t& val, vertRgtTicks)
+    {
+        CCanvas::drawText(QString::number(val.val * RAD_TO_DEG), p, QPoint(w - 15, val.pos), Qt::magenta);
+    }
 }
