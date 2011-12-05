@@ -20,6 +20,7 @@
 #define CGRIDDB_H
 
 #include <QObject>
+#include <QColor>
 #include <projects.h>
 
 class QPainter;
@@ -52,6 +53,8 @@ class CGridDB : public QObject
 
         QCheckBox * checkGrid;
         bool showGrid;
+        QString projstr;
+        QColor color;
 };
 
 #endif //CGRIDDB_H

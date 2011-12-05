@@ -208,9 +208,11 @@ CMainWindow::CMainWindow()
     actionGroupProvider->addAction(CMenus::MainMoreMenu, "aZoomArea");
     actionGroupProvider->addAction(CMenus::MainMoreMenu, "aCenterMap");
 //    actionGroupProvider->addAction(CMenus::MainMoreMenu, "aDiary");
+    actionGroupProvider->addAction(CMenus::MainMoreMenu, "aSetupGrid");
 #ifdef HAS_DBUS
     actionGroupProvider->addAction(CMenus::MainMoreMenu, "aOcm");
 #endif
+
 
 
     actionGroupProvider->addAction(CMenus::RouteMenu, "aSwitchToMain");

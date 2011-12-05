@@ -20,6 +20,7 @@
 #include "CMapDB.h"
 #include "IMap.h"
 #include "CMainWindow.h"
+#include "CResources.h"
 
 #include <QtGui>
 
@@ -30,21 +31,27 @@ CGridDB::CGridDB(QObject * parent)
 , pjWGS84(0)
 , pjGrid(0)
 , showGrid(false)
+, projstr("+proj=longlat +datum=WGS84 +no_defs")
+, color(Qt::magenta)
+
 {
     m_pSelf = this;
-    pjWGS84 = pj_init_plus("+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs");
-    //pjGrid  = pj_init_plus("+proj=utm +zone=32  +ellps=WGS84 +datum=WGS84 +no_defs");
-    //pjGrid  = pj_init_plus("+proj=merc  +ellps=WGS84 +datum=WGS84 +no_defs");
-    pjGrid  = pj_init_plus("+proj=longlat  +ellps=WGS84 +datum=WGS84 +no_defs");
+
+    QSettings cfg;
+    color   = QColor(cfg.value("map/grid/color", color.name()).toString());
+    projstr = cfg.value("map/grid/proj", projstr).toString();
+
+    pjWGS84 = pj_init_plus("+proj=longlat +datum=WGS84 +no_defs");
+    pjGrid  = pj_init_plus(projstr.toAscii());
 
     checkGrid = new QCheckBox(theMainWindow);
     checkGrid->setText(tr("Grid"));
+    checkGrid->setToolTip(tr("Use 'F7 More -> F5 Setup Grid...' to setup color and projection."));
     theMainWindow->statusBar()->addPermanentWidget(checkGrid);
 
     connect(checkGrid, SIGNAL(toggled(bool)), this, SLOT(slotShowGrid(bool)));
     connect(checkGrid, SIGNAL(clicked()), theMainWindow->getCanvas(), SLOT(update()));
 
-    QSettings cfg;
     showGrid = cfg.value("map/grid", showGrid).toBool();
     checkGrid->setChecked(showGrid);
 
@@ -53,10 +60,12 @@ CGridDB::CGridDB(QObject * parent)
 CGridDB::~CGridDB()
 {
     if(pjWGS84) pj_free(pjWGS84);
-    if(pjGrid) pj_free(pjGrid);
+    if(pjGrid)  pj_free(pjGrid);
 
     QSettings cfg;
     cfg.setValue("map/grid", showGrid);
+    cfg.setValue("map/grid/proj", projstr);
+    cfg.setValue("map/grid/color", color.name());
 }
 
 void CGridDB::findGridSpace(double min, double max, double& xSpace, double& ySpace)
@@ -223,7 +232,7 @@ void CGridDB::draw(QPainter& p, const QRect& rect, bool& needsRedraw)
 
     p.save();
     p.setBrush(Qt::NoBrush);
-    p.setPen(QPen(Qt::magenta,2));
+    p.setPen(QPen(color,2));
 
     double h = rect.height();
     double w = rect.width();
@@ -258,22 +267,18 @@ void CGridDB::draw(QPainter& p, const QRect& rect, bool& needsRedraw)
             if(calcIntersection(0,0,w,0, x1, y1, x4, y4, xx, yy))
             {
                 horzTopTicks << val_t(xx, xVal);
-//                p.drawEllipse(QPoint(xx,0), 5, 5);
             }
             if(calcIntersection(0,h,w,h, x1, y1, x4, y4, xx, yy))
             {
                 horzBtmTicks << val_t(xx, xVal);
-//                p.drawEllipse(QPoint(xx,h), 5, 5);
             }
             if(calcIntersection(0,0,0,h, x1, y1, x2, y2, xx, yy))
             {
                 vertLftTicks << val_t(yy, yVal);
-//                p.drawEllipse(QPoint(0,yy), 5, 5);
             }
             if(calcIntersection(w,0,w,h, x1, y1, x2, y2, xx, yy))
             {
                 vertRgtTicks << val_t(yy, yVal);
-//                p.drawEllipse(QPoint(w,yy), 5, 5);
             }
 
             p.drawLine(x1, y1, x2, y2);
@@ -289,23 +294,56 @@ void CGridDB::draw(QPainter& p, const QRect& rect, bool& needsRedraw)
     p.restore();
 
 
-    foreach(const val_t& val, horzTopTicks)
+    if(pj_is_latlong(pjGrid))
     {
-        CCanvas::drawText(QString::number(val.val * RAD_TO_DEG), p, QPoint(val.pos, 20), Qt::magenta);
-    }
+        QFontMetrics fm(CResources::self().getMapFont());
+        int yoff  = fm.height() + fm.ascent();
+        int xoff  = fm.width("XX.XXXX")>>1;
 
-    foreach(const val_t& val, horzBtmTicks)
-    {
-        CCanvas::drawText(QString::number(val.val * RAD_TO_DEG), p, QPoint(val.pos, h), Qt::magenta);
-    }
+        foreach(const val_t& val, horzTopTicks)
+        {
+            CCanvas::drawText(QString("%1\260").arg(val.val * RAD_TO_DEG), p, QPoint(val.pos, yoff), color);
+        }
 
-    foreach(const val_t& val, vertLftTicks)
-    {
-        CCanvas::drawText(QString::number(val.val * RAD_TO_DEG), p, QPoint(15, val.pos), Qt::magenta);
-    }
+        foreach(const val_t& val, horzBtmTicks)
+        {
+            CCanvas::drawText(QString("%1\260").arg(val.val * RAD_TO_DEG), p, QPoint(val.pos, h), color);
+        }
 
-    foreach(const val_t& val, vertRgtTicks)
+        foreach(const val_t& val, vertLftTicks)
+        {
+            CCanvas::drawText(QString("%1\260").arg(val.val * RAD_TO_DEG), p, QPoint(xoff, val.pos), color);
+        }
+
+        foreach(const val_t& val, vertRgtTicks)
+        {
+            CCanvas::drawText(QString("%1\260").arg(val.val * RAD_TO_DEG), p, QPoint(w - xoff, val.pos), color);
+        }
+    }
+    else
     {
-        CCanvas::drawText(QString::number(val.val * RAD_TO_DEG), p, QPoint(w - 15, val.pos), Qt::magenta);
+        QFontMetrics fm(CResources::self().getMapFont());
+        int yoff  = fm.height() + fm.ascent();
+        int xoff  = fm.width("XXXX")>>1;
+
+        foreach(const val_t& val, horzTopTicks)
+        {
+            CCanvas::drawText(QString("%1").arg(qint32(val.val/1000)), p, QPoint(val.pos, yoff), color);
+        }
+
+        foreach(const val_t& val, horzBtmTicks)
+        {
+            CCanvas::drawText(QString("%1").arg(qint32(val.val/1000)), p, QPoint(val.pos, h), color);
+        }
+
+        foreach(const val_t& val, vertLftTicks)
+        {
+            CCanvas::drawText(QString("%1").arg(qint32(val.val/1000)), p, QPoint(xoff, val.pos), color);
+        }
+
+        foreach(const val_t& val, vertRgtTicks)
+        {
+            CCanvas::drawText(QString("%1").arg(qint32(val.val/1000)), p, QPoint(w - xoff, val.pos), color);
+        }
     }
 }

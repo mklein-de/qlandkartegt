@@ -416,6 +416,7 @@ SET(qlandkarte_UIS
     IDlgConfig3D.ui
     IDlgExport.ui
     IDlgWpt2Rte.ui
+    IDlgSetupGrid.ui
     ICreateMapOSM.ui
     ICreateMapQMAP.ui
     ICreateMapGeoTiff.ui
@@ -432,6 +433,7 @@ SET(qlandkarte_UIS
     IHelpDlg.ui
     IDiaryEdit.ui
     IImageSelect.ui
+
 )
 
 SET(qlandkarte_RCS
