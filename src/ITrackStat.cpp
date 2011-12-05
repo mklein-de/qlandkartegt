@@ -131,7 +131,7 @@ void ITrackStat::slotSetWaypoint(double dist)
     IMap& dem = CMapDB::self().getDEM();
     QList<CTrack::pt_t>& trkpts = track->getTrackPoints();
     QList<CTrack::pt_t>::iterator trkpt = trkpts.begin();
-    quint32 idx = 0;
+
     while(trkpt != trkpts.end())
     {
         if(trkpt->flags & CTrack::pt_t::eDeleted)
@@ -166,7 +166,6 @@ void ITrackStat::slotSetWaypoint(double dist)
             CWptDB::self().newWpt(lon, lat, ele, "");
             break;
         }
-        idx = trkpt->idx;
 
         ++trkpt;
     }

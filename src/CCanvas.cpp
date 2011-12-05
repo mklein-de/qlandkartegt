@@ -309,7 +309,6 @@ void CCanvas::leaveEvent(QEvent * )
 
 void CCanvas::print(QPainter& p, const QSize& pagesize)
 {
-    bool  rotate = false;
     QSize _size_ = pagesize;
     qreal s = 0.0;
 
@@ -319,7 +318,6 @@ void CCanvas::print(QPainter& p, const QSize& pagesize)
     {
         _size_.setWidth(pagesize.height());
         _size_.setHeight(pagesize.width());
-        rotate = true;
         p.rotate(90.0);
         p.translate(0,-pagesize.width());
     }

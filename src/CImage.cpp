@@ -115,9 +115,6 @@ int CImage::calcThreshold(const QVector<double>& hist)
     double fMu_T;
     double fMu_k;
     int k_low, k_high;
-    double fMu_0;
-    double fMu_1;
-    double fMu;
 
     fMu_T   = 0.0;
     for (int i = 0 ; i < 256 ; i++)
@@ -139,8 +136,6 @@ int CImage::calcThreshold(const QVector<double>& hist)
 
     criterion   = 0.0;
     nThreshold  = 127;
-    fMu_0       = 126.0;
-    fMu_1       = 128.0;
 
     omega_k     = 0.0;
     fMu_k       = 0.0;
@@ -159,11 +154,8 @@ int CImage::calcThreshold(const QVector<double>& hist)
         {
             criterion   = sigma_b_k / sigma_T;
             nThreshold  = k;
-            fMu_0       = fMu_k / omega_k;
-            fMu_1       = (fMu_T-fMu_k) / ( 1 - omega_k );
         }
     }
-    fMu = fMu_T;
 
     return nThreshold;
 }

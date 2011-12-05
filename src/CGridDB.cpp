@@ -102,8 +102,8 @@ void CGridDB::draw(QPainter& p, const QRect& rect, bool& needsRedraw)
     double rightMax = topRight.u > btmRight.u   ? topRight.u : btmRight.u;
 
 
-    double xGridSpace;
-    double yGridSpace;
+    double xGridSpace = 1000;
+    double yGridSpace = 1000;
     double dX = fabs(leftMin - rightMax) / 10;
     if(dX < PI/180000)
     {
@@ -189,7 +189,7 @@ void CGridDB::draw(QPainter& p, const QRect& rect, bool& needsRedraw)
 
     p.save();
     p.setBrush(Qt::NoBrush);
-    p.setPen(Qt::magenta);
+    p.setPen(QPen(Qt::magenta,2));
 
     while(y > btmMin)
     {

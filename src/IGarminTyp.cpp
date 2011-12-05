@@ -486,7 +486,7 @@ bool IGarminTyp::parsePolyline(QDataStream& in, QMap<quint32, polyline_property>
         quint32 typ, offset=0;
         bool hasLocalization = false;
         bool hasTextColor = false;
-        bool renderMode = false;
+        //bool renderMode = false;
         quint8 ctyp, rows;
         quint8 r,g,b;
         quint8 langcode;
@@ -524,7 +524,7 @@ bool IGarminTyp::parsePolyline(QDataStream& in, QMap<quint32, polyline_property>
         rows = t8_1 >> 3;
 
         hasLocalization = t8_2 & 0x01;
-        renderMode      = t8_2 & 0x02;
+        //renderMode      = t8_2 & 0x02;
         hasTextColor    = t8_2 & 0x04;
 
 #ifdef DBG

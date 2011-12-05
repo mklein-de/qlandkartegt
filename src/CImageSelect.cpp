@@ -108,7 +108,6 @@ void CImageSelect::wheelEvent(QWheelEvent * e)
 void CImageSelect::paintEvent(QPaintEvent * e)
 {
     QPainter p(this);
-    QSize s     = size();
     int start   = scrollBar->value();
 
     p.fillRect(rect(), Qt::white);

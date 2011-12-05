@@ -1381,10 +1381,10 @@ void CMapTDB::readTDB(const QString& filename)
                 tile.defArea  << QPointF(tile.west, tile.north) << QPointF(tile.east, tile.north) << QPointF(tile.east, tile.south) << QPointF(tile.west, tile.south);
 
                 tile.memSize = 0;
-                tdb_map_size_t * s = (tdb_map_size_t*)(p->name + tilename.size() + 1);
+                volatile tdb_map_size_t * s = (tdb_map_size_t*)(p->name + tilename.size() + 1);
 
                 quint16 count = gar_load(uint16_t,s->count);
-                for(quint16 i=0; i < count; ++i)
+                for(quint16 i=0; i < count; i++)
                 {
                     tile.memSize += gar_load(uint32_t,s->sizes[i]);
                 }

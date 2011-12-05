@@ -93,7 +93,6 @@ CDlgMapTDBConfig::CDlgMapTDBConfig(CMapTDB * map)
 
     //webView->load(QString("file://") + tempDir.filePath("legend.html"));
     webView->load(QUrl::fromLocalFile(tmp.fileName()));
-    QLocale loc = webView->locale();
 
     connect(this, SIGNAL(accepted()), SLOT(deleteLater()));
     connect(this, SIGNAL(rejected()), SLOT(deleteLater()));

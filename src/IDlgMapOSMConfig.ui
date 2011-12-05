@@ -6,12 +6,12 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>778</width>
+    <width>816</width>
     <height>424</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Config --- OSM ---</string>
+   <string>Config --- Tile Server ---</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>

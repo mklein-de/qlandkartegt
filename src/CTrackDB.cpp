@@ -435,7 +435,6 @@ void CTrackDB::saveGPX(CGpx& gpx, const QStringList& keys)
 {
     QString str;
     QDomElement root = gpx.documentElement();
-    QMap<QString,CTrack*>::iterator track = tracks.begin();
 
     quint32 dummyTimestamp = 0;
 

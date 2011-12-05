@@ -94,7 +94,6 @@ quint32 CGarminPolygon::decode(qint32 iCenterLon, qint32 iCenterLat, quint32 shi
     // bits per y coord.
     quint32 by;
 
-    quint16 tmpType;
 
     const quint8 * const pStart = pData;
 
@@ -114,7 +113,7 @@ quint32 CGarminPolygon::decode(qint32 iCenterLon, qint32 iCenterLat, quint32 shi
 
         bit 7       bitstream_len is two bytes (true)
     */
-    tmpType = type = *pData++;
+    type = *pData++;
 
     two_byte_len = type & 0x80;
     if(line)

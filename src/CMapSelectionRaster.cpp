@@ -204,7 +204,7 @@ QString CMapSelectionRaster::getDescription()
     GPS_Math_Deg_To_Str(lon1 * RAD_TO_DEG, lat1 * RAD_TO_DEG, pos1);
     GPS_Math_Deg_To_Str(lon2 * RAD_TO_DEG, lat2 * RAD_TO_DEG, pos2);
 
-    double a1, a2, d1, d2;
+    double a1, a2;
     XY p1, p2;
 
     p1.u = lon1;
@@ -213,7 +213,7 @@ QString CMapSelectionRaster::getDescription()
     p2.u = lon2;
     p2.v = lat1;
 
-    d1 = distance(p1, p2, a1, a2) / 1000.0;
+    distance(p1, p2, a1, a2) / 1000.0;
 
 
     p1.u = lon1;
@@ -222,7 +222,7 @@ QString CMapSelectionRaster::getDescription()
     p2.u = lon1;
     p2.v = lat2;
 
-    d2 = distance(p1, p2, a1, a2) / 1000.0;
+    distance(p1, p2, a1, a2) / 1000.0;
 
     int tileCount = 0, i;
     foreach(i, selTiles)

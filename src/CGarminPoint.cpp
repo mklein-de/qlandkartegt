@@ -86,7 +86,6 @@ quint32 CGarminPoint::decode(qint32 iCenterLon, qint32 iCenterLat, quint32 shift
 
 quint32 CGarminPoint::decode2(qint32 iCenterLon, qint32 iCenterLat, quint32 shift, const quint8 * pData, const quint8 * pEnd)
 {
-    bool extra = false;
     qint16 dLng, dLat;
     quint32 byte_size = 6;
     quint8 subtype;
@@ -100,7 +99,6 @@ quint32 CGarminPoint::decode2(qint32 iCenterLon, qint32 iCenterLat, quint32 shif
 
     if(subtype & 0x80)
     {
-        extra = true;
         byte_size += 1;
     }
 
