@@ -148,6 +148,7 @@ set(qlandkarte_SRCS
     CDlgConfig3D.cpp
     CDlgExport.cpp
     CDlgWpt2Rte.cpp
+    CDlgSetupGrid.cpp
     CQlb.cpp
     CGpx.cpp
     IDevice.cpp
@@ -307,6 +308,7 @@ set(qlandkarte_HDRS
     CDlgConfig3D.h
     CDlgExport.h
     CDlgWpt2Rte.h
+    CDlgSetupGrid.h
     CQlb.h
     CGpx.h
     IDevice.h

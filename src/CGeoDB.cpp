@@ -154,11 +154,28 @@ CGeoDB::CGeoDB(QTabWidget * tb, QWidget * parent)
 
     QSqlQuery query(db);
 
-    if(!query.exec("PRAGMA locking_mode=EXCLUSIVE")) {
+    if(!query.exec("PRAGMA locking_mode=EXCLUSIVE"))
+    {
       return;
     }
 
-    if(!query.exec("PRAGMA synchronous=OFF")) {
+    if(!query.exec("PRAGMA synchronous=OFF"))
+    {
+      return;
+    }
+
+    if(!query.exec("PRAGMA temp_store=MEMORY"))
+    {
+      return;
+    }
+
+    if(!query.exec("PRAGMA default_cache_size=50"))
+    {
+      return;
+    }
+
+    if(!query.exec("PRAGMA page_size=8192"))
+    {
       return;
     }
 
@@ -3451,7 +3468,7 @@ bool CGeoDB::setProjectDiaryData(quint64 id, CDiary& diary)
         stream << *wpt;
 
         if(CWptDB::self().contains(wpt->getKey()))
-        {            
+        {
             wpts += data;
         }
 

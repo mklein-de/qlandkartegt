@@ -46,7 +46,7 @@ CGridDB::CGridDB(QObject * parent)
 
     checkGrid = new QCheckBox(theMainWindow);
     checkGrid->setText(tr("Grid"));
-    checkGrid->setToolTip(tr("Use 'F7 More -> F5 Setup Grid...' to setup color and projection."));
+    checkGrid->setToolTip(tr("Use 'Setup -> Grid...' to setup color and projection."));
     theMainWindow->statusBar()->addPermanentWidget(checkGrid);
 
     connect(checkGrid, SIGNAL(toggled(bool)), this, SLOT(slotShowGrid(bool)));
@@ -66,6 +66,17 @@ CGridDB::~CGridDB()
     cfg.setValue("map/grid", showGrid);
     cfg.setValue("map/grid/proj", projstr);
     cfg.setValue("map/grid/color", color.name());
+}
+
+void CGridDB::setProjAndColor(const QString& proj, const QColor& c)
+{
+    projstr = proj;
+    color   = c;
+
+    if(pjGrid) pj_free(pjGrid);
+    pjGrid  = pj_init_plus(projstr.toAscii());
+
+    theMainWindow->getCanvas()->update();
 }
 
 void CGridDB::findGridSpace(double min, double max, double& xSpace, double& ySpace)

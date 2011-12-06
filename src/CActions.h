@@ -107,7 +107,6 @@ class CActions : public QObject
         void funcOcm();
         void funcColorPicker();
         void funcWorldBasemap();
-        void funcSetupGrid();
 
         void funcZoomIn();
         void funcZoomOut();

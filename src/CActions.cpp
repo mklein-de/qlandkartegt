@@ -46,6 +46,7 @@
 #include "COverlayDistance.h"
 #include "COverlayDistanceEditWidget.h"
 
+
 #include <QtGui>
 
 CActions::CActions(QObject *parent) :
@@ -119,7 +120,6 @@ QObject(parent), parent(parent)
 
     //
 //    createAction(tr("F5"), ":/icons/iconDiary16x16.png", tr("&Diary"), "aDiary", tr("Add / edit diary data"));
-    createAction(tr("F5"), ":/icons/iconGrid16x16.png", tr("Setup &Grid..."), "aSetupGrid", tr("Setup color and projection of the grid overlay."));
     createAction(tr("F6"), ":/icons/cache/Traditional-Cache.png", tr("&Export to OCM"), "aOcm", tr("Send current workspace to Open Cache Manager."));
 
     //createAction(tr("F6"), ":/icons/iconColorChooser16x16.png", tr("&Pick Color"), "aColorPicker", tr("test only"));
@@ -332,11 +332,6 @@ void CActions::funcSwitchToMainMore()
 void CActions::funcOcm()
 {
     theMainWindow->exportToOcm();
-}
-
-void CActions::funcSetupGrid()
-{
-
 }
 
 void CActions::funcColorPicker()

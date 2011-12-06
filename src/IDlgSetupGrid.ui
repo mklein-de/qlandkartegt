@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
+    <width>464</width>
     <height>172</height>
    </rect>
   </property>
@@ -38,7 +38,7 @@
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout_2">
      <item>
-      <widget class="QLabel" name="labelWptTextColor">
+      <widget class="QLabel" name="labelGridColor">
        <property name="font">
         <font>
          <weight>75</weight>
