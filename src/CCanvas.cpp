@@ -723,6 +723,8 @@ void CCanvas::mouseMoveEventCoord(QMouseEvent * e)
     IMap& map = CMapDB::self().getMap();
     QString info;                // = QString("%1 %2, ").arg(e->x()).arg(e->y());
 
+    bool isLonLat = false;
+
     double x = e->x();
     double y = e->y();
 
@@ -730,7 +732,7 @@ void CCanvas::mouseMoveEventCoord(QMouseEvent * e)
     double y_m = e->y();
 
     map.convertPt2Rad(x,y);
-    map.convertPt2M(x_m,y_m);
+    CGridDB::self().convertPt2Pos(x_m, y_m, isLonLat);
 
     //    qDebug() << x * RAD_TO_DEG << y * RAD_TO_DEG << ">>>" << x_m << y_m;
 
@@ -751,7 +753,18 @@ void CCanvas::mouseMoveEventCoord(QMouseEvent * e)
             info += QString(" (ele: %1 %2) ").arg(val).arg(unit);
         }
 
-        info += QString("[%1m, %2m] ").arg(x_m,0,'f',0).arg(y_m,0,'f',0);
+        if(isLonLat)
+        {
+            QString str;
+            x_m *= RAD_TO_DEG;
+            y_m *= RAD_TO_DEG;
+            GPS_Math_Deg_To_Str(x_m,y_m, str);
+            info += tr("[Grid: %1] ").arg(str);
+        }
+        else
+        {
+            info += tr("[Grid: %1m, %2m] ").arg(x_m,0,'f',0).arg(y_m,0,'f',0);
+        }
 
         x *= RAD_TO_DEG;
         y *= RAD_TO_DEG;

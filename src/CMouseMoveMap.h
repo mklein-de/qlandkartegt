@@ -52,9 +52,10 @@ class CMouseMoveMap : public IMouse
         void slotAddWpt();
         void slotCopyPositionTrack();
         void slotEditTrack();
-		void slotOpenGoogleMaps();	//TODO: GOOGLE MAPS
+                void slotOpenGoogleMaps();	//TODO: GOOGLE MAPS
 
         void slotCopyPosDegree();
+        void slotCopyPosGrid();
         void slotCopyPosMeter();
         void slotCopyPosPixel();
         void slotCopyPosPixelSize();

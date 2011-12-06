@@ -458,7 +458,7 @@ extern void GPS_Math_SubPolyline( const QPoint& pt1, const QPoint& pt2, int thre
     double distance;     // the distance to the polyline
     double shortest1 = threshold;
     double shortest2 = threshold;
-    int idx11 = -1, idx21 = -1, idx12 = -1, idx22 = -1;;
+    int idx11 = -1, idx21 = -1, idx12 = -1;
 
     QPoint pt11;
     QPoint pt21;
@@ -515,7 +515,6 @@ extern void GPS_Math_SubPolyline( const QPoint& pt1, const QPoint& pt2, int thre
             if(distance < shortest2)
             {
                 idx21 = i - 1;
-                idx22 = i;
                 pt21.setX(x);
                 pt21.setY(y);
                 shortest2 = distance;
@@ -556,7 +555,6 @@ extern void GPS_Math_SubPolyline( const QPoint& pt1, const QPoint& pt2, int thre
         if(distance < (threshold<<1))
         {
             idx21 = 0;
-            idx22 = 1;
             pt21 = px;
         }
         else
@@ -566,13 +564,12 @@ extern void GPS_Math_SubPolyline( const QPoint& pt1, const QPoint& pt2, int thre
             if(distance < (threshold<<1))
             {
                 idx21 = line1.size() - 2;
-                idx22 = line1.size() - 1;
                 pt21 = px;
             }
         }
     }
 
-//    qDebug() << line1.size() << idx11 << idx12 << idx21 << idx22 << pt1 << pt2 << pt11 << pt21;
+//    qDebug() << line1.size() << idx11 << idx12 << idx21 << pt1 << pt2 << pt11 << pt21;
 
     // copy segment of line 1 to line2
     if(idx11 != -1 && idx21 != -1)

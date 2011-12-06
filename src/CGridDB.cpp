@@ -42,11 +42,9 @@ CGridDB::CGridDB(QObject * parent)
     projstr = cfg.value("map/grid/proj", projstr).toString();
 
     pjWGS84 = pj_init_plus("+proj=longlat +datum=WGS84 +no_defs");
-    pjGrid  = pj_init_plus(projstr.toAscii());
 
     checkGrid = new QCheckBox(theMainWindow);
     checkGrid->setText(tr("Grid"));
-    checkGrid->setToolTip(tr("Use 'Setup -> Grid...' to setup color and projection."));
     theMainWindow->statusBar()->addPermanentWidget(checkGrid);
 
     connect(checkGrid, SIGNAL(toggled(bool)), this, SLOT(slotShowGrid(bool)));
@@ -55,6 +53,7 @@ CGridDB::CGridDB(QObject * parent)
     showGrid = cfg.value("map/grid", showGrid).toBool();
     checkGrid->setChecked(showGrid);
 
+    setProjAndColor(projstr, color);
 }
 
 CGridDB::~CGridDB()
@@ -76,7 +75,25 @@ void CGridDB::setProjAndColor(const QString& proj, const QColor& c)
     if(pjGrid) pj_free(pjGrid);
     pjGrid  = pj_init_plus(projstr.toAscii());
 
+    checkGrid->setToolTip(tr("Use 'Setup -> Grid...' to setup color and projection.\nCur. proj.: %1").arg(projstr));
+
     theMainWindow->getCanvas()->update();
+}
+
+void CGridDB::convertPt2Pos(double& x, double& y, bool& isLonLat)
+{
+    if(pjGrid == NULL)
+    {
+        x = 0; y = 0;
+        return;
+    }
+
+    IMap& map = CMapDB::self().getMap();
+
+    map.convertPt2Rad(x,y);
+    pj_transform(pjWGS84, pjGrid, 1, 0, &x, &y, 0);
+    isLonLat = pj_is_latlong(pjGrid);
+
 }
 
 void CGridDB::findGridSpace(double min, double max, double& xSpace, double& ySpace)
@@ -101,6 +118,11 @@ void CGridDB::findGridSpace(double min, double max, double& xSpace, double& ySpa
     {
         xSpace = 5*PI/1800;
         ySpace = 5*PI/1800;
+    }
+    else if(dX < PI/18)
+    {
+        xSpace = 5*PI/180;
+        ySpace = 5*PI/180;
     }
 
     else if(dX < 3000)

@@ -26,6 +26,7 @@
 #include "CDlgEditWpt.h"
 #include "GeoMath.h"
 #include "CTrackToolWidget.h"
+#include "CGridDB.h"
 
 #include <QtGui>
 #include "CUndoStackView.h"
@@ -215,21 +216,39 @@ void CMouseMoveMap::contextMenu(QMenu& menu)
     {
         menu.addSeparator();
         menu.addAction(QPixmap(":/icons/iconGoogleMaps16x16.png"),tr("Open Pos. with Google Maps"),this,SLOT(slotOpenGoogleMaps())); //TODO: Google Maps right click
-                menu.addAction(QPixmap(":/icons/iconClipboard16x16.png"),tr("Copy Pos. Trackpoint"),this,SLOT(slotCopyPositionTrack()));
+        menu.addAction(QPixmap(":/icons/iconClipboard16x16.png"),tr("Copy Pos. Trackpoint"),this,SLOT(slotCopyPositionTrack()));
         menu.addAction(QPixmap(":/icons/iconEdit16x16.png"),tr("Edit Track ..."),this,SLOT(slotEditTrack()));
     }
     menu.addSeparator();
 
+    bool isLonLat   = false;
+    double u        = mousePos.x();
+    double v        = mousePos.y();
+    CGridDB::self().convertPt2Pos(u, v, isLonLat);
+    if(isLonLat)
+    {
+        QString str;
+        u *= RAD_TO_DEG;
+        v *= RAD_TO_DEG;
+        GPS_Math_Deg_To_Str(u, v, str);
+        QString posMeter = tr("Grid: %1").arg(str);
+        menu.addAction(QIcon(":/icons/iconClipboard16x16.png"), posMeter, this, SLOT(slotCopyPosGrid()));
+    }
+    else
+    {
+        QString posMeter = tr("Grid: N %1m E %2m").arg(u, 0,'f',0).arg(v,0,'f',0);
+        menu.addAction(QIcon(":/icons/iconClipboard16x16.png"), posMeter, this, SLOT(slotCopyPosGrid()));
+    }
 
 
     IMap& map = CMapDB::self().getMap();
-    double u = mousePos.x();
-    double v = mousePos.y();
+    u = mousePos.x();
+    v = mousePos.y();
 
     map.convertPt2M(u,v);
     if(!map.isLonLat())
     {
-        QString posMeter = tr("N %1m E %2m").arg(u, 0,'f',0).arg(v,0,'f',0);
+        QString posMeter = tr("Map: N %1m E %2m").arg(u, 0,'f',0).arg(v,0,'f',0);
         menu.addAction(QIcon(":/icons/iconClipboard16x16.png"), posMeter, this, SLOT(slotCopyPosMeter()));
     }
 
@@ -284,6 +303,28 @@ void CMouseMoveMap::slotCopyPosDegree()
     QClipboard *clipboard = QApplication::clipboard();
     clipboard->setText(position);
 
+}
+
+void CMouseMoveMap::slotCopyPosGrid()
+{
+    QString position;
+    bool isLonLat   = false;
+    double u        = mousePos.x();
+    double v        = mousePos.y();
+    CGridDB::self().convertPt2Pos(u, v, isLonLat);
+    if(isLonLat)
+    {
+        u *= RAD_TO_DEG;
+        v *= RAD_TO_DEG;
+        GPS_Math_Deg_To_Str(u, v, position);
+    }
+    else
+    {
+        position = tr("N %1m E %2m").arg(u, 0,'f',0).arg(v,0,'f',0);
+    }
+
+    QClipboard *clipboard = QApplication::clipboard();
+    clipboard->setText(position);
 }
 
 void CMouseMoveMap::slotCopyPosMeter()

@@ -39,6 +39,8 @@ class CGridDB : public QObject
 
         void setProjAndColor(const QString& proj, const QColor& color);
 
+        void convertPt2Pos(double& x, double& y, bool& isLonLat);
+
     private slots:
         void slotShowGrid(bool on){showGrid = on;}
 
