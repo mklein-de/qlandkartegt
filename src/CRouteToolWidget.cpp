@@ -75,7 +75,8 @@ CRouteToolWidget::CRouteToolWidget(QTabWidget * parent)
     tabWidget->setTabIcon(eTabSetup, QIcon(":/icons/iconConfig16x16.png"));
     tabWidget->setTabIcon(eTabHelp, QIcon(":/icons/iconHelp16x16.png"));
 
-    comboService->addItem("OpenRouteService", eOpenRouteService);
+    comboService->addItem("OpenRouteService (Europe)", eOpenRouteService);
+    comboService->addItem("MapQuest (World)", eMapQuest);
 
     comboPreference->addItem(tr("Fastest"), "Fastest");
     comboPreference->addItem(tr("Shortest"), "Shortest");

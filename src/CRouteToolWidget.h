@@ -85,7 +85,8 @@ class CRouteToolWidget : public QWidget, private Ui::IRouteToolWidget
 
         enum service_e
         {
-            eOpenRouteService
+             eOpenRouteService
+            ,eMapQuest
         };
 
         static const QString gml_ns;
