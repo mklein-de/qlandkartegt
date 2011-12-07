@@ -349,6 +349,10 @@ void CRouteToolWidget::slotCalcRoute()
         {
             startOpenRouteService(*route);
         }
+        else if(service == eMapQuest)
+        {
+            startMapQuest(*route);
+        }
     }
 
     originator = false;
@@ -735,4 +739,36 @@ void CRouteToolWidget::slotZoomToFit()
 void CRouteToolWidget::slotTimeout()
 {
     QMessageBox::warning(0,tr("Failed..."), tr("Route request timed out. Please try again later."), QMessageBox::Abort);
+}
+
+const QByteArray keyMapQuest = "Fmjtd%7Cluu2n16t2h%2Crw%3Do5-haya0";
+
+void CRouteToolWidget::startMapQuest(CRoute& rte)
+{
+    QDomDocument xml;
+
+    QByteArray array;
+    QTextStream out(&array, QIODevice::WriteOnly);
+    out.setCodec("UTF-8");
+    out << "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
+    out << xml.toString() << endl;
+
+    QUrl url("http://www.mapquestapi.com");
+    url.setPath("directions/v1/route");
+
+    QList< QPair<QByteArray, QByteArray> > queryItems;
+    queryItems << QPair<QByteArray, QByteArray>(QByteArray("key"), keyMapQuest);
+    queryItems << QPair<QByteArray, QByteArray>(QByteArray("ambiguities"), QByteArray("ignore"));
+    queryItems << QPair<QByteArray, QByteArray>(QByteArray("inFormat"), QByteArray("xml"));
+    queryItems << QPair<QByteArray, QByteArray>(QByteArray("outFormat"), QByteArray("xml"));
+
+    url.setEncodedQueryItems(queryItems);
+
+    QNetworkRequest request;
+    request.setUrl(url);
+    request.setRawHeader("User-Agent", WHAT_STR);
+
+    m_networkAccessManager->post(request, array);
+
+    timer->start(15000);
 }
