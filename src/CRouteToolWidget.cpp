@@ -157,6 +157,10 @@ CRouteToolWidget::~CRouteToolWidget()
     cfg.setValue("route/sortAlpha", toolSortAlpha->isChecked());
     cfg.setValue("route/sortTime", toolSortTime->isChecked());
 
+    foreach(const QString& key, pendingRequests)
+    {
+        qDebug() << "dead entry in pending requests" << key;
+    }
 }
 
 
@@ -454,9 +458,10 @@ void CRouteToolWidget::startOpenRouteService(CRoute& rte)
     request.setUrl(url);
     request.setRawHeader("User-Agent", WHAT_STR);
 
-    m_networkAccessManager->post(request, array);
+    QNetworkReply* reply = m_networkAccessManager->post(request, array);
+    pendingRequests[reply] = rte.getKey();
 
-    timer->start(15000);
+    timer->start(20000);
 
 }
 
@@ -509,6 +514,17 @@ void CRouteToolWidget::addOpenLSPos(QDomDocument& xml, QDomElement& Parent, CRou
 
 void CRouteToolWidget::slotRequestFinished(QNetworkReply* reply)
 {
+    QString key;
+    if(pendingRequests.contains(reply))
+    {
+        key = pendingRequests.take(reply);
+        qDebug() << "--------------------removed" << key << reply;
+    }
+    else
+    {
+        qDebug() << "--------------------reply not found" << reply;
+    }
+
     if(reply->error() != QNetworkReply::NoError)
     {
         timer->stop();
@@ -520,7 +536,7 @@ void CRouteToolWidget::slotRequestFinished(QNetworkReply* reply)
     QByteArray res = reply->readAll();
     reply->deleteLater();
 
-    if(res.isEmpty())
+    if(res.isEmpty() || key.isEmpty())
     {
         return;
     }
@@ -529,20 +545,38 @@ void CRouteToolWidget::slotRequestFinished(QNetworkReply* reply)
 
     QDomDocument xml;
     xml.setContent(res);
-
     qDebug() << xml.toString();
+    qDebug() << "key:" << key;
 
-    QDomElement root     = xml.documentElement();
-    QDomElement response = root.firstChildElement("xls:Response");
-
-    if(response.isNull())
+    qint32 service = comboService->itemData(comboService->currentIndex()).toInt();
+    if(service == eOpenRouteService)
     {
-        QMessageBox::warning(0,tr("Failed..."), tr("Bad response from server:\n%1").arg(xml.toString()), QMessageBox::Abort);
-        return;
-    }
 
-    QString key = response.attribute("requestID","");
-    CRouteDB::self().loadSecondaryRoute(key, xml);
+        QDomElement root     = xml.documentElement();
+        QDomElement response = root.firstChildElement("xls:Response");
+        if(response.isNull())
+        {
+            QMessageBox::warning(0,tr("Failed..."), tr("Bad response from server:\n%1").arg(xml.toString()), QMessageBox::Abort);
+            return;
+        }
+
+        QString key = response.attribute("requestID","");
+        CRouteDB::self().loadSecondaryRoute(key, xml);
+    }
+    else if(service == eMapQuest)
+    {
+
+        QDomElement response    = xml.firstChildElement("response");
+        QDomElement info        = response.firstChildElement("info");
+        QDomElement statusCode  = info.firstChildElement("statusCode");
+
+        if(statusCode.isNull() || statusCode.nodeValue().toInt() != 0)
+        {
+            QMessageBox::warning(0,tr("Failed..."), tr("Bad response from server:\n%1").arg(xml.toString()), QMessageBox::Abort);
+            return;
+        }
+
+    }
 }
 
 void CRouteToolWidget::slotResetRoute()
@@ -747,11 +781,15 @@ void CRouteToolWidget::startMapQuest(CRoute& rte)
 {
     QDomDocument xml;
 
-    QByteArray array;
-    QTextStream out(&array, QIODevice::WriteOnly);
-    out.setCodec("UTF-8");
-    out << "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
-    out << xml.toString() << endl;
+    QDomElement route = xml.createElement("route");
+    xml.appendChild(route);
+
+    QDomElement locations = xml.createElement("locations");
+    route.appendChild(locations);
+    addMapQuestLocations(xml, locations, rte);
+
+    QString xmlstr = xml.toString(0);
+    xmlstr = xmlstr.replace("\n","");
 
     QUrl url("http://www.mapquestapi.com");
     url.setPath("directions/v1/route");
@@ -761,14 +799,28 @@ void CRouteToolWidget::startMapQuest(CRoute& rte)
     queryItems << QPair<QByteArray, QByteArray>(QByteArray("ambiguities"), QByteArray("ignore"));
     queryItems << QPair<QByteArray, QByteArray>(QByteArray("inFormat"), QByteArray("xml"));
     queryItems << QPair<QByteArray, QByteArray>(QByteArray("outFormat"), QByteArray("xml"));
-
+    queryItems << QPair<QByteArray, QByteArray>(QByteArray("xml"), QUrl::toPercentEncoding(xmlstr));
     url.setEncodedQueryItems(queryItems);
+
+    qDebug() << url.toString();
 
     QNetworkRequest request;
     request.setUrl(url);
-    request.setRawHeader("User-Agent", WHAT_STR);
+    m_networkAccessManager->get(request);
 
-    m_networkAccessManager->post(request, array);
+    QNetworkReply* reply = m_networkAccessManager->get(request);
+    pendingRequests[reply] = rte.getKey();
 
-    timer->start(15000);
+    timer->start(20000);
+}
+
+void CRouteToolWidget::addMapQuestLocations(QDomDocument& xml, QDomElement& locations, CRoute& rte)
+{
+    QVector<CRoute::pt_t> wpts = rte.getPriRtePoints();
+    foreach(const CRoute::pt_t& wpt, wpts)
+    {
+        QDomElement location = xml.createElement("location");
+        location.appendChild(xml.createTextNode(QString("%1,%2").arg(wpt.lat).arg(wpt.lon)));
+        locations.appendChild(location);
+    }
 }

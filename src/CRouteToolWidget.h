@@ -74,7 +74,10 @@ class CRouteToolWidget : public QWidget, private Ui::IRouteToolWidget
         void startOpenRouteService(CRoute& rte);
         void addOpenLSWptList(QDomDocument& xml, QDomElement& WayPointList, CRoute& rte);
         void addOpenLSPos(QDomDocument& xml, QDomElement& Point, CRoute::pt_t& pos);
+
         void startMapQuest(CRoute& rte);
+        void addMapQuestLocations(QDomDocument& xml, QDomElement& locations, CRoute& rte);
+
 
         bool originator;
 
@@ -98,12 +101,11 @@ class CRouteToolWidget : public QWidget, private Ui::IRouteToolWidget
         static const QString schemaLocation;
 
         QNetworkAccessManager * m_networkAccessManager;
-
         QSet<QString> knownLocale;
-
         QTimer * timer;
-
         static sortmode_e sortmode;
+
+        QMap<QNetworkReply*, QString> pendingRequests;
 
 };
 #endif                           //CROUTETOOLWIDGET_H
