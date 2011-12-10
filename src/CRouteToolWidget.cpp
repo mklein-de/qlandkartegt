@@ -75,8 +75,8 @@ CRouteToolWidget::CRouteToolWidget(QTabWidget * parent)
     tabWidget->setTabIcon(eTabSetup, QIcon(":/icons/iconConfig16x16.png"));
     tabWidget->setTabIcon(eTabHelp, QIcon(":/icons/iconHelp16x16.png"));
 
-    comboService->addItem("OpenRouteService (Europe)", eOpenRouteService);
-    comboService->addItem("MapQuest (World)", eMapQuest);
+    comboService->addItem("OpenRouteService (Europe)", CRoute::eOpenRouteService);
+    comboService->addItem("MapQuest (World)", CRoute::eMapQuest);
 
     comboPreference->addItem(tr("Fastest"), "Fastest");
     comboPreference->addItem(tr("Shortest"), "Shortest");
@@ -349,11 +349,11 @@ void CRouteToolWidget::slotCalcRoute()
 
         qint32 service = comboService->itemData(comboService->currentIndex()).toInt();
 
-        if(service == eOpenRouteService)
+        if(service == CRoute::eOpenRouteService)
         {
             startOpenRouteService(*route);
         }
-        else if(service == eMapQuest)
+        else if(service == CRoute::eMapQuest)
         {
             startMapQuest(*route);
         }
@@ -549,34 +549,32 @@ void CRouteToolWidget::slotRequestFinished(QNetworkReply* reply)
     qDebug() << "key:" << key;
 
     qint32 service = comboService->itemData(comboService->currentIndex()).toInt();
-    if(service == eOpenRouteService)
+    if(service == CRoute::eOpenRouteService)
     {
+        QDomElement root        = xml.documentElement();
+        QDomElement response    = root.firstChildElement("xls:Response");
 
-        QDomElement root     = xml.documentElement();
-        QDomElement response = root.firstChildElement("xls:Response");
         if(response.isNull())
         {
             QMessageBox::warning(0,tr("Failed..."), tr("Bad response from server:\n%1").arg(xml.toString()), QMessageBox::Abort);
             return;
         }
 
-        QString key = response.attribute("requestID","");
-        CRouteDB::self().loadSecondaryRoute(key, xml);
     }
-    else if(service == eMapQuest)
+    else if(service == CRoute::eMapQuest)
     {
-
         QDomElement response    = xml.firstChildElement("response");
         QDomElement info        = response.firstChildElement("info");
         QDomElement statusCode  = info.firstChildElement("statusCode");
 
-        if(statusCode.isNull() || statusCode.nodeValue().toInt() != 0)
+        if(statusCode.isNull() || statusCode.text().toInt() != 0)
         {
             QMessageBox::warning(0,tr("Failed..."), tr("Bad response from server:\n%1").arg(xml.toString()), QMessageBox::Abort);
             return;
         }
-
     }
+
+    CRouteDB::self().loadSecondaryRoute(key, xml, (CRoute::service_e)service);
 }
 
 void CRouteToolWidget::slotResetRoute()
@@ -787,6 +785,22 @@ void CRouteToolWidget::startMapQuest(CRoute& rte)
     QDomElement locations = xml.createElement("locations");
     route.appendChild(locations);
     addMapQuestLocations(xml, locations, rte);
+
+    QDomElement options = xml.createElement("options");
+    route.appendChild(options);
+
+    QDomElement shapeFormat = xml.createElement("shapeFormat");
+    shapeFormat.appendChild(xml.createTextNode("raw"));
+    options.appendChild(shapeFormat);
+
+    QDomElement generalize = xml.createElement("generalize");
+    generalize.appendChild(xml.createTextNode("0"));
+    options.appendChild(generalize);
+
+
+    QDomElement unit = xml.createElement("unit");
+    unit.appendChild(xml.createTextNode("k"));
+    options.appendChild(unit);
 
     QString xmlstr = xml.toString(0);
     xmlstr = xmlstr.replace("\n","");

@@ -742,11 +742,11 @@ void CRouteDB::makeVisible(const QStringList& keys)
 
 }
 
-void CRouteDB::loadSecondaryRoute(const QString& key, QDomDocument& xml)
+void CRouteDB::loadSecondaryRoute(const QString& key, QDomDocument& xml, CRoute::service_e service)
 {
     if(routes.contains(key))
     {
-        routes[key]->loadSecondaryRoute(xml);
+        routes[key]->loadSecondaryRoute(xml, service);
         emit sigChanged();
         emit sigModified();
         emit sigModified(key);

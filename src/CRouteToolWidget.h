@@ -87,12 +87,6 @@ class CRouteToolWidget : public QWidget, private Ui::IRouteToolWidget
             ,eTabHelp = 2
         };
 
-        enum service_e
-        {
-             eOpenRouteService
-            ,eMapQuest
-        };
-
         static const QString gml_ns;
         static const QString xls_ns;
         static const QString xsi_ns;

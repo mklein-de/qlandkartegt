@@ -21,13 +21,15 @@
 #define CROUTEDB_H
 
 #include "IDB.h"
+#include "CRoute.h"
 
 #include <QMap>
 #include <QRectF>
 #include <QString>
 #include <QPixmap>
 
-class CRoute;
+
+
 class QDomDocument;
 
 class CRouteDB : public IDB
@@ -80,7 +82,7 @@ class CRouteDB : public IDB
 
         void makeVisible(const QStringList& keys);
 
-        void loadSecondaryRoute(const QString& key, QDomDocument& xml);
+        void loadSecondaryRoute(const QString& key, QDomDocument& xml, CRoute::service_e service);
 
         void reset(const QString& key);
 

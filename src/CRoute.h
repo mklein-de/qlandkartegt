@@ -38,6 +38,13 @@ class CRoute : public IItem
         CRoute(QObject * parent);
         virtual ~CRoute();
 
+        enum service_e
+        {
+             eOpenRouteService
+            ,eMapQuest
+        };
+
+
         enum type_e {eEnd, eBase, eRtePts, eRteSec};
         struct pt_t
         {
@@ -86,7 +93,7 @@ class CRoute : public IItem
 
         QPixmap getIcon();
 
-        void loadSecondaryRoute(QDomDocument& xml);
+        void loadSecondaryRoute(QDomDocument& xml, service_e service);
 
         void reset();
 
@@ -102,6 +109,8 @@ class CRoute : public IItem
         friend QDataStream& operator >>(QDataStream& s, CRoute& route);
         friend QDataStream& operator <<(QDataStream& s, CRoute& route);
 
+        void loadSecondaryRouteORS(QDomDocument& xml);
+        void loadSecondaryRouteMQ(QDomDocument& xml);
         void calcDistance();
 
         /// primary route, just the basic points like A to B via C

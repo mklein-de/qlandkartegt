@@ -429,7 +429,7 @@ QString CRoute::getInfo()
     return str;
 }
 
-void CRoute::loadSecondaryRoute(QDomDocument& xml)
+void CRoute::loadSecondaryRoute(QDomDocument& xml, service_e service)
 {
 //    qDebug() << xml.toString();
 
@@ -438,8 +438,64 @@ void CRoute::loadSecondaryRoute(QDomDocument& xml)
     secRoute.clear();
     firstTime = true;
 
-    QDomElement root = xml.documentElement();
+    switch(service)
+    {
+    case eOpenRouteService:
+        loadSecondaryRouteORS(xml);
+        break;
+    case eMapQuest:
+        loadSecondaryRouteMQ(xml);
+        break;
+    }
 
+    calcDistance();
+    emit sigChanged();
+
+}
+
+void CRoute::loadSecondaryRouteMQ(QDomDocument& xml)
+{
+    QDomElement response    = xml.firstChildElement("response");
+    QDomElement route       = response.firstChildElement("route");
+    QDomElement shape       = route.firstChildElement("shape");
+    QDomElement shapePoints = shape.firstChildElement("shapePoints");
+
+    QDomNodeList latLng   = shapePoints.elementsByTagName("latLng");
+    const qint32 N = latLng.size();
+    for(int i = 0; i < N; i++)
+    {
+        QDomNode elem    = latLng.item(i);
+        QDomElement lat     = elem.firstChildElement("lat");
+        QDomElement lng     = elem.firstChildElement("lng");
+
+        pt_t rtept;
+        rtept.lon = lng.text().toFloat();
+        rtept.lat = lat.text().toFloat();
+
+        secRoute << rtept;
+    }
+
+
+
+//    QDomElement route       = response.firstChildElement("route");
+//    QDomElement legs        = route.firstChildElement("legs");
+//    QDomElement leg         = legs.firstChildElement("leg");
+//    QDomElement maneuvers   = leg.firstChildElement("maneuvers");
+
+//    QDomNodeList maneuver   = maneuvers.elementsByTagName("maneuver");
+//    const qint32 N = maneuver.size();
+//    for(int i = 0; i < N; i++)
+//    {
+
+//    }
+
+
+
+}
+
+void CRoute::loadSecondaryRouteORS(QDomDocument& xml)
+{
+    QDomElement root = xml.documentElement();
     QDomNodeList RouteSummaries = root.elementsByTagName("xls:RouteSummary");
     if(!RouteSummaries.isEmpty())
     {
@@ -511,11 +567,6 @@ void CRoute::loadSecondaryRoute(QDomDocument& xml)
             }
         }
     }
-
-    calcDistance();
-
-    emit sigChanged();
-
 }
 
 void CRoute::reset()
