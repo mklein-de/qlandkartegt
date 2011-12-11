@@ -505,9 +505,6 @@ void CRoute::loadSecondaryRouteMQ(QDomDocument& xml)
             secRoute[idx].action = instructions[i];
         }
     }
-
-
-
 }
 
 void CRoute::loadSecondaryRouteORS(QDomDocument& xml)

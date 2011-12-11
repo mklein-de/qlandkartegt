@@ -68,6 +68,7 @@ class CRouteToolWidget : public QWidget, private Ui::IRouteToolWidget
         void slotZoomToFit();
 
         void slotTimeout();
+        void slotServiceChanged(int);
 
 
     private:

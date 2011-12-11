@@ -77,59 +77,94 @@ CRouteToolWidget::CRouteToolWidget(QTabWidget * parent)
 
     comboService->addItem("OpenRouteService (Europe)", CRoute::eOpenRouteService);
     comboService->addItem("MapQuest (World)", CRoute::eMapQuest);
+    connect(comboService, SIGNAL(currentIndexChanged(int)), this, SLOT(slotServiceChanged(int)));
 
-    comboPreference->addItem(tr("Fastest"), "Fastest");
-    comboPreference->addItem(tr("Shortest"), "Shortest");
-    comboPreference->addItem(tr("Bicycle"), "Bicycle");
-    comboPreference->addItem(tr("Mountain bike"), "BicycleMTB");
-    comboPreference->addItem(tr("Bicycle racer"), "BicycleRacer");
-    comboPreference->addItem(tr("Bicycle safest"), "BicycleSafety");
-    comboPreference->addItem(tr("Bicycle route"), "BicycleRoute");
-    comboPreference->addItem(tr("Pedestrian"), "Pedestrian");
+    // ------------ ORS Setup ------------
+    comboORSPreference->addItem(tr("Fastest"), "Fastest");
+    comboORSPreference->addItem(tr("Shortest"), "Shortest");
+    comboORSPreference->addItem(tr("Bicycle"), "Bicycle");
+    comboORSPreference->addItem(tr("Mountain bike"), "BicycleMTB");
+    comboORSPreference->addItem(tr("Bicycle racer"), "BicycleRacer");
+    comboORSPreference->addItem(tr("Bicycle safest"), "BicycleSafety");
+    comboORSPreference->addItem(tr("Bicycle route"), "BicycleRoute");
+    comboORSPreference->addItem(tr("Pedestrian"), "Pedestrian");
 
-    comboLanguage->addItem(tr("English"), "en");
-    comboLanguage->addItem(tr("German"), "de");
-    comboLanguage->addItem(tr("Bulgarian"), "bg");
-    comboLanguage->addItem(tr("Czech"), "cz");
-    comboLanguage->addItem(tr("Dutch"), "nl");
-    comboLanguage->addItem(tr("Croatian"), "hr");
-    comboLanguage->addItem(tr("Hungarian"), "hu");
-    comboLanguage->addItem(tr("Dutch (belgium)"), "nl_BE");
-    comboLanguage->addItem(tr("Spanish"), "es");
-    comboLanguage->addItem(tr("Esperanto"), "eo");
-    comboLanguage->addItem(tr("Finnish"), "fi");
-    comboLanguage->addItem(tr("French"), "fr");
-    comboLanguage->addItem(tr("Italian"), "it");
-    comboLanguage->addItem(tr("Portuguese (brazil)"), "pt_BR");
-    comboLanguage->addItem(tr("Romanian"), "ro");
-    comboLanguage->addItem(tr("Russian"), "ru");
-    comboLanguage->addItem(tr("Svenska"), "se");
-    comboLanguage->addItem(tr("Danish"), "dk");
-    comboLanguage->addItem(tr("Turkish"), "tr");
-    comboLanguage->addItem(tr("Catalan"), "ca");
-    comboLanguage->addItem(tr("Japanese"), "ja");
-    comboLanguage->addItem(tr("Norwegian"), "no");
-    comboLanguage->addItem(tr("Vietnamese"), "vi");
-    comboLanguage->addItem(tr("Norwegian-bokmal"), "nb");
-    comboLanguage->addItem(tr("de - Rhenish"), "de-rheinl");
-    comboLanguage->addItem(tr("de - Op Platt"), "de-opplat");
-    comboLanguage->addItem(tr("de - Berlin dialect"), "de-berlin");
-    comboLanguage->addItem(tr("de - Swabian"), "de-swabia");
-    comboLanguage->addItem(tr("de - Ruhrpott"), "de-ruhrpo");
-    comboLanguage->addItem(tr("de - great Austrian dialect"), "de-at-ooe");
-    comboLanguage->addItem(tr("de - Bavarian"), "de-bay");
+    comboORSLanguage->addItem(tr("English"), "en");
+    comboORSLanguage->addItem(tr("German"), "de");
+    comboORSLanguage->addItem(tr("Bulgarian"), "bg");
+    comboORSLanguage->addItem(tr("Czech"), "cz");
+    comboORSLanguage->addItem(tr("Dutch"), "nl");
+    comboORSLanguage->addItem(tr("Croatian"), "hr");
+    comboORSLanguage->addItem(tr("Hungarian"), "hu");
+    comboORSLanguage->addItem(tr("Dutch (belgium)"), "nl_BE");
+    comboORSLanguage->addItem(tr("Spanish"), "es");
+    comboORSLanguage->addItem(tr("Esperanto"), "eo");
+    comboORSLanguage->addItem(tr("Finnish"), "fi");
+    comboORSLanguage->addItem(tr("French"), "fr");
+    comboORSLanguage->addItem(tr("Italian"), "it");
+    comboORSLanguage->addItem(tr("Portuguese (brazil)"), "pt_BR");
+    comboORSLanguage->addItem(tr("Romanian"), "ro");
+    comboORSLanguage->addItem(tr("Russian"), "ru");
+    comboORSLanguage->addItem(tr("Svenska"), "se");
+    comboORSLanguage->addItem(tr("Danish"), "dk");
+    comboORSLanguage->addItem(tr("Turkish"), "tr");
+    comboORSLanguage->addItem(tr("Catalan"), "ca");
+    comboORSLanguage->addItem(tr("Japanese"), "ja");
+    comboORSLanguage->addItem(tr("Norwegian"), "no");
+    comboORSLanguage->addItem(tr("Vietnamese"), "vi");
+    comboORSLanguage->addItem(tr("Norwegian-bokmal"), "nb");
+    comboORSLanguage->addItem(tr("de - Rhenish"), "de-rheinl");
+    comboORSLanguage->addItem(tr("de - Op Platt"), "de-opplat");
+    comboORSLanguage->addItem(tr("de - Berlin dialect"), "de-berlin");
+    comboORSLanguage->addItem(tr("de - Swabian"), "de-swabia");
+    comboORSLanguage->addItem(tr("de - Ruhrpott"), "de-ruhrpo");
+    comboORSLanguage->addItem(tr("de - great Austrian dialect"), "de-at-ooe");
+    comboORSLanguage->addItem(tr("de - Bavarian"), "de-bay");
 
-    QString locale = QLocale::system().name().left(2);
-    int langIdx = comboLanguage->findData(locale);
+    // ------------ MQ Setup ------------
+    comboMQPreference->addItem(tr("Fastest"), "fastest");
+    comboMQPreference->addItem(tr("Shortest"), "shortest");
+    comboMQPreference->addItem(tr("Bicycle"), "bicycle");
+    comboMQPreference->addItem(tr("Pedestrian/pub. transp."), "multimodal");
+    comboMQPreference->addItem(tr("Pedestrian"), "pedestrian");
+
+    comboMQLanguage->addItem(tr("US English"), "en_US");
+    comboMQLanguage->addItem(tr("British English"), "en_GB");
+    comboMQLanguage->addItem(tr("Danish"), "da_DK");
+    comboMQLanguage->addItem(tr("Dutch"), "nl_NL");
+    comboMQLanguage->addItem(tr("French"), "fr_FR");
+    comboMQLanguage->addItem(tr("German"), "de_DE");
+    comboMQLanguage->addItem(tr("Italian"), "it_IT");
+    comboMQLanguage->addItem(tr("Norwegian"), "no");
+    comboMQLanguage->addItem(tr("Spanish"), "es");
+    comboMQLanguage->addItem(tr("Swedish"), "sv_SE");
 
     QSettings cfg;
+    int langIdx;
+    QString locale = QLocale::system().name().left(2);
+
     cfg.beginGroup("routing");
     comboService->setCurrentIndex(cfg.value("service", 0).toInt());
-    comboPreference->setCurrentIndex(cfg.value("preference", 0).toInt());
-    checkAvoidHighways->setChecked(cfg.value("avoidHighways", false).toBool());
-    checkAvoidTollways->setChecked(cfg.value("avoidTollways", false).toBool());
-    comboLanguage->setCurrentIndex(cfg.value("language", langIdx).toInt());
+    cfg.beginGroup("ORS");
+    langIdx = comboORSLanguage->findData(locale);
+    comboORSPreference->setCurrentIndex(cfg.value("preference", 0).toInt());
+    checkORSAvoidHighways->setChecked(cfg.value("avoidHighways", false).toBool());
+    checkORSAvoidTollways->setChecked(cfg.value("avoidTollways", false).toBool());
+    comboORSLanguage->setCurrentIndex(cfg.value("language", langIdx).toInt());
     cfg.endGroup();
+    cfg.beginGroup("MQ");
+    langIdx = comboORSLanguage->findData(locale);
+    comboMQPreference->setCurrentIndex(cfg.value("preference", 0).toInt());
+    checkMQAvoidLimAccess->setChecked(cfg.value("avoidLimAccess", false).toBool());
+    checkMQAvoidTollRoads->setChecked(cfg.value("avoidTollRoads", false).toBool());
+    checkMQAvoidSeasonal->setChecked(cfg.value("avoidSeasonal", false).toBool());
+    checkMQAvoidUnpaved->setChecked(cfg.value("avoidUnpaved", false).toBool());
+    checkMQAvoidFerry->setChecked(cfg.value("avoidFerry", false).toBool());
+    checkMQAvoidCountryBorder->setChecked(cfg.value("avoidCountryBorder", false).toBool());
+    comboMQLanguage->setCurrentIndex(cfg.value("language", langIdx).toInt());
+    cfg.endGroup();
+    cfg.endGroup();
+
 
     slotSetupLink();
     connect(&CResources::self(), SIGNAL(sigProxyChanged()), this, SLOT(slotSetupLink()));
@@ -163,6 +198,20 @@ CRouteToolWidget::~CRouteToolWidget()
     }
 }
 
+void CRouteToolWidget::slotServiceChanged(int idx)
+{
+    groupORS->hide();
+    groupMQ->hide();
+
+    if(comboService->itemData(idx).toInt() == CRoute::eOpenRouteService)
+    {
+        groupORS->show();
+    }
+    else if(comboService->itemData(idx).toInt() == CRoute::eMapQuest)
+    {
+        groupMQ->show();
+    }
+}
 
 void CRouteToolWidget::slotDBChanged()
 {
@@ -330,12 +379,23 @@ void CRouteToolWidget::slotCalcRoute()
     QSettings cfg;
     cfg.beginGroup("routing");
     cfg.setValue("service", comboService->currentIndex());
-    cfg.setValue("preference", comboPreference->currentIndex());
-    cfg.setValue("avoidHighways", checkAvoidHighways->isChecked());
-    cfg.setValue("avoidTollways", checkAvoidTollways->isChecked());
-    cfg.setValue("language", comboLanguage->currentIndex());
+    cfg.beginGroup("ORS");
+    cfg.setValue("preference", comboORSPreference->currentIndex());
+    cfg.setValue("avoidHighways", checkORSAvoidHighways->isChecked());
+    cfg.setValue("avoidTollways", checkORSAvoidTollways->isChecked());
+    cfg.setValue("language", comboORSLanguage->currentIndex());
     cfg.endGroup();
-
+    cfg.beginGroup("MQ");
+    cfg.setValue("preference", comboMQPreference->currentIndex());
+    cfg.setValue("avoidLimAccess", checkMQAvoidLimAccess->isChecked());
+    cfg.setValue("avoidTollRoads", checkMQAvoidTollRoads->isChecked());
+    cfg.setValue("avoidSeasonal", checkMQAvoidSeasonal->isChecked());
+    cfg.setValue("avoidUnpaved", checkMQAvoidUnpaved->isChecked());
+    cfg.setValue("avoidFerry", checkMQAvoidFerry->isChecked());
+    cfg.setValue("avoidCountryBorder", checkMQAvoidCountryBorder->isChecked());
+    cfg.setValue("language", comboMQLanguage->currentIndex());
+    cfg.endGroup();
+    cfg.endGroup();
 
     originator = true;
     foreach(item, items)
@@ -387,7 +447,7 @@ void CRouteToolWidget::startOpenRouteService(CRoute& rte)
     root.setAttribute("xmlns:xsi",xsi_ns);
     root.setAttribute("xsi:schemaLocation",schemaLocation);
     root.setAttribute("version","1.1");
-    root.setAttribute("xls:lang", comboLanguage->itemData(comboLanguage->currentIndex()).toString());
+    root.setAttribute("xls:lang", comboORSLanguage->itemData(comboORSLanguage->currentIndex()).toString());
 
     QDomElement requestHeader = xml.createElement("xls:RequestHeader");
     root.appendChild(requestHeader);
@@ -411,7 +471,7 @@ void CRouteToolWidget::startOpenRouteService(CRoute& rte)
     QDomElement RoutePreference = xml.createElement("xls:RoutePreference");
     RoutePlan.appendChild(RoutePreference);
 
-    QDomText _RoutePreference_ = xml.createTextNode(comboPreference->itemData(comboPreference->currentIndex()).toString());
+    QDomText _RoutePreference_ = xml.createTextNode(comboORSPreference->itemData(comboORSPreference->currentIndex()).toString());
     RoutePreference.appendChild(_RoutePreference_);
 
     QDomElement WayPointList = xml.createElement("xls:WayPointList");
@@ -421,7 +481,7 @@ void CRouteToolWidget::startOpenRouteService(CRoute& rte)
 
     QDomElement AvoidList = xml.createElement("xls:AvoidList");
     RoutePlan.appendChild(AvoidList);
-    if(checkAvoidHighways->isChecked())
+    if(checkORSAvoidHighways->isChecked())
     {
         QDomElement AvoidFeature = xml.createElement("xls:AvoidFeature");
         AvoidList.appendChild(AvoidFeature);
@@ -430,7 +490,7 @@ void CRouteToolWidget::startOpenRouteService(CRoute& rte)
         AvoidFeature.appendChild(_AvoidFeature_);
     }
 
-    if(checkAvoidTollways->isChecked())
+    if(checkORSAvoidTollways->isChecked())
     {
         QDomElement AvoidFeature = xml.createElement("xls:AvoidFeature");
         AvoidList.appendChild(AvoidFeature);
@@ -801,6 +861,54 @@ void CRouteToolWidget::startMapQuest(CRoute& rte)
     QDomElement unit = xml.createElement("unit");
     unit.appendChild(xml.createTextNode("k"));
     options.appendChild(unit);
+
+    QDomElement routeType = xml.createElement("routeType");
+    routeType.appendChild(xml.createTextNode(comboMQPreference->itemData(comboMQPreference->currentIndex()).toString()));
+    options.appendChild(routeType);
+
+    QDomElement locale = xml.createElement("locale");
+    locale.appendChild(xml.createTextNode(comboMQLanguage->itemData(comboMQLanguage->currentIndex()).toString()));
+    options.appendChild(locale);
+
+    QDomElement avoids = xml.createElement("avoids");
+    if(checkMQAvoidLimAccess->isChecked())
+    {
+        QDomElement avoid = xml.createElement("avoid");
+        avoid.appendChild(xml.createTextNode("Limited Access"));
+        avoids.appendChild(avoid);
+    }
+    if(checkMQAvoidTollRoads->isChecked())
+    {
+        QDomElement avoid = xml.createElement("avoid");
+        avoid.appendChild(xml.createTextNode("Toll road"));
+        avoids.appendChild(avoid);
+    }
+    if(checkMQAvoidSeasonal->isChecked())
+    {
+        QDomElement avoid = xml.createElement("avoid");
+        avoid.appendChild(xml.createTextNode("Approximate Seasonal Closure"));
+        avoids.appendChild(avoid);
+    }
+    if(checkMQAvoidUnpaved->isChecked())
+    {
+        QDomElement avoid = xml.createElement("avoid");
+        avoid.appendChild(xml.createTextNode("Unpaved"));
+        avoids.appendChild(avoid);
+    }
+    if(checkMQAvoidFerry->isChecked())
+    {
+        QDomElement avoid = xml.createElement("avoid");
+        avoid.appendChild(xml.createTextNode("Ferry"));
+        avoids.appendChild(avoid);
+    }
+    if(checkMQAvoidCountryBorder->isChecked())
+    {
+        QDomElement avoid = xml.createElement("avoid");
+        avoid.appendChild(xml.createTextNode("Country border crossing"));
+        avoids.appendChild(avoid);
+    }
+
+    options.appendChild(avoids);
 
     QString xmlstr = xml.toString(0);
     xmlstr = xmlstr.replace("\n","");
