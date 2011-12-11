@@ -455,18 +455,36 @@ void CRoute::loadSecondaryRoute(QDomDocument& xml, service_e service)
 
 void CRoute::loadSecondaryRouteMQ(QDomDocument& xml)
 {
+    QStringList instructions;
+
     QDomElement response    = xml.firstChildElement("response");
     QDomElement route       = response.firstChildElement("route");
+
+    // get time of travel
+    QDomElement time        = route.firstChildElement("time");
+    ttime = time.text().toUInt();
+
+    // build list of maneuvers
+    QDomElement legs        = route.firstChildElement("legs");
+    QDomElement leg         = legs.firstChildElement("leg");
+    QDomNodeList maneuvers  = leg.firstChildElement("maneuvers").elementsByTagName("maneuver");
+    const qint32 M = maneuvers.size();
+    for(int i = 0; i < M; i++)
+    {
+        QDomNode maneuver    = maneuvers.item(i);
+        instructions << maneuver.firstChildElement("narrative").text();
+    }
+
+    // read the shape
     QDomElement shape       = route.firstChildElement("shape");
     QDomElement shapePoints = shape.firstChildElement("shapePoints");
-
-    QDomNodeList latLng   = shapePoints.elementsByTagName("latLng");
+    QDomNodeList latLng     = shapePoints.elementsByTagName("latLng");
     const qint32 N = latLng.size();
     for(int i = 0; i < N; i++)
     {
-        QDomNode elem    = latLng.item(i);
-        QDomElement lat     = elem.firstChildElement("lat");
-        QDomElement lng     = elem.firstChildElement("lng");
+        QDomNode elem   = latLng.item(i);
+        QDomElement lat = elem.firstChildElement("lat");
+        QDomElement lng = elem.firstChildElement("lng");
 
         pt_t rtept;
         rtept.lon = lng.text().toFloat();
@@ -475,19 +493,18 @@ void CRoute::loadSecondaryRouteMQ(QDomDocument& xml)
         secRoute << rtept;
     }
 
-
-
-//    QDomElement route       = response.firstChildElement("route");
-//    QDomElement legs        = route.firstChildElement("legs");
-//    QDomElement leg         = legs.firstChildElement("leg");
-//    QDomElement maneuvers   = leg.firstChildElement("maneuvers");
-
-//    QDomNodeList maneuver   = maneuvers.elementsByTagName("maneuver");
-//    const qint32 N = maneuver.size();
-//    for(int i = 0; i < N; i++)
-//    {
-
-//    }
+    // maneuvre index
+    QDomElement maneuverIndexes = shape.firstChildElement("maneuverIndexes");
+    QDomNodeList index = maneuverIndexes.elementsByTagName("index");
+    const qint32 I = index.size();
+    for(int i = 0; i < I; i++)
+    {
+        int idx = index.item(i).toElement().text().toInt();
+        if(idx < secRoute.size())
+        {
+            secRoute[idx].action = instructions[i];
+        }
+    }
 
 
 
