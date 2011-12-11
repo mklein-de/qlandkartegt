@@ -579,11 +579,11 @@ void CRouteToolWidget::slotRequestFinished(QNetworkReply* reply)
     if(pendingRequests.contains(reply))
     {
         key = pendingRequests.take(reply);
-        qDebug() << "--------------------removed" << key << reply;
+//        qDebug() << "--------------------removed" << key << reply;
     }
     else
     {
-        qDebug() << "--------------------reply not found" << reply;
+//        qDebug() << "--------------------reply not found" << reply;
     }
 
     if(reply->error() != QNetworkReply::NoError)
@@ -606,8 +606,8 @@ void CRouteToolWidget::slotRequestFinished(QNetworkReply* reply)
 
     QDomDocument xml;
     xml.setContent(res);
-    qDebug() << xml.toString();
-    qDebug() << "key:" << key;
+//    qDebug() << xml.toString();
+//    qDebug() << "key:" << key;
 
     qint32 service = comboService->itemData(comboService->currentIndex()).toInt();
     if(service == CRoute::eOpenRouteService)
@@ -925,7 +925,7 @@ void CRouteToolWidget::startMapQuest(CRoute& rte)
     queryItems << QPair<QByteArray, QByteArray>(QByteArray("xml"), QUrl::toPercentEncoding(xmlstr));
     url.setEncodedQueryItems(queryItems);
 
-    qDebug() << url.toString();
+//    qDebug() << url.toString();
 
     QNetworkRequest request;
     request.setUrl(url);
