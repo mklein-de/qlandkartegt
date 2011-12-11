@@ -42,7 +42,6 @@ class COsmTilesHash: public QObject
     signals:
         void newImageReady(const QPixmap& image, bool lastTileLoaded);
     private:
-        int m_osm_zoom;
         QUrl m_tileUrl;
         QString m_tilePath;
         QNetworkDiskCache * diskCache;

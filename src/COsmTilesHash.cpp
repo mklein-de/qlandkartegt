@@ -40,7 +40,6 @@ QString COsmTilesHash::cacheFolder;
 
 COsmTilesHash::COsmTilesHash(QString tileUrl)
 {
-    m_osm_zoom = 0;
     if (cacheFolder.isEmpty())
     {
 #ifndef Q_OS_WIN32
@@ -129,11 +128,10 @@ void COsmTilesHash::startNewDrawing( double lon, double lat, int osm_zoom, const
     pixmap.fill(Qt::white);
 
     m_queuedRequests.clear();
-    if(m_osm_zoom != osm_zoom)
-    {
-        m_osm_zoom = osm_zoom;
-        m_activeRequests.clear();
-    }
+
+    foreach(QString url, m_activeRequests.keys())
+        m_activeRequests.insert(url, QPoint());
+
     for(int x=0; x<xCount; x++)
     {
         for (int y=0; y<yCount; y++)
