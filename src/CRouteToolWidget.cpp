@@ -145,6 +145,7 @@ CRouteToolWidget::CRouteToolWidget(QTabWidget * parent)
 
     cfg.beginGroup("routing");
     comboService->setCurrentIndex(cfg.value("service", 0).toInt());
+    slotServiceChanged(comboService->currentIndex());
     cfg.beginGroup("ORS");
     langIdx = comboORSLanguage->findData(locale);
     comboORSPreference->setCurrentIndex(cfg.value("preference", 0).toInt());
