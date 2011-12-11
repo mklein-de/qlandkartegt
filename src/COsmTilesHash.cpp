@@ -40,6 +40,7 @@ QString COsmTilesHash::cacheFolder;
 
 COsmTilesHash::COsmTilesHash(QString tileUrl)
 {
+    m_osm_zoom = 0;
     if (cacheFolder.isEmpty())
     {
 #ifndef Q_OS_WIN32
@@ -128,7 +129,11 @@ void COsmTilesHash::startNewDrawing( double lon, double lat, int osm_zoom, const
     pixmap.fill(Qt::white);
 
     m_queuedRequests.clear();
-
+    if(m_osm_zoom != osm_zoom)
+    {
+        m_osm_zoom = osm_zoom;
+        m_activeRequests.clear();
+    }
     for(int x=0; x<xCount; x++)
     {
         for (int y=0; y<yCount; y++)
@@ -180,7 +185,7 @@ void COsmTilesHash::dequeue()
 void COsmTilesHash::slotRequestFinished(QNetworkReply* reply)
 {
 
-    QPoint startPoint = m_activeRequests.value(reply->url().toString());
+    QPoint startPoint = m_activeRequests.value(reply->url().toString(), QPoint());
     m_activeRequests.remove(reply->url().toString());
     dequeue();
     if (reply->error() != QNetworkReply::NoError)
@@ -204,9 +209,12 @@ void COsmTilesHash::slotRequestFinished(QNetworkReply* reply)
     else
     {
         m_tileHash.insert(reply->url().toString(),img1);
-        QPainter p(&pixmap);
-        p.drawPixmap(startPoint,img1);
-        emit newImageReady(pixmap,m_activeRequests.isEmpty());
+        if(!startPoint.isNull())
+        {
+            QPainter p(&pixmap);
+            p.drawPixmap(startPoint,img1);
+            emit newImageReady(pixmap,m_activeRequests.isEmpty());
+        }
     }
     reply->deleteLater();
     return;
