@@ -24,7 +24,9 @@
 
 #include <QMap>
 
-class QHttp;
+
+class QNetworkAccessManager;
+class QNetworkReply;
 
 /// search database
 class CSearchDB : public IDB
@@ -45,7 +47,9 @@ class CSearchDB : public IDB
         enum hosts_t
         {
              eOpenRouteService
+            ,eMapQuest
             ,eGoogle
+            ,eNoHost
         };
 
         void draw(QPainter& p, const QRect& rect, bool& needsRedraw);
@@ -84,14 +88,19 @@ class CSearchDB : public IDB
 
     private slots:
         void slotSetupLink();
-        void slotRequestFinishedGoogle(int , bool error);
-        void slotRequestFinishedOpenRouteService(int , bool error);
+
+        void slotRequestFinished(QNetworkReply * reply);
+
+        void slotRequestFinishedGoogle(QByteArray& data);
+        void slotRequestFinishedOpenRouteService(QByteArray& data);
+        void slotRequestFinishedMapQuest(QByteArray& data);
 
     private:
         friend class CMainWindow;
 
         void startGoogle(const QString& str);
         void startOpenRouteService(const QString& str);
+        void startMapQuest(const QString& str);
 
         CSearchDB(QTabWidget * tb, QObject * parent);
         static CSearchDB * m_self;
@@ -102,11 +111,10 @@ class CSearchDB : public IDB
         static const QString xsi_ns;
         static const QString schemaLocation;
 
-
-
-        QHttp * google;
-        QHttp * ors;
         CSearch tmpResult;
+        QNetworkAccessManager * networkAccessManager;
         QMap<QString,CSearch*> results;
+
+        QMap<QNetworkReply*, hosts_t> pendingRequests;
 };
 #endif                           //CSEARCHDB_H

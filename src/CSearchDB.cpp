@@ -28,6 +28,7 @@
 #include <QtGui>
 #include <QHttp>
 #include <QtXml>
+#include <QtNetwork>
 
 CSearchDB * CSearchDB::m_self;
 
@@ -35,9 +36,8 @@ static const char google_api_key[] = "ABQIAAAAPztEvITCpkvDNrq-hFRvThQNZ4aRbgDVTL
 
 CSearchDB::CSearchDB(QTabWidget * tb, QObject * parent)
 : IDB(tb,parent)
-, google(0)
-, ors(0)
 , tmpResult(0)
+, networkAccessManager(0)
 {
     m_self      = this;
     toolview    = new CSearchToolWidget(tb);
@@ -60,86 +60,186 @@ void CSearchDB::clear()
     emit sigChanged();
 }
 
-
-void CSearchDB::search(const QString& str, hosts_t host)
-{
-
-    if(host == eGoogle)
-    {
-        startGoogle(str);
-    }
-    if(host == eOpenRouteService)
-    {
-        startOpenRouteService(str);
-    }
-    else
-    {
-        emit sigStatus(tr("Unknown host."));
-        emit sigFinished();
-        emit sigChanged();
-    }
-}
-
-
-void CSearchDB::startGoogle(const QString& str)
-{
-
-    QUrl url;
-
-    if(google == 0) return;
-
-    emit sigStatus(tr("start searching..."));
-
-    tmpResult.setName(str);
-
-    url.setPath("/maps/geo");
-    url.addQueryItem("q",str);
-    url.addQueryItem("output","csv");
-    url.addQueryItem("key",google_api_key);
-    google->get(url.toEncoded( ));
-}
-
-
 void CSearchDB::slotSetupLink()
 {
+
     QString url;
     quint16 port;
     bool enableProxy;
 
     enableProxy = CResources::self().getHttpProxy(url,port);
 
-    if(google) delete google;
-    google = new QHttp(this);
+    delete networkAccessManager;
+    networkAccessManager = new QNetworkAccessManager(this);
+    connect(networkAccessManager,SIGNAL(finished(QNetworkReply*)),this,SLOT(slotRequestFinished(QNetworkReply*)));
+
     if(enableProxy)
     {
-        google->setProxy(url,port);
+        networkAccessManager->setProxy(QNetworkProxy(QNetworkProxy::HttpProxy,url,port));
     }
-    google->setHost("maps.google.com");
-    connect(google,SIGNAL(requestFinished(int,bool)),this,SLOT(slotRequestFinishedGoogle(int,bool)));
+}
 
-
-    if(ors) delete ors;
-    ors = new QHttp(this);
-    if(enableProxy)
+void CSearchDB::search(const QString& str, hosts_t host)
+{
+    emit sigStatus(tr("start searching..."));
+    switch(host)
     {
-        ors->setProxy(url,port);
+        case eOpenRouteService:
+            startOpenRouteService(str);
+            break;
+//        case eMapQuest:
+//            startMapQuest(str);
+//            break;
+        case eGoogle:
+            startGoogle(str);
+            break;
+        default:
+            emit sigStatus(tr("Unknown host."));
+            emit sigFinished();
+            emit sigChanged();
     }
-    ors->setHost("openls.geog.uni-heidelberg.de");
-    connect(ors,SIGNAL(requestFinished(int,bool)),this,SLOT(slotRequestFinishedOpenRouteService(int,bool)));
 }
 
 
-void CSearchDB::slotRequestFinishedGoogle(int , bool error)
+void CSearchDB::startGoogle(const QString& str)
 {
-    QApplication::restoreOverrideCursor();
+    QUrl url("http://maps.google.com");
+    tmpResult.setName(str);
+    url.setPath("/maps/geo");
+    url.addQueryItem("q",str);
+    url.addQueryItem("output","csv");
+    url.addQueryItem("key",google_api_key);
 
-    if(error)
+    QNetworkRequest request;
+    request.setUrl(url);
+    QNetworkReply * reply = networkAccessManager->get(request);
+    pendingRequests[reply] = eGoogle;
+
+}
+
+const QString CSearchDB::xls_ns = "http://www.opengis.net/xls";
+const QString CSearchDB::sch_ns = "http://www.ascc.net/xml/schematron";
+const QString CSearchDB::gml_ns = "http://www.opengis.net/gml";
+const QString CSearchDB::xlink_ns = "http://www.w3.org/1999/xlink";
+const QString CSearchDB::xsi_ns = "http://www.w3.org/2001/XMLSchema-instance";
+const QString CSearchDB::schemaLocation = "http://www.opengis.net/xls http://schemas.opengis.net/ols/1.1.0/LocationUtilityService.xsd";
+
+void CSearchDB::startOpenRouteService(const QString& str)
+{
+    tmpResult.setName(str);
+
+    QDomDocument xml;
+    QDomElement root = xml.createElement("xls:XLS");
+    xml.appendChild(root);
+
+    root.setAttribute("xmlns:xls",xls_ns);
+    root.setAttribute("xmlns:sch",sch_ns);
+    root.setAttribute("xmlns:gml",gml_ns);
+    root.setAttribute("xmlns:xlink",xlink_ns);
+    root.setAttribute("xmlns:xsi",xsi_ns);
+    root.setAttribute("xsi:schemaLocation",schemaLocation);
+    root.setAttribute("version","1.1");
+    //root.setAttribute("xls:lang", comboLanguage->itemData(comboLanguage->currentIndex()).toString());
+
+    QDomElement requestHeader = xml.createElement("xls:RequestHeader");
+    root.appendChild(requestHeader);
+
+    QDomElement Request = xml.createElement("xls:Request");
+    root.appendChild(Request);
+
+    Request.setAttribute("methodName", "GeocodeRequest");
+    Request.setAttribute("requestID", "12345");
+    Request.setAttribute("version", "1.1");
+
+    QDomElement GeocodeRequest = xml.createElement("xls:GeocodeRequest");
+    Request.appendChild(GeocodeRequest);
+
+    QDomElement Address = xml.createElement("xls:Address");
+    GeocodeRequest.appendChild(Address);
+
+    Address.setAttribute("countryCode", "DE");
+
+    QDomElement freeFormAddress = xml.createElement("xls:freeFormAddress");
+    Address.appendChild(freeFormAddress);
+
+    QDomText _freeFormAddress_ = xml.createTextNode(str);
+    freeFormAddress.appendChild(_freeFormAddress_);
+
+//    qDebug() << xml.toString();
+
+    QByteArray array;
+    QTextStream out(&array, QIODevice::WriteOnly);
+    out.setCodec("UTF-8");
+    out << "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
+    out << xml.toString() << endl;
+
+    QUrl url("http://openls.geog.uni-heidelberg.de");
+    url.setPath("/qlandkarte/geocode");
+
+    QNetworkRequest request;
+    request.setUrl(url);
+    QNetworkReply * reply = networkAccessManager->post(request, array);
+    pendingRequests[reply] = eOpenRouteService;
+
+}
+
+void CSearchDB::startMapQuest(const QString& str)
+{
+
+}
+
+
+void CSearchDB::slotRequestFinished(QNetworkReply * reply)
+{
+    hosts_t host = eNoHost;
+    if(pendingRequests.contains(reply))
     {
-        emit sigStatus(google->errorString());
-
+        host = pendingRequests.take(reply);
     }
 
-    QString asw = google->readAll();
+
+    if(reply->error() != QNetworkReply::NoError)
+    {
+        emit sigStatus(reply->errorString());
+        emit sigFinished();
+        emit sigChanged();
+        reply->deleteLater();
+        return;
+    }
+
+    QByteArray data = reply->readAll();
+    reply->deleteLater();
+
+    if(data.isEmpty() || host == eNoHost)
+    {
+        return;
+    }
+
+    switch(host)
+    {
+        case eOpenRouteService:
+            slotRequestFinishedOpenRouteService(data);
+            break;
+//        case eMapQuest:
+//            slotRequestFinishedMapQuest(data);
+//            break;
+        case eGoogle:
+            slotRequestFinishedGoogle(data);
+            break;
+        default:
+            emit sigStatus(tr("Unknown host."));
+            emit sigFinished();
+            emit sigChanged();
+    }
+
+
+    QApplication::restoreOverrideCursor();
+}
+
+void CSearchDB::slotRequestFinishedGoogle(QByteArray& data)
+{
+
+    QString asw = data;
     asw = asw.simplified();
 
     if(asw.isEmpty())
@@ -198,6 +298,89 @@ void CSearchDB::slotRequestFinishedGoogle(int , bool error)
 
     emit sigFinished();
     emit sigChanged();
+}
+
+void CSearchDB::slotRequestFinishedOpenRouteService(QByteArray& data)
+{
+    QDomDocument xml;
+    QString status = tr("finished");
+
+    xml.setContent(data);
+//    qDebug() << xml.toString();
+
+    QDomElement root = xml.documentElement();
+    QDomNodeList Results = root.elementsByTagName("xls:GeocodedAddress");
+    const qint32 N = Results.size();
+
+    if(N)
+    {
+        for(int i = 0; i < N; i++)
+        {
+            CSearch * item = new CSearch(this);
+
+            QDomElement Result = Results.item(i).toElement();
+            QDomElement Point = Result.firstChildElement("gml:Point").toElement();
+            QString strpos = Point.firstChildElement("gml:pos").toElement().text();
+
+            QDomElement Address = Result.firstChildElement("xls:Address").toElement();
+            item->countryCode = Address.attribute("countryCode","");
+
+            QDomElement StreetAddress = Address.firstChildElement("xls:StreetAddress").toElement();
+            QDomElement Street = StreetAddress.firstChildElement("xls:Street").toElement();
+            item->street = Street.attribute("officialName","");
+
+            QDomNodeList places = Result.elementsByTagName("xls:Place");
+            const qint32 M = places.size();
+            for(int j = 0; j < M; j++)
+            {
+                QDomElement place = places.item(j).toElement();
+                QString type = place.attribute("type","");
+
+                if(type == "CountrySubdivision")
+                {
+                    item->country = place.text();
+                }
+                else if(type == "Municipality")
+                {
+                    item->municipal = place.text();
+                }
+            }
+
+            QDomElement PostalCode = Address.firstChildElement("xls:PostalCode").toElement();
+            item->postalCode = PostalCode.text();
+
+            item->lon   = strpos.section(" ", 0, 0).toFloat();
+            item->lat   = strpos.section(" ", 1, 1).toFloat();
+            item->setName(tmpResult.getName());
+            results[item->getKey()] = item;
+            theMainWindow->getCanvas()->move(item->lon, item->lat);
+        }
+    }
+    else
+    {
+        status = tr("no result");
+    }
+
+    emit sigStatus(status);
+    emit sigFinished();
+    emit sigChanged();
+
+}
+
+void CSearchDB::slotRequestFinishedMapQuest(QByteArray& data)
+{
+    QDomDocument xml;
+    QString status = tr("finished");
+
+    xml.setContent(data);
+    qDebug() << xml.toString();
+
+    QDomElement root = xml.documentElement();
+
+    emit sigStatus(status);
+    emit sigFinished();
+    emit sigChanged();
+
 }
 
 
@@ -267,156 +450,5 @@ void CSearchDB::selSearchByKey(const QString& key)
     }
 }
 
-const QString CSearchDB::xls_ns = "http://www.opengis.net/xls";
-const QString CSearchDB::sch_ns = "http://www.ascc.net/xml/schematron";
-const QString CSearchDB::gml_ns = "http://www.opengis.net/gml";
-const QString CSearchDB::xlink_ns = "http://www.w3.org/1999/xlink";
-const QString CSearchDB::xsi_ns = "http://www.w3.org/2001/XMLSchema-instance";
-const QString CSearchDB::schemaLocation = "http://www.opengis.net/xls http://schemas.opengis.net/ols/1.1.0/LocationUtilityService.xsd";
-
-void CSearchDB::startOpenRouteService(const QString& str)
-{
-
-    if(ors == 0) return;
-
-    emit sigStatus(tr("start searching..."));
-
-    tmpResult.setName(str);
-
-    QDomDocument xml;
-    QDomElement root = xml.createElement("xls:XLS");
-    xml.appendChild(root);
-
-    root.setAttribute("xmlns:xls",xls_ns);
-    root.setAttribute("xmlns:sch",sch_ns);
-    root.setAttribute("xmlns:gml",gml_ns);
-    root.setAttribute("xmlns:xlink",xlink_ns);
-    root.setAttribute("xmlns:xsi",xsi_ns);
-    root.setAttribute("xsi:schemaLocation",schemaLocation);
-    root.setAttribute("version","1.1");
-    //root.setAttribute("xls:lang", comboLanguage->itemData(comboLanguage->currentIndex()).toString());
-
-    QDomElement requestHeader = xml.createElement("xls:RequestHeader");
-    root.appendChild(requestHeader);
-
-    QDomElement Request = xml.createElement("xls:Request");
-    root.appendChild(Request);
-
-    Request.setAttribute("methodName", "GeocodeRequest");
-    Request.setAttribute("requestID", "12345");
-    Request.setAttribute("version", "1.1");
-
-    QDomElement GeocodeRequest = xml.createElement("xls:GeocodeRequest");
-    Request.appendChild(GeocodeRequest);
-
-    QDomElement Address = xml.createElement("xls:Address");
-    GeocodeRequest.appendChild(Address);
-
-    Address.setAttribute("countryCode", "DE");
-
-    QDomElement freeFormAddress = xml.createElement("xls:freeFormAddress");
-    Address.appendChild(freeFormAddress);
-
-    QDomText _freeFormAddress_ = xml.createTextNode(str);
-    freeFormAddress.appendChild(_freeFormAddress_);
-
-//    qDebug() << xml.toString();
-
-    QByteArray array;
-    QTextStream out(&array, QIODevice::WriteOnly);
-    out.setCodec("UTF-8");
-    out << "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
-    out << xml.toString() << endl;
-
-    QUrl url;
-    url.setPath("/qlandkarte/geocode");
-
-    ors->post(url.toEncoded(), array);
-}
-
-void CSearchDB::slotRequestFinishedOpenRouteService(int , bool error)
-{
-    QDomDocument xml;
-    QString status = tr("finished");
-
-    if(error)
-    {
-        QMessageBox::warning(0,tr("Failed..."), tr("Bad response from server:\n%1").arg(ors->errorString()), QMessageBox::Abort);
-        emit sigStatus(tr("failed"));
-        emit sigFinished();
-        emit sigChanged();
-        return;
-    }
-
-    QByteArray res = ors->readAll();
-    if(res.isEmpty())
-    {
-        return;
-    }
-
-    xml.setContent(res);
-
-    qDebug() << xml.toString();
-
-    QDomElement root = xml.documentElement();
-    QDomNodeList Results = root.elementsByTagName("xls:GeocodedAddress");
-    const qint32 N = Results.size();
-
-    if(N)
-    {
-        for(int i = 0; i < N; i++)
-        {
-            CSearch * item = new CSearch(this);
-
-            QDomElement Result = Results.item(i).toElement();
-            QDomElement Point = Result.firstChildElement("gml:Point").toElement();
-            QString strpos = Point.firstChildElement("gml:pos").toElement().text();
-
-            QDomElement Address = Result.firstChildElement("xls:Address").toElement();
-            item->countryCode = Address.attribute("countryCode","");
-
-            QDomElement StreetAddress = Address.firstChildElement("xls:StreetAddress").toElement();
-            QDomElement Street = StreetAddress.firstChildElement("xls:Street").toElement();
-            item->street = Street.attribute("officialName","");
-
-            QDomNodeList places = Result.elementsByTagName("xls:Place");
-            const qint32 M = places.size();
-            for(int j = 0; j < M; j++)
-            {
-                QDomElement place = places.item(j).toElement();
-                QString type = place.attribute("type","");
-
-                if(type == "CountrySubdivision")
-                {
-                    item->country = place.text();
-                }
-                else if(type == "Municipality")
-                {
-                    item->municipal = place.text();
-                }
-            }
-
-            QDomElement PostalCode = Address.firstChildElement("xls:PostalCode").toElement();
-            item->postalCode = PostalCode.text();
 
 
-
-            item->lon   = strpos.section(" ", 0, 0).toFloat();
-            item->lat   = strpos.section(" ", 1, 1).toFloat();
-            item->setName(tmpResult.getName());
-            results[item->getKey()] = item;
-            theMainWindow->getCanvas()->move(item->lon, item->lat);
-        }
-    }
-    else
-    {
-        status = tr("no result");
-    }
-
-
-
-    emit sigStatus(status);
-    emit sigFinished();
-    emit sigChanged();
-
-}
