@@ -30,7 +30,7 @@
 #include <QDebug>
 
 CMapOSM::CMapOSM(CCanvas * parent)
-: IMap(eTile, "OSMTileServer", parent)
+: IMap(eTMS, "OSMTileServer", parent)
 , parent(parent)
 , zoomFactor(1.0)
 , x(0)
@@ -99,6 +99,59 @@ CMapOSM::CMapOSM(CCanvas * parent)
 
     resize(parent->size());
 
+}
+
+CMapOSM::CMapOSM(const QString& url, CCanvas * parent)
+: IMap(eTMS, "TMS", parent)
+, cb(0)
+, parent(parent)
+, currentTileListIndex(-1)
+, osmTiles(0)
+, zoomFactor(1.0)
+, x(0)
+, y(0)
+, xscale( 1.19432854652)
+, yscale(-1.19432854652)
+, needsRedrawOvl(true)
+{
+    QSettings cfg;
+
+    osmTiles = new COsmTilesHash(url);
+    connect(osmTiles,SIGNAL(newImageReady(const QPixmap&,bool)),this,SLOT(newImageReady(const QPixmap&,bool)));
+
+    pjsrc = pj_init_plus("+proj=merc +lon_0=0 +k=1 +x_0=0 +y_0=0 +a=6378137 +b=6378137 +units=m +no_defs ");
+    oSRS.importFromProj4(getProjection());
+
+    char * ptr = pj_get_def(pjsrc,0);
+    qDebug() << "OSM:" << ptr;
+
+    QString pos     = cfg.value("osm/topleft","N82 58.759 W151 08.934").toString();
+    zoomidx         = cfg.value("osm/zoomidx",15).toInt();
+
+    lon1 = xref1   = -40075016/2;
+    lat1 = yref1   =  40075016/2;
+    lon2 = xref2   =  40075016/2;
+    lat2 = yref2   = -40075016/2;
+    pj_transform(pjsrc,pjtar,1,0,&lon1,&lat1,0);
+    pj_transform(pjsrc,pjtar,1,0,&lon2,&lat2,0);
+
+    if(pos.isEmpty())
+    {
+        x = 0;
+        y = 0;
+    }
+    else
+    {
+        float u = 0;
+        float v = 0;
+        GPS_Math_Str_To_Deg(pos, u, v);
+        x = u * DEG_TO_RAD;
+        y = v * DEG_TO_RAD;
+        pj_transform(pjtar,pjsrc,1,0,&x,&y,0);
+    }
+
+    zoom(zoomidx);
+    resize(parent->size());
 }
 
 
@@ -411,11 +464,11 @@ void CMapOSM::draw(QPainter& p)
 
         p.setFont(QFont("Sans Serif",8,QFont::Black));
 
-        if(currentTileListIndex < 3)
-        {
-            CCanvas::drawText(tr("Map has been created by %1 under Creative Commons Attribution-ShareAlike 2.0 license").arg(tileList.at(currentTileListIndex).title), p, rect.bottomLeft() + QPoint(rect.width() / 2, -5) , QColor(Qt::darkBlue));
-            CCanvas::drawText(tr("and has been downloaded from: %1").arg(QString(tileList.at(currentTileListIndex).path).arg('z').arg('x').arg('y')), p, rect.bottomLeft() + QPoint(rect.width() / 2, +7) , QColor(Qt::darkBlue));
-        }
+//        if(currentTileListIndex < 3)
+//        {
+//            CCanvas::drawText(tr("Map has been created by %1 under Creative Commons Attribution-ShareAlike 2.0 license").arg(tileList.at(currentTileListIndex).title), p, rect.bottomLeft() + QPoint(rect.width() / 2, -5) , QColor(Qt::darkBlue));
+//            CCanvas::drawText(tr("and has been downloaded from: %1").arg(QString(tileList.at(currentTileListIndex).path).arg('z').arg('x').arg('y')), p, rect.bottomLeft() + QPoint(rect.width() / 2, +7) , QColor(Qt::darkBlue));
+//        }
 
     }
 }

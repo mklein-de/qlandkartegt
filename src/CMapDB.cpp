@@ -39,9 +39,6 @@
 #include "CMapSelectionRaster.h"
 #include "CResources.h"
 #include "IDevice.h"
-#ifdef WMS_CLIENT
-#include "CMapWMS.h"
-#endif
 #include "CQlb.h"
 #include "IMouse.h"
 
@@ -70,7 +67,7 @@ CMapDB::CMapDB(QTabWidget * tb, QObject * parent)
 
     m.description       = tr("--- Tile Server ---");
     m.key               = "OSMTileServer";
-    m.type              = IMap::eTile;
+    m.type              = IMap::eTMS;
     knownMaps[m.key]    = m;
 
     theMap = defaultMap;
@@ -111,6 +108,24 @@ CMapDB::CMapDB(QTabWidget * tb, QObject * parent)
         knownMaps[m.key] = m;
     }
 
+    // add streaming maps
+    {
+        map_t m;
+
+        m.description   = "OpenStreetMap";
+        m.filename      = "http://tile.openstreetmap.org/%1/%2/%3.png";
+        m.type          = IMap::eTMS;
+        m.key           = "osm";
+        knownMaps[m.key] = m;
+
+        m.description   = "OpenCycleMap";
+        m.filename      = "http://b.tile.opencyclemap.org/cycle/%1/%2/%3.png";
+        m.type          = IMap::eTMS;
+        m.key           = "ocm";
+        knownMaps[m.key] = m;
+    }
+
+
     if(theMainWindow->didCrash())
     {
         int res = QMessageBox::warning(0,tr("Crash detected...."), tr("QLandkarte GT was terminated with a crash. This is really bad. A common reason for that is a bad map. Do you really want to load the last map?"), QMessageBox::Yes|QMessageBox::No, QMessageBox::Yes);
@@ -146,6 +161,10 @@ CMapDB::~CMapDB()
     map_t map;
     foreach(map,knownMaps)
     {
+        if(map.filename.startsWith("http"))
+        {
+            continue;
+        }
         maps += map.filename + "|";
     }
     cfg.setValue("maps/knownMaps",maps);
@@ -203,7 +222,7 @@ void CMapDB::openMap(const QString& filename, bool asRaster, CCanvas& canvas)
     map_t map;
     QFileInfo fi(filename);
 
-    if(filename != "OSMTileServer" && !fi.exists()) return;
+    if(filename != "OSMTileServer" && !fi.exists() && !filename.startsWith("http")) return;
 
     QString ext = fi.suffix().toLower();
     if(ext == "qmap")
@@ -275,31 +294,6 @@ void CMapDB::openMap(const QString& filename, bool asRaster, CCanvas& canvas)
         cfg.endGroup();
     }
 #endif // HAS_JNX
-#ifdef WMS_CLIENT
-    else if(ext == "xml" )
-    {
-        map.filename    = filename;
-        map.key         = filename;
-        map.type        = IMap::eRaster;
-
-        QFile file(filename);
-        file.open(QIODevice::ReadOnly);
-        QDomDocument dom;
-        dom.setContent(&file, false);
-        map.description = dom.firstChildElement("GDAL_WMS").firstChildElement("Service").firstChildElement("Title").text();
-        file.close();
-
-        if(map.description.isEmpty()) map.description = fi.fileName();
-        theMap = new CMapWMS(map.key,filename,theMainWindow->getCanvas());
-
-        // add map to known maps
-        knownMaps[map.key] = map;
-
-        // store current map filename for next session
-        QSettings cfg;
-        cfg.setValue("maps/visibleMaps",theMap->getFilename());
-    }
-#endif
     else if(filename == "OSMTileServer")
     {
         theMap = new CMapOSM(theMainWindow->getCanvas());
@@ -308,6 +302,14 @@ void CMapDB::openMap(const QString& filename, bool asRaster, CCanvas& canvas)
         QSettings cfg;
         cfg.setValue("maps/visibleMaps",filename);
 
+    }
+    else if(filename.startsWith("http"))
+    {
+        theMap = new CMapOSM(filename, theMainWindow->getCanvas());
+
+        // store current map filename for next session
+        QSettings cfg;
+        cfg.setValue("maps/visibleMaps",filename);
     }
     else
     {
@@ -328,11 +330,6 @@ void CMapDB::openMap(const QString& filename, bool asRaster, CCanvas& canvas)
 
     QString fileDEM = cfg.value(QString("map/dem/%1").arg(theMap->getKey()),"").toString();
     if(!fileDEM.isEmpty()) openDEM(fileDEM);
-
-#ifdef PLOT_3D_NEW
-//    CMap3D * map3D = new CMap3D(theMap, theMainWindow->getCanvas());
-//    theMainWindow->getCanvasTab()->addTab(map3D, tr("Map 3D..."));
-#endif
 
     emit sigChanged();
 
@@ -375,12 +372,6 @@ void CMapDB::openMap(const QString& key)
         theMap = new CMapJnx(key,filename,theMainWindow->getCanvas());
     }
 #endif // HAS_JNX
-#ifdef WMS_CLIENT
-    else if(ext == "xml" )
-    {
-        theMap = new CMapWMS(key,filename,theMainWindow->getCanvas());
-    }
-#endif
     else if(key == "OSMTileServer")
     {
         theMap = new CMapOSM(theMainWindow->getCanvas());
@@ -405,11 +396,6 @@ void CMapDB::openMap(const QString& key)
         theMap->convertRad2Pt(midU, midV);
         theMap->move(QPoint(midU, midV), theMainWindow->getCanvas()->rect().center());
     }
-
-#ifdef PLOT_3D_NEW
-//    CMap3D * map3D = new CMap3D(theMap, theMainWindow->getCanvas());
-//    theMainWindow->getCanvasTab()->addTab(map3D, tr("Map 3D..."));
-#endif
 
     emit sigChanged();
     QApplication::restoreOverrideCursor();
@@ -842,7 +828,7 @@ void CMapDB::select(const QRect& rect, const QMap< QPair<int,int>, bool>& selTil
         return;
     }
 
-    if(theMap->maptype == IMap::eRaster || theMap->maptype == IMap::eTile)
+    if(theMap->maptype == IMap::eRaster)
     {
         CMapSelectionRaster * ms = new CMapSelectionRaster(this);
         ms->mapkey       = mapkey;

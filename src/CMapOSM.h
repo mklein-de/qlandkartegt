@@ -32,6 +32,7 @@ class CMapOSM : public IMap
     Q_OBJECT;
     public:
         CMapOSM(CCanvas * parent);
+        CMapOSM(const QString& url, CCanvas * parent);
         virtual ~CMapOSM();
 
         void convertPt2M(double&, double&);

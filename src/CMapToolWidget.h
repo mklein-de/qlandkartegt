@@ -54,6 +54,13 @@ class CMapToolWidget : public QWidget, private Ui::IMapToolWidget
         void slotCfgMap();
 
     private:
+        enum tabs_t
+        {
+             eTabStream
+            ,eTabRaster
+            ,eTabVector
+        };
+
         enum columns_e
         {
             eMode = 0

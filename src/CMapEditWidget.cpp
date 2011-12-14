@@ -22,9 +22,6 @@
 #include "CCreateMapQMAP.h"
 #include "CCreateMapGeoTiff.h"
 #include "CCreateMapFineTune.h"
-#ifdef WMS_CLIENT
-#include "CCreateMapWMS.h"
-#endif
 
 #include <QtGui>
 
@@ -80,11 +77,6 @@ CMapEditWidget::CMapEditWidget(QWidget * parent)
     stackedWidget->insertWidget(eFineTune, widgetFineTune);
 
 
-#ifdef WMS_CLIENT
-    comboSource->insertItem(eWMS,QIcon(":/icons/iconWMS16x16.png"),tr("Create a GDAL WMS definition file."));
-    widgetWMS       = new CCreateMapWMS(stackedWidget);
-    stackedWidget->insertWidget(eWMS, widgetWMS);
-#endif
     connect(comboSource, SIGNAL(activated(int)), stackedWidget, SLOT(setCurrentIndex(int)));
 }
 

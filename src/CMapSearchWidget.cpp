@@ -345,6 +345,6 @@ void CMapSearchWidget::checkGui()
 void CMapSearchWidget::slotMapChanged()
 {
     IMap& map  = CMapDB::self().getMap();
-    tabWidget->widget(0)->setEnabled(map.maptype == IMap::eRaster || map.maptype == IMap::eTile);
+    tabWidget->widget(0)->setEnabled(map.maptype == IMap::eRaster);
 }
 
