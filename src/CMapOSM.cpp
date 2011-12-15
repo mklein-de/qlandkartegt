@@ -293,12 +293,6 @@ void CMapOSM::draw(QPainter& p)
         p.setFont(QFont("Sans Serif",8,QFont::Black));
 
         CCanvas::drawText(tr("%1 %2").arg(QChar(0x00A9)).arg(copyright), p, rect.bottomLeft() + QPoint(rect.width() / 2, -5) , QColor(Qt::darkBlue));
-//        if(currentTileListIndex < 3)
-//        {
-//            CCanvas::drawText(tr("Map has been created by %1 under Creative Commons Attribution-ShareAlike 2.0 license").arg(tileList.at(currentTileListIndex).title), p, rect.bottomLeft() + QPoint(rect.width() / 2, -5) , QColor(Qt::darkBlue));
-//            CCanvas::drawText(tr("and has been downloaded from: %1").arg(QString(tileList.at(currentTileListIndex).path).arg('z').arg('x').arg('y')), p, rect.bottomLeft() + QPoint(rect.width() / 2, +7) , QColor(Qt::darkBlue));
-//        }
-
     }
 }
 
