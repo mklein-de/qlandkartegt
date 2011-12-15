@@ -22,15 +22,24 @@
 #include "CMapOSMType.h"
 #include <QtGui>
 
-CDlgMapOSMConfig::CDlgMapOSMConfig(CMapOSM& map)
-: map(map)
+CDlgMapOSMConfig::CDlgMapOSMConfig(CMapOSM& m)
 {
     setupUi(this);
 
-    lineUrl->setText(map.getUrl());
+    map = CMapDB::self().getMapData(m.getKey());
+    lineName->setText(map.description);
+    lineUrl->setText(map.filename);
+    lineCopyright->setText(map.copyright);
 
 }
 
+CDlgMapOSMConfig::CDlgMapOSMConfig()
+{
+    setupUi(this);
+    lineName->setText(map.description);
+    lineUrl->setText(map.filename);
+    lineCopyright->setText(map.copyright);
+}
 
 CDlgMapOSMConfig::~CDlgMapOSMConfig()
 {
@@ -39,7 +48,16 @@ CDlgMapOSMConfig::~CDlgMapOSMConfig()
 
 void CDlgMapOSMConfig::accept()
 {
-    map.setUrl(lineUrl->text());
+    CMapDB& mapdb = CMapDB::self();
+    mapdb.delKnownMap(QStringList(map.key));
+
+    map.description = lineName->text();
+    map.filename    = lineUrl->text();
+    map.copyright   = lineCopyright->text();
+    map.type        = IMap::eTMS;
+
+    mapdb.setMapData(map);
+
     QDialog::accept();
 }
 

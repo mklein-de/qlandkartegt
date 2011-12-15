@@ -22,6 +22,7 @@
 
 #include <QDialog>
 #include "ui_IDlgMapOSMConfig.h"
+#include "CMapDB.h"
 
 class CMapOSM;
 
@@ -30,13 +31,14 @@ class CDlgMapOSMConfig : public QDialog, private Ui::IDlgMapOSMConfig
     Q_OBJECT
     public:
         CDlgMapOSMConfig(CMapOSM& map);
+        CDlgMapOSMConfig();
         virtual ~CDlgMapOSMConfig();
 
     public slots:
         void accept();
 
     private:
-        CMapOSM& map;
+        CMapDB::map_t map;
 
 };
 #endif                           //CDLGMAPOSMCONFIG_H

@@ -52,6 +52,7 @@ class CMapToolWidget : public QWidget, private Ui::IMapToolWidget
         void slotAddDEM();
         void slotDelDEM();
         void slotCfgMap();
+        void slotAddTmsMap();
 
     private:
         enum tabs_t

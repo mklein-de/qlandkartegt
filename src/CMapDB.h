@@ -43,6 +43,15 @@ class CMapDB : public IDB
 
         static CMapDB& self(){return *m_self;}
 
+        struct map_t
+        {
+            IMap::maptype_e   type;
+            QString filename;
+            QString description;
+            QString key;
+            QString copyright;
+        };
+
         /// open a map collection from disc
         void openMap(const QString& filename, bool asRaster ,CCanvas& canvas);
         /// open a known map by it's key
@@ -120,10 +129,16 @@ class CMapDB : public IDB
         /// get access to selected map list
         const QMap<QString,IMapSelection*>& getSelectedMaps(){return selectedMaps;}
 
-        bool contains(const QString& key){return false;}
+        bool contains(const QString& key){return knownMaps.contains(key);}
 
         /// test if map with given key is a built-in map
         bool isBuiltIn(const QString& key){return builtInKeys.contains(key);}
+
+        /// get read access to a map's internal side information
+        const map_t& getMapData(const QString& key);
+
+        /// register a map via it's side information structure.
+        void setMapData(const map_t& map);
 
     private:
         friend class CMainWindow;
@@ -132,14 +147,6 @@ class CMapDB : public IDB
 
         QDataStream& operator<<(QDataStream&);
 
-        struct map_t
-        {
-            IMap::maptype_e   type;
-            QString filename;
-            QString description;
-            QString key;
-            QString copyright;
-        };
 
         CMapDB(QTabWidget * tb, QObject * parent);
 
@@ -162,16 +169,23 @@ class CMapDB : public IDB
         */
         QPointer<IMap> theMap;
 
+        /// the DEM attached to the map
         QPointer<IMap> demMap;
 
+        /// the map edit widget used to alter and create maps
         QPointer<CMapEditWidget> mapedit;
 #ifdef PLOT_3D
+        /// the 3D view of the map
         QPointer<CMap3D> map3D;
 #endif
         QPointer<CMapSearchWidget> mapsearch;
 
+        /// list of selected areas on maps
         QMap<QString,IMapSelection*> selectedMaps;
 
+        /// key list of built-in maps
         QSet<QString> builtInKeys;
+
+        map_t emptyMap;
 };
 #endif                           //CMAPDB_H

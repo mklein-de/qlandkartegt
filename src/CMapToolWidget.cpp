@@ -25,6 +25,7 @@
 #include "CMapSelectionRaster.h"
 #include "CGarminExport.h"
 #include "CMapSelectionGarmin.h"
+#include "CDlgMapOSMConfig.h"
 
 #include "config.h"
 
@@ -273,7 +274,7 @@ void CMapToolWidget::slotContextMenuKnownMaps(const QPoint& pos)
     }
 
     if(item)
-    {        
+    {
         IMap& dem       = CMapDB::self().getDEM();
         QString key     = item->data(eName, Qt::UserRole).toString();
         bool isBuiltIn  = CMapDB::self().isBuiltIn(key);
@@ -449,4 +450,10 @@ void CMapToolWidget::slotDelDEM()
 void CMapToolWidget::slotCfgMap()
 {
     CMapDB::self().getMap().config();
+}
+
+void CMapToolWidget::slotAddTmsMap()
+{
+    CDlgMapOSMConfig dlg;
+    dlg.exec();
 }

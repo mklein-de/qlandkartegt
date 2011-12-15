@@ -127,12 +127,12 @@ CMapDB::CMapDB(QTabWidget * tb, QObject * parent)
         QStringList keys = cfg.value("tms/knownMaps").toString().split("|",QString::SkipEmptyParts);
         foreach(const QString& key, keys)
         {
-            cfg.beginGroup(QString("tms/%1").arg(key));
+            cfg.beginGroup(QString("tms/maps/%1").arg(key));
             m.description   = cfg.value("name", "").toString();
             m.filename      = cfg.value("url", "").toString();
             m.copyright     = cfg.value("copyright", "").toString();
             m.key           = QString::number(qHash(m.filename));
-            if(!m.description.isEmpty() && m.filename.isEmpty())
+            if(!m.description.isEmpty() && !m.filename.isEmpty())
             {
                 knownMaps[m.key] = m;
             }
@@ -185,8 +185,8 @@ CMapDB::~CMapDB()
             continue;
         }
         if(map.filename.startsWith("http"))
-        {            
-            mapsTMS += map.filename + "|";
+        {
+            mapsTMS += map.key + "|";
             cfg.beginGroup(QString("tms/maps/%1").arg(map.key));
             cfg.setValue("name", map.description);
             cfg.setValue("url", map.filename);
@@ -985,4 +985,26 @@ IMapSelection * CMapDB::getMapSelectionByKey(const QString& key)
     }
 
     return 0;
+}
+
+const CMapDB::map_t& CMapDB::getMapData(const QString& key)
+{
+    if(knownMaps.contains(key))
+    {
+        return knownMaps[key];
+    }
+    return emptyMap;
+}
+
+void CMapDB::setMapData(const map_t& map)
+{
+    map_t m = map;
+    if(m.type == IMap::eTMS)
+    {
+        m.key = QString::number(qHash(m.filename));
+    }
+
+    knownMaps[m.key] = m;
+
+    emit sigChanged();
 }
