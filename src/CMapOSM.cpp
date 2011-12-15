@@ -29,83 +29,9 @@
 #include "CMapOSMType.h"
 #include <QDebug>
 
-CMapOSM::CMapOSM(CCanvas * parent)
-: IMap(eTMS, "OSMTileServer", parent)
-, parent(parent)
-, zoomFactor(1.0)
-, x(0)
-, y(0)
-, xscale( 1.19432854652)
-, yscale(-1.19432854652)
-, needsRedrawOvl(true)
-
-{
-    currentTileListIndex = -1;
-    osmTiles = 0;
-
-    cb = new QComboBox(theMainWindow->getCanvas());
-    connect(cb,SIGNAL(activated( int )),this,SLOT(setNewTileUrl(int)));
-
-    theMainWindow->statusBar()->insertPermanentWidget(0,cb);
-
-    // initialize builtin maps
-    mapOsm=CMapOSMType(QString("OpenStreetMap"),QString("tile.openstreetmap.org/%1/%2/%3.png"),QString("osm"));
-    mapOcm=CMapOSMType(QString("OpenCycleMap"),QString("b.tile.opencyclemap.org/cycle/%1/%2/%3.png"),QString("ocm"));
-    mapOpm=CMapOSMType(QString("OpenPisteMap"),QString("openpistemap.org/tiles/contours/%1/%2/%3.png"),QString("opm"));
-    mapWam=CMapOSMType(QString("WanderatlasMap"),QString("qlgt.wanderatlas-verlag.de/tiles/igwmap/%1/%2/%3.png"),QString("wam"));
-
-    this->rebuildServerList();
-
-    QSettings cfg;
-
-    int tileListIndex = cfg.value("osm/tileListIndex",0).toInt();
-    if (tileListIndex >= tileList.size())
-        tileListIndex = 0;
-
-    setNewTileUrl(tileListIndex);
-    pjsrc = pj_init_plus("+proj=merc +lon_0=0 +k=1 +x_0=0 +y_0=0 +a=6378137 +b=6378137 +units=m +no_defs ");
-    oSRS.importFromProj4(getProjection());
-
-    char * ptr = pj_get_def(pjsrc,0);
-    qDebug() << "OSM:" << ptr;
-    //     if(ptr) free(ptr);
-
-    QString pos     = cfg.value("osm/topleft","N82 58.759 W151 08.934").toString();
-    zoomidx         = cfg.value("osm/zoomidx",15).toInt();
-
-    lon1 = xref1   = -40075016/2;
-    lat1 = yref1   =  40075016/2;
-    lon2 = xref2   =  40075016/2;
-    lat2 = yref2   = -40075016/2;
-    pj_transform(pjsrc,pjtar,1,0,&lon1,&lat1,0);
-    pj_transform(pjsrc,pjtar,1,0,&lon2,&lat2,0);
-
-    if(pos.isEmpty())
-    {
-        x = 0;
-        y = 0;
-    }
-    else
-    {
-        float u = 0;
-        float v = 0;
-        GPS_Math_Str_To_Deg(pos, u, v);
-        x = u * DEG_TO_RAD;
-        y = v * DEG_TO_RAD;
-        pj_transform(pjtar,pjsrc,1,0,&x,&y,0);
-    }
-
-    zoom(zoomidx);
-
-    resize(parent->size());
-
-}
-
-CMapOSM::CMapOSM(const QString& url, CCanvas * parent)
-: IMap(eTMS, "TMS", parent)
-, cb(0)
-, parent(parent)
-, currentTileListIndex(-1)
+CMapOSM::CMapOSM(const QString& key, const QString &url, CCanvas *parent)
+: IMap(eTMS, key, parent)
+, url(url)
 , osmTiles(0)
 , zoomFactor(1.0)
 , x(0)
@@ -116,7 +42,7 @@ CMapOSM::CMapOSM(const QString& url, CCanvas * parent)
 {
     QSettings cfg;
 
-    osmTiles = new COsmTilesHash(url);
+    osmTiles = new COsmTilesHash(url, this);
     connect(osmTiles,SIGNAL(newImageReady(const QPixmap&,bool)),this,SLOT(newImageReady(const QPixmap&,bool)));
 
     pjsrc = pj_init_plus("+proj=merc +lon_0=0 +k=1 +x_0=0 +y_0=0 +a=6378137 +b=6378137 +units=m +no_defs ");
@@ -125,8 +51,8 @@ CMapOSM::CMapOSM(const QString& url, CCanvas * parent)
     char * ptr = pj_get_def(pjsrc,0);
     qDebug() << "OSM:" << ptr;
 
-    QString pos     = cfg.value("osm/topleft","N82 58.759 W151 08.934").toString();
-    zoomidx         = cfg.value("osm/zoomidx",15).toInt();
+    QString pos     = cfg.value("tms/topleft","N82 58.759 W151 08.934").toString();
+    zoomidx         = cfg.value("tms/zoomidx",15).toInt();
 
     lon1 = xref1   = -40075016/2;
     lat1 = yref1   =  40075016/2;
@@ -151,7 +77,7 @@ CMapOSM::CMapOSM(const QString& url, CCanvas * parent)
     }
 
     zoom(zoomidx);
-    resize(parent->size());
+    //resize(parent->size());
 }
 
 
@@ -167,114 +93,22 @@ CMapOSM::~CMapOSM()
     GPS_Math_Deg_To_Str(u * RAD_TO_DEG, v * RAD_TO_DEG, pos);
     pos = pos.replace("\260","");
 
-    cfg.setValue("osm/topleft",pos);
-    cfg.setValue("osm/zoomidx",zoomidx);
-    cfg.setValue("osm/tileListIndex",currentTileListIndex);
+    cfg.setValue("tms/topleft",pos);
+    cfg.setValue("tms/zoomidx",zoomidx);
     midU = rect.center().x();
     midV = rect.center().y();
     convertPt2Rad(midU, midV);
 
     if(pjsrc) pj_free(pjsrc);
-    if (osmTiles) delete osmTiles;
-    if (cb) delete cb;
 }
 
 
-bool CMapOSM::rebuildServerList()
+void CMapOSM::setUrl(const QString& url)
 {
-    QString cbOldText=cb->currentText();
-
-    tileList.clear();
-
-    QSettings cfg;
-
-    // %1 = osm_zoom; %2 = osm_x; %3 = osm_y
-
-    mapOsm.setEnabled(cfg.value("osm/builtinMaps/osm", true).toBool());
-    tileList << mapOsm;
-
-    mapOcm.setEnabled(cfg.value("osm/builtinMaps/ocm", true).toBool());
-    tileList << mapOcm;
-
-    //    CMapOSMType mapGeo(QString("topo.geofabrik.de CC-NC-SA"),QString("topo.geofabrik.de/trails/%1/%2/%3.png"));
-    //    mapGeo.setBuiltin(QString("geofabrik"));
-    //    mapGeo.setEnabled(cfg.value("osm/builtinMaps/geo", true).toBool());
-    //    tileList << mapGeo;
-
-    mapOpm.setEnabled(cfg.value("osm/builtinMaps/opm", true).toBool());
-    tileList << mapOpm;
-
-    mapWam.setEnabled(cfg.value("osm/builtinMaps/wam", true).toBool());
-    tileList << mapWam;
-
-    int size = cfg.beginReadArray("osm/customMaps");
-    for (int i = 0; i < size; ++i)
-    {
-        cfg.setArrayIndex(i);
-        CMapOSMType map(QString(cfg.value("mapName").toString()),QString(cfg.value("mapString").toString()));
-        tileList << map;
-    }
-    cfg.endArray();
-
-
-    cb->clear();
-
-    if (tileList.size()==0) {
-        mapOsm.setEnabled(true);
-        cb->addItem(mapOsm.title,0);
-    } else {
-        for(int i = 0; i < tileList.size(); i++)
-        {
-            CMapOSMType p = tileList.at(i);
-            if (p.isEnabled())
-            {
-                cb->addItem(p.title,i);
-            }
-        }
-    }
-    int updatedIndex=cb->findText(cbOldText);
-    if (updatedIndex==-1) {
-        return false;
-    } else {
-        cb->setCurrentIndex(updatedIndex);
-        return true;
-    }
-}
-
-
-void CMapOSM::setNewTileUrl(int cbIndex)
-{
-    int index=cb->itemData(cbIndex).toInt();
-
-    if(index >= tileList.count())
-    {
-        index = tileList.count() - 1;
-    }
-    else if(index < 0)
-    {
-        index = 0;
-    }
-
-    if (currentTileListIndex!= index)
-    {
-        currentTileListIndex = index;
-        if (osmTiles)
-        {
-            delete osmTiles;
-            osmTiles = 0;
-        }
-        if (cb->currentIndex() != cbIndex)
-        {
-            cb->setCurrentIndex(cbIndex);
-        }
-
-        osmTiles = new COsmTilesHash(tileList.at(index).path);
-        connect(osmTiles,SIGNAL(newImageReady(const QPixmap&,bool)),this,SLOT(newImageReady(const QPixmap&,bool)));
-
-        needsRedraw = true;
-        emit sigChanged();
-    }
-
+    this->url = url;
+    delete osmTiles;
+    osmTiles = new COsmTilesHash(url, this);
+    connect(osmTiles,SIGNAL(newImageReady(const QPixmap&,bool)),this,SLOT(newImageReady(const QPixmap&,bool)));
 }
 
 
@@ -485,7 +319,9 @@ void CMapOSM::draw()
     convertM2Rad(lon,lat);
     lastTileLoaded = false;
     if (osmTiles)
+    {
         osmTiles->startNewDrawing( lon * RAD_TO_DEG, lat * RAD_TO_DEG,  osm_zoom, rect);
+    }
 
 }
 
@@ -529,7 +365,6 @@ void CMapOSM::dimensions(double& lon1, double& lat1, double& lon2, double& lat2)
 
 void CMapOSM::config()
 {
-    CDlgMapOSMConfig * dlg = new CDlgMapOSMConfig(this);
-    dlg->show();
-
+    CDlgMapOSMConfig dlg(*this);
+    dlg.exec();
 }

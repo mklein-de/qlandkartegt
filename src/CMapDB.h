@@ -26,6 +26,7 @@
 #include <QList>
 #include <QMap>
 #include <QPointer>
+#include <QSet>
 
 class QPainter;
 class CCanvas;
@@ -121,6 +122,9 @@ class CMapDB : public IDB
 
         bool contains(const QString& key){return false;}
 
+        /// test if map with given key is a built-in map
+        bool isBuiltIn(const QString& key){return builtInKeys.contains(key);}
+
     private:
         friend class CMainWindow;
         friend class CMapToolWidget;
@@ -130,10 +134,11 @@ class CMapDB : public IDB
 
         struct map_t
         {
-            QString     filename;
-            QString     description;
-            QString     key;
             IMap::maptype_e   type;
+            QString filename;
+            QString description;
+            QString key;
+            QString copyright;
         };
 
         CMapDB(QTabWidget * tb, QObject * parent);
@@ -166,5 +171,7 @@ class CMapDB : public IDB
         QPointer<CMapSearchWidget> mapsearch;
 
         QMap<QString,IMapSelection*> selectedMaps;
+
+        QSet<QString> builtInKeys;
 };
 #endif                           //CMAPDB_H

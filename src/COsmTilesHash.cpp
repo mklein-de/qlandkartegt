@@ -38,7 +38,8 @@
 
 QString COsmTilesHash::cacheFolder;
 
-COsmTilesHash::COsmTilesHash(QString tileUrl)
+COsmTilesHash::COsmTilesHash(QString tileUrl, QObject *parent)
+    : QObject(parent)
 {
     if (cacheFolder.isEmpty())
     {
@@ -71,7 +72,7 @@ COsmTilesHash::COsmTilesHash(QString tileUrl)
     enableProxy = CResources::self().getHttpProxy(url,port);
     diskCache = new QNetworkDiskCache(this);
     diskCache->setCacheDirectory(cacheFolder);
-    diskCache->setMaximumCacheSize(cfg.value("osm/maxcachevalueMB", 100).toInt() * 1024*1024);
+    diskCache->setMaximumCacheSize(cfg.value("tms/maxcachevalueMB", 100).toInt() * 1024*1024);
 
     m_networkAccessManager = new QNetworkAccessManager(this);
     m_networkAccessManager->setCache(diskCache);
@@ -89,8 +90,7 @@ COsmTilesHash::COsmTilesHash(QString tileUrl)
 COsmTilesHash::~COsmTilesHash()
 {
     QSettings cfg;
-    if (!cfg.contains("osm/maxcachevalueMB") || cfg.value("osm/maxcachevalueMB") == 0)
-        cfg.setValue("osm/maxcachevalueMB",100);
+    cfg.setValue("tms/maxcachevalueMB",100);
 }
 
 
@@ -103,8 +103,6 @@ void COsmTilesHash::slotSetupLink()
     {
         m_networkAccessManager->setProxy(QNetworkProxy(QNetworkProxy::DefaultProxy,url,port));
     }
-
-    //connect(m_networkAccessManager,SIGNAL(requestFinished(int,bool)),this,SLOT(slotRequestFinished(int,bool)));
 }
 
 
@@ -130,7 +128,9 @@ void COsmTilesHash::startNewDrawing( double lon, double lat, int osm_zoom, const
     m_queuedRequests.clear();
 
     foreach(QString url, m_activeRequests.keys())
+    {
         m_activeRequests.insert(url, QPoint());
+    }
 
     for(int x=0; x<xCount; x++)
     {
@@ -154,14 +154,14 @@ void COsmTilesHash::getImage(int osm_zoom, int osm_x, int osm_y, QPoint point)
 
     if(m_activeRequests.contains(m_tileUrl.toString()))
     {
-      m_activeRequests.insert(m_tileUrl.toString(),point);
-      return;
+        m_activeRequests.insert(m_tileUrl.toString(),point);
+        return;
     }
     if(m_tileHash.contains(m_tileUrl.toString()))
     {
-      QPainter p(&pixmap);
-      p.drawPixmap(point,m_tileHash.value(m_tileUrl.toString()));
-      return;
+        QPainter p(&pixmap);
+        p.drawPixmap(point,m_tileHash.value(m_tileUrl.toString()));
+        return;
     }
     QNetworkRequest request;
     request.setRawHeader("User-Agent", WHAT_STR);

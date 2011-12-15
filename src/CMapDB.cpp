@@ -52,27 +52,24 @@ CMapDB * CMapDB::m_self = 0;
 CMapDB::CMapDB(QTabWidget * tb, QObject * parent)
 : IDB(tb,parent)
 {
-    m_self      = this;
-    CMapToolWidget * tw = new CMapToolWidget(tb);
-    toolview    = tw;
+    QSettings cfg;
 
+    m_self              = this;
+    CMapToolWidget * tw = new CMapToolWidget(tb);
+    toolview            = tw;
     connect(tw, SIGNAL(sigChanged()), SIGNAL(sigChanged()));
 
     defaultMap = new CMapNoMap(theMainWindow->getCanvas());
+    theMap = defaultMap;
+
+    // static maps
     map_t m;
     m.description       = tr("--- No map ---");
     m.key               = "NoMap";
     m.type              = IMap::eRaster;
     knownMaps[m.key]    = m;
+    builtInKeys << m.key;
 
-    m.description       = tr("--- Tile Server ---");
-    m.key               = "OSMTileServer";
-    m.type              = IMap::eTMS;
-    knownMaps[m.key]    = m;
-
-    theMap = defaultMap;
-
-    QSettings cfg;
     QString map;
     QStringList maps = cfg.value("maps/knownMaps","").toString().split("|",QString::SkipEmptyParts);
     foreach(map, maps)
@@ -115,14 +112,32 @@ CMapDB::CMapDB(QTabWidget * tb, QObject * parent)
         m.description   = "OpenStreetMap";
         m.filename      = "http://tile.openstreetmap.org/%1/%2/%3.png";
         m.type          = IMap::eTMS;
-        m.key           = "osm";
+        m.key           = QString::number(qHash(m.filename));
         knownMaps[m.key] = m;
+        builtInKeys << m.key;
 
         m.description   = "OpenCycleMap";
         m.filename      = "http://b.tile.opencyclemap.org/cycle/%1/%2/%3.png";
         m.type          = IMap::eTMS;
-        m.key           = "ocm";
+        m.key           = QString::number(qHash(m.filename));
         knownMaps[m.key] = m;
+        builtInKeys << m.key;
+
+
+        QStringList keys = cfg.value("tms/knownMaps").toString().split("|",QString::SkipEmptyParts);
+        foreach(const QString& key, keys)
+        {
+            cfg.beginGroup(QString("tms/%1").arg(key));
+            m.description   = cfg.value("name", "").toString();
+            m.filename      = cfg.value("url", "").toString();
+            m.copyright     = cfg.value("copyright", "").toString();
+            m.key           = QString::number(qHash(m.filename));
+            if(!m.description.isEmpty() && m.filename.isEmpty())
+            {
+                knownMaps[m.key] = m;
+            }
+            cfg.endGroup();
+        }
     }
 
 
@@ -159,15 +174,32 @@ CMapDB::~CMapDB()
     QSettings cfg;
     QString maps;
     map_t map;
+    QString mapsTMS;
+
+    cfg.remove("tms/maps");
+
     foreach(map,knownMaps)
     {
-        if(map.filename.startsWith("http"))
+        if(builtInKeys.contains(map.key))
         {
             continue;
         }
-        maps += map.filename + "|";
+        if(map.filename.startsWith("http"))
+        {            
+            mapsTMS += map.filename + "|";
+            cfg.beginGroup(QString("tms/maps/%1").arg(map.key));
+            cfg.setValue("name", map.description);
+            cfg.setValue("url", map.filename);
+            cfg.setValue("copyright", map.copyright);
+            cfg.endGroup();
+        }
+        else
+        {
+            maps += map.filename + "|";
+        }
     }
     cfg.setValue("maps/knownMaps",maps);
+    cfg.setValue("tms/knownMaps",mapsTMS);
 
     GDALDestroyDriverManager();
 }
@@ -222,7 +254,7 @@ void CMapDB::openMap(const QString& filename, bool asRaster, CCanvas& canvas)
     map_t map;
     QFileInfo fi(filename);
 
-    if(filename != "OSMTileServer" && !fi.exists() && !filename.startsWith("http")) return;
+    if(!fi.exists() && !filename.startsWith("http")) return;
 
     QString ext = fi.suffix().toLower();
     if(ext == "qmap")
@@ -294,18 +326,9 @@ void CMapDB::openMap(const QString& filename, bool asRaster, CCanvas& canvas)
         cfg.endGroup();
     }
 #endif // HAS_JNX
-    else if(filename == "OSMTileServer")
-    {
-        theMap = new CMapOSM(theMainWindow->getCanvas());
-
-        // store current map filename for next session
-        QSettings cfg;
-        cfg.setValue("maps/visibleMaps",filename);
-
-    }
     else if(filename.startsWith("http"))
     {
-        theMap = new CMapOSM(filename, theMainWindow->getCanvas());
+        theMap = new CMapOSM(QString::number(qHash(filename)), filename, theMainWindow->getCanvas());
 
         // store current map filename for next session
         QSettings cfg;
@@ -372,10 +395,9 @@ void CMapDB::openMap(const QString& key)
         theMap = new CMapJnx(key,filename,theMainWindow->getCanvas());
     }
 #endif // HAS_JNX
-    else if(key == "OSMTileServer")
+    else if(filename.startsWith("http"))
     {
-        theMap = new CMapOSM(theMainWindow->getCanvas());
-        filename = key;
+        theMap = new CMapOSM(key, filename, theMainWindow->getCanvas());
     }
 
     connect(theMap, SIGNAL(sigChanged()), theMainWindow->getCanvas(), SLOT(update()));
@@ -488,6 +510,26 @@ void CMapDB::delKnownMap(const QStringList& keys)
             cfg.remove(name);
             cfg.endGroup();
             cfg.sync();
+        }
+        else if(map.type == IMap::eTMS)
+        {
+            /// @todo
+//            QSettings cfg;
+//            const int N = cfg.value("customMaps/size",0).toInt();
+//            for(int i = 0; i < N; i++)
+//            {
+//                QString group = QString("customMaps/%1").arg(i+1);
+//                cfg.beginGroup(group);
+//                if(map.filename == cfg.value("mapString","").toString())
+//                {
+//                    cfg.endGroup();
+//                    cfg.remove(group);
+//                }
+//                else
+//                {
+//                    cfg.endGroup();
+//                }
+//            }
         }
         knownMaps.remove(key);
     }

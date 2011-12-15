@@ -35,7 +35,7 @@ class COsmTilesHash: public QObject
 {
     Q_OBJECT
         public:
-        COsmTilesHash(QString tileUrl);
+        COsmTilesHash(QString tileUrl, QObject * parent);
         virtual ~COsmTilesHash();
         void startNewDrawing( double lon, double lat, int osm_zoom, const QRect& window);
         static const QString &getCacheFolder(void) { return cacheFolder; }

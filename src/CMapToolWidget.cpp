@@ -46,6 +46,7 @@ CMapToolWidget::CMapToolWidget(QTabWidget * parent)
     actDelDEM = contextMenuKnownMaps->addAction(QPixmap(":/icons/iconNoDEM16x16.png"),tr("Del. DEM..."),this,SLOT(slotDelDEM()));
     actCfgMap = contextMenuKnownMaps->addAction(QPixmap(":/icons/iconInfo16x16.png"),tr("Info/Config"),this,SLOT(slotCfgMap()));
     actDelMap = contextMenuKnownMaps->addAction(QPixmap(":/icons/iconClear16x16.png"),tr("Delete"),this,SLOT(slotDeleteKnownMap()));
+    actAddTMS = contextMenuKnownMaps->addAction(QPixmap(":/icons/iconAdd16x16.png"),tr("Add url..."),this,SLOT(slotAddTmsMap()));;
 
     connect(treeKnownMapsStream,SIGNAL(customContextMenuRequested(const QPoint&)),this,SLOT(slotContextMenuKnownMaps(const QPoint&)));
     connect(treeKnownMapsStream,SIGNAL(itemClicked(QTreeWidgetItem*, int)),this,SLOT(slotKnownMapClicked(QTreeWidgetItem*, int)));
@@ -272,22 +273,16 @@ void CMapToolWidget::slotContextMenuKnownMaps(const QPoint& pos)
     }
 
     if(item)
-    {
-        IMap& dem = CMapDB::self().getDEM();
+    {        
+        IMap& dem       = CMapDB::self().getDEM();
+        QString key     = item->data(eName, Qt::UserRole).toString();
+        bool isBuiltIn  = CMapDB::self().isBuiltIn(key);
 
         if(item->data(eMode, Qt::UserRole).toInt() == eSelected)
         {
             actAddDEM->setEnabled(true);
             actDelDEM->setEnabled(dem.maptype == IMap::eDEM);
-            int mapType = item->data(eType, Qt::UserRole).toInt();
-            if(mapType == IMap::eGarmin || mapType == IMap::eRaster || mapType == IMap::eTMS)
-            {
-                actCfgMap->setEnabled(true);
-            }
-            else
-            {
-                actCfgMap->setEnabled(false);
-            }
+            actCfgMap->setEnabled(isBuiltIn ? false : true);
         }
         else
         {
@@ -295,6 +290,9 @@ void CMapToolWidget::slotContextMenuKnownMaps(const QPoint& pos)
             actDelDEM->setEnabled(false);
             actCfgMap->setEnabled(false);
         }
+
+        actDelMap->setEnabled(!isBuiltIn);
+        actAddTMS->setVisible(lastTreeWidget == treeKnownMapsStream);
 
         QPoint p = lastTreeWidget->mapToGlobal(pos);
         contextMenuKnownMaps->exec(p);
@@ -316,7 +314,6 @@ void CMapToolWidget::slotDeleteKnownMap()
 {
     QStringList keys;
     QTreeWidgetItem * item;
-    //    QTreeWidget * treeWidget = dynamic_cast<QTreeWidget*>(sender());
 
     bool wasSelected = false;
 

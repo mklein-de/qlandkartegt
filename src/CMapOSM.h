@@ -20,19 +20,18 @@
 #ifndef CMAPOSM_H
 #define CMAPOSM_H
 
-#include <IMap.h>
+#include "IMap.h"
 #include "CMapOSMType.h"
 
 class COsmTilesHash;
 class CCanvas;
 class QComboBox;
-#include <QPair>
+
 class CMapOSM : public IMap
 {
     Q_OBJECT;
     public:
-        CMapOSM(CCanvas * parent);
-        CMapOSM(const QString& url, CCanvas * parent);
+        CMapOSM(const QString& key, const QString& url, CCanvas * parent);
         virtual ~CMapOSM();
 
         void convertPt2M(double&, double&);
@@ -41,27 +40,28 @@ class CMapOSM : public IMap
         void zoom(bool, const QPoint&);
         void zoom(double lon1, double lat1, double lon2, double lat2);
         void zoom(qint32& level);
-        void select(const QRect&){};
+        void select(const QRect&){}
         void dimensions(double& lon1, double& lat1, double& lon2, double& lat2);
         void getArea_n_Scaling(XY& p1, XY& p2, float& my_xscale, float& my_yscale);
         void draw(QPainter& p);
 
-        QList<CMapOSMType> getServerList(){return tileList;}
-        bool rebuildServerList();
+        QString getUrl(){return url;}
+        void setUrl(const QString& url);
 
     public slots:
         void newImageReady(const QPixmap& image, bool lastTileLoaded);
-        void setNewTileUrl(int cbIndex = -1);
+
     private:
-        QComboBox *cb;
-        QWidget *parent;
-        int currentTileListIndex;
-        QList<CMapOSMType> tileList;
-        bool lastTileLoaded;
         void draw();
-        COsmTilesHash *osmTiles;
-        double zoomFactor;
         void config();
+
+        QString url;
+
+        bool lastTileLoaded;
+
+        COsmTilesHash *osmTiles;
+
+        double zoomFactor;
         ///actual x offset in [m]
         double x;
         ///actual y offset in [m]
@@ -92,10 +92,5 @@ class CMapOSM : public IMap
 
         bool needsRedrawOvl;
 
-        // builtin maps
-        CMapOSMType mapOsm;
-        CMapOSMType mapOcm;
-        CMapOSMType mapOpm;
-        CMapOSMType mapWam;
 };
 #endif                           //CMAPOSM_H
