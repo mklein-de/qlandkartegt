@@ -25,13 +25,13 @@
 #include <QMap>
 
 
-class QNetworkAccessManager;
+#include <QNetworkAccessManager>
 class QNetworkReply;
 
 /// search database
 class CSearchDB : public IDB
 {
-    Q_OBJECT;
+    Q_OBJECT
     public:
         virtual ~CSearchDB();
 
@@ -87,10 +87,7 @@ class CSearchDB : public IDB
         void sigFinished();
 
     private slots:
-        void slotSetupLink();
-
         void slotRequestFinished(QNetworkReply * reply);
-
         void slotRequestFinishedGoogle(QByteArray& data);
         void slotRequestFinishedOpenRouteService(QByteArray& data);
         void slotRequestFinishedMapQuest(QByteArray& data);
@@ -112,7 +109,7 @@ class CSearchDB : public IDB
         static const QString schemaLocation;
 
         CSearch tmpResult;
-        QNetworkAccessManager * networkAccessManager;
+        QNetworkAccessManager networkAccessManager;
         QMap<QString,CSearch*> results;
 
         QMap<QNetworkReply*, hosts_t> pendingRequests;

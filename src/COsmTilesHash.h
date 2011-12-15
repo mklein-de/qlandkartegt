@@ -60,6 +60,5 @@ class COsmTilesHash: public QObject
         void dequeue();
     private slots:
         void slotRequestFinished(QNetworkReply*);
-        void slotSetupLink();
 };
 #endif                           /* COSMTILESHASH_H_ */

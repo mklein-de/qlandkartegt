@@ -26,9 +26,9 @@
 #include "IMap.h"
 
 #include <QtGui>
-#include <QHttp>
 #include <QtXml>
 #include <QtNetwork>
+#include <QNetworkProxy>
 
 CSearchDB * CSearchDB::m_self;
 
@@ -37,14 +37,12 @@ static const char google_api_key[] = "ABQIAAAAPztEvITCpkvDNrq-hFRvThQNZ4aRbgDVTL
 CSearchDB::CSearchDB(QTabWidget * tb, QObject * parent)
 : IDB(tb,parent)
 , tmpResult(0)
-, networkAccessManager(0)
 {
     m_self      = this;
     toolview    = new CSearchToolWidget(tb);
 
-    slotSetupLink();
-    connect(&CResources::self(), SIGNAL(sigProxyChanged()), this, SLOT(slotSetupLink()));
-
+    networkAccessManager.setProxy(QNetworkProxy(QNetworkProxy::DefaultProxy));
+    connect(&networkAccessManager,SIGNAL(finished(QNetworkReply*)),this,SLOT(slotRequestFinished(QNetworkReply*)));
 }
 
 
@@ -58,25 +56,6 @@ void CSearchDB::clear()
 {
     results.clear();
     emit sigChanged();
-}
-
-void CSearchDB::slotSetupLink()
-{
-
-    QString url;
-    quint16 port;
-    bool enableProxy;
-
-    enableProxy = CResources::self().getHttpProxy(url,port);
-
-    delete networkAccessManager;
-    networkAccessManager = new QNetworkAccessManager(this);
-    connect(networkAccessManager,SIGNAL(finished(QNetworkReply*)),this,SLOT(slotRequestFinished(QNetworkReply*)));
-
-    if(enableProxy)
-    {
-        networkAccessManager->setProxy(QNetworkProxy(QNetworkProxy::HttpProxy,url,port));
-    }
 }
 
 void CSearchDB::search(const QString& str, hosts_t host)
@@ -112,7 +91,7 @@ void CSearchDB::startGoogle(const QString& str)
 
     QNetworkRequest request;
     request.setUrl(url);
-    QNetworkReply * reply = networkAccessManager->get(request);
+    QNetworkReply * reply = networkAccessManager.get(request);
     pendingRequests[reply] = eGoogle;
 
 }
@@ -178,7 +157,7 @@ void CSearchDB::startOpenRouteService(const QString& str)
 
     QNetworkRequest request;
     request.setUrl(url);
-    QNetworkReply * reply = networkAccessManager->post(request, array);
+    QNetworkReply * reply = networkAccessManager.post(request, array);
     pendingRequests[reply] = eOpenRouteService;
 
 }

@@ -76,7 +76,6 @@ class CResources : public QObject
         QColor wptTextColor(){return m_WptTextColor;}
 
         signals:
-        void sigProxyChanged();
         void sigDeviceChanged();
 
     private:

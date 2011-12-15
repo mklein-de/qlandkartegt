@@ -64,26 +64,17 @@ COsmTilesHash::COsmTilesHash(QString tileUrl, QObject *parent)
     m_tileUrl = QUrl(tileUrl.startsWith("http://") ? tileUrl : "http://" + tileUrl);
     m_tilePath = m_tileUrl.path();
 
-    QString url;
-    quint16 port;
-    bool enableProxy;
     QSettings cfg;
 
-    enableProxy = CResources::self().getHttpProxy(url,port);
     diskCache = new QNetworkDiskCache(this);
     diskCache->setCacheDirectory(cacheFolder);
     diskCache->setMaximumCacheSize(cfg.value("tms/maxcachevalueMB", 100).toInt() * 1024*1024);
 
     m_networkAccessManager = new QNetworkAccessManager(this);
     m_networkAccessManager->setCache(diskCache);
-
-    if(enableProxy)
-    {
-        m_networkAccessManager->setProxy(QNetworkProxy(QNetworkProxy::DefaultProxy,url,port));
-    }
+    m_networkAccessManager->setProxy(QNetworkProxy(QNetworkProxy::DefaultProxy));
 
     connect(m_networkAccessManager,SIGNAL(finished(QNetworkReply*)),this,SLOT(slotRequestFinished(QNetworkReply*)));
-    connect(&CResources::self(), SIGNAL(sigProxyChanged()), this, SLOT(slotSetupLink()));
 }
 
 
@@ -93,17 +84,6 @@ COsmTilesHash::~COsmTilesHash()
     cfg.setValue("tms/maxcachevalueMB",100);
 }
 
-
-void COsmTilesHash::slotSetupLink()
-{
-    QString url;
-    quint16 port;
-
-    if(CResources::self().getHttpProxy(url,port))
-    {
-        m_networkAccessManager->setProxy(QNetworkProxy(QNetworkProxy::DefaultProxy,url,port));
-    }
-}
 
 
 void COsmTilesHash::startNewDrawing( double lon, double lat, int osm_zoom, const QRect& window)

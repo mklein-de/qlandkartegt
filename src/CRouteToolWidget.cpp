@@ -166,9 +166,7 @@ CRouteToolWidget::CRouteToolWidget(QTabWidget * parent)
     cfg.endGroup();
     cfg.endGroup();
 
-
-    slotSetupLink();
-    connect(&CResources::self(), SIGNAL(sigProxyChanged()), this, SLOT(slotSetupLink()));
+    m_networkAccessManager->setProxy(QNetworkProxy(QNetworkProxy::DefaultProxy));
 
     timer = new QTimer(this);
     timer->setSingleShot(true);
@@ -354,21 +352,6 @@ void CRouteToolWidget::slotDelete()
     originator = false;
 
     slotDBChanged();
-}
-
-
-void CRouteToolWidget::slotSetupLink()
-{
-    QString url;
-    quint16 port;
-    bool enableProxy;
-
-    enableProxy = CResources::self().getHttpProxy(url,port);
-
-    if(enableProxy)
-    {
-         m_networkAccessManager->setProxy(QNetworkProxy(QNetworkProxy::DefaultProxy,url,port));
-    }
 }
 
 void CRouteToolWidget::slotCalcRoute()

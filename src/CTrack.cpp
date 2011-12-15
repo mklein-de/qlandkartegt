@@ -29,6 +29,7 @@
 
 #include <QtGui>
 #include <QtNetwork/QHttp>
+#include <QtNetwork/QNetworkProxy>
 
 #ifndef _MKSTR_1
 #define _MKSTR_1(x)    #x
@@ -551,35 +552,17 @@ CTrack::CTrack(QObject * parent)
     ref = 1;
 
     setColor(4);
-
-    slotSetupLink();
-    connect(&CResources::self(), SIGNAL(sigProxyChanged()), this, SLOT(slotSetupLink()));
+    geonames = new QHttp(this);
+    geonames->setProxy(QNetworkProxy(QNetworkProxy::DefaultProxy));
+    geonames->setHost("ws.geonames.org");
+    connect(geonames,SIGNAL(requestStarted(int)),this,SLOT(slotRequestStarted(int)));
+    connect(geonames,SIGNAL(requestFinished(int,bool)),this,SLOT(slotRequestFinished(int,bool)));
 }
 
 
 CTrack::~CTrack()
 {
 
-}
-
-void CTrack::slotSetupLink()
-{
-    QString url;
-    quint16 port;
-    bool enableProxy;
-
-    enableProxy = CResources::self().getHttpProxy(url,port);
-
-    if(geonames) delete geonames;
-    geonames = new QHttp(this);
-    if(enableProxy)
-    {
-        geonames->setProxy(url,port);
-    }
-//    geonames->setHost("api.geonames.org");
-    geonames->setHost("ws.geonames.org");
-    connect(geonames,SIGNAL(requestStarted(int)),this,SLOT(slotRequestStarted(int)));
-    connect(geonames,SIGNAL(requestFinished(int,bool)),this,SLOT(slotRequestFinished(int,bool)));
 }
 
 void CTrack::replaceElevationByLocal()

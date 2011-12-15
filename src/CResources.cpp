@@ -93,7 +93,10 @@ CResources::CResources(QObject * parent)
     m_httpProxy         = cfg.value("network/proxy/url",m_httpProxy).toString();
     m_httpProxyPort     = cfg.value("network/proxy/port",m_httpProxyPort).toUInt();
 
-    emit sigProxyChanged();
+    if(m_useHttpProxy)
+      QNetworkProxy::setApplicationProxy(QNetworkProxy(QNetworkProxy::HttpProxy,m_httpProxy,m_httpProxyPort));
+    else
+      QNetworkProxy::setApplicationProxy(QNetworkProxy(QNetworkProxy::NoProxy));
 
     m_devKey            = cfg.value("device/key",m_devKey).toString();
     m_devIPAddress      = cfg.value("device/ipAddr",m_devIPAddress).toString();

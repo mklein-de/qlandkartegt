@@ -261,7 +261,6 @@ class CTrack : public IItem
         void sigChanged();
 
     private slots:
-        void slotSetupLink();
         void slotRequestStarted(int );
         void slotRequestFinished(int , bool error);
 

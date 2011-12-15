@@ -27,6 +27,7 @@
 #include "CDlgSetupGarminIcons.h"
 
 #include <QtGui>
+#include <QNetworkProxy>
 
 #define XSTR(x) STR(x)
 #define STR(x) #x
@@ -157,7 +158,10 @@ void CDlgConfig::accept()
     resources.m_httpProxy       = lineProxyURL->text();
     resources.m_httpProxyPort   = lineProxyPort->text().toUInt();
 
-    emit resources.sigProxyChanged();
+    if(resources.m_useHttpProxy)
+      QNetworkProxy::setApplicationProxy(QNetworkProxy(QNetworkProxy::HttpProxy,resources.m_httpProxy,resources.m_httpProxyPort));
+    else
+      QNetworkProxy::setApplicationProxy(QNetworkProxy(QNetworkProxy::NoProxy));
 
     resources.m_mapfont         = labelFont->font();
 
