@@ -31,7 +31,7 @@ class CMapOSM : public IMap
 {
     Q_OBJECT;
     public:
-        CMapOSM(const QString& key, const QString& url, CCanvas * parent);
+        CMapOSM(const QString& key,  CCanvas * parent);
         virtual ~CMapOSM();
 
         void convertPt2M(double&, double&);
@@ -45,9 +45,6 @@ class CMapOSM : public IMap
         void getArea_n_Scaling(XY& p1, XY& p2, float& my_xscale, float& my_yscale);
         void draw(QPainter& p);
 
-        QString getUrl(){return url;}
-        void setUrl(const QString& url);
-
     public slots:
         void newImageReady(const QPixmap& image, bool lastTileLoaded);
 
@@ -55,7 +52,7 @@ class CMapOSM : public IMap
         void draw();
         void config();
 
-        QString url;
+        QString copyright;
 
         bool lastTileLoaded;
 

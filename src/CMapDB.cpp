@@ -113,6 +113,7 @@ CMapDB::CMapDB(QTabWidget * tb, QObject * parent)
         m.filename      = "http://tile.openstreetmap.org/%1/%2/%3.png";
         m.type          = IMap::eTMS;
         m.key           = QString::number(qHash(m.filename));
+        m.copyright     = "Open Street Map, Creative Commons Attribution-ShareAlike 2.0 license";
         knownMaps[m.key] = m;
         builtInKeys << m.key;
 
@@ -120,6 +121,7 @@ CMapDB::CMapDB(QTabWidget * tb, QObject * parent)
         m.filename      = "http://b.tile.opencyclemap.org/cycle/%1/%2/%3.png";
         m.type          = IMap::eTMS;
         m.key           = QString::number(qHash(m.filename));
+        m.copyright     = "Open Street Map, Creative Commons Attribution-ShareAlike 2.0 license";
         knownMaps[m.key] = m;
         builtInKeys << m.key;
 
@@ -328,7 +330,7 @@ void CMapDB::openMap(const QString& filename, bool asRaster, CCanvas& canvas)
 #endif // HAS_JNX
     else if(filename.startsWith("http"))
     {
-        theMap = new CMapOSM(QString::number(qHash(filename)), filename, theMainWindow->getCanvas());
+        theMap = new CMapOSM(QString::number(qHash(filename)), theMainWindow->getCanvas());
 
         // store current map filename for next session
         QSettings cfg;
@@ -397,7 +399,7 @@ void CMapDB::openMap(const QString& key)
 #endif // HAS_JNX
     else if(filename.startsWith("http"))
     {
-        theMap = new CMapOSM(key, filename, theMainWindow->getCanvas());
+        theMap = new CMapOSM(key, theMainWindow->getCanvas());
     }
 
     connect(theMap, SIGNAL(sigChanged()), theMainWindow->getCanvas(), SLOT(update()));
@@ -513,23 +515,8 @@ void CMapDB::delKnownMap(const QStringList& keys)
         }
         else if(map.type == IMap::eTMS)
         {
-            /// @todo
-//            QSettings cfg;
-//            const int N = cfg.value("customMaps/size",0).toInt();
-//            for(int i = 0; i < N; i++)
-//            {
-//                QString group = QString("customMaps/%1").arg(i+1);
-//                cfg.beginGroup(group);
-//                if(map.filename == cfg.value("mapString","").toString())
-//                {
-//                    cfg.endGroup();
-//                    cfg.remove(group);
-//                }
-//                else
-//                {
-//                    cfg.endGroup();
-//                }
-//            }
+            QSettings cfg;
+            cfg.remove(QString("tms/maps/%1").arg(map.key));
         }
         knownMaps.remove(key);
     }

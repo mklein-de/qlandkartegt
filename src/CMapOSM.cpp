@@ -29,9 +29,8 @@
 #include "CMapOSMType.h"
 #include <QDebug>
 
-CMapOSM::CMapOSM(const QString& key, const QString &url, CCanvas *parent)
+CMapOSM::CMapOSM(const QString& key, CCanvas *parent)
 : IMap(eTMS, key, parent)
-, url(url)
 , osmTiles(0)
 , zoomFactor(1.0)
 , x(0)
@@ -42,7 +41,10 @@ CMapOSM::CMapOSM(const QString& key, const QString &url, CCanvas *parent)
 {
     QSettings cfg;
 
-    osmTiles = new COsmTilesHash(url, this);
+    CMapDB::map_t mapData = CMapDB::self().getMapData(key);
+    copyright = mapData.copyright;
+
+    osmTiles = new COsmTilesHash(mapData.filename, this);
     connect(osmTiles,SIGNAL(newImageReady(const QPixmap&,bool)),this,SLOT(newImageReady(const QPixmap&,bool)));
 
     pjsrc = pj_init_plus("+proj=merc +lon_0=0 +k=1 +x_0=0 +y_0=0 +a=6378137 +b=6378137 +units=m +no_defs ");
@@ -102,14 +104,6 @@ CMapOSM::~CMapOSM()
     if(pjsrc) pj_free(pjsrc);
 }
 
-
-void CMapOSM::setUrl(const QString& url)
-{
-    this->url = url;
-    delete osmTiles;
-    osmTiles = new COsmTilesHash(url, this);
-    connect(osmTiles,SIGNAL(newImageReady(const QPixmap&,bool)),this,SLOT(newImageReady(const QPixmap&,bool)));
-}
 
 
 void CMapOSM::convertPt2M(double& u, double& v)
@@ -298,6 +292,7 @@ void CMapOSM::draw(QPainter& p)
 
         p.setFont(QFont("Sans Serif",8,QFont::Black));
 
+        CCanvas::drawText(tr("%1 %2").arg(QChar(0x00A9)).arg(copyright), p, rect.bottomLeft() + QPoint(rect.width() / 2, -5) , QColor(Qt::darkBlue));
 //        if(currentTileListIndex < 3)
 //        {
 //            CCanvas::drawText(tr("Map has been created by %1 under Creative Commons Attribution-ShareAlike 2.0 license").arg(tileList.at(currentTileListIndex).title), p, rect.bottomLeft() + QPoint(rect.width() / 2, -5) , QColor(Qt::darkBlue));

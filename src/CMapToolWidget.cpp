@@ -298,6 +298,14 @@ void CMapToolWidget::slotContextMenuKnownMaps(const QPoint& pos)
         QPoint p = lastTreeWidget->mapToGlobal(pos);
         contextMenuKnownMaps->exec(p);
     }
+    else if(lastTreeWidget == treeKnownMapsStream)
+    {
+        actAddDEM->setEnabled(false);
+        actDelDEM->setEnabled(false);
+        actCfgMap->setEnabled(false);
+        actDelMap->setEnabled(false);
+        actAddTMS->setVisible(true);
+    }
 }
 
 
