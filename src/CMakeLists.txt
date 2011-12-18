@@ -101,6 +101,7 @@ set(qlandkarte_SRCS
     CMouseAddDistance.cpp
     CMouseOverlay.cpp
     CMouseColorPicker.cpp
+    CMouseSelWpt.cpp
     IMap.cpp
     CMapNoMap.cpp
     CMapOSM.cpp
@@ -261,6 +262,7 @@ set(qlandkarte_HDRS
     CMouseAddDistance.h
     CMouseOverlay.h
     CMouseColorPicker.h
+    CMouseSelWpt.h
     IMap.h
     CMapNoMap.h
     CMapOSM.h

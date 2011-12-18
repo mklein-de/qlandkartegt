@@ -927,6 +927,10 @@ void CMapDB::select(const QRect& rect, const QMap< QPair<int,int>, bool>& selTil
         }
         emit sigChanged();
     }
+    else
+    {
+        QMessageBox::critical(0,tr("Error..."), tr("This map does not support this feature."), QMessageBox::Abort,QMessageBox::Abort);
+    }
 }
 
 

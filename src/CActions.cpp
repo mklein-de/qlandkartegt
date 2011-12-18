@@ -89,8 +89,7 @@ QObject(parent), parent(parent)
 #endif
     //
     createAction(tr("F5"), ":/icons/iconAdd16x16.png", tr("&New Waypoint"), "aNewWpt", tr("Create a new user waypoint. The default position will be the current cursor position."));
-    createAction(tr("F6"), ":/icons/iconEdit16x16.png", tr("&Edit Waypoint"), "aEditWpt", tr("Switch cursor to 'Edit Waypoint' mode. Point-n-click to edit a waypoint."));
-    createAction(tr("F7"), ":/icons/iconMove16x16.png", tr("&Move Waypoint"), "aMoveWpt", tr("Switch cursor to 'Move Waypoint' mode. Point-click-move-click to move a waypoint. Use the right mouse button to abort. It is ok to leave 'Move Waypoint' mode and to resume."));
+    createAction(tr("F6"), ":/icons/iconSelect16x16.png", tr("&Radius Select"), "aSelWpt", tr("Select waypoints in a radius"));
 #ifdef HAS_EXIF
     createAction(tr("F8"),":/icons/iconRaster16x16.png",tr("From &Images..."),"aImageWpt",tr("Create waypoints from geo-referenced images in a path."));
 #endif
@@ -104,7 +103,6 @@ QObject(parent), parent(parent)
     createAction(tr("F9"), ":/icons/iconUpload16x16.png", tr("U&pload"), "aUploadTrack", tr("Upload tracks to device."));
     createAction(tr("F10"), ":/icons/iconDownload16x16.png", tr("Down&load"), "aDownloadTrack", tr("Download tracks from device."));
     createAction(tr("ctrl+Del"), ":/icons/iconClear16x16.png", tr("Hide/Show Selection"), "aTrackPurgeSelection", tr("Toggle visibility of the selected track points."));
-//    createAction(tr("ctrl+Del"), ":/icons/iconClear16x16.png", tr("Delete Selection"), "aDeleteTrackSelection", tr("Deletes the selected points of the track."));
     //
     createAction(tr("F5"), ":/icons/iconPlayPause16x16.png", tr("&Start / Stop"), "aLiveLog", tr("Start / stop live log recording."));
     createAction(tr("F6"), ":/icons/iconLock16x16.png", tr("Move Map to &Pos."), "aLockMap", tr("Move the map to keep the positon cursor centered."));
@@ -119,11 +117,7 @@ QObject(parent), parent(parent)
     createAction(tr("F5"), ":/icons/iconAdd16x16.png", tr("Join Distance PolyLines"), "aCombineDistOvl", tr("Join distance polylines to one."));
 
     //
-//    createAction(tr("F5"), ":/icons/iconDiary16x16.png", tr("&Diary"), "aDiary", tr("Add / edit diary data"));
     createAction(tr("F6"), ":/icons/cache/Traditional-Cache.png", tr("&Export to OCM"), "aOcm", tr("Send current workspace to Open Cache Manager."));
-
-    //createAction(tr("F6"), ":/icons/iconColorChooser16x16.png", tr("&Pick Color"), "aColorPicker", tr("test only"));
-    //createAction(tr("F7"), 0, tr("Create World &Basemap"), "aWorldBasemap", tr("Create a world basemap from OSM tiles to be used by QLandkarte M"));
 
     //
     createAction(tr("F9"), ":/icons/iconUpload16x16.png", tr("U&pload"), "aUploadRoute", tr("Upload routes to device."));
@@ -420,6 +414,10 @@ void CActions::funcNewWpt()
     canvas->setMouseMode(CCanvas::eMouseAddWpt);
 }
 
+void CActions::funcSelWpt()
+{
+    canvas->setMouseMode(CCanvas::eMouseSelWpt);
+}
 
 void CActions::funcCloseMap3D()
 {

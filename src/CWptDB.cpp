@@ -877,6 +877,33 @@ void CWptDB::selWptByKey(const QString& key, bool selectMode)
     }
 }
 
+void CWptDB::selWptInRange(const QPointF& center, double radius)
+{
+    XY p0;
+    p0.u = center.x();
+    p0.v = center.y();
+    CWptToolWidget * t = qobject_cast<CWptToolWidget*>(toolview);
+
+    foreach(CWpt * wpt, wpts)
+    {
+        XY p1;
+        p1.u = wpt->lon * DEG_TO_RAD;
+        p1.v = wpt->lat * DEG_TO_RAD;
+
+        double d,a1,a2;
+        d = distance(p0, p1, a1, a2);
+
+        if(d < radius)
+        {
+            wpt->selected = true;
+            if(t)
+            {
+                t->selWptByKey(wpt->getKey());
+            }
+        }
+    }
+}
+
 
 void CWptDB::draw(QPainter& p, const QRect& rect, bool& needsRedraw)
 {

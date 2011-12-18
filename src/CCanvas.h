@@ -39,6 +39,7 @@ class CMouseAddTextBox;
 class CMouseAddDistance;
 class CMouseOverlay;
 class CMouseColorPicker;
+class CMouseSelWpt;
 class CWpt;
 class QLabel;
 class QSize;
@@ -78,17 +79,14 @@ class CCanvas : public QWidget
             , eMouseEditWpt      ///< use mouse to select waypoints
             , eMouseMoveWpt      ///< use mouse to drag-n-drop waypoints
             , eMouseMoveRefPoint ///< use mouse to drag-n-drop reference points
-            //, eMouseSearchOC    ///< use mouse to define a search radius for open caching
             , eMouseCutTrack     ///< use mouse to cut a track into two pieces
             , eMouseSelTrack     ///< use mouse to select points of a track by a rectangle
-            //, eMouseEditRte     ///< use mouse to define a new route polyline
-            //, eMouseMoveRte     ///< use mouse to move route points
-            //, eMouseDelRte      ///< use mouse to delete route points
             , eMouseAddText      ///< use mouse to define a new text field on the map
             , eMouseAddTextBox   ///< use mouse to define a new text field with anchor on the map
             , eMouseAddDistance  ///< use mouse to define a new distance polygon
             , eMouseOverlay      ///< use mouse to change overlays
             , eMouseColorPicker  ///< use mouse to pick a color from map
+            , eMouseSelWpt       ///< use mouse to select waypoints in a radius
         };
 
         /// zoom in/out with a given point as static
@@ -180,6 +178,7 @@ class CCanvas : public QWidget
         CMouseAddDistance * mouseAddDistance;
         CMouseOverlay * mouseOverlay;
         CMouseColorPicker * mouseColorPicker;
+        CMouseSelWpt * mouseSelWpt;
         bool cursorFocus;
 
         /// current mouse mode

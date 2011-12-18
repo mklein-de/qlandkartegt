@@ -74,6 +74,7 @@ class CActions : public QObject
         void funcMap3DTrackMode();
 
         void funcNewWpt();
+        void funcSelWpt();
         void funcEditWpt();
         void funcMoveWpt();
         void funcImageWpt();

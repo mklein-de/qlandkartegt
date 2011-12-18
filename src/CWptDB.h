@@ -24,6 +24,7 @@
 #include <QString>
 #include <QMap>
 #include <QStringList>
+#include <QPointF>
 
 #ifdef HAS_EXIF
 #include <libexif/exif-data.h>
@@ -89,6 +90,7 @@ class CWptDB : public IDB
         void download();
         void clear();
         void selWptByKey(const QString& key, bool selectMode);
+        void selWptInRange(const QPointF& center, double radius);
         void makeVisible(const QStringList& keys);
 
         int count(){return wpts.count();}

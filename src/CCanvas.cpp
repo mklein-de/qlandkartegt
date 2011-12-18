@@ -36,6 +36,7 @@
 #include "CMouseAddDistance.h"
 #include "CMouseOverlay.h"
 #include "CMouseColorPicker.h"
+#include "CMouseSelWpt.h"
 #include "CWpt.h"
 #include "CTrack.h"
 #include "CSearchDB.h"
@@ -93,6 +94,7 @@ CCanvas::CCanvas(QWidget * parent)
     mouseAddDistance= new CMouseAddDistance(this);
     mouseOverlay    = new CMouseOverlay(this);
     mouseColorPicker = new CMouseColorPicker(this);
+    mouseSelWpt     = new CMouseSelWpt(this);
 
     cursorFocus = false;
 
@@ -198,6 +200,10 @@ void CCanvas::setMouseMode(mouse_mode_e mode)
 
         case eMouseColorPicker:
             mouse = mouseColorPicker;
+            break;
+
+        case eMouseSelWpt:
+            mouse = mouseSelWpt;
             break;
 
         default:;

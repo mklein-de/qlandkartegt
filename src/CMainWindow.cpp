@@ -161,8 +161,7 @@ CMainWindow::CMainWindow()
     actionGroupProvider->addAction(CMenus::WptMenu, "aZoomArea");
     actionGroupProvider->addAction(CMenus::WptMenu, "aCenterMap");
     actionGroupProvider->addAction(CMenus::WptMenu, "aNewWpt");
-//    actionGroupProvider->addAction(CMenus::WptMenu, "aEditWpt");      ///< @todo remove later
-//    actionGroupProvider->addAction(CMenus::WptMenu, "aMoveWpt");      ///< @todo remove later
+    actionGroupProvider->addAction(CMenus::WptMenu, "aSelWpt");
 #ifdef HAS_EXIF
     actionGroupProvider->addAction(CMenus::WptMenu, "aImageWpt");
 #endif
@@ -174,7 +173,6 @@ CMainWindow::CMainWindow()
     actionGroupProvider->addAction(CMenus::TrackMenu, "aZoomArea");
     actionGroupProvider->addAction(CMenus::TrackMenu, "aCenterMap");
     actionGroupProvider->addAction(CMenus::TrackMenu, "aCombineTrack");
-//    actionGroupProvider->addAction(CMenus::TrackMenu, "aEditTrack");  ///< @todo remove later
     actionGroupProvider->addAction(CMenus::TrackMenu, "aCutTrack");
     actionGroupProvider->addAction(CMenus::TrackMenu, "aSelTrack");
     actionGroupProvider->addAction(CMenus::TrackMenu, "aUploadTrack");
@@ -208,7 +206,6 @@ CMainWindow::CMainWindow()
     actionGroupProvider->addAction(CMenus::MainMoreMenu, "aMoveArea");
     actionGroupProvider->addAction(CMenus::MainMoreMenu, "aZoomArea");
     actionGroupProvider->addAction(CMenus::MainMoreMenu, "aCenterMap");
-//    actionGroupProvider->addAction(CMenus::MainMoreMenu, "aDiary");
 #ifdef HAS_DBUS
     actionGroupProvider->addAction(CMenus::MainMoreMenu, "aOcm");
 #endif
