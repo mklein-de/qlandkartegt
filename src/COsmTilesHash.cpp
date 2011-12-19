@@ -144,7 +144,6 @@ void COsmTilesHash::getImage(int osm_zoom, int osm_x, int osm_y, QPoint point)
         return;
     }
     QNetworkRequest request;
-    request.setRawHeader("User-Agent", WHAT_STR);
     request.setUrl(m_tileUrl);
     m_queuedRequests.enqueue(qMakePair(request,point));
     dequeue();

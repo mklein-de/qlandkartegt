@@ -500,7 +500,6 @@ void CRouteToolWidget::startOpenRouteService(CRoute& rte)
 
     QNetworkRequest request;
     request.setUrl(url);
-    request.setRawHeader("User-Agent", WHAT_STR);
 
     QNetworkReply* reply = m_networkAccessManager->post(request, array);
     pendingRequests[reply] = rte.getKey();
