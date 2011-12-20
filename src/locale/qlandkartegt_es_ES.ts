@@ -2894,12 +2894,12 @@ Proyección actual: %1</translation>
     <message>
         <location filename="../CImageSelect.cpp" line="40"/>
         <source>leave right</source>
-        <translation>dejar a la derecha</translation>
+        <translation>salir a la derecha</translation>
     </message>
     <message>
         <location filename="../CImageSelect.cpp" line="41"/>
         <source>leave left</source>
-        <translation>dejar a la izquierda</translation>
+        <translation>salir a la izquierda</translation>
     </message>
     <message>
         <location filename="../CImageSelect.cpp" line="42"/>
