@@ -2796,10 +2796,26 @@ void CMapTDB::drawPoints(QPainter& p, pointtype_t& pts, QVector<QRect>& rectPois
             // if no intersection was found, add label to list
             if(label == labels.constEnd())
             {
+                QString str;
+                if(!pt->labels.isEmpty())
+                {
+                    if((pt->type == 0x6200)||(pt->type == 0x6300))
+                    {
+                        QString unit;
+                        QString val = pt->labels[0];
+                        IUnit::self().meter2elevation(val.toFloat() / 3.28084f, val, unit);
+                        str = QString("%1 %2").arg(val).arg(unit);
+                    }
+                    else
+                    {
+                        str = pt->labels.join(" ");
+                    }
+                }
+
                 labels.push_back(strlbl_t());
                 strlbl_t& strlbl = labels.last();
                 strlbl.pt   = QPoint(pt->lon, pt->lat);
-                strlbl.str  = pt->labels.join(" ");
+                strlbl.str  = str;
                 strlbl.rect = rect;
             }
         }
@@ -2862,10 +2878,26 @@ void CMapTDB::drawPois(QPainter& p, pointtype_t& pts, QVector<QRect>& rectPois)
                 // if no intersection was found, add label to list
                 if(label == labels.end())
                 {
+                    QString str;
+                    if(!pt->labels.isEmpty())
+                    {
+                        if((pt->type == 0x6200)||(pt->type == 0x6300))
+                        {
+                            QString unit;
+                            QString val = pt->labels[0];
+                            IUnit::self().meter2elevation(val.toFloat() / 3.28084f, val, unit);
+                            str = QString("%1 %2").arg(val).arg(unit);
+                        }
+                        else
+                        {
+                            str = pt->labels.join(" ");
+                        }
+                    }
+
                     labels.push_back(strlbl_t());
                     strlbl_t& strlbl = labels.last();
                     strlbl.pt   = QPoint(pt->lon, pt->lat);
-                    strlbl.str  = pt->labels.join(" ");
+                    strlbl.str  = str;
                     strlbl.rect = rect;
                     strlbl.type = labelType;
                 }
@@ -2902,7 +2934,21 @@ void CMapTDB::getInfoPoints(const QPoint& pt, QMultiMap<QString, QString>& dict)
         {
             if(point->labels.size())
             {
-                dict.insert(tr("Point of Interest"),point->labels.join( ", " ) + QString(" (%1)").arg(point->type,2,16,QChar('0')));
+
+                QString str;
+                if((point->type == 0x6200)||(point->type == 0x6300))
+                {
+                    QString unit;
+                    QString val = point->labels[0];
+                    IUnit::self().meter2elevation(val.toFloat() / 3.28084f, val, unit);
+                    str = QString("%1 %2").arg(val).arg(unit);
+                }
+                else
+                {
+                    str = point->labels.join(", ");
+                }
+
+                dict.insert(tr("Point of Interest"),str + QString(" (%1)").arg(point->type,2,16,QChar('0')));
             }
             else
             {
@@ -2939,7 +2985,20 @@ void CMapTDB::getInfoPois(const QPoint& pt, QMultiMap<QString, QString>& dict)
         {
             if(point->labels.size())
             {
-                dict.insert(tr("Point of Interest"),point->labels.join( ", " ) + QString(" (%1)").arg(point->type,2,16,QChar('0')));
+                QString str;
+                if((point->type == 0x6200)||(point->type == 0x6300))
+                {
+                    QString unit;
+                    QString val = point->labels[0];
+                    IUnit::self().meter2elevation(val.toFloat() / 3.28084f, val, unit);
+                    str = QString("%1 %2").arg(val).arg(unit);
+                }
+                else
+                {
+                    str = point->labels.join(", ");
+                }
+
+                dict.insert(tr("Point of Interest"),str + QString(" (%1)").arg(point->type,2,16,QChar('0')));
             }
             else
             {
