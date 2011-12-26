@@ -57,7 +57,7 @@
      <item>
       <widget class="QToolButton" name="toolSortComment">
        <property name="toolTip">
-        <string>Sort waypoints by comment.</string>
+        <string>Sort by comment</string>
        </property>
        <property name="text">
         <string>...</string>
