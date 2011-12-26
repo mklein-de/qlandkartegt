@@ -35,6 +35,13 @@
 #include "CMapTDB.h"
 #include "config.h"
 
+#ifndef Q_OS_WIN32
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <pwd.h>
+#include <unistd.h>
+#endif
+
 #include <QtGui>
 
 CResources * CResources::m_self = 0;
@@ -66,7 +73,8 @@ CResources::CResources(QObject * parent)
 , m_useAntiAliasing(true)
 , m_reducePoiIcons(true)
 , m_WptTextColor(Qt::black)
-
+, m_pathMapCache(QDir::temp().filePath("qlandkarte/cache"))
+, m_sizeMapCache(100)
 {
     m_self = this;
 
@@ -159,6 +167,27 @@ CResources::CResources(QObject * parent)
     QPixmap(":/webstuff/frame_bottom_right.png").save(dirWeb.filePath("frame_bottom_right.png"));
     QPixmap(":/webstuff/scale.png").save(dirWeb.filePath("scale.png"));
 
+
+    QString cacheFolder;
+#ifndef Q_OS_WIN32
+    const char *envCache = getenv("QLGT_CACHE");
+
+    if (envCache)
+    {
+        cacheFolder = envCache;
+    }
+    else
+    {
+        struct passwd * userInfo = getpwuid(getuid());
+        cacheFolder = QDir::tempPath() + "/qlandkarteqt-" + userInfo->pw_name + "/cache/";
+    }
+#else
+    cacheFolder = m_pathMapCache.absolutePath();
+#endif
+
+    m_pathMapCache = QDir(cfg.value("network/mapcache/path", cacheFolder).toString());
+    m_sizeMapCache = cfg.value("network/mapcache/size", m_sizeMapCache).toInt();
+
 }
 
 
@@ -209,6 +238,9 @@ CResources::~CResources()
     cfg.setValue("environment/reducePoiIcons",m_reducePoiIcons);
 
     cfg.setValue("environment/wptTextColor", m_WptTextColor.name());
+
+    cfg.setValue("network/mapcache/path", m_pathMapCache.absolutePath());
+    cfg.setValue("network/mapcache/size", m_sizeMapCache);
 }
 
 

@@ -40,6 +40,7 @@ class CDlgConfig : public QDialog, private Ui::IDlgConfig
         void slotSelectWptTextColor();
         void slotSetupGarminIcons();
         void slotSelectPathGeoDB();
+        void slotSelectPathMapCache();
 
     private:
         void fillTypeCombo();

@@ -75,6 +75,9 @@ class CResources : public QObject
 
         QColor wptTextColor(){return m_WptTextColor;}
 
+        QDir getPathMapCache(){return m_pathMapCache;}
+        int getSizeMapCache(){return m_sizeMapCache;}
+
         signals:
         void sigDeviceChanged();
 
@@ -149,5 +152,8 @@ class CResources : public QObject
 
         /// unit translator object
         QPointer<IUnit> unit;
+
+        QDir m_pathMapCache;
+        int  m_sizeMapCache;
 };
 #endif                           //CRESOURCES_H

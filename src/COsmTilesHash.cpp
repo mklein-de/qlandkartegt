@@ -36,30 +36,9 @@
 # define M_PI   3.14159265358979323846
 #endif
 
-QString COsmTilesHash::cacheFolder;
-
 COsmTilesHash::COsmTilesHash(QString tileUrl, QObject *parent)
     : QObject(parent)
 {
-    if (cacheFolder.isEmpty())
-    {
-#ifndef Q_OS_WIN32
-        const char *envCache = getenv("QLGT_CACHE");
-
-        if (envCache)
-        {
-            cacheFolder = envCache;
-        }
-        else
-        {
-            struct passwd * userInfo = getpwuid(getuid());
-            cacheFolder = QDir::tempPath() + "/qlandkarteqt-" + userInfo->pw_name + "/cache/";
-        }
-#else
-        cacheFolder = QDir::tempPath() + "/qlandkarteqt/cache/";
-#endif
-        qDebug() << "using OSM tile cache folder" << cacheFolder;
-    }
 
     m_tileUrl = QUrl(tileUrl.startsWith("http://") ? tileUrl : "http://" + tileUrl);
     m_tilePath = m_tileUrl.path();
@@ -67,8 +46,8 @@ COsmTilesHash::COsmTilesHash(QString tileUrl, QObject *parent)
     QSettings cfg;
 
     diskCache = new QNetworkDiskCache(this);
-    diskCache->setCacheDirectory(cacheFolder);
-    diskCache->setMaximumCacheSize(cfg.value("tms/maxcachevalueMB", 100).toInt() * 1024*1024);
+    diskCache->setCacheDirectory(CResources::self().getPathMapCache().absolutePath());
+    diskCache->setMaximumCacheSize(CResources::self().getSizeMapCache() * 1024*1024);
 
     m_networkAccessManager = new QNetworkAccessManager(this);
     m_networkAccessManager->setCache(diskCache);

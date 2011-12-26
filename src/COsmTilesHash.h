@@ -38,7 +38,7 @@ class COsmTilesHash: public QObject
         COsmTilesHash(QString tileUrl, QObject * parent);
         virtual ~COsmTilesHash();
         void startNewDrawing( double lon, double lat, int osm_zoom, const QRect& window);
-        static const QString &getCacheFolder(void) { return cacheFolder; }
+
     signals:
         void newImageReady(const QPixmap& image, bool lastTileLoaded);
     private:
@@ -56,7 +56,7 @@ class COsmTilesHash: public QObject
         void getImage(int osm_zoom, int osm_x, int osm_y, QPoint startPoint);
         QPixmap pixmap;
         QNetworkAccessManager *m_networkAccessManager;
-        static QString cacheFolder;
+
         void dequeue();
     private slots:
         void slotRequestFinished(QNetworkReply*);

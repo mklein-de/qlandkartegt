@@ -53,6 +53,8 @@ CDlgConfig::CDlgConfig(QWidget * parent)
     connect(checkGeoDBSaveOnExit, SIGNAL(clicked(bool)), spinGeoDBMinutes, SLOT(setEnabled(bool)));
 #endif
 
+    connect(toolPathMapCache, SIGNAL(clicked()), this, SLOT(slotSelectPathMapCache()));
+
 }
 
 
@@ -145,6 +147,8 @@ void CDlgConfig::exec()
     palette.setColor(labelWptTextColor->foregroundRole(), resources.m_WptTextColor);
     labelWptTextColor->setPalette(palette);
 
+    labelPathMapCache->setText(resources.m_pathMapCache.absolutePath());
+    spinSizeMapCache->setValue(resources.m_sizeMapCache);
 
     QDialog::exec();
 }
@@ -221,6 +225,9 @@ void CDlgConfig::accept()
 
     QPalette palette = labelWptTextColor->palette();
     resources.m_WptTextColor = palette.color(labelWptTextColor->foregroundRole());
+
+    resources.m_pathMapCache = QDir(labelPathMapCache->text());
+    resources.m_sizeMapCache = spinSizeMapCache->value();
 
     QDialog::accept();
 }
@@ -379,3 +386,13 @@ void CDlgConfig::slotSelectWptTextColor()
     }
 
 }
+
+void CDlgConfig::slotSelectPathMapCache()
+{
+    QString path = QFileDialog::getExistingDirectory(this, tr("Open Directory"), labelPathMapCache->text(), QFileDialog::ShowDirsOnly);
+    if(!path.isEmpty())
+    {
+        labelPathMapCache->setText(path);
+    }
+}
+
