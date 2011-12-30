@@ -622,7 +622,6 @@ void CMainWindow::setupMenuBar()
 #else
     menu->addAction(QIcon(":/icons/iconConfig16x16.png"),tr("&General"),this,SLOT(slotConfig()));
 #endif
-    menu->addAction(QIcon(":/icons/iconGrid16x16.png"),tr("Grid"),this,SLOT(slotSetupGrid()));
     menuBar()->addMenu(menu);
 
     menu = new QMenu(this);
@@ -720,12 +719,6 @@ void CMainWindow::slotToolBoxChanged(int idx)
 void CMainWindow::slotConfig()
 {
     CDlgConfig dlg(this);
-    dlg.exec();
-}
-
-void CMainWindow::slotSetupGrid()
-{
-    CDlgSetupGrid dlg(this);
     dlg.exec();
 }
 

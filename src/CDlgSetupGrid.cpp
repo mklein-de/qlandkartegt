@@ -26,6 +26,11 @@
 CDlgSetupGrid::CDlgSetupGrid(QWidget * parent)
     : QDialog(parent)
 {
+    this->setWindowModality(Qt::WindowModal);
+#if defined(Q_WS_MAC)
+    this->setParent(qApp->focusWidget());
+    this->setWindowFlags(Qt::Sheet);
+#endif
     setupUi(this);
 
     toolProjWizzard->setIcon(QPixmap(":/icons/iconWizzard16x16.png"));

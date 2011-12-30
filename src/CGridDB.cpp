@@ -21,6 +21,7 @@
 #include "IMap.h"
 #include "CMainWindow.h"
 #include "CResources.h"
+#include "CDlgSetupGrid.h"
 
 #include <QtGui>
 
@@ -50,6 +51,12 @@ CGridDB::CGridDB(QObject * parent)
     connect(checkGrid, SIGNAL(toggled(bool)), this, SLOT(slotShowGrid(bool)));
     connect(checkGrid, SIGNAL(clicked()), theMainWindow->getCanvas(), SLOT(update()));
 
+    setupGrid = new QToolButton(theMainWindow);
+    setupGrid->setIcon(QIcon(":/icons/iconConfig16x16.png"));
+    theMainWindow->statusBar()->addPermanentWidget(setupGrid);
+
+    connect(setupGrid,SIGNAL(clicked()),this,SLOT(slotSetupGrid()));
+
     showGrid = cfg.value("map/grid", showGrid).toBool();
     checkGrid->setChecked(showGrid);
 
@@ -67,6 +74,12 @@ CGridDB::~CGridDB()
     cfg.setValue("map/grid/color", color.name());
 }
 
+void CGridDB::slotSetupGrid()
+{
+    CDlgSetupGrid dlg(theMainWindow);
+    dlg.exec();
+}
+
 void CGridDB::setProjAndColor(const QString& proj, const QColor& c)
 {
     projstr = proj;
@@ -75,7 +88,7 @@ void CGridDB::setProjAndColor(const QString& proj, const QColor& c)
     if(pjGrid) pj_free(pjGrid);
     pjGrid  = pj_init_plus(projstr.toAscii());
 
-    checkGrid->setToolTip(tr("Use 'Setup -> Grid...' to setup color and projection.\nCur. proj.: %1").arg(projstr));
+    setupGrid->setToolTip(tr("Configure grid color and projection.\nCur. proj.: %1").arg(projstr));
 
     theMainWindow->getCanvas()->update();
 }

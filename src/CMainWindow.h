@@ -86,7 +86,6 @@ class CMainWindow : public QMainWindow
         void slotCopyright();
         void slotToolBoxChanged(int idx);
         void slotConfig();
-        void slotSetupGrid();
         void slotLoadData();
         void slotAddData();
         void slotSaveData();

@@ -26,6 +26,7 @@
 class QPainter;
 class QRect;
 class QCheckBox;
+class QToolButton;
 
 class CGridDB : public QObject
 {
@@ -43,6 +44,7 @@ class CGridDB : public QObject
 
     private slots:
         void slotShowGrid(bool on){showGrid = on;}
+        void slotSetupGrid();
 
     private:
         friend class CMainWindow;
@@ -57,6 +59,8 @@ class CGridDB : public QObject
         PJ * pjGrid;
 
         QCheckBox * checkGrid;
+        QToolButton * setupGrid;
+
         bool showGrid;
         QString projstr;
         QColor color;
