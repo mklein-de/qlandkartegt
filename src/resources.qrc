@@ -513,5 +513,7 @@
         <file>pics/roadbook/27.png</file>
         <file>pics/roadbook/28.png</file>
         <file>icons/iconGrid16x16.png</file>
+        <file>icons/preferences-desktop-font.png</file>
+        <file>icons/preferences-desktop-color.png</file>
     </qresource>
 </RCC>

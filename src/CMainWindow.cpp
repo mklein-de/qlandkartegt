@@ -610,10 +610,13 @@ void CMainWindow::setupMenuBar()
     menu->setTitle(tr("&Overlay"));
     menuBar()->addMenu(menu);
 
+#ifdef HAS_DBUS
+    // note: currently, the More menu holds only one entry if DBus is enabled...
     menu = new QMenu(this);
     actionGroupProvider->addActionsToMenu(menu,CMenus::MenuBarMenu,CMenus::MainMoreMenu);
     menu->setTitle(tr("Mor&e"));
     menuBar()->addMenu(menu);
+#endif
 
     menu = new QMenu(this);
     menu->setTitle(tr("&Setup"));
