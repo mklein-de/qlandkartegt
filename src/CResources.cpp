@@ -178,8 +178,13 @@ CResources::CResources(QObject * parent)
     }
     else
     {
+#ifndef Q_WS_MAC
         struct passwd * userInfo = getpwuid(getuid());
         cacheFolder = QDir::tempPath() + "/qlandkarteqt-" + userInfo->pw_name + "/cache/";
+#else
+        // Mac OS X: points to /Users/<user name>/Library/Caches/QLandkarteGT/QLandkarteGT
+        cacheFolder = QDesktopServices::storageLocation(QDesktopServices::CacheLocation);
+#endif
     }
 #else
     cacheFolder = m_pathMapCache.absolutePath();
