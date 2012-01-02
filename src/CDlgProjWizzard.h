@@ -31,14 +31,15 @@ class CDlgProjWizzard : public QDialog, private Ui::IDlgProjWizzard
     public:
         CDlgProjWizzard(QLineEdit& line, QWidget * parent);
         virtual ~CDlgProjWizzard();
-	
-	static bool validProjStr(const QString projStr);
+
+        static bool validProjStr(const QString projStr);
 
     public slots:
         void accept();
         void slotChange();
 
     private:
+        void findDatum(const QString& str);
         QLineEdit& line;
 };
 #endif                           //CDLGPROJWIZZARD_H
