@@ -27,7 +27,24 @@
       <widget class="QLineEdit" name="lineProjection"/>
      </item>
      <item>
+      <widget class="QToolButton" name="toolRestoreDefault">
+       <property name="toolTip">
+        <string>restore default</string>
+       </property>
+       <property name="text">
+        <string>...</string>
+       </property>
+       <property name="icon">
+        <iconset resource="resources.qrc">
+         <normaloff>:/icons/refresh.png</normaloff>:/icons/refresh.png</iconset>
+       </property>
+      </widget>
+     </item>
+     <item>
       <widget class="QToolButton" name="toolProjWizzard">
+       <property name="toolTip">
+        <string>projection wizzard</string>
+       </property>
        <property name="text">
         <string>...</string>
        </property>
@@ -56,6 +73,9 @@
      </item>
      <item>
       <widget class="QToolButton" name="toolGridColor">
+       <property name="toolTip">
+        <string>setup grid color</string>
+       </property>
        <property name="text">
         <string>...</string>
        </property>

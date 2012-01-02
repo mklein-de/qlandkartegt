@@ -31,6 +31,8 @@ class CDlgProjWizzard : public QDialog, private Ui::IDlgProjWizzard
     public:
         CDlgProjWizzard(QLineEdit& line, QWidget * parent);
         virtual ~CDlgProjWizzard();
+	
+	static bool validProjStr(const QString projStr);
 
     public slots:
         void accept();

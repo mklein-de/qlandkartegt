@@ -19,6 +19,7 @@
 
 #include "CDlgProjWizzard.h"
 #include "mitab.h"
+#include <proj_api.h>
 
 #include <QtGui>
 
@@ -125,6 +126,24 @@ void CDlgProjWizzard::slotChange()
 
 void CDlgProjWizzard::accept()
 {
+    if (CDlgProjWizzard::validProjStr(labelResult->text())) {
     line.setText(labelResult->text());
     QDialog::accept();
+    }
+}
+
+bool CDlgProjWizzard::validProjStr(const QString projStr)
+{
+    projPJ projCheck = pj_init_plus(projStr.toUtf8().data());
+
+    if (!projCheck)
+    {
+        QMessageBox::warning(0, tr("Error..."),tr("The value\n'%1'\nis not a valid coordinate system definition:\n%2").arg(projStr).arg(pj_strerrno(pj_errno)),QMessageBox::Abort,QMessageBox::Abort);
+        return false;
+    }
+    else
+    {
+        pj_free(projCheck);
+        return true;
+    }
 }

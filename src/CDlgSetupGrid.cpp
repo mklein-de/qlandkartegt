@@ -43,6 +43,7 @@ CDlgSetupGrid::CDlgSetupGrid(QWidget * parent)
     palette.setColor(labelGridColor->foregroundRole(), CGridDB::self().color);
     labelGridColor->setPalette(palette);
 
+    connect(toolRestoreDefault, SIGNAL(clicked()), this, SLOT(slotRestoreDefault()));
 }
 
 CDlgSetupGrid::~CDlgSetupGrid()
@@ -52,10 +53,13 @@ CDlgSetupGrid::~CDlgSetupGrid()
 
 void CDlgSetupGrid::accept()
 {
-    QPalette palette = labelGridColor->palette();
-    CGridDB::self().setProjAndColor(lineProjection->text(), palette.color(labelGridColor->foregroundRole()));
+    if (CDlgProjWizzard::validProjStr(lineProjection->text()))
+    {
+        QPalette palette = labelGridColor->palette();
+        CGridDB::self().setProjAndColor(lineProjection->text(), palette.color(labelGridColor->foregroundRole()));
 
-    QDialog::accept();
+        QDialog::accept();
+    }
 }
 
 void CDlgSetupGrid::slotProjWizard()
@@ -79,3 +83,7 @@ void CDlgSetupGrid::slotSelectGridColor()
 
 }
 
+void CDlgSetupGrid::slotRestoreDefault()
+{
+    lineProjection->setText("+proj=longlat +datum=WGS84 +no_defs");
+}
