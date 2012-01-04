@@ -75,17 +75,18 @@ CMapQMAPExport::CMapQMAPExport(const CMapSelectionRaster& mapsel, QWidget * pare
     has_map2jnx = file_map2jnx.exists();
     path_map2gcm= QCoreApplication::applicationDirPath()+QDir::separator()+"map2gcm.exe";
 #else
-    QProcess proc1;
-    proc1.start(MAP2JNX);
-    proc1.waitForFinished();
-    has_map2jnx = proc1.error() == QProcess::UnknownError;
-    path_map2jnx = MAP2JNX;
 #if defined(Q_WS_MAC)
-    // MacOS X: application is stored in the bundle folder
+    // MacOS X: applications are stored in the bundle folder
     path_map2gcm = QString("%1/Resources/map2gcm").arg(QCoreApplication::applicationDirPath().replace(QRegExp("MacOS$"), ""));
+    path_map2jnx = QString("%1/Resources/map2jnx").arg(QCoreApplication::applicationDirPath().replace(QRegExp("MacOS$"), ""));
 #else
     path_map2gcm= "map2gcm";
+    path_map2jnx = MAP2JNX;
 #endif
+    QProcess proc1;
+    proc1.start(path_map2jnx);
+    proc1.waitForFinished();
+    has_map2jnx = proc1.error() == QProcess::UnknownError;
 #endif
     groupBirdsEye->hide();
     groupJPEG->hide();
