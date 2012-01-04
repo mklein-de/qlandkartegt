@@ -1,3 +1,46 @@
+--- 2012.01.04 ---
+
+Request #350:
+Use unit translator for elevation points in Garmin maps
+
+Bug     #351:
+Fix: Proxy for TMS maps not working
+
+Bug     #352:
+Fix: Badly positionsed tiles with TMS maps
+
+Bug     #353:
+Fix: Compiler optimization -O3 makes Garmin maps crash.
+
+Request #354:
+Make cache path and size an option for streaming maps
+
+Request #355:
+Waypoint selection by radius
+
+Request #356:
+Replace --- OSM --- by own category "Stream"-ing maps
+
+Request #357:
+Worldwide routing via MapQuest
+
+Request #358:
+User defined geographic grid
+
+Request #359:
+Update Spanish translation
+
+Request #360:
+Update German translation
+
+Request #361:
+Projection wizard tries to restore selection from projection string
+
+Request #362:
+Use unit translator for elevation points in Garmin maps
+
+
+
 --- 2011.12.01 ---
 
 Request #340:
@@ -1420,6 +1463,7 @@ Fixed bad calculation of proximity circle size
 
 Request #1:
 Initial release
+
 
 
 
