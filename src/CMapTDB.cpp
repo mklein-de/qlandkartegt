@@ -43,6 +43,7 @@
 #include <QElapsedTimer>
 #endif
 
+#include <unistd.h>
 #ifdef WIN32
 #define CMAPTDB_MIN(x,y) _cpp_min(x,y)
 #define CMAPTDB_MAX(x,y) _cpp_max(x,y)
