@@ -3542,7 +3542,7 @@ Do you want to save your changes?</source>
 <context>
     <name>CMapDB</name>
     <message>
-        <location filename="../CMapDB.cpp" line="67"/>
+        <location filename="../CMapDB.cpp" line="68"/>
         <source>--- No map ---</source>
         <translation>--- Sin mapa ---</translation>
     </message>
@@ -3551,24 +3551,24 @@ Do you want to save your changes?</source>
         <translation type="obsolete">--- OSM ---</translation>
     </message>
     <message>
-        <location filename="../CMapDB.cpp" line="435"/>
-        <location filename="../CMapDB.cpp" line="887"/>
-        <location filename="../CMapDB.cpp" line="932"/>
+        <location filename="../CMapDB.cpp" line="458"/>
+        <location filename="../CMapDB.cpp" line="910"/>
+        <location filename="../CMapDB.cpp" line="955"/>
         <source>Error...</source>
         <translation>Error...</translation>
     </message>
     <message>
-        <location filename="../CMapDB.cpp" line="435"/>
+        <location filename="../CMapDB.cpp" line="458"/>
         <source>Only vector maps are valid overlays.</source>
         <translation>Solamente los mapas vectoriales son capas válidas.</translation>
     </message>
     <message>
-        <location filename="../CMapDB.cpp" line="827"/>
+        <location filename="../CMapDB.cpp" line="850"/>
         <source>Map 3D...</source>
         <translation>Mapa 3D ...</translation>
     </message>
     <message>
-        <location filename="../CMapDB.cpp" line="814"/>
+        <location filename="../CMapDB.cpp" line="837"/>
         <source>Edit Map</source>
         <translation>Editar Mapa</translation>
     </message>
@@ -3577,32 +3577,32 @@ Do you want to save your changes?</source>
         <translation type="obsolete">--- Servidor de Teselas ---</translation>
     </message>
     <message>
-        <location filename="../CMapDB.cpp" line="148"/>
+        <location filename="../CMapDB.cpp" line="149"/>
         <source>Crash detected....</source>
         <translation>Detectado bloqueo....</translation>
     </message>
     <message>
-        <location filename="../CMapDB.cpp" line="148"/>
+        <location filename="../CMapDB.cpp" line="149"/>
         <source>QLandkarte GT was terminated with a crash. This is really bad. A common reason for that is a bad map. Do you really want to load the last map?</source>
         <translation>QLandkarte GT terminó con un bloqueo. Esto es realmente malo. Una razón común para eso es un mapa erróneo. ¿Quiere realmente cargar el último mapa?</translation>
     </message>
     <message>
-        <location filename="../CMapDB.cpp" line="842"/>
+        <location filename="../CMapDB.cpp" line="865"/>
         <source>Search Map</source>
         <translation>Buscar Mapa</translation>
     </message>
     <message>
-        <location filename="../CMapDB.cpp" line="856"/>
+        <location filename="../CMapDB.cpp" line="879"/>
         <source>Sorry...</source>
         <translation>Lo siento...</translation>
     </message>
     <message>
-        <location filename="../CMapDB.cpp" line="856"/>
+        <location filename="../CMapDB.cpp" line="879"/>
         <source>You can&apos;t select subareas from single file maps. Create a collection with F1-&gt;F6.</source>
         <translation>No puede seleccionar áreas de un solo archivo de mapas. Cree una colección con F1-&gt;F6.</translation>
     </message>
     <message>
-        <location filename="../CMapDB.cpp" line="932"/>
+        <location filename="../CMapDB.cpp" line="955"/>
         <source>This map does not support this feature.</source>
         <translation>Este mapa no soporta esta característica.</translation>
     </message>
@@ -4949,22 +4949,22 @@ Cancelado a petición del usuario.
         <translation>Vector</translation>
     </message>
     <message>
-        <location filename="../CMapToolWidget.cpp" line="414"/>
+        <location filename="../CMapToolWidget.cpp" line="423"/>
         <source>Error export maps...</source>
         <translation>Error al exportar los mapas...</translation>
     </message>
     <message>
-        <location filename="../CMapToolWidget.cpp" line="414"/>
+        <location filename="../CMapToolWidget.cpp" line="423"/>
         <source>You need to have the GDAL toolchain installed in your path.</source>
         <translation>Necesita tener instaladas las herramientas GDAL en su ruta de comandos.</translation>
     </message>
     <message>
-        <location filename="../CMapToolWidget.cpp" line="434"/>
+        <location filename="../CMapToolWidget.cpp" line="443"/>
         <source>Select DEM file...</source>
         <translation>Seleccionar archivo de alturas (DEM)...</translation>
     </message>
     <message>
-        <location filename="../CMapToolWidget.cpp" line="434"/>
+        <location filename="../CMapToolWidget.cpp" line="443"/>
         <source>16bit Srtm Data (*.tif *.tiff *.hgt)</source>
         <translatorcomment>Fuente: wikipedia
 SRTM = acrónimo en inglés de la &quot;Misión topográfica Radar Shuttle&quot;. Es una misión para obtener un modelo digital de elevación de la zona del globo terráqueo entre 56 °S a 60 °N, de modo que genere una completa base de cartas topográficas digitales de alta resolución de la Tierra.</translatorcomment>
@@ -5008,6 +5008,40 @@ SRTM = acrónimo en inglés de la &quot;Misión topográfica Radar Shuttle&quot;
         <location filename="../CMapWMS.cpp" line="306"/>
         <source>Zoom level x%1</source>
         <translation>Nivel de zoom x%1</translation>
+    </message>
+</context>
+<context>
+    <name>CMapWms</name>
+    <message>
+        <location filename="../CMapWms.cpp" line="44"/>
+        <location filename="../CMapWms.cpp" line="55"/>
+        <location filename="../CMapWms.cpp" line="82"/>
+        <source>Error...</source>
+        <translation type="unfinished">Error...</translation>
+    </message>
+    <message>
+        <location filename="../CMapWms.cpp" line="44"/>
+        <source>Failed to open %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../CMapWms.cpp" line="55"/>
+        <source>Failed to read: %1
+line %2, column %3:
+ %4</source>
+        <translation type="unfinished">No se pudo leer: %1
+linea %2, columna %3:
+ %4</translation>
+    </message>
+    <message>
+        <location filename="../CMapWms.cpp" line="82"/>
+        <source>Unknown projection %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../CMapWms.cpp" line="112"/>
+        <source>quadratic zoom</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -9920,8 +9954,9 @@ DEM: %2</translation>
 <context>
     <name>IOverlay</name>
     <message>
+        <location filename="../IOverlay.h" line="52"/>
         <source>No info set</source>
-        <translation type="obsolete">Sin información</translation>
+        <translation type="unfinished">Sin información</translation>
     </message>
 </context>
 <context>

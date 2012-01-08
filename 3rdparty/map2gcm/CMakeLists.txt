@@ -37,7 +37,7 @@ include_directories(
     ${GDAL_INCLUDE_DIRS}
     ${PROJ_INCLUDE_DIRS}
     ${JPEG_INCLUDE_DIRS}
-    ${CMAKE_SOURCE_DIR}/3rdparty/QZip    
+    ${CMAKE_SOURCE_DIR}/3rdparty/QZip
 )
 if(WIN32)
     include_directories(

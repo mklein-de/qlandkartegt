@@ -24,6 +24,7 @@
 #include "CMapRaster.h"
 #include "CMapGeoTiff.h"
 #include "CMapJnx.h"
+#include "CMapWms.h"
 #include "CMapDEM.h"
 #include "CMapOSM.h"
 #include "CMainWindow.h"
@@ -100,8 +101,8 @@ CMapDB::CMapDB(QTabWidget * tb, QObject * parent)
             m.description = mapdef.value("description/comment","").toString();
         }
         if(m.description.isEmpty()) m.description = QFileInfo(map).fileName();
-        m.key           = map;
-        m.type          = ext == "qmap" ? IMap::eRaster : ext == "tdb" ? IMap::eGarmin : IMap::eRaster;
+        m.key            = map;
+        m.type           = ext == "qmap" ? IMap::eRaster : ext == "tdb" ? IMap::eGarmin : ext == "xml" ? IMap::eWMS : IMap::eRaster;
         knownMaps[m.key] = m;
     }
 
@@ -328,6 +329,24 @@ void CMapDB::openMap(const QString& filename, bool asRaster, CCanvas& canvas)
         cfg.endGroup();
     }
 #endif // HAS_JNX
+    else if(ext == "xml")
+    {
+        CMapWms * mapwms;
+
+        map.filename    = filename;
+        map.key         = filename;
+        map.type        = IMap::eWMS;
+
+        theMap = mapwms = new CMapWms(map.key, filename, &canvas);
+
+        map.description = mapwms->getName();
+        if(map.description.isEmpty()) map.description = fi.fileName();
+
+        // add map to known maps
+        knownMaps[map.key] = map;
+        // store current map filename for next session
+        cfg.setValue("maps/visibleMaps",filename);
+    }
     else if(filename.startsWith("http"))
     {
         theMap = new CMapOSM(QString::number(qHash(filename)), theMainWindow->getCanvas());
@@ -397,6 +416,10 @@ void CMapDB::openMap(const QString& key)
         theMap = new CMapJnx(key,filename,theMainWindow->getCanvas());
     }
 #endif // HAS_JNX
+    else if(ext == "xml")
+    {
+        theMap = new CMapWms(key,filename,theMainWindow->getCanvas());
+    }
     else if(filename.startsWith("http"))
     {
         theMap = new CMapOSM(key, theMainWindow->getCanvas());

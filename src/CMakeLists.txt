@@ -113,6 +113,7 @@ set(qlandkarte_SRCS
     CMapQMAPExport.cpp
     CMapRaster.cpp
     CMapGeoTiff.cpp
+    CMapWms.cpp
     IMapSelection.cpp
     CMapSelectionRaster.cpp
     CMapSelectionGarmin.cpp
@@ -274,6 +275,7 @@ set(qlandkarte_HDRS
     CMapQMAPExport.h
     CMapRaster.h
     CMapGeoTiff.h
+    CMapWms.h
     IMapSelection.h
     CMapSelectionRaster.h
     CMapSelectionGarmin.h

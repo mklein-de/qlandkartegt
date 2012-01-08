@@ -36,7 +36,6 @@ class CMapJnx : public IMap
         void zoom(double lon1, double lat1, double lon2, double lat2);
         void zoom(qint32& level);
         void dimensions(double& lon1, double& lat1, double& lon2, double& lat2);
-
         QString getName(){return name;}
 
         void draw(QPainter& p);

@@ -289,11 +289,11 @@ void CMapOSM::draw(QPainter& p)
 
         p.setPen(Qt::darkBlue);
         p.drawText(10,24,str);
-
-        p.setFont(QFont("Sans Serif",8,QFont::Black));
-
-        CCanvas::drawText(tr("%1 %2").arg(QChar(0x00A9)).arg(copyright), p, rect.bottomLeft() + QPoint(rect.width() / 2, -5) , QColor(Qt::darkBlue));
     }
+
+    p.setFont(QFont("Sans Serif",8,QFont::Black));
+    CCanvas::drawText(tr("%1 %2").arg(QChar(0x00A9)).arg(copyright), p, rect.bottomLeft() + QPoint(rect.width() / 2, -5) , QColor(Qt::darkBlue));
+
 }
 
 

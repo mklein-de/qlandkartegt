@@ -109,6 +109,10 @@ void CMapToolWidget::slotDBChanged()
             {
                 item = new QTreeWidgetItem(treeKnownMapsStream);
             }
+            else if(map->type == IMap::eWMS)
+            {
+                item = new QTreeWidgetItem(treeKnownMapsStream);
+            }
             else
             {
                 item = new QTreeWidgetItem(treeKnownMapsRaster);
@@ -117,7 +121,7 @@ void CMapToolWidget::slotDBChanged()
             item->setText(eName, map->description);
             item->setToolTip(eName, map->description);
             item->setData(eName, Qt::UserRole, map.key());
-            item->setIcon(eType, map->type == IMap::eRaster ? QIcon(":/icons/iconRaster16x16.png") : map->type == IMap::eGarmin ? QIcon(":/icons/iconVector16x16.png") : map->type == IMap::eTMS ? QIcon(":/icons/iconWMS16x16.png") : QIcon(":/icons/iconUnknown16x16.png"));
+            item->setIcon(eType, map->type == IMap::eRaster ? QIcon(":/icons/iconRaster16x16.png") : map->type == IMap::eGarmin ? QIcon(":/icons/iconVector16x16.png") : map->type == IMap::eTMS ? QIcon(":/icons/iconWMS16x16.png") : map->type == IMap::eWMS ? QIcon(":/icons/iconWMS16x16.png") : QIcon(":/icons/iconUnknown16x16.png"));
             item->setData(eType, Qt::UserRole, map->type);
 
             if(map.key() == key)
@@ -156,6 +160,11 @@ void CMapToolWidget::slotDBChanged()
             tabWidget->setCurrentIndex(eTabVector);
         }
         else if(selected->data(eType, Qt::UserRole) == IMap::eTMS)
+        {
+            treeKnownMapsStream->setCurrentItem(selected);
+            tabWidget->setCurrentIndex(eTabStream);
+        }
+        else if(selected->data(eType, Qt::UserRole) == IMap::eWMS)
         {
             treeKnownMapsStream->setCurrentItem(selected);
             tabWidget->setCurrentIndex(eTabStream);

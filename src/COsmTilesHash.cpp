@@ -43,8 +43,6 @@ COsmTilesHash::COsmTilesHash(QString tileUrl, QObject *parent)
     m_tileUrl = QUrl(tileUrl.startsWith("http://") ? tileUrl : "http://" + tileUrl);
     m_tilePath = m_tileUrl.path();
 
-    QSettings cfg;
-
     diskCache = new QNetworkDiskCache(this);
     diskCache->setCacheDirectory(CResources::self().getPathMapCache().absolutePath());
     diskCache->setMaximumCacheSize(CResources::self().getSizeMapCache() * 1024*1024);
@@ -150,6 +148,10 @@ void COsmTilesHash::slotRequestFinished(QNetworkReply* reply)
         reply->deleteLater();
         return;
     }
+
+    QVariant fromCache = reply->attribute(QNetworkRequest::SourceIsFromCacheAttribute);
+    qDebug() << "page from cache?" << fromCache.toBool();
+
 
     QPixmap img1;
     img1.loadFromData(reply->readAll());
