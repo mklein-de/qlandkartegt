@@ -26,7 +26,6 @@
 #include "COsmTilesHash.h"
 #include "CResources.h"
 #include "CDlgMapOSMConfig.h"
-#include "CMapOSMType.h"
 #include <QDebug>
 
 CMapOSM::CMapOSM(const QString& key, CCanvas *parent)

@@ -21,7 +21,6 @@
 #define CMAPOSM_H
 
 #include "IMap.h"
-#include "CMapOSMType.h"
 
 class COsmTilesHash;
 class CCanvas;

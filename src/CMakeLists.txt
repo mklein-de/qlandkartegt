@@ -105,7 +105,6 @@ set(qlandkarte_SRCS
     IMap.cpp
     CMapNoMap.cpp
     CMapOSM.cpp
-    CMapOSMType.cpp
     CMapDEM.cpp
     CMapFile.cpp
     CMapLevel.cpp
@@ -267,7 +266,6 @@ set(qlandkarte_HDRS
     IMap.h
     CMapNoMap.h
     CMapOSM.h
-    CMapOSMType.h
     CMapDEM.h
     CMapFile.h
     CMapLevel.h

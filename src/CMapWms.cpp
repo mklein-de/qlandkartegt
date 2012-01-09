@@ -38,6 +38,7 @@ CMapWms::CMapWms(const QString &key, const QString &filename, CCanvas *parent)
 , x(0)
 , y(0)
 , zoomFactor(1.0)
+, status(0)
 , quadraticZoom(0)
 , needsRedrawOvl(true)
 , lastTileLoaded(false)
@@ -129,31 +130,35 @@ CMapWms::CMapWms(const QString &key, const QString &filename, CCanvas *parent)
     xscale      = (xref2 - xref1) / xsize_px;
     yscale      = (yref2 - yref1) / ysize_px;
 
-    x = xref1;
-    y = yref1;
 
     quadraticZoom = new QCheckBox(theMainWindow->getCanvas());
     quadraticZoom->setText(tr("quadratic zoom"));
     theMainWindow->statusBar()->insertPermanentWidget(0,quadraticZoom);
 
+    status = new QLabel(theMainWindow->getCanvas());
+    theMainWindow->statusBar()->insertPermanentWidget(0,status);
+
     QSettings cfg;
     quadraticZoom->setChecked(cfg.value("maps/quadraticZoom", false).toBool());
-
-    qDebug() << xref1 << yref1;
-    qDebug() << xscale << yscale;
-    qDebug() << xsize_px << ysize_px;
 
     diskCache = new QNetworkDiskCache(this);
     diskCache->setCacheDirectory(CResources::self().getPathMapCache().absolutePath());
     diskCache->setMaximumCacheSize(CResources::self().getSizeMapCache() * 1024*1024);
-
-    qDebug() << "cache:" << diskCache->cacheDirectory();
 
     accessManager = new QNetworkAccessManager(this);
     accessManager->setCache(diskCache);
     accessManager->setProxy(QNetworkProxy(QNetworkProxy::DefaultProxy));
 
     connect(accessManager,SIGNAL(finished(QNetworkReply*)),this,SLOT(slotRequestFinished(QNetworkReply*)));
+
+    cfg.beginGroup("wms/maps");
+    cfg.beginGroup(getKey());
+
+    x = cfg.value("lon", xref1).toDouble();
+    y = cfg.value("lat", yref1).toDouble();
+
+    cfg.endGroup();
+    cfg.endGroup();
 }
 
 CMapWms::~CMapWms()
@@ -167,6 +172,17 @@ CMapWms::~CMapWms()
         delete quadraticZoom;
     }
 
+    delete status;
+
+    QSettings cfg;
+    cfg.beginGroup("wms/maps");
+    cfg.beginGroup(getKey());
+
+    cfg.setValue("lon", x);
+    cfg.setValue("lat", y);
+
+    cfg.endGroup();
+    cfg.endGroup();
 }
 
 void CMapWms::convertPt2M(double& u, double& v)
@@ -397,18 +413,20 @@ void CMapWms::draw(QPainter& p)
         p.setPen(Qt::darkBlue);
         p.drawText(10,24,str);
     }
-//    p.setFont(QFont("Sans Serif",8,QFont::Black));
-//    CCanvas::drawText(tr("%1 %2").arg(QChar(0x00A9)).arg(copyright), p, rect.bottomLeft() + QPoint(rect.width() / 2, -5) , QColor(Qt::darkBlue));
+
+    p.setFont(QFont("Sans Serif",8,QFont::Black));
+    if(copyright.isEmpty())
+    {
+        CCanvas::drawText(tr("%1 %2").arg(QChar(0x00A9)).arg(tr("Copyright notice is missing. Use <copyright> tag in <service> secton to supply a copyright notice.")), p, rect.bottomLeft() + QPoint(rect.width() / 2, -5) , QColor(Qt::darkBlue));
+    }
+    else
+    {
+        CCanvas::drawText(tr("%1 %2").arg(QChar(0x00A9)).arg(copyright), p, rect.bottomLeft() + QPoint(rect.width() / 2, -5) , QColor(Qt::darkBlue));
+    }
 
 }
 
-/*
-GET /GenimapWMS/v1/GenimapWMS?geniAuthString=cid$geotrim$pwd$null$lang$fi&request=GetMap&version=1.1.1&layers=WMS_RCO&styles=&srs=EPSG:2393&format=image/png&width=256&height=256&bbox=3386846.95067089,6674412.21476398,3387136.76289006,6674675.99189525 HTTP/1.1
-User-Agent: GDAL WMS driver (http://www.gdal.org/frmt_wms.html)
-Host: map.genimap.com
-*/
 
-//http://map.genimap.com/GenimapWMS/v1/GenimapWMS?geniAuthString=cid$geotrim$pwd$null$lang$fi&service=WMS&request=GetMap&version=1.1.1&layers=WMS_RCO&styles=&srs=EPSG:2393&format=image/png&width=256&height=256&bbox=3384528.45291752,6675203.54615779,3384818.26513669,6675467.32328906
 void CMapWms::draw()
 {
     lastTileLoaded = false;
@@ -425,14 +443,12 @@ void CMapWms::draw()
     y1 = (y1 - yref1) / (yscale);
 
     // quantify to smalles multiple of blocksize
-    x1 = floor(x1/(blockSizeX)) * blockSizeX;
-    y1 = floor(y1/(blockSizeY)) * blockSizeY;
+    x1 = floor(x1/(blockSizeX * zoomFactor)) * blockSizeX * zoomFactor;
+    y1 = floor(y1/(blockSizeY * zoomFactor)) * blockSizeY * zoomFactor;
 
     // convert back to meter/rad
     x1 = x1*xscale + xref1;
     y1 = y1*yscale + yref1;
-
-//    qDebug() << "ref1" << x1 << y1;
 
     // convert ref1 to point on screen
     double xx1 = x1;
@@ -457,8 +473,6 @@ void CMapWms::draw()
             cx = p2x;
             cy = p2y;
 
-//            qDebug() << "screen" << p1x << p1y << p2x << p2y;
-
             convertPt2M(p1x, p1y);
             convertPt2M(p2x, p2y);
 
@@ -481,22 +495,21 @@ void CMapWms::draw()
                 url.addQueryItem("bbox", QString("%1,%2,%3,%4").arg(p1x,0,'f').arg(p2y,0,'f').arg(p2x,0,'f').arg(p1y,0,'f'));
             }
 
-//            qDebug() << url;
-
             request_t req;
-            req.url     = url;
-            req.lon     = p1x;
-            req.lat     = p1y;
+            req.url         = url;
+            req.lon         = p1x;
+            req.lat         = p1y;
+            req.zoomFactor  = zoomFactor;
             convertM2Rad(req.lon,req.lat);
 
             if(tileCache.contains(url.toString()))
             {
                 convertRad2Pt(req.lon,req.lat);
-                p.drawPixmap(req.lon, req.lat, tileCache[url.toString()]);
+                p.drawImage(req.lon, req.lat, tileCache[url.toString()]);
             }
             else
             {
-                newRequests.enqueue(req);
+                addToQueue(req);
             }
 
             n++;
@@ -511,13 +524,18 @@ void CMapWms::draw()
     checkQueue();
 }
 
+void CMapWms::addToQueue(request_t& req)
+{
+    newRequests.enqueue(req);
+}
+
 void CMapWms::checkQueue()
 {
     if(newRequests.size() && pendRequests.size() < 6)
     {
         request_t req = newRequests.dequeue();
 
-        if(tileCache.contains(req.url.toString()))
+        if(tileCache.contains(req.url.toString()) || (req.zoomFactor != zoomFactor))
         {
             checkQueue();
             return;
@@ -530,47 +548,67 @@ void CMapWms::checkQueue()
         pendRequests[req.url.toString()] = req;
     }
 
+    if(pendRequests.isEmpty() && newRequests.isEmpty())
+    {
+        status->setText(tr("Map loaded."));
+        lastTileLoaded = true;
+    }
+    else
+    {
+        status->setText(tr("Wait for %1 tiles.").arg(pendRequests.size() + newRequests.size()));
+    }
+
+
 }
 
 void CMapWms::slotRequestFinished(QNetworkReply* reply)
 {
     QString _url_ = reply->url().toString();
-    if(pendRequests.contains(_url_) && !reply->error())
+    if(pendRequests.contains(_url_))
     {
-        QPixmap img;
+        QImage img;
         request_t& req = pendRequests[_url_];
 
-        convertRad2Pt(req.lon, req.lat);
-        img.loadFromData(reply->readAll());
-
-        if(img.isNull())
+        // only take good responses
+        if(!reply->error())
         {
-            qDebug() << reply->readAll();
+            // read image data
+            img.loadFromData(reply->readAll());
+
+            // if image data has been loaded
+            if(!img.isNull())
+            {
+                // only paint image if on urrent zoom factor
+                if((req.zoomFactor == zoomFactor))
+                {
+                    convertRad2Pt(req.lon, req.lat);
+                    QPainter p(&pixBuffer);
+                    p.drawImage(req.lon, req.lat, img);
+                }
+
+                // store image for later use anyway
+                tileCache[_url_] = img;
+            }
         }
 
-        QPainter p(&pixBuffer);
-        p.drawPixmap(req.lon, req.lat, img);
-
-        tileCache[_url_] = img;
-
+        // request finished
         pendRequests.remove(_url_);
 
     }
 
+    // debug output any error
     if(reply->error())
     {
         qDebug() << reply->errorString();
     }
 
-    if(pendRequests.isEmpty() && newRequests.isEmpty())
-    {
-        qDebug() << "no pending request";
-        lastTileLoaded = true;
-    }
-
+    // delete reply object
     reply->deleteLater();
 
-    emit sigChanged();
-
+    // check for more request
     checkQueue();
+
+    // the map did change
+    emit sigChanged();
 }
+

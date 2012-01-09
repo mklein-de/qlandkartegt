@@ -19,7 +19,6 @@
 
 #include "CDlgMapOSMConfig.h"
 #include "CMapOSM.h"
-#include "CMapOSMType.h"
 #include <QtGui>
 
 CDlgMapOSMConfig::CDlgMapOSMConfig(CMapOSM& m)

@@ -149,9 +149,6 @@ void COsmTilesHash::slotRequestFinished(QNetworkReply* reply)
         return;
     }
 
-    QVariant fromCache = reply->attribute(QNetworkRequest::SourceIsFromCacheAttribute);
-    qDebug() << "page from cache?" << fromCache.toBool();
-
 
     QPixmap img1;
     img1.loadFromData(reply->readAll());

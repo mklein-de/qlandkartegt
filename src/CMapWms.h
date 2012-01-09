@@ -29,6 +29,7 @@ class QCheckBox;
 class QNetworkDiskCache;
 class QNetworkAccessManager;
 class QNetworkReply;
+class QLabel;
 
 class CMapWms : public IMap
 {
@@ -54,8 +55,21 @@ class CMapWms : public IMap
         void slotRequestFinished(QNetworkReply* reply);
 
     private:
+
+        struct request_t
+        {
+            bool operator==(const request_t& r){return reply == r.reply;}
+
+            QUrl   url;
+            QNetworkReply * reply;
+            double lon;
+            double lat;
+            double zoomFactor;
+        };
+
         void draw();
         void checkQueue();
+        void addToQueue(request_t& req);
 
         QString name;
         QString urlstr;
@@ -64,6 +78,7 @@ class CMapWms : public IMap
         QString srs;
         QString projection;
         QString version;
+        QString copyright;
 
         quint32 blockSizeX;
         quint32 blockSizeY;
@@ -92,6 +107,7 @@ class CMapWms : public IMap
 
         double zoomFactor;
 
+        QLabel * status;
         QCheckBox * quadraticZoom;
         bool needsRedrawOvl;
         bool lastTileLoaded;
@@ -99,19 +115,10 @@ class CMapWms : public IMap
         QNetworkDiskCache * diskCache;
         QNetworkAccessManager * accessManager;
 
-        struct request_t
-        {
-            bool operator==(const request_t& r){return reply == r.reply;}
-
-            QUrl   url;
-            QNetworkReply * reply;
-            double lon;
-            double lat;
-        };
 
         QQueue<request_t>           newRequests;
         QHash<QString,request_t>    pendRequests;
-        QHash<QString, QPixmap>     tileCache;
+        QHash<QString, QImage>      tileCache;
 };
 
 #endif //CMAPWMS_H

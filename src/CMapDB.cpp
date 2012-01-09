@@ -525,7 +525,11 @@ void CMapDB::delKnownMap(const QStringList& keys)
     foreach(key, keys)
     {
         map_t& map = knownMaps[key];
-        if(map.type == IMap::eGarmin)
+        IMap::maptype_e type = map.type;
+
+        knownMaps.remove(key);
+
+        if(type == IMap::eGarmin)
         {
             QSettings cfg;
             cfg.beginGroup("garmin/maps");
@@ -536,12 +540,21 @@ void CMapDB::delKnownMap(const QStringList& keys)
             cfg.endGroup();
             cfg.sync();
         }
-        else if(map.type == IMap::eTMS)
+        else if(type == IMap::eTMS)
         {
             QSettings cfg;
-            cfg.remove(QString("tms/maps/%1").arg(map.key));
+            cfg.remove(QString("tms/maps/%1").arg(key));
+            cfg.sync();
         }
-        knownMaps.remove(key);
+        else if(type == IMap::eWMS)
+        {
+            QSettings cfg;
+            cfg.beginGroup("wms/maps");
+            cfg.remove(key);
+            cfg.endGroup();
+            cfg.sync();
+        }
+
     }
 
     emit sigChanged();
