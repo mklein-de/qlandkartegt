@@ -133,6 +133,8 @@ CMapWms::CMapWms(const QString &key, const QString &filename, CCanvas *parent)
     xscale      = (xref2 - xref1) / xsize_px;
     yscale      = (yref2 - yref1) / ysize_px;
 
+    x = xref1 + (xref2 - xref1) / 2;
+    y = yref1 + (yref2 - yref1) / 2;
 
     quadraticZoom = new QCheckBox(theMainWindow->getCanvas());
     quadraticZoom->setText(tr("quadratic zoom"));
@@ -153,8 +155,8 @@ CMapWms::CMapWms(const QString &key, const QString &filename, CCanvas *parent)
     cfg.beginGroup("wms/maps");
     cfg.beginGroup(getKey());
 
-    x = cfg.value("lon", xref1).toDouble();
-    y = cfg.value("lat", yref1).toDouble();
+    x = cfg.value("lon", x).toDouble();
+    y = cfg.value("lat", y).toDouble();
 
     cfg.endGroup();
     cfg.endGroup();
