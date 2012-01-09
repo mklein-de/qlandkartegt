@@ -52,6 +52,10 @@ class CPlot;
 class CTrack;
 
 #define PAINT_ROUNDED_RECT(p,r) p.drawRoundedRect(r,5,5)
+#define COMPASS_H 60
+#define COMPASS_W 30
+#define COMPASS_OFFSET_X 50
+#define COMPASS_OFFSET_Y 100
 
 
 inline  void USE_ANTI_ALIASING(QPainter& p, bool useAntiAliasing)

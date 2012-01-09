@@ -25,6 +25,7 @@
 #include <QHash>
 
 class QImage;
+class QTimer;
 
 class CDiskCache : public QObject
 {
@@ -37,6 +38,8 @@ class CDiskCache : public QObject
         void restore(const QString& key, QImage& img);
         bool contains(const QString& key);
 
+    private slots:
+        void slotCleanup();
     private:
         QDir dir;
         quint32 maxSize;
@@ -45,6 +48,8 @@ class CDiskCache : public QObject
         QHash<QString, QString> table;
         /// hash table to cache loaded images in memory
         QHash<QString, QImage>  cache;
+
+        QTimer * timer;
 };
 
 #endif //CDISKCACHE_H

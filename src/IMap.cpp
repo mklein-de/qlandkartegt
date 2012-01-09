@@ -104,9 +104,9 @@ void IMap::setAngleNorth()
 {
     XY p1,p2;
     double a1 = 0, a2 = 0;
-    p2.u = p1.u = rect.center().x();
-    p2.v = p1.v = rect.bottom();
-    p2.v -= 400;
+    p2.u = p1.u = rect.right()  - COMPASS_OFFSET_X - COMPASS_W / 2;
+    p2.v = p1.v = rect.bottom() - COMPASS_OFFSET_Y;
+    p2.v -= COMPASS_H;
     convertPt2Rad(p1.u, p1.v);
     convertPt2Rad(p2.u, p2.v);
     distance(p1, p2, a1, a2);

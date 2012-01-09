@@ -42,6 +42,12 @@ CDiskCache::CDiskCache(QObject *parent)
         table[hash]     = fileinfo.fileName();
     }
 
+    timer = new QTimer(this);
+    timer->setSingleShot(false);
+    timer->start(60000);
+    connect(timer, SIGNAL(timeout()), this, SLOT(slotCleanup()));
+
+    slotCleanup();
 }
 
 CDiskCache::~CDiskCache()
@@ -97,3 +103,30 @@ bool CDiskCache::contains(const QString& key)
 
 }
 
+void CDiskCache::slotCleanup()
+{
+    qint64 size = 0;
+    QFileInfoList files = dir.entryInfoList(QStringList("*.png"), QDir::Files, QDir::Time|QDir::Reversed);
+    foreach(const QFileInfo& fileinfo, files)
+    {
+        size += fileinfo.size();
+    }
+
+    if(size > maxSize)
+    {
+        foreach(const QFileInfo& fileinfo, files)
+        {
+            QString hash = fileinfo.baseName();
+            table.remove(hash);
+            cache.remove(hash);
+            QFile::remove(fileinfo.absoluteFilePath());
+
+            size -= fileinfo.size();
+
+            if(size < maxSize)
+            {
+                break;
+            }
+        }
+    }
+}

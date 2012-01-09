@@ -50,7 +50,7 @@ CMapOSM::CMapOSM(const QString& key, CCanvas *parent)
     oSRS.importFromProj4(getProjection());
 
     char * ptr = pj_get_def(pjsrc,0);
-    qDebug() << "OSM:" << ptr;
+    qDebug() << "tms:" << ptr;
 
     QString pos     = cfg.value("tms/topleft","N82 58.759 W151 08.934").toString();
     zoomidx         = cfg.value("tms/zoomidx",15).toInt();

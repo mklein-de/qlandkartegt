@@ -551,14 +551,12 @@ void CCanvas::drawCompass(QPainter& p)
     }
     QPolygon arrow;
 
-#define H 60
-#define W 30
 
-    arrow << QPoint(0, -H/2) << QPoint(-W/2, H/2) << QPoint(0, H/3) << QPoint(W/2, H/2);
+    arrow << QPoint(0, -COMPASS_H/2) << QPoint(-COMPASS_W/2, COMPASS_H/2) << QPoint(0, COMPASS_H/3) << QPoint(COMPASS_W/2, COMPASS_H/2);
 
     p.save();
 
-    p.translate(size().width() - 50 - W/2, size().height() - 100);
+    p.translate(size().width() - COMPASS_OFFSET_X - COMPASS_W/2, size().height() - COMPASS_OFFSET_Y);
     p.rotate(-CMapDB::self().getMap().getAngleNorth());
 
     p.setBrush(Qt::NoBrush);
@@ -569,8 +567,8 @@ void CCanvas::drawCompass(QPainter& p)
     p.setBrush(QColor(150,150,255,100));
     p.drawPolygon(arrow);
 
-    drawText("N", p, QPoint(0, -H/2));
-    drawText("S", p, QPoint(0, +H/2 + 15));
+    drawText("N", p, QPoint(0, -COMPASS_H/2));
+    drawText("S", p, QPoint(0, +COMPASS_H/2 + 15));
 
     p.restore();
 }
