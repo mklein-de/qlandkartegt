@@ -22,8 +22,8 @@
 
 #include <QtGui>
 
-#include <unistd.h>
 #ifndef WIN32
+#include <unistd.h>
 #include <pwd.h>
 #endif
 

@@ -54,7 +54,9 @@
 #include "CDlgSetupGrid.h"
 
 #include <QtGui>
+#ifndef WIN32
 #include <unistd.h>
+#endif
 #ifdef WIN32
 #include <io.h>
 #endif
