@@ -73,6 +73,7 @@ CMapWms::CMapWms(const QString &key, const QString &filename, CCanvas *parent)
     layers      = service.firstChildElement("Layers").text();
     srs         = service.firstChildElement("SRS").text();
     version     = service.firstChildElement("Version").text();
+    copyright   = service.firstChildElement("Copyright").text();
     projection  = gdal.firstChildElement("Projection").text().toLower();
     blockSizeX  = gdal.firstChildElement("BlockSizeX").text().toUInt();
     blockSizeY  = gdal.firstChildElement("BlockSizeY").text().toUInt();
