@@ -30,6 +30,7 @@ class QNetworkDiskCache;
 class QNetworkAccessManager;
 class QNetworkReply;
 class QLabel;
+class CDiskCache;
 
 class CMapWms : public IMap
 {
@@ -112,13 +113,12 @@ class CMapWms : public IMap
         bool needsRedrawOvl;
         bool lastTileLoaded;
 
-        QNetworkDiskCache * diskCache;
         QNetworkAccessManager * accessManager;
 
 
         QQueue<request_t>           newRequests;
         QHash<QString,request_t>    pendRequests;
-        QHash<QString, QImage>      tileCache;
+        CDiskCache * diskCache;
 };
 
 #endif //CMAPWMS_H

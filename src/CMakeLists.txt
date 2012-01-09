@@ -226,6 +226,7 @@ set(qlandkarte_SRCS
     IItem.cpp
     CImageSelect.cpp
     CGridDB.cpp
+    CDiskCache.cpp
 )
 
 if (WIN32)
@@ -386,6 +387,7 @@ set(qlandkarte_HDRS
     IItem.h
     CImageSelect.h
     CGridDB.h
+    CDiskCache.h
 )
 
 

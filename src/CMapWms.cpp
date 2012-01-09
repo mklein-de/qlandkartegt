@@ -21,9 +21,11 @@
 #include "CCanvas.h"
 #include "CMainWindow.h"
 #include "CResources.h"
+#include "CDiskCache.h"
 #include <QtGui>
 #include <QtXml>
 #include <QtNetwork>
+
 
 CMapWms::CMapWms(const QString &key, const QString &filename, CCanvas *parent)
 : IMap(eWMS,key,parent)
@@ -142,15 +144,11 @@ CMapWms::CMapWms(const QString &key, const QString &filename, CCanvas *parent)
     QSettings cfg;
     quadraticZoom->setChecked(cfg.value("maps/quadraticZoom", false).toBool());
 
-    diskCache = new QNetworkDiskCache(this);
-    diskCache->setCacheDirectory(CResources::self().getPathMapCache().absolutePath());
-    diskCache->setMaximumCacheSize(CResources::self().getSizeMapCache() * 1024*1024);
-
     accessManager = new QNetworkAccessManager(this);
-    accessManager->setCache(diskCache);
     accessManager->setProxy(QNetworkProxy(QNetworkProxy::DefaultProxy));
-
     connect(accessManager,SIGNAL(finished(QNetworkReply*)),this,SLOT(slotRequestFinished(QNetworkReply*)));
+
+    diskCache = new CDiskCache(this);
 
     cfg.beginGroup("wms/maps");
     cfg.beginGroup(getKey());
@@ -430,6 +428,7 @@ void CMapWms::draw(QPainter& p)
 
 void CMapWms::draw()
 {
+    QImage img;
     lastTileLoaded = false;
 
     pixBuffer.fill(Qt::white);
@@ -503,10 +502,11 @@ void CMapWms::draw()
             req.zoomFactor  = zoomFactor;
             convertM2Rad(req.lon,req.lat);
 
-            if(tileCache.contains(url.toString()))
+            diskCache->restore(url.toString(), img);
+            if(!img.isNull())
             {
                 convertRad2Pt(req.lon,req.lat);
-                p.drawImage(req.lon, req.lat, tileCache[url.toString()]);
+                p.drawImage(req.lon, req.lat,img);
             }
             else
             {
@@ -536,7 +536,7 @@ void CMapWms::checkQueue()
     {
         request_t req = newRequests.dequeue();
 
-        if(tileCache.contains(req.url.toString()) || (req.zoomFactor != zoomFactor))
+        if(diskCache->contains(req.url.toString()) || (req.zoomFactor != zoomFactor))
         {
             checkQueue();
             return;
@@ -588,7 +588,7 @@ void CMapWms::slotRequestFinished(QNetworkReply* reply)
                 }
 
                 // store image for later use anyway
-                tileCache[_url_] = img;
+                diskCache->store(_url_, img);
             }
         }
 
