@@ -226,7 +226,8 @@ void CMapWms::convertPt2Pixel(double& u, double& v)
 void CMapWms::move(const QPoint& old, const QPoint& next)
 {
     if(pjsrc == 0) return;
-    needsRedraw = true;
+    needsRedraw     = true;
+    needsRedrawOvl  = true;
 
     double xx = x, yy = y;
     convertM2Pt(xx, yy);
@@ -250,7 +251,8 @@ void CMapWms::zoom(bool zoomIn, const QPoint& p0)
     XY p1;
     if(pjsrc == 0) return;
 
-    needsRedraw = true;
+    needsRedraw     = true;
+    needsRedrawOvl  = true;
 
     // convert point to geo. coordinates
     p1.u = p0.x();
@@ -300,7 +302,8 @@ void CMapWms::zoom(double lon1, double lat1, double lon2, double lat2)
 {
     if(pjsrc == 0) return;
 
-    needsRedraw = true;
+    needsRedraw     = true;
+    needsRedrawOvl  = true;
 
     double u[3];
     double v[3];
@@ -343,7 +346,8 @@ void CMapWms::zoom(double lon1, double lat1, double lon2, double lat2)
 void CMapWms::zoom(qint32& level)
 {
     if(pjsrc == 0) return;
-    needsRedraw = true;
+    needsRedraw     = true;
+    needsRedrawOvl  = true;
 
     // no level less than 1
     if(level < 1)
@@ -368,6 +372,21 @@ void CMapWms::dimensions(double& lon1, double& lat1, double& lon2, double& lat2)
     pj_transform(pjsrc,pjtar,1,0,&lon2,&lat2,0);
 }
 
+void CMapWms::getArea_n_Scaling(XY& p1, XY& p2, float& my_xscale, float& my_yscale)
+{
+
+    p1.u        = 0;
+    p1.v        = 0;
+    p2.u        = rect.width();
+    p2.v        = rect.height();
+
+    convertPt2Rad(p1.u, p1.v);
+    convertPt2Rad(p2.u, p2.v);
+
+    my_xscale   = xscale * zoomFactor;
+    my_yscale   = yscale * zoomFactor;
+
+}
 
 void CMapWms::draw(QPainter& p)
 {

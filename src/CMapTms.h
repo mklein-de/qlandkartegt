@@ -28,6 +28,48 @@ class CMapTms : public IMap
     public:
         CMapTms(const QString& key, const QString& filename, CCanvas * parent);
         virtual ~CMapTms();
+
+        void convertPt2M(double& u, double& v);
+        void convertM2Pt(double& u, double& v);
+        void convertPt2Pixel(double& u, double& v);
+
+        void move(const QPoint& old, const QPoint& next);
+        void zoom(bool zoomIn, const QPoint& p);
+        void zoom(double lon1, double lat1, double lon2, double lat2);
+        void zoom(qint32& level);
+        void dimensions(double& lon1, double& lat1, double& lon2, double& lat2);
+        void getArea_n_Scaling(XY& p1, XY& p2, float& my_xscale, float& my_yscale);
+
+
+    private:
+        double zoomFactor;
+        double x;
+        double y;
+        double xscale;
+        double yscale;
+        bool needsRedrawOvl;
+
+        /// reference point [m] (left hand side of map)
+        double xref1;
+        /// reference point [m] (top of map)
+        double yref1;
+        /// reference point [m] (right hand side of map)
+        double xref2;
+        /// reference point [m] (bottom of map)
+        double yref2;
+
+        /// the longitude of the top left reference point [rad]
+        double lon1;
+        /// the latitude of the top left reference point [rad]
+        double lat1;
+        /// the longitude of the bottom right reference point [rad]
+        double lon2;
+        /// the latitude of the bottom right reference point [rad]
+        double lat2;
+
+        QString copyright;
+        bool lastTileLoaded;
+
 };
 
 #endif //CMAPTMS_H
