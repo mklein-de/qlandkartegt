@@ -24,6 +24,7 @@
 
 CDiskCache::CDiskCache(QObject *parent)
 : QObject(parent)
+, dummy(":/icons/noMap256x256.png")
 {
 
     dir     = CResources::self().getPathMapCache();
@@ -62,10 +63,19 @@ void CDiskCache::store(const QString& key, QImage& img)
 
     QString hash        = md5.result().toHex();
     QString filename    = QString("%1.png").arg(hash);
-    table[hash]         = filename;
-    cache[hash]         = img;
 
-    img.save(dir.absoluteFilePath(filename));
+
+
+    if(!img.isNull())
+    {
+        img.save(dir.absoluteFilePath(filename));
+        table[hash] = filename;
+        cache[hash] = img;
+    }
+    else
+    {
+        cache[hash] = dummy;
+    }
 }
 
 void CDiskCache::restore(const QString& key, QImage& img)
@@ -99,7 +109,8 @@ bool CDiskCache::contains(const QString& key)
     QCryptographicHash md5(QCryptographicHash::Md5);
     md5.addData(key.toAscii());
 
-    return table.contains(md5.result().toHex());
+    QString hash = md5.result().toHex();
+    return table.contains(hash) || cache.contains(hash);
 
 }
 
@@ -109,7 +120,7 @@ void CDiskCache::slotCleanup()
     QFileInfoList files = dir.entryInfoList(QStringList("*.png"), QDir::Files, QDir::Time|QDir::Reversed);
     QDateTime now = QDateTime::currentDateTime();
 
-    // remove old files and derive total size of cache
+    // expire old files and calculate cache size
     foreach(const QFileInfo& fileinfo, files)
     {
         if(fileinfo.lastModified().daysTo(now) > 8)

@@ -47,7 +47,7 @@ CMapToolWidget::CMapToolWidget(QTabWidget * parent)
     actDelDEM = contextMenuKnownMaps->addAction(QPixmap(":/icons/iconNoDEM16x16.png"),tr("Del. DEM..."),this,SLOT(slotDelDEM()));
     actCfgMap = contextMenuKnownMaps->addAction(QPixmap(":/icons/iconInfo16x16.png"),tr("Info/Config"),this,SLOT(slotCfgMap()));
     actDelMap = contextMenuKnownMaps->addAction(QPixmap(":/icons/iconClear16x16.png"),tr("Delete"),this,SLOT(slotDeleteKnownMap()));
-    actAddTMS = contextMenuKnownMaps->addAction(QPixmap(":/icons/iconAdd16x16.png"),tr("Add url..."),this,SLOT(slotAddTmsMap()));;
+    actAddTMS = contextMenuKnownMaps->addAction(QPixmap(":/icons/iconAdd16x16.png"),tr("Add TMS map..."),this,SLOT(slotAddTmsMap()));;
 
     connect(treeKnownMapsStream,SIGNAL(customContextMenuRequested(const QPoint&)),this,SLOT(slotContextMenuKnownMaps(const QPoint&)));
     connect(treeKnownMapsStream,SIGNAL(itemClicked(QTreeWidgetItem*, int)),this,SLOT(slotKnownMapClicked(QTreeWidgetItem*, int)));

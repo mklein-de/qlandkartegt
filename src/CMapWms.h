@@ -114,11 +114,10 @@ class CMapWms : public IMap
         bool lastTileLoaded;
 
         QNetworkAccessManager * accessManager;
-
-
-        QQueue<request_t>           newRequests;
-        QHash<QString,request_t>    pendRequests;
+        QQueue<request_t> newRequests;
+        QHash<QString,request_t> pendRequests;
         CDiskCache * diskCache;
+
 };
 
 #endif //CMAPWMS_H

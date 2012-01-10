@@ -574,6 +574,8 @@ void CMapWms::slotRequestFinished(QNetworkReply* reply)
     if(pendRequests.contains(_url_))
     {
         QImage img;
+        QPainter p(&pixBuffer);
+
         request_t& req = pendRequests[_url_];
 
         // only take good responses
@@ -581,24 +583,19 @@ void CMapWms::slotRequestFinished(QNetworkReply* reply)
         {
             // read image data
             img.loadFromData(reply->readAll());
-
-            // if image data has been loaded
-            if(!img.isNull())
-            {
-                // only paint image if on urrent zoom factor
-                if((req.zoomFactor == zoomFactor))
-                {
-                    convertRad2Pt(req.lon, req.lat);
-                    QPainter p(&pixBuffer);
-                    p.drawImage(req.lon, req.lat, img);
-                }
-
-                // store image for later use anyway
-                diskCache->store(_url_, img);
-            }
         }
 
-        // request finished
+        // always store image to cache, the cache will take care of NULL images
+        diskCache->store(_url_, img);
+
+        // only paint image if on current zoom factor
+        if((req.zoomFactor == zoomFactor))
+        {
+            convertRad2Pt(req.lon, req.lat);
+            p.drawImage(req.lon, req.lat, img);
+        }
+
+        // pending request finished
         pendRequests.remove(_url_);
 
     }
@@ -612,7 +609,7 @@ void CMapWms::slotRequestFinished(QNetworkReply* reply)
     // delete reply object
     reply->deleteLater();
 
-    // check for more request
+    // check for more requests
     checkQueue();
 
     // the map did change

@@ -17,42 +17,18 @@
 
 **********************************************************************************************/
 
-#ifndef CDISKCACHE_H
-#define CDISKCACHE_H
+#ifndef CMAPTMS_H
+#define CMAPTMS_H
 
-#include <QObject>
-#include <QDir>
-#include <QHash>
-#include <QImage>
+#include <IMap.h>
 
-class QTimer;
-
-class CDiskCache : public QObject
+class CMapTms : public IMap
 {
     Q_OBJECT;
     public:
-        CDiskCache(QObject * parent);
-        virtual ~CDiskCache();
-
-        void store(const QString& key, QImage& img);
-        void restore(const QString& key, QImage& img);
-        bool contains(const QString& key);
-
-    private slots:
-        void slotCleanup();
-    private:
-        QDir dir;
-        quint32 maxSize;
-
-        /// hash table to cache images als files on disc
-        QHash<QString, QString> table;
-        /// hash table to cache loaded images in memory
-        QHash<QString, QImage>  cache;
-
-        QTimer * timer;
-
-        QImage dummy;
+        CMapTms(const QString& key, const QString& filename, CCanvas * parent);
+        virtual ~CMapTms();
 };
 
-#endif //CDISKCACHE_H
+#endif //CMAPTMS_H
 
