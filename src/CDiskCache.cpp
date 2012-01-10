@@ -107,13 +107,28 @@ void CDiskCache::slotCleanup()
 {
     qint64 size = 0;
     QFileInfoList files = dir.entryInfoList(QStringList("*.png"), QDir::Files, QDir::Time|QDir::Reversed);
+    QDateTime now = QDateTime::currentDateTime();
+
+    // remove old files and derive total size of cache
     foreach(const QFileInfo& fileinfo, files)
     {
-        size += fileinfo.size();
+        if(fileinfo.lastModified().daysTo(now) > 8)
+        {
+            QString hash = fileinfo.baseName();
+            table.remove(hash);
+            cache.remove(hash);
+            QFile::remove(fileinfo.absoluteFilePath());
+        }
+        else
+        {
+            size += fileinfo.size();
+        }
     }
+
 
     if(size > maxSize)
     {
+        // if cache is still too large remove oldest files
         foreach(const QFileInfo& fileinfo, files)
         {
             QString hash = fileinfo.baseName();
@@ -128,5 +143,5 @@ void CDiskCache::slotCleanup()
                 break;
             }
         }
-    }
+    }   
 }
