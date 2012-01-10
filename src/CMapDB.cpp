@@ -25,6 +25,7 @@
 #include "CMapGeoTiff.h"
 #include "CMapJnx.h"
 #include "CMapWms.h"
+#include "CMapTms.h"
 #include "CMapDEM.h"
 #include "CMapOSM.h"
 #include "CMainWindow.h"

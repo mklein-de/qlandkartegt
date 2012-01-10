@@ -20,18 +20,20 @@
 #ifndef CMAPTMS_H
 #define CMAPTMS_H
 
-#include <IMap.h>
+#include "IMap.h"
+#include <QUrl>
+
+class QNetworkReply;
 
 class CMapTms : public IMap
 {
     Q_OBJECT;
     public:
-        CMapTms(const QString& key, const QString& filename, CCanvas * parent);
+        CMapTms(const QString& key, CCanvas *parent);
         virtual ~CMapTms();
 
         void convertPt2M(double& u, double& v);
         void convertM2Pt(double& u, double& v);
-        void convertPt2Pixel(double& u, double& v);
 
         void move(const QPoint& old, const QPoint& next);
         void zoom(bool zoomIn, const QPoint& p);
@@ -40,8 +42,35 @@ class CMapTms : public IMap
         void dimensions(double& lon1, double& lat1, double& lon2, double& lat2);
         void getArea_n_Scaling(XY& p1, XY& p2, float& my_xscale, float& my_yscale);
 
+        void draw(QPainter& p);
 
     private:
+        void draw();
+
+        struct request_t
+        {
+            bool operator==(const request_t& r){return reply == r.reply;}
+
+            QUrl   url;
+            QNetworkReply * reply;
+            double lon;
+            double lat;
+            double zoomFactor;
+        };
+
+
+        inline int lon2tile(double lon, int z)
+        {
+            return (int)(qRound(256*(lon + 180.0) / 360.0 * pow(2.0, z)));
+        }
+
+
+        inline int lat2tile(double lat, int z)
+        {
+            return (int)(qRound(256*(1.0 - log( tan(lat * M_PI/180.0) + 1.0 / cos(lat * M_PI/180.0)) / M_PI) / 2.0 * pow(2.0, z)));
+        }
+
+
         double zoomFactor;
         double x;
         double y;
@@ -69,6 +98,8 @@ class CMapTms : public IMap
 
         QString copyright;
         bool lastTileLoaded;
+
+
 
 };
 
