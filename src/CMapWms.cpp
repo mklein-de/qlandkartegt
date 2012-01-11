@@ -563,7 +563,7 @@ void CMapWms::addToQueue(request_t& req)
 
 void CMapWms::checkQueue()
 {
-    if(newRequests.size() && pendRequests.size() < 6)
+    while(newRequests.size() && pendRequests.size() < 6)
     {
         request_t req = newRequests.dequeue();
 

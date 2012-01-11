@@ -37,6 +37,7 @@ CMapTms::CMapTms(const QString& key, CCanvas *parent)
 , yscale(-1.19432854652)
 , needsRedrawOvl(true)
 , lastTileLoaded(false)
+, status(0)
 {
     QSettings cfg;
 
@@ -73,7 +74,7 @@ CMapTms::CMapTms(const QString& key, CCanvas *parent)
     theMainWindow->statusBar()->insertPermanentWidget(0,status);
 
 
-    zoom(zoomidx);        
+    zoom(zoomidx);
 }
 
 CMapTms::~CMapTms()
@@ -86,6 +87,8 @@ CMapTms::~CMapTms()
     cfg.setValue("tms/zoomidx",zoomidx);
 
     if(pjsrc) pj_free(pjsrc);
+
+    delete status;
 }
 
 
@@ -288,7 +291,7 @@ void CMapTms::draw(QPainter& p)
         p.drawText(10,24,str);
     }
 
-    p.setFont(QFont("Sans Serif",8,QFont::Black));        
+    p.setFont(QFont("Sans Serif",8,QFont::Black));
     if(copyright.isEmpty())
     {
         CCanvas::drawText(tr("%1 %2").arg(QChar(0x00A9)).arg(tr("Copyright notice is missing.")), p, rect.bottomLeft() + QPoint(rect.width() / 2, -5) , QColor(Qt::darkBlue));
@@ -304,7 +307,7 @@ void CMapTms::draw()
 {
     if(pjsrc == 0) return IMap::draw();
 
-    QImage img;    
+    QImage img;
     lastTileLoaded  = false;
 
     pixBuffer.fill(Qt::white);
@@ -386,7 +389,7 @@ void CMapTms::addToQueue(request_t& req)
 
 void CMapTms::checkQueue()
 {
-    if(newRequests.size() && pendRequests.size() < 6)
+    while(newRequests.size() && pendRequests.size() < 6)
     {
         request_t req = newRequests.dequeue();
 
