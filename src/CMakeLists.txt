@@ -135,7 +135,6 @@ set(qlandkarte_SRCS
     CDlgCombineDistOvl.cpp
     CDlgProjWizzard.cpp
     CDlgEditText.cpp
-    CDlgCreateWorldBasemap.cpp
     CDlgDelWpt.cpp
     CDlgConvertToTrack.cpp
     CDlgEditRoute.cpp
@@ -157,7 +156,6 @@ set(qlandkarte_SRCS
     CDeviceGarmin.cpp
     CDeviceGarminBulk.cpp
     CDeviceNMEA.cpp
-    CCreateMapOSM.cpp
     CCreateMapQMAP.cpp
     CCreateMapGeoTiff.cpp
     CCreateMapGridTool.cpp
@@ -297,7 +295,6 @@ set(qlandkarte_HDRS
     CDlgProjWizzard.h
     CDlgEditText.h
     CDlgDelWpt.h
-    CDlgCreateWorldBasemap.h
     CDlgConvertToTrack.h
     CDlgEditRoute.h
     CDlgMapTDBConfig.h
@@ -318,7 +315,6 @@ set(qlandkarte_HDRS
     CDeviceGarmin.h
     CDeviceGarminBulk.h
     CDeviceNMEA.h
-    CCreateMapOSM.h
     CCreateMapQMAP.h
     CCreateMapGeoTiff.h
     CCreateMapGridTool.h
@@ -407,7 +403,6 @@ SET(qlandkarte_UIS
     IDlgCombineTracks.ui
     IDlgCombineDistOvl.ui
     IDlgDelWpt.ui
-    IDlgCreateWorldBasemap.ui
     IDlgConvertToTrack.ui
     IDlgEditRoute.ui
     IDlgMapTDBConfig.ui
@@ -421,7 +416,6 @@ SET(qlandkarte_UIS
     IDlgExport.ui
     IDlgWpt2Rte.ui
     IDlgSetupGrid.ui
-    ICreateMapOSM.ui
     ICreateMapQMAP.ui
     ICreateMapGeoTiff.ui
     ICreateMapGridTool.ui

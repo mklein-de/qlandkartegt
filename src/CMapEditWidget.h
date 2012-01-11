@@ -23,11 +23,10 @@
 
 #include "ui_IMapEditWidget.h"
 
-class CCreateMapOSM;
 class CCreateMapQMAP;
 class CCreateMapGeoTiff;
 class CCreateMapFineTune;
-class CCreateMapWMS;
+
 
 class CMapEditWidget : public QWidget, private Ui::IMapEditWidget
 {
@@ -37,9 +36,8 @@ class CMapEditWidget : public QWidget, private Ui::IMapEditWidget
         virtual ~CMapEditWidget();
 
     private:
-        enum widget_e {eNone, eOSM, eQMAP, eGTIFF, eFineTune, eWMS};
+        enum widget_e {eNone, eQMAP, eGTIFF, eFineTune};
 
-        CCreateMapOSM  * widgetOSM;
         CCreateMapQMAP * widgetQMAP;
         CCreateMapGeoTiff * widgetGeoTiff;
         CCreateMapFineTune * widgetFineTune;

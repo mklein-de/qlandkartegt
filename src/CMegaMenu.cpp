@@ -32,7 +32,6 @@
 #include "CMainWindow.h"
 #include "CResources.h"
 #include "IDevice.h"
-#include "CDlgCreateWorldBasemap.h"
 #include "CMenus.h"
 #include "CActions.h"
 #ifdef PLOT_3D

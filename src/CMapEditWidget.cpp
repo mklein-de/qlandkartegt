@@ -18,7 +18,6 @@
 **********************************************************************************************/
 
 #include "CMapEditWidget.h"
-#include "CCreateMapOSM.h"
 #include "CCreateMapQMAP.h"
 #include "CCreateMapGeoTiff.h"
 #include "CCreateMapFineTune.h"
@@ -48,10 +47,6 @@ CMapEditWidget::CMapEditWidget(QWidget * parent)
     qDebug() << haveGDALWarp << haveGDALTranslate << haveGDAL;
 
     comboSource->insertItem(eNone,tr(""));
-
-    //     comboSource->insertItem(eOSM,QIcon(":/icons/iconOSM16x16.png"),tr("Open Street Map"));
-    //     widgetOSM       = new CCreateMapOSM(stackedWidget);
-    //     stackedWidget->insertWidget(eOSM, widgetOSM);
 
     comboSource->insertItem(eQMAP,QIcon(":/icons/iconGlobe16x16.png"),tr("Create map collection from existing geo-referenced files."));
     widgetQMAP      = new CCreateMapQMAP(stackedWidget);

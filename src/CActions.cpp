@@ -33,7 +33,6 @@
 #include "CMainWindow.h"
 #include "CResources.h"
 #include "IDevice.h"
-#include "CDlgCreateWorldBasemap.h"
 #include "CUndoStackModel.h"
 #include "CUndoStackView.h"
 #include "CTrackUndoCommandDeletePts.h"
@@ -641,12 +640,6 @@ void CActions::funcDistance()
 void CActions::funcCombineDistOvl()
 {
     COverlayDB::self().combineDistOvl();
-}
-
-void CActions::funcWorldBasemap()
-{
-    CDlgCreateWorldBasemap dlg;
-    dlg.exec();
 }
 
 
