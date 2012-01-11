@@ -186,6 +186,8 @@ CMapWms::~CMapWms()
 
     cfg.endGroup();
     cfg.endGroup();
+
+    qDebug() << seenRequest;
 }
 
 void CMapWms::convertPt2M(double& u, double& v)
@@ -552,7 +554,11 @@ void CMapWms::draw()
 
 void CMapWms::addToQueue(request_t& req)
 {
-    newRequests.enqueue(req);
+    if(!seenRequest.contains(req.url.toString()))
+    {
+        newRequests.enqueue(req);
+        seenRequest << req.url.toString();
+    }
 }
 
 void CMapWms::checkQueue()
@@ -578,6 +584,7 @@ void CMapWms::checkQueue()
     {
         status->setText(tr("Map loaded."));
         lastTileLoaded = true;
+        seenRequest.clear();
     }
     else
     {
@@ -616,7 +623,6 @@ void CMapWms::slotRequestFinished(QNetworkReply* reply)
 
         // pending request finished
         pendRequests.remove(_url_);
-
     }
 
     // debug output any error

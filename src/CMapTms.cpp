@@ -184,8 +184,6 @@ void CMapTms::zoom(double lon1, double lat1, double lon2, double lat2)
         if(zoomFactor > z1 && zoomFactor > z2) break;
     }
 
-    qDebug() << zoomFactor << z1 << zoomFactor << z2;
-
     double u_ = lon1 + (lon2 - lon1)/2;
     double v_ = lat1 + (lat2 - lat1)/2;
     convertRad2Pt(u_,v_);
@@ -290,22 +288,30 @@ void CMapTms::draw(QPainter& p)
         p.drawText(10,24,str);
     }
 
-    p.setFont(QFont("Sans Serif",8,QFont::Black));
-    CCanvas::drawText(tr("%1 %2").arg(QChar(0x00A9)).arg(copyright), p, rect.bottomLeft() + QPoint(rect.width() / 2, -5) , QColor(Qt::darkBlue));
+    p.setFont(QFont("Sans Serif",8,QFont::Black));        
+    if(copyright.isEmpty())
+    {
+        CCanvas::drawText(tr("%1 %2").arg(QChar(0x00A9)).arg(tr("Copyright notice is missing.")), p, rect.bottomLeft() + QPoint(rect.width() / 2, -5) , QColor(Qt::darkBlue));
+    }
+    else
+    {
+        CCanvas::drawText(tr("%1 %2").arg(QChar(0x00A9)).arg(copyright), p, rect.bottomLeft() + QPoint(rect.width() / 2, -5) , QColor(Qt::darkBlue));
+    }
+
 }
 
 void CMapTms::draw()
 {
     if(pjsrc == 0) return IMap::draw();
 
-    QImage img;
-    int z           = 18 - zoomidx;
+    QImage img;    
     lastTileLoaded  = false;
 
     pixBuffer.fill(Qt::white);
     QPainter p(&pixBuffer);
 
 
+    int z      = 18 - zoomidx;
     double lon = x;
     double lat = y;
     convertM2Rad(lon, lat);
@@ -319,8 +325,6 @@ void CMapTms::draw()
     double xx1  = tile2lon(x1, z) * DEG_TO_RAD;
     double yy1  = tile2lat(y1, z) * DEG_TO_RAD;
     convertRad2Pt(xx1, yy1);
-
-    qDebug() << lon << lat << x1 << y1 << z << xx1 << yy1;
 
     int n = 0;
     int m = 0;
@@ -373,7 +377,11 @@ void CMapTms::draw()
 
 void CMapTms::addToQueue(request_t& req)
 {
-    newRequests.enqueue(req);
+    if(!seenRequest.contains(req.url.toString()))
+    {
+        newRequests.enqueue(req);
+        seenRequest << req.url.toString();
+    }
 }
 
 void CMapTms::checkQueue()
@@ -399,6 +407,7 @@ void CMapTms::checkQueue()
     {
         status->setText(tr("Map loaded."));
         lastTileLoaded = true;
+        seenRequest.clear();
     }
     else
     {
@@ -438,7 +447,6 @@ void CMapTms::slotRequestFinished(QNetworkReply* reply)
 
         // pending request finished
         pendRequests.remove(_url_);
-
     }
 
     // debug output any error

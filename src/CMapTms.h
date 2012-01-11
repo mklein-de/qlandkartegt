@@ -24,6 +24,7 @@
 #include <QUrl>
 #include <QHash>
 #include <QQueue>
+#include <QSet>
 
 class QNetworkAccessManager;
 class QNetworkReply;
@@ -127,6 +128,7 @@ class CMapTms : public IMap
         QQueue<request_t> newRequests;
         QHash<QString,request_t> pendRequests;
         CDiskCache * diskCache;
+        QSet<QString> seenRequest;
 
         QLabel * status;
 
