@@ -290,8 +290,8 @@ static QVector<QRgb>  qtColorTable(256);
 CDlgCreateWorldBasemap::CDlgCreateWorldBasemap()
 {
     setupUi(this);
-    tilehash = new COsmTilesHash("tile.openstreetmap.org/%1/%2/%3.png", this);
-    connect(tilehash, SIGNAL(newImageReady(QImage, bool)), this, SLOT(slotImageReady(QImage, bool)));
+//    tilehash = new COsmTilesHash("tile.openstreetmap.org/%1/%2/%3.png", this);
+//    connect(tilehash, SIGNAL(newImageReady(QImage, bool)), this, SLOT(slotImageReady(QImage, bool)));
     connect(spinLevel, SIGNAL(valueChanged(int)), this, SLOT(slotChangeLevel(int)));
 
     for(int i=0; i<256; ++i)
@@ -317,10 +317,10 @@ void CDlgCreateWorldBasemap::slotChangeLevel(int val)
 
 void CDlgCreateWorldBasemap::accept()
 {
-    int level = spinLevel->value() - 1;
-    int width = pow(2.0, level) * 256;
+//    int level = spinLevel->value() - 1;
+//    int width = pow(2.0, level) * 256;
 
-    tilehash->startNewDrawing(-180, 85.0511, level, QRect(0,0,width,width));
+//    tilehash->startNewDrawing(-180, 85.0511, level, QRect(0,0,width,width));
 }
 
 

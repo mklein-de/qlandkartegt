@@ -30,12 +30,6 @@ CDiskCache::CDiskCache(QObject *parent)
     dir     = CResources::self().getPathMapCache();
     maxSize = CResources::self().getSizeMapCache() * 1024*1024;
 
-    if(!dir.exists("wms"))
-    {
-        dir.mkdir("wms");
-    }
-    dir.cd("wms");
-
     QFileInfoList files = dir.entryInfoList(QStringList("*.png"), QDir::Files);
     foreach(const QFileInfo& fileinfo, files)
     {

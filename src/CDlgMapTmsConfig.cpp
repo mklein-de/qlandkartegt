@@ -17,11 +17,11 @@
 
 **********************************************************************************************/
 
-#include "CDlgMapOSMConfig.h"
-#include "CMapOSM.h"
+#include "CDlgMapTmsConfig.h"
+#include "CMapTms.h"
 #include <QtGui>
 
-CDlgMapOSMConfig::CDlgMapOSMConfig(CMapOSM& m)
+CDlgMapTmsConfig::CDlgMapTmsConfig(CMapTms& m)
 {
     setupUi(this);
 
@@ -32,7 +32,7 @@ CDlgMapOSMConfig::CDlgMapOSMConfig(CMapOSM& m)
 
 }
 
-CDlgMapOSMConfig::CDlgMapOSMConfig()
+CDlgMapTmsConfig::CDlgMapTmsConfig()
 {
     setupUi(this);
     lineName->setText(map.description);
@@ -40,12 +40,12 @@ CDlgMapOSMConfig::CDlgMapOSMConfig()
     lineCopyright->setText(map.copyright);
 }
 
-CDlgMapOSMConfig::~CDlgMapOSMConfig()
+CDlgMapTmsConfig::~CDlgMapTmsConfig()
 {
 
 }
 
-void CDlgMapOSMConfig::accept()
+void CDlgMapTmsConfig::accept()
 {
     CMapDB& mapdb = CMapDB::self();
     mapdb.delKnownMap(QStringList(map.key));

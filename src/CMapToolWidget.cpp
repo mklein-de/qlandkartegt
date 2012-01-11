@@ -25,7 +25,7 @@
 #include "CMapSelectionRaster.h"
 #include "CGarminExport.h"
 #include "CMapSelectionGarmin.h"
-#include "CDlgMapOSMConfig.h"
+#include "CDlgMapTmsConfig.h"
 
 #include "config.h"
 
@@ -471,6 +471,6 @@ void CMapToolWidget::slotCfgMap()
 
 void CMapToolWidget::slotAddTmsMap()
 {
-    CDlgMapOSMConfig dlg;
+    CDlgMapTmsConfig dlg;
     dlg.exec();
 }

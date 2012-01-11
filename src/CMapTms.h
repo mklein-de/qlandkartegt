@@ -22,8 +22,14 @@
 
 #include "IMap.h"
 #include <QUrl>
+#include <QHash>
+#include <QQueue>
 
+class QNetworkAccessManager;
 class QNetworkReply;
+class QLabel;
+class CDiskCache;
+
 
 class CMapTms : public IMap
 {
@@ -44,20 +50,26 @@ class CMapTms : public IMap
 
         void draw(QPainter& p);
 
+    private slots:
+        void slotRequestFinished(QNetworkReply* reply);
+
     private:
-        void draw();
 
         struct request_t
         {
             bool operator==(const request_t& r){return reply == r.reply;}
 
-            QUrl   url;
+            QUrl url;
             QNetworkReply * reply;
             double lon;
             double lat;
             double zoomFactor;
         };
 
+        void draw();
+        void addToQueue(request_t& req);
+        void checkQueue();
+        void config();
 
         inline int lon2tile(double lon, int z)
         {
@@ -70,6 +82,16 @@ class CMapTms : public IMap
             return (int)(qRound(256*(1.0 - log( tan(lat * M_PI/180.0) + 1.0 / cos(lat * M_PI/180.0)) / M_PI) / 2.0 * pow(2.0, z)));
         }
 
+        inline double tile2lon(int x, int z)
+        {
+            return x / pow(2.0, z) * 360.0 - 180;
+        }
+
+        inline double tile2lat(int y, int z)
+        {
+            double n = M_PI - 2.0 * M_PI * y / pow(2.0, z);
+            return 180.0 / M_PI * atan(0.5 * (exp(n) - exp(-n)));
+        }
 
         double zoomFactor;
         double x;
@@ -99,7 +121,14 @@ class CMapTms : public IMap
         QString copyright;
         bool lastTileLoaded;
 
+        QString strUrl;
 
+        QNetworkAccessManager * accessManager;
+        QQueue<request_t> newRequests;
+        QHash<QString,request_t> pendRequests;
+        CDiskCache * diskCache;
+
+        QLabel * status;
 
 };
 

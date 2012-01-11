@@ -26,7 +26,6 @@
 #include <QQueue>
 
 class QCheckBox;
-class QNetworkDiskCache;
 class QNetworkAccessManager;
 class QNetworkReply;
 class QLabel;

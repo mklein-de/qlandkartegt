@@ -27,7 +27,6 @@
 #include "CMapWms.h"
 #include "CMapTms.h"
 #include "CMapDEM.h"
-#include "CMapOSM.h"
 #include "CMainWindow.h"
 #include "CMapEditWidget.h"
 #include "CMapSearchWidget.h"
@@ -350,7 +349,7 @@ void CMapDB::openMap(const QString& filename, bool asRaster, CCanvas& canvas)
     }
     else if(filename.startsWith("http"))
     {
-        theMap = new CMapOSM(QString::number(qHash(filename)), theMainWindow->getCanvas());
+        theMap = new CMapTms(QString::number(qHash(filename)), theMainWindow->getCanvas());
 
         // store current map filename for next session
         QSettings cfg;
@@ -423,7 +422,7 @@ void CMapDB::openMap(const QString& key)
     }
     else if(filename.startsWith("http"))
     {
-        theMap = new CMapOSM(key, theMainWindow->getCanvas());
+        theMap = new CMapTms(key, theMainWindow->getCanvas());
     }
 
     connect(theMap, SIGNAL(sigChanged()), theMainWindow->getCanvas(), SLOT(update()));

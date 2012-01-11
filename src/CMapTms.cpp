@@ -21,8 +21,12 @@
 #include "CMapDB.h"
 #include "GeoMath.h"
 #include "CResources.h"
+#include "CDiskCache.h"
+#include "CMainWindow.h"
+#include "CDlgMapTmsConfig.h"
 
 #include <QtGui>
+#include <QtNetwork>
 
 CMapTms::CMapTms(const QString& key, CCanvas *parent)
 : IMap(eTMS,key,parent)
@@ -37,9 +41,10 @@ CMapTms::CMapTms(const QString& key, CCanvas *parent)
     QSettings cfg;
 
     CMapDB::map_t mapData = CMapDB::self().getMapData(key);
-    copyright = mapData.copyright;
+    copyright   = mapData.copyright;
+    strUrl      = mapData.filename;
 
-    pjsrc = pj_init_plus("+proj=merc +lon_0=0 +k=1 +x_0=0 +y_0=0 +a=6378137 +b=6378137 +units=m +no_defs ");
+    pjsrc = pj_init_plus("+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +wktext +no_defs");
     oSRS.importFromProj4(getProjection());
 
     char * ptr = pj_get_def(pjsrc,0);
@@ -56,7 +61,19 @@ CMapTms::CMapTms(const QString& key, CCanvas *parent)
     pj_transform(pjsrc,pjtar,1,0,&lon1,&lat1,0);
     pj_transform(pjsrc,pjtar,1,0,&lon2,&lat2,0);
 
-    zoom(zoomidx);
+
+    accessManager = new QNetworkAccessManager(this);
+    accessManager->setProxy(QNetworkProxy(QNetworkProxy::DefaultProxy));
+    connect(accessManager,SIGNAL(finished(QNetworkReply*)),this,SLOT(slotRequestFinished(QNetworkReply*)));
+
+    diskCache = new CDiskCache(this);
+
+
+    status = new QLabel(theMainWindow->getCanvas());
+    theMainWindow->statusBar()->insertPermanentWidget(0,status);
+
+
+    zoom(zoomidx);        
 }
 
 CMapTms::~CMapTms()
@@ -281,79 +298,168 @@ void CMapTms::draw()
 {
     if(pjsrc == 0) return IMap::draw();
 
-    int tms_zoom    = 18 - zoomidx;
+    QImage img;
+    int z           = 18 - zoomidx;
     lastTileLoaded  = false;
 
     pixBuffer.fill(Qt::white);
     QPainter p(&pixBuffer);
 
-    double lon      = x;
-    double lat      = y;
-    convertM2Rad(lon,lat);
 
-    int tms_x_256   = lon2tile(lon, tms_zoom);
-    int tms_y_256   = lat2tile(lat, tms_zoom);
-    int tms_x       = tms_x_256 / 256 ;
-    int tms_y       = tms_y_256 / 256 ;
-    int dx          = tms_x_256 - (tms_x_256 / 256) * 256.;
-    int dy          = tms_y_256 - (tms_y_256 / 256) * 256.;
+    double lon = x;
+    double lat = y;
+    convertM2Rad(lon, lat);
+
+    lon *= RAD_TO_DEG;
+    lat *= RAD_TO_DEG;
 
 
-    qDebug() << tms_x_256 << tms_x << dx;
+    int x1      = lon2tile(lon, z) / 256;
+    int y1      = lat2tile(lat, z) / 256;
+    double xx1  = tile2lon(x1, z) * DEG_TO_RAD;
+    double yy1  = tile2lat(y1, z) * DEG_TO_RAD;
+    convertRad2Pt(xx1, yy1);
 
-    int xCount      = qMin((floorf((rect.width() + dx)   / 256.) ) + 1.0, floorf(pow(2.0,tms_zoom))*1.0);
-    int yCount      = qMin((floorf((rect.height() + dy ) / 256.) ) + 1.0, floorf(pow(2.0,tms_zoom))*1.0) ;
+    qDebug() << lon << lat << x1 << y1 << z << xx1 << yy1;
 
+    int n = 0;
+    int m = 0;
 
-    for(int x=0; x<xCount; x++)
+    double cx;
+    double cy;
+
+    do
     {
-        for (int y=0; y<yCount; y++)
+        do
         {
-//            getImage(osm_zoom,osm_x+x,osm_y+y,t.map(point));
+            double p1x = xx1 + n * 256;
+            double p1y = yy1 + m * 256;
+            double p2x = xx1 + (n + 1) * 256;
+            double p2y = yy1 + (m + 1) * 256;
 
+            cx = p2x;
+            cy = p2y;
+
+            convertPt2Rad(p1x, p1y);
+
+            request_t req;
+            req.url         = QUrl(strUrl.arg(z).arg(x1 + n).arg(y1 + m));
+            req.lon         = p1x;
+            req.lat         = p1y;
+            req.zoomFactor  = zoomFactor;
+
+            diskCache->restore(req.url.toString(), img);
+            if(!img.isNull())
+            {
+                convertRad2Pt(req.lon,req.lat);
+                p.drawImage(req.lon, req.lat,img);
+            }
+            else
+            {
+                addToQueue(req);
+            }
+
+            n++;
         }
+        while(cx < rect.width());
+
+        n = 0;
+        m++;
     }
+    while(cy < rect.height());
+
+    checkQueue();
+}
+
+void CMapTms::addToQueue(request_t& req)
+{
+    newRequests.enqueue(req);
+}
+
+void CMapTms::checkQueue()
+{
+    if(newRequests.size() && pendRequests.size() < 6)
+    {
+        request_t req = newRequests.dequeue();
+
+        if(diskCache->contains(req.url.toString()) || (req.zoomFactor != zoomFactor))
+        {
+            checkQueue();
+            return;
+        }
+
+        QNetworkRequest request;
+        request.setUrl(req.url);
+        req.reply = accessManager->get(request);
+
+        pendRequests[req.url.toString()] = req;
+    }
+
+    if(pendRequests.isEmpty() && newRequests.isEmpty())
+    {
+        status->setText(tr("Map loaded."));
+        lastTileLoaded = true;
+    }
+    else
+    {
+        status->setText(tr("Wait for %1 tiles.").arg(pendRequests.size() + newRequests.size()));
+    }
+
 
 }
 
 
+void CMapTms::slotRequestFinished(QNetworkReply* reply)
+{
+    QString _url_ = reply->url().toString();
+    if(pendRequests.contains(_url_))
+    {
+        QImage img;
+        QPainter p(&pixBuffer);
 
-//void COsmTilesHash::startNewDrawing( double lon, double lat, int osm_zoom, const QRect& window)
-//{
-//    int osm_x_256 = long2tile(lon, osm_zoom);
-//    int osm_y_256 = lat2tile(lat, osm_zoom);
+        request_t& req = pendRequests[_url_];
 
-//    int osm_x = osm_x_256 / (256 );
-//    int osm_y= osm_y_256 / (256 );
+        // only take good responses
+        if(!reply->error())
+        {
+            // read image data
+            img.loadFromData(reply->readAll());
+        }
 
-//    int dx = osm_x_256 - (osm_x_256 / 256)*256.;
-//    int dy = osm_y_256 - (osm_y_256 / 256)*256.;
+        // always store image to cache, the cache will take care of NULL images
+        diskCache->store(_url_, img);
 
-//    QPoint point(-dx,-dy);
+        // only paint image if on current zoom factor
+        if((req.zoomFactor == zoomFactor))
+        {
+            convertRad2Pt(req.lon, req.lat);
+            p.drawImage(req.lon, req.lat, img);
+        }
 
-//    int xCount = qMin((floorf((window.width() + dx) / 256.) ) + 1., floorf(pow(2.,osm_zoom))*1.);
-//    int yCount = qMin((floorf((window.height() + dy ) / 256.) ) + 1., floorf(pow(2.,osm_zoom))*1.) ;
+        // pending request finished
+        pendRequests.remove(_url_);
 
-//    pixmap = QPixmap(window.size());
-//    pixmap.fill(Qt::white);
+    }
 
-//    m_queuedRequests.clear();
+    // debug output any error
+    if(reply->error())
+    {
+        qDebug() << reply->errorString();
+    }
 
-//    foreach(QString url, m_activeRequests.keys())
-//    {
-//        m_activeRequests.insert(url, QPoint());
-//    }
+    // delete reply object
+    reply->deleteLater();
 
-//    for(int x=0; x<xCount; x++)
-//    {
-//        for (int y=0; y<yCount; y++)
-//        {
-//            QTransform t;
-//            t = t.translate(x*256,y*256);
-//            getImage(osm_zoom,osm_x+x,osm_y+y,t.map(point));
-//        }
-//    }
+    // check for more requests
+    checkQueue();
 
-//    emit newImageReady(pixmap,!m_activeRequests.count());
-//}
+    // the map did change
+    emit sigChanged();
+}
+
+void CMapTms::config()
+{
+    CDlgMapTmsConfig dlg(*this);
+    dlg.exec();
+}
 

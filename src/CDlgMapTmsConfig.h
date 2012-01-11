@@ -17,22 +17,22 @@
 
 **********************************************************************************************/
 
-#ifndef CDLGMAPOSMCONFIG_H
-#define CDLGMAPOSMCONFIG_H
+#ifndef CDLGMAPTMSCONFIG_H
+#define CDLGMAPTMSCONFIG_H
 
 #include <QDialog>
-#include "ui_IDlgMapOSMConfig.h"
+#include "ui_IDlgMapTmsConfig.h"
 #include "CMapDB.h"
 
-class CMapOSM;
+class CMapTms;
 
-class CDlgMapOSMConfig : public QDialog, private Ui::IDlgMapOSMConfig
+class CDlgMapTmsConfig : public QDialog, private Ui::IDlgMapTmsConfig
 {
     Q_OBJECT
     public:
-        CDlgMapOSMConfig(CMapOSM& map);
-        CDlgMapOSMConfig();
-        virtual ~CDlgMapOSMConfig();
+        CDlgMapTmsConfig(CMapTms& map);
+        CDlgMapTmsConfig();
+        virtual ~CDlgMapTmsConfig();
 
     public slots:
         void accept();
@@ -41,4 +41,4 @@ class CDlgMapOSMConfig : public QDialog, private Ui::IDlgMapOSMConfig
         CMapDB::map_t map;
 
 };
-#endif                           //CDLGMAPOSMCONFIG_H
+#endif                           //CDLGMAPTMSCONFIG_H

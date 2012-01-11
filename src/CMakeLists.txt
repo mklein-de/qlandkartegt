@@ -104,7 +104,6 @@ set(qlandkarte_SRCS
     CMouseSelWpt.cpp
     IMap.cpp
     CMapNoMap.cpp
-    CMapOSM.cpp
     CMapDEM.cpp
     CMapFile.cpp
     CMapLevel.cpp
@@ -143,7 +142,7 @@ set(qlandkarte_SRCS
     CDlgMapTDBConfig.cpp
     CDlgMapQMAPConfig.cpp
     CDlgMapJNXConfig.cpp
-    CDlgMapOSMConfig.cpp
+    CDlgMapTmsConfig.cpp
     CDlgScreenshot.cpp
     CDlgTrackFilter.cpp
     CDlgSetupGarminIcons.cpp
@@ -197,7 +196,6 @@ set(qlandkarte_SRCS
     CLiveLog.cpp
     CLiveLogDB.cpp
     CLiveLogToolWidget.cpp
-    COsmTilesHash.cpp
     IOverlay.cpp
     COverlayDB.cpp
     COverlayToolWidget.cpp
@@ -267,7 +265,6 @@ set(qlandkarte_HDRS
     CMouseSelWpt.h
     IMap.h
     CMapNoMap.h
-    CMapOSM.h
     CMapDEM.h
     CMapFile.h
     CMapLevel.h
@@ -306,7 +303,7 @@ set(qlandkarte_HDRS
     CDlgMapTDBConfig.h
     CDlgMapQMAPConfig.h
     CDlgMapJNXConfig.h
-    CDlgMapOSMConfig.h
+    CDlgMapTmsConfig.h
     CDlgScreenshot.h
     CDlgTrackFilter.h
     CDlgSetupGarminIcons.h
@@ -358,7 +355,6 @@ set(qlandkarte_HDRS
     CLiveLogDB.h
     CLiveLogToolWidget.h
     IOverlay.h
-    COsmTilesHash.h
     COverlayDB.h
     COverlayToolWidget.h
     COverlayText.h
@@ -417,7 +413,7 @@ SET(qlandkarte_UIS
     IDlgMapTDBConfig.ui
     IDlgMapQMAPConfig.ui
     IDlgMapJNXConfig.ui
-    IDlgMapOSMConfig.ui
+    IDlgMapTmsConfig.ui
     IDlgScreenshot.ui
     IDlgTrackFilter.ui
     IDlgSetupGarminIcons.ui
