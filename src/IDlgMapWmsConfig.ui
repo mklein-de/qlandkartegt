@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>595</width>
-    <height>300</height>
+    <height>542</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -24,6 +24,13 @@
        <string>Map</string>
       </attribute>
       <layout class="QVBoxLayout" name="verticalLayout_2">
+       <item>
+        <widget class="QLabel" name="labelFile">
+         <property name="text">
+          <string>File:</string>
+         </property>
+        </widget>
+       </item>
        <item>
         <widget class="QTreeWidget" name="treeMapConfig">
          <column>

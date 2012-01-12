@@ -1,23 +1,19 @@
 /**********************************************************************************************
+    Copyright (C) 2012 Oliver Eichler oliver.eichler@gmx.de
 
-  DSP Solutions GmbH & Co. KG
-  http://www.dspsolutions.de/  
+    This program is free software; you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation; either version 2 of the License, or
+    (at your option) any later version.
 
-  Author:      Oliver Eichler
-  Email:       oliver.eichler@dspsolutions.de
-  Phone:       +49-941-83055-1
-  Fax:         +49-941-83055-79
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
 
-  File:        CDlgMapWmsConfig.cpp
-
-  Module:      
-
-  Description:
-
-  Created:     01/12/2012
-
-  (C) 2012 DSP Solutions. All rights reserved.
-
+    You should have received a copy of the GNU General Public License
+    along with this program; if not, write to the Free Software
+    Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
 
 **********************************************************************************************/
 
@@ -25,6 +21,8 @@
 #include "CMapWms.h"
 
 #include <QtGui>
+#include <QtXml>
+#include <projects.h>
 
 CDlgMapWmsConfig::CDlgMapWmsConfig(CMapWms &map)
     : map(map)
@@ -32,38 +30,80 @@ CDlgMapWmsConfig::CDlgMapWmsConfig(CMapWms &map)
 
     setupUi(this);
 
+    QFileInfo fi(map.filename);
+    labelFile->setText(tr("File: %1").arg(fi.fileName()));
+
     QTreeWidgetItem * item;
     item = new QTreeWidgetItem(treeMapConfig);
-    item->setText(eColProperty, tr("Name"));
+    item->setText(eColProperty, QString("Title"));
     item->setText(eColValue, map.name);
     item = new QTreeWidgetItem(treeMapConfig);
-    item->setText(eColProperty, tr("Copyright"));
+    item->setText(eColProperty, QString("Copyright"));
     item->setText(eColValue, map.copyright);
     item = new QTreeWidgetItem(treeMapConfig);
-    item->setText(eColProperty, tr("URL"));
+    item->setText(eColProperty, QString("ServerUrl"));
     item->setText(eColValue, map.urlstr);
     item = new QTreeWidgetItem(treeMapConfig);
-    item->setText(eColProperty, tr("Format"));
+    item->setText(eColProperty, QString("ImageFormat"));
     item->setText(eColValue, map.format);
     item = new QTreeWidgetItem(treeMapConfig);
-    item->setText(eColProperty, tr("Layers"));
+    item->setText(eColProperty, QString("Layers"));
     item->setText(eColValue, map.layers);
     item = new QTreeWidgetItem(treeMapConfig);
-    item->setText(eColProperty, tr("SRS"));
+    item->setText(eColProperty, QString("SRS"));
     item->setText(eColValue, map.srs);
     item = new QTreeWidgetItem(treeMapConfig);
-    item->setText(eColProperty, tr("SizeX"));
+    item->setText(eColProperty, QString("SizeX"));
     item->setText(eColValue, QString::number(map.xsize_px));
     item = new QTreeWidgetItem(treeMapConfig);
-    item->setText(eColProperty, tr("SizeY"));
+    item->setText(eColProperty, QString("SizeY"));
     item->setText(eColValue, QString::number(map.ysize_px));
     item = new QTreeWidgetItem(treeMapConfig);
-    item->setText(eColProperty, tr("BlockSizeX"));
+    item->setText(eColProperty, QString("BlockSizeX"));
     item->setText(eColValue, QString::number(map.blockSizeX));
     item = new QTreeWidgetItem(treeMapConfig);
-    item->setText(eColProperty, tr("BlockSizeY"));
+    item->setText(eColProperty, QString("BlockSizeY"));
     item->setText(eColValue, QString::number(map.blockSizeY));
 
+    if(pj_is_latlong(map.pjsrc))
+    {
+        item = new QTreeWidgetItem(treeMapConfig);
+        item->setText(eColProperty, QString("UpperLeftX"));
+        item->setText(eColValue, QString::number(map.xref1 * RAD_TO_DEG));
+
+        item = new QTreeWidgetItem(treeMapConfig);
+        item->setText(eColProperty, QString("UpperLeftY"));
+        item->setText(eColValue, QString::number(map.yref1 * RAD_TO_DEG));
+
+        item = new QTreeWidgetItem(treeMapConfig);
+        item->setText(eColProperty, QString("LowerRightX"));
+        item->setText(eColValue, QString::number(map.xref2 * RAD_TO_DEG));
+
+        item = new QTreeWidgetItem(treeMapConfig);
+        item->setText(eColProperty, QString("LowerRightY"));
+        item->setText(eColValue, QString::number(map.yref2 * RAD_TO_DEG));
+    }
+    else
+    {
+        item = new QTreeWidgetItem(treeMapConfig);
+        item->setText(eColProperty, QString("UpperLeftX"));
+        item->setText(eColValue, QString::number(map.xref1, 'f'));
+
+        item = new QTreeWidgetItem(treeMapConfig);
+        item->setText(eColProperty, QString("UpperLeftY"));
+        item->setText(eColValue, QString::number(map.yref1, 'f'));
+
+        item = new QTreeWidgetItem(treeMapConfig);
+        item->setText(eColProperty, QString("LowerRightX"));
+        item->setText(eColValue, QString::number(map.xref2, 'f'));
+
+        item = new QTreeWidgetItem(treeMapConfig);
+        item->setText(eColProperty, QString("LowerRightY"));
+        item->setText(eColValue, QString::number(map.yref2, 'f'));
+    }
+
+
+    treeMapConfig->resizeColumnToContents(eColProperty);
 }
 
 CDlgMapWmsConfig::~CDlgMapWmsConfig()
@@ -71,3 +111,17 @@ CDlgMapWmsConfig::~CDlgMapWmsConfig()
 
 }
 
+void CDlgMapWmsConfig::accept()
+{
+    QFile file(map.filename);
+    file.open(QIODevice::ReadOnly);
+    QDomDocument dom;
+    dom.setContent(&file);
+    file.close();
+
+    file.open(QIODevice::WriteOnly);
+    QTextStream out(&file);
+    dom.save(out, 2);
+    file.close();
+    QDialog::accept();
+}
