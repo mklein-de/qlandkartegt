@@ -57,7 +57,7 @@ class CMapWms : public IMap
         void slotRequestFinished(QNetworkReply* reply);
 
     private:
-
+        friend class CDlgMapWmsConfig;
         struct request_t
         {
             bool operator==(const request_t& r){return reply == r.reply;}
@@ -72,6 +72,7 @@ class CMapWms : public IMap
         void draw();
         void checkQueue();
         void addToQueue(request_t& req);
+        void config();
 
         QString name;
         QString urlstr;

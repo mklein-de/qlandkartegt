@@ -22,6 +22,7 @@
 #include "CMainWindow.h"
 #include "CResources.h"
 #include "CDiskCache.h"
+#include "CDlgMapWmsConfig.h"
 #include <QtGui>
 #include <QtXml>
 #include <QtNetwork>
@@ -641,3 +642,8 @@ void CMapWms::slotRequestFinished(QNetworkReply* reply)
     emit sigChanged();
 }
 
+void CMapWms::config()
+{
+    CDlgMapWmsConfig dlg(*this);
+    dlg.exec();
+}
