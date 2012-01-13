@@ -236,8 +236,8 @@ IMap& CMapDB::getDEM()
 
 void CMapDB::closeVisibleMaps()
 {
-    if(!theMap.isNull() && theMap != defaultMap) delete theMap;
-    if(!demMap.isNull()) delete demMap;
+    if(!theMap.isNull() && theMap != defaultMap) theMap->deleteLater();
+    if(!demMap.isNull()) demMap->deleteLater();
 
     theMap = defaultMap;
 
@@ -482,7 +482,7 @@ void CMapDB::openDEM(const QString& filename)
 
     if(!demMap.isNull())
     {
-        delete demMap;
+        demMap->deleteLater();
     }
 
     try
@@ -492,7 +492,7 @@ void CMapDB::openDEM(const QString& filename)
         if (dem->loaded())
             demMap = dem, theMap->registerDEM(*dem);
         else
-            delete dem;
+            dem->deleteLater();
     }
     catch(const QString& msg)
     {

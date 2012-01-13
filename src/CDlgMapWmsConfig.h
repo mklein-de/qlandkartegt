@@ -25,6 +25,8 @@
 #include "ui_IDlgMapWmsConfig.h"
 
 class CMapWms;
+class QDomDocument;
+class QDomElement;
 
 class CDlgMapWmsConfig : public QDialog, private Ui::IDlgMapWmsConfig
 {
@@ -36,6 +38,8 @@ class CDlgMapWmsConfig : public QDialog, private Ui::IDlgMapWmsConfig
         void accept();
 
     private:
+        void updateEntry(QDomDocument& dom, QTreeWidgetItem* item, QDomElement& elem, const QString& tag);
+
         CMapWms& map;
 
         enum col_e{eColProperty, eColValue};
