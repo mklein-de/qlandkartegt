@@ -37,7 +37,7 @@
 
 CMapSearchWidget::CMapSearchWidget(QWidget * parent)
 : QWidget(parent)
-, area(0)
+, area(IMapSelection::eNo,0)
 {
     setupUi(this);
     setObjectName("CMapSearchWidget");

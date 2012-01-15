@@ -28,8 +28,8 @@
 #include "IMap.h"
 
 
-CMapSelectionRaster::CMapSelectionRaster(QObject * parent)
-: IMapSelection(eRaster, parent)
+CMapSelectionRaster::CMapSelectionRaster(subtype_e subtype, QObject * parent)
+: IMapSelection(eRaster, subtype, parent)
 {
     type = eRaster;
 
@@ -65,6 +65,7 @@ QDataStream& CMapSelectionRaster::operator>>(QDataStream& s)
     s1 << lat1;             ///< top left latitude [rad]
     s1 << lon2;             ///< bottom right longitude [rad]
     s1 << lat2;             ///< bottom right latitude [rad]
+    s1 << subtype;
 
     entries << entryBase;
     //---------------------------------------

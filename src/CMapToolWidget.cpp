@@ -393,10 +393,10 @@ void CMapToolWidget::updateExportButton()
 void CMapToolWidget::slotExportMap()
 {
 
-    QListWidgetItem * item  = listSelectedMaps->currentItem();
+    QListWidgetItem * item = listSelectedMaps->currentItem();
     if(item == 0) return;
 
-    QString key             = item->data(Qt::UserRole).toString();
+    QString key = item->data(Qt::UserRole).toString();
     if(!CMapDB::self().getSelectedMaps().contains(key)) return;
 
     const QMap<QString,IMapSelection*>& selectedMaps = CMapDB::self().getSelectedMaps();
@@ -427,7 +427,7 @@ void CMapToolWidget::slotExportMap()
         CMapQMAPExport dlg((CMapSelectionRaster&)*ms,this);
         dlg.exec();
     }
-    if(ms->type == IMapSelection::eGarmin)
+    if(ms->type == IMapSelection::eVector)
     {
         CGarminExport dlg(this);
         dlg.exportToFile((CMapSelectionGarmin&)*ms);

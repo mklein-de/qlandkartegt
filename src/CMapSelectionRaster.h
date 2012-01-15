@@ -24,7 +24,7 @@
 class CMapSelectionRaster : public IMapSelection
 {
     public:
-        CMapSelectionRaster(QObject * parent);
+        CMapSelectionRaster(subtype_e subtype, QObject *parent);
         virtual ~CMapSelectionRaster();
 
         QDataStream& operator>>(QDataStream&);

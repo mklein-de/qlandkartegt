@@ -23,6 +23,7 @@
 #include "CResources.h"
 #include "CDiskCache.h"
 #include "CDlgMapWmsConfig.h"
+#include "CMapSelectionRaster.h"
 #include <QtGui>
 #include <QtXml>
 #include <QtNetwork>
@@ -648,4 +649,26 @@ void CMapWms::config()
 {
     CDlgMapWmsConfig dlg(*this);
     dlg.exec();
+}
+
+
+quint32 CMapWms::scalePixelGrid(quint32 nPixel)
+{
+    return double(nPixel) / zoomFactor;
+}
+
+void CMapWms::select(IMapSelection& ms, const QRect& rect)
+{
+    if(ms.type != IMapSelection::eRaster) return;
+
+    CMapSelectionRaster& sel = (CMapSelectionRaster&)ms;
+
+    sel.lon1 = rect.left();
+    sel.lat1 = rect.top();
+    convertPt2Rad(sel.lon1, sel.lat1);
+
+    sel.lon2 = rect.right();
+    sel.lat2 = rect.bottom();
+    convertPt2Rad(sel.lon2, sel.lat2);
+
 }

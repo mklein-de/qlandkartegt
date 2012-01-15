@@ -31,6 +31,7 @@ class QNetworkAccessManager;
 class QNetworkReply;
 class QLabel;
 class CDiskCache;
+class IMapSelection;
 
 class CMapWms : public IMap
 {
@@ -52,6 +53,9 @@ class CMapWms : public IMap
         QString getName(){return name;}
 
         void draw(QPainter& p);
+
+        quint32 scalePixelGrid(quint32 nPixel);
+        void select(IMapSelection& ms, const QRect& rect);
 
     private slots:
         void slotRequestFinished(QNetworkReply* reply);

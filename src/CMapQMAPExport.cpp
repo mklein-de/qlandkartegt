@@ -130,6 +130,15 @@ CMapQMAPExport::CMapQMAPExport(const CMapSelectionRaster& mapsel, QWidget * pare
         textBrowser->show();
     }
 
+    if(mapsel.subtype == IMapSelection::eGDAL)
+    {
+        labelWarnStream->hide();
+    }
+    else
+    {
+        labelWarnStream->show();
+    }
+
     adjustSize();
 }
 
@@ -330,11 +339,48 @@ void CMapQMAPExport::slotCancel()
 void CMapQMAPExport::slotStart()
 {
     if(!states.isEmpty() || !state.isNull()) return;
-
-    qDebug() << "CMapQMAPExport::slotStart()";
     pushExport->setEnabled(false);
     pushCancel->setText(tr("Cancel"));
     textBrowser->clear();
+
+    if(mapsel.subtype == IMapSelection::eGDAL)
+    {
+        startExportGDAL();
+    }
+    else
+    {
+        startExportWMS();
+    }
+
+    totalNumberOfStates = states.count();
+    // start the statemachine
+    setNextState();
+}
+
+void CMapQMAPExport::startExportWMS()
+{
+    // *********************************************
+    // 1. step: Create GeoTiff from map tile cache
+    // ---------------------------------------------
+    CMapExportStateReadTileCache * state1 = new CMapExportStateReadTileCache(this);
+
+    CMapExportStateReadTileCache::job_t job;
+
+    job.tarFile = IMapExportState::getTempFilename();
+    job.level   = 1;
+    job.lon1    = mapsel.lon1;
+    job.lat1    = mapsel.lat1;
+    job.lon2    = mapsel.lon2;
+    job.lat2    = mapsel.lat2;
+
+    state1->addJob(job);
+
+    states << state1;
+}
+
+void CMapQMAPExport::startExportGDAL()
+{
+    qDebug() << "CMapQMAPExport::slotStart()";
 
     CMapDB::map_t& map = CMapDB::self().knownMaps[mapsel.mapkey];
     QDir srcPath = QFileInfo(map.filename).absolutePath();
@@ -347,7 +393,7 @@ void CMapQMAPExport::slotStart()
     // *********************************************
     // 1. step: cut defined areas from all map files
     // ---------------------------------------------
-    CMapExportStateCutFiles * state1 = new CMapExportStateCutFiles(this);
+    CMapExportStateCutFiles * state1 =  new CMapExportStateCutFiles(this);
     // iterate over all map levels
     for(int level = 1; level <= levels; ++level)
     {
@@ -573,10 +619,6 @@ void CMapQMAPExport::slotStart()
         state5->addJob(job);
         states << state5;
     }
-
-    totalNumberOfStates = states.count();
-    // start the statemachine
-    setNextState();
 }
 
 void CMapQMAPExport::setNextState()
@@ -1061,6 +1103,40 @@ void CMapExportStateJNX::nextJob(QProcess& cmd)
 
         gui->stdOut(app + " " +  args.join(" ") + "\n");
         cmd.start(app, args);
+    }
+    else
+    {
+        gui->setNextState();
+    }
+}
+
+// --------------------------------------------------------------------------------------------
+CMapExportStateReadTileCache::CMapExportStateReadTileCache(CMapQMAPExport * parent)
+: IMapExportState(parent)
+{
+
+}
+
+CMapExportStateReadTileCache::~CMapExportStateReadTileCache()
+{
+    qDebug() << "~CMapExportStateReadTileCache()";
+
+}
+
+void CMapExportStateReadTileCache::explain()
+{
+    gui->stdOut(   "*************************************");
+    gui->stdOut(tr("Create GeoTiff from map cache..."), true);
+    gui->stdOut(   "-------------------------------------");
+}
+
+void CMapExportStateReadTileCache::nextJob(QProcess& cmd)
+{
+    if(jobIdx < jobs.count())
+    {
+        job_t& job = jobs[jobIdx];
+
+        jobIdx++;
     }
     else
     {

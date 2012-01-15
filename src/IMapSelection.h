@@ -44,9 +44,10 @@ class IMapSelection : public IItem
             QByteArray  data;
         };
 
-        enum type_e {eNone, eRaster, eGarmin};
+        enum type_e     {eNone, eRaster, eVector};
+        enum subtype_e  {eNo, eGarmin, eGDAL, eWMS, eTMS};
 
-        IMapSelection(type_e type, QObject * parent) : IItem(parent), type(type), lon1(0), lat1(0), lon2(0), lat2(0){}
+        IMapSelection(type_e type, subtype_e subtype, QObject * parent) : IItem(parent), type(type), subtype(subtype), lon1(0), lat1(0), lon2(0), lat2(0){}
         virtual ~IMapSelection(){}
 
         void operator=(IMapSelection& ms)
@@ -54,6 +55,8 @@ class IMapSelection : public IItem
             setKey(ms.getKey());
             mapkey      = ms.mapkey;
             name        = ms.name;
+            type        = ms.type;
+            subtype     = ms.subtype;
 
             lon1        = ms.lon1;
             lat1        = ms.lat1;
@@ -72,6 +75,7 @@ class IMapSelection : public IItem
         static QString focusedMap;
 
         type_e type;
+        subtype_e subtype;
         QString mapkey;
 
         double lon1;             ///< top left longitude [rad]

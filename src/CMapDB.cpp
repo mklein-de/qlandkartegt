@@ -605,7 +605,9 @@ void CMapDB::saveGPX(CGpx& gpx, const QStringList& keys)
 
 QDataStream& CMapDB::operator<<(QDataStream& s)
 {
+
     qint32 type;
+    qint32 subtype = IMapSelection::eNo;
     quint32 timestamp;
     QString key;
     QString mapkey;
@@ -666,6 +668,7 @@ QDataStream& CMapDB::operator<<(QDataStream& s)
                 s1 >> lat1;             ///< top left latitude [rad]
                 s1 >> lon2;             ///< bottom right longitude [rad]
                 s1 >> lat2;             ///< bottom right latitude [rad]
+                s1 >> subtype;
                 break;
             }
 
@@ -674,7 +677,12 @@ QDataStream& CMapDB::operator<<(QDataStream& s)
                 QDataStream s1(&entry->data, QIODevice::ReadOnly);
                 s1.setVersion(QDataStream::Qt_4_5);
 
-                CMapSelectionRaster * ms = new CMapSelectionRaster(this);
+                if(subtype == IMapSelection::eNo)
+                {
+                    subtype = IMapSelection::eGDAL;
+                }
+
+                CMapSelectionRaster * ms = new CMapSelectionRaster((IMapSelection::subtype_e)subtype, this);
                 ms->setKey(key);
                 ms->mapkey = mapkey;
                 ms->setTimestamp(timestamp);
@@ -751,7 +759,7 @@ QDataStream& CMapDB::operator<<(QDataStream& s)
                 foreach(key, selectedMaps.keys())
                 {
                     IMapSelection * mapSel = selectedMaps[key];
-                    if(mapSel->type == IMapSelection::eGarmin)
+                    if(mapSel->type == IMapSelection::eVector)
                     {
                         delete selectedMaps.take(key);
                     }
@@ -893,9 +901,19 @@ void CMapDB::select(const QRect& rect, const QMap< QPair<int,int>, bool>& selTil
         return;
     }
 
-    if(theMap->maptype == IMap::eRaster)
+    if(theMap->maptype == IMap::eRaster || theMap->maptype == IMap::eWMS)
     {
-        CMapSelectionRaster * ms = new CMapSelectionRaster(this);
+        CMapSelectionRaster * ms;
+        if(theMap->maptype == IMap::eRaster)
+        {
+            ms = new CMapSelectionRaster(IMapSelection::eGDAL, this);
+        }
+        if(theMap->maptype == IMap::eWMS)
+        {
+            ms = new CMapSelectionRaster(IMapSelection::eWMS, this);
+        }
+
+
         ms->mapkey       = mapkey;
         ms->selTiles     = selTiles;
         ms->setName(knownMaps[mapkey].description);
@@ -931,7 +949,7 @@ void CMapDB::select(const QRect& rect, const QMap< QPair<int,int>, bool>& selTil
         IMapSelection * mapSel;
         foreach(mapSel, selectedMaps)
         {
-            if(mapSel->type == IMapSelection::eGarmin)
+            if(mapSel->type == IMapSelection::eVector)
             {
                 ms     = mapSel;
                 isEdit = true;
@@ -974,7 +992,7 @@ IMapSelection * CMapDB::getSelectedMap(double lon, double lat)
 {
     IMap& map = getMap();
 
-    if(map.maptype != IMap::eRaster)
+    if(map.maptype != IMap::eRaster && map.maptype != IMap::eWMS)
     {
         return 0;
     }

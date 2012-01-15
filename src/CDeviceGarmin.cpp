@@ -1091,7 +1091,7 @@ void CDeviceGarmin::uploadMap(const QList<IMapSelection*>& mss)
 
     while(ms != mss.end())
     {
-        if((*ms)->type == IMapSelection::eGarmin)
+        if((*ms)->type == IMapSelection::eVector)
         {
             break;
         }

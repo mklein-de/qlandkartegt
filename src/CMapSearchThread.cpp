@@ -26,7 +26,7 @@
 CMapSearchThread::CMapSearchThread(QObject * parent)
 : QThread(parent)
 , threshold(0)
-, area(0)
+, area(IMapSelection::eNo,0)
 , zoomlevel(1)
 , go(true)
 

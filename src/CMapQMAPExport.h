@@ -83,6 +83,37 @@ class CMapExportStateCutFiles : public IMapExportState
 
 };
 
+class CMapExportStateReadTileCache : public IMapExportState
+{
+    Q_OBJECT;
+    public:
+        CMapExportStateReadTileCache(CMapQMAPExport * parent);
+        virtual ~CMapExportStateReadTileCache();
+
+        void explain();
+        void nextJob(QProcess& cmd);
+        int getJobCnt(){return jobs.count();}
+
+        struct job_t
+        {
+
+            QString tarFile;
+
+            double lon1;
+            double lat1;
+            double lon2;
+            double lat2;
+
+            int level;
+        };
+
+        void addJob(const job_t& job){jobs << job;}
+        const QList<job_t>& getJobs(){return jobs;}
+
+    private:
+        QList<job_t> jobs;
+};
+
 class CMapExportStateCombineFiles : public IMapExportState
 {
     Q_OBJECT;
@@ -279,6 +310,8 @@ class CMapQMAPExport : public QDialog, private Ui::IMapQMAPExport
 
 
     private:
+        void startExportGDAL();
+        void startExportWMS();
         void progress(const QString& str);
 
         const CMapSelectionRaster& mapsel;

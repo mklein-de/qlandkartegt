@@ -79,7 +79,7 @@ void CMouseSelMap::drawSelArea(QPainter& p)
     p.setBrush(QColor(150,150,255,100));
     p.setPen(QPen(Qt::darkBlue,2));
 
-    if(map.maptype != IMap::eRaster)
+    if(map.maptype != IMap::eRaster && map.maptype != IMap::eWMS)
     {
         p.drawRect(rect);
         return;
@@ -166,7 +166,7 @@ void CMouseSelMap::mouseMoveEvent(QMouseEvent * e)
 
 
 void CMouseSelMap::mousePressEvent(QMouseEvent * e)
-{        
+{
     if(e->button() == Qt::LeftButton)
     {
         oldPoint = e->pos();
@@ -224,7 +224,7 @@ void CMouseSelMap::mouseReleaseEvent(QMouseEvent * e)
         quint32 gridspace = map.scalePixelGrid(TILESIZE);
 
         if(selMap.isNull())
-        {            
+        {
             if(gridspace != 0)
             {
                 int w = rect.width() % gridspace;
