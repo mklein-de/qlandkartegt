@@ -18,17 +18,28 @@
 **********************************************************************************************/
 
 #include "CDiskCache.h"
+#ifndef STANDALONE
 #include "CResources.h"
+#endif  //!STANDALONE
 
 #include <QtGui>
 
+#ifdef STANDALONE
+CDiskCache::CDiskCache(const QString &path, QObject *parent)
+#else
 CDiskCache::CDiskCache(QObject *parent)
+#endif //STANDALONE
 : QObject(parent)
 , dummy(":/icons/noMap256x256.png")
 {
 
+#ifdef STANDALONE
+    dir     = QDir(path);
+    maxSize = -1;
+#else
     dir     = CResources::self().getPathMapCache();
     maxSize = CResources::self().getSizeMapCache() * 1024*1024;
+#endif //STANDALONE
 
     QFileInfoList files = dir.entryInfoList(QStringList("*.png"), QDir::Files);
     foreach(const QFileInfo& fileinfo, files)
@@ -37,13 +48,18 @@ CDiskCache::CDiskCache(QObject *parent)
         table[hash]     = fileinfo.fileName();
     }
 
+#ifndef STANDALONE
     timer = new QTimer(this);
     timer->setSingleShot(false);
     timer->start(60000);
     connect(timer, SIGNAL(timeout()), this, SLOT(slotCleanup()));
-
     slotCleanup();
+#endif // !STANDALONE
+
+    qDebug() << "cache: found" << table.count() << "cache entries";
 }
+
+
 
 CDiskCache::~CDiskCache()
 {

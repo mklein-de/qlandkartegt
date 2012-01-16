@@ -22,6 +22,7 @@
 #include "CMapSelectionRaster.h"
 #include "CMapFile.h"
 #include "config.h"
+#include "CResources.h"
 
 #include <QtGui>
 
@@ -70,18 +71,21 @@ CMapQMAPExport::CMapQMAPExport(const CMapSelectionRaster& mapsel, QWidget * pare
     lineDescription->setText(QFileInfo(map.getFilename()).baseName());
 
 #ifdef WIN32
-    path_map2jnx = QCoreApplication::applicationDirPath()+QDir::separator()+"map2jnx.exe";
+    path_map2jnx        = QCoreApplication::applicationDirPath()+QDir::separator()+"map2jnx.exe";
     QFile file_map2jnx(path_map2jnx);
-    has_map2jnx = file_map2jnx.exists();
-    path_map2gcm= QCoreApplication::applicationDirPath()+QDir::separator()+"map2gcm.exe";
+    has_map2jnx         = file_map2jnx.exists();
+    path_map2gcm        = QCoreApplication::applicationDirPath()+QDir::separator()+"map2gcm.exe";
+    path_cache2gtiff    = QCoreApplication::applicationDirPath()+QDir::separator()+"cache2gtiff.exe";
 #else
 #if defined(Q_WS_MAC)
     // MacOS X: applications are stored in the bundle folder
-    path_map2gcm = QString("%1/Resources/map2gcm").arg(QCoreApplication::applicationDirPath().replace(QRegExp("MacOS$"), ""));
-    path_map2jnx = QString("%1/Resources/map2jnx").arg(QCoreApplication::applicationDirPath().replace(QRegExp("MacOS$"), ""));
+    path_map2gcm        = QString("%1/Resources/map2gcm").arg(QCoreApplication::applicationDirPath().replace(QRegExp("MacOS$"), ""));
+    path_map2jnx        = QString("%1/Resources/map2jnx").arg(QCoreApplication::applicationDirPath().replace(QRegExp("MacOS$"), ""));
+    path_cache2gtiff    = QString("%1/Resources/cache2gtiff").arg(QCoreApplication::applicationDirPath().replace(QRegExp("MacOS$"), ""));
 #else
-    path_map2gcm= "map2gcm";
-    path_map2jnx = MAP2JNX;
+    path_map2gcm        = "map2gcm";
+    path_map2jnx        = MAP2JNX;
+    path_cache2gtiff    = "cache2gtiff";
 #endif
     QProcess proc1;
     proc1.start(path_map2jnx);
@@ -359,19 +363,21 @@ void CMapQMAPExport::slotStart()
 
 void CMapQMAPExport::startExportWMS()
 {
+    CMapDB::map_t& map = CMapDB::self().knownMaps[mapsel.mapkey];
     // *********************************************
     // 1. step: Create GeoTiff from map tile cache
     // ---------------------------------------------
-    CMapExportStateReadTileCache * state1 = new CMapExportStateReadTileCache(this);
+    CMapExportStateReadTileCache * state1 = new CMapExportStateReadTileCache(path_cache2gtiff, this);
 
     CMapExportStateReadTileCache::job_t job;
 
+    job.srcFile = map.filename;
     job.tarFile = IMapExportState::getTempFilename();
     job.level   = 1;
-    job.lon1    = mapsel.lon1;
-    job.lat1    = mapsel.lat1;
-    job.lon2    = mapsel.lon2;
-    job.lat2    = mapsel.lat2;
+    job.lon1    = mapsel.lon1 * RAD_TO_DEG;
+    job.lat1    = mapsel.lat1 * RAD_TO_DEG;
+    job.lon2    = mapsel.lon2 * RAD_TO_DEG;
+    job.lat2    = mapsel.lat2 * RAD_TO_DEG;
 
     state1->addJob(job);
 
@@ -1111,8 +1117,9 @@ void CMapExportStateJNX::nextJob(QProcess& cmd)
 }
 
 // --------------------------------------------------------------------------------------------
-CMapExportStateReadTileCache::CMapExportStateReadTileCache(CMapQMAPExport * parent)
+CMapExportStateReadTileCache::CMapExportStateReadTileCache(const QString& app, CMapQMAPExport * parent)
 : IMapExportState(parent)
+, app(app)
 {
 
 }
@@ -1136,7 +1143,20 @@ void CMapExportStateReadTileCache::nextJob(QProcess& cmd)
     {
         job_t& job = jobs[jobIdx];
 
+        QStringList args;
+        args << "-a" << QString::number(job.level)
+             << QString::number(job.lon1, 'f')
+             << QString::number(job.lat1, 'f')
+             << QString::number(job.lon2, 'f')
+             << QString::number(job.lat2, 'f');
+        args << "-c" << CResources::self().getPathMapCache().absolutePath();
+        args << "-i" << job.srcFile;
+        args << "-o" << job.tarFile;
+
         jobIdx++;
+
+        gui->stdOut(app + " " +  args.join(" ") + "\n");
+        cmd.start(app, args);
     }
     else
     {

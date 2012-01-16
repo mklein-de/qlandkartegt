@@ -87,7 +87,7 @@ class CMapExportStateReadTileCache : public IMapExportState
 {
     Q_OBJECT;
     public:
-        CMapExportStateReadTileCache(CMapQMAPExport * parent);
+        CMapExportStateReadTileCache(const QString &app, CMapQMAPExport *parent);
         virtual ~CMapExportStateReadTileCache();
 
         void explain();
@@ -96,7 +96,7 @@ class CMapExportStateReadTileCache : public IMapExportState
 
         struct job_t
         {
-
+            QString srcFile;
             QString tarFile;
 
             double lon1;
@@ -111,6 +111,7 @@ class CMapExportStateReadTileCache : public IMapExportState
         const QList<job_t>& getJobs(){return jobs;}
 
     private:
+        QString app;
         QList<job_t> jobs;
 };
 
@@ -319,6 +320,7 @@ class CMapQMAPExport : public QDialog, private Ui::IMapQMAPExport
         bool has_map2jnx;
         QString path_map2jnx;
         QString path_map2gcm;
+        QString path_cache2gtiff;
 
         QProcess cmd;
 

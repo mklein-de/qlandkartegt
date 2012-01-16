@@ -57,10 +57,9 @@ CMapWms::CMapWms(const QString &key, const QString &filename, CCanvas *parent)
         return;
     }
 
-    QDomDocument dom;
-
     QString msg;
     int line, column;
+    QDomDocument dom;
     if(!dom.setContent(&file, true, &msg, &line, &column))
     {
         file.close();

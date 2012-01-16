@@ -31,7 +31,11 @@ class CDiskCache : public QObject
 {
     Q_OBJECT;
     public:
-        CDiskCache(QObject * parent);
+#ifdef STANDALONE
+        CDiskCache(const QString &path, QObject *parent);
+#else
+        CDiskCache(QObject *parent);
+#endif //STANDALONE
         virtual ~CDiskCache();
 
         void store(const QString& key, QImage& img);
