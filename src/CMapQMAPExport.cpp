@@ -143,6 +143,10 @@ CMapQMAPExport::CMapQMAPExport(const CMapSelectionRaster& mapsel, QWidget * pare
         labelWarnStream->show();
     }
 
+    QFont f = font();
+    f.setFamily("Mono");
+    textBrowser->setFont(f);
+
     adjustSize();
 }
 
