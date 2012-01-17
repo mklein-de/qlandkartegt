@@ -193,7 +193,7 @@ static void printProgress(int current, int total)
 }
 
 
-//bin/cache2gtiff -a 1 12.070069 49.052840 12.153837 48.998965 -c /tmp/qlandkarteqt-oeichler/cache -i /home/oeichler/dateien/Maps/bayern_dop_wms.xml -o test.tif
+//bin/cache2gtiff -a 1 12.083140 49.035456 12.139081 49.017464 -c /tmp/qlandkarteqt-oeichler/cache -i /home/oeichler/dateien/Maps/bayern_dop_wms.xml -o /tmp/qlgt_0.nV4963.tif
 //bin/cache2gtiff -a 1 12.070069 49.052840 12.153837 48.998965 -c /tmp/qlandkarteqt-oeichler/cache -i /home/oliver/data/Maps/bayern_dop_wms.xml  -o test.tif
 
 
@@ -294,17 +294,20 @@ int main(int argc, char ** argv)
     QDomElement service     = gdal.firstChildElement("Service");
     QDomElement datawindow  = gdal.firstChildElement("DataWindow");
 
-    QString srs = service.firstChildElement("SRS").text();
+    QString format          = service.firstChildElement("ImageFormat").text();
+    QString layers          = service.firstChildElement("Layers").text();
+    QString version         = service.firstChildElement("Version").text();
+    QString srs             = service.firstChildElement("SRS").text();
 
-    srs = srs.toLower();
-    if(srs.startsWith("epsg"))
+
+    if(srs.toLower().startsWith("epsg"))
     {
-        QString str = QString("+init=%1").arg(srs);
+        QString str = QString("+init=%1").arg(srs.toLower());
         map.pjsrc = pj_init_plus(str.toLocal8Bit());
     }
     else
     {
-        map.pjsrc = pj_init_plus(srs.toLocal8Bit());
+        map.pjsrc = pj_init_plus(srs.toLower().toLocal8Bit());
     }
 
 
@@ -356,15 +359,94 @@ int main(int argc, char ** argv)
     }
 
 
-    double x1 = lon1;
-    double y1 = lat1;
     // convert to abs pixel in map
+    double x1 = lon1;
+    double y1 = lat1;       
     convertRad2Pt(map, x1, y1);
+
+    double x2 = lon2;
+    double y2 = lat2;
+    convertRad2Pt(map, x2, y2);
+
     // quantify to smalles multiple of blocksize
     x1 = floor(x1/(map.blockSizeX * map.level)) * map.blockSizeX * map.level;
     y1 = floor(y1/(map.blockSizeY * map.level)) * map.blockSizeY * map.level;
 
+    int n = 0;
+    int m = 0;
 
+    double cx;
+    double cy;
+
+    int total       = ceil((x2 - x1)/map.blockSizeX) * ceil((y2 - y1)/map.blockSizeY);
+    int prog        = 1;
+    int badTiles    = 0;
+
+    printf("\n");
+    printf("Export area of %i x %i pixel\n", int(x2 - x1), int(y2 - y1));
+    printf("Need to summon %i tiles from cache.\n\n", total);
+    do
+    {
+        do
+        {
+            printProgress(prog++, total);
+
+            double p1x = x1 + n * map.blockSizeX;
+            double p1y = y1 + m * map.blockSizeY;
+            double p2x = x1 + (n + 1) * map.blockSizeX;
+            double p2y = y1 + (m + 1) * map.blockSizeY;
+
+            cx = p2x;
+            cy = p2y;
+
+            convertPt2M(map, p1x, p1y);
+            convertPt2M(map, p2x, p2y);
+
+            QString bbox;
+            if(pj_is_latlong(map.pjsrc))
+            {
+                bbox = QString("%1,%2,%3,%4").arg(p1x*RAD_TO_DEG,0,'f').arg(p2y*RAD_TO_DEG,0,'f').arg(p2x*RAD_TO_DEG,0,'f').arg(p1y*RAD_TO_DEG,0,'f');
+            }
+            else
+            {
+                bbox = QString("%1,%2,%3,%4").arg(p1x,0,'f').arg(p2y,0,'f').arg(p2x,0,'f').arg(p1y,0,'f');
+            }
+
+            QUrl url(map.url);
+            url.addQueryItem("request", "GetMap");
+            url.addQueryItem("version", version);
+            url.addQueryItem("layers", layers);
+            url.addQueryItem("styles", "");
+            url.addQueryItem("srs", srs);
+            url.addQueryItem("format", format);
+            url.addQueryItem("width", QString::number(map.blockSizeX));
+            url.addQueryItem("height", QString::number(map.blockSizeY));
+            url.addQueryItem("bbox", bbox);
+
+            QImage img;
+            diskCache.restore(url.toString(),img);
+
+            if(img.isNull())
+            {
+                badTiles++;
+                n++;
+                continue;
+            }
+
+
+            n++;
+        }
+        while(cx < x2);
+
+        n = 0;
+        m++;
+    }
+    while(cy < y2);
+
+    if(badTiles)
+    {
+        fprintf(stderr, "\n\nWarning: I could not summon all tiles from the cache. %i tiles are missing.\n", badTiles);
+    }
 
 
     GDALDestroyDriverManager();

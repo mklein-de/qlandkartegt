@@ -56,7 +56,7 @@ CDiskCache::CDiskCache(QObject *parent)
     slotCleanup();
 #endif // !STANDALONE
 
-    qDebug() << "cache: found" << table.count() << "cache entries";
+    //qDebug() << "cache: found" << table.count() << "cache entries";
 }
 
 
