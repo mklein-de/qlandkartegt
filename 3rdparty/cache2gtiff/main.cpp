@@ -194,8 +194,7 @@ static void printProgress(int current, int total)
 
 
 //bin/cache2gtiff -a 1 12.083140 49.035456 12.139081 49.017464 -c /tmp/qlandkarteqt-oeichler/cache -i /home/oeichler/dateien/Maps/bayern_dop_wms.xml -o /tmp/qlgt_0.nV4963.tif
-//bin/cache2gtiff -a 1 12.070069 49.052840 12.153837 48.998965 -c /tmp/qlandkarteqt-oeichler/cache -i /home/oliver/data/Maps/bayern_dop_wms.xml  -o test.tif
-
+//bin/cache2gtiff -a 1 12.051988 49.050000 12.151614 48.998211 -c /tmp/qlandkarteqt-oliver/cache -i /home/oliver/data/Maps/bayern_dop_wms.xml -o test.tif
 
 int main(int argc, char ** argv)
 {
@@ -347,7 +346,7 @@ int main(int argc, char ** argv)
     printf("map projection:     %s\n", srs.toLocal8Bit().data());
     printf("SizeX [pixel]:      %i\n", map.xsize_px);
     printf("SizeY [pixel]:      %i\n", map.ysize_px);
-        if (pj_is_latlong(map.pjsrc))
+    if (pj_is_latlong(map.pjsrc))
     {
         printf("ScaleX [rad/pixel]: %f\n", map.xscale);
         printf("ScaleY [rad/pixel]: %f\n", map.yscale);
@@ -361,7 +360,7 @@ int main(int argc, char ** argv)
 
     // convert to abs pixel in map
     double x1 = lon1;
-    double y1 = lat1;       
+    double y1 = lat1;
     convertRad2Pt(map, x1, y1);
 
     double x2 = lon2;
@@ -378,13 +377,77 @@ int main(int argc, char ** argv)
     double cx;
     double cy;
 
+    int w = int(x2 - x1);
+    int h = int(y2 - y1);
+
     int total       = ceil((x2 - x1)/map.blockSizeX) * ceil((y2 - y1)/map.blockSizeY);
     int prog        = 1;
     int badTiles    = 0;
 
     printf("\n");
-    printf("Export area of %i x %i pixel\n", int(x2 - x1), int(y2 - y1));
+    printf("Export area of %i x %i pixel\n", w, h);
     printf("Need to summon %i tiles from cache.\n\n", total);
+
+    // create output dataset
+    char * cargs[] = {"tiled=yes", "compress=LZW", 0};
+    GDALDriverManager * drvman  = GetGDALDriverManager();
+    GDALDriver * driver         = drvman->GetDriverByName("GTiff");
+    GDALDataset * dataset       = driver->Create(outfile.toLocal8Bit().data(), w, h, 3, GDT_Byte, cargs);
+
+    if(dataset == 0)
+    {
+        fprintf(stderr, "Failed top open target file %s", outfile.toLocal8Bit().data());
+        exit(-1);
+    }
+
+    // set projection of output, same as input
+    char * ptr = 0;
+    OGRSpatialReference oSRS;
+    oSRS.importFromProj4(pj_get_def(map.pjsrc,0));
+    oSRS.exportToWkt(&ptr);
+    dataset->SetProjection(ptr);
+    CPLFree(ptr);
+
+    // set referencing data
+    double adfGeoTransform[6] = {0};
+    if (pj_is_latlong(map.pjsrc))
+    {
+        double u = lon1;
+        double v = lat1;
+        convertRad2M(map, u, v);
+
+        adfGeoTransform[0] = u  * RAD_TO_DEG;           /* top left x */
+        adfGeoTransform[1] = map.xscale * RAD_TO_DEG;   /* w-e pixel resolution */
+        adfGeoTransform[2] = 0;                         /* rotation, 0 if image is "north up" */
+        adfGeoTransform[3] = v  * RAD_TO_DEG;           /* top left y */
+        adfGeoTransform[4] = 0;                         /* rotation, 0 if image is "north up" */
+        adfGeoTransform[5] = map.yscale * RAD_TO_DEG;   /* n-s pixel resolution */
+    }
+    else
+    {
+        double u = lon1;
+        double v = lat1;
+        convertRad2M(map, u, v);
+
+        adfGeoTransform[0] = u;             /* top left x */
+        adfGeoTransform[1] = map.xscale;    /* w-e pixel resolution */
+        adfGeoTransform[2] = 0;             /* rotation, 0 if image is "north up" */
+        adfGeoTransform[3] = v;             /* top left y */
+        adfGeoTransform[4] = 0;             /* rotation, 0 if image is "north up" */
+        adfGeoTransform[5] = map.yscale;    /* n-s pixel resolution */
+
+    }
+    dataset->SetGeoTransform(adfGeoTransform);
+
+    // create color bands
+    GDALRasterBand * bandR  = dataset->GetRasterBand(1);
+    GDALRasterBand * bandG  = dataset->GetRasterBand(2);
+    GDALRasterBand * bandB  = dataset->GetRasterBand(3);
+
+    bandR->SetColorInterpretation(GCI_RedBand);
+    bandG->SetColorInterpretation(GCI_GreenBand);
+    bandB->SetColorInterpretation(GCI_BlueBand);
+
     do
     {
         do
@@ -434,6 +497,8 @@ int main(int argc, char ** argv)
             }
 
 
+
+
             n++;
         }
         while(cx < x2);
@@ -449,7 +514,10 @@ int main(int argc, char ** argv)
     }
 
 
+    dataset->FlushCache();
+    delete dataset;
     GDALDestroyDriverManager();
     printf("\n");
     return 0;
 }
+
