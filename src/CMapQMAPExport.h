@@ -292,6 +292,7 @@ class CMapQMAPExport : public QDialog, private Ui::IMapQMAPExport
         virtual ~CMapQMAPExport();
 
         void stdOut(const QString& str, bool gui = false);
+        void stdErr(const QString& str, bool gui = false);
 
         void setNextState();
 
@@ -319,6 +320,7 @@ class CMapQMAPExport : public QDialog, private Ui::IMapQMAPExport
 
         const CMapSelectionRaster& mapsel;
 
+        bool tainted;
         bool has_map2jnx;
         QString path_map2jnx;
         QString path_map2gcm;

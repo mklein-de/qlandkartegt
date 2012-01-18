@@ -185,10 +185,7 @@ static void printProgress(int current, int total)
     {
         fprintf( stdout, " - done.\n" );
     }
-    else
-    {
-        fflush( stdout );
-    }
+    fflush( stdout );
 
 }
 

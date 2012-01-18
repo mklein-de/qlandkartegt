@@ -45,6 +45,7 @@ static bool tileIndexLessThan(const QPair<int, int> &i1, const QPair<int, int> &
 CMapQMAPExport::CMapQMAPExport(const CMapSelectionRaster& mapsel, QWidget * parent)
 : QDialog(parent)
 , mapsel(mapsel)
+, tainted(false)
 , has_map2jnx(false)
 , totalNumberOfStates(0)
 {
@@ -120,6 +121,12 @@ CMapQMAPExport::CMapQMAPExport(const CMapSelectionRaster& mapsel, QWidget * pare
     checkOverview8x->setChecked(cfg.value("map/export/over8x", true).toBool());
     checkOverview16x->setChecked(cfg.value("map/export/over16x", true).toBool());
 
+    lineStreamingLevels->setText(cfg.value("map/export/stream/levels", "1 ").toString());
+    if(lineStreamingLevels->text().isEmpty())
+    {
+        lineStreamingLevels->setText("1 ");
+    }
+
     progressBar->setMinimum(0);
     progressBar->setMaximum(100);
     progressBar->setValue(0);
@@ -137,10 +144,12 @@ CMapQMAPExport::CMapQMAPExport(const CMapSelectionRaster& mapsel, QWidget * pare
     if(mapsel.subtype == IMapSelection::eGDAL)
     {
         labelWarnStream->hide();
+        groupStreaming->hide();
     }
     else
     {
         labelWarnStream->show();
+        groupStreaming->show();
     }
 
     QFont f = font();
@@ -180,6 +189,8 @@ CMapQMAPExport::~CMapQMAPExport()
     cfg.setValue("map/export/over4x",checkOverview4x->isChecked());
     cfg.setValue("map/export/over8x",checkOverview8x->isChecked());
     cfg.setValue("map/export/over16x",checkOverview16x->isChecked());
+
+    cfg.setValue("map/export/stream/levels", lineStreamingLevels->text());
 
     cfg.setValue("map/export/hidedetails", textBrowser->isHidden());
 }
@@ -269,6 +280,7 @@ void CMapQMAPExport::slotStderr()
     textBrowser->insertPlainText(str);
     textBrowser->verticalScrollBar()->setValue(textBrowser->verticalScrollBar()->maximum());
 
+    tainted = true;
 }
 
 void CMapQMAPExport::slotStdout()
@@ -323,6 +335,23 @@ void CMapQMAPExport::stdOut(const QString& str, bool gui)
 
     if(gui)
     {
+        QPalette palette = labelStatus->palette();
+        palette.setColor(labelStatus->foregroundRole(), Qt::black);
+        labelStatus->setPalette(palette);
+        labelStatus->setText(str.simplified());
+    }
+}
+
+void CMapQMAPExport::stdErr(const QString& str, bool gui)
+{
+    textBrowser->setTextColor(Qt::red);
+    textBrowser->append(str);
+
+    if(gui)
+    {
+        QPalette palette = labelStatus->palette();
+        palette.setColor(labelStatus->foregroundRole(), Qt::red);
+        labelStatus->setPalette(palette);
         labelStatus->setText(str.simplified());
     }
 }
@@ -363,6 +392,8 @@ void CMapQMAPExport::slotStart()
     pushCancel->setText(tr("Cancel"));
     textBrowser->clear();
 
+    tainted = false;
+
     if(mapsel.subtype == IMapSelection::eGDAL)
     {
         startExportGDAL();
@@ -388,20 +419,23 @@ void CMapQMAPExport::startExportWMS()
     // ---------------------------------------------
     CMapExportStateReadTileCache * state1 = new CMapExportStateReadTileCache(path_cache2gtiff, this);
 
-    CMapExportStateReadTileCache::job_t job;
+    QStringList levels = lineStreamingLevels->text().split(" ",QString::SkipEmptyParts);
 
-    job.srcFile = map.filename;
-    job.tarFile = IMapExportState::getTempFilename();
-    job.level   = 1;
-    job.lon1    = mapsel.lon1 * RAD_TO_DEG;
-    job.lat1    = mapsel.lat1 * RAD_TO_DEG;
-    job.lon2    = mapsel.lon2 * RAD_TO_DEG;
-    job.lat2    = mapsel.lat2 * RAD_TO_DEG;
+    foreach(const QString& level, levels)
+    {
+        CMapExportStateReadTileCache::job_t job;
 
-    state1->addJob(job);
+        job.srcFile = map.filename;
+        job.tarFile = IMapExportState::getTempFilename();
+        job.level   = level.toInt();
+        job.lon1    = mapsel.lon1 * RAD_TO_DEG;
+        job.lat1    = mapsel.lat1 * RAD_TO_DEG;
+        job.lon2    = mapsel.lon2 * RAD_TO_DEG;
+        job.lat2    = mapsel.lat2 * RAD_TO_DEG;
 
-    files << job.tarFile;
-
+        state1->addJob(job);
+        files << job.tarFile;
+    }
     states << state1;
 
     startExportCommon(files, tarPath, prefix);
@@ -517,9 +551,9 @@ void CMapQMAPExport::startExportGDAL()
     CMapExportStateConvColor * state3 = new CMapExportStateConvColor(this);
     foreach(const CMapExportStateCombineFiles::job_t& j, state2->getJobs())
     {
-        CMapExportStateConvColor::job_t job;        
+        CMapExportStateConvColor::job_t job;
         job.srcFile = j.tarFile;
-        job.tarFile = IMapExportState::getTempFilename();        
+        job.tarFile = IMapExportState::getTempFilename();
         state3->addJob(job);
 
         files << job.tarFile;
@@ -667,6 +701,10 @@ void CMapQMAPExport::setNextState()
     if(states.isEmpty())
     {
         stdOut(tr("*** done ***\n"), true);
+        if(tainted)
+        {
+            stdErr(tr("Warnings. See \"Details\" for more information.\n"), true);
+        }
         progressBar->setValue(100);
         pushExport->setEnabled(true);
         pushCancel->setText(tr("Close"));
