@@ -149,6 +149,7 @@ void CDlgConfig::exec()
 
     labelPathMapCache->setText(resources.m_pathMapCache.absolutePath());
     spinSizeMapCache->setValue(resources.m_sizeMapCache);
+    spinExpireMapCache->setValue(resources.m_expireMapCache);
 
     QDialog::exec();
 }
@@ -223,11 +224,12 @@ void CDlgConfig::accept()
     IDevice::m_UploadAllTrk     = checkUploadTrk->isChecked();
     IDevice::m_UploadAllRte     = checkUploadRte->isChecked();
 
-    QPalette palette = labelWptTextColor->palette();
-    resources.m_WptTextColor = palette.color(labelWptTextColor->foregroundRole());
+    QPalette palette            = labelWptTextColor->palette();
+    resources.m_WptTextColor    = palette.color(labelWptTextColor->foregroundRole());
 
-    resources.m_pathMapCache = QDir(labelPathMapCache->text());
-    resources.m_sizeMapCache = spinSizeMapCache->value();
+    resources.m_pathMapCache    = QDir(labelPathMapCache->text());
+    resources.m_sizeMapCache    = spinSizeMapCache->value();
+    resources.m_expireMapCache  = spinExpireMapCache->value();
 
     QDialog::accept();
 }

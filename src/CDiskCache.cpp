@@ -129,11 +129,12 @@ void CDiskCache::slotCleanup()
     qint64 size = 0;
     QFileInfoList files = dir.entryInfoList(QStringList("*.png"), QDir::Files, QDir::Time|QDir::Reversed);
     QDateTime now = QDateTime::currentDateTime();
+    days = CResources::self().getExpireMapCache();
 
     // expire old files and calculate cache size
     foreach(const QFileInfo& fileinfo, files)
     {
-        if(fileinfo.lastModified().daysTo(now) > 8)
+        if(fileinfo.lastModified().daysTo(now) > days)
         {
             QString hash = fileinfo.baseName();
             table.remove(hash);
@@ -164,5 +165,5 @@ void CDiskCache::slotCleanup()
                 break;
             }
         }
-    }   
+    }
 }

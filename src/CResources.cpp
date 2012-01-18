@@ -75,6 +75,7 @@ CResources::CResources(QObject * parent)
 , m_WptTextColor(Qt::black)
 , m_pathMapCache(QDir::temp().filePath("qlandkarte/cache"))
 , m_sizeMapCache(100)
+, m_expireMapCache(8)
 {
     m_self = this;
 
@@ -192,6 +193,7 @@ CResources::CResources(QObject * parent)
 
     m_pathMapCache = QDir(cfg.value("network/mapcache/path", cacheFolder).toString());
     m_sizeMapCache = cfg.value("network/mapcache/size", m_sizeMapCache).toInt();
+    m_expireMapCache = cfg.value("network/mapcache/expire", m_expireMapCache).toInt();
 
 }
 
@@ -246,6 +248,7 @@ CResources::~CResources()
 
     cfg.setValue("network/mapcache/path", m_pathMapCache.absolutePath());
     cfg.setValue("network/mapcache/size", m_sizeMapCache);
+    cfg.setValue("network/mapcache/expire", m_expireMapCache);
 }
 
 

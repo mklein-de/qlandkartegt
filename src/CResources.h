@@ -77,6 +77,7 @@ class CResources : public QObject
 
         QDir getPathMapCache(){return m_pathMapCache;}
         int getSizeMapCache(){return m_sizeMapCache;}
+        int getExpireMapCache(){return m_expireMapCache;}
 
         signals:
         void sigDeviceChanged();
@@ -155,5 +156,6 @@ class CResources : public QObject
 
         QDir m_pathMapCache;
         int  m_sizeMapCache;
+        int  m_expireMapCache;
 };
 #endif                           //CRESOURCES_H
