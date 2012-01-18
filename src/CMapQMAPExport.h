@@ -29,6 +29,7 @@
 
 class CMapSelectionRaster;
 class CMapQMAPExport;
+class QDir;
 
 class IMapExportState : public QObject
 {
@@ -313,6 +314,7 @@ class CMapQMAPExport : public QDialog, private Ui::IMapQMAPExport
     private:
         void startExportGDAL();
         void startExportWMS();
+        void startExportCommon(QStringList& srcFiles, QDir& tarPath, const QString& prefix);
         void progress(const QString& str);
 
         const CMapSelectionRaster& mapsel;

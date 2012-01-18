@@ -165,6 +165,8 @@ CMapWms::CMapWms(const QString &key, const QString &filename, CCanvas *parent)
     cfg.endGroup();
 
     zoom(zoomidx);
+
+    qDebug() << "scales" << xscale << yscale;
 }
 
 CMapWms::~CMapWms()

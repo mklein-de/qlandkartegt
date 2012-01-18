@@ -192,8 +192,7 @@ static void printProgress(int current, int total)
 
 }
 
-
-//bin/cache2gtiff -a 1 12.083140 49.035456 12.139081 49.017464 -c /tmp/qlandkarteqt-oeichler/cache -i /home/oeichler/dateien/Maps/bayern_dop_wms.xml -o /tmp/qlgt_0.nV4963.tif
+//bin/cache2gtiff -a 1 12.021501 49.064661 12.160464 48.975336 -c /tmp/qlandkarteqt-oeichler/cache -i /home/oeichler/dateien/Maps/bayern_dop_wms.xml -o test.tiff
 //bin/cache2gtiff -a 1 12.051988 49.050000 12.151614 48.998211 -c /tmp/qlandkarteqt-oliver/cache -i /home/oliver/data/Maps/bayern_dop_wms.xml -o test.tif
 
 int main(int argc, char ** argv)
@@ -367,6 +366,9 @@ int main(int argc, char ** argv)
     double y2 = lat2;
     convertRad2Pt(map, x2, y2);
 
+    int w = int(x2 - x1);
+    int h = int(y2 - y1);
+
     // quantify to smalles multiple of blocksize
     x1 = floor(x1/(map.blockSizeX * map.level)) * map.blockSizeX * map.level;
     y1 = floor(y1/(map.blockSizeY * map.level)) * map.blockSizeY * map.level;
@@ -374,11 +376,6 @@ int main(int argc, char ** argv)
     int n = 0;
     int m = 0;
 
-    double cx;
-    double cy;
-
-    int w = int(x2 - x1);
-    int h = int(y2 - y1);
 
     int total       = ceil((x2 - x1)/map.blockSizeX) * ceil((y2 - y1)/map.blockSizeY);
     int prog        = 1;
@@ -448,19 +445,29 @@ int main(int argc, char ** argv)
     bandG->SetColorInterpretation(GCI_GreenBand);
     bandB->SetColorInterpretation(GCI_BlueBand);
 
+    QByteArray bufferR(map.blockSizeX * map.blockSizeY, 0);
+    QByteArray bufferG(map.blockSizeX * map.blockSizeY, 0);
+    QByteArray bufferB(map.blockSizeX * map.blockSizeY, 0);
+
+    double xx1 = lon1;
+    double yy1 = lat1;
+    convertRad2Pt(map, xx1, yy1);
+
+    double tx1; // tile pixel left
+    double ty1; // tile pixel top
+    double tx2; // tile pixel right
+    double ty2; // tile pixel bottom
+
     do
     {
         do
         {
             printProgress(prog++, total);
 
-            double p1x = x1 + n * map.blockSizeX;
-            double p1y = y1 + m * map.blockSizeY;
-            double p2x = x1 + (n + 1) * map.blockSizeX;
-            double p2y = y1 + (m + 1) * map.blockSizeY;
-
-            cx = p2x;
-            cy = p2y;
+            double p1x = tx1 = x1 + n * map.blockSizeX;
+            double p1y = ty1 = y1 + m * map.blockSizeY;
+            double p2x = tx2 = x1 + (n + 1) * map.blockSizeX;
+            double p2y = ty2 = y1 + (m + 1) * map.blockSizeY;
 
             convertPt2M(map, p1x, p1y);
             convertPt2M(map, p2x, p2y);
@@ -496,17 +503,56 @@ int main(int argc, char ** argv)
                 continue;
             }
 
+            int xoff    = tx1 - xx1;
+            int yoff    = ty1 - yy1;
+
+            if(xoff < 0)
+            {
+                img     = img.copy(-xoff, 0, img.width() + xoff, img.height());
+                xoff    = 0;
+            }
+            if(yoff < 0)
+            {
+                img     = img.copy(0, -yoff, img.width(), img.height() + yoff);
+                yoff    = 0;
+            }
+
+            if((xoff + img.width()) > w)
+            {
+                img     = img.copy(0, 0, w - xoff, img.height());
+            }
+
+            if((yoff + img.height()) > h)
+            {
+                img     = img.copy(0, 0, img.width(), h - yoff);
+            }
+
+            int width   = img.width();
+            int height  = img.height();
+
+            quint8 * pSrc = img.bits();
+            for(int i=0; i < (width * height); i++)
+            {
+                bufferB[i] = *pSrc++;
+                bufferG[i] = *pSrc++;
+                bufferR[i] = *pSrc++;
+                pSrc++;
+            }
 
 
+
+            bandR->RasterIO(GF_Write, xoff, yoff, width, height, bufferR.data(), width, height, GDT_Byte, 0, 0);
+            bandG->RasterIO(GF_Write, xoff, yoff, width, height, bufferG.data(), width, height, GDT_Byte, 0, 0);
+            bandB->RasterIO(GF_Write, xoff, yoff, width, height, bufferB.data(), width, height, GDT_Byte, 0, 0);
 
             n++;
         }
-        while(cx < x2);
+        while(tx2 < x2);
 
         n = 0;
         m++;
     }
-    while(cy < y2);
+    while(ty2 < y2);
 
     if(badTiles)
     {
@@ -520,4 +566,5 @@ int main(int argc, char ** argv)
     printf("\n");
     return 0;
 }
+
 

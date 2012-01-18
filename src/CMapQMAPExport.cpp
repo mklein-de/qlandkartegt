@@ -148,6 +148,18 @@ CMapQMAPExport::CMapQMAPExport(const CMapSelectionRaster& mapsel, QWidget * pare
     textBrowser->setFont(f);
 
     adjustSize();
+
+
+    double u1 = mapsel.lon1;
+    double v1 = mapsel.lat1;
+    double u2 = mapsel.lon2;
+    double v2 = mapsel.lat2;
+    map.convertRad2Pt(u1,v1);
+    map.convertRad2Pt(u2,v2);
+
+    qDebug() << (u2 - u1) << (v2 - v1);
+    qDebug() << mapsel.lon1 * RAD_TO_DEG << mapsel.lat1 * RAD_TO_DEG << mapsel.lon2 * RAD_TO_DEG << mapsel.lat2 * RAD_TO_DEG;
+
 }
 
 CMapQMAPExport::~CMapQMAPExport()
@@ -367,6 +379,9 @@ void CMapQMAPExport::slotStart()
 
 void CMapQMAPExport::startExportWMS()
 {
+    QStringList files;
+    QDir tarPath(labelPath->text());
+    QString prefix = linePrefix->text();
     CMapDB::map_t& map = CMapDB::self().knownMaps[mapsel.mapkey];
     // *********************************************
     // 1. step: Create GeoTiff from map tile cache
@@ -385,7 +400,11 @@ void CMapQMAPExport::startExportWMS()
 
     state1->addJob(job);
 
+    files << job.tarFile;
+
     states << state1;
+
+    startExportCommon(files, tarPath, prefix);
 }
 
 void CMapQMAPExport::startExportGDAL()
@@ -494,25 +513,33 @@ void CMapQMAPExport::startExportGDAL()
     // *********************************************
     // 3. step: move 8 bit files into rgb color space
     // ---------------------------------------------
+    QStringList files;
     CMapExportStateConvColor * state3 = new CMapExportStateConvColor(this);
     foreach(const CMapExportStateCombineFiles::job_t& j, state2->getJobs())
     {
-        CMapExportStateConvColor::job_t job;
+        CMapExportStateConvColor::job_t job;        
         job.srcFile = j.tarFile;
-        job.tarFile = IMapExportState::getTempFilename();
+        job.tarFile = IMapExportState::getTempFilename();        
         state3->addJob(job);
+
+        files << job.tarFile;
     }
     states << state3;
 
+    startExportCommon(files, tarPath, prefix);
+}
+
+void CMapQMAPExport::startExportCommon(QStringList& srcFiles, QDir& tarPath, const QString& prefix)
+{
     // *********************************************
     // 4. step: reproject files
     // ---------------------------------------------
     int cnt = 0;
     CMapExportStateReproject * state4 = new CMapExportStateReproject("EPSG:4326", this);
-    foreach(const CMapExportStateConvColor::job_t& j, state3->getJobs())
+    foreach(const QString& srcFile, srcFiles)
     {
         CMapExportStateReproject::job_t job;
-        job.srcFile = j.tarFile;
+        job.srcFile = srcFile;
 
         if(radioQLM->isChecked())
         {
