@@ -126,10 +126,11 @@ bool CDiskCache::contains(const QString& key)
 
 void CDiskCache::slotCleanup()
 {
+#ifndef STANDALONE
     qint64 size = 0;
     QFileInfoList files = dir.entryInfoList(QStringList("*.png"), QDir::Files, QDir::Time|QDir::Reversed);
     QDateTime now = QDateTime::currentDateTime();
-    days = CResources::self().getExpireMapCache();
+    int days = CResources::self().getExpireMapCache();
 
     // expire old files and calculate cache size
     foreach(const QFileInfo& fileinfo, files)
@@ -166,4 +167,5 @@ void CDiskCache::slotCleanup()
             }
         }
     }
+#endif //STANDALONE
 }
