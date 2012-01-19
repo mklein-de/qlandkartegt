@@ -46,7 +46,6 @@ class CDiskCache : public QObject
         void slotCleanup();
     private:
         QDir dir;
-        quint32 maxSize;
 
         /// hash table to cache images als files on disc
         QHash<QString, QString> table;

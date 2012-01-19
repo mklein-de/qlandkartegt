@@ -601,29 +601,47 @@ void CMapWms::checkQueue()
 
 void CMapWms::slotRequestFinished(QNetworkReply* reply)
 {
+
+
     QString _url_ = reply->url().toString();
     if(pendRequests.contains(_url_))
     {
-        QImage img;
-        QPainter p(&pixBuffer);
+        request_t req = pendRequests[_url_];
 
-        request_t& req = pendRequests[_url_];
-
-        // only take good responses
-        if(!reply->error())
+        QString urlRedir = reply->header(QNetworkRequest::LocationHeader).toString();
+        if(!urlRedir.isEmpty())
         {
-            // read image data
-            img.loadFromData(reply->readAll());
+
+            QUrl url(urlRedir);
+
+            QNetworkRequest request;
+            request.setUrl(url);
+            req.reply = accessManager->get(request);
+
+            pendRequests[url.toString()] = req;
+
         }
-
-        // always store image to cache, the cache will take care of NULL images
-        diskCache->store(_url_, img);
-
-        // only paint image if on current zoom factor
-        if((req.zoomFactor == zoomFactor))
+        else
         {
-            convertRad2Pt(req.lon, req.lat);
-            p.drawImage(req.lon, req.lat, img);
+            QImage img;
+            QPainter p(&pixBuffer);
+
+            // only take good responses
+            if(!reply->error())
+            {
+                // read image data
+                img.loadFromData(reply->readAll());
+            }
+
+            // always store image to cache, the cache will take care of NULL images
+            diskCache->store(req.url.toString(), img);
+
+            // only paint image if on current zoom factor
+            if((req.zoomFactor == zoomFactor))
+            {
+                convertRad2Pt(req.lon, req.lat);
+                p.drawImage(req.lon, req.lat, img);
+            }
         }
 
         // pending request finished
