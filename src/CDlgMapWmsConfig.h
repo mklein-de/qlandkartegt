@@ -27,6 +27,8 @@
 class CMapWms;
 class QDomDocument;
 class QDomElement;
+class QNetworkAccessManager;
+class QNetworkReply;
 
 class CDlgMapWmsConfig : public QDialog, private Ui::IDlgMapWmsConfig
 {
@@ -37,12 +39,17 @@ class CDlgMapWmsConfig : public QDialog, private Ui::IDlgMapWmsConfig
 
         void accept();
 
+    private slots:
+        void slotRequestFinished(QNetworkReply* reply);
+
     private:
         void updateEntry(QDomDocument& dom, QTreeWidgetItem* item, QDomElement& elem, const QString& tag);
 
         CMapWms& map;
 
         enum col_e{eColProperty, eColValue};
+
+        QNetworkAccessManager * accessManager;
 };
 
 #endif //CDLGMAPWMSCONFIG_H

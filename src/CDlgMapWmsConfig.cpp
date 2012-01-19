@@ -23,6 +23,7 @@
 
 #include <QtGui>
 #include <QtXml>
+#include <QtNetwork>
 #include <projects.h>
 
 CDlgMapWmsConfig::CDlgMapWmsConfig(CMapWms &map)
@@ -132,6 +133,19 @@ CDlgMapWmsConfig::CDlgMapWmsConfig(CMapWms &map)
 
 
     treeMapConfig->resizeColumnToContents(eColProperty);
+
+    accessManager = new QNetworkAccessManager(this);
+    accessManager->setProxy(QNetworkProxy(QNetworkProxy::DefaultProxy));
+    connect(accessManager,SIGNAL(finished(QNetworkReply*)),this,SLOT(slotRequestFinished(QNetworkReply*)));
+
+    QNetworkRequest request;
+    QUrl url(map.urlstr);
+    url.addQueryItem("version", map.version);
+    url.addQueryItem("service", "wms");
+    url.addQueryItem("request", "GetCapabilities");
+    request.setUrl(url);
+    accessManager->get(request);
+
 }
 
 CDlgMapWmsConfig::~CDlgMapWmsConfig()
@@ -246,4 +260,20 @@ void CDlgMapWmsConfig::accept()
     QDialog::accept();
 
     CMapDB::self().openMap(map.getKey());
+}
+
+
+void CDlgMapWmsConfig::slotRequestFinished(QNetworkReply* reply)
+{
+    if(reply->error())
+    {
+        textCapabilities->setText(reply->errorString());
+    }
+    else
+    {
+        QDomDocument dom;
+        dom.setContent(reply->readAll());
+
+        textCapabilities->setPlainText(dom.toString());
+    }
 }
