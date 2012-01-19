@@ -24,6 +24,7 @@
 #include "CDiskCache.h"
 #include "CMainWindow.h"
 #include "CDlgMapTmsConfig.h"
+#include "CMapSelectionRaster.h"
 
 #include <QtGui>
 #include <QtNetwork>
@@ -416,8 +417,6 @@ void CMapTms::checkQueue()
     {
         status->setText(tr("Wait for %1 tiles.").arg(pendRequests.size() + newRequests.size()));
     }
-
-
 }
 
 
@@ -474,3 +473,22 @@ void CMapTms::config()
     dlg.exec();
 }
 
+quint32 CMapTms::scalePixelGrid(quint32 nPixel)
+{
+    return double(nPixel) / zoomFactor;
+}
+
+void CMapTms::select(IMapSelection& ms, const QRect& rect)
+{
+    if(ms.type != IMapSelection::eRaster) return;
+
+    CMapSelectionRaster& sel = (CMapSelectionRaster&)ms;
+
+    sel.lon1 = rect.left();
+    sel.lat1 = rect.top();
+    convertPt2Rad(sel.lon1, sel.lat1);
+
+    sel.lon2 = rect.right();
+    sel.lat2 = rect.bottom();
+    convertPt2Rad(sel.lon2, sel.lat2);
+}

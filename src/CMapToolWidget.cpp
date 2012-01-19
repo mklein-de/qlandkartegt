@@ -43,6 +43,7 @@ CMapToolWidget::CMapToolWidget(QTabWidget * parent)
     connect(&CMapDB::self(), SIGNAL(sigChanged()), this, SLOT(slotDBChanged()));
 
     contextMenuKnownMaps = new QMenu(this);
+    actReload = contextMenuKnownMaps->addAction(QPixmap(":/icons/iconReload16x16.png"),tr("Reload map..."),this,SLOT(slotReload()));
     actAddDEM = contextMenuKnownMaps->addAction(QPixmap(":/icons/iconDEM16x16.png"),tr("Add DEM..."),this,SLOT(slotAddDEM()));
     actDelDEM = contextMenuKnownMaps->addAction(QPixmap(":/icons/iconNoDEM16x16.png"),tr("Del. DEM..."),this,SLOT(slotDelDEM()));
     actCfgMap = contextMenuKnownMaps->addAction(QPixmap(":/icons/iconInfo16x16.png"),tr("Info/Config"),this,SLOT(slotCfgMap()));
@@ -473,4 +474,9 @@ void CMapToolWidget::slotAddTmsMap()
 {
     CDlgMapTmsConfig dlg;
     dlg.exec();
+}
+
+void CMapToolWidget::slotReload()
+{
+    CMapDB::self().openMap(CMapDB::self().getMap().getKey());
 }

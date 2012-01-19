@@ -67,9 +67,9 @@ CMapQMAPExport::CMapQMAPExport(const CMapSelectionRaster& mapsel, QWidget * pare
     QSettings cfg;
     labelPath->setText(cfg.value("path/export","./").toString());
 
-    IMap& map = CMapDB::self().getMap();
-    linePrefix->setText(QString("%1_%2_%3").arg(QFileInfo(map.getFilename()).baseName()).arg(mapsel.lon1 * RAD_TO_DEG).arg(mapsel.lat1 * RAD_TO_DEG));
-    lineDescription->setText(QFileInfo(map.getFilename()).baseName());
+    CMapDB::map_t mapData = CMapDB::self().getMapData(mapsel.mapkey);
+    linePrefix->setText(QString("%1_%2_%3").arg(mapData.description).arg(mapsel.lon1 * RAD_TO_DEG).arg(mapsel.lat1 * RAD_TO_DEG));
+    lineDescription->setText(mapData.description);
 
 #ifdef WIN32
     path_map2jnx        = QCoreApplication::applicationDirPath()+QDir::separator()+"map2jnx.exe";
@@ -157,17 +157,6 @@ CMapQMAPExport::CMapQMAPExport(const CMapSelectionRaster& mapsel, QWidget * pare
     textBrowser->setFont(f);
 
     adjustSize();
-
-
-    double u1 = mapsel.lon1;
-    double v1 = mapsel.lat1;
-    double u2 = mapsel.lon2;
-    double v2 = mapsel.lat2;
-    map.convertRad2Pt(u1,v1);
-    map.convertRad2Pt(u2,v2);
-
-    qDebug() << (u2 - u1) << (v2 - v1);
-    qDebug() << mapsel.lon1 * RAD_TO_DEG << mapsel.lat1 * RAD_TO_DEG << mapsel.lon2 * RAD_TO_DEG << mapsel.lat2 * RAD_TO_DEG;
 
 }
 
@@ -398,9 +387,13 @@ void CMapQMAPExport::slotStart()
     {
         startExportGDAL();
     }
+    else if(mapsel.subtype == IMapSelection::eTMS || mapsel.subtype == IMapSelection::eWMS)
+    {
+        startExportStreaming();
+    }
     else
     {
-        startExportWMS();
+        stdErr(tr("Unknown map format."), true);
     }
 
     totalNumberOfStates = states.count();
@@ -408,7 +401,7 @@ void CMapQMAPExport::slotStart()
     setNextState();
 }
 
-void CMapQMAPExport::startExportWMS()
+void CMapQMAPExport::startExportStreaming()
 {
     QStringList files;
     QDir tarPath(labelPath->text());

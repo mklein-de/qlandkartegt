@@ -901,16 +901,20 @@ void CMapDB::select(const QRect& rect, const QMap< QPair<int,int>, bool>& selTil
         return;
     }
 
-    if(theMap->maptype == IMap::eRaster || theMap->maptype == IMap::eWMS)
+    if(theMap->maptype == IMap::eRaster || theMap->maptype == IMap::eWMS || theMap->maptype == IMap::eTMS)
     {
         CMapSelectionRaster * ms;
         if(theMap->maptype == IMap::eRaster)
         {
             ms = new CMapSelectionRaster(IMapSelection::eGDAL, this);
         }
-        if(theMap->maptype == IMap::eWMS)
+        else if(theMap->maptype == IMap::eWMS)
         {
             ms = new CMapSelectionRaster(IMapSelection::eWMS, this);
+        }
+        else if(theMap->maptype == IMap::eTMS)
+        {
+            ms = new CMapSelectionRaster(IMapSelection::eTMS, this);
         }
 
 
@@ -992,7 +996,7 @@ IMapSelection * CMapDB::getSelectedMap(double lon, double lat)
 {
     IMap& map = getMap();
 
-    if(map.maptype != IMap::eRaster && map.maptype != IMap::eWMS)
+    if(map.maptype != IMap::eRaster && map.maptype != IMap::eWMS && map.maptype != IMap::eTMS)
     {
         return 0;
     }

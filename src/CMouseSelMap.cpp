@@ -79,7 +79,7 @@ void CMouseSelMap::drawSelArea(QPainter& p)
     p.setBrush(QColor(150,150,255,100));
     p.setPen(QPen(Qt::darkBlue,2));
 
-    if(map.maptype != IMap::eRaster && map.maptype != IMap::eWMS)
+    if(map.maptype != IMap::eRaster && map.maptype != IMap::eWMS && map.maptype != IMap::eTMS)
     {
         p.drawRect(rect);
         return;

@@ -51,6 +51,9 @@ class CMapTms : public IMap
 
         void draw(QPainter& p);
 
+        quint32 scalePixelGrid(quint32 nPixel);
+        void select(IMapSelection& ms, const QRect& rect);
+
     private slots:
         void slotRequestFinished(QNetworkReply* reply);
 

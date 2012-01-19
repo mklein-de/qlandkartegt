@@ -166,7 +166,6 @@ CMapWms::CMapWms(const QString &key, const QString &filename, CCanvas *parent)
 
     zoom(zoomidx);
 
-    qDebug() << "scales" << xscale << yscale;
 }
 
 CMapWms::~CMapWms()
@@ -192,7 +191,6 @@ CMapWms::~CMapWms()
     cfg.endGroup();
     cfg.endGroup();
 
-    qDebug() << seenRequest;
 }
 
 void CMapWms::convertPt2M(double& u, double& v)
@@ -370,6 +368,8 @@ void CMapWms::zoom(qint32& level)
 
 void CMapWms::dimensions(double& lon1, double& lat1, double& lon2, double& lat2)
 {
+    if(pjsrc == 0) return;
+
     lon1 = xref1;
     lat1 = yref1;
     pj_transform(pjsrc,pjtar,1,0,&lon1,&lat1,0);
@@ -381,6 +381,7 @@ void CMapWms::dimensions(double& lon1, double& lat1, double& lon2, double& lat2)
 
 void CMapWms::getArea_n_Scaling(XY& p1, XY& p2, float& my_xscale, float& my_yscale)
 {
+    if(pjsrc == 0) return;
 
     p1.u        = 0;
     p1.v        = 0;

@@ -314,7 +314,7 @@ class CMapQMAPExport : public QDialog, private Ui::IMapQMAPExport
 
     private:
         void startExportGDAL();
-        void startExportWMS();
+        void startExportStreaming();
         void startExportCommon(QStringList& srcFiles, QDir& tarPath, const QString& prefix);
         void progress(const QString& str);
 

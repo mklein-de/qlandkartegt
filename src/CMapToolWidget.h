@@ -53,6 +53,7 @@ class CMapToolWidget : public QWidget, private Ui::IMapToolWidget
         void slotDelDEM();
         void slotCfgMap();
         void slotAddTmsMap();
+        void slotReload();
 
     private:
         enum tabs_t
@@ -88,6 +89,7 @@ class CMapToolWidget : public QWidget, private Ui::IMapToolWidget
         QAction * actDelMap;
         QAction * actCfgMap;
         QAction * actAddTMS;
+        QAction * actReload;
 
         QTreeWidget * lastTreeWidget;
 

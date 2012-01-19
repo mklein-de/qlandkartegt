@@ -147,6 +147,30 @@ static void convertM2Rad(map_t& map, double& u, double& v)
     pj_transform(map.pjsrc,map.pjtar,1,0,&u,&v,0);
 }
 
+
+static int lon2tile(double lon, int z)
+{
+    return (int)(qRound(256*(lon + 180.0) / 360.0 * pow(2.0, z)));
+}
+
+
+static int lat2tile(double lat, int z)
+{
+    return (int)(qRound(256*(1.0 - log( tan(lat * M_PI/180.0) + 1.0 / cos(lat * M_PI/180.0)) / M_PI) / 2.0 * pow(2.0, z)));
+}
+
+static double tile2lon(int x, int z)
+{
+    return x / pow(2.0, z) * 360.0 - 180;
+}
+
+static double tile2lat(int y, int z)
+{
+    double n = M_PI - 2.0 * M_PI * y / pow(2.0, z);
+    return 180.0 / M_PI * atan(0.5 * (exp(n) - exp(-n)));
+}
+
+
 /// this code is from the GDAL project
 static void printProgress(int current, int total)
 {
@@ -189,12 +213,17 @@ static void printProgress(int current, int total)
 
 }
 
+static int exportTMS(int level, double lon1, double lat1, double lon2, double lat2, const QString infile, const QString& outfile, CDiskCache& diskCache);
+static int exportWMS(int level, double lon1, double lat1, double lon2, double lat2, const QString infile, const QString& outfile, CDiskCache& diskCache);
 //bin/cache2gtiff -a 1 12.021501 49.064661 12.160464 48.975336 -c /tmp/qlandkarteqt-oeichler/cache -i /home/oeichler/dateien/Maps/bayern_dop_wms.xml -o test.tiff
 //bin/cache2gtiff -a 1 12.051988 49.050000 12.151614 48.998211 -c /tmp/qlandkarteqt-oliver/cache -i /home/oliver/data/Maps/bayern_dop_wms.xml -o test.tif
 
+//bin/cache2gtiff -a 1 12.080746 49.044661 12.124606 49.015901 -c /tmp/qlandkarteqt-oliver/cache -i "http://mt.google.com/vt/lyrs=s&x=%2&y=%3&z=%1" -o test.tif
+
+
 int main(int argc, char ** argv)
 {
-    map_t map;
+    int level;
     double lon1, lat1, lon2, lat2;
     QString infile;
     QString outfile;
@@ -234,7 +263,7 @@ int main(int argc, char ** argv)
         {
             if (towupper(argv[i][1]) == 'A')
             {
-                map.level = atol(argv[i+1]);
+                level = atol(argv[i+1]);
                 lon1    = atof(argv[i+2]) * DEG_TO_RAD;
                 lat1    = atof(argv[i+3]) * DEG_TO_RAD;
                 lon2    = atof(argv[i+4]) * DEG_TO_RAD;
@@ -266,6 +295,219 @@ int main(int argc, char ** argv)
 
     CDiskCache diskCache(cachePath,0);
 
+    bool isTMS = infile.startsWith("http");
+
+    if(isTMS)
+    {
+        return exportTMS(level, lon1, lat1, lon2, lat2, infile, outfile, diskCache);
+    }
+    else
+    {
+        return exportWMS(level, lon1, lat1, lon2, lat2, infile, outfile, diskCache);
+    }
+}
+
+static int exportTMS(int level, double lon1, double lat1, double lon2, double lat2, const QString infile, const QString& outfile, CDiskCache& diskCache)
+{
+    map_t map;
+    map.level       = level;
+    map.url         = infile;
+    map.pjsrc       = pj_init_plus("+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +wktext +no_defs");
+    map.blockSizeX  = 256;
+    map.blockSizeY  = 256;
+
+    map.xref1       = -40075016/2;
+    map.yref1       =  40075016/2;
+    map.xref2       =  40075016/2;
+    map.yref2       = -40075016/2;
+
+    map.xscale      =  1.19432854652;
+    map.yscale      = -1.19432854652;
+
+    map.xsize_px    = -1; // n/a
+    map.ysize_px    = -1; // n/a
+
+    printf("map source:         %s\n", map.url.toLocal8Bit().data());
+
+    int z       = 18 - map.level;
+
+    // convert to abs pixel in map
+    double x1   = lon1;
+    double y1   = lat1;
+    convertRad2Pt(map, x1, y1);
+
+    double x2   = lon2;
+    double y2   = lat2;
+    convertRad2Pt(map, x2, y2);
+
+    int w       = int(x2 - x1);
+    int h       = int(y2 - y1);
+
+    int idxx    = lon2tile(lon1 * RAD_TO_DEG, z) / 256;
+    int idxy    = lat2tile(lat1 * RAD_TO_DEG, z) / 256;
+    x1  = tile2lon(idxx, z) * DEG_TO_RAD;
+    y1  = tile2lat(idxy, z) * DEG_TO_RAD;
+    convertRad2Pt(map, x1, y1);
+
+
+    int total       = ceil((x2 - x1)/(map.blockSizeX*map.level)) * ceil((y2 - y1)/(map.blockSizeY*map.level));
+    int prog        = 1;
+    int badTiles    = 0;
+
+    printf("\n");
+    printf("Export area of %i x %i pixel\n", w, h);
+    printf("Need to summon %i tiles from cache.\n\n", total);
+
+
+    // create output dataset
+    char * cargs[] = {"tiled=yes", "compress=LZW", 0};
+    GDALDriverManager * drvman  = GetGDALDriverManager();
+    GDALDriver * driver         = drvman->GetDriverByName("GTiff");
+    GDALDataset * dataset       = driver->Create(outfile.toLocal8Bit().data(), w, h, 3, GDT_Byte, cargs);
+
+    if(dataset == 0)
+    {
+        fprintf(stderr, "Failed top open target file %s", outfile.toLocal8Bit().data());
+        exit(-1);
+    }
+
+    // set projection of output, same as input
+    char * ptr = 0;
+    OGRSpatialReference oSRS;
+    oSRS.importFromProj4(pj_get_def(map.pjsrc,0));
+    oSRS.exportToWkt(&ptr);
+    dataset->SetProjection(ptr);
+    CPLFree(ptr);
+
+    // set referencing data
+    double adfGeoTransform[6] = {0};
+    double u = lon1;
+    double v = lat1;
+    convertRad2M(map, u, v);
+
+    adfGeoTransform[0] = u;             /* top left x */
+    adfGeoTransform[1] = map.xscale * level;    /* w-e pixel resolution */
+    adfGeoTransform[2] = 0;             /* rotation, 0 if image is "north up" */
+    adfGeoTransform[3] = v;             /* top left y */
+    adfGeoTransform[4] = 0;             /* rotation, 0 if image is "north up" */
+    adfGeoTransform[5] = map.yscale * level;    /* n-s pixel resolution */
+
+    dataset->SetGeoTransform(adfGeoTransform);
+
+    // create color bands
+    GDALRasterBand * bandR  = dataset->GetRasterBand(1);
+    GDALRasterBand * bandG  = dataset->GetRasterBand(2);
+    GDALRasterBand * bandB  = dataset->GetRasterBand(3);
+
+    bandR->SetColorInterpretation(GCI_RedBand);
+    bandG->SetColorInterpretation(GCI_GreenBand);
+    bandB->SetColorInterpretation(GCI_BlueBand);
+
+    QByteArray bufferR(map.blockSizeX * map.blockSizeY, 0);
+    QByteArray bufferG(map.blockSizeX * map.blockSizeY, 0);
+    QByteArray bufferB(map.blockSizeX * map.blockSizeY, 0);
+
+
+    int n = 0;
+    int m = 0;
+
+    double xx1 = lon1;
+    double yy1 = lat1;
+    convertRad2Pt(map, xx1, yy1);
+
+    double tx1; // tile pixel left
+    double ty1; // tile pixel top
+    double tx2; // tile pixel right
+    double ty2; // tile pixel bottom
+    do
+    {
+        do
+        {
+            printProgress(prog++, total);
+            tx1 = x1 + n * map.blockSizeX;
+            ty1 = y1 + m * map.blockSizeY;
+            tx2 = x1 + (n + 1) * map.blockSizeX;
+            ty2 = y1 + (m + 1) * map.blockSizeY;
+            QUrl url(map.url.arg(z).arg(idxx + n).arg(idxy + m));
+
+            QImage img;
+            diskCache.restore(url.toString(),img);
+
+            if(img.isNull())
+            {
+                badTiles++;
+                n++;
+                continue;
+            }
+
+            int xoff    = tx1 - xx1;
+            int yoff    = ty1 - yy1;
+
+            if(xoff < 0)
+            {
+                img     = img.copy(-xoff, 0, img.width() + xoff, img.height());
+                xoff    = 0;
+            }
+            if(yoff < 0)
+            {
+                img     = img.copy(0, -yoff, img.width(), img.height() + yoff);
+                yoff    = 0;
+            }
+
+            if((xoff + img.width()) > w)
+            {
+                img     = img.copy(0, 0, w - xoff, img.height());
+            }
+
+            if((yoff + img.height()) > h)
+            {
+                img     = img.copy(0, 0, img.width(), h - yoff);
+            }
+
+            int width   = img.width();
+            int height  = img.height();
+
+            quint8 * pSrc = img.bits();
+            for(int i=0; i < (width * height); i++)
+            {
+                bufferB[i] = *pSrc++;
+                bufferG[i] = *pSrc++;
+                bufferR[i] = *pSrc++;
+                pSrc++;
+            }
+
+
+
+            bandR->RasterIO(GF_Write, xoff, yoff, width, height, bufferR.data(), width, height, GDT_Byte, 0, 0);
+            bandG->RasterIO(GF_Write, xoff, yoff, width, height, bufferG.data(), width, height, GDT_Byte, 0, 0);
+            bandB->RasterIO(GF_Write, xoff, yoff, width, height, bufferB.data(), width, height, GDT_Byte, 0, 0);
+
+            n++;
+        }
+        while(tx2 < x2);
+
+        n = 0;
+        m++;
+    }
+    while(ty2 < y2);
+
+    if(badTiles)
+    {
+        fprintf(stderr, "\n\nWarning: I could not summon all tiles from the cache. %i tiles are missing.\n", badTiles);
+    }
+
+
+    dataset->FlushCache();
+    delete dataset;
+    GDALDestroyDriverManager();
+    printf("\n");
+    return 0;
+}
+
+static int exportWMS(int level, double lon1, double lat1, double lon2, double lat2, const QString infile, const QString& outfile, CDiskCache& diskCache)
+{
+    map_t map;
+    map.level = level;
 
     QFile file(infile);
     if(!file.open(QIODevice::ReadOnly))
@@ -374,7 +616,7 @@ int main(int argc, char ** argv)
     int m = 0;
 
 
-    int total       = ceil((x2 - x1)/map.blockSizeX) * ceil((y2 - y1)/map.blockSizeY);
+    int total       = ceil((x2 - x1)/(map.blockSizeX*map.level)) * ceil((y2 - y1)/(map.blockSizeY*map.level));
     int prog        = 1;
     int badTiles    = 0;
 
@@ -410,12 +652,12 @@ int main(int argc, char ** argv)
         double v = lat1;
         convertRad2M(map, u, v);
 
-        adfGeoTransform[0] = u  * RAD_TO_DEG;           /* top left x */
-        adfGeoTransform[1] = map.xscale * RAD_TO_DEG;   /* w-e pixel resolution */
+        adfGeoTransform[0] = u * RAD_TO_DEG;           /* top left x */
+        adfGeoTransform[1] = map.xscale * level * RAD_TO_DEG;   /* w-e pixel resolution */
         adfGeoTransform[2] = 0;                         /* rotation, 0 if image is "north up" */
         adfGeoTransform[3] = v  * RAD_TO_DEG;           /* top left y */
         adfGeoTransform[4] = 0;                         /* rotation, 0 if image is "north up" */
-        adfGeoTransform[5] = map.yscale * RAD_TO_DEG;   /* n-s pixel resolution */
+        adfGeoTransform[5] = map.yscale * level * RAD_TO_DEG;   /* n-s pixel resolution */
     }
     else
     {
@@ -424,11 +666,11 @@ int main(int argc, char ** argv)
         convertRad2M(map, u, v);
 
         adfGeoTransform[0] = u;             /* top left x */
-        adfGeoTransform[1] = map.xscale;    /* w-e pixel resolution */
+        adfGeoTransform[1] = map.xscale * level ;    /* w-e pixel resolution */
         adfGeoTransform[2] = 0;             /* rotation, 0 if image is "north up" */
         adfGeoTransform[3] = v;             /* top left y */
         adfGeoTransform[4] = 0;             /* rotation, 0 if image is "north up" */
-        adfGeoTransform[5] = map.yscale;    /* n-s pixel resolution */
+        adfGeoTransform[5] = map.yscale * level ;    /* n-s pixel resolution */
 
     }
     dataset->SetGeoTransform(adfGeoTransform);
