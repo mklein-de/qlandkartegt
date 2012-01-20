@@ -310,7 +310,7 @@ int main(int argc, char ** argv)
 static int exportTMS(int level, double lon1, double lat1, double lon2, double lat2, const QString infile, const QString& outfile, CDiskCache& diskCache)
 {
     map_t map;
-    map.level       = level;
+    map.level       = pow(2,level - 1);
     map.url         = infile;
     map.pjsrc       = pj_init_plus("+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +wktext +no_defs");
     map.blockSizeX  = 256;
@@ -329,7 +329,7 @@ static int exportTMS(int level, double lon1, double lat1, double lon2, double la
 
     printf("map source:         %s\n", map.url.toLocal8Bit().data());
 
-    int z       = 18 - map.level;
+    int z       = 18 - level;
 
     // convert to abs pixel in map
     double x1   = lon1;
@@ -386,11 +386,11 @@ static int exportTMS(int level, double lon1, double lat1, double lon2, double la
     convertRad2M(map, u, v);
 
     adfGeoTransform[0] = u;             /* top left x */
-    adfGeoTransform[1] = map.xscale * level;    /* w-e pixel resolution */
+    adfGeoTransform[1] = map.xscale * map.level;    /* w-e pixel resolution */
     adfGeoTransform[2] = 0;             /* rotation, 0 if image is "north up" */
     adfGeoTransform[3] = v;             /* top left y */
     adfGeoTransform[4] = 0;             /* rotation, 0 if image is "north up" */
-    adfGeoTransform[5] = map.yscale * level;    /* n-s pixel resolution */
+    adfGeoTransform[5] = map.yscale * map.level;    /* n-s pixel resolution */
 
     dataset->SetGeoTransform(adfGeoTransform);
 
