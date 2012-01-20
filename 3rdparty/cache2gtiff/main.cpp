@@ -467,6 +467,11 @@ static int exportTMS(int level, double lon1, double lat1, double lon2, double la
             int width   = img.width();
             int height  = img.height();
 
+            if(img.format() != QImage::Format_ARGB32)
+            {
+                img = img.convertToFormat(QImage::Format_ARGB32);
+            }
+
             quint8 * pSrc = img.bits();
             for(int i=0; i < (width * height); i++)
             {
@@ -769,6 +774,11 @@ static int exportWMS(int level, double lon1, double lat1, double lon2, double la
             int width   = img.width();
             int height  = img.height();
 
+            if(img.format() != QImage::Format_ARGB32)
+            {
+                img = img.convertToFormat(QImage::Format_ARGB32);
+            }
+
             quint8 * pSrc = img.bits();
             for(int i=0; i < (width * height); i++)
             {
@@ -777,8 +787,6 @@ static int exportWMS(int level, double lon1, double lat1, double lon2, double la
                 bufferR[i] = *pSrc++;
                 pSrc++;
             }
-
-
 
             bandR->RasterIO(GF_Write, xoff, yoff, width, height, bufferR.data(), width, height, GDT_Byte, 0, 0);
             bandG->RasterIO(GF_Write, xoff, yoff, width, height, bufferG.data(), width, height, GDT_Byte, 0, 0);

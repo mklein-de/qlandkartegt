@@ -311,6 +311,8 @@ class CMapQMAPExport : public QDialog, private Ui::IMapQMAPExport
         void slotCancel();
         void slotDetails();
 
+        void slotSetupProj();
+        void slotSetupProjFromMap();
 
     private:
         void startExportGDAL();

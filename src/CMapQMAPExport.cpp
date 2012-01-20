@@ -23,6 +23,7 @@
 #include "CMapFile.h"
 #include "config.h"
 #include "CResources.h"
+#include "CDlgProjWizzard.h"
 
 #include <QtGui>
 
@@ -50,7 +51,6 @@ CMapQMAPExport::CMapQMAPExport(const CMapSelectionRaster& mapsel, QWidget * pare
 , totalNumberOfStates(0)
 {
     setupUi(this);
-    toolPath->setIcon(QPixmap(":/icons/iconFileLoad16x16.png"));
 
     connect(toolPath, SIGNAL(clicked()), this, SLOT(slotOutputPath()));
     connect(pushExport, SIGNAL(clicked()), this, SLOT(slotStart()));
@@ -58,18 +58,23 @@ CMapQMAPExport::CMapQMAPExport(const CMapSelectionRaster& mapsel, QWidget * pare
     connect(pushDetails, SIGNAL(clicked()), this, SLOT(slotDetails()));
     connect(radioQLM, SIGNAL(toggled(bool)), this, SLOT(slotQLMToggled(bool)));
     connect(radioJNX, SIGNAL(toggled(bool)), this, SLOT(slotBirdsEyeToggled(bool)));
-    connect(radioGCM, SIGNAL(toggled(bool)), this, SLOT(slotGCMToggled(bool)));
+    connect(radioGCM, SIGNAL(toggled(bool)), this, SLOT(slotGCMToggled(bool)));    
 
     connect(&cmd, SIGNAL(readyReadStandardError()), this, SLOT(slotStderr()));
     connect(&cmd, SIGNAL(readyReadStandardOutput()), this, SLOT(slotStdout()));
     connect(&cmd, SIGNAL(finished(int,QProcess::ExitStatus)), this, SLOT(slotFinished(int,QProcess::ExitStatus)));
+
+    connect(toolGeoTiffProjWizard, SIGNAL(clicked()), this, SLOT(slotSetupProj()));
+    connect(toolGeoTiffFromMap, SIGNAL(clicked()), this, SLOT(slotSetupProjFromMap()));
 
     QSettings cfg;
     labelPath->setText(cfg.value("path/export","./").toString());
 
     CMapDB::map_t mapData = CMapDB::self().getMapData(mapsel.mapkey);
     linePrefix->setText(QString("%1_%2_%3").arg(mapData.description).arg(mapsel.lon1 * RAD_TO_DEG).arg(mapsel.lat1 * RAD_TO_DEG));
+    linePrefix->setCursorPosition(0);
     lineDescription->setText(mapData.description);
+    lineDescription->setCursorPosition(0);
 
 #ifdef WIN32
     path_map2jnx        = QCoreApplication::applicationDirPath()+QDir::separator()+"map2jnx.exe";
@@ -105,7 +110,6 @@ CMapQMAPExport::CMapQMAPExport(const CMapSelectionRaster& mapsel, QWidget * pare
 
     radioQLM->setChecked(cfg.value("map/export/qlm", true).toBool());
     radioGCM->setChecked(cfg.value("map/export/gcm", false).toBool());
-    radioLOW->setChecked(cfg.value("map/export/low", false).toBool());
 
     if (has_map2jnx)
     {
@@ -126,6 +130,9 @@ CMapQMAPExport::CMapQMAPExport(const CMapSelectionRaster& mapsel, QWidget * pare
     {
         lineStreamingLevels->setText("1 ");
     }
+
+    lineGeoTiffProjection->setText(cfg.value("map/export/qlm/proj","+proj=longlat +a=6378137.0000 +b=6356752.3142 +towgs84=0,0,0,0,0,0,0,0 +units=m  +no_defs").toString());
+    lineGeoTiffProjection->setCursorPosition(0);
 
     progressBar->setMinimum(0);
     progressBar->setMaximum(100);
@@ -166,7 +173,6 @@ CMapQMAPExport::~CMapQMAPExport()
     cfg.setValue("map/export/qlm", radioQLM->isChecked());
     cfg.setValue("map/export/gcm", radioGCM->isChecked());
     cfg.setValue("map/export/jnx", radioJNX->isChecked());
-    cfg.setValue("map/export/low", radioLOW->isChecked());
 
     cfg.setValue("map/export/jnx/quality", spinJpegQuality->value());
     cfg.setValue("map/export/jnx/subsampling", comboJpegSubsampling->currentText());
@@ -180,10 +186,24 @@ CMapQMAPExport::~CMapQMAPExport()
     cfg.setValue("map/export/over16x",checkOverview16x->isChecked());
 
     cfg.setValue("map/export/stream/levels", lineStreamingLevels->text());
+    cfg.setValue("map/export/qlm/proj", lineGeoTiffProjection->text());
 
     cfg.setValue("map/export/hidedetails", textBrowser->isHidden());
 }
 
+void CMapQMAPExport::slotSetupProj()
+{
+    CDlgProjWizzard dlg(*lineGeoTiffProjection, this);
+    dlg.exec();
+    lineGeoTiffProjection->setCursorPosition(0);
+}
+
+void CMapQMAPExport::slotSetupProjFromMap()
+{
+    IMap& map = CMapDB::self().getMap();
+    lineGeoTiffProjection->setText(map.getProjection());
+    lineGeoTiffProjection->setCursorPosition(0);
+}
 
 void CMapQMAPExport::slotBirdsEyeToggled(bool checked)
 {
@@ -562,7 +582,14 @@ void CMapQMAPExport::startExportCommon(QStringList& srcFiles, QDir& tarPath, con
     // 4. step: reproject files
     // ---------------------------------------------
     int cnt = 0;
-    CMapExportStateReproject * state4 = new CMapExportStateReproject("EPSG:4326", this);
+
+    QString projection("EPSG:4326");
+    if(radioQLM->isChecked())
+    {
+        projection = lineGeoTiffProjection->text();
+    }
+
+    CMapExportStateReproject * state4 = new CMapExportStateReproject(projection, this);
     foreach(const QString& srcFile, srcFiles)
     {
         CMapExportStateReproject::job_t job;
