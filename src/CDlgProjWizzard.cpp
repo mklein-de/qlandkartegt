@@ -197,9 +197,11 @@ void CDlgProjWizzard::slotChange()
 
 void CDlgProjWizzard::accept()
 {
-    if (CDlgProjWizzard::validProjStr(labelResult->text())) {
-    line.setText(labelResult->text());
-    QDialog::accept();
+    if (CDlgProjWizzard::validProjStr(labelResult->text()))
+    {
+        line.setText(labelResult->text());
+        line.setCursorPosition(0);
+        QDialog::accept();
     }
 }
 

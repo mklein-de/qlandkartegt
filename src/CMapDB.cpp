@@ -236,10 +236,12 @@ IMap& CMapDB::getDEM()
 
 void CMapDB::closeVisibleMaps()
 {
-    if(!theMap.isNull() && theMap != defaultMap) theMap->deleteLater();
-    if(!demMap.isNull()) demMap->deleteLater();
-
+    IMap * map = theMap;
     theMap = defaultMap;
+
+    if(map && map != defaultMap) delete map;
+
+    if(!demMap.isNull()) demMap->deleteLater();
 
     IMouse::resetPos1();
 }
@@ -1056,4 +1058,20 @@ void CMapDB::setMapData(const map_t& map)
     knownMaps[m.key] = m;
 
     emit sigChanged();
+}
+
+void CMapDB::reloadMap()
+{
+    double lon = 0;
+    double lat = 0;
+    {
+        IMap& map  = getMap();
+        map.convertPt2Rad(lon, lat);
+        openMap(map.getKey());
+    }
+    {
+        IMap& map  = getMap();
+        map.convertRad2Pt(lon, lat);
+        map.move(QPoint(lon, lat), QPoint(0,0));
+    }
 }

@@ -20,6 +20,7 @@
 #include "CDlgSetupGrid.h"
 #include "CDlgProjWizzard.h"
 #include "CGridDB.h"
+#include "CMapDB.h"
 
 #include <QtGui>
 
@@ -38,12 +39,14 @@ CDlgSetupGrid::CDlgSetupGrid(QWidget * parent)
     connect(toolGridColor,SIGNAL(clicked()),this,SLOT(slotSelectGridColor()));
 
     lineProjection->setText(CGridDB::self().projstr);
+    lineProjection->setCursorPosition(0);
 
     QPalette palette = labelGridColor->palette();
     palette.setColor(labelGridColor->foregroundRole(), CGridDB::self().color);
     labelGridColor->setPalette(palette);
 
     connect(toolRestoreDefault, SIGNAL(clicked()), this, SLOT(slotRestoreDefault()));
+    connect(toolFromMap, SIGNAL(clicked()), this, SLOT(slotProjFromMap()));
 }
 
 CDlgSetupGrid::~CDlgSetupGrid()
@@ -86,4 +89,12 @@ void CDlgSetupGrid::slotSelectGridColor()
 void CDlgSetupGrid::slotRestoreDefault()
 {
     lineProjection->setText("+proj=longlat +datum=WGS84 +no_defs");
+    lineProjection->setCursorPosition(0);
+}
+
+void CDlgSetupGrid::slotProjFromMap()
+{
+    IMap& map = CMapDB::self().getMap();
+    lineProjection->setText(map.getProjection());
+    lineProjection->setCursorPosition(0);
 }

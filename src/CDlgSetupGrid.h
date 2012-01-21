@@ -37,6 +37,7 @@ class CDlgSetupGrid : public QDialog, private Ui::IDlgSetupGrid
         void slotProjWizard();
         void slotSelectGridColor();
         void slotRestoreDefault();
+        void slotProjFromMap();
 };
 
 #endif //CDLGSETUPGRID_H

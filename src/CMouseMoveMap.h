@@ -60,6 +60,8 @@ class CMouseMoveMap : public IMouse
         void slotCopyPosPixel();
         void slotCopyPosPixelSize();
 
+        void slotReloadMap();
+
     private:
         /// true if left mouse button is pressed
         bool moveMap;

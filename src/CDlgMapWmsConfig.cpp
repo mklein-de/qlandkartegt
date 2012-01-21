@@ -259,7 +259,7 @@ void CDlgMapWmsConfig::accept()
     file.close();
     QDialog::accept();
 
-    CMapDB::self().openMap(map.getKey());
+    CMapDB::self().reloadMap();
 }
 
 

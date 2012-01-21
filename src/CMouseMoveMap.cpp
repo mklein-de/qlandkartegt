@@ -190,6 +190,8 @@ void CMouseMoveMap::draw(QPainter& p)
 
 void CMouseMoveMap::contextMenu(QMenu& menu)
 {
+    menu.addAction(QPixmap(":/icons/iconReload16x16.png"),tr("Reload Map"),this,SLOT(slotReloadMap()));
+    menu.addSeparator();
     if(!selWpt.isNull())
     {
         menu.addSeparator();
@@ -475,3 +477,7 @@ void CMouseMoveMap::slotOpenGoogleMaps()	//TODO: Open Google Maps
     QDesktopServices::openUrl(QUrl("http://maps.google.com/maps?t=h&z=18&om=1&q="+position+"("+time+")", QUrl::TolerantMode));
 }
 
+void CMouseMoveMap::slotReloadMap()
+{
+    CMapDB::self().reloadMap();
+}

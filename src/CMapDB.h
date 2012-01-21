@@ -140,6 +140,8 @@ class CMapDB : public IDB
         /// register a map via it's side information structure.
         void setMapData(const map_t& map);
 
+        void reloadMap();
+
     private:
         friend class CMainWindow;
         friend class CMapToolWidget;

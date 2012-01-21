@@ -478,18 +478,5 @@ void CMapToolWidget::slotAddTmsMap()
 
 void CMapToolWidget::slotReload()
 {
-    double lon = 0;
-    double lat = 0;
-    {
-        IMap& map  = CMapDB::self().getMap();
-        map.convertPt2Rad(lon, lat);
-        CMapDB::self().openMap(map.getKey());
-    }
-    {
-        IMap& map  = CMapDB::self().getMap();
-        map.convertRad2Pt(lon, lat);
-        map.move(QPoint(lon, lat), QPoint(0,0));
-
-    }
-
+    CMapDB::self().reloadMap();
 }
