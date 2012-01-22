@@ -25,6 +25,7 @@
 #include <QHash>
 #include <QQueue>
 #include <QSet>
+#include <QtCore>
 
 class QNetworkAccessManager;
 class QNetworkReply;
