@@ -1062,16 +1062,22 @@ void CMapDB::setMapData(const map_t& map)
 
 void CMapDB::reloadMap()
 {
-    double lon = 0;
-    double lat = 0;
+    QString key;
+    double  lon = 0;
+    double  lat = 0;
     {
         IMap& map  = getMap();
         map.convertPt2Rad(lon, lat);
-        openMap(map.getKey());
+        key = map.getKey();
+        closeVisibleMaps();
+        emitSigChanged();
     }
+    qApp->processEvents();
     {
+        openMap(key);
         IMap& map  = getMap();
         map.convertRad2Pt(lon, lat);
         map.move(QPoint(lon, lat), QPoint(0,0));
+        emitSigChanged();
     }
 }
