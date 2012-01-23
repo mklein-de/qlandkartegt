@@ -516,5 +516,6 @@
         <file>icons/preferences-desktop-font.png</file>
         <file>icons/preferences-desktop-color.png</file>
         <file>icons/noMap256x256.png</file>
+        <file>icons/iconTMS16x16.png</file>
     </qresource>
 </RCC>

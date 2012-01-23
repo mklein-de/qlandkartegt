@@ -122,7 +122,33 @@ void CMapToolWidget::slotDBChanged()
             item->setText(eName, map->description);
             item->setToolTip(eName, map->description);
             item->setData(eName, Qt::UserRole, map.key());
-            item->setIcon(eType, map->type == IMap::eRaster ? QIcon(":/icons/iconRaster16x16.png") : map->type == IMap::eGarmin ? QIcon(":/icons/iconVector16x16.png") : map->type == IMap::eTMS ? QIcon(":/icons/iconWMS16x16.png") : map->type == IMap::eWMS ? QIcon(":/icons/iconWMS16x16.png") : QIcon(":/icons/iconUnknown16x16.png"));
+
+            QIcon icon = QIcon(":/icons/iconUnknown16x16.png");
+            if(map->type == IMap::eRaster)
+            {
+                if(map->filename.toLower().endsWith("jnx"))
+                {
+                    icon = QIcon(":/icons/iconGoogleMaps16x16.png");
+                }
+                else
+                {
+                    icon = QIcon(":/icons/iconRaster16x16.png");
+                }
+            }
+            else if(map->type == IMap::eGarmin)
+            {
+                icon = QIcon(":/icons/iconVector16x16.png");
+            }
+            else if(map->type == IMap::eTMS)
+            {
+                icon = QIcon(":/icons/iconTMS16x16.png");
+            }
+            else if(map->type == IMap::eWMS)
+            {
+                icon = QIcon(":/icons/iconWMS16x16.png");
+            }
+
+            item->setIcon(eType, icon);
             item->setData(eType, Qt::UserRole, map->type);
 
             if(map.key() == key)
