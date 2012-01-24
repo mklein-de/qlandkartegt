@@ -41,6 +41,12 @@
          <property name="contextMenuPolicy">
           <enum>Qt::CustomContextMenu</enum>
          </property>
+         <property name="iconSize">
+          <size>
+           <width>22</width>
+           <height>22</height>
+          </size>
+         </property>
          <property name="indentation">
           <number>0</number>
          </property>
@@ -91,6 +97,12 @@
          <property name="contextMenuPolicy">
           <enum>Qt::CustomContextMenu</enum>
          </property>
+         <property name="iconSize">
+          <size>
+           <width>22</width>
+           <height>22</height>
+          </size>
+         </property>
          <property name="indentation">
           <number>0</number>
          </property>
@@ -140,6 +152,12 @@
         <widget class="QTreeWidget" name="treeKnownMapsVector">
          <property name="contextMenuPolicy">
           <enum>Qt::CustomContextMenu</enum>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>22</width>
+           <height>22</height>
+          </size>
          </property>
          <property name="indentation">
           <number>0</number>

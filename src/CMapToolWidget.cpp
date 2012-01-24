@@ -71,11 +71,11 @@ CMapToolWidget::CMapToolWidget(QTabWidget * parent)
 
     connect(pushExportMap, SIGNAL(clicked()), this, SLOT(slotExportMap()));
 
-    tabWidget->setTabIcon(eTabStream, QIcon(":/icons/iconWMS16x16.png"));
+    tabWidget->setTabIcon(eTabStream, QIcon(":/icons/iconStream22x22.png"));
     tabWidget->setTabText(eTabStream,tr("Stream"));
-    tabWidget->setTabIcon(eTabRaster, QIcon(":/icons/iconRaster16x16.png"));
+    tabWidget->setTabIcon(eTabRaster, QIcon(":/icons/iconRaster22x22.png"));
     tabWidget->setTabText(eTabRaster,tr("Raster"));
-    tabWidget->setTabIcon(eTabVector, QIcon(":/icons/iconVector16x16.png"));
+    tabWidget->setTabIcon(eTabVector, QIcon(":/icons/iconVector22x22.png"));
     tabWidget->setTabText(eTabVector,tr("Vector"));
 
 }
@@ -128,24 +128,24 @@ void CMapToolWidget::slotDBChanged()
             {
                 if(map->filename.toLower().endsWith("jnx"))
                 {
-                    icon = QIcon(":/icons/iconGoogleMaps16x16.png");
+                    icon = QIcon(":/icons/iconJNX22x22.png");
                 }
                 else
                 {
-                    icon = QIcon(":/icons/iconRaster16x16.png");
+                    icon = QIcon(":/icons/iconQMAP22x22.png");
                 }
             }
             else if(map->type == IMap::eGarmin)
             {
-                icon = QIcon(":/icons/iconVector16x16.png");
+                icon = QIcon(":/icons/iconTDB22x22.png");
             }
             else if(map->type == IMap::eTMS)
             {
-                icon = QIcon(":/icons/iconTMS16x16.png");
+                icon = QIcon(":/icons/iconTMS22x22.png");
             }
             else if(map->type == IMap::eWMS)
             {
-                icon = QIcon(":/icons/iconWMS16x16.png");
+                icon = QIcon(":/icons/iconWMS22x22.png");
             }
 
             item->setIcon(eType, icon);

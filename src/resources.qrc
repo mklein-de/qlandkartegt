@@ -73,7 +73,6 @@
         <file>icons/iconLight16x16.png</file>
         <file>icons/iconZoomArea16x16.png</file>
         <file>icons/iconAddPoint16x16.png</file>
-        <file>icons/iconWMS16x16.png</file>
         <file>icons/iconTime16x16.png</file>
         <file>icons/iconRoute16x16.png</file>
         <file>icons/iconProximity16x16.png</file>
@@ -516,6 +515,13 @@
         <file>icons/preferences-desktop-font.png</file>
         <file>icons/preferences-desktop-color.png</file>
         <file>icons/noMap256x256.png</file>
-        <file>icons/iconTMS16x16.png</file>
+        <file>icons/iconTMS22x22.png</file>
+        <file>icons/iconWMS22x22.png</file>
+        <file>icons/iconStream22x22.png</file>
+        <file>icons/iconRaster22x22.png</file>
+        <file>icons/iconQMAP22x22.png</file>
+        <file>icons/iconJNX22x22.png</file>
+        <file>icons/iconVector22x22.png</file>
+        <file>icons/iconTDB22x22.png</file>
     </qresource>
 </RCC>
