@@ -147,6 +147,10 @@ void CMapToolWidget::slotDBChanged()
             {
                 icon = QIcon(":/icons/iconWMS22x22.png");
             }
+            else if(map->type == IMap::eNoMap)
+            {
+                icon = QIcon(":/icons/iconRaster22x22.png");
+            }
 
             item->setIcon(eType, icon);
             item->setData(eType, Qt::UserRole, map->type);

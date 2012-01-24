@@ -67,7 +67,7 @@ CMapDB::CMapDB(QTabWidget * tb, QObject * parent)
     map_t m;
     m.description       = tr("--- No map ---");
     m.key               = "NoMap";
-    m.type              = IMap::eRaster;
+    m.type              = IMap::eNoMap;
     knownMaps[m.key]    = m;
     builtInKeys << m.key;
 

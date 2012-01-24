@@ -18,19 +18,43 @@
 **********************************************************************************************/
 
 #include "CMapNoMap.h"
+#include "CMainWindow.h"
 
 #include <QtGui>
 
 CMapNoMap::CMapNoMap(CCanvas * parent)
-: IMap(eRaster, "NoMap", parent)
+: IMap(eNoMap, "NoMap", parent)
 , xscale( 1.0)
 , yscale(-1.0)
 , x(0)
 , y(0)
 , zoomFactor(1.0)
+, quadraticZoom(0)
 {
     pjsrc   = pj_init_plus("+proj=merc +lon_0=0 +k=1 +x_0=0 +y_0=0 +ellps=WGS84 +datum=WGS84 +units=m +no_defs +towgs84=0,0,0");
     oSRS.importFromProj4(getProjection());
+
+    quadraticZoom = new QCheckBox(theMainWindow->getCanvas());
+    quadraticZoom->setText(tr("quadratic zoom"));
+    theMainWindow->statusBar()->insertPermanentWidget(0,quadraticZoom);
+
+    QSettings cfg;
+    quadraticZoom->setChecked(cfg.value("maps/quadraticZoom", false).toBool());
+
+    quadraticZoom->hide();
+}
+
+
+CMapNoMap::~CMapNoMap()
+{
+    if(quadraticZoom)
+    {
+        QSettings cfg;
+        cfg.setValue("maps/quadraticZoom", quadraticZoom->isChecked());
+        delete quadraticZoom;
+    }
+
+    if(pjsrc) pj_free(pjsrc);
 }
 
 
@@ -76,7 +100,25 @@ void CMapNoMap::zoom(bool zoomIn, const QPoint& p0)
     p1.v = p0.y();
     convertPt2Rad(p1.u, p1.v);
 
-    zoomidx += zoomIn ? -1 : 1;
+    if(quadraticZoom->isChecked())
+    {
+
+        if(zoomidx > 1)
+        {
+            zoomidx = pow(2.0, ceil(log(zoomidx*1.0)/log(2.0)));
+            zoomidx = zoomIn ? (zoomidx>>1) : (zoomidx<<1);
+        }
+        else
+        {
+            zoomidx += zoomIn ? -1 : 1;
+        }
+    }
+    else
+    {
+        zoomidx += zoomIn ? -1 : 1;
+    }
+
+
     // sigChanged will be sent at the end of this function
     blockSignals(true);
     zoom(zoomidx);
@@ -140,6 +182,15 @@ void CMapNoMap::zoom(double lon1, double lat1, double lon2, double lat2)
     int z2 = dV / size.height();
 
     zoomFactor = (z1 > z2 ? z1 : z2)  + 1;
+    if(quadraticZoom->isChecked())
+    {
+        zoomFactor = zoomidx = pow(2.0, ceil(log(zoomFactor)/log(2.0)));
+    }
+    else
+    {
+        zoomidx = zoomFactor;
+    }
+
 
     double u_ = lon1 + (lon2 - lon1)/2;
     double v_ = lat1 + (lat2 - lat1)/2;

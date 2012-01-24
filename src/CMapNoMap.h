@@ -23,6 +23,9 @@
 #include "IMap.h"
 
 #include "CCanvas.h"
+
+class QCheckBox;
+
 /// dummy render object
 /**
     This is used as place holder if no map is loaded
@@ -32,7 +35,7 @@ class CMapNoMap : public IMap
     Q_OBJECT;
     public:
         CMapNoMap(CCanvas * parent);
-        virtual ~CMapNoMap(){ if(pjsrc) pj_free(pjsrc);}
+        virtual ~CMapNoMap();
 
         void convertPt2M(double&, double&);
         void convertM2Pt(double&, double&);
@@ -40,7 +43,7 @@ class CMapNoMap : public IMap
         void zoom(bool, const QPoint&);
         void zoom(double lon1, double lat1, double lon2, double lat2);
         void zoom(qint32& level);
-        void select(const QRect&){};
+        void select(const QRect&){}
         void dimensions(double& lon1, double& lat1, double& lon2, double& lat2);
 
     private:
@@ -49,5 +52,7 @@ class CMapNoMap : public IMap
         double x;
         double y;
         double zoomFactor;
+
+        QCheckBox * quadraticZoom;
 };
 #endif                           //CMAPNOMAP_H
