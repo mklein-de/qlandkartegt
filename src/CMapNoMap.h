@@ -45,8 +45,12 @@ class CMapNoMap : public IMap
         void zoom(qint32& level);
         void select(const QRect&){}
         void dimensions(double& lon1, double& lat1, double& lon2, double& lat2);
+        void config();
+
+        void setup(const QString& proj, double xscale, double yscale);
 
     private:
+        friend class CDlgNoMapConfig;
         double xscale;
         double yscale;
         double x;

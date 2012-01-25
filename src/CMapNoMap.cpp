@@ -19,6 +19,7 @@
 
 #include "CMapNoMap.h"
 #include "CMainWindow.h"
+#include "CDlgNoMapConfig.h"
 
 #include <QtGui>
 
@@ -31,20 +32,37 @@ CMapNoMap::CMapNoMap(CCanvas * parent)
 , zoomFactor(1.0)
 , quadraticZoom(0)
 {
-    pjsrc   = pj_init_plus("+proj=merc +lon_0=0 +k=1 +x_0=0 +y_0=0 +ellps=WGS84 +datum=WGS84 +units=m +no_defs +towgs84=0,0,0");
-    oSRS.importFromProj4(getProjection());
-
     quadraticZoom = theMainWindow->getCheckBoxQuadraticZoom();
 
+    QSettings cfg;
+    QString proj = cfg.value("map/nomap/proj", "+proj=merc +a=6378137.0000 +b=6356752.3142 +towgs84=0,0,0,0,0,0,0,0 +units=m  +no_defs").toString();
+    setup(proj, cfg.value("map/nomap/xscale", xscale).toDouble(), cfg.value("map/nomap/yscale", yscale).toDouble());
 }
 
 
 CMapNoMap::~CMapNoMap()
 {
+    QSettings cfg;
+    cfg.setValue("map/nomap/proj", getProjection());
+    cfg.setValue("map/nomap/xscale", xscale);
+    cfg.setValue("map/nomap/yscale", yscale);
 
     if(pjsrc) pj_free(pjsrc);
 }
 
+void CMapNoMap::setup(const QString& proj, double xscale, double yscale)
+{
+    if(pjsrc) pj_free(pjsrc);
+
+    pjsrc   = pj_init_plus(proj.toAscii().data());
+    oSRS.importFromProj4(getProjection());
+    this->xscale = xscale;
+    this->yscale = yscale;
+
+    setAngleNorth();
+
+    emit sigChanged();
+}
 
 void CMapNoMap::convertPt2M(double& u, double& v)
 {
@@ -73,9 +91,10 @@ void CMapNoMap::move(const QPoint& old, const QPoint& next)
     x = xx;
     y = yy;
     needsRedraw = true;
-    emit sigChanged();
 
     setAngleNorth();
+
+    emit sigChanged();
 }
 
 
@@ -198,4 +217,10 @@ void CMapNoMap::dimensions(double& lon1, double& lat1, double& lon2, double& lat
     lon2 =  180 * DEG_TO_RAD;
     lat1 =   90 * DEG_TO_RAD;
     lat2 =  -90 * DEG_TO_RAD;
+}
+
+void CMapNoMap::config()
+{
+    CDlgNoMapConfig dlg(*this);
+    dlg.exec();
 }

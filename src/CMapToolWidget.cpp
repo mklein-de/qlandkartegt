@@ -319,11 +319,13 @@ void CMapToolWidget::slotContextMenuKnownMaps(const QPoint& pos)
         QString key     = item->data(eName, Qt::UserRole).toString();
         bool isBuiltIn  = CMapDB::self().isBuiltIn(key);
 
+        IMap::maptype_e type = CMapDB::self().getMapData(key).type;
+
         if(item->data(eMode, Qt::UserRole).toInt() == eSelected)
         {
             actAddDEM->setEnabled(true);
             actDelDEM->setEnabled(dem.maptype == IMap::eDEM);
-            actCfgMap->setEnabled(isBuiltIn ? false : true);
+            actCfgMap->setEnabled(isBuiltIn && (type != IMap::eNoMap) ? false : true);
         }
         else
         {

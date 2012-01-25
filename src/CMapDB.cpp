@@ -61,6 +61,8 @@ CMapDB::CMapDB(QTabWidget * tb, QObject * parent)
     connect(tw, SIGNAL(sigChanged()), SIGNAL(sigChanged()));
 
     defaultMap = new CMapNoMap(theMainWindow->getCanvas());
+    connect(defaultMap, SIGNAL(sigChanged()),  theMainWindow->getCanvas(), SLOT(update()));
+
     theMap = defaultMap;
 
     // static maps
