@@ -263,6 +263,11 @@ CMainWindow::CMainWindow()
     crashed     = cfg.value("mainWidget/crashed",false).toBool();
     cfg.setValue("mainWidget/crashed",true);
 
+    quadraticZoom = new QCheckBox(theMainWindow->getCanvas());
+    quadraticZoom->setText(tr("quadratic zoom"));
+    quadraticZoom->setChecked(cfg.value("maps/quadraticZoom", false).toBool());
+    theMainWindow->statusBar()->insertPermanentWidget(1,quadraticZoom);
+
     pathData    = cfg.value("path/data","./").toString();
 
     griddb      = new CGridDB(this);
@@ -272,9 +277,9 @@ CMainWindow::CMainWindow()
     routedb     = new CRouteDB(tabbar, this);
     overlaydb   = new COverlayDB(tabbar, this);
     livelogdb   = new CLiveLogDB(tabbar, this);
-
     diarydb     = new CDiaryDB(canvasTab, this);
     searchdb    = new CSearchDB(tabbar, this);
+
 
 #ifdef HAS_GEODB
     if(resources->useGeoDB())
@@ -408,6 +413,8 @@ CMainWindow::CMainWindow()
 
     connect(&CTrackDB::self(), SIGNAL(sigHighlightTrack(CTrack *)), canvas, SLOT(slotHighlightTrack(CTrack*)));
     connect(&CTrackDB::self(), SIGNAL(sigChanged()), canvas, SLOT(slotTrackChanged()));
+
+
 }
 
 
@@ -442,6 +449,7 @@ void CMainWindow::slotReloadArgs()
 
 CMainWindow::~CMainWindow()
 {
+
     QSettings cfg;
     cfg.setValue("mainWidget/mainSplitter",mainSplitter->saveState());
     cfg.setValue("mainWidget/leftSplitter",leftSplitter->saveState());
@@ -449,6 +457,7 @@ CMainWindow::~CMainWindow()
     cfg.setValue("mainWidget/crashed",false);
     cfg.setValue("path/data",pathData);
     cfg.setValue("geodata/mostRecent", mostRecent);
+    cfg.setValue("maps/quadraticZoom", quadraticZoom->isChecked());
 
     canvas = 0;
 }

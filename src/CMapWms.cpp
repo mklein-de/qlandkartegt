@@ -139,15 +139,10 @@ CMapWms::CMapWms(const QString &key, const QString &filename, CCanvas *parent)
     x           = xref1 + (xref2 - xref1) / 2;
     y           = yref1 + (yref2 - yref1) / 2;
 
-    quadraticZoom = new QCheckBox(theMainWindow->getCanvas());
-    quadraticZoom->setText(tr("quadratic zoom"));
-    theMainWindow->statusBar()->insertPermanentWidget(0,quadraticZoom);
+    quadraticZoom = theMainWindow->getCheckBoxQuadraticZoom();
 
     status = new QLabel(theMainWindow->getCanvas());
     theMainWindow->statusBar()->insertPermanentWidget(0,status);
-
-    QSettings cfg;
-    quadraticZoom->setChecked(cfg.value("maps/quadraticZoom", false).toBool());
 
     accessManager = new QNetworkAccessManager(this);
     accessManager->setProxy(QNetworkProxy(QNetworkProxy::DefaultProxy));
@@ -155,6 +150,7 @@ CMapWms::CMapWms(const QString &key, const QString &filename, CCanvas *parent)
 
     diskCache = new CDiskCache(this);
 
+    QSettings cfg;
     cfg.beginGroup("wms/maps");
     cfg.beginGroup(getKey());
 
@@ -171,13 +167,6 @@ CMapWms::CMapWms(const QString &key, const QString &filename, CCanvas *parent)
 CMapWms::~CMapWms()
 {
     if(pjsrc) pj_free(pjsrc);
-
-    if(quadraticZoom)
-    {
-        QSettings cfg;
-        cfg.setValue("maps/quadraticZoom", quadraticZoom->isChecked());
-        delete quadraticZoom;
-    }
 
     delete status;
 

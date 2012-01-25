@@ -158,12 +158,7 @@ CMapGeoTiff::CMapGeoTiff(const QString& fn, CCanvas * parent)
 
     zoomidx = 1;
 
-    quadraticZoom = new QCheckBox(theMainWindow->getCanvas());
-    quadraticZoom->setText(tr("quadratic zoom"));
-    theMainWindow->statusBar()->insertPermanentWidget(0,quadraticZoom);
-
-    QSettings cfg;
-    quadraticZoom->setChecked(cfg.value("maps/quadraticZoom", false).toBool());
+    quadraticZoom = theMainWindow->getCheckBoxQuadraticZoom();
 }
 
 
@@ -171,13 +166,6 @@ CMapGeoTiff::~CMapGeoTiff()
 {
     if(pjsrc) pj_free(pjsrc);
     if(dataset) delete dataset;
-
-    if(quadraticZoom)
-    {
-        QSettings cfg;
-        cfg.setValue("maps/quadraticZoom", quadraticZoom->isChecked());
-        delete quadraticZoom;
-    }
 }
 
 

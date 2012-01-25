@@ -339,6 +339,7 @@ CMapTDB::CMapTDB(const QString& key, const QString& filename, CCanvas * parent)
     checkMdrFile();
     qDebug() << "mdrfile:" << mdrfile;
 
+    theMainWindow->getCheckBoxQuadraticZoom()->hide();
     qDebug() << "CMapTDB::CMapTDB()";
 
 }
@@ -451,6 +452,7 @@ CMapTDB::~CMapTDB()
     delete comboLanguages;
     delete comboTypfiles;
 
+    theMainWindow->getCheckBoxQuadraticZoom()->show();
     qDebug() << "CMapTDB::~CMapTDB()";
 }
 

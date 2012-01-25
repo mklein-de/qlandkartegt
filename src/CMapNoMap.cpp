@@ -34,25 +34,13 @@ CMapNoMap::CMapNoMap(CCanvas * parent)
     pjsrc   = pj_init_plus("+proj=merc +lon_0=0 +k=1 +x_0=0 +y_0=0 +ellps=WGS84 +datum=WGS84 +units=m +no_defs +towgs84=0,0,0");
     oSRS.importFromProj4(getProjection());
 
-    quadraticZoom = new QCheckBox(theMainWindow->getCanvas());
-    quadraticZoom->setText(tr("quadratic zoom"));
-    theMainWindow->statusBar()->insertPermanentWidget(0,quadraticZoom);
+    quadraticZoom = theMainWindow->getCheckBoxQuadraticZoom();
 
-    QSettings cfg;
-    quadraticZoom->setChecked(cfg.value("maps/quadraticZoom", false).toBool());
-
-    quadraticZoom->hide();
 }
 
 
 CMapNoMap::~CMapNoMap()
 {
-    if(quadraticZoom)
-    {
-        QSettings cfg;
-        cfg.setValue("maps/quadraticZoom", quadraticZoom->isChecked());
-        delete quadraticZoom;
-    }
 
     if(pjsrc) pj_free(pjsrc);
 }

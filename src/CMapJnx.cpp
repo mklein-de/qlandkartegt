@@ -21,6 +21,7 @@
 #include "CResources.h"
 #include "CDlgMapJNXConfig.h"
 #include "GeoMath.h"
+#include "CMainWindow.h"
 #include <QtGui>
 
 #define MAX_IDX_ZOOM 26
@@ -265,6 +266,8 @@ CMapJnx::CMapJnx(const QString& key, const QString& fn, CCanvas * parent)
     zoom(zoomidx);
 
     setAngleNorth();
+
+    theMainWindow->getCheckBoxQuadraticZoom()->hide();
 }
 
 CMapJnx::~CMapJnx()
@@ -280,6 +283,8 @@ CMapJnx::~CMapJnx()
     cfg.setValue("y",y);
     cfg.endGroup();
     cfg.endGroup();
+
+    theMainWindow->getCheckBoxQuadraticZoom()->show();
 
 }
 

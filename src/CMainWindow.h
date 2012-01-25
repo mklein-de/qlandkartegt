@@ -46,6 +46,7 @@ class CGeoDB;
 class CDBus;
 #endif
 class CGridDB;
+class QCheckBox;
 
 class CMainWindow : public QMainWindow
 {
@@ -73,6 +74,8 @@ class CMainWindow : public QMainWindow
         void loadData(const QString& filename, const QString& filter);
 
         bool didCrash(){return crashed;}
+
+        QCheckBox * getCheckBoxQuadraticZoom(){return quadraticZoom;}
 
     protected:
         void closeEvent(QCloseEvent * e);
@@ -192,6 +195,8 @@ class CMainWindow : public QMainWindow
 #endif
         bool locked;
         bool crashed;
+
+        QCheckBox * quadraticZoom;
 
 };
 

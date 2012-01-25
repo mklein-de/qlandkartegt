@@ -73,7 +73,7 @@ CMapTms::CMapTms(const QString& key, CCanvas *parent)
 
     status = new QLabel(theMainWindow->getCanvas());
     theMainWindow->statusBar()->insertPermanentWidget(0,status);
-
+    theMainWindow->getCheckBoxQuadraticZoom()->hide();
 
     zoom(zoomidx);
 }
@@ -90,6 +90,8 @@ CMapTms::~CMapTms()
     if(pjsrc) pj_free(pjsrc);
 
     delete status;
+
+    theMainWindow->getCheckBoxQuadraticZoom()->show();
 }
 
 
