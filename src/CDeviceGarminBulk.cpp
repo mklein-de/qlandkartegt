@@ -26,6 +26,7 @@
 #include "CRoute.h"
 
 #include <QtGui>
+#include <QtXml>
 
 CDeviceGarminBulk::CDeviceGarminBulk(QObject * parent)
 : IDevice("Garmin Mass Storage", parent)
@@ -38,13 +39,71 @@ CDeviceGarminBulk::~CDeviceGarminBulk()
 
 }
 
+void CDeviceGarminBulk::readDeviceXml(const QString& filename)
+{
+    QFile file(filename);
+    file.open(QIODevice::ReadOnly);
+
+    QDomDocument dom;
+    dom.setContent(&file);
+
+    QDomElement device              = dom.firstChildElement("Device");
+    QDomElement MassStorageMode     = device.firstChildElement("MassStorageMode");
+    const QDomNodeList& DataTypes   = MassStorageMode.elementsByTagName("DataType");
+
+    for(int i = 0; i < DataTypes.size(); i++)
+    {
+        QDomNode dataType       = DataTypes.at(i);
+        QDomElement Name        = dataType.firstChildElement("Name");
+        QDomElement File        = dataType.firstChildElement("File");
+        QDomElement Location    = File.firstChildElement("Location");
+        QDomElement Path        = Location.firstChildElement("Path");
+
+        QString name = Name.text().simplified();
+        if(name == "UserDataSync")
+        {
+            QString path = Path.text().simplified();
+            if(path.startsWith("Garmin"))
+            {
+                pathGpx = path.mid(7);
+            }
+        }
+        else if(name == "GeotaggedPhotos")
+        {
+            QString path = Path.text().simplified();
+            if(path.startsWith("Garmin"))
+            {
+                pathPictures = path.mid(7);
+            }
+        }
+        else if(name == "GeocachePhotos")
+        {
+            QString path = Path.text().simplified();
+            if(path.startsWith("Garmin"))
+            {
+                pathSpoilers = path.mid(7);
+            }
+        }
+
+    }
+}
+
 bool CDeviceGarminBulk::aquire(QDir& dir)
 {
     QSettings cfg;
     QString path = cfg.value("device/path","").toString();
     dir.setPath(path);
 
-    if(!dir.exists() || dir.absolutePath() != path || !dir.exists("GPX") || (!dir.exists("JPEG") && !dir.exists("Pictures")))
+    pathPictures = "JPEG";
+    pathGpx      = "GPX";
+    pathSpoilers = "";
+
+    if(dir.exists("GarminDevice.xml"))
+    {
+        readDeviceXml(dir.absoluteFilePath("GarminDevice.xml"));
+    }
+
+    if(!dir.exists() || dir.absolutePath() != path || !dir.exists(pathGpx) || (!dir.exists(pathPictures)))
     {
         while(1)
         {
@@ -55,15 +114,26 @@ bool CDeviceGarminBulk::aquire(QDir& dir)
             }
             dir.setPath(path);
 
-            if(!dir.exists("GPX"))
+            if(dir.exists("GarminDevice.xml"))
             {
-                QMessageBox::critical(0, tr("Missing..."), tr("The selected path must have a subdirectory 'GPX'."), QMessageBox::Abort, QMessageBox::Abort);
+                readDeviceXml(dir.absoluteFilePath("GarminDevice.xml"));
+            }
+
+            if(!dir.exists(pathGpx))
+            {
+                QMessageBox::critical(0, tr("Missing..."), tr("The selected path must have a subdirectory '%1'.").arg(pathGpx), QMessageBox::Abort, QMessageBox::Abort);
                 continue;
             }
 
-            if(!dir.exists("JPEG") && !dir.exists("Pictures"))
+            if(!dir.exists(pathPictures))
             {
-                QMessageBox::critical(0, tr("Missing..."), tr("The selected path must have a subdirectory 'JPEG' or 'Pictures'."), QMessageBox::Abort, QMessageBox::Abort);
+                QMessageBox::critical(0, tr("Missing..."), tr("The selected path must have a subdirectory '%1'.").arg(pathPictures), QMessageBox::Abort, QMessageBox::Abort);
+                continue;
+            }
+
+            if(!pathSpoilers.isEmpty() && !dir.exists(pathSpoilers))
+            {
+                QMessageBox::critical(0, tr("Missing..."), tr("The selected path must have a subdirectory '%1'.").arg(pathSpoilers), QMessageBox::Abort, QMessageBox::Abort);
                 continue;
             }
 
@@ -83,35 +153,69 @@ void CDeviceGarminBulk::uploadWpts(const QList<CWpt*>& wpts)
         return;
     }
 
-    if(dir.exists("JPEG"))
-    {
-        dir.cd("JPEG");
-    }
-    else if(dir.exists("Pictures"))
-    {
-        dir.cd("Pictures");
-    }
-
     QStringList keys;
     foreach(CWpt* wpt, wpts)
     {
         keys << wpt->getKey();
         if(!wpt->images.isEmpty())
         {
-            CWpt::image_t img   = wpt->images.first();
-            QString fn          = img.filename;
-            if(fn.isEmpty())
+            if(wpt->isGeoCache() && !pathSpoilers.isEmpty())
             {
-                fn = wpt->getName() + ".jpg";
-            }
+                int cnt = 1;
+                QString name = wpt->getName();
+                quint32 size = name.size();
+                QString path = QString("%1/%2/%3").arg(name.at(size-1)).arg(name.at(size -2)).arg(name);
 
-            img.pixmap.save(dir.absoluteFilePath(fn));
-            wpt->link = "Garmin/JPEG/" + fn;
+
+                dir.cd(pathSpoilers);
+
+                dir.mkpath(path + "/Spoilers");
+
+                QDir dir2 = dir.absoluteFilePath(path);
+
+                foreach(const CWpt::image_t& img, wpt->images)
+                {
+                    QString fn = img.info;
+                    if(fn.isEmpty())
+                    {
+                        fn = QString("pix%1.jpg").arg(cnt++);
+                    }
+                    if(!fn.endsWith("jpg"))
+                    {
+                        fn += ".jpg";
+                    }
+                    if(fn.contains("Spoiler"))
+                    {
+                        fn = "Spoilers/" + fn;
+                    }
+
+                    img.pixmap.save(dir2.absoluteFilePath(fn));
+                }
+
+                dir.cdUp();
+
+            }
+            else
+            {
+                dir.cd(pathPictures);
+
+                CWpt::image_t img   = wpt->images.first();
+                QString fn          = img.filename;
+                if(fn.isEmpty())
+                {
+                    fn = wpt->getName() + ".jpg";
+                }
+
+                img.pixmap.save(dir.absoluteFilePath(fn));
+                wpt->link = "Garmin/JPEG/" + fn;
+
+                dir.cdUp();
+            }
         }
     }
 
-    dir.cdUp();
-    dir.cd("GPX");
+
+    dir.cd(pathGpx);
 
     CGpx gpx(this, CGpx::eCleanExport);
     CWptDB::self().saveGPX(gpx, keys);
@@ -132,7 +236,7 @@ void CDeviceGarminBulk::downloadWpts(QList<CWpt*>& /*wpts*/)
         return;
     }
 
-    dir.cd("GPX");
+    dir.cd(pathGpx);
 
     QStringList files = dir.entryList(QStringList("*gpx"));
     foreach(const QString& filename, files)
@@ -143,7 +247,7 @@ void CDeviceGarminBulk::downloadWpts(QList<CWpt*>& /*wpts*/)
     }
 
     dir.cdUp();
-    dir.cd("JPEG");
+    dir.cd(pathPictures);
 
     const QMap<QString,CWpt*>& wpts = CWptDB::self().getWpts();
     foreach(CWpt * wpt, wpts)
@@ -178,7 +282,7 @@ void CDeviceGarminBulk::uploadTracks(const QList<CTrack*>& trks)
         keys << trk->getKey();
     }
 
-    dir.cd("GPX");
+    dir.cd(pathGpx);
 
     CGpx gpx(this, CGpx::eCleanExport);
     CTrackDB::self().saveGPX(gpx, keys);
@@ -198,7 +302,7 @@ void CDeviceGarminBulk::downloadTracks(QList<CTrack*>& /*trks*/)
         return;
     }
 
-    dir.cd("GPX");
+    dir.cd(pathGpx);
 
     QStringList files = dir.entryList(QStringList("*gpx"));
     foreach(const QString& filename, files)
@@ -240,7 +344,7 @@ void CDeviceGarminBulk::uploadRoutes(const QList<CRoute*>& rtes)
         keys << rte->getKey();
     }
 
-    dir.cd("GPX");
+    dir.cd(pathGpx);
 
     CGpx gpx(this, CGpx::eCleanExport);
     CRouteDB::self().saveGPX(gpx, keys);
@@ -260,7 +364,7 @@ void CDeviceGarminBulk::downloadRoutes(QList<CRoute*>& /*rtes*/)
         return;
     }
 
-    dir.cd("GPX");
+    dir.cd(pathGpx);
 
     QStringList files = dir.entryList(QStringList("*gpx"));
     foreach(const QString& filename, files)
