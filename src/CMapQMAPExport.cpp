@@ -84,10 +84,10 @@ CMapQMAPExport::CMapQMAPExport(const CMapSelectionRaster& mapsel, QWidget * pare
     path_cache2gtiff    = QCoreApplication::applicationDirPath()+QDir::separator()+"cache2gtiff.exe";
 #else
 #if defined(Q_WS_MAC)
-    // MacOS X: applications are stored in the bundle folder
-    path_map2gcm        = QString("%1/Resources/map2gcm").arg(QCoreApplication::applicationDirPath().replace(QRegExp("MacOS$"), ""));
-    path_map2jnx        = QString("%1/Resources/map2jnx").arg(QCoreApplication::applicationDirPath().replace(QRegExp("MacOS$"), ""));
-    path_cache2gtiff    = QString("%1/Resources/cache2gtiff").arg(QCoreApplication::applicationDirPath().replace(QRegExp("MacOS$"), ""));
+    // MacOS X: applications are stored in the bundle folder, be sure to quote (space in path)
+    path_map2gcm        = QString("\"%1/Resources/map2gcm\"").arg(QCoreApplication::applicationDirPath().replace(QRegExp("MacOS$"), ""));
+    path_map2jnx        = QString("\"%1/Resources/map2jnx\"").arg(QCoreApplication::applicationDirPath().replace(QRegExp("MacOS$"), ""));
+    path_cache2gtiff    = QString("\"%1/Resources/cache2gtiff\"").arg(QCoreApplication::applicationDirPath().replace(QRegExp("MacOS$"), ""));
 #else
     path_map2gcm        = "map2gcm";
     path_map2jnx        = MAP2JNX;
