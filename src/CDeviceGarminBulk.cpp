@@ -59,33 +59,30 @@ void CDeviceGarminBulk::readDeviceXml(const QString& filename)
         QDomElement Location    = File.firstChildElement("Location");
         QDomElement Path        = Location.firstChildElement("Path");
 
+        qDebug() << Name.text().simplified() << Path.text().simplified();
+
         QString name = Name.text().simplified();
-        if(name == "UserDataSync")
+
+        if(name == "GPSData")
         {
-            QString path = Path.text().simplified();
-            if(path.startsWith("Garmin"))
-            {
-                pathGpx = path.mid(7);
-            }
+            pathGpx = Path.text().simplified();
+        }
+        else if(name == "UserDataSync")
+        {
+            pathGpx = Path.text().simplified();
         }
         else if(name == "GeotaggedPhotos")
         {
-            QString path = Path.text().simplified();
-            if(path.startsWith("Garmin"))
-            {
-                pathPictures = path.mid(7);
-            }
+            pathPictures = Path.text().simplified();
         }
         else if(name == "GeocachePhotos")
         {
-            QString path = Path.text().simplified();
-            if(path.startsWith("Garmin"))
-            {
-                pathSpoilers = path.mid(7);
-            }
+            pathSpoilers = Path.text().simplified();
         }
 
     }
+
+
 }
 
 bool CDeviceGarminBulk::aquire(QDir& dir)
@@ -94,19 +91,32 @@ bool CDeviceGarminBulk::aquire(QDir& dir)
     QString path = cfg.value("device/path","").toString();
     dir.setPath(path);
 
-    pathPictures = "JPEG";
-    pathGpx      = "GPX";
+    pathRoot     = "";
+    pathPictures = "";
+    pathGpx      = "Garmin/GPX";
     pathSpoilers = "";
 
-    if(dir.exists("GarminDevice.xml"))
+    if(path.endsWith("Garmin"))
     {
-        readDeviceXml(dir.absoluteFilePath("GarminDevice.xml"));
+        dir.cdUp();
     }
 
-    if(!dir.exists() || dir.absolutePath() != path || !dir.exists(pathGpx) || (!dir.exists(pathPictures)))
+    if(dir.exists("Garmin/GarminDevice.xml"))
+    {
+        readDeviceXml(dir.absoluteFilePath("Garmin/GarminDevice.xml"));
+    }
+
+
+
+    if(!dir.exists() || !dir.exists(pathGpx))
     {
         while(1)
         {
+            pathRoot     = "";
+            pathPictures = "";
+            pathGpx      = "Garmin/GPX";
+            pathSpoilers = "";
+
             path = QFileDialog::getExistingDirectory(0, "Path to Garmin device...", dir.absolutePath());
             if(path.isEmpty())
             {
@@ -114,9 +124,14 @@ bool CDeviceGarminBulk::aquire(QDir& dir)
             }
             dir.setPath(path);
 
-            if(dir.exists("GarminDevice.xml"))
+            if(path.endsWith("Garmin"))
             {
-                readDeviceXml(dir.absoluteFilePath("GarminDevice.xml"));
+                dir.cdUp();
+            }
+
+            if(dir.exists("Garmin/GarminDevice.xml"))
+            {
+                readDeviceXml(dir.absoluteFilePath("Garmin/GarminDevice.xml"));
             }
 
             if(!dir.exists(pathGpx))
@@ -125,7 +140,7 @@ bool CDeviceGarminBulk::aquire(QDir& dir)
                 continue;
             }
 
-            if(!dir.exists(pathPictures))
+            if(!pathPictures.isEmpty() && !dir.exists(pathPictures))
             {
                 QMessageBox::critical(0, tr("Missing..."), tr("The selected path must have a subdirectory '%1'.").arg(pathPictures), QMessageBox::Abort, QMessageBox::Abort);
                 continue;
@@ -140,7 +155,8 @@ bool CDeviceGarminBulk::aquire(QDir& dir)
             break;
         }
     }
-    cfg.setValue("device/path", path);
+    pathRoot = dir.absolutePath();
+    cfg.setValue("device/path", pathRoot);
     return true;
 }
 
@@ -168,10 +184,8 @@ void CDeviceGarminBulk::uploadWpts(const QList<CWpt*>& wpts)
 
 
                 dir.cd(pathSpoilers);
-
                 dir.mkpath(path + "/Spoilers");
-
-                QDir dir2 = dir.absoluteFilePath(path);
+                dir.cd(path);
 
                 foreach(const CWpt::image_t& img, wpt->images)
                 {
@@ -189,31 +203,29 @@ void CDeviceGarminBulk::uploadWpts(const QList<CWpt*>& wpts)
                         fn = "Spoilers/" + fn;
                     }
 
-                    img.pixmap.save(dir2.absoluteFilePath(fn));
+                    img.pixmap.save(dir.absoluteFilePath(fn));
                 }
-
-                dir.cdUp();
-
             }
             else
             {
-                dir.cd(pathPictures);
-
-                CWpt::image_t img   = wpt->images.first();
-                QString fn          = img.filename;
-                if(fn.isEmpty())
+                if(!pathPictures.isEmpty())
                 {
-                    fn = wpt->getName() + ".jpg";
+                    dir.cd(pathPictures);
+
+                    CWpt::image_t img   = wpt->images.first();
+                    QString fn          = img.filename;
+                    if(fn.isEmpty())
+                    {
+                        fn = wpt->getName() + ".jpg";
+                    }
+
+                    img.pixmap.save(dir.absoluteFilePath(fn));
+                    wpt->link = pathPictures + "/" + fn;
                 }
-
-                img.pixmap.save(dir.absoluteFilePath(fn));
-                wpt->link = "Garmin/JPEG/" + fn;
-
-                dir.cdUp();
             }
+            dir.cd(pathRoot);
         }
     }
-
 
     dir.cd(pathGpx);
 
@@ -222,7 +234,7 @@ void CDeviceGarminBulk::uploadWpts(const QList<CWpt*>& wpts)
     QString filename = QString("WPT_%1.gpx").arg(QDateTime::currentDateTime().toUTC().toString("yyyy-MM-dd"));
     gpx.save(dir.absoluteFilePath(filename));
 
-    dir.cdUp();
+    dir.cd(pathRoot);
 
 }
 
@@ -246,21 +258,64 @@ void CDeviceGarminBulk::downloadWpts(QList<CWpt*>& /*wpts*/)
         CWptDB::self().loadGPX(gpx);
     }
 
-    dir.cdUp();
-    dir.cd(pathPictures);
 
     const QMap<QString,CWpt*>& wpts = CWptDB::self().getWpts();
     foreach(CWpt * wpt, wpts)
     {
-        if(wpt->link.startsWith("Garmin/JPEG/"))
+        if(wpt->isGeoCache())
         {
-            CWpt::image_t img;
-            img.pixmap.load(dir.absoluteFilePath(wpt->link.mid(12)));
-            if(!img.pixmap.isNull())
+            QString name = wpt->getName();
+            quint32 size = name.size();
+            QString path = QString("%1/%2/%3").arg(name.at(size-1)).arg(name.at(size -2)).arg(name);
+
+            dir.cd(pathRoot);
+            dir.cd(pathSpoilers);
+            if(dir.exists(path))
             {
-                img.filename    = wpt->link.mid(12);
-                img.info        = wpt->getComment();
-                wpt->images << img;
+                dir.cd(path);
+
+                QStringList files = dir.entryList(QStringList("*.jpg"), QDir::Files);
+                foreach(const QString& file, files)
+                {
+                    CWpt::image_t img;
+                    img.pixmap.load(dir.absoluteFilePath(file));
+                    if(!img.pixmap.isNull())
+                    {
+                        img.filename    = file;
+                        img.info        = file;
+                        wpt->images << img;
+                    }
+                }
+
+                dir.cd("Spoilers");
+                files = dir.entryList(QStringList("*.jpg"), QDir::Files);
+                foreach(const QString& file, files)
+                {
+                    CWpt::image_t img;
+                    img.pixmap.load(dir.absoluteFilePath(file));
+                    if(!img.pixmap.isNull())
+                    {
+                        img.filename    = file;
+                        img.info        = file;
+                        wpt->images << img;
+                    }
+                }
+            }
+
+        }
+        else
+        {
+            dir.cd(pathRoot);
+            if(wpt->link.startsWith(pathPictures))
+            {
+                CWpt::image_t img;
+                img.pixmap.load(dir.absoluteFilePath(wpt->link));
+                if(!img.pixmap.isNull())
+                {
+                    img.filename    = QFileInfo(wpt->link).fileName();
+                    img.info        = wpt->getComment();
+                    wpt->images << img;
+                }
             }
         }
     }

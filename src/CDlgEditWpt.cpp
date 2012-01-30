@@ -72,6 +72,10 @@ CDlgEditWpt::CDlgEditWpt(CWpt &wpt, QWidget * parent)
     imageSelect->setWpt(&wpt);
     connect(imageSelect, SIGNAL(sigSelectImage(const CImageSelect::img_t&)), this, SLOT(slotSelectImage(const CImageSelect::img_t&)));
 
+    if(wpt.isGeoCache())
+    {
+        imageSelect->hide();
+    }
 }
 
 
@@ -371,7 +375,14 @@ void CDlgEditWpt::showImage(int idx)
         idxImg = idx;
 
         CWpt::image_t& img = wpt.images[idx];
-        labelImage->setPixmap(img.pixmap.scaledToWidth(150,Qt::SmoothTransformation));
+        if(wpt.isGeoCache())
+        {
+            labelImage->setPixmap(img.pixmap.scaledToWidth(300,Qt::SmoothTransformation));
+        }
+        else
+        {
+            labelImage->setPixmap(img.pixmap.scaledToWidth(150,Qt::SmoothTransformation));
+        }
         labelInfo->setText(img.info);
 
         pushNext->setEnabled(idx < (wpt.images.count() - 1) && wpt.images.count() != 1);

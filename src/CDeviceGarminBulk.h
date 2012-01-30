@@ -51,6 +51,7 @@ class CDeviceGarminBulk : public IDevice
         void readDeviceXml(const QString& filename);
         bool aquire(QDir& dir);
 
+        QString pathRoot;
         QString pathPictures;
         QString pathGpx;
         QString pathSpoilers;
