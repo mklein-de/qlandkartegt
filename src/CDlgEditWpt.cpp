@@ -371,7 +371,7 @@ void CDlgEditWpt::showImage(int idx)
         idxImg = idx;
 
         CWpt::image_t& img = wpt.images[idx];
-        labelImage->setPixmap(img.pixmap.scaledToWidth(100,Qt::SmoothTransformation));
+        labelImage->setPixmap(img.pixmap.scaledToWidth(150,Qt::SmoothTransformation));
         labelInfo->setText(img.info);
 
         pushNext->setEnabled(idx < (wpt.images.count() - 1) && wpt.images.count() != 1);
