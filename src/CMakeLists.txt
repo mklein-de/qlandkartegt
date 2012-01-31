@@ -151,6 +151,7 @@ set(qlandkarte_SRCS
     CDlgExport.cpp
     CDlgWpt2Rte.cpp
     CDlgSetupGrid.cpp
+    CDlgCropMap.cpp
     CQlb.cpp
     CGpx.cpp
     IDevice.cpp
@@ -312,6 +313,7 @@ set(qlandkarte_HDRS
     CDlgExport.h
     CDlgWpt2Rte.h
     CDlgSetupGrid.h
+    CDlgCropMap.h
     CQlb.h
     CGpx.h
     IDevice.h
@@ -422,6 +424,7 @@ SET(qlandkarte_UIS
     IDlgExport.ui
     IDlgWpt2Rte.ui
     IDlgSetupGrid.ui
+    IDlgCropMap.ui
     ICreateMapQMAP.ui
     ICreateMapGeoTiff.ui
     ICreateMapGridTool.ui

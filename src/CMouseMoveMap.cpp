@@ -27,6 +27,7 @@
 #include "GeoMath.h"
 #include "CTrackToolWidget.h"
 #include "CGridDB.h"
+#include "CDlgCropMap.h"
 
 #include <QtGui>
 #include "CUndoStackView.h"
@@ -366,11 +367,16 @@ void CMouseMoveMap::slotCopyPosPixelSize()
     double u2 = mousePos.x();
     double v2 = mousePos.y();
 
-    map.convertPt2Pixel(u2,v2);
-    QString position = QString("%1 %2 %3 %4").arg(u1, 0,'f',0).arg(v1,0,'f',0).arg(u2 - u1, 0,'f',0).arg(v2 - v1,0,'f',0);
+    QString filename  = map.getFilename(mousePos.x(), mousePos.y());
 
-    QClipboard *clipboard = QApplication::clipboard();
-    clipboard->setText(position);
+    map.convertPt2Pixel(u2,v2);
+
+//    QString position = QString("%1 %2 %3 %4").arg(u1, 0,'f',0).arg(v1,0,'f',0).arg(u2 - u1, 0,'f',0).arg(v2 - v1,0,'f',0);
+//    QClipboard *clipboard = QApplication::clipboard();
+//    clipboard->setText(position);
+
+    CDlgCropMap dlg(filename, u1, u2, u2 - u1, v2 - v1);
+    dlg.exec();
 
 }
 
