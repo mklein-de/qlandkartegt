@@ -104,6 +104,10 @@ CCanvas::CCanvas(QWidget * parent)
 
     connect(profile, SIGNAL(sigFocusPoint(double)), this, SLOT(slotFocusTrackPoint(double)));
     connect(mouseMoveMap, SIGNAL(sigTrkPt(CTrack::pt_t*)), profile, SLOT(slotTrkPt(CTrack::pt_t*)));
+
+    timerFadingMessage = new QTimer(this);
+    timerFadingMessage->setSingleShot(true);
+    connect(timerFadingMessage, SIGNAL(timeout()), this, SLOT(slotFadingMessage()));
 }
 
 
@@ -411,6 +415,7 @@ void CCanvas::draw(QPainter& p)
     drawRefPoints(p);
     drawScale(p);
     drawCompass(p);
+    drawFadingMessage(p);
 
     mouse->draw(p);
 }
@@ -880,4 +885,47 @@ void CCanvas::slotHighlightTrack(CTrack * track)
         profile->hide();
         disconnect(profile, SIGNAL(sigClicked()), CTrackDB::self().getToolWidget(), SLOT(slotShowProfile()));
     }
+}
+
+void CCanvas::setFadingMessage(const QString& msg)
+{
+    fadingMessage = msg;
+    update();
+    timerFadingMessage->start(1000);
+}
+
+void CCanvas::slotFadingMessage()
+{
+    fadingMessage.clear();
+    update();
+
+}
+
+void CCanvas::drawFadingMessage(QPainter& p)
+{
+    if(fadingMessage.isEmpty())
+    {
+        timerFadingMessage->stop();
+        return;
+    }
+
+    QFont           f = CResources::self().getMapFont();
+    f.setPixelSize(f.pointSize() + 10);
+    QFontMetrics    fm(f);
+    QRect           r1 = fm.boundingRect(QRect(0,0,300,0), Qt::AlignLeft|Qt::AlignTop|Qt::TextWordWrap, fadingMessage);
+    r1.moveCenter(rect().center());
+
+    QRect           r2 = r1;
+    r2.setWidth(r1.width() + 20);
+    r2.moveLeft(r1.left() - 10);
+    r2.setHeight(r1.height() + 20);
+    r2.moveTop(r1.top() - 10);
+
+    p.setPen(penBorderBlue);
+    p.setBrush(brushBackWhite);
+    PAINT_ROUNDED_RECT(p,r2);
+
+    p.setFont(f);
+    p.setPen(Qt::darkBlue);
+    p.drawText(r1, Qt::AlignLeft|Qt::AlignTop|Qt::TextWordWrap,fadingMessage);
 }

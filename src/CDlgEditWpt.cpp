@@ -74,7 +74,13 @@ CDlgEditWpt::CDlgEditWpt(CWpt &wpt, QWidget * parent)
 
     if(wpt.isGeoCache())
     {
+        labelSpolerHint->show();
         imageSelect->hide();
+    }
+    else
+    {
+        labelSpolerHint->hide();
+        imageSelect->show();
     }
 }
 

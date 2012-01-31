@@ -22,6 +22,8 @@
 #include "CTrackDB.h"
 #include "CRouteDB.h"
 #include "CDlgExport.h"
+#include "CMainWindow.h"
+#include "CCanvas.h"
 #include <QtGui>
 
 bool IDevice::m_UploadAllWpt    = true;
@@ -62,6 +64,7 @@ void IDevice::downloadAll()
     if(m_DownloadAllWpt) CWptDB::self().download();
     if(m_DownloadAllTrk) CTrackDB::self().download();
     if(m_DownloadAllRte) CRouteDB::self().download();
+    theMainWindow->getCanvas()->setFadingMessage(tr("Download finished."));
 }
 
 
@@ -83,6 +86,7 @@ void IDevice::uploadAll()
     if(m_UploadAllWpt) CWptDB::self().upload(keysWpt);
     if(m_UploadAllTrk) CTrackDB::self().upload(keysTrk);
     if(m_UploadAllRte) CRouteDB::self().upload(keysRte);
+    theMainWindow->getCanvas()->setFadingMessage(tr("Upload finished."));
 }
 
 

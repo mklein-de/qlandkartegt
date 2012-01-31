@@ -131,6 +131,8 @@ class CCanvas : public QWidget
         static QBrush brushBackWhite;
         static QBrush brushBackYellow;
 
+        void setFadingMessage(const QString& msg);
+
         signals:
         void sigResize(const QSize& size);
 
@@ -139,6 +141,7 @@ class CCanvas : public QWidget
         void slotHighlightTrack(CTrack * track);
         void slotTrackChanged();
         void slotFocusTrackPoint(double dist);
+        void slotFadingMessage();
 
     protected:
         void paintEvent(QPaintEvent * e);
@@ -161,6 +164,7 @@ class CCanvas : public QWidget
         void drawRefPoints(QPainter& p);
         void drawScale(QPainter& p);
         void drawCompass(QPainter& p);
+        void drawFadingMessage(QPainter& p);
 
     private:
         friend class CStatusCanvas;
@@ -190,9 +194,10 @@ class CCanvas : public QWidget
 
         /// current mouse position
         QPoint posMouse;
-
         QLabel * info;
-
         CPlot * profile;
+
+        QTimer * timerFadingMessage;
+        QString fadingMessage;
 };
 #endif                           //CCANVAS_H

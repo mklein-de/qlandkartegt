@@ -21,6 +21,7 @@
 
 #include "CDeviceGarmin.h"
 #include "CMainWindow.h"
+#include "CCanvas.h"
 #include "CWptDB.h"
 #include "CWpt.h"
 #include "CTrackDB.h"
@@ -710,6 +711,8 @@ void CDeviceGarmin::uploadWpts(const QList<CWpt*>& wpts)
         return;
     }
 
+    theMainWindow->getCanvas()->setFadingMessage(tr("Upload waypoints finished!"));
+
 }
 
 
@@ -767,6 +770,7 @@ void CDeviceGarmin::downloadWpts(QList<CWpt*>& wpts)
         ++garwpt;
     }
 
+    theMainWindow->getCanvas()->setFadingMessage(tr("Download waypoints finished!"));
 }
 
 
@@ -828,6 +832,7 @@ void CDeviceGarmin::uploadTracks(const QList<CTrack*>& trks)
         return;
     }
 
+    theMainWindow->getCanvas()->setFadingMessage(tr("Upload tracks finished!"));
 }
 
 
@@ -893,6 +898,8 @@ void CDeviceGarmin::downloadTracks(QList<CTrack*>& trks)
         }
         ++gartrk;
     }
+
+    theMainWindow->getCanvas()->setFadingMessage(tr("Download tracks finished!"));
 
 }
 
@@ -1027,6 +1034,7 @@ void CDeviceGarmin::uploadRoutes(const QList<CRoute*>& rtes)
         return;
     }
 
+    theMainWindow->getCanvas()->setFadingMessage(tr("Upload routes finished!"));
 }
 
 
@@ -1083,6 +1091,7 @@ void CDeviceGarmin::downloadRoutes(QList<CRoute*>& rtes)
         ++garrte;
     }
 
+    theMainWindow->getCanvas()->setFadingMessage(tr("Download routes finished!"));
 }
 
 
@@ -1146,6 +1155,7 @@ void CDeviceGarmin::uploadMap(const QList<IMapSelection*>& mss)
         return;
     }
 
+    theMainWindow->getCanvas()->setFadingMessage(tr("Upload maps finished!"));
 }
 
 

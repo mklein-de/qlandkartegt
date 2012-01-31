@@ -24,6 +24,8 @@
 #include "CTrack.h"
 #include "CRouteDB.h"
 #include "CRoute.h"
+#include "CMainWindow.h"
+#include "CCanvas.h"
 
 #include <QtGui>
 #include <QtXml>
@@ -236,6 +238,8 @@ void CDeviceGarminBulk::uploadWpts(const QList<CWpt*>& wpts)
 
     dir.cd(pathRoot);
 
+    theMainWindow->getCanvas()->setFadingMessage(tr("Upload waypoints finished!"));
+
 }
 
 
@@ -319,6 +323,8 @@ void CDeviceGarminBulk::downloadWpts(QList<CWpt*>& /*wpts*/)
             }
         }
     }
+
+    theMainWindow->getCanvas()->setFadingMessage(tr("Download waypoints finished!"));
 }
 
 
@@ -345,6 +351,8 @@ void CDeviceGarminBulk::uploadTracks(const QList<CTrack*>& trks)
     gpx.save(dir.absoluteFilePath(filename));
 
     dir.cdUp();
+
+    theMainWindow->getCanvas()->setFadingMessage(tr("Upload tracks finished!"));
 }
 
 
@@ -381,6 +389,8 @@ void CDeviceGarminBulk::downloadTracks(QList<CTrack*>& /*trks*/)
     }
 
     dir.cdUp();
+
+    theMainWindow->getCanvas()->setFadingMessage(tr("Download tracks finished!"));
 }
 
 
@@ -407,6 +417,8 @@ void CDeviceGarminBulk::uploadRoutes(const QList<CRoute*>& rtes)
     gpx.save(dir.absoluteFilePath(filename));
 
     dir.cdUp();
+
+    theMainWindow->getCanvas()->setFadingMessage(tr("Upload routes finished!"));
 }
 
 
@@ -430,6 +442,8 @@ void CDeviceGarminBulk::downloadRoutes(QList<CRoute*>& /*rtes*/)
     }
 
     dir.cdUp();
+
+    theMainWindow->getCanvas()->setFadingMessage(tr("Download routes finished!"));
 }
 
 
