@@ -58,7 +58,7 @@ CMapQMAPExport::CMapQMAPExport(const CMapSelectionRaster& mapsel, QWidget * pare
     connect(pushDetails, SIGNAL(clicked()), this, SLOT(slotDetails()));
     connect(radioQLM, SIGNAL(toggled(bool)), this, SLOT(slotQLMToggled(bool)));
     connect(radioJNX, SIGNAL(toggled(bool)), this, SLOT(slotBirdsEyeToggled(bool)));
-    connect(radioGCM, SIGNAL(toggled(bool)), this, SLOT(slotGCMToggled(bool)));    
+    connect(radioGCM, SIGNAL(toggled(bool)), this, SLOT(slotGCMToggled(bool)));
 
     connect(&cmd, SIGNAL(readyReadStandardError()), this, SLOT(slotStderr()));
     connect(&cmd, SIGNAL(readyReadStandardOutput()), this, SLOT(slotStdout()));
@@ -838,7 +838,7 @@ void CMapExportStateCutFiles::nextJob(QProcess& cmd)
         }
 
         QStringList args;
-        args << "-co" << "tiled=yes" << "-co" << "compress=LZW";
+        args << "-co" << "tiled=yes" << "-co" << "compress=DEFLATE";
 
         if(!isRgb)
         {
@@ -908,7 +908,7 @@ void CMapExportStateCombineFiles::nextJob(QProcess& cmd)
         }
 
         QStringList args;
-        args << "-co" << "tiled=yes" << "-co" << "compress=LZW";
+        args << "-co" << "tiled=yes" << "-co" << "compress=DEFLATE";
         args << job.srcFile;
         args << job.tarFile;
 

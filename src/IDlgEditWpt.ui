@@ -342,7 +342,9 @@
             <item>
              <widget class="QLabel" name="labelSpolerHint">
               <property name="text">
-               <string>If you use the word &quot;Spoiler&quot; in the comment, the image might be treated special on your GPSr. </string>
+               <string>If you use the word &quot;Spoiler&quot; in the comment, the image might be treated special on your GPSr. 
+
+For modern Garmin device select &quot;Garmin Mass Storage&quot; device to exchange pictures and spoilers.</string>
               </property>
               <property name="alignment">
                <set>Qt::AlignJustify|Qt::AlignVCenter</set>

@@ -360,7 +360,7 @@ static int exportTMS(int level, double lon1, double lat1, double lon2, double la
 
 
     // create output dataset
-    char * cargs[] = {"tiled=yes", "compress=LZW", 0};
+    char * cargs[] = {"tiled=yes", "compress=DEFLATE", 0};
     GDALDriverManager * drvman  = GetGDALDriverManager();
     GDALDriver * driver         = drvman->GetDriverByName("GTiff");
     GDALDataset * dataset       = driver->Create(outfile.toLocal8Bit().data(), w, h, 3, GDT_Byte, cargs);
@@ -630,7 +630,7 @@ static int exportWMS(int level, double lon1, double lat1, double lon2, double la
     printf("Need to summon %i tiles from cache.\n\n", total);
 
     // create output dataset
-    char * cargs[] = {"tiled=yes", "compress=LZW", 0};
+    char * cargs[] = {"tiled=yes", "compress=DEFLATE", 0};
     GDALDriverManager * drvman  = GetGDALDriverManager();
     GDALDriver * driver         = drvman->GetDriverByName("GTiff");
     GDALDataset * dataset       = driver->Create(outfile.toLocal8Bit().data(), w, h, 3, GDT_Byte, cargs);

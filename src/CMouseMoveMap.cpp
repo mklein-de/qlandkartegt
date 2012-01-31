@@ -275,16 +275,19 @@ void CMouseMoveMap::contextMenu(QMenu& menu)
         QString posPixel = tr("Pixel %1x%2 (%3)").arg(u, 0,'f',0).arg(v,0,'f',0).arg(fn);
         menu.addAction(QIcon(":/icons/iconClipboard16x16.png"), posPixel, this, SLOT(slotCopyPosPixel()));
 
+        menu.addSeparator();
+        menu.addAction(QIcon(":/icons/wpt/flag_pin_red15x15.png"), tr("Crop: set pos. 1"), this, SLOT(slotSetPos1()));
+
         if(pos1Pixel.x() >= 0 && pos1Pixel.y() >= 0)
         {
             double u1 = pos1Pixel.x();
             double v1 = pos1Pixel.y();
 
-            QString posPixelSize = tr("Pos1 -> Pos %1x%2 w:%3 h:%4").arg(u1, 0,'f',0).arg(v1,0,'f',0).arg(u - u1,0,'f',0).arg(v - v1, 0,'f',0);
+            QString posPixelSize = tr("Crop map: %1x%2 w:%3 h:%4").arg(u1, 0,'f',0).arg(v1,0,'f',0).arg(u - u1,0,'f',0).arg(v - v1, 0,'f',0);
             menu.addAction(QIcon(":/icons/iconClipboard16x16.png"), posPixelSize, this, SLOT(slotCopyPosPixelSize()));
         }
 
-        menu.addAction(QIcon(":/icons/wpt/flag_pin_red15x15.png"), tr("Set as Pos1"), this, SLOT(slotSetPos1()));
+
 
     }
 
@@ -371,11 +374,7 @@ void CMouseMoveMap::slotCopyPosPixelSize()
 
     map.convertPt2Pixel(u2,v2);
 
-//    QString position = QString("%1 %2 %3 %4").arg(u1, 0,'f',0).arg(v1,0,'f',0).arg(u2 - u1, 0,'f',0).arg(v2 - v1,0,'f',0);
-//    QClipboard *clipboard = QApplication::clipboard();
-//    clipboard->setText(position);
-
-    CDlgCropMap dlg(filename, u1, u2, u2 - u1, v2 - v1);
+    CDlgCropMap dlg(filename, u1, v1, u2 - u1, v2 - v1);
     dlg.exec();
 
 }

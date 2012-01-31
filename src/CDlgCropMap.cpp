@@ -34,7 +34,7 @@ CDlgCropMap::CDlgCropMap(const QString &filename, quint32 x, quint32 y, quint32 
     QFileInfo fi(filename);
 
     labelSrcFile->setText(filename);
-    labelTarFile->setText(QString("%1/%2_crop%3").arg(fi.absolutePath()).arg(fi.baseName()).arg(fi.completeSuffix()));
+    labelTarFile->setText(QString("%1/%2_crop.%3").arg(fi.absolutePath()).arg(fi.baseName()).arg(fi.completeSuffix()));
 
     connect(pushStart, SIGNAL(clicked()), this, SLOT(slotStart()));
     connect(pushCancel, SIGNAL(clicked()), this, SLOT(slotCancel()));
@@ -240,6 +240,8 @@ void CDlgCropMap::slotCancel()
 
         cmd.kill();
         cmd.waitForFinished(1000);
+
+        QFile::remove(labelTarFile->text());
     }
     else
     {
@@ -268,7 +270,10 @@ void CDlgCropMap::slotStart()
         job.height  = h;
 
         state1->addJob(job);
+        states << state1;
     }
+
+
 
 
     QStringList overviews;
@@ -279,7 +284,13 @@ void CDlgCropMap::slotStart()
 
     if(!overviews.isEmpty())
     {
+        CMapCropStateOptimize * state2 =  new CMapCropStateOptimize(this);
+        CMapCropStateOptimize::job_t job;
 
+        job.srcFile     = labelTarFile->text();
+        job.overviews   = overviews;
+        state2->addJob(job);
+        states << state2;
     }
 
 
@@ -310,6 +321,7 @@ quint32 IMapCropState::tmpFileCnt = 0;
 IMapCropState::IMapCropState(CDlgCropMap * parent)
 : QObject(parent)
 , gui(parent)
+, jobIdx(0)
 {
 
 }
@@ -356,7 +368,7 @@ void CMapCropStateCrop::nextJob(QProcess& cmd)
         job_t& job = jobs[jobIdx];
 
         QStringList args;
-        args << "-co" << "tiled=yes" << "-co" << "compress=LZW";
+        args << "-co" << "tiled=yes" << "-co" << "compress=DEFLATE";
         args << "-srcwin";
         args << QString::number(job.xoff) << QString::number(job.yoff);
         args << QString::number(job.width) << QString::number(job.height);
