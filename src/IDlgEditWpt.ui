@@ -341,13 +341,19 @@
            <layout class="QVBoxLayout">
             <item>
              <widget class="QLabel" name="labelSpolerHint">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
               <property name="text">
                <string>If you use the word &quot;Spoiler&quot; in the comment, the image might be treated special on your GPSr. 
 
 For modern Garmin device select &quot;Garmin Mass Storage&quot; device to exchange pictures and spoilers.</string>
               </property>
               <property name="alignment">
-               <set>Qt::AlignJustify|Qt::AlignVCenter</set>
+               <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
               </property>
               <property name="wordWrap">
                <bool>true</bool>
@@ -369,6 +375,18 @@ For modern Garmin device select &quot;Garmin Mass Storage&quot; device to exchan
             </item>
             <item>
              <widget class="QPushButton" name="pushAdd">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="minimumSize">
+               <size>
+                <width>150</width>
+                <height>0</height>
+               </size>
+              </property>
               <property name="text">
                <string>Add</string>
               </property>
@@ -378,6 +396,18 @@ For modern Garmin device select &quot;Garmin Mass Storage&quot; device to exchan
              <widget class="QPushButton" name="pushDel">
               <property name="enabled">
                <bool>false</bool>
+              </property>
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="minimumSize">
+               <size>
+                <width>150</width>
+                <height>0</height>
+               </size>
               </property>
               <property name="text">
                <string>Delete</string>
@@ -433,6 +463,26 @@ For modern Garmin device select &quot;Garmin Mass Storage&quot; device to exchan
                </spacer>
               </item>
               <item>
+               <widget class="QPushButton" name="pushPrev">
+                <property name="enabled">
+                 <bool>false</bool>
+                </property>
+                <property name="minimumSize">
+                 <size>
+                  <width>50</width>
+                  <height>50</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string/>
+                </property>
+                <property name="icon">
+                 <iconset resource="resources.qrc">
+                  <normaloff>:/icons/iconLeft16x16.png</normaloff>:/icons/iconLeft16x16.png</iconset>
+                </property>
+               </widget>
+              </item>
+              <item>
                <widget class="QLabel" name="labelImage">
                 <property name="sizePolicy">
                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -457,6 +507,26 @@ For modern Garmin device select &quot;Garmin Mass Storage&quot; device to exchan
                 </property>
                 <property name="alignment">
                  <set>Qt::AlignCenter</set>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QPushButton" name="pushNext">
+                <property name="enabled">
+                 <bool>false</bool>
+                </property>
+                <property name="minimumSize">
+                 <size>
+                  <width>50</width>
+                  <height>50</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string/>
+                </property>
+                <property name="icon">
+                 <iconset resource="resources.qrc">
+                  <normaloff>:/icons/iconRight16x16.png</normaloff>:/icons/iconRight16x16.png</iconset>
                 </property>
                </widget>
               </item>
@@ -499,28 +569,7 @@ For modern Garmin device select &quot;Garmin Mass Storage&quot; device to exchan
              </widget>
             </item>
             <item>
-             <layout class="QHBoxLayout" name="horizontalLayout_3">
-              <item>
-               <widget class="QPushButton" name="pushPrev">
-                <property name="enabled">
-                 <bool>false</bool>
-                </property>
-                <property name="text">
-                 <string>Previous</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QPushButton" name="pushNext">
-                <property name="enabled">
-                 <bool>false</bool>
-                </property>
-                <property name="text">
-                 <string>Next</string>
-                </property>
-               </widget>
-              </item>
-             </layout>
+             <layout class="QHBoxLayout" name="horizontalLayout_3"/>
             </item>
            </layout>
           </item>
@@ -673,7 +722,9 @@ p, li { white-space: pre-wrap; }
   <tabstop>pushDel</tabstop>
   <tabstop>buttonBox</tabstop>
  </tabstops>
- <resources/>
+ <resources>
+  <include location="resources.qrc"/>
+ </resources>
  <connections>
   <connection>
    <sender>buttonBox</sender>

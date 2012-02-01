@@ -383,11 +383,15 @@ void CDlgEditWpt::showImage(int idx)
         CWpt::image_t& img = wpt.images[idx];
         if(wpt.isGeoCache())
         {
-            labelImage->setPixmap(img.pixmap.scaledToWidth(300,Qt::SmoothTransformation));
+            QPixmap tmp = img.pixmap.scaledToWidth(300,Qt::SmoothTransformation);
+            labelImage->setMinimumSize(tmp.size());
+            labelImage->setPixmap(tmp);
         }
         else
         {
-            labelImage->setPixmap(img.pixmap.scaledToWidth(150,Qt::SmoothTransformation));
+            QPixmap tmp = img.pixmap.scaledToWidth(150,Qt::SmoothTransformation);
+            labelImage->setMinimumSize(tmp.size());
+            labelImage->setPixmap(tmp);
         }
         labelInfo->setText(img.info);
 
