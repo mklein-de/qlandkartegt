@@ -18,9 +18,62 @@
 **********************************************************************************************/
 #include "CMapRmap.h"
 
-CMapRmap::CMapRmap(const QString &key, const QString &filename, CCanvas *parent)
+
+#include <QtGui>
+
+CMapRmap::CMapRmap(const QString &key, const QString &fn, CCanvas *parent)
 : IMap(eRaster,key,parent)
 {
+    filename = fn;
+
+    QFileInfo fi(fn);
+    name = fi.fileName();
+    name = name.left(name.size() - 5);
+
+    QFile file(filename);
+    file.open(QIODevice::ReadOnly);
+
+    QDataStream stream(&file);
+    stream.setByteOrder(QDataStream::LittleEndian);
+
+    QByteArray magic(20,0);
+    stream.readRawData(magic.data(), 19);
+
+    if("CompeGPSRasterImage" != QString(magic))
+    {
+        qDebug() << QString(magic);
+        QMessageBox::warning(0, tr("Error..."), tr("This is not a TwoNav RMAP file."), QMessageBox::Abort, QMessageBox::Abort);
+        return;
+    }
+
+    quint32 tmp32;
+    stream >> tmp32 >> tmp32 >> tmp32;
+
+    qint32 width;
+    qint32 height;
+
+    stream >> width >> height;
+    qDebug() << width << height << hex << width << height;
+
+    stream >> tmp32 >> tmp32;
+
+    qint32 tileWidth;
+    qint32 tileHeight;
+
+    stream >> tileWidth >> tileHeight;
+    qDebug() << tileWidth << tileHeight << hex << tileWidth << tileHeight;
+
+    quint64 mapDataOffset;
+    stream >> mapDataOffset;
+    qDebug() << mapDataOffset << hex << (quint32)mapDataOffset;
+
+    stream >> tmp32;
+    quint32 nZoomLevels;
+    stream >> nZoomLevels;
+    qDebug() << nZoomLevels << hex << nZoomLevels;
+
+
+
 
 }
 
