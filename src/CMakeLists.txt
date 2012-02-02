@@ -113,6 +113,7 @@ set(qlandkarte_SRCS
     CMapGeoTiff.cpp
     CMapWms.cpp
     CMapTms.cpp
+    CMapJnx.cpp
     IMapSelection.cpp
     CMapSelectionRaster.cpp
     CMapSelectionGarmin.cpp
@@ -275,6 +276,7 @@ set(qlandkarte_HDRS
     CMapGeoTiff.h
     CMapWms.h
     CMapTms.h
+    CMapJnx.h
     IMapSelection.h
     CMapSelectionRaster.h
     CMapSelectionGarmin.h
@@ -459,6 +461,7 @@ SET (DBUS OFF CACHE BOOL "Enable DBus control.")
 endif (NOT WIN32)
 SET (JNX ON CACHE BOOL "Enable Garmin JNX Support.")
 SET (ALTKEY_MOVES_MAP OFF CACHE BOOL "Move map while pressing ALT key and mousemove.")
+SET (RMAP OFF CACHE BOOL "Enable CompeGPS RMAP Support")
 
 SET (QL_OPENGL_INCLUDE_DIR "")
 SET (QL_OPENGL_LIBRARIES "")
@@ -520,12 +523,14 @@ IF(DBUS)
     SET(qlandkarte_UIS ${qlandkarte_UIS})
 ENDIF(DBUS)
 
-IF(JNX)
-    add_definitions(-DHAS_JNX)
-    SET(qlandkarte_HDRS ${qlandkarte_HDRS}  CMapJnx.h)
-    SET(qlandkarte_SRCS ${qlandkarte_SRCS}  CMapJnx.cpp)
+
+IF(RMAP)
+    add_definitions(-DHAS_RMAP)
+    SET(qlandkarte_HDRS ${qlandkarte_HDRS}  CMapRmap.h)
+    SET(qlandkarte_SRCS ${qlandkarte_SRCS}  CMapRmap.cpp)
     SET(qlandkarte_UIS ${qlandkarte_UIS})
-ENDIF(JNX)
+ENDIF(RMAP)
+
 
 IF(MIKROKOPTER)
     add_definitions(-DHAS_MIKROKOPTER)

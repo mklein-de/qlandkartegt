@@ -523,5 +523,6 @@
         <file>icons/iconJNX22x22.png</file>
         <file>icons/iconVector22x22.png</file>
         <file>icons/iconTDB22x22.png</file>
+        <file>icons/iconRMAP22x22.png</file>
     </qresource>
 </RCC>

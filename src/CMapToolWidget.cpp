@@ -130,6 +130,10 @@ void CMapToolWidget::slotDBChanged()
                 {
                     icon = QIcon(":/icons/iconJNX22x22.png");
                 }
+                else if(map->filename.toLower().endsWith("rmap"))
+                {
+                    icon = QIcon(":/icons/iconRMAP22x22.png");
+                }
                 else
                 {
                     icon = QIcon(":/icons/iconQMAP22x22.png");

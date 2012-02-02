@@ -24,6 +24,9 @@
 #include "CMapRaster.h"
 #include "CMapGeoTiff.h"
 #include "CMapJnx.h"
+#ifdef HAS_RMAP
+#include "CMapRmap.h"
+#endif
 #include "CMapWms.h"
 #include "CMapTms.h"
 #include "CMapDEM.h"
@@ -308,7 +311,6 @@ void CMapDB::openMap(const QString& filename, bool asRaster, CCanvas& canvas)
         cfg.setValue(map.filename, map.description);
         cfg.endGroup();
     }
-#ifdef HAS_JNX
     else if(ext == "jnx")
     {
 
@@ -332,7 +334,28 @@ void CMapDB::openMap(const QString& filename, bool asRaster, CCanvas& canvas)
         cfg.setValue(map.filename, map.description);
         cfg.endGroup();
     }
-#endif // HAS_JNX
+#ifdef HAS_RMAP
+    else if(ext == "rmap")
+    {
+
+        CMapRmap * maprmap;
+
+        map.filename    = filename;
+        map.key         = filename;
+        map.type        = IMap::eRaster;
+
+        theMap = maprmap = new CMapRmap(map.key, filename, &canvas);
+
+        map.description = maprmap->getName();
+        if(map.description.isEmpty()) map.description = fi.fileName();
+
+        // add map to known maps
+        knownMaps[map.key] = map;
+
+        // store current map filename for next session
+        cfg.setValue("maps/visibleMaps",filename);
+    }
+#endif
     else if(ext == "xml")
     {
         CMapWms * mapwms;
@@ -414,12 +437,16 @@ void CMapDB::openMap(const QString& key)
     {
         theMap = new CMapTDB(key,filename,theMainWindow->getCanvas());
     }
-#ifdef HAS_JNX
     else if(ext == "jnx")
     {
         theMap = new CMapJnx(key,filename,theMainWindow->getCanvas());
     }
-#endif // HAS_JNX
+#ifdef HAS_RMAP
+    else if(ext == "rmap")
+    {
+        theMap = new CMapRmap(key,filename,theMainWindow->getCanvas());
+    }
+#endif
     else if(ext == "xml")
     {
         theMap = new CMapWms(key,filename,theMainWindow->getCanvas());
