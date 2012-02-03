@@ -21,6 +21,7 @@
 
 #include "IMap.h"
 
+
 class CMapRmap : public IMap
 {
     Q_OBJECT;
@@ -42,6 +43,19 @@ class CMapRmap : public IMap
 
     private:
         QString name;
+
+        struct level_t
+        {
+            level_t(): offsetLevel(0), width(0), height(0), xTiles(0), yTiles(0){}
+            quint64 offsetLevel;
+            qint32 width;
+            qint32 height;
+            qint32 xTiles;
+            qint32 yTiles;
+            QList<quint64> offsetJpegs;
+        };
+
+        QList<level_t> levels;
 };
 
 #endif //CMAPRMAP_H

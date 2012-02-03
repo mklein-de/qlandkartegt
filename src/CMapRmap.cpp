@@ -36,12 +36,12 @@ CMapRmap::CMapRmap(const QString &key, const QString &fn, CCanvas *parent)
     QDataStream stream(&file);
     stream.setByteOrder(QDataStream::LittleEndian);
 
-    QByteArray magic(20,0);
-    stream.readRawData(magic.data(), 19);
+    QByteArray charbuf(20,0);
+    stream.readRawData(charbuf.data(), 19);
 
-    if("CompeGPSRasterImage" != QString(magic))
+    if("CompeGPSRasterImage" != QString(charbuf))
     {
-        qDebug() << QString(magic);
+        qDebug() << QString(charbuf);
         QMessageBox::warning(0, tr("Error..."), tr("This is not a TwoNav RMAP file."), QMessageBox::Abort, QMessageBox::Abort);
         return;
     }
@@ -68,11 +68,55 @@ CMapRmap::CMapRmap(const QString &key, const QString &fn, CCanvas *parent)
     qDebug() << mapDataOffset << hex << (quint32)mapDataOffset;
 
     stream >> tmp32;
-    quint32 nZoomLevels;
+
+
+    qint32 nZoomLevels;
     stream >> nZoomLevels;
     qDebug() << nZoomLevels << hex << nZoomLevels;
 
 
+    for(int i=0; i < nZoomLevels; i++)
+    {
+        level_t level;
+        stream >> level.offsetLevel;
+        qDebug() << level.offsetLevel << hex << (quint32)level.offsetLevel;
+        levels << level;
+    }
+
+    for(int i=0; i<levels.size(); i++)
+    {
+        level_t& level = levels[i];
+        file.seek(level.offsetLevel);
+
+        stream >> level.width;
+        stream >> level.height;
+        stream >> level.xTiles;
+        stream >> level.yTiles;
+
+        qDebug() << level.width << level.height << level.xTiles << level.yTiles;
+
+        for(int j=0; j<(level.xTiles * level.yTiles); j++)
+        {
+            quint64 offset;
+            stream >> offset;
+            level.offsetJpegs << offset;
+
+            qDebug() << hex << (quint32) offset;
+        }
+
+
+
+    }
+
+
+    file.seek(mapDataOffset);
+    stream >> tmp32 >> tmp32;
+
+    charbuf.resize(tmp32 + 1);
+    charbuf.fill(0);
+    stream.readRawData(charbuf.data(), tmp32);
+
+    qDebug() << QString(charbuf);
 
 
 }
