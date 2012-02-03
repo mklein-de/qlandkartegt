@@ -40,7 +40,11 @@ include_directories(
     ${QT_QTXML_INCLUDE_DIR}
     ../../src/
 )
-
+if(WIN32)
+    include_directories(
+        ${CMAKE_SOURCE_DIR}/Win32/
+    )
+endif(WIN32)
 
 add_executable( cache2gtiff
     ${SRCS}
