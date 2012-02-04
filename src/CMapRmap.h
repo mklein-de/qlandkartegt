@@ -21,6 +21,7 @@
 
 #include "IMap.h"
 
+class QCheckBox;
 
 class CMapRmap : public IMap
 {
@@ -33,7 +34,7 @@ class CMapRmap : public IMap
         void convertM2Pt(double& u, double& v);
 
         void move(const QPoint& old, const QPoint& next);
-        void zoom(bool zoomIn, const QPoint& p);
+        void zoom(bool zoomIn, const QPoint& p0);
         void zoom(double lon1, double lat1, double lon2, double lat2);
         void zoom(qint32& level);
         void dimensions(double& lon1, double& lat1, double& lon2, double& lat2);
@@ -41,8 +42,40 @@ class CMapRmap : public IMap
 
         QString getName(){return name;}
 
+        void draw(QPainter& p);
+
     private:
+        bool setProjection(const QString& projection, const QString& datum);
+        void draw();
+
         QString name;
+
+        quint32 blockSizeX;
+        quint32 blockSizeY;
+
+        /// width in number of px
+        quint32 xsize_px;
+        /// height in number of px
+        quint32 ysize_px;
+        /// scale [px/m]
+        double xscale;
+        /// scale [px/m]
+        double yscale;
+        /// reference point [m] (left hand side of map)
+        double xref1;
+        /// reference point [m] (top of map)
+        double yref1;
+        /// reference point [m] (right hand side of map)
+        double xref2;
+        /// reference point [m] (bottom of map)
+        double yref2;
+
+        /// left of viewport
+        double x;
+        /// top of viewport
+        double y;
+
+        double zoomFactor;
 
         struct level_t
         {
@@ -52,10 +85,20 @@ class CMapRmap : public IMap
             qint32 height;
             qint32 xTiles;
             qint32 yTiles;
-            QList<quint64> offsetJpegs;
+            QVector<quint64> offsetJpegs;
+
+            quint64 getOffsetJpeg(quint32 x, quint32 y)
+            {
+                qint32 idx = y * xTiles + x;
+                return idx < offsetJpegs.size() ? offsetJpegs[idx] : 0;
+            }
         };
 
         QList<level_t> levels;
+
+        bool needsRedrawOvl;
+        QCheckBox * quadraticZoom;
+
 };
 
 #endif //CMAPRMAP_H
