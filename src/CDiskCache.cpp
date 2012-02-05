@@ -36,9 +36,10 @@ CDiskCache::CDiskCache(QObject *parent)
 #ifdef STANDALONE
     dir     = QDir(path);
 #else
-    dir     = CResources::self().getPathMapCache();    
+    dir     = CResources::self().getPathMapCache();
 #endif //STANDALONE
 
+    dir.mkpath(dir.path());
     QFileInfoList files = dir.entryInfoList(QStringList("*.png"), QDir::Files);
     foreach(const QFileInfo& fileinfo, files)
     {

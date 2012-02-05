@@ -34,8 +34,7 @@ CMapRmap::CMapRmap(const QString &key, const QString &fn, CCanvas *parent)
     quadraticZoom = theMainWindow->getCheckBoxQuadraticZoom();
 
     QFileInfo fi(fn);
-    name = fi.fileName();
-    name = name.left(name.size() - 5);
+    name = fi.baseName();
 
     QFile file(filename);
     file.open(QIODevice::ReadOnly);
@@ -66,11 +65,9 @@ CMapRmap::CMapRmap(const QString &key, const QString &fn, CCanvas *parent)
     qDebug() << mapDataOffset << hex << (quint32)mapDataOffset;
     stream >> tmp32;
 
-
     qint32 nZoomLevels;
     stream >> nZoomLevels;
     qDebug() << nZoomLevels << hex << nZoomLevels;
-
 
     for(int i=0; i < nZoomLevels; i++)
     {
@@ -79,6 +76,7 @@ CMapRmap::CMapRmap(const QString &key, const QString &fn, CCanvas *parent)
         qDebug() << level.offsetLevel << hex << (quint32)level.offsetLevel;
         levels << level;
     }
+
 
     for(int i=0; i<levels.size(); i++)
     {
@@ -90,15 +88,11 @@ CMapRmap::CMapRmap(const QString &key, const QString &fn, CCanvas *parent)
         stream >> level.xTiles;
         stream >> level.yTiles;
 
-        qDebug() << level.width << level.height << level.xTiles << level.yTiles;
-
         for(int j=0; j<(level.xTiles * level.yTiles); j++)
         {
             quint64 offset;
             stream >> offset;
             level.offsetJpegs << offset;
-
-            qDebug() << hex << (quint32) offset;
         }
     }
 
@@ -220,27 +214,30 @@ CMapRmap::CMapRmap(const QString &key, const QString &fn, CCanvas *parent)
         yref1  = -10e8;
         xref2  = -10e8;
         yref2  =  10e8;
-
-        if(c0.u < xref1) xref1 = c0.u;
-        if(c0.u > xref2) xref2 = c0.u;
-        if(c1.u < xref1) xref1 = c1.u;
-        if(c1.u > xref2) xref2 = c1.u;
-        if(c2.u < xref1) xref1 = c2.u;
-        if(c2.u > xref2) xref2 = c2.u;
-
-        if(c0.v > yref1) yref1 = c0.v;
-        if(c0.v < yref2) yref2 = c0.v;
-        if(c1.v > yref1) yref1 = c1.v;
-        if(c1.v < yref2) yref2 = c1.v;
-        if(c2.v > yref1) yref1 = c2.v;
-        if(c2.v < yref2) yref2 = c2.v;
-
     }
     else
     {
 
-
+        xref1  =  180 * DEG_TO_RAD;
+        yref1  =  -90 * DEG_TO_RAD;
+        xref2  = -180 * DEG_TO_RAD;
+        yref2  =   90 * DEG_TO_RAD;
     }
+
+    if(c0.u < xref1) xref1 = c0.u;
+    if(c0.u > xref2) xref2 = c0.u;
+    if(c1.u < xref1) xref1 = c1.u;
+    if(c1.u > xref2) xref2 = c1.u;
+    if(c2.u < xref1) xref1 = c2.u;
+    if(c2.u > xref2) xref2 = c2.u;
+
+    if(c0.v > yref1) yref1 = c0.v;
+    if(c0.v < yref2) yref2 = c0.v;
+    if(c1.v > yref1) yref1 = c1.v;
+    if(c1.v < yref2) yref2 = c1.v;
+    if(c2.v > yref1) yref1 = c2.v;
+    if(c2.v < yref2) yref2 = c2.v;
+
     xscale = (xref2 - xref1) / xsize_px;
     yscale = (yref2 - yref1) / ysize_px;
 
@@ -298,10 +295,21 @@ CMapRmap::~CMapRmap()
 
 bool CMapRmap::setProjection(const QString& projection, const QString& datum)
 {
+
+//    (114,GK-System 12Âº (Zone 4),WGS 84).
+//    (1,Lat/Long,WGS 84).
     QString projstr;
-    if(projection.startsWith("2,"))
+    if(projection.startsWith("1,"))
+    {
+        projstr += "+proj=longlat";
+    }
+    else if(projection.startsWith("2,"))
     {
         projstr += "+proj=merc";
+    }
+    else if(projection.startsWith("114,"))
+    {
+        projstr += "+proj=tmerc +lat_0=0 +lon_0=12 +k=1 +x_0=4500000 +y_0=0";
     }
 
     if(datum == "WGS 84")
@@ -600,8 +608,8 @@ void CMapRmap::draw()
 
     int idxx1 = floor((x1 - xref1) / (level.xscale * blockSizeX));
     int idxy1 = floor((y1 - yref1) / (level.yscale * blockSizeY));
-    int idxx2 = ceil((x2 - xref1) / (level.xscale * blockSizeX));
-    int idxy2 = ceil((y2 - yref1) / (level.yscale * blockSizeY));
+    int idxx2 =  ceil((x2 - xref1) / (level.xscale * blockSizeX));
+    int idxy2 =  ceil((y2 - yref1) / (level.yscale * blockSizeY));
 
     if(idxx1 < 0)               idxx1 = 0;
     if(idxx1 >= level.xTiles)   idxx1 = level.xTiles;
@@ -627,6 +635,8 @@ void CMapRmap::draw()
             QImage img;
             img.load(&file,"JPG");
 
+            if(img.isNull()) continue;
+
             qint32 w = ceil(img.width()  * level.xscale / (xscale * zoomFactor));
             qint32 h = ceil(img.height() * level.yscale / (yscale * zoomFactor));
 
@@ -634,10 +644,8 @@ void CMapRmap::draw()
             double v = yref1 + idxy * level.yscale * blockSizeY;
             convertM2Pt(u,v);
 
-//            p.drawImage(u,v,img.scaled(w,h,Qt::IgnoreAspectRatio,Qt::SmoothTransformation));
-            p.drawImage(u,v,img.scaled(w,h));
+            p.drawImage(u,v,img.scaled(w,h,Qt::IgnoreAspectRatio,Qt::SmoothTransformation));
         }
     }
-
 }
 

@@ -73,7 +73,7 @@ CResources::CResources(QObject * parent)
 , m_useAntiAliasing(true)
 , m_reducePoiIcons(true)
 , m_WptTextColor(Qt::black)
-, m_pathMapCache(QDir::temp().filePath("qlandkarte/cache"))
+, m_pathMapCache(QDir::temp().filePath("qlandkartegt/cache"))
 , m_sizeMapCache(100)
 , m_expireMapCache(8)
 {
