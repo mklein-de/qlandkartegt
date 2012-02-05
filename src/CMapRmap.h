@@ -45,8 +45,29 @@ class CMapRmap : public IMap
         void draw(QPainter& p);
 
     private:
+        struct level_t
+        {
+            level_t(): offsetLevel(0), width(0), height(0), xTiles(0), yTiles(0), xscale(0), yscale(0){}
+            quint64 offsetLevel;
+            qint32 width;
+            qint32 height;
+            qint32 xTiles;
+            qint32 yTiles;
+            QVector<quint64> offsetJpegs;
+
+            quint64 getOffsetJpeg(quint32 x, quint32 y)
+            {
+                qint32 idx = y * xTiles + x;
+                return idx < offsetJpegs.size() ? offsetJpegs[idx] : 0;
+            }
+
+            double xscale;
+            double yscale;
+        };
+
         bool setProjection(const QString& projection, const QString& datum);
         void draw();
+        level_t& findBestLevel(double sx, double sy);
 
         QString name;
 
@@ -76,23 +97,6 @@ class CMapRmap : public IMap
         double y;
 
         double zoomFactor;
-
-        struct level_t
-        {
-            level_t(): offsetLevel(0), width(0), height(0), xTiles(0), yTiles(0){}
-            quint64 offsetLevel;
-            qint32 width;
-            qint32 height;
-            qint32 xTiles;
-            qint32 yTiles;
-            QVector<quint64> offsetJpegs;
-
-            quint64 getOffsetJpeg(quint32 x, quint32 y)
-            {
-                qint32 idx = y * xTiles + x;
-                return idx < offsetJpegs.size() ? offsetJpegs[idx] : 0;
-            }
-        };
 
         QList<level_t> levels;
 

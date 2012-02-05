@@ -195,8 +195,9 @@ CMapRmap::CMapRmap(const QString &key, const QString &fn, CCanvas *parent)
         }
         else
         {
-            qDebug() << line;
+//            qDebug() << line;
         }
+        qDebug() << line;
     }
 
     if(!projection.isEmpty() && !datum.isEmpty())
@@ -214,19 +215,50 @@ CMapRmap::CMapRmap(const QString &key, const QString &fn, CCanvas *parent)
         pj_transform(pjtar, pjsrc, 1, 0, &c1.u, &c1.v, 0);
         pj_transform(pjtar, pjsrc, 1, 0, &c2.u, &c2.v, 0);
         pj_transform(pjtar, pjsrc, 1, 0, &c3.u, &c3.v, 0);
+
+        xref1  =  10e8;
+        yref1  = -10e8;
+        xref2  = -10e8;
+        yref2  =  10e8;
+
+        if(c0.u < xref1) xref1 = c0.u;
+        if(c0.u > xref2) xref2 = c0.u;
+        if(c1.u < xref1) xref1 = c1.u;
+        if(c1.u > xref2) xref2 = c1.u;
+        if(c2.u < xref1) xref1 = c2.u;
+        if(c2.u > xref2) xref2 = c2.u;
+
+        if(c0.v > yref1) yref1 = c0.v;
+        if(c0.v < yref2) yref2 = c0.v;
+        if(c1.v > yref1) yref1 = c1.v;
+        if(c1.v < yref2) yref2 = c1.v;
+        if(c2.v > yref1) yref1 = c2.v;
+        if(c2.v < yref2) yref2 = c2.v;
+
+    }
+    else
+    {
+
+
+    }
+    xscale = (xref2 - xref1) / xsize_px;
+    yscale = (yref2 - yref1) / ysize_px;
+
+    double widthL0  = levels[0].width;
+    double heightL0 = levels[0].height;
+
+    for(int i=0; i<levels.size(); i++)
+    {
+        level_t& level = levels[i];
+
+        level.xscale = xscale * widthL0  / level.width;
+        level.yscale = yscale * heightL0 / level.height;
+
+        qDebug() << i << level.xscale << level.yscale;
     }
 
-    xref1  = c0.u;
-    yref1  = c0.v;
-    xref2  = c2.u;
-    yref2  = c2.v;
-
-    xscale = (c2.u - c0.u) / (p2.x() - p0.x());
-    yscale = (c2.v - c0.v) / (p2.y() - p0.y());
-
-    qDebug() << p0 << c0.u << c0.v;
-    qDebug() << p2 << c2.u << c2.v;
-
+    qDebug() << "xref1:" << xref1 << "yref1:" << yref1;
+    qDebug() << "xref2:" << xref2 << "yref2:" << yref2;
     qDebug() << "map  width:" << xsize_px << "height:" << ysize_px;
     qDebug() << "tile width:" << blockSizeX << "height:" << blockSizeY;
     qDebug() << "scale x:  " << xscale << "y:" << yscale;
@@ -473,6 +505,27 @@ void CMapRmap::getArea_n_Scaling(XY& p1, XY& p2, float& my_xscale, float& my_ysc
     my_yscale   = yscale * zoomFactor;
 }
 
+CMapRmap::level_t& CMapRmap::findBestLevel(double sx, double sy)
+{
+    int i = levels.size() - 1;
+    if(sx < levels[0].xscale) return levels[0];
+    if(sx > levels[i].xscale) return levels[i];
+
+    int j = 0;
+    double dsx = 1e25;
+    for(;j < levels.size(); j++)
+    {
+        level_t& level = levels[j];
+        if(abs(level.xscale - sx) < dsx)
+        {
+            i = j;
+            dsx = abs(level.xscale - sx);
+        }
+    }
+
+    return levels[i];
+}
+
 void CMapRmap::draw(QPainter& p)
 {
     if(pjsrc == 0) return IMap::draw(p);
@@ -527,4 +580,64 @@ void CMapRmap::draw(QPainter& p)
 void CMapRmap::draw()
 {
     pixBuffer.fill(Qt::white);
+    QPainter p(&pixBuffer);
+
+    level_t& level = findBestLevel(xscale * zoomFactor, yscale * zoomFactor);
+
+    QFile file(filename);
+    file.open(QIODevice::ReadOnly);
+
+    QDataStream stream(&file);
+    stream.setByteOrder(QDataStream::LittleEndian);
+
+    // convert top left point of screen to coord. system
+    double x1 = 0;
+    double y1 = 0;
+    convertPt2M(x1, y1);
+    double x2 = size.width();
+    double y2 = size.height();
+    convertPt2M(x2, y2);
+
+    int idxx1 = floor((x1 - xref1) / (level.xscale * blockSizeX));
+    int idxy1 = floor((y1 - yref1) / (level.yscale * blockSizeY));
+    int idxx2 = ceil((x2 - xref1) / (level.xscale * blockSizeX));
+    int idxy2 = ceil((y2 - yref1) / (level.yscale * blockSizeY));
+
+    if(idxx1 < 0)               idxx1 = 0;
+    if(idxx1 >= level.xTiles)   idxx1 = level.xTiles;
+    if(idxx2 < 0)               idxx2 = 0;
+    if(idxx2 >= level.xTiles)   idxx2 = level.xTiles;
+
+    if(idxy1 < 0)               idxy1 = 0;
+    if(idxy1 >= level.yTiles)   idxy1 = level.yTiles;
+    if(idxy2 < 0)               idxy2 = 0;
+    if(idxy2 >= level.yTiles)   idxy2 = level.yTiles;
+
+    for(int idxy = idxy1; idxy < idxy2; idxy++)
+    {
+        for(int idxx = idxx1; idxx < idxx2; idxx++)
+        {
+
+            quint32 tag;
+            quint32 len;
+            quint64 offset = level.getOffsetJpeg(idxx, idxy);
+            file.seek(offset);
+            stream >> tag >> len;
+
+            QImage img;
+            img.load(&file,"JPG");
+
+            qint32 w = ceil(img.width()  * level.xscale / (xscale * zoomFactor));
+            qint32 h = ceil(img.height() * level.yscale / (yscale * zoomFactor));
+
+            double u = xref1 + idxx * level.xscale * blockSizeX;
+            double v = yref1 + idxy * level.yscale * blockSizeY;
+            convertM2Pt(u,v);
+
+//            p.drawImage(u,v,img.scaled(w,h,Qt::IgnoreAspectRatio,Qt::SmoothTransformation));
+            p.drawImage(u,v,img.scaled(w,h));
+        }
+    }
+
 }
+
