@@ -52,7 +52,7 @@ CInputFile::CInputFile(const QString &filename)
     }
     else if(oSRS.IsSame(&oSRS_EPSG31468))
     {
-        compeProj   = "118,GK-System 12º (Zone 4),";
+        compeProj   = "114,GK-System 12º (Zone 4),";
         compeDatum  = "Potsdam Rauenberg DHDN";
     }
     else
