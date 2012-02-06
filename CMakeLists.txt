@@ -68,6 +68,7 @@ add_subdirectory(3rdparty/QZip)
 add_subdirectory(3rdparty/QTextHtmlExporter)
 add_subdirectory(3rdparty/getopt)
 add_subdirectory(3rdparty/map2gcm)
+add_subdirectory(3rdparty/map2rmap)
 add_subdirectory(3rdparty/cache2gtiff)
 add_subdirectory(src)
 

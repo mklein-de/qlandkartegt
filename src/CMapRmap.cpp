@@ -274,8 +274,9 @@ CMapRmap::CMapRmap(const QString &key, const QString &fn, CCanvas *parent)
     cfg.beginGroup("rmap/maps");
     cfg.beginGroup(getKey());
 
-    x = cfg.value("lon", x).toDouble();
-    y = cfg.value("lat", y).toDouble();
+    x       = cfg.value("lon", x).toDouble();
+    y       = cfg.value("lat", y).toDouble();
+    zoomidx = cfg.value("zoomidx", zoomidx).toInt();
 
     cfg.endGroup();
     cfg.endGroup();
@@ -294,6 +295,7 @@ CMapRmap::~CMapRmap()
 
     cfg.setValue("lon", x);
     cfg.setValue("lat", y);
+    cfg.setValue("zoomidx", zoomidx);
 
     cfg.endGroup();
     cfg.endGroup();
@@ -303,8 +305,6 @@ CMapRmap::~CMapRmap()
 bool CMapRmap::setProjection(const QString& projection, const QString& datum)
 {
 
-//    (114,GK-System 12Âº (Zone 4),WGS 84).
-//    (1,Lat/Long,WGS 84).
     QString projstr;
     if(projection.startsWith("1,"))
     {
@@ -318,10 +318,20 @@ bool CMapRmap::setProjection(const QString& projection, const QString& datum)
     {
         projstr += "+proj=tmerc +lat_0=0 +lon_0=12 +k=1 +x_0=4500000 +y_0=0";
     }
+    else if(projection.startsWith("117,"))
+    {
+        projstr += "+proj=tmerc +lat_0=0 +lon_0=9  +k=1 +x_0=3000000 +y_0=0";
+    }
+
+
 
     if(datum == "WGS 84")
     {
-        projstr += " +datum=WGS84";
+        projstr += " +datum=WGS84 +units=m +no_defs";
+    }    
+    else if(datum  == "Potsdam Rauenberg DHDN")
+    {
+        projstr += " +ellps=bessel +towgs84=606,23,413,0,0,0,0 +units=m +no_defs";
     }
 
     pjsrc = pj_init_plus(projstr.toAscii().data());
@@ -342,7 +352,6 @@ void CMapRmap::convertPt2M(double& u, double& v)
 {
     u = x + u * xscale * zoomFactor;
     v = y + v * yscale * zoomFactor;
-
 }
 
 void CMapRmap::convertM2Pt(double& u, double& v)
