@@ -52,8 +52,15 @@ CMapRmap::CMapRmap(const QString &key, const QString &fn, CCanvas *parent)
         return;
     }
 
-    quint32 tmp32;
-    stream >> tmp32 >> tmp32 >> tmp32;
+    quint32 tag1, tag2, tmp32;
+    stream >> tag1 >> tag2 >> tmp32;
+
+    if(tag1 != 10 || tag2 != 7)
+    {
+        QMessageBox::warning(0, tr("Error..."), tr("Unknown sub-format."), QMessageBox::Abort, QMessageBox::Abort);
+        return;
+    }
+
     stream >> xsize_px >> ysize_px;
     stream >> tmp32 >> tmp32;
     stream >> blockSizeX >> blockSizeY;
