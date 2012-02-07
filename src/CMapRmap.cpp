@@ -120,6 +120,7 @@ CMapRmap::CMapRmap(const QString &key, const QString &fn, CCanvas *parent)
     XY c2;
     XY c3;
 
+    bool pointsAreLongLat = true;
     QString projection;
     QString datum;
     QStringList lines = QString(charbuf).split("\r\n");
@@ -151,9 +152,16 @@ CMapRmap::CMapRmap(const QString &key, const QString &fn, CCanvas *parent)
             }
 
             p0 = QPoint(vals[0].toInt(), vals[1].toInt());
-            c0.u = vals[3].toDouble() * DEG_TO_RAD;
-            c0.v = vals[4].toDouble() * DEG_TO_RAD;
-
+            if(vals[2] == "A")
+            {
+                c0.u = vals[3].toDouble() * DEG_TO_RAD;
+                c0.v = vals[4].toDouble() * DEG_TO_RAD;
+            }
+            else
+            {
+                c0.u = vals[3].toDouble();
+                c0.v = vals[4].toDouble();
+            }
         }
         else if(line.startsWith("P1="))
         {
@@ -165,8 +173,17 @@ CMapRmap::CMapRmap(const QString &key, const QString &fn, CCanvas *parent)
             }
 
             p1 = QPoint(vals[0].toInt(), vals[1].toInt());
-            c1.u = vals[3].toDouble() * DEG_TO_RAD;
-            c1.v = vals[4].toDouble() * DEG_TO_RAD;
+            if(vals[2] == "A")
+            {
+                c1.u = vals[3].toDouble() * DEG_TO_RAD;
+                c1.v = vals[4].toDouble() * DEG_TO_RAD;
+            }
+            else
+            {
+                pointsAreLongLat = false;
+                c1.u = vals[3].toDouble();
+                c1.v = vals[4].toDouble();
+            }
         }
         else if(line.startsWith("P2="))
         {
@@ -178,8 +195,17 @@ CMapRmap::CMapRmap(const QString &key, const QString &fn, CCanvas *parent)
             }
 
             p2 = QPoint(vals[0].toInt(), vals[1].toInt());
-            c2.u = vals[3].toDouble() * DEG_TO_RAD;
-            c2.v = vals[4].toDouble() * DEG_TO_RAD;
+            if(vals[2] == "A")
+            {
+                c2.u = vals[3].toDouble() * DEG_TO_RAD;
+                c2.v = vals[4].toDouble() * DEG_TO_RAD;
+            }
+            else
+            {
+                pointsAreLongLat = false;
+                c2.u = vals[3].toDouble();
+                c2.v = vals[4].toDouble();
+            }
         }
         else if(line.startsWith("P3="))
         {
@@ -191,8 +217,17 @@ CMapRmap::CMapRmap(const QString &key, const QString &fn, CCanvas *parent)
             }
 
             p3 = QPoint(vals[0].toInt(), vals[1].toInt());
-            c3.u = vals[3].toDouble() * DEG_TO_RAD;
-            c3.v = vals[4].toDouble() * DEG_TO_RAD;
+            if(vals[2] == "A")
+            {
+                c3.u = vals[3].toDouble() * DEG_TO_RAD;
+                c3.v = vals[4].toDouble() * DEG_TO_RAD;
+            }
+            else
+            {
+                pointsAreLongLat = false;
+                c3.u = vals[3].toDouble();
+                c3.v = vals[4].toDouble();
+            }
         }
         else
         {
@@ -212,15 +247,17 @@ CMapRmap::CMapRmap(const QString &key, const QString &fn, CCanvas *parent)
 
     if(!pj_is_latlong(pjsrc))
     {
-        pj_transform(pjtar, pjsrc, 1, 0, &c0.u, &c0.v, 0);
-        pj_transform(pjtar, pjsrc, 1, 0, &c1.u, &c1.v, 0);
-        pj_transform(pjtar, pjsrc, 1, 0, &c2.u, &c2.v, 0);
-        pj_transform(pjtar, pjsrc, 1, 0, &c3.u, &c3.v, 0);
-
-        xref1  =  10e8;
-        yref1  = -10e8;
-        xref2  = -10e8;
-        yref2  =  10e8;
+        if(pointsAreLongLat)
+        {
+            pj_transform(pjtar, pjsrc, 1, 0, &c0.u, &c0.v, 0);
+            pj_transform(pjtar, pjsrc, 1, 0, &c1.u, &c1.v, 0);
+            pj_transform(pjtar, pjsrc, 1, 0, &c2.u, &c2.v, 0);
+            pj_transform(pjtar, pjsrc, 1, 0, &c3.u, &c3.v, 0);
+        }
+        xref1  =  1e25;
+        yref1  = -1e25;
+        xref2  = -1e25;
+        yref2  =  1e25;
     }
     else
     {
@@ -329,7 +366,7 @@ bool CMapRmap::setProjection(const QString& projection, const QString& datum)
     }
     else if(projection.startsWith("117,"))
     {
-        projstr += "+proj=tmerc +lat_0=0 +lon_0=9  +k=1 +x_0=3000000 +y_0=0";
+        projstr += "+proj=tmerc +lat_0=0 +lon_0=9  +k=1 +x_0=3500000 +y_0=0";
     }
 
 
@@ -337,7 +374,7 @@ bool CMapRmap::setProjection(const QString& projection, const QString& datum)
     if(datum == "WGS 84")
     {
         projstr += " +datum=WGS84 +units=m +no_defs";
-    }    
+    }
     else if(datum  == "Potsdam Rauenberg DHDN")
     {
         projstr += " +ellps=bessel +towgs84=606,23,413,0,0,0,0 +units=m +no_defs";
