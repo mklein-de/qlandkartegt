@@ -37,6 +37,14 @@ class CInputFile
         GDALDataset * dataset;
         QString compeProj;
         QString compeDatum;
+
+        quint32 width;
+        quint32 height;
+
+        double xscale;
+        double yscale;
+        double xref1;
+        double yref1;
 };
 
 #endif //CINPUTFILE_H

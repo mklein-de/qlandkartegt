@@ -8,7 +8,8 @@
 CInputFile::CInputFile(const QString &filename)
     : filename(filename)
 {
-    char projstr[1024] = {0};
+    double adfGeoTransform[6]   = {0};
+    char projstr[1024]          = {0};
     OGRSpatialReference oSRS;
 
     OGRSpatialReference oSRS_EPSG31466;
@@ -42,6 +43,7 @@ CInputFile::CInputFile(const QString &filename)
         exit(-1);
     }
 
+    qDebug();
     qDebug() << filename;
     qDebug() << ptr;
 
@@ -62,6 +64,29 @@ CInputFile::CInputFile(const QString &filename)
     }
 
     qDebug() << compeProj + compeDatum;
+    dataset->GetGeoTransform( adfGeoTransform );
+
+    width   = dataset->GetRasterXSize();
+    height  = dataset->GetRasterYSize();
+    xscale  = adfGeoTransform[1];
+    yscale  = adfGeoTransform[5];
+    xref1   = adfGeoTransform[0];
+    yref1   = adfGeoTransform[3];
+
+    qDebug() << QString("level0:") << width << height << xscale << yscale;
+
+    GDALRasterBand * band = dataset->GetRasterBand(1);
+
+    for(int i=0; i < band->GetOverviewCount(); i++)
+    {
+        GDALRasterBand * bandOvr = band->GetOverview(i);
+        double w = bandOvr->GetXSize();
+        double h = bandOvr->GetYSize();
+
+        qDebug() << QString("level%1:").arg(i+1) << w << h << xscale * width/w << yscale * height/h;
+    }
+
+
 }
 
 CInputFile::~CInputFile()

@@ -306,6 +306,15 @@ bool CMapRmap::setProjection(const QString& projection, const QString& datum)
 {
 
     QString projstr;
+    if(projection.startsWith("0,UTM"))
+    {
+        QStringList vals    = projection.split(",");
+        int  zone           = vals[2].toInt();
+        bool isSouth        = vals[3] != "N";
+
+        projstr += QString("+proj=utm +zone=%1 %2").arg(zone).arg(isSouth ? "+south" : "");
+
+    }
     if(projection.startsWith("1,"))
     {
         projstr += "+proj=longlat";
