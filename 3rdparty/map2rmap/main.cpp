@@ -39,14 +39,19 @@
 /// the target lon/lat WGS84 projection
 static PJ * wgs84 = 0;
 
+static bool qSortInFiles(CInputFile& f1, CInputFile& f2)
+{
+    return f1.getXScale() < f2.getXScale();
+}
 
 int main(int argc, char ** argv)
 {
     int quality         = -1;
     int subsampling     = -1;
     int skip_next_arg   =  0;
-
+    QString outfile;
     QList<CInputFile> infiles;
+
 
 
     printf("\n****** %s ******\n", WHAT_STR);
@@ -94,10 +99,27 @@ int main(int argc, char ** argv)
 
         infiles << CInputFile(argv[i]);
     }
+    outfile = argv[argc-1];
 
+    qSort(infiles.begin(), infiles.end(), qSortInFiles);
 
+    for(int i=0; i < infiles.size() - 1; i++)
+    {
+        quint32 l = 1;
+        double s1 = infiles[i  ].getXScale();
+        double s2 = infiles[i+1].getXScale();
+        while(s1*2 < s2)
+        {
+            s1 *= 2;
+            l++;
+        }
+        infiles[i].setLevels(l);
+    }
 
-
+    for(int i=0; i < infiles.size(); i++)
+    {
+        qDebug() << infiles[i].getLevels();
+    }
 
 
     pj_free(wgs84);

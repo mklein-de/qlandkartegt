@@ -73,20 +73,15 @@ CInputFile::CInputFile(const QString &filename)
     xref1   = adfGeoTransform[0];
     yref1   = adfGeoTransform[3];
 
-    qDebug() << QString("level0:") << width << height << xscale << yscale;
+    qDebug() << QString("level0:") << width << height << xscale << yscale << xref1 << yref1;
 
-    GDALRasterBand * band = dataset->GetRasterBand(1);
-
-    for(int i=0; i < band->GetOverviewCount(); i++)
+    quint32 w   = width;
+    levels      = 1;
+    while(w>>1 > 256)
     {
-        GDALRasterBand * bandOvr = band->GetOverview(i);
-        double w = bandOvr->GetXSize();
-        double h = bandOvr->GetYSize();
-
-        qDebug() << QString("level%1:").arg(i+1) << w << h << xscale * width/w << yscale * height/h;
+        w = w >> 1;
+        levels++;
     }
-
-
 }
 
 CInputFile::~CInputFile()
@@ -94,3 +89,7 @@ CInputFile::~CInputFile()
 
 }
 
+void CInputFile::setLevels(quint32 l)
+{
+    if(l < levels) levels = l;
+}

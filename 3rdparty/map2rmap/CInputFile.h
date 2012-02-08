@@ -30,6 +30,10 @@ class CInputFile
         CInputFile(const QString& filename);
         virtual ~CInputFile();
 
+        double getXScale(){return xscale;}
+
+        void setLevels(quint32 l);
+        quint32 getLevels(){return levels;}
     private:
         QString filename;
 
@@ -45,6 +49,8 @@ class CInputFile
         double yscale;
         double xref1;
         double yref1;
+
+        int levels;
 };
 
 #endif //CINPUTFILE_H
