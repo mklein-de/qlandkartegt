@@ -17,43 +17,40 @@
 
 **********************************************************************************************/
 
-#ifndef CDISKCACHE_H
-#define CDISKCACHE_H
-
 #include "IDiskCache.h"
-#include <QDir>
-#include <QHash>
-#include <QImage>
+#ifndef STANDALONE
+#include "CResources.h"
+#endif                           //!STANDALONE
 
-class QTimer;
+#include <QtGui>
 
-class CDiskCache : public IDiskCache
-{
-    Q_OBJECT;
-    public:
 #ifdef STANDALONE
-        CDiskCache(const QString &path, QObject *parent);
+IDiskCache::IDiskCache(const QString &path, QObject *parent)
 #else
-        CDiskCache(QObject *parent);
-#endif                       //STANDALONE
-        virtual ~CDiskCache();
+IDiskCache::IDiskCache(QObject *parent)
+#endif                           //STANDALONE
+: QObject(parent)
+{
+}
 
-        virtual void store(const QString& key, QImage& img);
-        virtual void restore(const QString& key, QImage& img);
-        virtual bool contains(const QString& key);
 
-    private slots:
-        void slotCleanup();
-    private:
-        QDir dir;
+IDiskCache::~IDiskCache()
+{
+}
 
-        /// hash table to cache images als files on disc
-        QHash<QString, QString> table;
-        /// hash table to cache loaded images in memory
-        QHash<QString, QImage>  cache;
 
-        QTimer * timer;
+void IDiskCache::store(const QString& key, QImage& img)
+{
+}
 
-        QImage dummy;
-};
-#endif                           //CDISKCACHE_H
+
+void IDiskCache::restore(const QString& key, QImage& img)
+{
+    img = QImage();
+}
+
+
+bool IDiskCache::contains(const QString& key)
+{
+    return false;
+}

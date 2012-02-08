@@ -16,9 +16,8 @@
     Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
 
 **********************************************************************************************/
-
-#ifndef CDISKCACHE_H
-#define CDISKCACHE_H
+#ifndef CDISKCACHEZIP_H
+#define CDISKCACHEZIP_H
 
 #include "IDiskCache.h"
 #include <QDir>
@@ -27,33 +26,20 @@
 
 class QTimer;
 
-class CDiskCache : public IDiskCache
+class CDiskCacheZip : public IDiskCache
 {
     Q_OBJECT;
     public:
 #ifdef STANDALONE
-        CDiskCache(const QString &path, QObject *parent);
+        CDiskCacheZip(const QString &path, QObject *parent);
 #else
-        CDiskCache(QObject *parent);
+        CDiskCacheZip(QObject *parent);
 #endif                       //STANDALONE
-        virtual ~CDiskCache();
+        virtual ~CDiskCacheZip();
 
         virtual void store(const QString& key, QImage& img);
         virtual void restore(const QString& key, QImage& img);
         virtual bool contains(const QString& key);
 
-    private slots:
-        void slotCleanup();
-    private:
-        QDir dir;
-
-        /// hash table to cache images als files on disc
-        QHash<QString, QString> table;
-        /// hash table to cache loaded images in memory
-        QHash<QString, QImage>  cache;
-
-        QTimer * timer;
-
-        QImage dummy;
 };
-#endif                           //CDISKCACHE_H
+#endif                           //CDISKCACHEZIP_H

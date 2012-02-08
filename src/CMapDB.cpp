@@ -135,7 +135,6 @@ CMapDB::CMapDB(QTabWidget * tb, QObject * parent)
         knownMaps[m.key] = m;
         builtInKeys << m.key;
 
-
         QStringList keys = cfg.value("tms/knownMaps").toString().split("|",QString::SkipEmptyParts);
         foreach(const QString& key, keys)
         {
@@ -196,7 +195,7 @@ CMapDB::~CMapDB()
         {
             continue;
         }
-        if(map.filename.startsWith("http"))
+        if(map.filename.startsWith("http") || map.filename.startsWith("file"))
         {
             mapsTMS += map.key + "|";
             cfg.beginGroup(QString("tms/maps/%1").arg(map.key));
@@ -267,8 +266,7 @@ void CMapDB::openMap(const QString& filename, bool asRaster, CCanvas& canvas)
 
     map_t map;
     QFileInfo fi(filename);
-
-    if(!fi.exists() && !filename.startsWith("http")) return;
+    if(!fi.exists() && !filename.startsWith("http") && !filename.startsWith("file")) return;
 
     QString ext = fi.suffix().toLower();
     if(ext == "qmap")
@@ -378,7 +376,7 @@ void CMapDB::openMap(const QString& filename, bool asRaster, CCanvas& canvas)
         // store current map filename for next session
         cfg.setValue("maps/visibleMaps",filename);
     }
-    else if(filename.startsWith("http"))
+    else if(filename.startsWith("http") || filename.startsWith("file") )
     {
         theMap = new CMapTms(QString::number(qHash(filename)), theMainWindow->getCanvas());
 
@@ -455,7 +453,7 @@ void CMapDB::openMap(const QString& key)
     {
         theMap = new CMapWms(key,filename,theMainWindow->getCanvas());
     }
-    else if(filename.startsWith("http"))
+    else if(filename.startsWith("http") || filename.startsWith("file") )
     {
         theMap = new CMapTms(key, theMainWindow->getCanvas());
     }

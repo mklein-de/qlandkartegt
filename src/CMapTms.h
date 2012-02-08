@@ -26,12 +26,12 @@
 #include <QQueue>
 #include <QSet>
 #include <QtCore>
+#include <IDiskCache.h>
 
 class QNetworkAccessManager;
 class QNetworkReply;
 class QLabel;
 class CDiskCache;
-
 
 class CMapTms : public IMap
 {
@@ -80,7 +80,6 @@ class CMapTms : public IMap
         {
             return (int)(qRound(256*(lon + 180.0) / 360.0 * pow(2.0, z)));
         }
-
 
         inline int lat2tile(double lat, int z)
         {
@@ -131,12 +130,10 @@ class CMapTms : public IMap
         QNetworkAccessManager * accessManager;
         QQueue<request_t> newRequests;
         QHash<QString,request_t> pendRequests;
-        CDiskCache * diskCache;
+        IDiskCache * diskCache;
         QSet<QString> seenRequest;
 
         QLabel * status;
 
 };
-
-#endif //CMAPTMS_H
-
+#endif                           //CMAPTMS_H

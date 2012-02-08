@@ -20,16 +20,17 @@
 #include "CDiskCache.h"
 #ifndef STANDALONE
 #include "CResources.h"
-#endif  //!STANDALONE
+#endif                           //!STANDALONE
 
 #include <QtGui>
 
 #ifdef STANDALONE
 CDiskCache::CDiskCache(const QString &path, QObject *parent)
+: IDiskCache(path, parent)
 #else
 CDiskCache::CDiskCache(QObject *parent)
-#endif //STANDALONE
-: QObject(parent)
+: IDiskCache(parent)
+#endif                           //STANDALONE
 , dummy(":/icons/noMap256x256.png")
 {
 
@@ -37,7 +38,7 @@ CDiskCache::CDiskCache(QObject *parent)
     dir     = QDir(path);
 #else
     dir     = CResources::self().getPathMapCache();
-#endif //STANDALONE
+#endif                       //STANDALONE
 
     dir.mkpath(dir.path());
     QFileInfoList files = dir.entryInfoList(QStringList("*.png"), QDir::Files);
@@ -53,17 +54,16 @@ CDiskCache::CDiskCache(QObject *parent)
     timer->start(60000);
     connect(timer, SIGNAL(timeout()), this, SLOT(slotCleanup()));
     slotCleanup();
-#endif // !STANDALONE
+#endif                       // !STANDALONE
 
     //qDebug() << "cache: found" << table.count() << "cache entries";
 }
 
 
-
 CDiskCache::~CDiskCache()
 {
-
 }
+
 
 void CDiskCache::store(const QString& key, QImage& img)
 {
@@ -72,8 +72,6 @@ void CDiskCache::store(const QString& key, QImage& img)
 
     QString hash        = md5.result().toHex();
     QString filename    = QString("%1.png").arg(hash);
-
-
 
     if(!img.isNull())
     {
@@ -86,6 +84,7 @@ void CDiskCache::store(const QString& key, QImage& img)
         cache[hash] = dummy;
     }
 }
+
 
 void CDiskCache::restore(const QString& key, QImage& img)
 {
@@ -113,6 +112,7 @@ void CDiskCache::restore(const QString& key, QImage& img)
 
 }
 
+
 bool CDiskCache::contains(const QString& key)
 {
     QCryptographicHash md5(QCryptographicHash::Md5);
@@ -122,6 +122,7 @@ bool CDiskCache::contains(const QString& key)
     return table.contains(hash) || cache.contains(hash);
 
 }
+
 
 void CDiskCache::slotCleanup()
 {
@@ -148,7 +149,6 @@ void CDiskCache::slotCleanup()
         }
     }
 
-
     if(size > maxSize)
     {
         // if cache is still too large remove oldest files
@@ -167,5 +167,5 @@ void CDiskCache::slotCleanup()
             }
         }
     }
-#endif //STANDALONE
+#endif                       //STANDALONE
 }

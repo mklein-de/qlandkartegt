@@ -12,10 +12,12 @@ include(${QT_USE_FILE})
 set(SRCS
     main.cpp
     ../../src/CDiskCache.cpp
+    ../../src/IDiskCache.cpp
 )
 
 set(HDRS
     ../../src/CDiskCache.h
+    ../../src/IDiskCache.h
 )
 
 set(UIS

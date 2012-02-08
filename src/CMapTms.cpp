@@ -22,12 +22,15 @@
 #include "GeoMath.h"
 #include "CResources.h"
 #include "CDiskCache.h"
+#include "CDiskCacheZip.h"
 #include "CMainWindow.h"
 #include "CDlgMapTmsConfig.h"
 #include "CMapSelectionRaster.h"
 
 #include <QtGui>
 #include <QtNetwork>
+
+#include <iostream>
 
 CMapTms::CMapTms(const QString& key, CCanvas *parent)
 : IMap(eTMS,key,parent)
@@ -63,13 +66,18 @@ CMapTms::CMapTms(const QString& key, CCanvas *parent)
     pj_transform(pjsrc,pjtar,1,0,&lon1,&lat1,0);
     pj_transform(pjsrc,pjtar,1,0,&lon2,&lat2,0);
 
-
     accessManager = new QNetworkAccessManager(this);
     accessManager->setProxy(QNetworkProxy(QNetworkProxy::DefaultProxy));
     connect(accessManager,SIGNAL(finished(QNetworkReply*)),this,SLOT(slotRequestFinished(QNetworkReply*)));
 
-    diskCache = new CDiskCache(this);
-
+    if ( strUrl.startsWith("file") )
+    {
+        diskCache = new CDiskCacheZip(this);
+    }
+    else
+    {
+        diskCache = new CDiskCache(this);
+    }
 
     status = new QLabel(theMainWindow->getCanvas());
     theMainWindow->statusBar()->insertPermanentWidget(0,status);
@@ -77,6 +85,7 @@ CMapTms::CMapTms(const QString& key, CCanvas *parent)
 
     zoom(zoomidx);
 }
+
 
 CMapTms::~CMapTms()
 {
@@ -100,6 +109,7 @@ void CMapTms::convertPt2M(double& u, double& v)
     u = x + u * xscale * zoomFactor;
     v = y + v * yscale * zoomFactor;
 }
+
 
 void CMapTms::convertM2Pt(double& u, double& v)
 {
@@ -126,6 +136,7 @@ void CMapTms::move(const QPoint& old, const QPoint& next)
     setAngleNorth();
     emit sigChanged();
 }
+
 
 void CMapTms::zoom(bool zoomIn, const QPoint& p0)
 {
@@ -161,6 +172,7 @@ void CMapTms::zoom(bool zoomIn, const QPoint& p0)
     blockSignals(false);
     emit sigChanged();
 }
+
 
 void CMapTms::zoom(double lon1, double lat1, double lon2, double lat2)
 {
@@ -202,6 +214,7 @@ void CMapTms::zoom(double lon1, double lat1, double lon2, double lat2)
     qDebug() << "zoom:" << zoomFactor;
 }
 
+
 void CMapTms::zoom(qint32& level)
 {
     if(level > 18) level = 18;
@@ -219,6 +232,7 @@ void CMapTms::zoom(qint32& level)
 
     emit sigChanged();
 }
+
 
 void CMapTms::dimensions(double& lon1, double& lat1, double& lon2, double& lat2)
 {
@@ -306,6 +320,7 @@ void CMapTms::draw(QPainter& p)
 
 }
 
+
 void CMapTms::draw()
 {
     if(pjsrc == 0) return IMap::draw();
@@ -316,7 +331,6 @@ void CMapTms::draw()
     pixBuffer.fill(Qt::white);
     QPainter p(&pixBuffer);
 
-
     int z      = 18 - zoomidx;
     double lon = x;
     double lat = y;
@@ -324,7 +338,6 @@ void CMapTms::draw()
 
     lon *= RAD_TO_DEG;
     lat *= RAD_TO_DEG;
-
 
     int x1      = lon2tile(lon, z) / 256;
     int y1      = lat2tile(lat, z) / 256;
@@ -381,6 +394,7 @@ void CMapTms::draw()
     checkQueue();
 }
 
+
 void CMapTms::addToQueue(request_t& req)
 {
     if(!seenRequest.contains(req.url.toString()))
@@ -389,6 +403,7 @@ void CMapTms::addToQueue(request_t& req)
         seenRequest << req.url.toString();
     }
 }
+
 
 void CMapTms::checkQueue()
 {
@@ -469,16 +484,19 @@ void CMapTms::slotRequestFinished(QNetworkReply* reply)
     emit sigChanged();
 }
 
+
 void CMapTms::config()
 {
     CDlgMapTmsConfig dlg(*this);
     dlg.exec();
 }
 
+
 quint32 CMapTms::scalePixelGrid(quint32 nPixel)
 {
     return double(nPixel) / zoomFactor;
 }
+
 
 void CMapTms::select(IMapSelection& ms, const QRect& rect)
 {
