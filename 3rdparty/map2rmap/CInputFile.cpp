@@ -1,4 +1,5 @@
 #include "CInputFile.h"
+#include "main.h"
 
 #include <QtCore>
 #include <stdio.h>
@@ -9,7 +10,7 @@ extern "C"
     #include <jpeglib.h>
 }
 
-#define JPG_BLOCK_SIZE (256*256)
+#define JPG_BLOCK_SIZE (TILESIZE*TILESIZE)
 
 static std::vector<JOCTET> jpgbuf;
 static void init_destination (j_compress_ptr cinfo)
@@ -33,11 +34,13 @@ static void term_destination (j_compress_ptr cinfo)
 }
 
 
+quint32 CInputFile::nTilesTotal     = 0;
+quint32 CInputFile::nTilesProcessed = 0;
 
 CInputFile::CInputFile(const QString &filename, quint32 tileSize)
     : filename(filename)
     , tileSize(tileSize)
-    , nTilesTotal(0)
+    , nTiles(0)
     , tileBuf08Bit(tileSize * tileSize,0)
     , tileBuf24Bit(tileSize * tileSize * 3,0)
     , tileBuf32Bit(tileSize * tileSize * 4,0)
@@ -77,9 +80,9 @@ CInputFile::CInputFile(const QString &filename, quint32 tileSize)
         exit(-1);
     }
 
-    qDebug();
-    qDebug() << filename;
-    qDebug() << ptr;
+//    qDebug();
+//    qDebug() << filename;
+//    qDebug() << ptr;
 
     if(oSRS.IsSame(&oSRS_EPSG31467))
     {
@@ -97,7 +100,7 @@ CInputFile::CInputFile(const QString &filename, quint32 tileSize)
         exit(-1);
     }
 
-    qDebug() << compeProj + compeDatum;
+//    qDebug() << compeProj + compeDatum;
     dataset->GetGeoTransform( adfGeoTransform );
 
     width   = dataset->GetRasterXSize();
@@ -109,12 +112,35 @@ CInputFile::CInputFile(const QString &filename, quint32 tileSize)
     xref2   = xref1 + width  * xscale;
     yref2   = yref1 + height * yscale;
 
-    qDebug() << QString("level0:") << width << height << xscale << yscale << xref1 << yref1;
+//    qDebug() << QString("level0:") << width << height << xscale << yscale << xref1 << yref1;
 
 }
 
 CInputFile::~CInputFile()
 {
+
+}
+
+void CInputFile::summarize()
+{
+    printf("\n\n--- %s ---", QFileInfo(filename).fileName().toLocal8Bit().data());
+    for(int i = 0; i < levels.count(); i++)
+    {
+        level_t& level = levels[i];
+        printf("\nLevel%i:", i);
+        printf("\nwidth/height:  %i/%i [pixel]", level.width, level.height);
+        if(pj_is_latlong(pj))
+        {
+            printf("\nxscale/yscale: %1.6f/%1.6f [°/pixel]", level.xscale*RAD_TO_DEG, level.yscale*RAD_TO_DEG);
+        }
+        else
+        {
+            printf("\nxscale/yscale: %1.6f/%1.6f [m/pixel]", level.xscale, level.yscale);
+        }
+
+        printf("\nTiles X/Y:     %i/%i", level.xTiles, level.yTiles);
+        printf("\n");
+    }
 
 }
 
@@ -152,7 +178,7 @@ void CInputFile::getRef2Deg(double& lon, double& lat)
 
 quint32 CInputFile::calcLevels(double scaleLimit)
 {
-    nTilesTotal     = 0;
+    nTiles     = 0;
     qint32 nLevels  = 1;
 
     if(scaleLimit)
@@ -167,7 +193,7 @@ quint32 CInputFile::calcLevels(double scaleLimit)
     else
     {
         quint32 w = width;
-        while(w>>1 > 256)
+        while(w>>1 > TILESIZE)
         {
             w = w >> 1;
             nLevels++;
@@ -187,12 +213,12 @@ quint32 CInputFile::calcLevels(double scaleLimit)
 
         levels << level;
 
-        nTilesTotal += level.xTiles * level.yTiles;
+        nTiles += level.xTiles * level.yTiles;
 
-        qDebug() << "level" << l << level.width << level.height << level.xTiles << level.yTiles << level.xscale << level.yscale;
+//        qDebug() << "level" << l << level.width << level.height << level.xTiles << level.yTiles << level.xscale << level.yscale;
     }
 
-    qDebug() << "tiles total:" << nTilesTotal;
+    nTilesTotal += nTiles;
 
     return levels.count();
 }
@@ -213,8 +239,6 @@ void CInputFile::writeLevelOffsets(QDataStream& stream)
         stream << levels[i].offsetLevel;
     }
 }
-
-quint32 cnt = 0;
 
 void CInputFile::writeLevel(QDataStream& stream, int l, int quality, int subsampling)
 {
@@ -257,7 +281,8 @@ void CInputFile::writeLevel(QDataStream& stream, int l, int quality, int subsamp
                 exit(-1);
             }
 
-            qDebug() << cnt++;
+            nTilesProcessed++;
+            printProgress(nTilesProcessed, nTilesTotal);
         }
     }
 

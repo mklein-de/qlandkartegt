@@ -16,6 +16,7 @@ set(SRCS
 )
 
 set(HDRS
+    main.h
     CInputFile.h
 )
 

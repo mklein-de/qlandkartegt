@@ -27,6 +27,7 @@
 #include <QtCore>
 
 #include "CInputFile.h"
+#include "main.h"
 
 #ifndef _MKSTR_1
 #define _MKSTR_1(x)         #x
@@ -36,10 +37,52 @@
 #define VER_STR             _MKSTR(VER_MAJOR)"."_MKSTR(VER_MINOR)"."_MKSTR(VER_STEP)
 #define WHAT_STR            "map2rmap, Version " VER_STR
 
-#define TILESIZE            256
 
-/// the target lon/lat WGS84 projection
-static PJ * wgs84 = 0;
+/// this code is from the GDAL project
+void printProgress(int current, int total)
+{
+    double dfComplete = double(current)/double(total);
+
+    static int nLastTick = -1;
+    int nThisTick = (int) (dfComplete * 40.0);
+
+    nThisTick = MIN(40,MAX(0,nThisTick));
+
+    // Have we started a new progress run?
+    if( nThisTick < nLastTick && nLastTick >= 39 )
+    {
+        nLastTick = -1;
+    }
+
+    if( nThisTick <= nLastTick )
+    {
+        return;
+    }
+
+    while( nThisTick > nLastTick )
+    {
+        nLastTick++;
+        if( nLastTick % 4 == 0 )
+        {
+            fprintf( stdout, "%d", (nLastTick / 4) * 10 );
+        }
+        else
+        {
+            fprintf( stdout, "." );
+        }
+    }
+
+    if( nThisTick == 40 )
+    {
+        fprintf( stdout, " - done.\n" );
+    }
+    else
+    {
+        fflush( stdout );
+    }
+
+}
+
 
 static bool qSortInFiles(CInputFile& f1, CInputFile& f2)
 {
@@ -74,8 +117,6 @@ int main(int argc, char ** argv)
     }
 
     GDALAllRegister();
-    wgs84 = pj_init_plus("+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs");
-
 
     for(int i = 1; i < (argc - 1); i++)
     {
@@ -114,6 +155,15 @@ int main(int argc, char ** argv)
     }
     nLevels += infiles.last().calcLevels(0.0);
 
+    for(int i=0; i < infiles.size(); i++)
+    {
+        infiles[i].summarize();
+    }
+
+    printf("\n\nThere is a total of %i tiles to process.", CInputFile::getTilesTotal());
+    printf("\n\n");
+
+
     CInputFile& base = infiles.first();
 
     QFile file(outfile);
@@ -139,7 +189,6 @@ int main(int argc, char ** argv)
     }
 
     // write layers
-
     for(int i = 0; i < infiles.size(); i++)
     {
         infiles[i].writeLevels(stream, quality, subsampling);
@@ -194,7 +243,6 @@ int main(int argc, char ** argv)
     stream << quint32(1) << mapdata.size();
     stream.writeRawData(mapdata.toAscii(), mapdata.size());
 
-    pj_free(wgs84);
     GDALDestroyDriverManager();
     printf("\n");
 

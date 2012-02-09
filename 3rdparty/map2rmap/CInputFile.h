@@ -31,6 +31,8 @@ class CInputFile
         CInputFile(const QString& filename, quint32 tileSize);
         virtual ~CInputFile();
 
+        void summarize();
+
         double getXScale(){return xscale;}
 
         void getRef1Deg(double& lon, double& lat);
@@ -44,6 +46,7 @@ class CInputFile
         void writeLevels(QDataStream& stream, int quality, int subsampling);
         void writeLevelOffsets(QDataStream& stream);
 
+        static quint32 getTilesTotal(){return nTilesTotal;}
     private:
         void writeLevel(QDataStream& stream, int level, int quality, int subsampling);
 
@@ -82,7 +85,9 @@ class CInputFile
         double xref2;
         double yref2;
 
-        quint32 nTilesTotal;
+        quint32 nTiles;
+        static quint32 nTilesTotal;
+        static quint32 nTilesProcessed;
         QList<level_t> levels;
         QByteArray tileBuf08Bit;
         QByteArray tileBuf24Bit;
