@@ -34,7 +34,9 @@
 #endif
 
 #define VER_STR             _MKSTR(VER_MAJOR)"."_MKSTR(VER_MINOR)"."_MKSTR(VER_STEP)
-#define WHAT_STR            "map2gcm, Version " VER_STR
+#define WHAT_STR            "map2rmap, Version " VER_STR
+
+#define TILESIZE            256
 
 /// the target lon/lat WGS84 projection
 static PJ * wgs84 = 0;
@@ -46,9 +48,12 @@ static bool qSortInFiles(CInputFile& f1, CInputFile& f2)
 
 int main(int argc, char ** argv)
 {
-    int quality         = -1;
-    int subsampling     = -1;
-    int skip_next_arg   =  0;
+    quint32 nLevels             =  0;
+    quint64 posMapDataOffset    =  0;
+    quint64 posMapData          =  0;
+    int quality                 = -1;
+    int subsampling             = -1;
+    int skip_next_arg           =  0;
     QString outfile;
     QList<CInputFile> infiles;
 
@@ -97,7 +102,7 @@ int main(int argc, char ** argv)
             }
         }
 
-        infiles << CInputFile(argv[i]);
+        infiles << CInputFile(argv[i], TILESIZE);
     }
     outfile = argv[argc-1];
 
@@ -105,22 +110,89 @@ int main(int argc, char ** argv)
 
     for(int i=0; i < infiles.size() - 1; i++)
     {
-        quint32 l = 1;
-        double s1 = infiles[i  ].getXScale();
-        double s2 = infiles[i+1].getXScale();
-        while(s1*2 < s2)
-        {
-            s1 *= 2;
-            l++;
-        }
-        infiles[i].setLevels(l);
+        nLevels += infiles[i].calcLevels(infiles[i+1].getXScale());
     }
+    nLevels += infiles.last().calcLevels(0.0);
 
-    for(int i=0; i < infiles.size(); i++)
+    CInputFile& base = infiles.first();
+
+    QFile file(outfile);
+    file.open(QIODevice::WriteOnly);
+    QDataStream stream(&file);
+    stream.setByteOrder(QDataStream::LittleEndian);
+
+    // write file header
+    stream.writeRawData("CompeGPSRasterImage",19);
+    stream << quint32(10) << quint32(7) << quint32(0);
+    stream << base.getWidth() << -base.getHeight();
+    stream << quint32(24) << quint32(1);
+    stream << quint32(TILESIZE) << quint32(TILESIZE);
+
+    posMapDataOffset = file.pos();
+
+    stream << quint64(0); // MapDataOffset
+    stream << quint32(0);
+    stream << nLevels;
+    for(int i = 0; i < nLevels; i++)
     {
-        qDebug() << infiles[i].getLevels();
+        stream << quint64(0);
     }
 
+    // write layers
+
+    for(int i = 0; i < infiles.size(); i++)
+    {
+        infiles[i].writeLevels(stream, quality, subsampling);
+    }
+
+    posMapData = file.pos();
+
+    file.seek(posMapDataOffset);
+    stream << posMapData;
+    stream << quint32(0);
+    stream << nLevels;
+    for(int i = 0; i < infiles.size(); i++)
+    {
+        infiles[i].writeLevelOffsets(stream);
+    }
+
+    double lon1, lat1;
+    double lon2, lat2;
+    base.getRef1Deg(lon1, lat1);
+    base.getRef2Deg(lon2, lat2);
+
+    QString mapdata;
+    mapdata += "CompeGPS MAP File\r\n";
+    mapdata += "<Header>\r\n";
+    mapdata += "Version=2\r\n";
+    mapdata += "VerCompeGPS=QLandkarte GT\r\n";
+    mapdata += "Projection=2,Mercator,\r\n";
+    mapdata += "Coordinates=1\r\n";
+    mapdata += "Datum=WGS 84\r\n";
+    mapdata += "</Header>\r\n";
+    mapdata += "<Map>\r\n";
+    mapdata += "Bitmap=" + QFileInfo(outfile).fileName() + "\r\n";
+    mapdata += "BitsPerPixel=0\r\n";
+    mapdata += QString("BitmapWidth=%1\r\n").arg(base.getWidth());
+    mapdata += QString("BitmapHeight=%1\r\n").arg(base.getHeight());
+    mapdata += "Type=10\r\n";
+    mapdata += "</Map>\r\n";
+    mapdata += "<Calibration>\r\n";
+    mapdata += QString("P0=0,0,A,%1,%2\r\n").arg(lon1,0,'f').arg(lat1,0,'f');
+    mapdata += QString("P1=%3,0,A,%1,%2\r\n").arg(lon2,0,'f').arg(lat1,0,'f').arg(base.getWidth() - 1);
+    mapdata += QString("P2=%3,%4,A,%1,%2\r\n").arg(lon2,0,'f').arg(lat2,0,'f').arg(base.getWidth() - 1).arg(base.getHeight() - 1);
+    mapdata += QString("P4=0,%3,A,%1,%2\r\n").arg(lon1,0,'f').arg(lat2,0,'f').arg(base.getHeight() - 1);
+    mapdata += "</Calibration>\r\n";
+    mapdata += "<MainPolygonBitmap>\r\n";
+    mapdata += QString("M0=0,0\r\n");
+    mapdata += QString("M1=%1,0\r\n").arg(base.getWidth());
+    mapdata += QString("M2=%1,%2\r\n").arg(base.getWidth()).arg(base.getHeight());
+    mapdata += QString("M3=0,%1\r\n").arg(base.getHeight());
+    mapdata += "</MainPolygonBitmap>\r\n";
+
+    file.seek(posMapData);
+    stream << quint32(1) << mapdata.size();
+    stream.writeRawData(mapdata.toAscii(), mapdata.size());
 
     pj_free(wgs84);
     GDALDestroyDriverManager();

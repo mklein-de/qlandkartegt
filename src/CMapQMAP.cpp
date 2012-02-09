@@ -138,9 +138,6 @@ CMapQMAP::CMapQMAP(const QString& key, const QString& fn, CCanvas * parent)
     topLeft.v = v * DEG_TO_RAD;
     mapdef.endGroup();
 
-    QSettings cfg;
-    exportPath  = cfg.value("path/export",cfg.value("path/maps","./")).toString();
-
     if(parent)
     {
         connect(parent, SIGNAL(sigResize(const QSize&)), this, SLOT(resize(const QSize&)));
@@ -165,9 +162,6 @@ CMapQMAP::~CMapQMAP()
     pos = pos.replace("\260","");
     mapdef.setValue("center",pos);
     mapdef.endGroup();
-
-    QSettings cfg;
-    cfg.setValue("path/export",exportPath);
 
     midU = rect.center().x();
     midV = rect.center().y();

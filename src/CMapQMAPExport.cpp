@@ -134,6 +134,8 @@ CMapQMAPExport::CMapQMAPExport(const CMapSelectionRaster& mapsel, QWidget * pare
     lineGeoTiffProjection->setText(cfg.value("map/export/qlm/proj","+proj=longlat +a=6378137.0000 +b=6356752.3142 +towgs84=0,0,0,0,0,0,0,0 +units=m  +no_defs").toString());
     lineGeoTiffProjection->setCursorPosition(0);
 
+    checkProjection->setChecked(cfg.value("map/export/qlm/proj_enable").toBool());
+
     progressBar->setMinimum(0);
     progressBar->setMaximum(100);
     progressBar->setValue(0);
@@ -170,6 +172,8 @@ CMapQMAPExport::CMapQMAPExport(const CMapSelectionRaster& mapsel, QWidget * pare
 CMapQMAPExport::~CMapQMAPExport()
 {
     QSettings cfg;
+    cfg.setValue("path/export",labelPath->text());
+
     cfg.setValue("map/export/qlm", radioQLM->isChecked());
     cfg.setValue("map/export/gcm", radioGCM->isChecked());
     cfg.setValue("map/export/jnx", radioJNX->isChecked());
@@ -187,6 +191,7 @@ CMapQMAPExport::~CMapQMAPExport()
 
     cfg.setValue("map/export/stream/levels", lineStreamingLevels->text());
     cfg.setValue("map/export/qlm/proj", lineGeoTiffProjection->text());
+    cfg.setValue("map/export/qlm/proj_enable", checkProjection->isChecked() );
 
     cfg.setValue("map/export/hidedetails", textBrowser->isHidden());
 }
@@ -586,7 +591,14 @@ void CMapQMAPExport::startExportCommon(QStringList& srcFiles, QDir& tarPath, con
     QString projection("EPSG:4326");
     if(radioQLM->isChecked())
     {
-        projection = lineGeoTiffProjection->text();
+        if(checkProjection->isChecked())
+        {
+            projection = lineGeoTiffProjection->text();
+        }
+        else
+        {
+            projection.clear();
+        }
     }
 
     CMapExportStateReproject * state4 = new CMapExportStateReproject(projection, this);
@@ -770,9 +782,6 @@ void CMapQMAPExport::slotOutputPath()
 {
     QString path = QFileDialog::getExistingDirectory(this, tr("Select ouput path..."), labelPath->text(), FILE_DIALOG_FLAGS);
     if(path.isEmpty()) return;
-
-    QSettings cfg;
-    cfg.setValue("path/export", path);
     labelPath->setText(path);
 }
 
@@ -1010,6 +1019,17 @@ void CMapExportStateReproject::nextJob(QProcess& cmd)
     if(jobIdx < jobs.count())
     {
         job_t& job = jobs[jobIdx];
+
+        if(proj.isEmpty())
+        {
+            gui->stdOut("copy " + job.srcFile[0] + " ->" + job.tarFile + "\n");
+            QFile::rename(job.srcFile, job.tarFile);
+            jobIdx++;
+
+            gui->slotFinished(0, QProcess::NormalExit);
+            return;
+        }
+
 
         QString width, height;
         {

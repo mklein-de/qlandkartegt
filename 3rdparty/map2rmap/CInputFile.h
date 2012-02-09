@@ -20,6 +20,7 @@
 #define CINPUTFILE_H
 
 #include <QString>
+#include <QVector>
 #include <gdal_priv.h>
 #include <projects.h>
 
@@ -27,30 +28,66 @@
 class CInputFile
 {
     public:
-        CInputFile(const QString& filename);
+        CInputFile(const QString& filename, quint32 tileSize);
         virtual ~CInputFile();
 
         double getXScale(){return xscale;}
 
-        void setLevels(quint32 l);
-        quint32 getLevels(){return levels;}
+        void getRef1Deg(double& lon, double& lat);
+        void getRef2Deg(double& lon, double& lat);
+
+        qint32 getWidth(){return width;}
+        qint32 getHeight(){return height;}
+
+        quint32 calcLevels(double scaleLimit);
+
+        void writeLevels(QDataStream& stream, int quality, int subsampling);
+        void writeLevelOffsets(QDataStream& stream);
+
     private:
+        void writeLevel(QDataStream& stream, int level, int quality, int subsampling);
+
+        bool readTile(qint32 xoff, qint32 yoff, qint32 w1, qint32 h1, qint32 w2, qint32 h2, quint32 *output);
+        quint32 writeTile(quint32 xsize, quint32 ysize, quint32 * raw_image, int quality, int subsampling);
+
         QString filename;
+        quint32 tileSize;
+
+        struct level_t
+        {
+            level_t(): offsetLevel(0), width(0), height(0), xTiles(0), yTiles(0), xscale(0), yscale(0){}
+            quint64 offsetLevel;
+            qint32 width;
+            qint32 height;
+            qint32 xTiles;
+            qint32 yTiles;
+            QVector<quint64> offsetJpegs;
+
+            double xscale;
+            double yscale;
+        };
 
         PJ * pj;
         GDALDataset * dataset;
         QString compeProj;
         QString compeDatum;
 
-        quint32 width;
-        quint32 height;
+        qint32 width;
+        qint32 height;
 
         double xscale;
         double yscale;
         double xref1;
         double yref1;
+        double xref2;
+        double yref2;
 
-        int levels;
+        quint32 nTilesTotal;
+        QList<level_t> levels;
+        QByteArray tileBuf08Bit;
+        QByteArray tileBuf24Bit;
+        QByteArray tileBuf32Bit;
+        quint32 colortable[256];
 };
 
 #endif //CINPUTFILE_H

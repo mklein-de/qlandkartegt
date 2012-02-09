@@ -351,6 +351,13 @@
       <item>
        <layout class="QHBoxLayout" name="horizontalLayout_9">
         <item>
+         <widget class="QCheckBox" name="checkProjection">
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+        </item>
+        <item>
          <widget class="QLabel" name="label_12">
           <property name="text">
            <string>Projection</string>
@@ -477,14 +484,14 @@
      <item>
       <widget class="QLabel" name="labelStep">
        <property name="text">
-        <string/>
+        <string>Step -/-</string>
        </property>
       </widget>
      </item>
      <item>
       <widget class="QLabel" name="labelJob">
        <property name="text">
-        <string/>
+        <string>File -/-</string>
        </property>
       </widget>
      </item>
@@ -497,7 +504,7 @@
         </sizepolicy>
        </property>
        <property name="text">
-        <string/>
+        <string>Make your selections and press &quot;Export&quot;</string>
        </property>
       </widget>
      </item>
