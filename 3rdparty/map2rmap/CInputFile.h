@@ -40,6 +40,8 @@ class CInputFile
 
         qint32 getWidth(){return width;}
         qint32 getHeight(){return height;}
+        QString getProjection(){return compeProj;}
+        QString getDatum(){return compeDatum;}
 
         quint32 calcLevels(double scaleLimit);
 
@@ -47,6 +49,7 @@ class CInputFile
         void writeLevelOffsets(QDataStream& stream);
 
         static quint32 getTilesTotal(){return nTilesTotal;}
+
     private:
         void writeLevel(QDataStream& stream, int level, int quality, int subsampling);
 

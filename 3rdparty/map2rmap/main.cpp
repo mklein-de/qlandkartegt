@@ -215,9 +215,9 @@ int main(int argc, char ** argv)
     mapdata += "<Header>\r\n";
     mapdata += "Version=2\r\n";
     mapdata += "VerCompeGPS=QLandkarte GT\r\n";
-    mapdata += "Projection=2,Mercator,\r\n";
+    mapdata += QString("Projection=%1\r\n").arg(base.getProjection());
     mapdata += "Coordinates=1\r\n";
-    mapdata += "Datum=WGS 84\r\n";
+    mapdata += QString("Datum=%1\r\n").arg(base.getDatum());
     mapdata += "</Header>\r\n";
     mapdata += "<Map>\r\n";
     mapdata += "Bitmap=" + QFileInfo(outfile).fileName() + "\r\n";

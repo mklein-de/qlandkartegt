@@ -184,7 +184,7 @@ quint32 CInputFile::calcLevels(double scaleLimit)
     if(scaleLimit)
     {
         double s = xscale;
-        while(s*2 < scaleLimit)
+        while(s*2.1 < scaleLimit)
         {
             s = s * 2;
             nLevels++;
