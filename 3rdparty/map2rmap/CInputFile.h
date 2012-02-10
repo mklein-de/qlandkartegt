@@ -45,13 +45,13 @@ class CInputFile
 
         quint32 calcLevels(double scaleLimit);
 
-        void writeLevels(QDataStream& stream, int quality, int subsampling);
+        void writeLevels(QDataStream& stream, double &scale, int quality, int subsampling);
         void writeLevelOffsets(QDataStream& stream);
 
         static quint32 getTilesTotal(){return nTilesTotal;}
 
     private:
-        void writeLevel(QDataStream& stream, int level, int quality, int subsampling);
+        void writeLevel(QDataStream& stream, int level, double &scale, int quality, int subsampling);
 
         bool readTile(qint32 xoff, qint32 yoff, qint32 w1, qint32 h1, qint32 w2, qint32 h2, quint32 *output);
         quint32 writeTile(quint32 xsize, quint32 ysize, quint32 * raw_image, int quality, int subsampling);

@@ -57,6 +57,8 @@ CInputFile::CInputFile(const QString &filename, quint32 tileSize)
     oSRS_EPSG31468.importFromProj4("+init=epsg:31468");
     OGRSpatialReference oSRS_EPSG31469;
     oSRS_EPSG31469.importFromProj4("+init=epsg:31469");
+    OGRSpatialReference oSRS_EPSG4326;
+    oSRS_EPSG4326.importFromProj4("+init=epsg:4326");
 
 
     dataset = (GDALDataset*)GDALOpen(filename.toLocal8Bit(),GA_ReadOnly);
@@ -65,7 +67,6 @@ CInputFile::CInputFile(const QString &filename, quint32 tileSize)
         fprintf(stderr,"\nFailed to open %s\n", filename.toLocal8Bit().data());
         exit(-1);
     }
-
 
     char * ptr = projstr;
 
@@ -94,6 +95,11 @@ CInputFile::CInputFile(const QString &filename, quint32 tileSize)
         compeProj   = "114,GK-System 12º (Zone 4),";
         compeDatum  = "WGS 84";
     }
+    else if(oSRS.IsSame(&oSRS_EPSG4326))
+    {
+        compeProj   = "2,Mercator,";
+        compeDatum  = "WGS 84";
+    }
     else
     {
         fprintf(stderr,"\n%s\nprojection in file %s not recognized\n", ptr, filename.toLocal8Bit().data());
@@ -105,15 +111,23 @@ CInputFile::CInputFile(const QString &filename, quint32 tileSize)
 
     width   = dataset->GetRasterXSize();
     height  = dataset->GetRasterYSize();
-    xscale  = adfGeoTransform[1];
-    yscale  = adfGeoTransform[5];
-    xref1   = adfGeoTransform[0];
-    yref1   = adfGeoTransform[3];
+
+    if(pj_is_latlong(pj))
+    {
+        xscale  = adfGeoTransform[1] * DEG_TO_RAD;
+        yscale  = adfGeoTransform[5] * DEG_TO_RAD;
+        xref1   = adfGeoTransform[0] * DEG_TO_RAD;
+        yref1   = adfGeoTransform[3] * DEG_TO_RAD;
+    }
+    else
+    {
+        xscale  = adfGeoTransform[1];
+        yscale  = adfGeoTransform[5];
+        xref1   = adfGeoTransform[0];
+        yref1   = adfGeoTransform[3];
+    }
     xref2   = xref1 + width  * xscale;
     yref2   = yref1 + height * yscale;
-
-//    qDebug() << QString("level0:") << width << height << xscale << yscale << xref1 << yref1;
-
 }
 
 CInputFile::~CInputFile()
@@ -131,7 +145,7 @@ void CInputFile::summarize()
         printf("\nwidth/height:  %i/%i [pixel]", level.width, level.height);
         if(pj_is_latlong(pj))
         {
-            printf("\nxscale/yscale: %1.6f/%1.6f [°/pixel]", level.xscale*RAD_TO_DEG, level.yscale*RAD_TO_DEG);
+            printf("\nxscale/yscale: %1.6f/%1.6f [°/pixel]", level.xscale * RAD_TO_DEG, level.yscale * RAD_TO_DEG);
         }
         else
         {
@@ -223,12 +237,14 @@ quint32 CInputFile::calcLevels(double scaleLimit)
     return levels.count();
 }
 
-void CInputFile::writeLevels(QDataStream& stream, int quality, int subsampling)
+void CInputFile::writeLevels(QDataStream& stream, double& scale, int quality, int subsampling)
 {
     for(int i = 0; i < levels.count(); i++)
     {
-        writeLevel(stream, i, quality, subsampling);
+        writeLevel(stream, i, scale, quality, subsampling);
     }
+
+    scale = scale * (1 << levels.count());
 
 }
 
@@ -238,21 +254,28 @@ void CInputFile::writeLevelOffsets(QDataStream& stream)
     {
         stream << levels[i].offsetLevel;
     }
+
 }
 
-void CInputFile::writeLevel(QDataStream& stream, int l, int quality, int subsampling)
+void CInputFile::writeLevel(QDataStream& stream, int l, double& scale, int quality, int subsampling)
 {
     level_t& level = levels[l];
+
+
+    level.width  = level.width * xscale / scale;
+    level.height = level.height * xscale / scale;
+    level.xTiles = ceil(double(level.width) / tileSize);
+    level.yTiles = ceil(double(level.height) / tileSize);
 
     for(int y = 0; y < level.yTiles; y++)
     {
         for(int x = 0; x < level.xTiles; x++)
         {
 
-            qint32 xoff = x * (tileSize << l);
-            qint32 yoff = y * (tileSize << l);
-            qint32 w1   = tileSize << l;
-            qint32 h1   = tileSize << l;
+            qint32 xoff = x * (tileSize << l) * scale / xscale;
+            qint32 yoff = y * (tileSize << l) * scale / xscale;
+            qint32 w1   = (tileSize << l) * scale / xscale;
+            qint32 h1   = (tileSize << l) * scale / xscale;
             qint32 w2   = tileSize;
             qint32 h2   = tileSize;
 
@@ -286,6 +309,7 @@ void CInputFile::writeLevel(QDataStream& stream, int l, int quality, int subsamp
         }
     }
 
+
     level.offsetLevel = stream.device()->pos();
     stream << level.width << -level.height;
     stream << level.xTiles << level.yTiles;
@@ -297,7 +321,7 @@ void CInputFile::writeLevel(QDataStream& stream, int l, int quality, int subsamp
 
 bool CInputFile::readTile(qint32 xoff, qint32 yoff, qint32 w1, qint32 h1, qint32 w2, qint32 h2, quint32 *output)
 {
-    int32_t rasterBandCount = dataset->GetRasterCount();
+    qint32 rasterBandCount = dataset->GetRasterCount();
 
     memset(output,-1, sizeof(quint32) * w2 * h2);
 

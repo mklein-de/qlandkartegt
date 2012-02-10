@@ -189,9 +189,10 @@ int main(int argc, char ** argv)
     }
 
     // write layers
+    double scale = base.getXScale();
     for(int i = 0; i < infiles.size(); i++)
     {
-        infiles[i].writeLevels(stream, quality, subsampling);
+        infiles[i].writeLevels(stream, scale, quality, subsampling);
     }
 
     posMapData = file.pos();
