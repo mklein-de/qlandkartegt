@@ -59,6 +59,7 @@ CMapQMAPExport::CMapQMAPExport(const CMapSelectionRaster& mapsel, QWidget * pare
     connect(radioQLM, SIGNAL(toggled(bool)), this, SLOT(slotQLMToggled(bool)));
     connect(radioJNX, SIGNAL(toggled(bool)), this, SLOT(slotBirdsEyeToggled(bool)));
     connect(radioGCM, SIGNAL(toggled(bool)), this, SLOT(slotGCMToggled(bool)));
+    connect(radioRMAP, SIGNAL(toggled(bool)), this, SLOT(slotRMAPToggled(bool)));
 
     connect(&cmd, SIGNAL(readyReadStandardError()), this, SLOT(slotStderr()));
     connect(&cmd, SIGNAL(readyReadStandardOutput()), this, SLOT(slotStdout()));
@@ -76,22 +77,39 @@ CMapQMAPExport::CMapQMAPExport(const CMapSelectionRaster& mapsel, QWidget * pare
     lineDescription->setText(mapData.description);
     lineDescription->setCursorPosition(0);
 
+#ifdef HAS_RMAP
+    radioRMAP->show();
+    radioRMAP->setEnabled(true);
+
+    comboRmapProjection->addItem("Mercator(WGS 84)", "+proj=merc +lon_0=0 +k=1 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs");
+    comboRmapProjection->addItem("EPSG:4326, LongLat(WGS 84)", "+init=epsg:4326");
+    comboRmapProjection->addItem("EPSG:31467, GK3 (DHDN)", "+init=epsg:31467");
+    comboRmapProjection->addItem("EPSG:31468, GK4 (DHDN)", "+init=epsg:31468");
+
+#else
+    radioRMAP->hide();
+    radioRMAP->setDisabled(true);
+#endif
+
 #ifdef WIN32
     path_map2jnx        = QCoreApplication::applicationDirPath()+QDir::separator()+"map2jnx.exe";
     QFile file_map2jnx(path_map2jnx);
     has_map2jnx         = file_map2jnx.exists();
     path_map2gcm        = QCoreApplication::applicationDirPath()+QDir::separator()+"map2gcm.exe";
     path_cache2gtiff    = QCoreApplication::applicationDirPath()+QDir::separator()+"cache2gtiff.exe";
+    path_map2rmap       = QCoreApplication::applicationDirPath()+QDir::separator()+"map2rmap.exe";
 #else
 #if defined(Q_WS_MAC)
     // MacOS X: applications are stored in the bundle folder, be sure to quote (space in path)
     path_map2gcm        = QString("\"%1/Resources/map2gcm\"").arg(QCoreApplication::applicationDirPath().replace(QRegExp("MacOS$"), ""));
     path_map2jnx        = QString("\"%1/Resources/map2jnx\"").arg(QCoreApplication::applicationDirPath().replace(QRegExp("MacOS$"), ""));
     path_cache2gtiff    = QString("\"%1/Resources/cache2gtiff\"").arg(QCoreApplication::applicationDirPath().replace(QRegExp("MacOS$"), ""));
+    path_map2rmap       = QString("\"%1/Resources/map2rmap\"").arg(QCoreApplication::applicationDirPath().replace(QRegExp("MacOS$"), ""));
 #else
     path_map2gcm        = "map2gcm";
     path_map2jnx        = MAP2JNX;
     path_cache2gtiff    = "cache2gtiff";
+    path_map2rmap       = "map2rmap";
 #endif
     QProcess proc1;
     proc1.start(path_map2jnx);
@@ -101,6 +119,7 @@ CMapQMAPExport::CMapQMAPExport(const CMapSelectionRaster& mapsel, QWidget * pare
     groupBirdsEye->hide();
     groupJPEG->hide();
     groupDevice->hide();
+    groupRMAP->hide();
 
     spinJpegQuality->setValue(cfg.value("map/export/jnx/quality",75).toInt());
     comboJpegSubsampling->setCurrentIndex(comboJpegSubsampling->findText(cfg.value("map/export/jnx/subsampling","411").toString()));
@@ -110,6 +129,7 @@ CMapQMAPExport::CMapQMAPExport(const CMapSelectionRaster& mapsel, QWidget * pare
 
     radioQLM->setChecked(cfg.value("map/export/qlm", true).toBool());
     radioGCM->setChecked(cfg.value("map/export/gcm", false).toBool());
+    radioRMAP->setChecked(cfg.value("map/export/rmap", false).toBool());
 
     if (has_map2jnx)
     {
@@ -119,6 +139,7 @@ CMapQMAPExport::CMapQMAPExport(const CMapSelectionRaster& mapsel, QWidget * pare
     {
         radioJNX->hide();
     }
+
 
     checkOverview2x->setChecked(cfg.value("map/export/over2x", true).toBool());
     checkOverview4x->setChecked(cfg.value("map/export/over4x", true).toBool());
@@ -177,6 +198,7 @@ CMapQMAPExport::~CMapQMAPExport()
     cfg.setValue("map/export/qlm", radioQLM->isChecked());
     cfg.setValue("map/export/gcm", radioGCM->isChecked());
     cfg.setValue("map/export/jnx", radioJNX->isChecked());
+    cfg.setValue("map/export/rmap", radioRMAP->isChecked());
 
     cfg.setValue("map/export/jnx/quality", spinJpegQuality->value());
     cfg.setValue("map/export/jnx/subsampling", comboJpegSubsampling->currentText());
@@ -218,6 +240,7 @@ void CMapQMAPExport::slotBirdsEyeToggled(bool checked)
         groupJPEG->show();
         groupDevice->show();
         groupOptimization->hide();
+        groupRMAP->hide();
     }
     else
     {
@@ -225,6 +248,7 @@ void CMapQMAPExport::slotBirdsEyeToggled(bool checked)
         groupJPEG->hide();
         groupDevice->hide();
         groupOptimization->hide();
+        groupRMAP->hide();
     }
 
     adjustSize();
@@ -238,6 +262,7 @@ void CMapQMAPExport::slotGCMToggled(bool checked)
         groupDevice->show();
         labelTileSelection->hide();
         groupOptimization->hide();
+        groupRMAP->hide();
 
     }
     else
@@ -246,6 +271,7 @@ void CMapQMAPExport::slotGCMToggled(bool checked)
         groupDevice->hide();
         labelTileSelection->show();
         groupOptimization->hide();
+        groupRMAP->hide();
     }
 
     adjustSize();
@@ -259,6 +285,7 @@ void CMapQMAPExport::slotQLMToggled(bool checked)
         groupDevice->hide();
         labelTileSelection->show();
         groupOptimization->show();
+        groupRMAP->hide();
 
     }
     else
@@ -267,10 +294,35 @@ void CMapQMAPExport::slotQLMToggled(bool checked)
         groupDevice->hide();
         labelTileSelection->show();
         groupOptimization->hide();
+        groupRMAP->hide();
     }
 
     adjustSize();
 }
+
+void CMapQMAPExport::slotRMAPToggled(bool checked)
+{
+    if(checked)
+    {
+        groupJPEG->show();
+        groupDevice->hide();
+        labelTileSelection->show();
+        groupOptimization->hide();
+        groupRMAP->show();
+
+    }
+    else
+    {
+        groupJPEG->hide();
+        groupDevice->hide();
+        labelTileSelection->show();
+        groupOptimization->hide();
+        groupRMAP->hide();
+    }
+
+    adjustSize();
+}
+
 
 void CMapQMAPExport::slotStderr()
 {
@@ -600,6 +652,11 @@ void CMapQMAPExport::startExportCommon(QStringList& srcFiles, QDir& tarPath, con
             projection.clear();
         }
     }
+    else if(radioRMAP->isChecked())
+    {
+        projection = comboRmapProjection->itemData(comboRmapProjection->currentIndex()).toString();
+    }
+
 
     CMapExportStateReproject * state4 = new CMapExportStateReproject(projection, this);
     foreach(const QString& srcFile, srcFiles)
@@ -722,6 +779,49 @@ void CMapQMAPExport::startExportCommon(QStringList& srcFiles, QDir& tarPath, con
         state5->addJob(job);
         states << state5;
     }
+
+    if(radioRMAP->isChecked())
+    {
+        // *********************************************
+        // 5. step: add overview levels
+        // ---------------------------------------------
+
+        QStringList overviews;
+        overviews << "2" << "4" << "8" << "16";
+
+        CMapExportStateOptimize * state5 = new CMapExportStateOptimize(this);
+        foreach(const CMapExportStateReproject::job_t& j, state4->getJobs())
+        {
+            CMapExportStateOptimize::job_t job;
+            job.overviews   = overviews;
+            job.srcFile     = j.tarFile;
+            state5->addJob(job);
+        }
+        states << state5;
+
+
+        // *********************************************
+        // 5. step: convert Geotiff to TwoNav RMAP
+        // ---------------------------------------------
+        CMapExportStateRMAP * state6 = new CMapExportStateRMAP(path_map2rmap, this);
+
+        CMapExportStateRMAP::job_t job;
+
+        job.jpegQuality = QString::number(spinJpegQuality->value());
+        job.jpegSubSmpl = comboJpegSubsampling->currentText();
+
+        foreach(const CMapExportStateOptimize::job_t& j, state5->getJobs())
+        {
+            job.srcFile << j.srcFile;
+
+        }
+        job.tarFile     = tarPath.filePath(QString("%1.rmap").arg(prefix));
+
+        state6->addJob(job);
+        states << state6;
+
+    }
+
 }
 
 void CMapQMAPExport::setNextState()
@@ -1261,6 +1361,59 @@ void CMapExportStateReadTileCache::nextJob(QProcess& cmd)
         args << "-c" << CResources::self().getPathMapCache().absolutePath();
         args << "-i" << job.srcFile;
         args << "-o" << job.tarFile;
+
+        jobIdx++;
+
+        gui->stdOut(app + " " +  args.join(" ") + "\n");
+        cmd.start(app, args);
+    }
+    else
+    {
+        gui->setNextState();
+    }
+}
+
+
+// --------------------------------------------------------------------------------------------
+CMapExportStateRMAP::CMapExportStateRMAP(const QString& app, CMapQMAPExport * parent)
+: IMapExportState(parent)
+
+, app(app)
+{
+
+}
+
+CMapExportStateRMAP::~CMapExportStateRMAP()
+{
+    qDebug() << "~CMapExportStateRMAP()";
+
+    foreach(const job_t& job, jobs)
+    {
+        foreach(const QString& file, job.srcFile)
+        {
+            QFile::remove(file);
+        }
+    }
+}
+
+void CMapExportStateRMAP::explain()
+{
+    gui->stdOut(   "*************************************");
+    gui->stdOut(tr("Create TwoNav RMAP..."), true);
+    gui->stdOut(   "-------------------------------------");
+}
+
+void CMapExportStateRMAP::nextJob(QProcess& cmd)
+{
+    if(jobIdx < jobs.count())
+    {
+        job_t& job = jobs[jobIdx];
+
+        QStringList args;
+        args << "-q" << job.jpegQuality;
+        args << "-s" << job.jpegSubSmpl;
+        args += job.srcFile;
+        args << job.tarFile;
 
         jobIdx++;
 

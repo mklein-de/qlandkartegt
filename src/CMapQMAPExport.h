@@ -283,6 +283,35 @@ class CMapExportStateJNX : public IMapExportState
 
 };
 
+class CMapExportStateRMAP : public IMapExportState
+{
+    Q_OBJECT;
+    public:
+        CMapExportStateRMAP(const QString& app, CMapQMAPExport * parent);
+        virtual ~CMapExportStateRMAP();
+
+        void explain();
+        void nextJob(QProcess& cmd);
+        int getJobCnt(){return jobs.count();}
+
+        struct job_t
+        {
+            QString jpegQuality;
+            QString jpegSubSmpl;
+            QStringList srcFile;
+            QString tarFile;
+        };
+
+        void addJob(const job_t& job){jobs << job;}
+        const QList<job_t>& getJobs(){return jobs;}
+
+    private:
+        QList<job_t> jobs;
+
+        const QString app;
+
+};
+
 
 class CMapQMAPExport : public QDialog, private Ui::IMapQMAPExport
 {
@@ -303,6 +332,7 @@ class CMapQMAPExport : public QDialog, private Ui::IMapQMAPExport
         void slotBirdsEyeToggled(bool checked);
         void slotQLMToggled(bool checked);
         void slotGCMToggled(bool checked);
+        void slotRMAPToggled(bool checked);
         void slotOutputPath();
 
         void slotStderr();
@@ -327,6 +357,7 @@ class CMapQMAPExport : public QDialog, private Ui::IMapQMAPExport
         QString path_map2jnx;
         QString path_map2gcm;
         QString path_cache2gtiff;
+        QString path_map2rmap;
 
         QProcess cmd;
 

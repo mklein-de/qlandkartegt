@@ -98,7 +98,8 @@ class CInputFile
         QList<level_t> levels;
         QByteArray tileBuf08Bit;
         QByteArray tileBuf24Bit;
-        QByteArray tileBuf32Bit;
+        //QByteArray tileBuf32Bit;
+        quint32 tileBuf32Bit[256*256];
         quint32 colortable[256];
 };
 

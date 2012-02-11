@@ -43,7 +43,7 @@ CInputFile::CInputFile(const QString &filename, quint32 tileSize)
     , nTiles(0)
     , tileBuf08Bit(tileSize * tileSize,0)
     , tileBuf24Bit(tileSize * tileSize * 3,0)
-    , tileBuf32Bit(tileSize * tileSize * 4,0)
+    //, tileBuf32Bit(tileSize * tileSize * 4,0)
 {
     double adfGeoTransform[6]   = {0};
     char projstr[1024]          = {0};
@@ -58,10 +58,10 @@ CInputFile::CInputFile(const QString &filename, quint32 tileSize)
     OGRSpatialReference oSRS_EPSG31469;
     oSRS_EPSG31469.importFromProj4("+init=epsg:31469");
     OGRSpatialReference oSRS_EPSG4326;
-//    oSRS_EPSG4326.importFromProj4("+init=epsg:4326");
-    oSRS_EPSG4326.importFromProj4("+proj=merc +lon_0=0 +k=1 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs");
-    OGRSpatialReference oSRS_EPSG900913;
-    oSRS_EPSG900913.importFromProj4("+init=epsg:900913");
+    oSRS_EPSG4326.importFromProj4("+init=epsg:4326");
+
+    OGRSpatialReference oSRS_Mercator;
+    oSRS_Mercator.importFromProj4("+proj=merc +lon_0=0 +k=1 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs ");
 
     dataset = (GDALDataset*)GDALOpen(filename.toLocal8Bit(),GA_ReadOnly);
     if(dataset == 0)
@@ -97,25 +97,61 @@ CInputFile::CInputFile(const QString &filename, quint32 tileSize)
         compeProj   = "114,GK-System 12º (Zone 4),";
         compeDatum  = "WGS 84";
     }
-    else if(oSRS.IsSame(&oSRS_EPSG4326))
+    else if(oSRS.IsSame(&oSRS_Mercator))
     {
         compeProj   = "2,Mercator,";
         compeDatum  = "WGS 84";
     }
-    else if(oSRS.IsSame(&oSRS_EPSG900913))
+    else if(oSRS.IsSame(&oSRS_EPSG4326))
     {
-        compeProj   = "2,Mercator,";
+        compeProj   = "1,LongLat,";
         compeDatum  = "WGS 84";
     }
     else
     {
-        fprintf(stderr,"\n%s\nprojection in file %s not recognized\n", ptr, filename.toLocal8Bit().data());
-
-        oSRS_EPSG4326.exportToProj4(&ptr);
-        qDebug() << ptr;
-
+        fprintf(stderr,"\n%s\nprojection in file %s not recognized\n", ptr, filename.toLocal8Bit().data());      
         exit(-1);
     }
+
+    qint32 rasterBandCount = dataset->GetRasterCount();
+    if(rasterBandCount == 1)
+    {
+        GDALRasterBand * pBand;
+        pBand = dataset->GetRasterBand(1);
+
+
+        if(pBand->GetColorInterpretation() ==  GCI_PaletteIndex )
+        {
+            GDALColorTable * pct = pBand->GetColorTable();
+            for(int i=0; i < pct->GetColorEntryCount(); ++i)
+            {
+                const GDALColorEntry& e = *pct->GetColorEntry(i);
+                colortable[i] = ((e.c4 & 0xff) << 24) | ((e.c1 & 0xff) << 16) | ((e.c2 & 0xff) << 8) | (e.c3 & 0xff);
+            }
+        }
+        else if(pBand->GetColorInterpretation() ==  GCI_GrayIndex )
+        {
+            for(int i=0; i < 256; ++i)
+            {
+                colortable[i] << i | (i << 8) | (i << 16) | 0xFF000000;
+            }
+        }
+        else
+        {
+            fprintf(stderr,"\nFile must be 8 bit palette or gray indexed.\n");
+            exit(-1);
+        }
+
+        int success = 0;
+        int idx = pBand->GetNoDataValue(&success);
+
+        if(success)
+        {
+            colortable[idx] &= 0x00FFFFFF;
+        }
+    }
+
+
 
 //    qDebug() << compeProj + compeDatum;
     dataset->GetGeoTransform( adfGeoTransform );
@@ -296,9 +332,10 @@ void CInputFile::writeLevel(QDataStream& stream, int l, int quality, int subsamp
                 h1 = height - yoff;
             }
 
-            if(readTile(xoff, yoff, w1, h1, w2, h2, (quint32*)tileBuf32Bit.data()))
+
+            if(readTile(xoff, yoff, w1, h1, w2, h2, tileBuf32Bit))
             {
-                quint32 size = writeTile(w2, h2, (quint32*)tileBuf32Bit.data(), quality, subsampling);
+                quint32 size = writeTile(w2, h2, tileBuf32Bit, quality, subsampling);
 
                 level.offsetJpegs << stream.device()->pos();
                 stream << quint32(7) << size;
@@ -390,6 +427,7 @@ quint32 CInputFile::writeTile(quint32 xsize, quint32 ysize, quint32 * raw_image,
         for(quint32 c = 0; c < xsize; c++)
         {
             quint32 pixel = raw_image[r * xsize + c];
+
             tileBuf24Bit[r * xsize * 3 + c * 3]     =  pixel        & 0x0FF;
             tileBuf24Bit[r * xsize * 3 + c * 3 + 1] = (pixel >>  8) & 0x0FF;
             tileBuf24Bit[r * xsize * 3 + c * 3 + 2] = (pixel >> 16) & 0x0FF;

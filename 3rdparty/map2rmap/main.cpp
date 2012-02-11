@@ -121,7 +121,7 @@ int main(int argc, char ** argv)
     for(int i = 1; i < (argc - 1); i++)
     {
 
-        while (skip_next_arg)
+        if (skip_next_arg)
         {
             skip_next_arg--;
             continue;

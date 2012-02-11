@@ -101,11 +101,13 @@ CMapDB::CMapDB(QTabWidget * tb, QObject * parent)
             file.close();
             if(m.description.isEmpty()) m.description = fi.fileName();
         }
+#ifdef HAS_RMAP
         else if(ext == "rmap")
         {
             m.description = fi.baseName();
         }
         else
+#endif // HAS_RMAP
         {
             m.description = mapdef.value("description/comment","").toString();
         }
