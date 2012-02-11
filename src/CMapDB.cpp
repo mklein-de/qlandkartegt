@@ -561,6 +561,7 @@ void CMapDB::delKnownMap(const QStringList& keys)
     {
         map_t& map = knownMaps[key];
         IMap::maptype_e type = map.type;
+        QString filename = map.filename;
 
         knownMaps.remove(key);
 
@@ -589,6 +590,15 @@ void CMapDB::delKnownMap(const QStringList& keys)
             cfg.endGroup();
             cfg.sync();
         }
+        else if(QFileInfo(filename).completeSuffix() == "rmap")
+        {
+            QSettings cfg;
+            cfg.beginGroup("rmap/maps");
+            cfg.remove(key);
+            cfg.endGroup();
+            cfg.sync();
+        }
+
 
     }
 
