@@ -34,6 +34,7 @@ class CInputFile
         void summarize();
 
         double getXScale(){return xscale;}
+        double getYScale(){return yscale;}
 
         void getRef1Deg(double& lon, double& lat);
         void getRef2Deg(double& lon, double& lat);
@@ -43,15 +44,15 @@ class CInputFile
         QString getProjection(){return compeProj;}
         QString getDatum(){return compeDatum;}
 
-        quint32 calcLevels(double scaleLimit);
+        quint32 calcLevels(double scaleLimit, double& globXScale, double& globYScale);
 
-        void writeLevels(QDataStream& stream, double &scale, int quality, int subsampling);
+        void writeLevels(QDataStream& stream, int quality, int subsampling);
         void writeLevelOffsets(QDataStream& stream);
 
         static quint32 getTilesTotal(){return nTilesTotal;}
 
     private:
-        void writeLevel(QDataStream& stream, int level, double &scale, int quality, int subsampling);
+        void writeLevel(QDataStream& stream, int level, int quality, int subsampling);
 
         bool readTile(qint32 xoff, qint32 yoff, qint32 w1, qint32 h1, qint32 w2, qint32 h2, quint32 *output);
         quint32 writeTile(quint32 xsize, quint32 ysize, quint32 * raw_image, int quality, int subsampling);
@@ -61,7 +62,7 @@ class CInputFile
 
         struct level_t
         {
-            level_t(): offsetLevel(0), width(0), height(0), xTiles(0), yTiles(0), xscale(0), yscale(0){}
+            level_t(): offsetLevel(0), width(0), height(0), xTiles(0), yTiles(0), xscale(0), yscale(0), xCorrectionScale(0), yCorrectionScale(0){}
             quint64 offsetLevel;
             qint32 width;
             qint32 height;
@@ -71,6 +72,9 @@ class CInputFile
 
             double xscale;
             double yscale;
+
+            double xCorrectionScale;
+            double yCorrectionScale;
         };
 
         PJ * pj;

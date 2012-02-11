@@ -149,11 +149,15 @@ int main(int argc, char ** argv)
 
     qSort(infiles.begin(), infiles.end(), qSortInFiles);
 
+    CInputFile& base = infiles.first();
+
+    double xscale = base.getXScale();
+    double yscale = base.getYScale();
     for(int i=0; i < infiles.size() - 1; i++)
     {
-        nLevels += infiles[i].calcLevels(infiles[i+1].getXScale());
+        nLevels += infiles[i].calcLevels(infiles[i+1].getXScale(), xscale, yscale);
     }
-    nLevels += infiles.last().calcLevels(0.0);
+    nLevels += infiles.last().calcLevels(0.0, xscale, yscale);
 
     for(int i=0; i < infiles.size(); i++)
     {
@@ -162,9 +166,6 @@ int main(int argc, char ** argv)
 
     printf("\n\nThere is a total of %i tiles to process.", CInputFile::getTilesTotal());
     printf("\n\n");
-
-
-    CInputFile& base = infiles.first();
 
     QFile file(outfile);
     file.open(QIODevice::WriteOnly);
@@ -189,10 +190,9 @@ int main(int argc, char ** argv)
     }
 
     // write layers
-    double scale = base.getXScale();
     for(int i = 0; i < infiles.size(); i++)
     {
-        infiles[i].writeLevels(stream, scale, quality, subsampling);
+        infiles[i].writeLevels(stream, quality, subsampling);
     }
 
     posMapData = file.pos();

@@ -47,7 +47,6 @@ CMapRmap::CMapRmap(const QString &key, const QString &fn, CCanvas *parent)
 
     if("CompeGPSRasterImage" != QString(charbuf))
     {
-        qDebug() << QString(charbuf);
         QMessageBox::warning(0, tr("Error..."), tr("This is not a TwoNav RMAP file."), QMessageBox::Abort, QMessageBox::Abort);
         return;
     }
@@ -69,18 +68,15 @@ CMapRmap::CMapRmap(const QString &key, const QString &fn, CCanvas *parent)
 
     quint64 mapDataOffset;
     stream >> mapDataOffset;
-    qDebug() << mapDataOffset << hex << (quint32)mapDataOffset;
     stream >> tmp32;
 
     qint32 nZoomLevels;
     stream >> nZoomLevels;
-    qDebug() << nZoomLevels << hex << nZoomLevels;
 
     for(int i=0; i < nZoomLevels; i++)
     {
         level_t level;
         stream >> level.offsetLevel;
-        qDebug() << level.offsetLevel << hex << (quint32)level.offsetLevel;
         levels << level;
     }
 
@@ -586,10 +582,10 @@ CMapRmap::level_t& CMapRmap::findBestLevel(double sx, double sy)
     for(;j < levels.size(); j++)
     {
         level_t& level = levels[j];
-        if(abs(level.xscale - sx) < dsx)
+        if(fabs(level.xscale - sx) < dsx)
         {
             i = j;
-            dsx = abs(level.xscale - sx);
+            dsx = fabs(level.xscale - sx);
         }
     }
 

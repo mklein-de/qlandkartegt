@@ -58,8 +58,10 @@ CInputFile::CInputFile(const QString &filename, quint32 tileSize)
     OGRSpatialReference oSRS_EPSG31469;
     oSRS_EPSG31469.importFromProj4("+init=epsg:31469");
     OGRSpatialReference oSRS_EPSG4326;
-    oSRS_EPSG4326.importFromProj4("+init=epsg:4326");
-
+//    oSRS_EPSG4326.importFromProj4("+init=epsg:4326");
+    oSRS_EPSG4326.importFromProj4("+proj=merc +lon_0=0 +k=1 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs");
+    OGRSpatialReference oSRS_EPSG900913;
+    oSRS_EPSG900913.importFromProj4("+init=epsg:900913");
 
     dataset = (GDALDataset*)GDALOpen(filename.toLocal8Bit(),GA_ReadOnly);
     if(dataset == 0)
@@ -100,9 +102,18 @@ CInputFile::CInputFile(const QString &filename, quint32 tileSize)
         compeProj   = "2,Mercator,";
         compeDatum  = "WGS 84";
     }
+    else if(oSRS.IsSame(&oSRS_EPSG900913))
+    {
+        compeProj   = "2,Mercator,";
+        compeDatum  = "WGS 84";
+    }
     else
     {
         fprintf(stderr,"\n%s\nprojection in file %s not recognized\n", ptr, filename.toLocal8Bit().data());
+
+        oSRS_EPSG4326.exportToProj4(&ptr);
+        qDebug() << ptr;
+
         exit(-1);
     }
 
@@ -190,7 +201,7 @@ void CInputFile::getRef2Deg(double& lon, double& lat)
 
 
 
-quint32 CInputFile::calcLevels(double scaleLimit)
+quint32 CInputFile::calcLevels(double scaleLimit, double& globXScale, double& globYScale)
 {
     nTiles     = 0;
     qint32 nLevels  = 1;
@@ -218,10 +229,12 @@ quint32 CInputFile::calcLevels(double scaleLimit)
     {
         level_t level;
 
-        level.xscale = xscale * (1 << l);
-        level.yscale = yscale * (1 << l);
-        level.width  = width  >> l;
-        level.height = height >> l;
+        level.xCorrectionScale = globXScale / xscale;
+        level.yCorrectionScale = globYScale / yscale;
+        level.xscale = (1 << l) * globXScale;
+        level.yscale = (1 << l) * globYScale;
+        level.width  = width *  xscale / level.xscale;
+        level.height = height * yscale / level.yscale;
         level.xTiles = ceil(double(level.width) / tileSize);
         level.yTiles = ceil(double(level.height) / tileSize);
 
@@ -232,20 +245,20 @@ quint32 CInputFile::calcLevels(double scaleLimit)
 //        qDebug() << "level" << l << level.width << level.height << level.xTiles << level.yTiles << level.xscale << level.yscale;
     }
 
+    globXScale = globXScale * (1 << nLevels);
+    globYScale = globYScale * (1 << nLevels);
+
     nTilesTotal += nTiles;
 
-    return levels.count();
+    return nLevels;
 }
 
-void CInputFile::writeLevels(QDataStream& stream, double& scale, int quality, int subsampling)
+void CInputFile::writeLevels(QDataStream& stream, int quality, int subsampling)
 {
     for(int i = 0; i < levels.count(); i++)
     {
-        writeLevel(stream, i, scale, quality, subsampling);
+        writeLevel(stream, i, quality, subsampling);
     }
-
-    scale = scale * (1 << levels.count());
-
 }
 
 void CInputFile::writeLevelOffsets(QDataStream& stream)
@@ -257,25 +270,18 @@ void CInputFile::writeLevelOffsets(QDataStream& stream)
 
 }
 
-void CInputFile::writeLevel(QDataStream& stream, int l, double& scale, int quality, int subsampling)
+void CInputFile::writeLevel(QDataStream& stream, int l, int quality, int subsampling)
 {
     level_t& level = levels[l];
-
-
-    level.width  = level.width * xscale / scale;
-    level.height = level.height * xscale / scale;
-    level.xTiles = ceil(double(level.width) / tileSize);
-    level.yTiles = ceil(double(level.height) / tileSize);
 
     for(int y = 0; y < level.yTiles; y++)
     {
         for(int x = 0; x < level.xTiles; x++)
         {
-
-            qint32 xoff = x * (tileSize << l) * scale / xscale;
-            qint32 yoff = y * (tileSize << l) * scale / xscale;
-            qint32 w1   = (tileSize << l) * scale / xscale;
-            qint32 h1   = (tileSize << l) * scale / xscale;
+            qint32 xoff = floor(x * (tileSize << l) * level.xCorrectionScale + 0.5);
+            qint32 yoff = floor(y * (tileSize << l) * level.yCorrectionScale + 0.5);
+            qint32 w1   = floor((tileSize << l) * level.xCorrectionScale + 0.5);
+            qint32 h1   = floor((tileSize << l) * level.yCorrectionScale + 0.5);
             qint32 w2   = tileSize;
             qint32 h2   = tileSize;
 
