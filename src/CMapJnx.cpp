@@ -296,8 +296,8 @@ void CMapJnx::convertPt2M(double& u, double& v)
 
 void CMapJnx::convertM2Pt(double& u, double& v)
 {
-    u = (u - x) / (xscale * zoomFactor);
-    v = (v - y) / (yscale * zoomFactor);
+    u = floor((u - x) / (xscale * zoomFactor) + 0.5);
+    v = floor((v - y) / (yscale * zoomFactor) + 0.5);
 }
 
 void CMapJnx::move(const QPoint& old, const QPoint& next)
@@ -554,7 +554,7 @@ void CMapJnx::draw()
     data[1] = (char) 0xD8;
     char * pData = data.data() + 2;
 
-    QPixmap image;
+    QImage image;
     QFile file(filename);
     file.open(QIODevice::ReadOnly);
 
@@ -597,11 +597,18 @@ void CMapJnx::draw()
             r.setTop(v2);
             r.setBottom(v1);
 
+            qDebug() << r;
+
+            if(!r.isValid() || r.width() > 3000 || r.height() > 3000)
+            {
+                continue;
+            }
+
             file.seek(tile.offset);
             file.read(pData, tile.size);
             image.loadFromData(data);
 
-            p.drawPixmap(r.toRect(), image.scaled(r.size().toSize(), Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
+            p.drawImage(r.toRect(), image.scaled(r.size().toSize(), Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
         }
     }
     qDebug() << m_px/cnt << "m/px";

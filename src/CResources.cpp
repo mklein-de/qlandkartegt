@@ -202,6 +202,8 @@ CResources::~CResources()
 {
     QSettings cfg;
 
+    cfg.setValue("path/maps",pathMaps);
+
     cfg.setValue("environment/mapfont/family",m_mapfont.family());
     cfg.setValue("environment/mapfont/size",m_mapfont.pointSize());
     cfg.setValue("environment/mapfont/bold",m_mapfont.bold());
