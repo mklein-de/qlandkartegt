@@ -1070,7 +1070,7 @@ void CMapExportStateConvColor::nextJob(QProcess& cmd)
         args << "-b" << "2";
         args << "-b" << "3";
 
-        args << "-co" << "tiled=yes" << "-co" << "compress=jpeg";
+        args << "-co" << "tiled=yes" << "-co" << "compress=jpeg" << "-co" << "jpeg_quality=100";
 
         args << job.srcFile;
         args << job.tarFile;
@@ -1142,7 +1142,7 @@ void CMapExportStateReproject::nextJob(QProcess& cmd)
         args << "-t_srs" << proj;
         args << "-ts" << width << height;
         args << "-r" << "cubic";
-        args << "-co" << "tiled=yes" << "-co" << "compress=jpeg";
+        args << "-co" << "tiled=yes" << "-co" << "compress=jpeg" << "-co" << "jpeg_quality=100";
         args << job.srcFile;
         args << job.tarFile;
 

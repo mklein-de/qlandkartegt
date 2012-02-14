@@ -404,8 +404,8 @@ void CMapRmap::convertPt2M(double& u, double& v)
 
 void CMapRmap::convertM2Pt(double& u, double& v)
 {
-    u = (u - x) / (xscale * zoomFactor);
-    v = (v - y) / (yscale * zoomFactor);
+    u = floor((u - x) / (xscale * zoomFactor) + 0.5);
+    v = floor((v - y) / (yscale * zoomFactor) + 0.5);
 }
 
 
