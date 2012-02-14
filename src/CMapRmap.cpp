@@ -250,6 +250,12 @@ CMapRmap::CMapRmap(const QString &key, const QString &fn, CCanvas *parent)
             pj_transform(pjtar, pjsrc, 1, 0, &c2.u, &c2.v, 0);
             pj_transform(pjtar, pjsrc, 1, 0, &c3.u, &c3.v, 0);
         }
+
+        qDebug() << c0.u << c0.v;
+        qDebug() << c1.u << c1.v;
+        qDebug() << c2.u << c2.v;
+        qDebug() << c3.u << c3.v;
+
         xref1  =  1e25;
         yref1  = -1e25;
         xref2  = -1e25;

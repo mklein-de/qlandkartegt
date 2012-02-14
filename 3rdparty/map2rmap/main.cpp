@@ -206,10 +206,15 @@ int main(int argc, char ** argv)
         infiles[i].writeLevelOffsets(stream);
     }
 
+    double lon0, lat0;
     double lon1, lat1;
     double lon2, lat2;
-    base.getRef1Deg(lon1, lat1);
-    base.getRef2Deg(lon2, lat2);
+    double lon3, lat3;
+    base.getRefP0(lon0, lat0);
+    base.getRefP1(lon1, lat1);
+    base.getRefP2(lon2, lat2);
+    base.getRefP3(lon3, lat3);
+
 
     QString mapdata;
     mapdata += "CompeGPS MAP File\r\n";
@@ -228,10 +233,10 @@ int main(int argc, char ** argv)
     mapdata += "Type=10\r\n";
     mapdata += "</Map>\r\n";
     mapdata += "<Calibration>\r\n";
-    mapdata += QString("P0=0,0,A,%1,%2\r\n").arg(lon1,0,'f').arg(lat1,0,'f');
-    mapdata += QString("P1=%3,0,A,%1,%2\r\n").arg(lon2,0,'f').arg(lat1,0,'f').arg(base.getWidth() - 1);
+    mapdata += QString("P0=0,0,A,%1,%2\r\n").arg(lon0,0,'f').arg(lat0,0,'f');
+    mapdata += QString("P1=%3,0,A,%1,%2\r\n").arg(lon1,0,'f').arg(lat1,0,'f').arg(base.getWidth() - 1);
     mapdata += QString("P2=%3,%4,A,%1,%2\r\n").arg(lon2,0,'f').arg(lat2,0,'f').arg(base.getWidth() - 1).arg(base.getHeight() - 1);
-    mapdata += QString("P4=0,%3,A,%1,%2\r\n").arg(lon1,0,'f').arg(lat2,0,'f').arg(base.getHeight() - 1);
+    mapdata += QString("P3=0,%3,A,%1,%2\r\n").arg(lon3,0,'f').arg(lat3,0,'f').arg(base.getHeight() - 1);
     mapdata += "</Calibration>\r\n";
     mapdata += "<MainPolygonBitmap>\r\n";
     mapdata += QString("M0=0,0\r\n");

@@ -36,8 +36,10 @@ class CInputFile
         double getXScale(){return xscale;}
         double getYScale(){return yscale;}
 
-        void getRef1Deg(double& lon, double& lat);
-        void getRef2Deg(double& lon, double& lat);
+        void getRefP0(double& lon, double& lat);
+        void getRefP1(double& lon, double& lat);
+        void getRefP2(double& lon, double& lat);
+        void getRefP3(double& lon, double& lat);
 
         qint32 getWidth(){return width;}
         qint32 getHeight(){return height;}

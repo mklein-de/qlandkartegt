@@ -90,12 +90,12 @@ CInputFile::CInputFile(const QString &filename, quint32 tileSize)
     if(oSRS.IsSame(&oSRS_EPSG31467))
     {
         compeProj   = "117,GK-System 9º (Zone 3),";
-        compeDatum  = "WGS 84";
+        compeDatum  = "Potsdam Rauenberg DHDN";
     }
     else if(oSRS.IsSame(&oSRS_EPSG31468))
     {
         compeProj   = "114,GK-System 12º (Zone 4),";
-        compeDatum  = "WGS 84";
+        compeDatum  = "Potsdam Rauenberg DHDN";
     }
     else if(oSRS.IsSame(&oSRS_Mercator))
     {
@@ -109,7 +109,7 @@ CInputFile::CInputFile(const QString &filename, quint32 tileSize)
     }
     else
     {
-        fprintf(stderr,"\n%s\nprojection in file %s not recognized\n", ptr, filename.toLocal8Bit().data());      
+        fprintf(stderr,"\n%s\nprojection in file %s not recognized\n", ptr, filename.toLocal8Bit().data());
         exit(-1);
     }
 
@@ -151,9 +151,6 @@ CInputFile::CInputFile(const QString &filename, quint32 tileSize)
         }
     }
 
-
-
-//    qDebug() << compeProj + compeDatum;
     dataset->GetGeoTransform( adfGeoTransform );
 
     width   = dataset->GetRasterXSize();
@@ -175,6 +172,9 @@ CInputFile::CInputFile(const QString &filename, quint32 tileSize)
     }
     xref2   = xref1 + width  * xscale;
     yref2   = yref1 + height * yscale;
+
+    qDebug() << xref1 << yref1;
+    qDebug() << xref2 << yref2;
 }
 
 CInputFile::~CInputFile()
@@ -205,7 +205,7 @@ void CInputFile::summarize()
 
 }
 
-void CInputFile::getRef1Deg(double& lon, double& lat)
+void CInputFile::getRefP0(double& lon, double& lat)
 {
     PJ * wgs84 = pj_init_plus("+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs");
 
@@ -220,7 +220,22 @@ void CInputFile::getRef1Deg(double& lon, double& lat)
     lat *= RAD_TO_DEG;
 }
 
-void CInputFile::getRef2Deg(double& lon, double& lat)
+void CInputFile::getRefP1(double& lon, double& lat)
+{
+    PJ * wgs84 = pj_init_plus("+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs");
+
+    lon = xref2;
+    lat = yref1;
+
+    pj_transform(pj, wgs84, 1, 0, &lon, &lat, 0);
+
+    pj_free(wgs84);
+
+    lon *= RAD_TO_DEG;
+    lat *= RAD_TO_DEG;
+}
+
+void CInputFile::getRefP2(double& lon, double& lat)
 {
     PJ * wgs84 = pj_init_plus("+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs");
 
@@ -235,6 +250,20 @@ void CInputFile::getRef2Deg(double& lon, double& lat)
     lat *= RAD_TO_DEG;
 }
 
+void CInputFile::getRefP3(double& lon, double& lat)
+{
+    PJ * wgs84 = pj_init_plus("+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs");
+
+    lon = xref1;
+    lat = yref2;
+
+    pj_transform(pj, wgs84, 1, 0, &lon, &lat, 0);
+
+    pj_free(wgs84);
+
+    lon *= RAD_TO_DEG;
+    lat *= RAD_TO_DEG;
+}
 
 
 quint32 CInputFile::calcLevels(double scaleLimit, double& globXScale, double& globYScale)
