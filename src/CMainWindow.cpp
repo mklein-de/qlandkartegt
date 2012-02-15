@@ -704,7 +704,11 @@ void CMainWindow::slotLoadMapSet()
     QString filter   = cfg.value("maps/filter","").toString();
     QString filename = QFileDialog::getOpenFileName( 0, tr("Select map...")
         ,CResources::self().pathMaps
+#ifdef HAS_RMAP
+        ,"All (*.*);;Map Collection (*.qmap);;Garmin (*.tdb);;BirdsEye (*.jnx);;TwoNav (*.rmap)"
+#else
         ,"All (*.*);;Map Collection (*.qmap);;Garmin (*.tdb);;BirdsEye (*.jnx)"
+#endif
         , &filter
         , FILE_DIALOG_FLAGS
         );
