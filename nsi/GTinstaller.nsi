@@ -101,6 +101,8 @@ Section "QLandkarte GT" QLandkarteGT
   SetOutPath $INSTDIR
     File Files\qlandkartegt.exe
     File Files\map2gcm.exe
+    File Files\map2rmap.exe
+    File Files\cache2gtiff.exe
     File Files\*.ico
     File Files\qlandkartegt_*.qm
     File Files\qt_??.qm

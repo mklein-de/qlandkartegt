@@ -63,6 +63,8 @@ copy %QLGTI_LIBEXIF_PATH%\libexif-12.dll
 rem section 2.5) Copy QLandkarte GT Files
 copy ..\..\build\bin\Release\qlandkartegt.exe
 copy ..\..\build\bin\Release\map2gcm.exe
+copy ..\..\build\bin\Release\map2rmap.exe
+copy ..\..\build\bin\Release\cache2gtiff.exe
 copy ..\..\build\src\*.qm
 copy ..\..\src\icons\GlobeWin.ico
 copy ..\*.ico
