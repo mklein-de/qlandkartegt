@@ -173,8 +173,8 @@ CInputFile::CInputFile(const QString &filename, quint32 tileSize)
     xref2   = xref1 + width  * xscale;
     yref2   = yref1 + height * yscale;
 
-    qDebug() << xref1 << yref1;
-    qDebug() << xref2 << yref2;
+//    qDebug() << xref1 << yref1;
+//    qDebug() << xref2 << yref2;
 }
 
 CInputFile::~CInputFile()

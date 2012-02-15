@@ -372,7 +372,6 @@ bool CMapRmap::setProjection(const QString& projection, const QString& datum)
     }
 
 
-
     if(datum == "WGS 84")
     {
         projstr += " +datum=WGS84 +units=m +no_defs";

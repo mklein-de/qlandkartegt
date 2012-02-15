@@ -504,8 +504,8 @@ void CMapQMAP::convertM2Pt(double& u, double& v)
     XY pt = topLeft;
     pj_transform(pjtar,pjsrc,1,0,&pt.u,&pt.v,0);
 
-    u = (u - pt.u) / (map->xscale * zoomFactor);
-    v = (v - pt.v) / (map->yscale * zoomFactor);
+    u = floor((u - pt.u) / (map->xscale * zoomFactor) + 0.5);
+    v = floor((v - pt.v) / (map->yscale * zoomFactor) + 0.5);
 }
 
 void CMapQMAP::convertPt2Pixel(double& u, double& v)

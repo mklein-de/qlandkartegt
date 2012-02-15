@@ -539,4 +539,5 @@ void CDlgEditWpt::slotSelectImage(const CImageSelect::img_t& src)
 
     textComment->setText(src.title);
 
+    pushDel->setEnabled(wpt.images.count() != 0);
 }
