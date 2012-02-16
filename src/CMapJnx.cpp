@@ -597,8 +597,6 @@ void CMapJnx::draw()
             r.setTop(v2);
             r.setBottom(v1);
 
-            qDebug() << r;
-
             if(!r.isValid() || r.width() > 3000 || r.height() > 3000)
             {
                 continue;
