@@ -497,12 +497,16 @@ void CRoute::loadSecondaryRouteMQ(QDomDocument& xml)
     QDomElement maneuverIndexes = shape.firstChildElement("maneuverIndexes");
     QDomNodeList index = maneuverIndexes.elementsByTagName("index");
     const qint32 I = index.size();
-    for(int i = 0; i < I; i++)
+
+    if(I == instructions.size())
     {
-        int idx = index.item(i).toElement().text().toInt();
-        if(idx < secRoute.size())
+        for(int i = 0; i < I; i++)
         {
-            secRoute[idx].action = instructions[i];
+            int idx = index.item(i).toElement().text().toInt();
+            if(idx < secRoute.size())
+            {
+                secRoute[idx].action = instructions[i];
+            }
         }
     }
 }
