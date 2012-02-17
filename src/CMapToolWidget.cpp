@@ -129,31 +129,38 @@ void CMapToolWidget::slotDBChanged()
                 if(map->filename.toLower().endsWith("jnx"))
                 {
                     icon = QIcon(":/icons/iconJNX22x22.png");
+                    item->setToolTip(eType, tr("BirdsEye/JNX"));
                 }
                 else if(map->filename.toLower().endsWith("rmap"))
                 {
                     icon = QIcon(":/icons/iconRMAP22x22.png");
+                    item->setToolTip(eType, tr("TwoNav/RMAP"));
                 }
                 else
                 {
                     icon = QIcon(":/icons/iconQMAP22x22.png");
+                    item->setToolTip(eType, tr("map stack/QMAP"));
                 }
             }
             else if(map->type == IMap::eGarmin)
             {
-                icon = QIcon(":/icons/iconTDB22x22.png");
+                icon = QIcon(":/icons/iconTDB22x22.png");                
+                item->setToolTip(eType, tr("Garmin/TDB/IMG"));
             }
             else if(map->type == IMap::eTMS)
             {
                 icon = QIcon(":/icons/iconTMS22x22.png");
+                item->setToolTip(eType, tr("tile server"));
             }
             else if(map->type == IMap::eWMS)
             {
                 icon = QIcon(":/icons/iconWMS22x22.png");
+                item->setToolTip(eType, tr("map server"));
             }
             else if(map->type == IMap::eNoMap)
             {
                 icon = QIcon(":/icons/iconRaster22x22.png");
+                item->setToolTip(eType, tr("various projections"));
             }
 
             item->setIcon(eType, icon);
@@ -164,16 +171,19 @@ void CMapToolWidget::slotDBChanged()
                 selected = item;
                 item->setIcon(eMode, QIcon(QIcon(":/icons/iconOk16x16.png")));
                 item->setData(eMode, Qt::UserRole, eSelected);
+                item->setToolTip(eMode, tr("selected map"));
             }
             else if(basemap.hasOverlayMap(map.key()))
             {
                 item->setIcon(eMode, QIcon(QIcon(":/icons/iconOvlOk16x16.png")));
                 item->setData(eMode, Qt::UserRole, eOverlayActive);
+                item->setToolTip(eMode, tr("use a single click to deactivate map as overlay"));
             }
             else if(map->type == IMap::eGarmin)
             {
                 item->setIcon(eMode, QIcon(QIcon(":/icons/iconOvl16x16.png")));
                 item->setData(eMode, Qt::UserRole, eOverlay);
+                item->setToolTip(eMode, tr("use a single click to activate map as overlay"));
             }
             else
             {

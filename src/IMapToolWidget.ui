@@ -41,6 +41,9 @@
          <property name="contextMenuPolicy">
           <enum>Qt::CustomContextMenu</enum>
          </property>
+         <property name="toolTip">
+          <string/>
+         </property>
          <property name="iconSize">
           <size>
            <width>22</width>
@@ -66,15 +69,24 @@
           <property name="text">
            <string>M</string>
           </property>
+          <property name="toolTip">
+           <string>Mode - show active map and active overlays</string>
+          </property>
          </column>
          <column>
           <property name="text">
            <string>T</string>
           </property>
+          <property name="toolTip">
+           <string>Type of map</string>
+          </property>
          </column>
          <column>
           <property name="text">
            <string>Map</string>
+          </property>
+          <property name="toolTip">
+           <string>The map's name</string>
           </property>
          </column>
         </widget>
@@ -122,15 +134,24 @@
           <property name="text">
            <string>M</string>
           </property>
+          <property name="toolTip">
+           <string>Mode - show active map and active overlays</string>
+          </property>
          </column>
          <column>
           <property name="text">
            <string>T</string>
           </property>
+          <property name="toolTip">
+           <string>Type of map</string>
+          </property>
          </column>
          <column>
           <property name="text">
            <string>Map</string>
+          </property>
+          <property name="toolTip">
+           <string>The map's name</string>
           </property>
          </column>
         </widget>
@@ -178,15 +199,24 @@
           <property name="text">
            <string>M</string>
           </property>
+          <property name="toolTip">
+           <string>Mode - show active map and active overlays</string>
+          </property>
          </column>
          <column>
           <property name="text">
            <string>T</string>
           </property>
+          <property name="statusTip">
+           <string>Type of map</string>
+          </property>
          </column>
          <column>
           <property name="text">
            <string>Map</string>
+          </property>
+          <property name="toolTip">
+           <string>The map's name</string>
           </property>
          </column>
         </widget>

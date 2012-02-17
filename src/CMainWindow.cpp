@@ -581,9 +581,9 @@ void CMainWindow::setupMenuBar()
     menu->addSeparator();
     menu->addAction(QIcon(":/icons/iconUnknown16x16.png"),tr("Toggle toolview"),this,SLOT(slotToggleToolView()), Qt::CTRL + Qt::Key_T);
 #if defined(Q_WS_MAC)
-    menu->addAction(QIcon(":/icons/iconExit16x16.png"),("Exit"),this,SLOT(close()));
+    menu->addAction(QIcon(":/icons/iconExit16x16.png"),("Exit"),this,SLOT(close()), Qt::CTRL + Qt::Key_Q);
 #else
-    menu->addAction(QIcon(":/icons/iconExit16x16.png"),tr("Exit"),this,SLOT(close()));
+    menu->addAction(QIcon(":/icons/iconExit16x16.png"),tr("Exit"),this,SLOT(close()), Qt::CTRL + Qt::Key_Q);
 #endif
     menuBar()->addMenu(menu);
 
