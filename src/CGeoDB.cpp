@@ -3347,8 +3347,6 @@ void CGeoDB::slotDelDiary()
 
     CDiaryDB::self().delDiary(key, false);
     parent->setIcon(eCoDiary, QIcon());
-
-    updateDiaryIcon();
 }
 
 
