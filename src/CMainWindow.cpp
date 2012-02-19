@@ -831,6 +831,8 @@ void CMainWindow::loadData(const QString& filename, const QString& filter)
 
     pathData = fileInfo.absolutePath();
 
+    qDebug() << filter;
+
     try
     {
         if(ext == "QLB")
@@ -878,7 +880,11 @@ void CMainWindow::loadData(const QString& filename, const QString& filter)
             tmpfile.open();
             loadGPXData = false;
 
-            if(ext == "LOC")
+            if(filter.startsWith("TwoNav"))
+            {
+                loadGPXData = convertData("compegps", filename, "gpx", tmpfile.fileName());
+            }
+            else if(ext == "LOC")
             {
                 loadGPXData = convertData("geo", filename, "gpx", tmpfile.fileName());
             }
@@ -1564,7 +1570,7 @@ QString CMainWindow::getGeoDataFormats() {
     QString formats;
     if(haveGPSBabel)
     {
-        formats = "All supported files (*.qlb *.gpx *.tcx *.loc *.gdb *.kml *.plt *.rte *.wpt *.tk1);;QLandkarte (*.qlb);;GPS Exchange (*.gpx);;TCX TrainingsCenterExchange (*.tcx);;Geocaching.com - EasyGPS (*.loc);;Mapsource (*.gdb);;Google Earth (*.kml);;Ozi Track (*.plt);;Ozi Route (*.rte);;Ozi Waypoint (*.wpt);;Wintec WBT201/1000 (*.tk1);;Universal CSV (*.csv)";
+        formats = "All supported files (*.qlb *.gpx *.tcx *.loc *.gdb *.kml *.plt *.rte *.wpt *.tk1);;QLandkarte (*.qlb);;GPS Exchange (*.gpx);;TwoNav (*.trk *.rte *.wpt);;TCX TrainingsCenterExchange (*.tcx);;Geocaching.com - EasyGPS (*.loc);;Mapsource (*.gdb);;Google Earth (*.kml);;Ozi Track (*.plt);;Ozi Route (*.rte);;Ozi Waypoint (*.wpt);;Wintec WBT201/1000 (*.tk1);;Universal CSV (*.csv)";
     }
     else
     {
