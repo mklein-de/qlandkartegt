@@ -29,6 +29,7 @@
 #include "CMegaMenu.h"
 #include "CDlgTrackFilter.h"
 #include "GeoMath.h"
+#include "CSettings.h"
 
 #include <QtGui>
 
@@ -83,7 +84,7 @@ CTrackToolWidget::CTrackToolWidget(QTabWidget * parent)
     toolSortAlpha->setIcon(QPixmap(":/icons/iconDec16x16.png"));
     toolSortTime->setIcon(QPixmap(":/icons/iconTime16x16.png"));
 
-    QSettings cfg;
+    SETTINGS;
     toolSortAlpha->setChecked(cfg.value("track/sortAlpha", true).toBool());
     toolSortTime->setChecked(cfg.value("track/sortTime", true).toBool());
 
@@ -93,7 +94,7 @@ CTrackToolWidget::CTrackToolWidget(QTabWidget * parent)
 
 CTrackToolWidget::~CTrackToolWidget()
 {
-    QSettings cfg;
+    SETTINGS;
     cfg.setValue("track/sortAlpha", toolSortAlpha->isChecked());
     cfg.setValue("track/sortTime", toolSortTime->isChecked());
 

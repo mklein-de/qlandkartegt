@@ -394,6 +394,7 @@ set(qlandkarte_HDRS
     IDiskCache.h
     CDiskCache.h
     CDiskCacheZip.h
+    CSettings.h
 )
 
 

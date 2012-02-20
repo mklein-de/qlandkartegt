@@ -16,7 +16,8 @@
     Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
 
 **********************************************************************************************/
-
+#ifndef CAPPOPTS_H
+#define CAPPOPTS_H
 /*
  * This class holds the options passed from the command-line,
  * including the positional arguments.
@@ -29,14 +30,18 @@ class CAppOpts
         const int monitor;       // -m FD, monitor file descriptor
         const bool nosplash;     // -n, do not display splash screen
                                  // positional arguments (files to load)
+        const QString configfile;
         const QStringList arguments;
 
-        CAppOpts(bool d, int m, bool n, const QStringList& a)
+        CAppOpts(bool d, int m, bool n, const QString& c, const QStringList& a)
             : debug(d)
             , monitor(m)
             , nosplash(n)
-            , arguments(a) {};
-        virtual ~CAppOpts() {};
+            , configfile(c)
+            , arguments(a) {}
+        virtual ~CAppOpts() {}
 };
 
 extern CAppOpts *qlOpts;
+
+#endif //CAPPOPTS_H

@@ -45,6 +45,7 @@ static void usage(std::ostream &s)
         "                    [-h | --help]\n"
         "                    [-m FD | --monitor=FD]\n"
         "                    [-n | --no-splash]\n"
+        "                    [-c configfile]\n"
         "                    [files...]\n"
         "\n"
         "The monitor function will read data from files if there is input on stream FD.\n"
@@ -103,6 +104,8 @@ static void processOptions()
     opts.addSwitch('n', "no-splash", &nValue);
     QStringList args;
     opts.addOptionalArguments("files", &args);
+    QString config;
+    opts.addOptionalOption('c', "config", &config, "");
 
     if (!opts.parse())
     {
@@ -127,9 +130,12 @@ static void processOptions()
             exit(1);
         }
     }
+
+    qDebug() << "use config file:" << config;
     qlOpts = new CAppOpts(dValue,// bool debug
         m,                       // int monitor
         nValue,                  // bool nosplash
+        config,                  // optional config file
         args);                   // arguments
 }
 
@@ -170,6 +176,7 @@ int main(int argc, char ** argv)
 #endif
     CApplication theApp(argc,argv);
     processOptions();
+
 #ifndef WIN32
     qInstallMsgHandler(myMessageOutput);
 #endif
@@ -291,7 +298,7 @@ int main(int argc, char ** argv)
 
     int res  = theApp.exec();
 
-    delete qlOpts;
+    //delete qlOpts;
 
     return res;
 }

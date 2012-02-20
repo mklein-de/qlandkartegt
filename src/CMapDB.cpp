@@ -45,6 +45,7 @@
 #include "IDevice.h"
 #include "CQlb.h"
 #include "IMouse.h"
+#include "CSettings.h"
 
 #include <QtGui>
 #include <QtXml/QDomDocument>
@@ -56,7 +57,7 @@ CMapDB * CMapDB::m_self = 0;
 CMapDB::CMapDB(QTabWidget * tb, QObject * parent)
 : IDB(tb,parent)
 {
-    QSettings cfg;
+    SETTINGS;
 
     m_self              = this;
     CMapToolWidget * tw = new CMapToolWidget(tb);
@@ -184,7 +185,7 @@ CMapDB::CMapDB(QTabWidget * tb, QObject * parent)
 
 CMapDB::~CMapDB()
 {
-    QSettings cfg;
+    SETTINGS;
     QString maps;
     map_t map;
     QString mapsTMS;
@@ -264,7 +265,7 @@ void CMapDB::openMap(const QString& filename, bool asRaster, CCanvas& canvas)
 
     closeVisibleMaps();
 
-    QSettings cfg;
+    SETTINGS;
 
     map_t map;
     QFileInfo fi(filename);
@@ -289,7 +290,6 @@ void CMapDB::openMap(const QString& filename, bool asRaster, CCanvas& canvas)
         knownMaps[map.key] = map;
 
         // store current map filename for next session
-        QSettings cfg;
         cfg.setValue("maps/visibleMaps",theMap->getFilename());
 
     }
@@ -383,7 +383,7 @@ void CMapDB::openMap(const QString& filename, bool asRaster, CCanvas& canvas)
         theMap = new CMapTms(QString::number(qHash(filename)), theMainWindow->getCanvas());
 
         // store current map filename for next session
-        QSettings cfg;
+        SETTINGS;
         cfg.setValue("maps/visibleMaps",filename);
     }
     else
@@ -396,7 +396,7 @@ void CMapDB::openMap(const QString& filename, bool asRaster, CCanvas& canvas)
         {
             theMap = new CMapGeoTiff(filename,&canvas);
             // store current map filename for next session
-            QSettings cfg;
+            SETTINGS;
             cfg.setValue("maps/visibleMaps",theMap->getFilename());
         }
     }
@@ -463,7 +463,7 @@ void CMapDB::openMap(const QString& key)
     connect(theMap, SIGNAL(sigChanged()), theMainWindow->getCanvas(), SLOT(update()));
 
     // store current map filename for next session
-    QSettings cfg;
+    SETTINGS;
     cfg.setValue("maps/visibleMaps",filename);
 
     QString fileDEM = cfg.value(QString("map/dem/%1").arg(theMap->getKey()),"").toString();
@@ -513,7 +513,7 @@ IMap * CMapDB::createMap(const QString& key)
 
 void CMapDB::openDEM(const QString& filename)
 {
-    QSettings cfg;
+    SETTINGS;
 
     if(!demMap.isNull())
     {
@@ -548,7 +548,7 @@ void CMapDB::openDEM(const QString& filename)
 
 void CMapDB::closeMap()
 {
-    QSettings cfg;
+    SETTINGS;
     cfg.setValue("maps/visibleMaps",theMap->getFilename());
     closeVisibleMaps();
 }
@@ -567,7 +567,7 @@ void CMapDB::delKnownMap(const QStringList& keys)
 
         if(type == IMap::eGarmin)
         {
-            QSettings cfg;
+            SETTINGS;
             cfg.beginGroup("garmin/maps");
             cfg.beginGroup("alias");
             QString name = cfg.value(key,key).toString();
@@ -578,13 +578,13 @@ void CMapDB::delKnownMap(const QStringList& keys)
         }
         else if(type == IMap::eTMS)
         {
-            QSettings cfg;
+            SETTINGS;
             cfg.remove(QString("tms/maps/%1").arg(key));
             cfg.sync();
         }
         else if(type == IMap::eWMS)
         {
-            QSettings cfg;
+            SETTINGS;
             cfg.beginGroup("wms/maps");
             cfg.remove(key);
             cfg.endGroup();
@@ -592,7 +592,7 @@ void CMapDB::delKnownMap(const QStringList& keys)
         }
         else if(QFileInfo(filename).completeSuffix() == "rmap")
         {
-            QSettings cfg;
+            SETTINGS;
             cfg.beginGroup("rmap/maps");
             cfg.remove(key);
             cfg.endGroup();

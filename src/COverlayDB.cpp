@@ -29,6 +29,7 @@
 #include "CGpx.h"
 #include "CDlgCombineDistOvl.h"
 #include "CMapDB.h"
+#include "CSettings.h"
 
 #include <QtGui>
 #include <projects.h>
@@ -44,7 +45,7 @@ COverlayDB::COverlayDB(QTabWidget * tb, QObject * parent)
 {
     m_self      = this;
 
-    QSettings cfg;
+    SETTINGS;
     COverlayDistance::setShowBullets(cfg.value("overlay/showBullets", COverlayDistance::getShowBullets()).toBool());
 
     toolview    = new COverlayToolWidget(tb);
@@ -53,7 +54,7 @@ COverlayDB::COverlayDB(QTabWidget * tb, QObject * parent)
 
 COverlayDB::~COverlayDB()
 {
-    QSettings cfg;
+    SETTINGS;
     cfg.setValue("overlay/showBullets", COverlayDistance::getShowBullets());
 }
 

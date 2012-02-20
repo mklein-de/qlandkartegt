@@ -19,6 +19,7 @@
 
 #include "WptIcons.h"
 #include "config.h"
+#include "CSettings.h"
 #include <QtCore>
 
 
@@ -75,7 +76,7 @@ void initWptIcons()
     wptIcons["Red Diamond"]         = ":/icons/wpt/diamond_red15x15.png";
 
 
-    QSettings cfg;
+    SETTINGS;
 
     setWptIconByName("Custom 1", cfg.value("garmin/icons/custom1", ":/icons/wpt/custom15x15.bmp").toString());
     setWptIconByName("Custom 2", cfg.value("garmin/icons/custom2", ":/icons/wpt/custom15x15.bmp").toString());

@@ -22,6 +22,7 @@
 #include "CMainWindow.h"
 #include "CResources.h"
 #include "CDlgSetupGrid.h"
+#include "CSettings.h"
 
 #include <QtGui>
 
@@ -38,7 +39,7 @@ CGridDB::CGridDB(QObject * parent)
 {
     m_pSelf = this;
 
-    QSettings cfg;
+    SETTINGS;
     color   = QColor(cfg.value("map/grid/color", color.name()).toString());
     projstr = cfg.value("map/grid/proj", projstr).toString();
 
@@ -68,7 +69,7 @@ CGridDB::~CGridDB()
     if(pjWGS84) pj_free(pjWGS84);
     if(pjGrid)  pj_free(pjGrid);
 
-    QSettings cfg;
+    SETTINGS;
     cfg.setValue("map/grid", showGrid);
     cfg.setValue("map/grid/proj", projstr);
     cfg.setValue("map/grid/color", color.name());

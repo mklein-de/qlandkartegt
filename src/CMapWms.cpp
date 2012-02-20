@@ -24,6 +24,8 @@
 #include "CDiskCache.h"
 #include "CDlgMapWmsConfig.h"
 #include "CMapSelectionRaster.h"
+#include "CSettings.h"
+
 #include <QtGui>
 #include <QtXml>
 #include <QtNetwork>
@@ -150,7 +152,7 @@ CMapWms::CMapWms(const QString &key, const QString &filename, CCanvas *parent)
 
     diskCache = new CDiskCache(this);
 
-    QSettings cfg;
+    SETTINGS;
     cfg.beginGroup("wms/maps");
     cfg.beginGroup(getKey());
 
@@ -170,7 +172,7 @@ CMapWms::~CMapWms()
 
     delete status;
 
-    QSettings cfg;
+    SETTINGS;
     cfg.beginGroup("wms/maps");
     cfg.beginGroup(getKey());
 

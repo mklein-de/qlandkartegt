@@ -26,6 +26,7 @@
 #include "CGarminExport.h"
 #include "CMapSelectionGarmin.h"
 #include "CDlgMapTmsConfig.h"
+#include "CSettings.h"
 
 #include "config.h"
 
@@ -484,7 +485,7 @@ void CMapToolWidget::slotExportMap()
 
 void CMapToolWidget::slotAddDEM()
 {
-    QSettings cfg;
+    SETTINGS;
     path = QDir(cfg.value("path/DEM",path.path()).toString());
 
     QString filename = QFileDialog::getOpenFileName(0, tr("Select DEM file..."),path.path(), tr("16bit Srtm Data (*.tif *.tiff *.hgt)"), 0, FILE_DIALOG_FLAGS);
@@ -503,7 +504,7 @@ void CMapToolWidget::slotDelDEM()
     IMap& dem = CMapDB::self().getDEM();
     if(dem.maptype == IMap::eDEM)
     {
-        QSettings cfg;
+        SETTINGS;
         cfg.setValue(QString("map/dem/%1").arg(CMapDB::self().getMap().getKey()), "");
         cfg.setValue(QString("map/dem/%1/ignoreWarning").arg(CMapDB::self().getMap().getKey()), false);
         dem.deleteLater();

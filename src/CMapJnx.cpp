@@ -22,6 +22,7 @@
 #include "CDlgMapJNXConfig.h"
 #include "GeoMath.h"
 #include "CMainWindow.h"
+#include "CSettings.h"
 #include <QtGui>
 
 #define MAX_IDX_ZOOM 26
@@ -254,7 +255,7 @@ CMapJnx::CMapJnx(const QString& key, const QString& fn, CCanvas * parent)
 
     pj_transform(pjtar, pjsrc,1,0,&x,&y,0);
 
-    QSettings cfg;
+    SETTINGS;
     cfg.beginGroup("birdseye/maps");
     cfg.beginGroup(name);
     zoomidx = cfg.value("zoomidx",23).toInt();
@@ -275,7 +276,7 @@ CMapJnx::~CMapJnx()
     qDebug() << "CMapJnx::~CMapJnx()";
     if(pjsrc) pj_free(pjsrc);
 
-    QSettings cfg;
+    SETTINGS;
     cfg.beginGroup("birdseye/maps");
     cfg.beginGroup(name);
     cfg.setValue("zoomidx",zoomidx);

@@ -25,6 +25,7 @@
 #include "config.h"
 #include "CTrackDB.h"
 #include "CTrack.h"
+#include "CSettings.h"
 
 #include <QtGui>
 
@@ -935,7 +936,7 @@ void CPlot::resetZoom()
 void CPlot::slotSave()
 {
 
-    QSettings cfg;
+    SETTINGS;
     QString pathData = cfg.value("path/data","./").toString();
     QString filter   = cfg.value("trackstat/imagetype","Bitmap (*.png)").toString();
 

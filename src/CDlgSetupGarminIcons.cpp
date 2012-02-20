@@ -23,6 +23,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
 #include "WptIcons.h"
 #include "CResources.h"
 #include "CDeviceGarmin.h"
+#include "CSettings.h"
 
 #include <QtGui>
 
@@ -101,7 +102,7 @@ void CDlgSetupGarminIcons::exec()
 
 void CDlgSetupGarminIcons::accept()
 {
-    QSettings cfg;
+    SETTINGS;
     QString name;
     for(int i=0; i < N_CUSTOM_ICONS; ++i)
     {
@@ -120,7 +121,7 @@ void CDlgSetupGarminIcons::accept()
 
 void CDlgSetupGarminIcons::slotChangeIconSource()
 {
-    QSettings cfg;
+    SETTINGS;
     QDir dir(cfg.value("path/icons",QDir::homePath()).toString());
 
     QTreeWidgetItem * entry = listCustomIcons->topLevelItem(sender()->objectName().toInt());

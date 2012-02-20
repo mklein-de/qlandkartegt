@@ -33,6 +33,7 @@
 #include "WptIcons.h"
 #include "GeoMath.h"
 #include "config.h"
+#include "CSettings.h"
 
 #include <QtGui>
 
@@ -62,7 +63,7 @@ CWptDB::CWptDB(QTabWidget * tb, QObject * parent)
 : IDB(tb,parent)
 , showNames(true)
 {
-    QSettings cfg;
+    SETTINGS;
     showNames   = cfg.value("waypoint/showNames", showNames).toBool();
 
     m_self      = this;
@@ -98,7 +99,7 @@ CWptDB::CWptDB(QTabWidget * tb, QObject * parent)
 
 CWptDB::~CWptDB()
 {
-    QSettings cfg;
+    SETTINGS;
     cfg.setValue("waypoint/showNames", showNames);
 
     CQlb qlb(this);
@@ -287,7 +288,7 @@ CWpt * CWptDB::newWpt(float lon, float lat, float ele, const QString& name)
     wpt->ele    = ele;
     wpt->name   = name;
 
-    QSettings cfg;
+    SETTINGS;
     wpt->setIcon(cfg.value("waypoint/lastSymbol","").toString());
 
     if(name.isEmpty())
@@ -1202,7 +1203,7 @@ void CWptDB::createWaypointsFromImages()
         return;
     }
 
-    QSettings cfg;
+    SETTINGS;
     QString path = cfg.value("path/images", "./").toString();
     path = QFileDialog::getExistingDirectory(0, tr("Select path..."), path, FILE_DIALOG_FLAGS);
 

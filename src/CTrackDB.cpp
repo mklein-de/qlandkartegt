@@ -30,6 +30,7 @@
 #include "CMapDB.h"
 #include "IMap.h"
 #include "IUnit.h"
+#include "CSettings.h"
 
 #include <QtGui>
 #include "CUndoStackModel.h"
@@ -67,7 +68,7 @@ CTrackDB::CTrackDB(QTabWidget * tb, QObject * parent)
 {
     m_self      = this;
 
-    QSettings cfg;
+    SETTINGS;
     showBullets = cfg.value("track/showBullets", showBullets).toBool();
     showMinMax = cfg.value("track/showMinMax", showMinMax).toBool();
     toolview    = new CTrackToolWidget(tb);
@@ -78,7 +79,7 @@ CTrackDB::CTrackDB(QTabWidget * tb, QObject * parent)
 
 CTrackDB::~CTrackDB()
 {
-    QSettings cfg;
+    SETTINGS;
     cfg.setValue("track/showBullets", showBullets);
     cfg.setValue("track/showMinMax", showMinMax);
 }

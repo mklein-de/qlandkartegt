@@ -34,6 +34,7 @@
 #include "CUnitImperial.h"
 #include "CMapTDB.h"
 #include "config.h"
+#include "CSettings.h"
 
 #ifndef Q_OS_WIN32
 #include <sys/types.h>
@@ -79,7 +80,7 @@ CResources::CResources(QObject * parent)
 {
     m_self = this;
 
-    QSettings cfg;
+    SETTINGS;
 
     QString family      = cfg.value("environment/mapfont/family","Arial").toString();
     int size            = cfg.value("environment/mapfont/size",8).toInt();
@@ -200,7 +201,7 @@ CResources::CResources(QObject * parent)
 
 CResources::~CResources()
 {
-    QSettings cfg;
+    SETTINGS;
 
     cfg.setValue("path/maps",pathMaps);
 

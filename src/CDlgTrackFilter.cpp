@@ -22,6 +22,7 @@
 #include "CTrackDB.h"
 #include "GeoMath.h"
 #include "IUnit.h"
+#include "CSettings.h"
 
 #include <QtGui>
 
@@ -38,7 +39,7 @@ CDlgTrackFilter::CDlgTrackFilter(CTrack &track, QWidget * parent)
 {
     setupUi(this);
 
-    QSettings cfg;
+    SETTINGS;
 
     checkReduceDataset->setChecked(false);
     checkModifyTimestamps->setChecked(false);
@@ -123,7 +124,7 @@ void CDlgTrackFilter::accept()
         reduceDataset(&track);
     }
 
-    QSettings cfg;
+    SETTINGS;
     cfg.setValue("trackfilter/distance",spinDistance->value());
     cfg.setValue("trackfilter/azimuthdelta",spinAzimuthDelta->value());
     cfg.setValue("trackfilter/timedelta",spinTimedelta->value());

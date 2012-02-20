@@ -23,6 +23,7 @@
 #include "CMapRaster.h"
 
 #include "config.h"
+#include "CSettings.h"
 
 #include <QtGui>
 #include <gdal_priv.h>
@@ -55,7 +56,7 @@ CCreateMapFineTune::~CCreateMapFineTune()
 
 void CCreateMapFineTune::slotOpenFile()
 {
-    QSettings cfg;
+    SETTINGS;
     path = QDir(cfg.value("path/create",path.path()).toString());
 
     QString filename = QFileDialog::getOpenFileName(0, tr("Open map file..."),path.path(), tr("Referenced file (*.tif *.tiff *.png *.gif)"), 0, FILE_DIALOG_FLAGS);

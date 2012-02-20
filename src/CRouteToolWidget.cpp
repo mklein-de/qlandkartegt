@@ -30,6 +30,7 @@
 #include "CDlgConvertToTrack.h"
 #include "CMegaMenu.h"
 #include "version.h"
+#include "CSettings.h"
 
 
 #include <QtGui>
@@ -139,7 +140,7 @@ CRouteToolWidget::CRouteToolWidget(QTabWidget * parent)
     comboMQLanguage->addItem(tr("Spanish"), "es");
     comboMQLanguage->addItem(tr("Swedish"), "sv_SE");
 
-    QSettings cfg;
+    SETTINGS;
     int langIdx;
     QString locale = QLocale::system().name().left(2);
 
@@ -187,7 +188,7 @@ CRouteToolWidget::CRouteToolWidget(QTabWidget * parent)
 
 CRouteToolWidget::~CRouteToolWidget()
 {
-    QSettings cfg;
+    SETTINGS;
     cfg.setValue("route/sortAlpha", toolSortAlpha->isChecked());
     cfg.setValue("route/sortTime", toolSortTime->isChecked());
 
@@ -360,7 +361,7 @@ void CRouteToolWidget::slotCalcRoute()
     QListWidgetItem * item;
     QList<QListWidgetItem *> items = listRoutes->selectedItems();
 
-    QSettings cfg;
+    SETTINGS;
     cfg.beginGroup("routing");
     cfg.setValue("service", comboService->currentIndex());
     cfg.beginGroup("ORS");

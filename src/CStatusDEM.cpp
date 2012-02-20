@@ -20,6 +20,7 @@
 #include "CStatusDEM.h"
 #include "CMainWindow.h"
 #include "CCanvas.h"
+#include "CSettings.h"
 
 #include <QtGui>
 
@@ -29,7 +30,7 @@ CStatusDEM::CStatusDEM(QWidget * parent)
 {
     setupUi(this);
 
-    QSettings cfg;
+    SETTINGS;
     overlay = (IMap::overlay_e)cfg.value("map/overlay",overlay).toInt();
 
     switch(overlay)
@@ -54,7 +55,7 @@ CStatusDEM::CStatusDEM(QWidget * parent)
 
 CStatusDEM::~CStatusDEM()
 {
-    QSettings cfg;
+    SETTINGS;
     cfg.setValue("map/overlay",overlay);
 
 }

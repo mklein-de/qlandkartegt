@@ -26,6 +26,7 @@
 #include "CMainWindow.h"
 #include "CDlgMapTmsConfig.h"
 #include "CMapSelectionRaster.h"
+#include "CSettings.h"
 
 #include <QtGui>
 #include <QtNetwork>
@@ -43,7 +44,7 @@ CMapTms::CMapTms(const QString& key, CCanvas *parent)
 , lastTileLoaded(false)
 , status(0)
 {
-    QSettings cfg;
+    SETTINGS;
 
     CMapDB::map_t mapData = CMapDB::self().getMapData(key);
     copyright   = mapData.copyright;
@@ -90,7 +91,7 @@ CMapTms::CMapTms(const QString& key, CCanvas *parent)
 CMapTms::~CMapTms()
 {
     QString pos;
-    QSettings cfg;
+    SETTINGS;
 
     cfg.setValue("tms/lon", x * RAD_TO_DEG);
     cfg.setValue("tms/lat", y * RAD_TO_DEG);

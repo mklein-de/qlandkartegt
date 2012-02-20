@@ -18,6 +18,7 @@
 **********************************************************************************************/
 
 #include "CDlgConvertToTrack.h"
+#include "CSettings.h"
 
 #include <QtGui>
 
@@ -36,7 +37,7 @@ CDlgConvertToTrack::CDlgConvertToTrack(QWidget * parent)
     comboDelta->addItem(tr("500 m"), 500);
     comboDelta->addItem(tr("1 km"), 1000);
 
-    QSettings cfg;
+    SETTINGS;
     comboDelta->setCurrentIndex(cfg.value("overlay/convert/intervall", 0).toInt());
     radioNoEle->setChecked(cfg.value("overlay/convert/noele", true).toBool());
     radioEleFromLocal->setChecked(cfg.value("overlay/convert/local", false).toBool());
@@ -47,7 +48,7 @@ CDlgConvertToTrack::CDlgConvertToTrack(QWidget * parent)
 
 CDlgConvertToTrack::~CDlgConvertToTrack()
 {
-    QSettings cfg;
+    SETTINGS;
     cfg.setValue("overlay/convert/intervall", comboDelta->currentIndex());
     cfg.setValue("overlay/convert/noele", radioNoEle->isChecked());
     cfg.setValue("overlay/convert/local", radioEleFromLocal->isChecked());

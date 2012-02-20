@@ -20,6 +20,7 @@
 #include "CMainWindow.h"
 #include "CResources.h"
 #include "CCanvas.h"
+#include "CSettings.h"
 
 
 #include <QtGui>
@@ -309,7 +310,7 @@ CMapRmap::CMapRmap(const QString &key, const QString &fn, CCanvas *parent)
     x = xref1 + (xref2 - xref1);
     y = yref1 + (yref2 - yref1);
 
-    QSettings cfg;
+    SETTINGS;
     cfg.beginGroup("rmap/maps");
     cfg.beginGroup(getKey());
 
@@ -328,7 +329,7 @@ CMapRmap::~CMapRmap()
 {
     if(pjsrc) pj_free(pjsrc);
 
-    QSettings cfg;
+    SETTINGS;
     cfg.beginGroup("rmap/maps");
     cfg.beginGroup(getKey());
 

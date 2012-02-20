@@ -30,6 +30,7 @@
 #include "CWpt.h"
 #include "CWptDB.h"
 #include "WptIcons.h"
+#include "CSettings.h"
 
 #include <QtGui>
 #include <QtOpenGL>
@@ -165,7 +166,7 @@ CMap3D::CMap3D(IMap * map, QWidget * parent)
     actTrackMode->setChecked(false);
     connect(actTrackMode, SIGNAL(triggered()), this, SLOT(slotTrackModeChanged()));
 
-    QSettings cfg;
+    SETTINGS;
     act3DMap->setChecked(cfg.value("map/3D/3dmap", true).toBool());
     actFPVMode->setChecked(cfg.value("map/3D/fpv", true).toBool());
     actTrackOnMap->setChecked(cfg.value("map/3D/trackonmap", false).toBool());
@@ -205,7 +206,7 @@ CMap3D::~CMap3D()
     glDeleteLists(mapObjectId, 1);
     glDeleteLists(trkObjectId, 1);
 
-    QSettings cfg;
+    SETTINGS;
     cfg.setValue("map/3D/3dmap", act3DMap->isChecked());
     cfg.setValue("map/3D/fpv", actFPVMode->isChecked());
     cfg.setValue("map/3D/trackonmap", actTrackOnMap->isChecked());

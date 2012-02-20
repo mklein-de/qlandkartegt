@@ -32,6 +32,7 @@
 #include "CGarminTyp.h"
 #include "CGarminTypNT.h"
 #include "CSpline.h"
+#include "CSettings.h"
 
 #include <QtGui>
 #include <QSqlDatabase>
@@ -264,7 +265,7 @@ CMapTDB::CMapTDB(const QString& key, const QString& filename, CCanvas * parent)
 
     processPrimaryMapData();
 
-    QSettings cfg;
+    SETTINGS;
     cfg.beginGroup("garmin/maps");
     cfg.beginGroup(name);
     QString pos     = cfg.value("topleft","").toString();
@@ -390,7 +391,7 @@ CMapTDB::CMapTDB(const QString& key, const QString& filename)
     readTDB(filename);
     processPrimaryMapData();
 
-    QSettings cfg;
+    SETTINGS;
     cfg.beginGroup("garmin/maps");
     cfg.beginGroup(name);
     detailsFineTune = cfg.value("details",0).toInt();
@@ -422,7 +423,7 @@ CMapTDB::CMapTDB(const QString& key, const QString& filename)
 CMapTDB::~CMapTDB()
 {
     QString pos;
-    QSettings cfg;
+    SETTINGS;
     cfg.beginGroup("garmin/maps");
     cfg.beginGroup(name);
     GPS_Math_Deg_To_Str(topLeft.u * RAD_TO_DEG, topLeft.v * RAD_TO_DEG, pos);
@@ -1314,7 +1315,7 @@ void CMapTDB::readTDB(const QString& filename)
                 if(south > s) south = s;
                 if(west  > w) west  = w;
 
-                QSettings cfg;
+                SETTINGS;
                 cfg.beginGroup("garmin/maps");
                 cfg.beginGroup(name);
                 basemap = cfg.value("basemap","").toString();
@@ -1462,7 +1463,7 @@ void CMapTDB::readTile(tile_t& tile)
                 return;
             }
 
-            QSettings cfg;
+            SETTINGS;
             cfg.beginGroup("garmin/maps");
             cfg.beginGroup(name);
             cfg.setValue("key",mapkey);
@@ -3457,7 +3458,7 @@ void CMapTDB::readTYP()
                     comboLanguages->addItem(languages[lang],  lang);
                 }
 
-                QSettings cfg;
+                SETTINGS;
                 cfg.beginGroup("garmin/maps");
                 cfg.beginGroup(name);
                 selectedLanguage  = cfg.value("selectedLanguage",usedLanguages.toList().first()).toInt();
@@ -3499,7 +3500,7 @@ void CMapTDB::readTYP()
                     comboLanguages->addItem(languages[lang],  lang);
                 }
 
-                QSettings cfg;
+                SETTINGS;
                 cfg.beginGroup("garmin/maps");
                 cfg.beginGroup(name);
                 selectedLanguage  = cfg.value("selectedLanguage",usedLanguages.toList().first()).toInt();

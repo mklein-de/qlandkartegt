@@ -23,6 +23,7 @@
 #include "GeoMath.h"
 #include "CMainWindow.h"
 #include "CMapDB.h"
+#include "CSettings.h"
 
 #include "config.h"
 
@@ -43,7 +44,7 @@ CCreateMapQMAP::CCreateMapQMAP(QWidget * parent)
     helpStep2->setHelp(tr("Add Maps"),
         tr("You can stack maps of different detail as layer. For each detail layer you can define the number of zoom levels. Several map files can be grouped into a detail layer. All map files in a layer must have the same projection and scale. You need at least one layer with one file."));
 
-    QSettings cfg;
+    SETTINGS;
     mapPath = cfg.value("path/maps",mapPath).toString();
 
     connect(toolOpen, SIGNAL(clicked()), this, SLOT(slotOpenMap()));
@@ -62,7 +63,7 @@ CCreateMapQMAP::CCreateMapQMAP(QWidget * parent)
 
 CCreateMapQMAP::~CCreateMapQMAP()
 {
-    QSettings cfg;
+    SETTINGS;
     cfg.setValue("path/maps",mapPath);
 }
 

@@ -25,6 +25,7 @@
 #include "GeoMath.h"
 
 #include "config.h"
+#include "CSettings.h"
 
 #include <projects.h>
 #ifdef __MINGW32__
@@ -77,7 +78,7 @@ CCreateMapGeoTiff::CCreateMapGeoTiff(QWidget * parent)
     connect(toolProjWizard, SIGNAL(clicked()), this, SLOT(slotProjWizard()));
     connect(toolGCPProjWizard, SIGNAL(clicked()), this, SLOT(slotGCPProjWizard()));
 
-    QSettings cfg;
+    SETTINGS;
     lineMapProjection->setText(cfg.value("create/mapproj","+proj=merc +ellps=WGS84 +datum=WGS84 +no_defs").toString());
     lineGCPProjection->setText(cfg.value("create/gcpproj","+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs").toString());
     check2x->setChecked(cfg.value("create/overview/2", false).toBool());
@@ -110,7 +111,7 @@ CCreateMapGeoTiff::~CCreateMapGeoTiff()
     if(theMainWindow->getCanvas()) theMainWindow->getCanvas()->setMouseMode(CCanvas::eMouseMoveArea);
     m_self = 0;
 
-    QSettings cfg;
+    SETTINGS;
     cfg.setValue("create/overview/2", check2x->isChecked());
     cfg.setValue("create/overview/4", check4x->isChecked());
     cfg.setValue("create/overview/8", check8x->isChecked());
@@ -235,7 +236,7 @@ void CCreateMapGeoTiff::slotOpenFile()
     char str[1024];
     char * ptr = str;
 
-    QSettings cfg;
+    SETTINGS;
     path = QDir(cfg.value("path/create",path.path()).toString());
 
     QString filename = QFileDialog::getOpenFileName(0, tr("Open map file..."),path.path(), tr("Raw bitmaps (*.tif *.tiff *.png *.gif)"), 0, FILE_DIALOG_FLAGS);
@@ -279,7 +280,7 @@ void CCreateMapGeoTiff::slotOpenFile()
 
 void CCreateMapGeoTiff::slotOutFile()
 {
-    QSettings cfg;
+    SETTINGS;
     path = QDir(cfg.value("path/create",path.path()).toString());
 
     QString filename = QFileDialog::getSaveFileName(0, tr("Save result as..."),path.filePath(labelOutputFile->text()), tr("GeoTiff (*.tif *.tiff)"), 0, FILE_DIALOG_FLAGS);
@@ -603,7 +604,7 @@ void CCreateMapGeoTiff::gdalGCP2RefPt(const GDAL_GCP* gcps, int n)
 
 void CCreateMapGeoTiff::slotSaveRef()
 {
-    QSettings cfg;
+    SETTINGS;
     QString filter = cfg.value("create/filter.out","Ref. points (*.gcp)").toString();
 
     QFileInfo fin(labelInputFile->text());
@@ -736,7 +737,7 @@ void CCreateMapGeoTiff::slotGoOn()
 
 
 
-    QSettings cfg;
+    SETTINGS;
     cfg.setValue("create/mapproj",mapproj);
 
     args << "-a_srs" << mapproj;

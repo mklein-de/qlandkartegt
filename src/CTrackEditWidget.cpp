@@ -37,6 +37,7 @@
 #include "CActions.h"
 #include "CDlgTrackFilter.h"
 #include "CWptDB.h"
+#include "CSettings.h"
 
 
 #include <QtGui>
@@ -453,7 +454,7 @@ void CTrackEditWidget::slotSetTrack(CTrack * t)
     slotUpdate();
 
     //TODO: resize of the TrackEditWidget
-    QSettings cfg;
+    SETTINGS;
     // restore last session position and size of TrackEditWidget
     if ( cfg.contains("TrackEditWidget/geometry"))
     {

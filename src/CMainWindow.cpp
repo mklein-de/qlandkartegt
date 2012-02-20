@@ -52,6 +52,7 @@
 #endif
 #include "CGridDB.h"
 #include "CDlgSetupGrid.h"
+#include "CSettings.h"
 
 #include <QtGui>
 #ifndef WIN32
@@ -259,7 +260,7 @@ CMainWindow::CMainWindow()
     statusCoord = new QLabel(this);
     statusBar()->addPermanentWidget(statusCoord);
 
-    QSettings cfg;
+    SETTINGS;
     crashed     = cfg.value("mainWidget/crashed",false).toBool();
     cfg.setValue("mainWidget/crashed",true);
 
@@ -450,7 +451,7 @@ void CMainWindow::slotReloadArgs()
 CMainWindow::~CMainWindow()
 {
 
-    QSettings cfg;
+    SETTINGS;
     cfg.setValue("mainWidget/mainSplitter",mainSplitter->saveState());
     cfg.setValue("mainWidget/leftSplitter",leftSplitter->saveState());
     cfg.setValue("mainWidget/geometry", geometry());
@@ -699,7 +700,7 @@ void CMainWindow::closeEvent(QCloseEvent * e)
 
 void CMainWindow::slotLoadMapSet()
 {
-    QSettings cfg;
+    SETTINGS;
 
     QString filter   = cfg.value("maps/filter","").toString();
     QString filename = QFileDialog::getOpenFileName( 0, tr("Select map...")
@@ -745,7 +746,7 @@ void CMainWindow::slotLoadData()
 {
     QString formats = getGeoDataFormats();
 
-    QSettings cfg;
+    SETTINGS;
     QString filter   = cfg.value("geodata/filter","").toString();
     QStringList filenames = QFileDialog::getOpenFileNames( 0, tr("Select input files")
         ,pathData
@@ -791,7 +792,7 @@ void CMainWindow::slotAddData()
 {
     QString formats = getGeoDataFormats();
 
-    QSettings cfg;
+    SETTINGS;
     int i;
     QString filename;
     QString filter   = cfg.value("geodata/filter","").toString();
@@ -983,7 +984,7 @@ bool CMainWindow::maybeSave()
         }
         else
         {
-            QSettings cfg;
+            SETTINGS;
             QString filter = cfg.value("geodata/filter","").toString();
             saveData(wksFile, filter);
         }
@@ -999,7 +1000,7 @@ bool CMainWindow::maybeSave()
 
 void CMainWindow::slotSaveData()
 {
-    QSettings cfg;
+    SETTINGS;
 
     QString filter =cfg.value("geodata/filter","").toString();
 
@@ -1020,7 +1021,7 @@ void CMainWindow::slotSaveData()
 
 void CMainWindow::slotExportData()
 {
-    QSettings cfg;
+    SETTINGS;
 
     bool haveGPSBabel = isGPSBabel();
 
@@ -1251,7 +1252,7 @@ void CMainWindow::slotPrint()
 void CMainWindow::slotSaveImage()
 {
 
-    QSettings cfg;
+    SETTINGS;
     QString pathData = cfg.value("path/data","./").toString();
     QString filter   = cfg.value("canvas/imagetype","Bitmap (*.png)").toString();
 

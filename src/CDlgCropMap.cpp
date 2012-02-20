@@ -18,6 +18,7 @@
 **********************************************************************************************/
 #include "CDlgCropMap.h"
 #include "CMapFile.h"
+#include "CSettings.h"
 
 #include <QtGui>
 
@@ -45,7 +46,7 @@ CDlgCropMap::CDlgCropMap(const QString &filename, quint32 x, quint32 y, quint32 
     connect(&cmd, SIGNAL(finished(int,QProcess::ExitStatus)), this, SLOT(slotFinished(int,QProcess::ExitStatus)));
 
 
-    QSettings cfg;
+    SETTINGS;
     checkOverview2x->setChecked(cfg.value("map/export/over2x", true).toBool());
     checkOverview4x->setChecked(cfg.value("map/export/over4x", true).toBool());
     checkOverview8x->setChecked(cfg.value("map/export/over8x", true).toBool());
@@ -72,7 +73,7 @@ CDlgCropMap::CDlgCropMap(const QString &filename, quint32 x, quint32 y, quint32 
 
 CDlgCropMap::~CDlgCropMap()
 {
-    QSettings cfg;
+    SETTINGS;
     cfg.setValue("map/export/over2x",checkOverview2x->isChecked());
     cfg.setValue("map/export/over4x",checkOverview4x->isChecked());
     cfg.setValue("map/export/over8x",checkOverview8x->isChecked());

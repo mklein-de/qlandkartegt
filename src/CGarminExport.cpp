@@ -20,6 +20,7 @@
 #include "CMapSelectionGarmin.h"
 #include "Platform.h"
 #include "CGarminTile.h"
+#include "CSettings.h"
 
 #include <QtGui>
 
@@ -36,7 +37,7 @@ CGarminExport::CGarminExport(QWidget * parent)
     setupUi(this);
     toolPath->setIcon(QPixmap(":/icons/iconFileLoad16x16.png"));
 
-    QSettings cfg;
+    SETTINGS;
     labelPath->setText(cfg.value("path/export","./").toString());
 
     linePrefix->setText("gmapsupp");
@@ -58,7 +59,7 @@ void CGarminExport::slotOutputPath()
     QString path = QFileDialog::getExistingDirectory(this, tr("Select ouput path..."), labelPath->text(), FILE_DIALOG_FLAGS);
     if(path.isEmpty()) return;
 
-    QSettings cfg;
+    SETTINGS;
     cfg.setValue("path/export", path);
     labelPath->setText(path);
 }

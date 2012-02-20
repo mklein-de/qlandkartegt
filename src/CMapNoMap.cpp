@@ -20,6 +20,7 @@
 #include "CMapNoMap.h"
 #include "CMainWindow.h"
 #include "CDlgNoMapConfig.h"
+#include "CSettings.h"
 
 #include <QtGui>
 
@@ -34,7 +35,7 @@ CMapNoMap::CMapNoMap(CCanvas * parent)
 {
     quadraticZoom = theMainWindow->getCheckBoxQuadraticZoom();
 
-    QSettings cfg;
+    SETTINGS;
     QString proj = cfg.value("map/nomap/proj", "+proj=merc +a=6378137.0000 +b=6356752.3142 +towgs84=0,0,0,0,0,0,0,0 +units=m  +no_defs").toString();
     setup(proj, cfg.value("map/nomap/xscale", xscale).toDouble(), cfg.value("map/nomap/yscale", yscale).toDouble());
 }
@@ -42,7 +43,7 @@ CMapNoMap::CMapNoMap(CCanvas * parent)
 
 CMapNoMap::~CMapNoMap()
 {
-    QSettings cfg;
+    SETTINGS;
     cfg.setValue("map/nomap/proj", getProjection());
     cfg.setValue("map/nomap/xscale", xscale);
     cfg.setValue("map/nomap/yscale", yscale);

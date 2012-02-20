@@ -33,6 +33,7 @@
 #include "CCanvas.h"
 #include "CPlot.h"
 #include "IUnit.h"
+#include "CSettings.h"
 
 #include <QtGui>
 
@@ -160,7 +161,7 @@ CDiaryEdit::CDiaryEdit(CDiary& diary, QWidget * parent)
     textEdit->setFocus();
     colorChanged(textEdit->textColor());
 
-    QSettings cfg;
+    SETTINGS;
     checkGeoCache->setChecked(cfg.value("diary/showGeoCaches", false).toBool());
     connect(checkGeoCache, SIGNAL(clicked()), this, SLOT(slotIntReload()));
 
@@ -175,7 +176,7 @@ CDiaryEdit::~CDiaryEdit()
 {
     collectData();
 
-    QSettings cfg;
+    SETTINGS;
     cfg.setValue("diary/showGeoCaches", checkGeoCache->isChecked());
     cfg.setValue("diary/showProfiles", checkProfile->isChecked());
     cfg.setValue("diary/addMapView", checkAddMap->isChecked());

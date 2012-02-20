@@ -24,6 +24,7 @@
 #include "config.h"
 #include "CResources.h"
 #include "CDlgProjWizzard.h"
+#include "CSettings.h"
 
 #include <QtGui>
 
@@ -68,7 +69,7 @@ CMapQMAPExport::CMapQMAPExport(const CMapSelectionRaster& mapsel, QWidget * pare
     connect(toolGeoTiffProjWizard, SIGNAL(clicked()), this, SLOT(slotSetupProj()));
     connect(toolGeoTiffFromMap, SIGNAL(clicked()), this, SLOT(slotSetupProjFromMap()));
 
-    QSettings cfg;
+    SETTINGS;
     labelPath->setText(cfg.value("path/export","./").toString());
 
     CMapDB::map_t mapData = CMapDB::self().getMapData(mapsel.mapkey);
@@ -192,7 +193,7 @@ CMapQMAPExport::CMapQMAPExport(const CMapSelectionRaster& mapsel, QWidget * pare
 
 CMapQMAPExport::~CMapQMAPExport()
 {
-    QSettings cfg;
+    SETTINGS;
     cfg.setValue("path/export",labelPath->text());
 
     cfg.setValue("map/export/qlm", radioQLM->isChecked());

@@ -26,6 +26,7 @@
 #include "CRoute.h"
 #include "CMainWindow.h"
 #include "CCanvas.h"
+#include "CSettings.h"
 
 #include <QtGui>
 #include <QtXml>
@@ -89,7 +90,7 @@ void CDeviceGarminBulk::readDeviceXml(const QString& filename)
 
 bool CDeviceGarminBulk::aquire(QDir& dir)
 {
-    QSettings cfg;
+    SETTINGS;
     QString path = cfg.value("device/path","").toString();
     dir.setPath(path);
 

@@ -24,6 +24,7 @@
 #include "CMapDB.h"
 #include "GeoMath.h"
 #include "CDlgProjWizzard.h"
+#include "CSettings.h"
 
 #include <QtGui>
 
@@ -57,7 +58,7 @@ CCreateMapGridTool::CCreateMapGridTool(CCreateMapGeoTiff * geotifftool, QWidget 
         mapedit->hide();
     }
 
-    QSettings cfg;
+    SETTINGS;
     lineProjection->setText(cfg.value("create/ref.proj","").toString());
     lineXSpacing->setText(cfg.value("create/grid.x.spacing","1000").toString());
     lineYSpacing->setText(cfg.value("create/grid.y.spacing","1000").toString());
@@ -92,7 +93,7 @@ CCreateMapGridTool::CCreateMapGridTool(CCreateMapGeoTiff * geotifftool, QWidget 
 CCreateMapGridTool::~CCreateMapGridTool()
 {
 
-    QSettings cfg;
+    SETTINGS;
     cfg.setValue("create/ref.proj",lineProjection->text());
     cfg.setValue("create/grid.x.spacing",lineXSpacing->text());
     cfg.setValue("create/grid.y.spacing",lineYSpacing->text());

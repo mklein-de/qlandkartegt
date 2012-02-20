@@ -32,6 +32,7 @@
 #include "CMapDB.h"
 #include "CDlgWpt2Rte.h"
 #include "CDlgWptIcon.h"
+#include "CSettings.h"
 
 #include <QtGui>
 
@@ -89,7 +90,7 @@ CWptToolWidget::CWptToolWidget(QTabWidget * parent)
 
     connect(linePosition, SIGNAL(textChanged(const QString&)), this, SLOT(slotPosTextChanged(const QString&)));
 
-    QSettings cfg;
+    SETTINGS;
     toolSortAlpha->setChecked(cfg.value("waypoint/sortAlpha", true).toBool());
     toolSortTime->setChecked(cfg.value("waypoint/sortTime", true).toBool());
     toolSortComment->setChecked(cfg.value("waypoint/sortComment", true).toBool());
@@ -102,7 +103,7 @@ CWptToolWidget::CWptToolWidget(QTabWidget * parent)
 
 CWptToolWidget::~CWptToolWidget()
 {
-    QSettings cfg;
+    SETTINGS;
     cfg.setValue("waypoint/sortAlpha", toolSortAlpha->isChecked());
     cfg.setValue("waypoint/sortTime", toolSortTime->isChecked());
     cfg.setValue("waypoint/sortComment", toolSortComment->isChecked());

@@ -24,6 +24,7 @@
 #include "CMapDEM.h"
 #include "IMapSelection.h"
 #include "GeoMath.h"
+#include "CSettings.h"
 
 #include <QtGui>
 #include <math.h>
@@ -45,7 +46,7 @@ IMap::IMap(maptype_e type, const QString& key, CCanvas * parent)
 {
     pjtar   = pj_init_plus("+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs");
 
-    QSettings cfg;
+    SETTINGS;
     zoomidx = cfg.value("map/zoom",zoomidx).toUInt();
 
     if(parent)
@@ -72,7 +73,7 @@ IMap::~IMap()
         delete ovlMap;
     }
 
-    QSettings cfg;
+    SETTINGS;
     cfg.setValue("map/zoom",zoomidx);
 }
 
@@ -231,7 +232,7 @@ void IMap::registerDEM(CMapDEM& dem)
     //     if(ptr1) free(ptr1);
     //     if(ptr2) free(ptr2);
 
-    QSettings cfg;
+    SETTINGS;
     bool ignoreWarning = cfg.value(QString("map/dem/%1/ignoreWarning").arg(getKey()), false).toBool();
 
     if(proj1 != proj2)

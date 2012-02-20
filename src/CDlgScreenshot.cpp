@@ -22,6 +22,7 @@
 #include "IDevice.h"
 
 #include "config.h"
+#include "CSettings.h"
 
 #include <QtGui>
 
@@ -56,7 +57,7 @@ void CDlgScreenshot::slotAcquire()
 
 void CDlgScreenshot::slotSave()
 {
-    QSettings cfg;
+    SETTINGS;
     QString pathData = cfg.value("path/data","./").toString();
     QString filter = cfg.value("screenshot/imagetype","Bitmap (*.png)").toString();
 
