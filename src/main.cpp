@@ -45,7 +45,7 @@ static void usage(std::ostream &s)
         "                    [-h | --help]\n"
         "                    [-m FD | --monitor=FD]\n"
         "                    [-n | --no-splash]\n"
-        "                    [-c configfile]\n"
+        "                    [-c | --config=file]\n"
         "                    [files...]\n"
         "\n"
         "The monitor function will read data from files if there is input on stream FD.\n"
