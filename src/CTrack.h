@@ -39,6 +39,7 @@
 #define WPT_TO_TRACK_DIST 2500
 
 class QHttp;
+class QProgressDialog;
 
 class CFlags
 {
@@ -161,7 +162,6 @@ class CTrack : public IItem
             /// elevation [m]
             float   _ele;
 
-
             /// display flags
             CFlags flags;
             /// the current location in pixel
@@ -223,11 +223,13 @@ class CTrack : public IItem
         double getAscend(){return totalAscend;}
         /// get the descend in [m]
         double getDescend(){return totalDescend;}
-
+        /// get information string for a particular trackpoint
         QString getTrkPtInfo(pt_t& trkpt);
-
+        /// get the bounding rectangular that fits the track
         QRectF getBoundingRectF();
+        /// sort trackpoints by timestamp
         void sortByTimestamp();
+        /// combine tracks
         CTrack& operator+=(const CTrack& trk);
 
         static const QColor lineColors[];
@@ -257,6 +259,14 @@ class CTrack : public IItem
         Qt::CheckState getDoScaleWpt2Track(){return (Qt::CheckState)doScaleWpt2Track;}
         void setDoScaleWpt2Track(Qt::CheckState state);
 
+        /// smooth profile with a median filter
+        void medianFilter(QProgressDialog& progress);
+
+        /// reset all smoothed and purged data to it's original state
+        void reset();
+
+        quint32 getMedianFilterCount(){return cntMedianFilterApplied;}
+
         signals:
         void sigChanged();
 
@@ -269,8 +279,6 @@ class CTrack : public IItem
         friend class CTrackDB;
         friend QDataStream& operator >>(QDataStream& s, CTrack& track);
         friend QDataStream& operator <<(QDataStream& s, CTrack& track);
-
-        void medianFilter();
 
         static QDir path;
 
@@ -323,6 +331,8 @@ class CTrack : public IItem
         QMap<int,int> id2idx;
 
         quint32 visiblePointCount;
+
+        quint32 cntMedianFilterApplied;
 
 };
 

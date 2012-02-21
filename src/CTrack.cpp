@@ -98,6 +98,10 @@ QDataStream& operator >>(QDataStream& s, CTrack& track)
                 {
                     s1 >> track.doScaleWpt2Track;
                 }
+                if(!s1.atEnd())
+                {
+                    s1 >> track.cntMedianFilterApplied;
+                }
 
                 track.setColor(track.colorIdx);
                 track.setKey(key);
@@ -273,6 +277,7 @@ QDataStream& operator <<(QDataStream& s, CTrack& track)
     s1 << track.colorIdx;
     s1 << track.getParentWpt();
     s1 << track.doScaleWpt2Track;
+    s1 << track.cntMedianFilterApplied;
 
     entries << entryBase;
 
@@ -548,6 +553,7 @@ CTrack::CTrack(QObject * parent)
 , doScaleWpt2Track(Qt::PartiallyChecked	)
 , geonames(0)
 , visiblePointCount(0)
+, cntMedianFilterApplied(0)
 {
     ref = 1;
 
@@ -1259,6 +1265,75 @@ void CTrack::scaleWpt2Track(QList<wpt_t>& wpts)
     }
 
     QApplication::restoreOverrideCursor();
+}
+
+void CTrack::medianFilter(QProgressDialog& progress)
+{
+    qint32 len = 5 + (cntMedianFilterApplied<<1);
+
+    QList<float> window;
+    for(int i = 0; i<len; i++)
+    {
+        window << 0.0;
+    }
+
+    QList<CTrack::pt_t>& trkpts = getTrackPoints();
+    QList<float> ele;
+
+    if(cntMedianFilterApplied)
+    {
+        foreach(const CTrack::pt_t& pt, trkpts)
+        {
+            ele << pt.ele;
+        }
+    }
+    else
+    {
+        foreach(const CTrack::pt_t& pt, trkpts)
+        {
+            ele << pt._ele;
+        }
+    }
+
+    for(int i = (len>>1); i < (ele.size()-(len>>1)); i++)
+    {
+        // apply median filter over all trackpoints
+        for(int n = 0; n < len; n++)
+        {
+            window[n] = ele[i - (len>>1) + n];
+        }
+
+        qSort(window);
+        trkpts[i].ele = window[(len>>1)];
+
+        progress.setValue(i);
+        qApp->processEvents();
+        if (progress.wasCanceled())
+        {
+            return;
+        }
+    }
+
+    cntMedianFilterApplied++;
+}
+
+void CTrack::reset()
+{
+    QList<CTrack::pt_t>& trkpts           = getTrackPoints();
+    QList<CTrack::pt_t>::iterator trkpt   = trkpts.begin();
+    while(trkpt != trkpts.end())
+    {
+        trkpt->flags &= ~CTrack::pt_t::eDeleted;
+        trkpt->lon = trkpt->_lon;
+        trkpt->lat = trkpt->_lat;
+        trkpt->ele = trkpt->_ele;
+
+        ++trkpt;
+    }
+
+    cntMedianFilterApplied = 0;
+
+    rebuild(true);
 }
 
 QDataStream& operator >>(QDataStream& s, CFlags& flag)

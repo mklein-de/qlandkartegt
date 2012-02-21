@@ -1184,7 +1184,6 @@ void CTrackEditWidget::slotNameChanged()
 void CTrackEditWidget::slotFilter()
 {
     if(track.isNull()) return;
-
     CDlgTrackFilter dlg(*track, this);
     dlg.exec();
 }
@@ -1193,23 +1192,7 @@ void CTrackEditWidget::slotFilter()
 void CTrackEditWidget::slotReset()
 {
     if(track.isNull()) return;
-    originator = true;
-
-    QList<CTrack::pt_t>& trkpts           = track->getTrackPoints();
-    QList<CTrack::pt_t>::iterator trkpt   = trkpts.begin();
-    while(trkpt != trkpts.end())
-    {
-        trkpt->flags &= ~CTrack::pt_t::eDeleted;
-        trkpt->lon = trkpt->_lon;
-        trkpt->lat = trkpt->_lat;
-        trkpt->ele = trkpt->_ele;
-
-        ++trkpt;
-    }
-
-    originator = false;
-
-    track->rebuild(true);
+    track->reset();
     emit CTrackDB::self().sigModified();
     emit CTrackDB::self().sigModified(track->getKey());
 }

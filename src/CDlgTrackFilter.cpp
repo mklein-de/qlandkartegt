@@ -83,6 +83,9 @@ CDlgTrackFilter::CDlgTrackFilter(CTrack &track, QWidget * parent)
 
     spinTimedelta->setValue(cfg.value("trackfilter/timedelta",5).toInt());
 
+    quint32 cnt = track.getMedianFilterCount();
+    checkMedian->setText(tr("Smooth profile (Median filter, %1 tabs)").arg(5 + (cnt<<1)));
+
     // user-tunable elements on "Modify Timestamps" tab
     connect(buttonReset1stOfMonth, SIGNAL(clicked()), this, SLOT(slotReset1stOfMonth()));
     connect(buttonResetEpoch, SIGNAL(clicked()), this, SLOT(slotResetEpoch()));
@@ -394,33 +397,11 @@ void CDlgTrackFilter::reduceDataset(CTrack * trk)
             QApplication::restoreOverrideCursor();
         }
 
-        // can be done in parallel to othe reductions
+        // can be done in parallel to other reductions
         if(checkMedian->isChecked())
         {
             QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
-            QList<float> window;
-            window << 0.0 << 0.0 << 0.0 << 0.0 << 0.0;
-
-
-            for(int i = 2; i < trkpts.size()-2; i++)
-            {
-                // apply median filter over all trackpoints
-                window[0] = trkpts[i - 2]._ele;
-                window[1] = trkpts[i - 1]._ele;
-                window[2] = trkpts[i]._ele;
-                window[3] = trkpts[i + 1]._ele;
-                window[4] = trkpts[i + 2]._ele;
-
-                qSort(window);
-                trkpts[i].ele = window[2];
-
-                progress.setValue(i);
-                qApp->processEvents();
-                if (progress.wasCanceled())
-                {
-                    break;
-                }
-            }
+            trk->medianFilter(progress);
             QApplication::restoreOverrideCursor();
         }
         progress.setValue(npts);
