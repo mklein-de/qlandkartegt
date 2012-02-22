@@ -17,15 +17,15 @@
    <item row="0" column="0">
     <widget class="QToolBox" name="toolBox">
      <property name="currentIndex">
-      <number>2</number>
+      <number>1</number>
      </property>
      <widget class="QWidget" name="page">
       <property name="geometry">
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>133</width>
-        <height>56</height>
+        <width>592</width>
+        <height>247</height>
        </rect>
       </property>
       <attribute name="label">
@@ -99,15 +99,15 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>260</width>
-        <height>123</height>
+        <width>592</width>
+        <height>247</height>
        </rect>
       </property>
       <attribute name="label">
        <string>Step 2b: Add source projection</string>
       </attribute>
       <layout class="QGridLayout" name="gridLayout_2">
-       <item row="0" column="0">
+       <item row="0" column="0" colspan="2">
         <layout class="QGridLayout">
          <item row="0" column="0">
           <widget class="QLabel" name="label_11">
@@ -202,7 +202,7 @@ p, li { white-space: pre-wrap; }
          </item>
         </layout>
        </item>
-       <item row="0" column="1">
+       <item row="0" column="2">
         <layout class="QVBoxLayout">
          <item>
           <widget class="CHelpButton" name="helpStep2b">
@@ -226,49 +226,8 @@ p, li { white-space: pre-wrap; }
          </item>
         </layout>
        </item>
-       <item row="1" column="0">
-        <spacer name="verticalSpacer_5">
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>20</width>
-           <height>59</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-      </layout>
-     </widget>
-     <widget class="QWidget" name="page_2">
-      <property name="geometry">
-       <rect>
-        <x>0</x>
-        <y>0</y>
-        <width>592</width>
-        <height>208</height>
-       </rect>
-      </property>
-      <attribute name="label">
-       <string>Step 2c: Create grid</string>
-      </attribute>
-      <layout class="QGridLayout" name="gridLayout_3">
-       <item row="0" column="0">
-        <spacer>
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>40</width>
-           <height>20</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-       <item row="0" column="1">
-        <layout class="QVBoxLayout">
+       <item row="1" column="1">
+        <layout class="QVBoxLayout" name="_3">
          <item>
           <spacer>
            <property name="orientation">
@@ -301,8 +260,8 @@ p, li { white-space: pre-wrap; }
          </item>
         </layout>
        </item>
-       <item row="0" column="2">
-        <layout class="QVBoxLayout">
+       <item row="1" column="2">
+        <layout class="QVBoxLayout" name="_4">
          <item>
           <widget class="CHelpButton" name="helpStep2c">
            <property name="toolTip">
@@ -329,14 +288,14 @@ p, li { white-space: pre-wrap; }
         </layout>
        </item>
        <item row="1" column="0">
-        <spacer name="verticalSpacer_6">
+        <spacer name="horizontalSpacer_2">
          <property name="orientation">
-          <enum>Qt::Vertical</enum>
+          <enum>Qt::Horizontal</enum>
          </property>
          <property name="sizeHint" stdset="0">
           <size>
-           <width>20</width>
-           <height>38</height>
+           <width>40</width>
+           <height>20</height>
           </size>
          </property>
         </spacer>

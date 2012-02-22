@@ -95,7 +95,7 @@ void CMouseRefPoint::mouseMoveEvent(QMouseEvent * e)
             map.convertM2Pt(x,y);
 
             QPoint diff = e->pos() - QPoint(x,y);
-            if(diff.manhattanLength() < 30)
+            if(diff.manhattanLength() < 100)
             {
                 selRefPt = &(*refpt);
                 break;
@@ -176,6 +176,7 @@ void CMouseRefPoint::mouseReleaseEvent(QMouseEvent * e)
             selRefPt->item->setText(CCreateMapGeoTiff::eY,tr("%1").arg((int)y));
             moveRef = false;
 
+            selRefPt = 0;
             canvas->update();
         }
     }
