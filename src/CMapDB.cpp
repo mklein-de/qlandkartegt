@@ -107,8 +107,8 @@ CMapDB::CMapDB(QTabWidget * tb, QObject * parent)
         {
             m.description = fi.baseName();
         }
-        else
 #endif // HAS_RMAP
+        else
         {
             m.description = mapdef.value("description/comment","").toString();
         }
