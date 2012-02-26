@@ -1,3 +1,37 @@
+--- 2012.02.26 ---
+
+Request #363:
+Add nativ WMS support
+
+Bug     #364:
+Fix compass for polar regions
+
+Request #365:
+Add configuration for diskcache (path, size limit, time limit)
+
+Request #366:
+Enable limited map export from TMS/WMS maps
+
+Request #367:
+Add a user defined projection to --- no map --- 
+
+Request #368:
+Add export of spoiler pictures to Garmin Bulk Device export
+
+Request #369:
+Add dialog to crop a map
+
+Request #370:
+Add basic support to view and create maps in RMAP format
+
+Request #371:
+Add commandline option to define configuration file explicitely.
+
+Request #372:
+Increase length of media filter for track profiles if applied several times.
+
+
+
 --- 2012.01.04 ---
 
 Request #350:
@@ -1463,6 +1497,7 @@ Fixed bad calculation of proximity circle size
 
 Request #1:
 Initial release
+
 
 
 
