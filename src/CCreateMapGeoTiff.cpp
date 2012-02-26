@@ -100,9 +100,9 @@ CCreateMapGeoTiff::CCreateMapGeoTiff(QWidget * parent)
     theMainWindow->getCanvas()->setMouseMode(CCanvas::eMouseMoveRefPoint);
     theMainWindow->getCanvas()->installEventFilter(this);
 
-    toolBox->setItemEnabled(1, false);
-    toolBox->setItemEnabled(2, false);
-    toolBox->setCurrentIndex(0);
+    tabWidget->setTabEnabled(1, false);
+    tabWidget->setTabEnabled(2, false);
+    tabWidget->setCurrentIndex(0);
 }
 
 CCreateMapGeoTiff::~CCreateMapGeoTiff()
@@ -209,7 +209,7 @@ int CCreateMapGeoTiff::getNumberOfGCPs()
 
 void CCreateMapGeoTiff::enableStep2()
 {
-    toolBox->setItemEnabled(1, true);
+    tabWidget->setTabEnabled(1, true);
     toolOutFile->setEnabled(true);
     toolReload->setEnabled(true);
     treeWidget->setEnabled(true);
@@ -223,7 +223,7 @@ void CCreateMapGeoTiff::enableStep2()
 
 void CCreateMapGeoTiff::enableStep3(bool doEnable)
 {
-    toolBox->setItemEnabled(2, doEnable);
+    tabWidget->setTabEnabled(2, doEnable);
     helpStep3->setEnabled(doEnable);
     pushGoOn->setEnabled(doEnable);
     textBrowser->setEnabled(doEnable);
@@ -726,6 +726,11 @@ void CCreateMapGeoTiff::slotGoOn()
     QStringList args;
     bool islonlat = false;
 
+    tabWidget->setTabEnabled(2,true);
+    tabWidget->setCurrentIndex(2);
+
+
+
     // get / store target projection
     QString gcpproj = lineGCPProjection->text();
     QString mapproj = lineMapProjection->text();
@@ -837,7 +842,7 @@ void CCreateMapGeoTiff::slotGoOn()
     cmd.start(GDALTRANSLATE, args);
 
     enableStep3(true);
-    toolBox->setCurrentIndex(2);
+    tabWidget->setCurrentIndex(2);
 }
 
 
@@ -1014,9 +1019,9 @@ void CCreateMapGeoTiff::slotClearAll()
 
     textBrowser->setEnabled(false);
     helpStep3->setEnabled(false);
-    toolBox->setItemEnabled(1, false);
+    tabWidget->setTabEnabled(1, false);
     enableStep3(false);
-    toolBox->setCurrentIndex(0);
+    tabWidget->setCurrentIndex(0);
 
     theMainWindow->getCanvas()->update();
 }

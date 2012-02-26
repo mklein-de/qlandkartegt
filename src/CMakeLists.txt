@@ -466,7 +466,7 @@ SET (DBUS OFF CACHE BOOL "Enable DBus control.")
 endif (NOT WIN32)
 SET (JNX ON CACHE BOOL "Enable Garmin JNX Support.")
 SET (ALTKEY_MOVES_MAP OFF CACHE BOOL "Move map while pressing ALT key and mousemove.")
-SET (RMAP OFF CACHE BOOL "Enable CompeGPS RMAP Support")
+SET (RMAP ON CACHE BOOL "Enable TwoNav RMAP Support")
 
 SET (QL_OPENGL_INCLUDE_DIR "")
 SET (QL_OPENGL_LIBRARIES "")

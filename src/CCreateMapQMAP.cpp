@@ -57,7 +57,7 @@ CCreateMapQMAP::CCreateMapQMAP(QWidget * parent)
     connect(pushDown, SIGNAL(clicked()), this, SLOT(slotDown()));
     connect(pushSave, SIGNAL(clicked()), this, SLOT(slotSaveMap()));
 
-    toolBox->setItemEnabled(1, false);
+    tabWidget->setTabEnabled(1, false);
 }
 
 
@@ -99,7 +99,7 @@ void CCreateMapQMAP::slotNewMap()
 
     pushAdd->setEnabled(true);
     helpStep2->setEnabled(true);
-    toolBox->setItemEnabled(1, true);
+    tabWidget->setTabEnabled(1, true);
 }
 
 
@@ -265,7 +265,7 @@ void CCreateMapQMAP::readqmap(const QString& filename)
     pushAdd->setEnabled(true);
     pushSave->setEnabled(treeLevels->topLevelItemCount());
     helpStep2->setEnabled(true);
-    toolBox->setItemEnabled(1, true);
+    tabWidget->setTabEnabled(1, true);
 }
 
 

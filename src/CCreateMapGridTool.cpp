@@ -155,13 +155,11 @@ void CCreateMapGridTool::place4GCPs()
 void CCreateMapGridTool::slotCheck()
 {
     pushOk->setEnabled(false);
-    toolBox->setItemEnabled(2, false);
     if(lineLongitude->isEnabled() && lineLongitude->text().isEmpty()) return;
     if(lineLatitude->isEnabled() && lineLatitude->text().isEmpty()) return;
     if(lineXSpacing->text().isEmpty()) return;
     if(lineYSpacing->text().isEmpty()) return;
     pushOk->setEnabled(true);
-    toolBox->setItemEnabled(2, true);
 }
 
 
