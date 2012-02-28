@@ -51,13 +51,13 @@ class IDevice : public QObject
 
         virtual void uploadMap(const QList<IMapSelection*>& mss) = 0;
 
+        virtual void downloadScreenshot(QImage& image) = 0;
+
         virtual void downloadAll();
         virtual void uploadAll();
 
         virtual void setLiveLog(bool on);
         virtual bool liveLog(){return false;}
-
-        virtual void downloadScreenshot(QImage& image) = 0;
 
         static bool m_UploadAllWpt;
         static bool m_DownloadAllWpt;

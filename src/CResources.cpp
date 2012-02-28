@@ -20,6 +20,7 @@
 #include "CResources.h"
 #include "CDeviceGarmin.h"
 #include "CDeviceGarminBulk.h"
+#include "CDeviceTwoNav.h"
 #include "CDeviceQLandkarteM.h"
 #ifdef HS_MIKROKOPTER
 #include "CDeviceMikrokopter.h"
@@ -321,6 +322,10 @@ IDevice * CResources::device()
         else if(m_devKey == "Garmin Mass Storage")
         {
             m_device = new CDeviceGarminBulk(this);
+        }
+        else if(m_devKey == "TwoNav")
+        {
+            m_device = new CDeviceTwoNav(this);
         }
 
         connect(m_device, SIGNAL(sigLiveLog(const CLiveLog&)), &CLiveLogDB::self(), SLOT(slotLiveLog(const CLiveLog&)));

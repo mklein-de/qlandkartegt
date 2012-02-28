@@ -160,6 +160,7 @@ set(qlandkarte_SRCS
     CDeviceGarmin.cpp
     CDeviceGarminBulk.cpp
     CDeviceNMEA.cpp
+    CDeviceTwoNav.cpp
     CCreateMapQMAP.cpp
     CCreateMapGeoTiff.cpp
     CCreateMapGridTool.cpp
@@ -325,6 +326,7 @@ set(qlandkarte_HDRS
     CDeviceGarmin.h
     CDeviceGarminBulk.h
     CDeviceNMEA.h
+    CDeviceTwoNav.h
     CCreateMapQMAP.h
     CCreateMapGeoTiff.h
     CCreateMapGridTool.h

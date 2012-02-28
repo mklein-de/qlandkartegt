@@ -1425,6 +1425,7 @@ void CMainWindow::slotDeviceChanged()
     comboDevice->addItem(tr("QLandkarte M"), "QLandkarteM");
     comboDevice->addItem(resources->m_devType, "Garmin");
     comboDevice->addItem(tr("Garmin Mass Storage"), "Garmin Mass Storage");
+    comboDevice->addItem(tr("TwoNav"), "TwoNav");
     comboDevice->addItem(tr("NMEA"), "NMEA");
 #ifdef HS_MIKROKOPTER
     comboDevice->addItem(tr("Mikrokopter"), "Mikrokopter");

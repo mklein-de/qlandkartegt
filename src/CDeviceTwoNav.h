@@ -16,38 +16,32 @@
     Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
 
 **********************************************************************************************/
-#ifndef CSETTINGS_H
-#define CSETTINGS_H
+#ifndef CDEVICETWONAV_H
+#define CDEVICETWONAV_H
 
-#include "CAppOpts.h"
-#include <QtCore>
+#include "IDevice.h"
 
-class CSettings : public QObject
+class CDeviceTwoNav : public IDevice
 {
-
+    Q_OBJECT;
     public:
-        CSettings()
-        {
-            if(!qlOpts->configfile.isEmpty())
-            {
-                cfg = new QSettings(qlOpts->configfile, QSettings::IniFormat, this);
-            }
-            else
-            {
-                cfg = new QSettings(this);
-            }
-        }
-        ~CSettings(){}
+        CDeviceTwoNav(QObject * parent);
+        virtual ~CDeviceTwoNav();
 
-        QSettings& get(){return *cfg;}
+        void uploadWpts(const QList<CWpt*>& wpts);
+        void downloadWpts(QList<CWpt*>& wpts);
 
-    private:
-        QSettings  * cfg;
+        void uploadTracks(const QList<CTrack*>& trks);
+        void downloadTracks(QList<CTrack*>& trks);
+
+        void uploadRoutes(const QList<CRoute*>& rtes);
+        void downloadRoutes(QList<CRoute*>& rtes);
+
+        void uploadMap(const QList<IMapSelection*>& mss);
+
+        void downloadScreenshot(QImage& image);
+
 };
 
-#define SETTINGS \
-    CSettings ccfg;\
-    QSettings& cfg = ccfg.get()
-
-#endif //CSETTINGS_H
+#endif //CDEVICETWONAV_H
 
