@@ -207,7 +207,7 @@
           <property name="text">
            <string>T</string>
           </property>
-          <property name="statusTip">
+          <property name="toolTip">
            <string>Type of map</string>
           </property>
          </column>
