@@ -1347,7 +1347,7 @@ Una vez haya creado un conjunto de mapas, podrá asociar datos DEM mediante el m
         <location filename="../CCreateMapWMS.cpp" line="152"/>
         <location filename="../CCreateMapWMS.cpp" line="290"/>
         <source>Error...</source>
-        <translation>Error...</translation>
+        <translation type="unfinished">Error...</translation>
     </message>
     <message>
         <location filename="../CCreateMapWMS.cpp" line="114"/>
@@ -1356,7 +1356,7 @@ Una vez haya creado un conjunto de mapas, podrá asociar datos DEM mediante el m
 %1
 
 </source>
-        <translation>Falló la consulta de capacidades.
+        <translation type="unfinished">Falló la consulta de capacidades.
 
  %1
 
@@ -1369,7 +1369,7 @@ Una vez haya creado un conjunto de mapas, podrá asociar datos DEM mediante el m
 %1
 
 %2</source>
-        <translation>Falló el procesado de las capacidades.
+        <translation type="unfinished">Falló el procesado de las capacidades.
 
 %1
 
@@ -1380,19 +1380,19 @@ Una vez haya creado un conjunto de mapas, podrá asociar datos DEM mediante el m
         <source>Failed to check WMS version.
 
 Expected %1, received %2.</source>
-        <translation>Falló la comprobación de versión del WMS.
+        <translation type="unfinished">Falló la comprobación de versión del WMS.
 
 Se esperaba %1, se recibió %2.</translation>
     </message>
     <message>
         <location filename="../CCreateMapWMS.cpp" line="290"/>
         <source>You need to select at least one layer.</source>
-        <translation>Debe seleccionar al menos una capa.</translation>
+        <translation type="unfinished">Debe seleccionar al menos una capa.</translation>
     </message>
     <message>
         <location filename="../CCreateMapWMS.cpp" line="425"/>
         <source>Define GDAL WMS definition file...</source>
-        <translation>Crear fichero de definición para GDAL-WMS...</translation>
+        <translation type="unfinished">Crear fichero de definición para GDAL-WMS...</translation>
     </message>
 </context>
 <context>
@@ -1407,47 +1407,47 @@ Se esperaba %1, se recibió %2.</translation>
         <location filename="../CDeviceGPSD.cpp" line="126"/>
         <location filename="../CDeviceGPSD.cpp" line="132"/>
         <source>Error...</source>
-        <translation>Error...</translation>
+        <translation type="unfinished">Error...</translation>
     </message>
     <message>
         <location filename="../CDeviceGPSD.cpp" line="90"/>
         <source>GPSD: Upload waypoints is not implemented.</source>
-        <translation>GPSD: La carga de waypoints no está implementada.</translation>
+        <translation type="unfinished">GPSD: La carga de waypoints no está implementada.</translation>
     </message>
     <message>
         <location filename="../CDeviceGPSD.cpp" line="96"/>
         <source>GPSD: Download waypoints is not implemented.</source>
-        <translation>GPSD: La descarga de waypoints no está implementada.</translation>
+        <translation type="unfinished">GPSD: La descarga de waypoints no está implementada.</translation>
     </message>
     <message>
         <location filename="../CDeviceGPSD.cpp" line="102"/>
         <source>GPSD: Upload tracks is not implemented.</source>
-        <translation>GPSD: La carga de tracks no está implementada.</translation>
+        <translation type="unfinished">GPSD: La carga de tracks no está implementada.</translation>
     </message>
     <message>
         <location filename="../CDeviceGPSD.cpp" line="108"/>
         <source>GPSD: Download tracks is not implemented.</source>
-        <translation>GPSD: La descarga de tracks no está implementada.</translation>
+        <translation type="unfinished">GPSD: La descarga de tracks no está implementada.</translation>
     </message>
     <message>
         <location filename="../CDeviceGPSD.cpp" line="114"/>
         <source>GPSD: Upload routes is not implemented.</source>
-        <translation>GPSD: La carga de rutas no está implementada.</translation>
+        <translation type="unfinished">GPSD: La carga de rutas no está implementada.</translation>
     </message>
     <message>
         <location filename="../CDeviceGPSD.cpp" line="120"/>
         <source>GPSD: Download routes is not implemented.</source>
-        <translation>GPSD: La descarga de rutas no está implementada.</translation>
+        <translation type="unfinished">GPSD: La descarga de rutas no está implementada.</translation>
     </message>
     <message>
         <location filename="../CDeviceGPSD.cpp" line="126"/>
         <source>GPSD: Upload maps is not implemented.</source>
-        <translation>GPSD: La carga de mapas no está implementada.</translation>
+        <translation type="unfinished">GPSD: La carga de mapas no está implementada.</translation>
     </message>
     <message>
         <location filename="../CDeviceGPSD.cpp" line="132"/>
         <source>GPSD: Download screenshots is not implemented.</source>
-        <translation>GPSD: La descarga de capturas de pantalla no está implementada.</translation>
+        <translation type="unfinished">GPSD: La descarga de capturas de pantalla no está implementada.</translation>
     </message>
 </context>
 <context>
@@ -1626,47 +1626,47 @@ Se esperaba %1, se recibió %2.</translation>
         <location filename="../CDeviceMikrokopter.cpp" line="174"/>
         <location filename="../CDeviceMikrokopter.cpp" line="180"/>
         <source>Error...</source>
-        <translation>Error...</translation>
+        <translation type="unfinished">Error...</translation>
     </message>
     <message>
         <location filename="../CDeviceMikrokopter.cpp" line="60"/>
         <source>Mikrokopter: Failed to open serial port.</source>
-        <translation>Mikrokopter: Fallo al abrir el puerto de serie.</translation>
+        <translation type="unfinished">Mikrokopter: Fallo al abrir el puerto de serie.</translation>
     </message>
     <message>
         <location filename="../CDeviceMikrokopter.cpp" line="131"/>
         <source>Mikrokopter: Upload waypoints is not implemented.</source>
-        <translation>Mikrokopter: La carga de waypoints no está implementada.</translation>
+        <translation type="unfinished">Mikrokopter: La carga de waypoints no está implementada.</translation>
     </message>
     <message>
         <location filename="../CDeviceMikrokopter.cpp" line="150"/>
         <source>Mikrokopter: Upload tracks is not implemented.</source>
-        <translation>Mikrokopter: La carga de tracks no está implementada.</translation>
+        <translation type="unfinished">Mikrokopter: La carga de tracks no está implementada.</translation>
     </message>
     <message>
         <location filename="../CDeviceMikrokopter.cpp" line="156"/>
         <source>Mikrokopter: Download tracks is not implemented.</source>
-        <translation>Mikrokopter: La descarga tracks no está implementada.</translation>
+        <translation type="unfinished">Mikrokopter: La descarga tracks no está implementada.</translation>
     </message>
     <message>
         <location filename="../CDeviceMikrokopter.cpp" line="162"/>
         <source>Mikrokopter: Upload routes is not implemented.</source>
-        <translation>Mikrokopter: La carga de rutas no está implementada.</translation>
+        <translation type="unfinished">Mikrokopter: La carga de rutas no está implementada.</translation>
     </message>
     <message>
         <location filename="../CDeviceMikrokopter.cpp" line="168"/>
         <source>Mikrokopter: Download routes is not implemented.</source>
-        <translation>Mikrokopter: La descarga de rutas no está implementada.</translation>
+        <translation type="unfinished">Mikrokopter: La descarga de rutas no está implementada.</translation>
     </message>
     <message>
         <location filename="../CDeviceMikrokopter.cpp" line="174"/>
         <source>Mikrokopter: Upload maps is not implemented.</source>
-        <translation>Mikrokopter: La carga de mapas no está implementada.</translation>
+        <translation type="unfinished">Mikrokopter: La carga de mapas no está implementada.</translation>
     </message>
     <message>
         <location filename="../CDeviceMikrokopter.cpp" line="180"/>
         <source>Mikrokopter: Download screenschots is not implemented.</source>
-        <translation>Mikrokopter: La descarga de capturas de pantalla no está implementada.</translation>
+        <translation type="unfinished">Mikrokopter: La descarga de capturas de pantalla no está implementada.</translation>
     </message>
 </context>
 <context>
@@ -1880,6 +1880,45 @@ Se esperaba %1, se recibió %2.</translation>
 %2 of %3</source>
         <translation type="obsolete">%1
 %2 de %3</translation>
+    </message>
+</context>
+<context>
+    <name>CDeviceTwoNav</name>
+    <message>
+        <source>Error...</source>
+        <translation type="obsolete">Error...</translation>
+    </message>
+    <message>
+        <source>TwoNav: Upload wapoints is not implemented.</source>
+        <translation type="obsolete">TwoNav: la subida de waypoint no está implementada.</translation>
+    </message>
+    <message>
+        <source>TwoNav: Download wapoints is not implemented.</source>
+        <translation type="obsolete">TwoNav: la descarga de waypoints no está implementada.</translation>
+    </message>
+    <message>
+        <source>TwoNav: Upload tracks is not implemented.</source>
+        <translation type="obsolete">TwoNav: la subida de tracks no está implementada.</translation>
+    </message>
+    <message>
+        <source>TwoNav: Download tracks is not implemented.</source>
+        <translation type="obsolete">TwoNav: la descarga de tracks no está implementada.</translation>
+    </message>
+    <message>
+        <source>TwoNav: Upload routes is not implemented.</source>
+        <translation type="obsolete">TwoNav: la subida de rutas no está implementada.</translation>
+    </message>
+    <message>
+        <source>TwoNav: Download routes is not implemented.</source>
+        <translation type="obsolete">TwoNav: la descarga de rutas no está implementada.</translation>
+    </message>
+    <message>
+        <source>TwoNav: Upload maps is not implemented.</source>
+        <translation type="obsolete">TwoNav: la subida de mapas no está implementada.</translation>
+    </message>
+    <message>
+        <source>TwoNav: Download screenshots is not implemented.</source>
+        <translation type="obsolete">TwoNav: la descarga de capturas de pantalla no está implementada.</translation>
     </message>
 </context>
 <context>
@@ -2153,6 +2192,10 @@ Se esperaba %1, se recibió %2.</translation>
         <translation>Almacenamiento Masivo de Garmin</translation>
     </message>
     <message>
+        <source>TwoNav</source>
+        <translation type="obsolete">TwoNav</translation>
+    </message>
+    <message>
         <location filename="../CDlgConfig.cpp" line="111"/>
         <source>NMEA</source>
         <translation>NMEA</translation>
@@ -2278,7 +2321,7 @@ Se esperaba %1, se recibió %2.</translation>
         <location filename="../CDlgCropMap.cpp" line="195"/>
         <source>Warnings. See &quot;Details&quot; for more information.
 </source>
-        <translation>Atención. Vea &quot;Detalles&quot; para más información
+        <translation>Atención. Vea &quot;Detalles&quot; para más información.
 </translation>
     </message>
     <message>
@@ -2696,12 +2739,12 @@ no es una definición válida de sistema de coordenadas:
     <message>
         <location filename="../CGarminIndex.cpp" line="143"/>
         <source>Create index... %1</source>
-        <translation>Crear índice... %1</translation>
+        <translation type="unfinished">Crear índice... %1</translation>
     </message>
     <message>
         <location filename="../CGarminIndex.cpp" line="403"/>
         <source>Done</source>
-        <translation>Hecho</translation>
+        <translation type="unfinished">Hecho</translation>
     </message>
 </context>
 <context>
@@ -3335,6 +3378,10 @@ Proyección actual: %1</translation>
         <translation>Almacenamiento Masivo de Garmin</translation>
     </message>
     <message>
+        <source>TwoNav</source>
+        <translation type="obsolete">TwoNav</translation>
+    </message>
+    <message>
         <location filename="../CMainWindow.cpp" line="1428"/>
         <source>NMEA</source>
         <translation>NMEA</translation>
@@ -3609,62 +3656,62 @@ Do you want to save your changes?</source>
     <message>
         <location filename="../CMap3DWidget.cpp" line="168"/>
         <source>Flat / 3D Mode</source>
-        <translation>Modo de Vuelo / 3D</translation>
+        <translation type="unfinished">Modo de Vuelo / 3D</translation>
     </message>
     <message>
         <location filename="../CMap3DWidget.cpp" line="173"/>
         <source>Show Track</source>
-        <translation>Mostrar Track</translation>
+        <translation type="unfinished">Mostrar Track</translation>
     </message>
     <message>
         <location filename="../CMap3DWidget.cpp" line="178"/>
         <source>Track on Map</source>
-        <translation>Ver Track en el Mapa</translation>
+        <translation type="unfinished">Ver Track en el Mapa</translation>
     </message>
     <message>
         <location filename="../CMap3DWidget.cpp" line="183"/>
         <source>Inc. Elevation</source>
-        <translation>Aumentar elevación</translation>
+        <translation type="unfinished">Aumentar elevación</translation>
     </message>
     <message>
         <location filename="../CMap3DWidget.cpp" line="186"/>
         <source>Dec. Elevation</source>
-        <translation>Reducir Elevación</translation>
+        <translation type="unfinished">Reducir Elevación</translation>
     </message>
     <message>
         <location filename="../CMap3DWidget.cpp" line="189"/>
         <source>Reset Elevation</source>
-        <translation>Reiniciar Altura</translation>
+        <translation type="unfinished">Reiniciar Altura</translation>
     </message>
     <message>
         <location filename="../CMap3DWidget.cpp" line="192"/>
         <source>Reset light source</source>
-        <translation>Reiniciar fuente de luz</translation>
+        <translation type="unfinished">Reiniciar fuente de luz</translation>
     </message>
     <message>
         <location filename="../CMap3DWidget.cpp" line="329"/>
         <source>Add Waypoint ...</source>
-        <translation>Añadir Waypoint ...</translation>
+        <translation type="unfinished">Añadir Waypoint ...</translation>
     </message>
     <message>
         <location filename="../CMap3DWidget.cpp" line="333"/>
         <source>Copy Pos. Waypoint</source>
-        <translation>Copiar Pos. Waypoint</translation>
+        <translation type="unfinished">Copiar Pos. Waypoint</translation>
     </message>
     <message>
         <location filename="../CMap3DWidget.cpp" line="334"/>
         <source>Edit Waypoint...</source>
-        <translation>Editar Waypoint...</translation>
+        <translation type="unfinished">Editar Waypoint...</translation>
     </message>
     <message>
         <location filename="../CMap3DWidget.cpp" line="336"/>
         <source>Delete Waypoint</source>
-        <translation>Eliminar Waypoint</translation>
+        <translation type="unfinished">Eliminar Waypoint</translation>
     </message>
     <message>
         <location filename="../CMap3DWidget.cpp" line="912"/>
         <source>:/skybox/%1.bmp</source>
-        <translation>:/skybox/%1.bmp</translation>
+        <translation type="unfinished">:/skybox/%1.bmp</translation>
     </message>
 </context>
 <context>
@@ -4230,22 +4277,22 @@ Cancelado a petición del usuario.
         <location filename="../CMapRmap.cpp" line="212"/>
         <location filename="../CMapRmap.cpp" line="240"/>
         <source>Error...</source>
-        <translation>Error...</translation>
+        <translation type="unfinished">Error...</translation>
     </message>
     <message>
         <location filename="../CMapRmap.cpp" line="51"/>
         <source>This is not a TwoNav RMAP file.</source>
-        <translation>Este no es un archivo TwoNav RMAP.</translation>
+        <translation type="unfinished">Este no es un archivo TwoNav RMAP.</translation>
     </message>
     <message>
         <location filename="../CMapRmap.cpp" line="60"/>
         <source>Unknown sub-format.</source>
-        <translation>Subformato desconocido.</translation>
+        <translation type="unfinished">Subformato desconocido.</translation>
     </message>
     <message>
         <location filename="../CMapRmap.cpp" line="130"/>
         <source>Unknown version.</source>
-        <translation>Versión desconocida.</translation>
+        <translation type="unfinished">Versión desconocida.</translation>
     </message>
     <message>
         <location filename="../CMapRmap.cpp" line="147"/>
@@ -4253,22 +4300,22 @@ Cancelado a petición del usuario.
         <location filename="../CMapRmap.cpp" line="190"/>
         <location filename="../CMapRmap.cpp" line="212"/>
         <source>Failed to read reference point.</source>
-        <translation>Falló al leer el punto de referencia.</translation>
+        <translation type="unfinished">Falló al leer el punto de referencia.</translation>
     </message>
     <message>
         <location filename="../CMapRmap.cpp" line="240"/>
         <source>Unknown projection and datum (%1%2).</source>
-        <translation>Proyección y datum desconocido (%1%2).</translation>
+        <translation type="unfinished">Proyección y datum desconocido (%1%2).</translation>
     </message>
     <message>
         <location filename="../CMapRmap.cpp" line="628"/>
         <source>Overzoom x%1</source>
-        <translation>Súper zoom x%1</translation>
+        <translation type="unfinished">Súper zoom x%1</translation>
     </message>
     <message>
         <location filename="../CMapRmap.cpp" line="632"/>
         <source>Zoom level x%1</source>
-        <translation>Nivel de zoom x%1</translation>
+        <translation type="unfinished">Nivel de zoom x%1</translation>
     </message>
 </context>
 <context>
@@ -5501,7 +5548,7 @@ línea %2, columna %3:
     <message>
         <location filename="../CMouseMoveMap.cpp" line="279"/>
         <source>Crop: set pos. 1</source>
-        <translation type="unfinished">Recortar: asignar pos. 1</translation>
+        <translation>Recortar: asignar pos. 1</translation>
     </message>
     <message>
         <location filename="../CMouseMoveMap.cpp" line="286"/>
@@ -5548,12 +5595,12 @@ línea %2, columna %3:
     <message>
         <location filename="../CMouseRefPoint.cpp" line="203"/>
         <source>Pos1 -&gt; Pos %1x%2 w:%3 h:%4</source>
-        <translation type="unfinished">Pos1 -&gt; Pos %1x%2 anchura:%3 altura:%4</translation>
+        <translation>Pos1 -&gt; Pos %1x%2 anchura:%3 altura:%4</translation>
     </message>
     <message>
         <location filename="../CMouseRefPoint.cpp" line="207"/>
         <source>Set as Pos1</source>
-        <translation type="unfinished">Asignar como Pos1</translation>
+        <translation>Asignar como Pos1</translation>
     </message>
 </context>
 <context>
@@ -5579,7 +5626,7 @@ línea %2, columna %3:
     <message>
         <location filename="../COsmTilesHash.cpp" line="162"/>
         <source>The recieved data is not an valid image. Maybe it isn&apos;t an image ...</source>
-        <translation>Los datos recibidos no son una imagen válida. Tal vez no sea una imagen ...</translation>
+        <translation type="unfinished">Los datos recibidos no son una imagen válida. Tal vez no sea una imagen ...</translation>
     </message>
 </context>
 <context>
@@ -7331,7 +7378,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../ICreateMapGeoTiff.ui" line="191"/>
         <source>Overviews</source>
-        <translation type="unfinished">Vista general</translation>
+        <translation>Vista general</translation>
     </message>
     <message>
         <source>Step 1: Load raster map</source>
@@ -7390,12 +7437,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../ICreateMapGeoTiff.ui" line="513"/>
         <source>Process</source>
-        <translation type="unfinished">Proceso</translation>
+        <translation>Proceso</translation>
     </message>
     <message>
         <location filename="../ICreateMapGeoTiff.ui" line="585"/>
         <source>Start process</source>
-        <translation type="unfinished">Comenzar proceso</translation>
+        <translation>Comenzar proceso</translation>
     </message>
     <message>
         <source>Step 2: Add reference points</source>
@@ -7740,52 +7787,52 @@ Una vez halla creado un mapa, usted puede adjuntar datos de altitud mediante un 
     <message>
         <location filename="../ICreateMapWMS.ui" line="13"/>
         <source>Form</source>
-        <translation></translation>
+        <translation type="unfinished">Formulario</translation>
     </message>
     <message>
         <location filename="../ICreateMapWMS.ui" line="21"/>
         <source>Server:</source>
-        <translation>Servidor:</translation>
+        <translation type="unfinished">Servidor:</translation>
     </message>
     <message>
         <location filename="../ICreateMapWMS.ui" line="31"/>
         <source>Load Capabilities</source>
-        <translation>Cargar capacidades</translation>
+        <translation type="unfinished">Cargar capacidades</translation>
     </message>
     <message>
         <location filename="../ICreateMapWMS.ui" line="52"/>
         <source>Title:</source>
-        <translation>Título:</translation>
+        <translation type="unfinished">Título:</translation>
     </message>
     <message>
         <location filename="../ICreateMapWMS.ui" line="59"/>
         <source>Format:</source>
-        <translation>Formato:</translation>
+        <translation type="unfinished">Formato:</translation>
     </message>
     <message>
         <location filename="../ICreateMapWMS.ui" line="69"/>
         <source>Projection</source>
-        <translation>Proyección</translation>
+        <translation type="unfinished">Proyección</translation>
     </message>
     <message>
         <location filename="../ICreateMapWMS.ui" line="79"/>
         <source>Layers:</source>
-        <translation>Capas:</translation>
+        <translation type="unfinished">Capas:</translation>
     </message>
     <message>
         <location filename="../ICreateMapWMS.ui" line="96"/>
         <source>File</source>
-        <translation>Archivo</translation>
+        <translation type="unfinished">Archivo</translation>
     </message>
     <message>
         <location filename="../ICreateMapWMS.ui" line="112"/>
         <source>...</source>
-        <translation>...</translation>
+        <translation type="unfinished">...</translation>
     </message>
     <message>
         <location filename="../ICreateMapWMS.ui" line="134"/>
         <source>Save</source>
-        <translation>Guardar</translation>
+        <translation type="unfinished">Guardar</translation>
     </message>
 </context>
 <context>
@@ -8744,7 +8791,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../IDlgConfig.ui" line="273"/>
         <source>Streaming Map Cache</source>
-        <translation type="unfinished">Caché de Mapa Streaming</translation>
+        <translation>Caché de Mapa Streaming</translation>
     </message>
     <message>
         <location filename="../IDlgConfig.ui" line="287"/>
@@ -8774,7 +8821,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../IDlgConfig.ui" line="471"/>
         <source> and every </source>
-        <translation>y cada </translation>
+        <translation> y cada </translation>
     </message>
     <message>
         <location filename="../IDlgConfig.ui" line="488"/>
@@ -8890,7 +8937,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../IDlgConfig3D.ui" line="39"/>
         <source>Couple Elevation/POV</source>
         <translatorcomment>Posiblemente haya mejores traducciones...</translatorcomment>
-        <translation type="unfinished">Emparejar Elevación/PDV</translation>
+        <translation>Emparejar Elevación/PDV</translation>
     </message>
 </context>
 <context>
@@ -8960,7 +9007,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../IDlgCropMap.ui" line="31"/>
         <location filename="../IDlgCropMap.ui" line="45"/>
         <source>TextLabel</source>
-        <translation type="unfinished"></translation>
+        <translation>EtiquetaDeTexto</translation>
     </message>
     <message>
         <location filename="../IDlgCropMap.ui" line="38"/>
@@ -9288,7 +9335,7 @@ p, li { white-space: pre-wrap; }
         <source>If you use the word &quot;Spoiler&quot; in the comment, the image might be treated special on your GPSr. 
 
 For modern Garmin device select &quot;Garmin Mass Storage&quot; device to exchange pictures and spoilers.</source>
-        <translation type="unfinished">Si utiliza la palabra &quot;Spoiler&quot; en el comentario, la imagen puede ser tratada de forma especial en su GPS.
+        <translation>Si utiliza la palabra &quot;Spoiler&quot; en el comentario, la imagen puede ser tratada de forma especial en su GPS.
 
 En los dispositivos modernos de Garmin, seleccione &quot;Almacenamiento masivo de Garmin&quot; para intercambiar imágenes y spoilers.</translation>
     </message>
@@ -10002,7 +10049,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../IImageSelect.ui" line="14"/>
         <source>Form</source>
-        <translation type="unfinished">Formulario</translation>
+        <translation>Formulario</translation>
     </message>
 </context>
 <context>
@@ -10323,7 +10370,7 @@ DEM: %2</translation>
     <message>
         <location filename="../IMapQMAPExport.ui" line="376"/>
         <source>Single File</source>
-        <translation type="unfinished">Archivo único</translation>
+        <translation>Archivo único</translation>
     </message>
     <message>
         <location filename="../IMapQMAPExport.ui" line="406"/>
@@ -10362,7 +10409,7 @@ DEM: %2</translation>
     <message>
         <location filename="../IMapQMAPExport.ui" line="448"/>
         <source>Overviews</source>
-        <translation type="unfinished">Vista general</translation>
+        <translation>Vista general</translation>
     </message>
     <message>
         <location filename="../IMapQMAPExport.ui" line="455"/>
@@ -10953,7 +11000,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../ITrackEditWidget.ui" line="97"/>
         <source>Toggle extensions statistics view over time</source>
         <translatorcomment>Se debe mejorar la traducción cuando se sepa a lo que se refiere</translatorcomment>
-        <translation type="unfinished">Activar la vista de estadísticas de extensiones por tiempo</translation>
+        <translation>Activar la vista de estadísticas de extensiones por tiempo</translation>
     </message>
     <message>
         <location filename="../ITrackEditWidget.ui" line="187"/>
