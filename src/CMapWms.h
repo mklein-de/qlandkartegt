@@ -125,6 +125,8 @@ class CMapWms : public IMap
         CDiskCache * diskCache;
         QSet<QString> seenRequest;
 
+        qint32 maxZoomLevel;
+
 };
 
 #endif //CMAPWMS_H

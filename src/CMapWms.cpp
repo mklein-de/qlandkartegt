@@ -48,6 +48,7 @@ CMapWms::CMapWms(const QString &key, const QString &filename, CCanvas *parent)
 , quadraticZoom(0)
 , needsRedrawOvl(true)
 , lastTileLoaded(false)
+, maxZoomLevel(-1)
 {
 
     IMap::filename = filename;
@@ -84,6 +85,11 @@ CMapWms::CMapWms(const QString &key, const QString &filename, CCanvas *parent)
     projection  = gdal.firstChildElement("Projection").text().toLower();
     blockSizeX  = gdal.firstChildElement("BlockSizeX").text().toUInt();
     blockSizeY  = gdal.firstChildElement("BlockSizeY").text().toUInt();
+
+    if(gdal.firstChildElement("MaxZoomLevel").isElement())
+    {
+        maxZoomLevel = gdal.firstChildElement("MaxZoomLevel").text().toInt();
+    }
 
     if(srs.isEmpty())
     {
@@ -272,6 +278,7 @@ void CMapWms::zoom(bool zoomIn, const QPoint& p0)
     {
         zoomidx += zoomIn ? -1 : 1;
     }
+
     // sigChanged will be sent at the end of this function
     blockSignals(true);
     zoom(zoomidx);
@@ -344,6 +351,11 @@ void CMapWms::zoom(qint32& level)
     if(pjsrc == 0) return;
     needsRedraw     = true;
     needsRedrawOvl  = true;
+
+    if(maxZoomLevel > 0 && level > maxZoomLevel)
+    {
+        level = maxZoomLevel;
+    }
 
     // no level less than 1
     if(level < 1)
