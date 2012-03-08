@@ -786,24 +786,26 @@ void CTrackDB::splitTrack(int idx)
     CTrack * theTrack = highlightedTrack();
     if(theTrack == 0) return;
 
-    int i;
-    QList<CTrack::pt_t>& track          = theTrack->getTrackPoints();
-    QList<CTrack::pt_t>::iterator trkpt = track.begin();
+    QList<CTrack::pt_t>& track = theTrack->getTrackPoints();
+    if(track.size() < idx - 1) return;
+
+    QList<CTrack::pt_t>::iterator trkpt, splitpt = track.begin() + idx;
 
     CTrack * track1 = new CTrack(this);
     track1->setName(theTrack->getName() + "_1");
     track1->setColor(theTrack->getColorIdx());
-    for(i = 0; (i <= idx) && (trkpt != track.end()); ++i)
+
+    for (trkpt = track.begin(); trkpt != splitpt + 1; ++trkpt)
     {
-        *track1 << *trkpt++;
+        *track1 << *trkpt;
     }
 
     CTrack * track2 = new CTrack(this);
     track2->setName(theTrack->getName() + "_2");
     track2->setColor(theTrack->getColorIdx());
-    for( ;(trkpt != track.end()); ++i)
+    for (trkpt = splitpt; trkpt != track.end(); ++trkpt)
     {
-        *track2 << *trkpt++;
+        *track2 << *trkpt;
     }
 
     addTrack(track1, true);

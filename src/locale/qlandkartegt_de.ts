@@ -2865,7 +2865,7 @@ ist keine gültige Koordinatensystemdefinition
     <message>
         <location filename="../CGeoDB.cpp" line="219"/>
         <source>Add to database</source>
-        <translation>Zur Datanbank hinzufügen</translation>
+        <translation>Zur Datenbank hinzufügen</translation>
     </message>
     <message>
         <location filename="../CGeoDB.cpp" line="220"/>

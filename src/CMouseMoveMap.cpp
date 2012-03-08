@@ -221,6 +221,7 @@ void CMouseMoveMap::contextMenu(QMenu& menu)
         menu.addAction(QPixmap(":/icons/iconGoogleMaps16x16.png"),tr("Open Pos. with Google Maps"),this,SLOT(slotOpenGoogleMaps())); //TODO: Google Maps right click
         menu.addAction(QPixmap(":/icons/iconClipboard16x16.png"),tr("Copy Pos. Trackpoint"),this,SLOT(slotCopyPositionTrack()));
         menu.addAction(QPixmap(":/icons/iconEdit16x16.png"),tr("Edit Track ..."),this,SLOT(slotEditTrack()));
+        menu.addAction(QPixmap(":/icons/iconEditCut16x16.png"),tr("Split Track ..."),this,SLOT(slotSplitTrack()));
     }
     menu.addSeparator();
 
@@ -466,6 +467,14 @@ void CMouseMoveMap::slotEditTrack()
     if(track)
     {
         track->setPointOfFocus(selTrkPt->idx, true, false);
+    }
+}
+
+void CMouseMoveMap::slotSplitTrack()
+{
+    if(selTrkPt)
+    {
+        CTrackDB::self().splitTrack(selTrkPt->idx);
     }
 }
 

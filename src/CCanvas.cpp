@@ -806,7 +806,9 @@ void CCanvas::raiseContextMenu(const QPoint& pos)
     mouse->contextMenu(menu);
 
     QPoint p = mapToGlobal(pos);
+    setMouseTracking(false);
     menu.exec(p);
+    setMouseTracking(true);
 }
 
 
