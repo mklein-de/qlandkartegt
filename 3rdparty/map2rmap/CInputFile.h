@@ -28,7 +28,7 @@
 class CInputFile
 {
     public:
-        CInputFile(const QString& filename, quint32 tileSize);
+        CInputFile(const QString& filename, quint32 tileSize, int epsg);
         virtual ~CInputFile();
 
         void summarize();

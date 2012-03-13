@@ -37,7 +37,7 @@ static void term_destination (j_compress_ptr cinfo)
 quint32 CInputFile::nTilesTotal     = 0;
 quint32 CInputFile::nTilesProcessed = 0;
 
-CInputFile::CInputFile(const QString &filename, quint32 tileSize)
+CInputFile::CInputFile(const QString &filename, quint32 tileSize, int epsg)
     : filename(filename)
     , tileSize(tileSize)
     , nTiles(0)
@@ -60,8 +60,10 @@ CInputFile::CInputFile(const QString &filename, quint32 tileSize)
     OGRSpatialReference oSRS_EPSG4326;
     oSRS_EPSG4326.importFromProj4("+init=epsg:4326");
 
-    OGRSpatialReference oSRS_Mercator;
-    oSRS_Mercator.importFromProj4("+proj=merc +lon_0=0 +k=1 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs ");
+    OGRSpatialReference oSRS_Mercator1;
+    oSRS_Mercator1.importFromProj4("+proj=merc +lon_0=0 +k=1 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs ");
+    OGRSpatialReference oSRS_Mercator2;
+    oSRS_Mercator2.importFromProj4("+proj=merc +lon_0=0 +k=1 +x_0=0 +y_0=0 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs");
 
     dataset = (GDALDataset*)GDALOpen(filename.toLocal8Bit(),GA_ReadOnly);
     if(dataset == 0)
@@ -86,31 +88,52 @@ CInputFile::CInputFile(const QString &filename, quint32 tileSize)
 //    qDebug();
 //    qDebug() << filename;
 //    qDebug() << ptr;
+    if(epsg != 0)
+    {
+        if(epsg == 31467)
+        {
+            compeProj   = "117,GK-System 9º (Zone 3),";
+            compeDatum  = "Potsdam Rauenberg DHDN";
+        }
+        else if(epsg == 31468)
+        {
+            compeProj   = "114,GK-System 12º (Zone 4),";
+            compeDatum  = "Potsdam Rauenberg DHDN";
+        }
+        else if(epsg == 4326)
+        {
+            compeProj   = "1,LongLat,";
+            compeDatum  = "WGS 84";
+        }
 
-    if(oSRS.IsSame(&oSRS_EPSG31467))
-    {
-        compeProj   = "117,GK-System 9º (Zone 3),";
-        compeDatum  = "Potsdam Rauenberg DHDN";
-    }
-    else if(oSRS.IsSame(&oSRS_EPSG31468))
-    {
-        compeProj   = "114,GK-System 12º (Zone 4),";
-        compeDatum  = "Potsdam Rauenberg DHDN";
-    }
-    else if(oSRS.IsSame(&oSRS_Mercator))
-    {
-        compeProj   = "2,Mercator,";
-        compeDatum  = "WGS 84";
-    }
-    else if(oSRS.IsSame(&oSRS_EPSG4326))
-    {
-        compeProj   = "1,LongLat,";
-        compeDatum  = "WGS 84";
     }
     else
     {
-        fprintf(stderr,"\n%s\nprojection in file %s not recognized\n", ptr, filename.toLocal8Bit().data());
-        exit(-1);
+        if(oSRS.IsSame(&oSRS_EPSG31467))
+        {
+            compeProj   = "117,GK-System 9º (Zone 3),";
+            compeDatum  = "Potsdam Rauenberg DHDN";
+        }
+        else if(oSRS.IsSame(&oSRS_EPSG31468))
+        {
+            compeProj   = "114,GK-System 12º (Zone 4),";
+            compeDatum  = "Potsdam Rauenberg DHDN";
+        }
+        else if(oSRS.IsSame(&oSRS_Mercator1) || oSRS.IsSame(&oSRS_Mercator2))
+        {
+            compeProj   = "2,Mercator,";
+            compeDatum  = "WGS 84";
+        }
+        else if(oSRS.IsSame(&oSRS_EPSG4326))
+        {
+            compeProj   = "1,LongLat,";
+            compeDatum  = "WGS 84";
+        }
+        else
+        {
+            fprintf(stderr,"\n%s\nprojection in file %s not recognized\n", ptr, filename.toLocal8Bit().data());
+            exit(-1);
+        }
     }
 
     qint32 rasterBandCount = dataset->GetRasterCount();
@@ -126,7 +149,7 @@ CInputFile::CInputFile(const QString &filename, quint32 tileSize)
             for(int i=0; i < pct->GetColorEntryCount(); ++i)
             {
                 const GDALColorEntry& e = *pct->GetColorEntry(i);
-                colortable[i] = ((e.c4 & 0xff) << 24) | ((e.c1 & 0xff) << 16) | ((e.c2 & 0xff) << 8) | (e.c3 & 0xff);
+                colortable[i] = ((e.c4 & 0x0ff) << 24) | ((e.c3 & 0x0ff) << 16) | ((e.c2 & 0x0ff) << 8) | (e.c1 & 0x0ff);
             }
         }
         else if(pBand->GetColorInterpretation() ==  GCI_GrayIndex )
@@ -408,7 +431,7 @@ bool CInputFile::readTile(qint32 xoff, qint32 yoff, qint32 w1, qint32 h1, qint32
 
         for(unsigned int i = 0; i < (w2 * h2); i++)
         {
-            output[i] = colortable[tileBuf08Bit[i]];
+            output[i] = colortable[(unsigned char)tileBuf08Bit[i]];
         }
     }
     else

@@ -97,6 +97,7 @@ int main(int argc, char ** argv)
     int quality                 = -1;
     int subsampling             = -1;
     int skip_next_arg           =  0;
+    int epsg                    =  0;
     QString outfile;
     QList<CInputFile> infiles;
 
@@ -106,11 +107,11 @@ int main(int argc, char ** argv)
 
     if(argc < 2)
     {
-        fprintf(stderr,"\nusage: map2rpm -q <1..100> -s <411|422|444> <file1> <file2> ... <fileN> <outputfile>\n");
+        fprintf(stderr,"\nusage: map2rpm -q <1..100> -s <411|422|444> -epsg <number> <file1> <file2> ... <fileN> <outputfile>\n");
         fprintf(stderr,"\n");
-        fprintf(stderr,"  -q The JPEG quality from 1 to 100. Default is 75 \n");
-        fprintf(stderr,"  -s The chroma subsampling. Default is 411  \n");
-
+        fprintf(stderr,"  -q    The JPEG quality from 1 to 100. Default is 75\n");
+        fprintf(stderr,"  -s    The chroma subsampling. Default is 411\n");
+        fprintf(stderr,"  -epsg Enforce given projection for input files\n");
         fprintf(stderr,"\n");
         fprintf(stderr,"\n");
         exit(-1);
@@ -141,9 +142,14 @@ int main(int argc, char ** argv)
                 skip_next_arg = 1;
                 continue;
             }
+            else if(towupper(argv[i][1]) == 'E' && towupper(argv[i][2]) == 'P' && towupper(argv[i][3]) == 'S' && towupper(argv[i][4]) == 'G')
+            {
+                epsg = atol(argv[i+1]);
+                skip_next_arg = 1;
+            }
         }
 
-        infiles << CInputFile(argv[i], TILESIZE);
+        infiles << CInputFile(argv[i], TILESIZE, epsg);
     }
     outfile = argv[argc-1];
 
