@@ -86,6 +86,15 @@ CDlgMapWmsConfig::CDlgMapWmsConfig(CMapWms &map)
     item->setText(eColValue, QString::number(map.blockSizeY));
     item->setFlags(item->flags()|Qt::ItemIsEditable);
 
+    item = new QTreeWidgetItem(treeMapConfig);
+    item->setText(eColProperty, QString("MaxZoomLevel"));
+    if(map.maxZoomLevel != -1)
+    {
+        item->setText(eColValue, QString::number(map.maxZoomLevel));
+    }
+    item->setFlags(item->flags()|Qt::ItemIsEditable);
+
+
     if(pj_is_latlong(map.pjsrc))
     {
         item = new QTreeWidgetItem(treeMapConfig);
@@ -225,6 +234,13 @@ void CDlgMapWmsConfig::accept()
         else if(item->text(eColProperty) == "BlockSizeY")
         {
             updateEntry(dom, item, gdal, "BlockSizeY");
+        }
+        else if(item->text(eColProperty) == "MaxZoomLevel")
+        {
+            if(!item->text(eColValue).isEmpty())
+            {
+                updateEntry(dom, item, gdal, "MaxZoomLevel");
+            }
         }
         else if(item->text(eColProperty) == "SizeX")
         {
