@@ -83,7 +83,6 @@ CMapDB::CMapDB(QTabWidget * tb, QObject * parent)
     {
         QFileInfo fi(map);
         QString ext     = fi.suffix().toLower();
-        QSettings mapdef(map,QSettings::IniFormat);
         map_t m;
         m.filename      = map;
         if(ext == "tdb")
@@ -110,6 +109,7 @@ CMapDB::CMapDB(QTabWidget * tb, QObject * parent)
 #endif // HAS_RMAP
         else
         {
+            QSettings mapdef(map,QSettings::IniFormat);
             m.description = mapdef.value("description/comment","").toString();
         }
         if(m.description.isEmpty()) m.description = QFileInfo(map).fileName();
