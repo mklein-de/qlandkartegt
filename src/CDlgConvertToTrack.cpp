@@ -38,21 +38,27 @@ CDlgConvertToTrack::CDlgConvertToTrack(QWidget * parent)
     comboDelta->addItem(tr("1 km"), 1000);
 
     SETTINGS;
+
+    connect(radioEleFromRemote, SIGNAL(toggled(bool)), widgetGeonamesOrgUsername, SLOT(setEnabled(bool)));
+
     comboDelta->setCurrentIndex(cfg.value("overlay/convert/intervall", 0).toInt());
     radioNoEle->setChecked(cfg.value("overlay/convert/noele", true).toBool());
     radioEleFromLocal->setChecked(cfg.value("overlay/convert/local", false).toBool());
     radioEleFromRemote->setChecked(cfg.value("overlay/convert/remote", false).toBool());
-
+    editGeonamesOrgUsername->setText(cfg.value("geonames/username", "demo").toString());
 }
 
 
-CDlgConvertToTrack::~CDlgConvertToTrack()
+void CDlgConvertToTrack::accept()
 {
     SETTINGS;
     cfg.setValue("overlay/convert/intervall", comboDelta->currentIndex());
     cfg.setValue("overlay/convert/noele", radioNoEle->isChecked());
     cfg.setValue("overlay/convert/local", radioEleFromLocal->isChecked());
     cfg.setValue("overlay/convert/remote", radioEleFromRemote->isChecked());
+    cfg.setValue("geonames/username", editGeonamesOrgUsername->text());
+
+    QDialog::accept();
 }
 
 

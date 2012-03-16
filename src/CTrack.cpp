@@ -26,6 +26,7 @@
 #include "CCanvas.h"
 #include "CWptDB.h"
 #include "CTrackDB.h"
+#include "CSettings.h"
 
 #include <QtGui>
 #include <QtNetwork/QHttp>
@@ -587,6 +588,9 @@ void CTrack::replaceElevationByLocal()
 
 void CTrack::replaceElevationByRemote()
 {
+    SETTINGS;
+    QString username = cfg.value("geonames/username","demo").toString();
+
     int idx = 0, id;
     const int size = track.size();
 
@@ -607,7 +611,7 @@ void CTrack::replaceElevationByRemote()
         url.setPath("/srtm3");
         url.addQueryItem("lats",lats.join(","));
         url.addQueryItem("lngs",lngs.join(","));
-        url.addQueryItem("username","demo");
+        url.addQueryItem("username",username);
         id = geonames->get(url.toEncoded( ));
 
         id2idx[id] = idx;
