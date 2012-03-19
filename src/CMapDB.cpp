@@ -110,6 +110,7 @@ CMapDB::CMapDB(QTabWidget * tb, QObject * parent)
         else
         {
             QSettings mapdef(map,QSettings::IniFormat);
+            mapdef.setIniCodec(QTextCodec::codecForName("UTF-8"));
             m.description = mapdef.value("description/comment","").toString();
         }
         if(m.description.isEmpty()) m.description = QFileInfo(map).fileName();
@@ -277,6 +278,7 @@ void CMapDB::openMap(const QString& filename, bool asRaster, CCanvas& canvas)
 
         // create map descritor
         QSettings mapdef(filename,QSettings::IniFormat);
+        mapdef.setIniCodec(QTextCodec::codecForName("UTF-8"));
         map.filename    = filename;
         map.description = mapdef.value("description/comment","").toString();
         if(map.description.isEmpty()) map.description = fi.fileName();

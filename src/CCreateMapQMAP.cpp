@@ -238,6 +238,7 @@ void CCreateMapQMAP::processLevelList()
 void CCreateMapQMAP::readqmap(const QString& filename)
 {
     QSettings mapdef(filename,QSettings::IniFormat);
+    mapdef.setIniCodec(QTextCodec::codecForName("UTF-8"));
 
     labelCurrentMap->setText(filename);
 
@@ -272,6 +273,7 @@ void CCreateMapQMAP::readqmap(const QString& filename)
 void CCreateMapQMAP::writeqmap(const QString& filename)
 {
     QSettings mapdef(filename,QSettings::IniFormat);
+    mapdef.setIniCodec(QTextCodec::codecForName("UTF-8"));
     mapdef.beginGroup("description");
     mapdef.setValue("bottomright",bottomRight);
     mapdef.setValue("topleft",topLeft);

@@ -51,6 +51,8 @@ CMapQMAP::CMapQMAP(const QString& key, const QString& fn, CCanvas * parent)
     QDir path = QFileInfo(filename).absolutePath();
     // load map definition
     QSettings mapdef(filename,QSettings::IniFormat);
+    mapdef.setIniCodec(QTextCodec::codecForName("UTF-8"));
+
     int nLevels = mapdef.value("main/levels",0).toInt();
 
     info  = "<h1>" + mapdef.value("description/comment", "").toString() + "</h1>";
@@ -153,6 +155,7 @@ CMapQMAP::CMapQMAP(const QString& key, const QString& fn, CCanvas * parent)
 CMapQMAP::~CMapQMAP()
 {
     QSettings mapdef(filename,QSettings::IniFormat);
+    mapdef.setIniCodec(QTextCodec::codecForName("UTF-8"));
     mapdef.beginGroup(QString("home"));
 
     mapdef.setValue("zoom",zoomidx < 1 ? 1 : zoomidx);
