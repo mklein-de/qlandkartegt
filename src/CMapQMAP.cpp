@@ -32,7 +32,7 @@
 
 #include <gdal_priv.h>
 #include <ogr_spatialref.h>
-#include <projects.h>
+#include <proj_api.h>
 #include <math.h>
 #ifdef __MINGW32__
 #undef LP
@@ -96,7 +96,7 @@ CMapQMAP::CMapQMAP(const QString& key, const QString& fn, CCanvas * parent)
 
     if(!maplevels.isEmpty())
     {
-        XY p1, p2;
+        projXY p1, p2;
         double a1,a2, width, height;
         float u1 = 0, v1 = 0, u2 = 0, v2 = 0;
         GPS_Math_Str_To_Deg(strTopLeft.replace("&#176;",""), u1, v1);
@@ -299,7 +299,7 @@ void CMapQMAP::__test()
     }
     printf("+++\n");
 
-    XY p1, p2;
+    projXY p1, p2;
     p1.u = 0;
     p1.v = 0;
     p2.u = c - 1;
@@ -345,7 +345,7 @@ void CMapQMAP::draw()
     const CMapFile * map = *pMaplevel->begin();
 
     // top left
-    XY pt = topLeft;
+    projXY pt = topLeft;
     pj_transform(pjtar,pjsrc,1,0,&pt.u,&pt.v,0);
 
     bottomRight.u = pt.u + size.width() * map->xscale * zoomFactor;
@@ -487,7 +487,7 @@ void CMapQMAP::convertPt2M(double& u, double& v)
 
     const CMapFile * map = *pMaplevel->begin();
 
-    XY pt = topLeft;
+    projXY pt = topLeft;
     pj_transform(pjtar,pjsrc,1,0,&pt.u,&pt.v,0);
 
     u = pt.u + u * map->xscale * zoomFactor;
@@ -501,7 +501,7 @@ void CMapQMAP::convertM2Pt(double& u, double& v)
 
     const CMapFile * map = *pMaplevel->begin();
 
-    XY pt = topLeft;
+    projXY pt = topLeft;
     pj_transform(pjtar,pjsrc,1,0,&pt.u,&pt.v,0);
 
     u = floor((u - pt.u) / (map->xscale * zoomFactor) + 0.5);
@@ -544,7 +544,7 @@ void CMapQMAP::convertPt2Pixel(double& u, double& v)
 void CMapQMAP::move(const QPoint& old, const QPoint& next)
 {
 
-    XY p2 = topLeft;
+    projXY p2 = topLeft;
     convertRad2Pt(p2.u, p2.v);
 
     // move top left point by difference
@@ -565,7 +565,7 @@ void CMapQMAP::move(const QPoint& old, const QPoint& next)
 
 void CMapQMAP::zoom(bool zoomIn, const QPoint& p0)
 {
-    XY p1;
+    projXY p1;
 
     needsRedraw = true;
 
@@ -601,7 +601,7 @@ void CMapQMAP::zoom(bool zoomIn, const QPoint& p0)
     // convert geo. coordinates back to point
     convertRad2Pt(p1.u, p1.v);
 
-    XY p2 = topLeft;
+    projXY p2 = topLeft;
     convertRad2Pt(p2.u, p2.v);
 
     // move top left point by difference point befor and after zoom
@@ -761,7 +761,7 @@ void CMapQMAP::dimensions(double& lon1, double& lat1, double& lon2, double& lat2
 }
 
 
-void CMapQMAP::getArea_n_Scaling(XY& p1, XY& p2, float& my_xscale, float& my_yscale)
+void CMapQMAP::getArea_n_Scaling(projXY& p1, projXY& p2, float& my_xscale, float& my_yscale)
 {
     if(pMaplevel.isNull())
     {

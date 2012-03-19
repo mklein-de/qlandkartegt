@@ -250,7 +250,7 @@ void CMapWms::zoom(bool zoomIn, const QPoint& p0)
 {
     qDebug() << "zoom" << zoomIn;
 
-    XY p1;
+    projXY p1;
     if(pjsrc == 0) return;
 
     needsRedraw     = true;
@@ -382,7 +382,7 @@ void CMapWms::dimensions(double& lon1, double& lat1, double& lon2, double& lat2)
     pj_transform(pjsrc,pjtar,1,0,&lon2,&lat2,0);
 }
 
-void CMapWms::getArea_n_Scaling(XY& p1, XY& p2, float& my_xscale, float& my_yscale)
+void CMapWms::getArea_n_Scaling(projXY& p1, projXY& p2, float& my_xscale, float& my_yscale)
 {
     if(pjsrc == 0) return;
 

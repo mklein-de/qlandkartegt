@@ -26,7 +26,7 @@
 #include <list>
 
 #include <gdal_priv.h>
-#include <projects.h>
+#include <proj_api.h>
 #include <ogr_spatialref.h>
 
 extern "C"
@@ -92,7 +92,7 @@ struct file_t
     std::string     filename;
     std::string     projection;
     GDALDataset *   dataset;
-    PJ *            pj;
+    projPJ             pj;
     uint32_t        width;
     uint32_t        height;
     double          xscale;
@@ -131,7 +131,7 @@ struct tile_t
 
 
 /// the target lon/lat WGS84 projection
-static PJ * wgs84 = 0;
+static projPJ  wgs84 = 0;
 /// information about all files
 static std::list<file_t> files;
 /// number of used levels
@@ -484,7 +484,7 @@ int main(int argc, char ** argv)
             exit(-1);
         }
 
-        PJ *   pj;
+        projPJ   pj;
         char * ptr = projstr;
 
         strncpy(projstr,dataset->GetProjectionRef(),sizeof(projstr));

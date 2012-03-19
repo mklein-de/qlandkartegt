@@ -22,7 +22,7 @@
 #include <QString>
 #include <QVector>
 #include <gdal_priv.h>
-#include <projects.h>
+#include <proj_api.h>
 
 
 class CInputFile
@@ -79,7 +79,7 @@ class CInputFile
             double yCorrectionScale;
         };
 
-        PJ * pj;
+        projPJ  pj;
         GDALDataset * dataset;
         QString compeProj;
         QString compeDatum;

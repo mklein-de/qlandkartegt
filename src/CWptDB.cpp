@@ -254,7 +254,7 @@ QList<CWptDB::keys_t> CWptDB::keys()
             break;
         case CWptToolWidget::eSortByDistance:
             {
-                XY p1, p2;
+                projXY p1, p2;
                 float lon, lat;
                 GPS_Math_Str_To_Deg(pos, lon, lat, true);
                 p1.u = lon * DEG_TO_RAD;
@@ -880,14 +880,14 @@ void CWptDB::selWptByKey(const QString& key, bool selectMode)
 
 void CWptDB::selWptInRange(const QPointF& center, double radius)
 {
-    XY p0;
+    projXY p0;
     p0.u = center.x();
     p0.v = center.y();
     CWptToolWidget * t = qobject_cast<CWptToolWidget*>(toolview);
 
     foreach(CWpt * wpt, wpts)
     {
-        XY p1;
+        projXY p1;
         p1.u = wpt->lon * DEG_TO_RAD;
         p1.v = wpt->lat * DEG_TO_RAD;
 
@@ -1073,7 +1073,7 @@ void CWptDB::draw(QPainter& p, const QRect& rect, bool& needsRedraw)
     {
         if((*wpt)->prx != WPT_NOFLOAT)
         {
-            XY pt1, pt2;
+            projXY pt1, pt2;
 
             double u = (*wpt)->lon * DEG_TO_RAD;
             double v = (*wpt)->lat * DEG_TO_RAD;

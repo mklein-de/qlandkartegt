@@ -326,7 +326,7 @@ void CRoute::calcDistance()
     dist = 0.0;
     if(priRoute.size() < 2) return;
 
-    XY pt1,pt2;
+    projXY pt1,pt2;
     double a1,a2;
 
     QVector<pt_t>::const_iterator p1;

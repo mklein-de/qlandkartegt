@@ -27,7 +27,7 @@
 #include "config.h"
 #include "CSettings.h"
 
-#include <projects.h>
+#include <proj_api.h>
 #ifdef __MINGW32__
 #undef LP
 #endif

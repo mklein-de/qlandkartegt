@@ -395,7 +395,7 @@ void CMapGeoTiff::move(const QPoint& old, const QPoint& next)
 
 void CMapGeoTiff::zoom(bool zoomIn, const QPoint& p0)
 {
-    XY p1;
+    projXY p1;
     if(pjsrc == 0) return;
 
     // convert point to geo. coordinates
@@ -557,7 +557,7 @@ GDALDataset * CMapGeoTiff::getDataset()
     return dataset;
 }
 
-void CMapGeoTiff::getArea_n_Scaling(XY& p1, XY& p2, float& my_xscale, float& my_yscale)
+void CMapGeoTiff::getArea_n_Scaling(projXY& p1, projXY& p2, float& my_xscale, float& my_yscale)
 {
     p1.u = 0;
     p1.v = 0;

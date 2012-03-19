@@ -20,7 +20,7 @@
 #ifndef CMAPLEVEL_H
 #define CMAPLEVEL_H
 
-#include <projects.h>
+#include <proj_api.h>
 #ifdef __MINGW32__
 #undef LP
 #endif
@@ -77,8 +77,8 @@ class CMapLevel : public QObject
     private:
         QVector<CMapFile*> mapfiles;
 
-        PJ * pjtar;
-        PJ * pjsrc;
+        projPJ  pjtar;
+        projPJ  pjsrc;
 
         double westbound;
         double northbound;

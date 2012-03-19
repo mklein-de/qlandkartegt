@@ -285,7 +285,7 @@ void CDlgEditWpt::accept()
         double bearing  = lineBearing->text().toDouble() * DEG_TO_RAD;
         double distance = lineDistance->text().toDouble();
 
-        XY pt1, pt2;
+        projXY pt1, pt2;
         pt1.u       = wpt.lon * DEG_TO_RAD;
         pt1.v       = wpt.lat * DEG_TO_RAD;
         pt2         = GPS_Math_Wpt_Projection(pt1, distance, bearing);

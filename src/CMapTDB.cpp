@@ -377,8 +377,8 @@ CMapTDB::CMapTDB(const QString& key, const QString& filename)
 
     if(QString(ptr).contains("longlat"))
     {
-        lon_factor =   PI / pow(2.0, 24);
-        lat_factor = - PI / pow(2.0, 24);
+        lon_factor =   M_PI / pow(2.0, 24);
+        lat_factor = - M_PI / pow(2.0, 24);
         qDebug() << "set correction factor to" << lon_factor << lat_factor;
     }
 
@@ -1205,8 +1205,8 @@ void CMapTDB::registerDEM(CMapDEM& dem)
 
     if(QString(ptr).contains("longlat"))
     {
-        lon_factor =   PI / pow(2.0, 23);
-        lat_factor = - PI / pow(2.0, 23);
+        lon_factor =   M_PI / pow(2.0, 23);
+        lat_factor = - M_PI / pow(2.0, 23);
         qDebug() << "set correction factor to" << lon_factor << lat_factor;
     }
 
@@ -1664,7 +1664,7 @@ bool CMapTDB::processPrimaryMapData()
 
 void CMapTDB::convertPt2M(double& u, double& v)
 {
-    XY pt = topLeft;
+    projXY pt = topLeft;
     pj_transform(pjtar,pjsrc,1,0,&pt.u,&pt.v,0);
 
     u = pt.u + u * zoomFactor * lon_factor;
@@ -1674,7 +1674,7 @@ void CMapTDB::convertPt2M(double& u, double& v)
 
 void CMapTDB::convertM2Pt(double& u, double& v)
 {
-    XY pt = topLeft;
+    projXY pt = topLeft;
     pj_transform(pjtar,pjsrc,1,0,&pt.u,&pt.v,0);
 
     u = (u - pt.u) / (zoomFactor * lon_factor);
@@ -1684,7 +1684,7 @@ void CMapTDB::convertM2Pt(double& u, double& v)
 
 void CMapTDB::convertM2Pt(double* u, double* v, int n)
 {
-    XY pt = topLeft;
+    projXY pt = topLeft;
     pj_transform(pjtar,pjsrc,1,0,&pt.u,&pt.v,0);
 
     for(int i = 0; i < n; ++i, ++u, ++v)
@@ -1708,7 +1708,7 @@ void CMapTDB::convertRad2Pt(double* u, double* v, int n)
 
 void CMapTDB::move(const QPoint& old, const QPoint& next)
 {
-    XY p2 = topLeft;
+    projXY p2 = topLeft;
     IMap::convertRad2Pt(p2.u, p2.v);
 
     // move top left point by difference
@@ -1728,7 +1728,7 @@ void CMapTDB::move(const QPoint& old, const QPoint& next)
 
 void CMapTDB::zoom(bool zoomIn, const QPoint& p0)
 {
-    XY p1;
+    projXY p1;
 
     needsRedraw = true;
 
@@ -1745,7 +1745,7 @@ void CMapTDB::zoom(bool zoomIn, const QPoint& p0)
     // convert geo. coordinates back to point
     IMap::convertRad2Pt(p1.u, p1.v);
 
-    XY p2 = topLeft;
+    projXY p2 = topLeft;
     IMap::convertRad2Pt(p2.u, p2.v);
 
     // move top left point by difference point befor and after zoom
@@ -1835,7 +1835,7 @@ void CMapTDB::dimensions(double& lon1, double& lat1, double& lon2, double& lat2)
 }
 
 
-void CMapTDB::getArea_n_Scaling(XY& p1, XY& p2, float& my_xscale, float& my_yscale)
+void CMapTDB::getArea_n_Scaling(projXY& p1, projXY& p2, float& my_xscale, float& my_yscale)
 {
     p1 = topLeft;
     p2 = bottomRight;
@@ -2350,7 +2350,7 @@ void CMapTDB::drawPolylines(QPainter& p, polytype_t& lines)
 
                         QPointF p1      = p2;
                         p2              = path.pointAtPercent((curLength + segLength) / totalLength);
-                        double angle    = atan((p2.y() - p1.y()) / (p2.x() - p1.x())) * 180 / PI;
+                        double angle    = atan((p2.y() - p1.y()) / (p2.x() - p1.x())) * 180 / M_PI;
 
                         if(p2.x() - p1.x() < 0)
                         {
@@ -2507,7 +2507,7 @@ void CMapTDB::drawText(QPainter& p)
                     qreal angle     = atan((p2.y() - p1.y()) / (p2.x() - p1.x()));
                     if(p2.x() - p1.x() < 0)
                     {
-                        angle += PI;
+                        angle += M_PI;
                     }
 
                     p1 = QPointF(p2.x() - D*cos(angle), p2.y() - D*sin(angle));
@@ -2532,7 +2532,7 @@ void CMapTDB::drawText(QPainter& p)
                     qreal angle     = atan((p3.y() - p2.y()) / (p3.x() - p2.x()));
                     if(p3.x() - p2.x() < 0)
                     {
-                        angle += PI;
+                        angle += M_PI;
                     }
 
                     p3 = QPointF(p2.x() + D*cos(angle), p2.y() + D*sin(angle));
@@ -2617,7 +2617,7 @@ void CMapTDB::drawText(QPainter& p)
 
         QPointF point2  = path.pointAtPercent(percent2);
 
-        qreal angle     = atan((point2.y() - point1.y()) / (point2.x() - point1.x())) * 180 / PI;
+        qreal angle     = atan((point2.y() - point1.y()) / (point2.x() - point1.x())) * 180 / M_PI;
 
         // flip path if string start is E->W direction
         // this helps, sometimes, in 50 % of the cases :)
@@ -2641,7 +2641,7 @@ void CMapTDB::drawText(QPainter& p)
             point1  = point2;
             point2  = path.pointAtPercent(percent2);
 
-            angle   = atan((point2.y() - point1.y()) / (point2.x() - point1.x())) * 180 / PI;
+            angle   = atan((point2.y() - point1.y()) / (point2.x() - point1.x())) * 180 / M_PI;
 
             if(point2.x() - point1.x() < 0)
             {
@@ -3034,7 +3034,7 @@ void CMapTDB::getInfoPolylines(QPoint& pt, QMultiMap<QString, QString>& dict)
 {
     int i = 0;                   // index into poly line
     int len;                     // number of points in line
-    XY p1, p2;                   // the two points of the polyline close to pt
+    projXY p1, p2;                   // the two points of the polyline close to pt
     double dx,dy;                // delta x and y defined by p1 and p2
     double d_p1_p2;              // distance between p1 and p2
     double u;                    // ratio u the tangent point will divide d_p1_p2
@@ -3163,7 +3163,7 @@ static double getDistance(polytype_t::const_iterator& line, QPoint& pt, double t
 {
     int i = 0;                   // index into poly line
     int len;                     // number of points in line
-    XY p1, p2;                   // the two points of the polyline close to pt
+    projXY p1, p2;                   // the two points of the polyline close to pt
     double dx,dy;                // delta x and y defined by p1 and p2
     double d_p1_p2;              // distance between p1 and p2
     double u;                    // ratio u the tangent point will divide d_p1_p2
@@ -3273,7 +3273,7 @@ void CMapTDB::getInfoPolygons(const QPoint& pt, QMultiMap<QString, QString>& dic
 {
     int     npol;
     int     i = 0, j = 0 ,c = 0;
-    XY      p1, p2;              // the two points of the polyline close to pt
+    projXY      p1, p2;              // the two points of the polyline close to pt
     double  x = pt.x();
     double  y = pt.y();
     QString value;

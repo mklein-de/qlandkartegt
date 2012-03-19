@@ -21,7 +21,7 @@ else (PROJ_LIBRARIES AND PROJ_INCLUDE_DIRS)
 
   find_path(PROJ_INCLUDE_DIR
     NAMES
-      projects.h
+      proj_api.h
     PATHS
         /usr/include
         /usr/local/include

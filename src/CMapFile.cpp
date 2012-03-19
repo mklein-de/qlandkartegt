@@ -132,7 +132,7 @@ CMapFile::CMapFile(const QString& filename, QObject * parent)
         pBand->GetBlockSize(&tileWidth,&tileHeight);
     }
 
-    PJ * pjWGS84 = pj_init_plus("+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs");
+    projPJ  pjWGS84 = pj_init_plus("+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs");
 
     lon1 = xref1;
     lat1 = yref1;

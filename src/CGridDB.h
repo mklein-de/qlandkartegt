@@ -21,7 +21,7 @@
 
 #include <QObject>
 #include <QColor>
-#include <projects.h>
+#include <proj_api.h>
 
 class QPainter;
 class QRect;
@@ -55,8 +55,8 @@ class CGridDB : public QObject
 
         static CGridDB * m_pSelf;
 
-        PJ * pjWGS84;
-        PJ * pjGrid;
+        projPJ  pjWGS84;
+        projPJ  pjGrid;
 
         QCheckBox * checkGrid;
         QToolButton * setupGrid;

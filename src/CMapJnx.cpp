@@ -135,7 +135,7 @@ CMapJnx::CMapJnx(const QString& key, const QString& fn, CCanvas * parent)
     info += QString("<tr><td>%1</td><td>%2</td></tr>").arg(tr("Bottom/Right")).arg(strBottomRight.replace("\260","&#176;"));
 
     {
-        XY p1, p2;
+        projXY p1, p2;
         double a1,a2, width, height;
         float u1 = 0, v1 = 0, u2 = 0, v2 = 0;
         GPS_Math_Str_To_Deg(strTopLeft.replace("&#176;",""), u1, v1);
@@ -303,7 +303,7 @@ void CMapJnx::convertM2Pt(double& u, double& v)
 
 void CMapJnx::move(const QPoint& old, const QPoint& next)
 {
-    XY p2;
+    projXY p2;
     p2.u = x;
     p2.v = y;
     convertM2Pt(p2.u, p2.v);
@@ -325,7 +325,7 @@ void CMapJnx::move(const QPoint& old, const QPoint& next)
 
 void CMapJnx::zoom(bool zoomIn, const QPoint& p0)
 {
-    XY p1;
+    projXY p1;
 
     needsRedraw = true;
 
@@ -342,7 +342,7 @@ void CMapJnx::zoom(bool zoomIn, const QPoint& p0)
     // convert geo. coordinates back to point
     IMap::convertRad2Pt(p1.u, p1.v);
 
-    XY p2;
+    projXY p2;
     p2.u = x;
     p2.v = y;
     convertM2Pt(p2.u, p2.v);
@@ -448,7 +448,7 @@ void CMapJnx::draw(QPainter& p)
     needsRedraw = false;
 }
 
-void CMapJnx::getArea_n_Scaling(XY& p1, XY& p2, float& my_xscale, float& my_yscale)
+void CMapJnx::getArea_n_Scaling(projXY& p1, projXY& p2, float& my_xscale, float& my_yscale)
 {
 
     p1.u = x;

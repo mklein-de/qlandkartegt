@@ -941,7 +941,7 @@ void CTrackDB::drawArrows(const QPolygon& line, const QRect& viewport, QPainter&
             {
                 if(0 != pt.x() - pt1.x() && (pt.y() - pt1.y()))
                 {
-                    heading = ( atan2((double)(pt.y() - pt1.y()), (double)(pt.x() - pt1.x())) * 180.) / PI;
+                    heading = ( atan2((double)(pt.y() - pt1.y()), (double)(pt.x() - pt1.x())) * 180.) / M_PI;
 
                     p.save();
                     // draw arrow between bullets

@@ -338,7 +338,7 @@ void CMap3D::slotTrackModeChanged()
         double x0 = xpos;
         double y0 = ypos;
         double z0 = zpos;
-        XY p;
+        projXY p;
         CTrack::pt_t selTrkPt;
 
         convert3D2Pt(x0, y0, z0);
@@ -621,7 +621,7 @@ void CMap3D::setTrackObject()
 
     if (track != 0)
     {
-        XY pt1, pt2;
+        projXY pt1, pt2;
 
         glLineWidth(5.0);
         highBorderColor = track->getColor();
@@ -1496,7 +1496,7 @@ void CMap3D::mousePressEvent(QMouseEvent *e)
                 diff = (zRotation - 180)* 2;
             }
 
-            zRotation = atan(ypos/xpos)/PI * 180;
+            zRotation = atan(ypos/xpos)/M_PI * 180;
 
             //            qDebug() << "---------"  << zRotation << xpos << ypos;
 
@@ -1510,8 +1510,8 @@ void CMap3D::mousePressEvent(QMouseEvent *e)
             //            qDebug() << "<<<<<<<<<"  << zRotation << xpos << ypos;
 
             double r = sqrt(xpos*xpos + ypos*ypos);
-            xpos = -r*sin(zRotation/180 * PI);
-            ypos = -r*cos(zRotation/180 * PI);
+            xpos = -r*sin(zRotation/180 * M_PI);
+            ypos = -r*cos(zRotation/180 * M_PI);
 
             update();
         }
@@ -1556,8 +1556,8 @@ void CMap3D::mouseMoveEvent(QMouseEvent *event)
             if(!actFPVMode->isChecked())
             {
                 double r = sqrt(xpos*xpos + ypos*ypos);
-                xpos = -r*sin(zRotation/180 * PI);
-                ypos = -r*cos(zRotation/180 * PI);
+                xpos = -r*sin(zRotation/180 * M_PI);
+                ypos = -r*cos(zRotation/180 * M_PI);
             }
         }
         update();
@@ -1619,13 +1619,13 @@ void CMap3D::keyPressEvent ( QKeyEvent * e )
             }
             else
             {
-                double zRotRad = (zRotation / 180 * PI);
+                double zRotRad = (zRotation / 180 * M_PI);
                 xpos += sin(zRotRad) * 4;
                 ypos += cos(zRotRad) * 4;
 
                 if(coupleElePOV)
                 {
-                    double xRotRad = (xRotation / 180 * PI);
+                    double xRotRad = (xRotation / 180 * M_PI);
                     zpos -= sin(xRotRad) * 4;
                     adjustElevationToMap();
                 }
@@ -1646,13 +1646,13 @@ void CMap3D::keyPressEvent ( QKeyEvent * e )
             }
             else
             {
-                double zRotRad = (zRotation / 180 * PI);
+                double zRotRad = (zRotation / 180 * M_PI);
                 xpos -= sin(zRotRad) * 4;
                 ypos -= cos(zRotRad) * 4;
 
                 if(coupleElePOV)
                 {
-                    double xRotRad = (xRotation / 180 * PI);
+                    double xRotRad = (xRotation / 180 * M_PI);
                     zpos += sin(xRotRad) * 4;
                     adjustElevationToMap();
                 }
@@ -1662,7 +1662,7 @@ void CMap3D::keyPressEvent ( QKeyEvent * e )
 
         case Qt::Key_A:
         {
-            double zRotRad = (zRotation / 180 * PI);
+            double zRotRad = (zRotation / 180 * M_PI);
             xpos -= cos(zRotRad) * 4;
             ypos += sin(zRotRad) * 4;
             break;
@@ -1670,7 +1670,7 @@ void CMap3D::keyPressEvent ( QKeyEvent * e )
 
         case Qt::Key_D:
         {
-            double zRotRad = (zRotation / 180 * PI);
+            double zRotRad = (zRotation / 180 * M_PI);
             xpos += cos(zRotRad) * 4;
             ypos -= sin(zRotRad) * 4;
             break;
@@ -1858,7 +1858,7 @@ bool CMap3D::getEleRegion(QVector<float>& eleData, int& xcount, int& ycount)
     double  h = s.height();
 
     IMap& dem = CMapDB::self().getDEM();
-    XY pen1, pen2;
+    projXY pen1, pen2;
     pen1.u = 0;
     pen1.v = 0;
     pen2.u = w;

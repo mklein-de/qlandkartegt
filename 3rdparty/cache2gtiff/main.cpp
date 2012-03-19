@@ -23,7 +23,7 @@
 #include <wctype.h>
 
 #include <gdal_priv.h>
-#include <projects.h>
+#include <proj_api.h>
 #include <ogr_spatialref.h>
 
 #include <QtCore>
@@ -53,8 +53,8 @@ struct map_t
         if(pjtar) pj_free(pjtar);
     }
 
-    PJ * pjsrc;
-    PJ * pjtar;
+    projPJ pjsrc;
+    projPJ pjtar;
 
     int level;
     double xref1;
@@ -95,7 +95,7 @@ static void convertPt2Rad(map_t& map, double& u, double& v)
     }
     convertPt2M(map,u,v);
 
-    XY pt;
+    projXY pt;
     pt.u = u;
     pt.v = v;
 
@@ -113,7 +113,7 @@ static void convertRad2Pt(map_t& map, double& u, double& v)
         return;
     }
 
-    XY pt;
+    projXY pt;
     pt.u = u;
     pt.v = v;
 

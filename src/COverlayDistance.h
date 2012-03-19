@@ -23,7 +23,7 @@
 #include "IOverlay.h"
 #include "GeoMath.h"
 
-#include <projects.h>
+#include <proj_api.h>
 #ifdef __MINGW32__
 #undef LP
 #endif
@@ -41,7 +41,7 @@ class COverlayDistance : public IOverlay
     Q_OBJECT;
     public:
 
-        struct pt_t : public XY
+        struct pt_t : public projXY
         {
             int idx;
         };
@@ -64,7 +64,7 @@ class COverlayDistance : public IOverlay
         void mouseReleaseEvent(QMouseEvent * e);
 
         /// get last point of polyline
-        XY getLast(){return points.last();}
+        projXY getLast(){return points.last();}
 
         /// add "Make Track" and "Edit..." to custom menu
         void customMenu(QMenu& menu);
@@ -102,7 +102,7 @@ class COverlayDistance : public IOverlay
 
         void calcDistance();
         void drawArrows(const QPolygon& line, const QRect& viewport, QPainter& p);
-        void drawDistanceInfo(XY p1, XY p2, QPainter& p, IMap& map);
+        void drawDistanceInfo(projXY p1, projXY p2, QPainter& p, IMap& map);
 
         /// the polyline as list of points [rad]
         QList<pt_t> points;

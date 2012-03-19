@@ -40,7 +40,7 @@ class CMapJnx : public IMap
 
         void draw(QPainter& p);
 
-        void getArea_n_Scaling(XY& p1, XY& p2, float& my_xscale, float& my_yscale);
+        void getArea_n_Scaling(projXY& p1, projXY& p2, float& my_xscale, float& my_yscale);
 
         QString getMapInfo(){return info;}
 

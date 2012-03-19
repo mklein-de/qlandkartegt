@@ -19,7 +19,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
 #include "CDeviceNMEA.h"
 
 #include <QtGui>
-#include <projects.h>
+#include <proj_api.h>
 
 CDeviceNMEA::CDeviceNMEA(const QString& serialport,
                          const QString& baudrate,

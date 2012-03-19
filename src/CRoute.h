@@ -27,7 +27,7 @@
 #include <QPolygon>
 #include <QDataStream>
 #include <QFile>
-#include <projects.h>
+#include <proj_api.h>
 
 class QDomDocument;
 
@@ -53,9 +53,9 @@ class CRoute : public IItem
 
             QString action;
 
-            operator const XY ()
+            operator const projXY ()
             {
-                XY p;
+                projXY p;
                 p.u = lon;
                 p.v = lat;
                 return p;

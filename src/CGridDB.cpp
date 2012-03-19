@@ -113,30 +113,30 @@ void CGridDB::convertPt2Pos(double& x, double& y, bool& isLonLat)
 void CGridDB::findGridSpace(double min, double max, double& xSpace, double& ySpace)
 {
     double dX = fabs(min - max) / 10;
-    if(dX < PI/180000)
+    if(dX < M_PI/180000)
     {
-        xSpace = 5*PI/1800000;
-        ySpace = 5*PI/1800000;
+        xSpace = 5*M_PI/1800000;
+        ySpace = 5*M_PI/1800000;
     }
-    else if(dX < PI/18000)
+    else if(dX < M_PI/18000)
     {
-        xSpace = 5*PI/180000;
-        ySpace = 5*PI/180000;
+        xSpace = 5*M_PI/180000;
+        ySpace = 5*M_PI/180000;
     }
-    else if(dX < PI/1800)
+    else if(dX < M_PI/1800)
     {
-        xSpace = 5*PI/18000;
-        ySpace = 5*PI/18000;
+        xSpace = 5*M_PI/18000;
+        ySpace = 5*M_PI/18000;
     }
-    else if(dX < PI/180)
+    else if(dX < M_PI/180)
     {
-        xSpace = 5*PI/1800;
-        ySpace = 5*PI/1800;
+        xSpace = 5*M_PI/1800;
+        ySpace = 5*M_PI/1800;
     }
-    else if(dX < PI/18)
+    else if(dX < M_PI/18)
     {
-        xSpace = 5*PI/180;
-        ySpace = 5*PI/180;
+        xSpace = 5*M_PI/180;
+        ySpace = 5*M_PI/180;
     }
 
     else if(dX < 3000)
@@ -223,7 +223,7 @@ void CGridDB::draw(QPainter& p, const QRect& rect, bool& needsRedraw)
 
     IMap& map       = CMapDB::self().getMap();
 
-    XY topLeft, topRight, btmLeft, btmRight;
+    projXY topLeft, topRight, btmLeft, btmRight;
 
     btmLeft.u   = topLeft.u     = rect.left();
     topRight.v  = topLeft.v     = rect.top();

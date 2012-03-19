@@ -103,7 +103,7 @@ void IMap::resize(const QSize& s)
 
 void IMap::setAngleNorth()
 {
-    XY p1,p2;
+    projXY p1,p2;
     double a1 = 0, a2 = 0;
     p2.u = p1.u = rect.right()  - COMPASS_OFFSET_X - COMPASS_W / 2;
     p2.v = p1.v = rect.bottom() - COMPASS_OFFSET_Y;
@@ -142,7 +142,7 @@ void IMap::convertPt2Rad(double& u, double& v)
     }
     convertPt2M(u,v);
 
-    XY pt;
+    projXY pt;
     pt.u = u;
     pt.v = v;
 
@@ -160,7 +160,7 @@ void IMap::convertRad2Pt(double& u, double& v)
         return;
     }
 
-    XY pt;
+    projXY pt;
     pt.u = u;
     pt.v = v;
 
@@ -201,7 +201,7 @@ float IMap::getElevation(double lon, double lat)
 }
 
 
-void IMap::getArea_n_Scaling_fromBase(XY& p1, XY& p2, float& my_xscale, float& my_yscale)
+void IMap::getArea_n_Scaling_fromBase(projXY& p1, projXY& p2, float& my_xscale, float& my_yscale)
 {
     CMapDB::self().getMap().getArea_n_Scaling(p1,p2,my_xscale,my_yscale);
 }

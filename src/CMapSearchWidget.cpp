@@ -141,7 +141,7 @@ void CMapSearchWidget::slotSearchFinished()
         double u = symbol.x();
         double v = symbol.y();
 
-        if((u > PI/2) || (v > PI/4))
+        if((u > M_PI/2) || (v > M_PI/4))
         {
             map.convertM2Rad(u,v);
         }

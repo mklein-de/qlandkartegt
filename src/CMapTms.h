@@ -48,7 +48,7 @@ class CMapTms : public IMap
         void zoom(double lon1, double lat1, double lon2, double lat2);
         void zoom(qint32& level);
         void dimensions(double& lon1, double& lat1, double& lon2, double& lat2);
-        void getArea_n_Scaling(XY& p1, XY& p2, float& my_xscale, float& my_yscale);
+        void getArea_n_Scaling(projXY& p1, projXY& p2, float& my_xscale, float& my_yscale);
 
         void draw(QPainter& p);
 

@@ -37,7 +37,7 @@
 
 bool COverlayDistance::showBullets = true;
 
-bool operator==(const XY& p1, const XY& p2)
+bool operator==(const projXY& p1, const projXY& p2)
 {
     return (p1.u == p2.u) && (p1.v == p2.v);
 }
@@ -98,7 +98,7 @@ COverlayDistance::~COverlayDistance()
 void COverlayDistance::save(QDataStream& s)
 {
     s << name << comment << points.size();
-    XY pt;
+    projXY pt;
     foreach(pt, points)
     {
         s << pt.u << pt.v;
@@ -199,7 +199,7 @@ bool COverlayDistance::isCloseEnough(const QPoint& pt)
     double dist = ref;
     while(p != points.end())
     {
-        XY pt1 = *p;
+        projXY pt1 = *p;
         map.convertRad2Pt(pt1.u, pt1.v);
 
         double d = (pt.x() - pt1.u) * (pt.x() - pt1.u) + (pt.y() - pt1.v) * (pt.y() - pt1.v);
@@ -209,13 +209,13 @@ bool COverlayDistance::isCloseEnough(const QPoint& pt)
 
             if(p != points.begin())
             {
-                XY p1 = *p;
-                XY p2 = *(p - 1);
+                projXY p1 = *p;
+                projXY p2 = *(p - 1);
 
                 map.convertRad2M(p1.u, p1.v);
                 map.convertRad2M(p2.u, p2.v);
 
-                anglePrev = atan2((p2.v - p1.v) , (p2.u - p1.u)) * 180/PI;
+                anglePrev = atan2((p2.v - p1.v) , (p2.u - p1.u)) * 180/M_PI;
 
                 thePointBefor = &(*(p-1));
             }
@@ -226,13 +226,13 @@ bool COverlayDistance::isCloseEnough(const QPoint& pt)
 
             if((p + 1) != points.end())
             {
-                XY p1 = *p;
-                XY p2 = *(p + 1);
+                projXY p1 = *p;
+                projXY p2 = *(p + 1);
 
                 map.convertRad2M(p1.u, p1.v);
                 map.convertRad2M(p2.u, p2.v);
 
-                angleNext = atan2((p2.v - p1.v) , (p2.u - p1.u)) * 180/PI;
+                angleNext = atan2((p2.v - p1.v) , (p2.u - p1.u)) * 180/M_PI;
 
                 thePointAfter = &(*(p+1));
 
@@ -262,7 +262,7 @@ void COverlayDistance::mouseMoveEvent(QMouseEvent * e)
 
     if(thePoint)
     {
-        XY pt = *thePoint;
+        projXY pt = *thePoint;
         map.convertRad2Pt(pt.u, pt.v);
         pos1 -= QPoint(pt.u - 24, pt.v - 24);
 
@@ -570,7 +570,7 @@ void COverlayDistance::mousePressEvent(QMouseEvent * e)
         QPoint pos1 = e->pos();
 
 
-        XY pt = *thePoint;
+        projXY pt = *thePoint;
         map.convertRad2Pt(pt.u, pt.v);
         pos1 -= QPoint(pt.u - 24, pt.v - 24);
 
@@ -753,7 +753,7 @@ void COverlayDistance::drawArrows(const QPolygon& line, const QRect& viewport, Q
             {
                 if(0 != pt.x() - pt1.x() && (pt.y() - pt1.y()))
                 {
-                    heading = ( atan2((double)(pt.y() - pt1.y()), (double)(pt.x() - pt1.x())) * 180.) / PI;
+                    heading = ( atan2((double)(pt.y() - pt1.y()), (double)(pt.x() - pt1.x())) * 180.) / M_PI;
 
                     p.save();
                     // draw arrow between bullets
@@ -782,7 +782,7 @@ void COverlayDistance::draw(QPainter& p, const QRect& viewport)
     QPixmap icon(":/icons/small_bullet_darkgray.png");
     QPixmap icon_red(":/icons/small_bullet_red.png");
     QPixmap icon_BigRed(":/icons/bullet_red.png");
-    XY pt1, pt2;
+    projXY pt1, pt2;
     QPoint pt;
 
 
@@ -992,7 +992,7 @@ void COverlayDistance::draw(QPainter& p, const QRect& viewport)
     // overlay points with the selected point icon
     foreach(i, selectedPoints)
     {
-        XY pt = points[i];
+        projXY pt = points[i];
 
         map.convertRad2Pt(pt.u, pt.v);
         p.drawPixmap(pt.u - 6, pt.v - 6, icon_BigRed);
@@ -1011,7 +1011,7 @@ void COverlayDistance::draw(QPainter& p, const QRect& viewport)
 
 }
 
-void COverlayDistance::drawDistanceInfo(XY p1, XY p2, QPainter& p, IMap& map)
+void COverlayDistance::drawDistanceInfo(projXY p1, projXY p2, QPainter& p, IMap& map)
 {
     QString val, unit, str;
     double a1, a2, dist;
@@ -1109,7 +1109,7 @@ void COverlayDistance::slotToTrack()
     if(points.isEmpty()) return;
 
     double dist, d, delta = 10.0, a1 , a2;
-    XY pt1, pt2, ptx;
+    projXY pt1, pt2, ptx;
     CTrack::pt_t pt;
     CDlgConvertToTrack::EleMode_e eleMode;
 
@@ -1214,7 +1214,7 @@ void COverlayDistance::slotToRoute()
 
     route->setName(name);
 
-    XY pt;
+    projXY pt;
 
     for(int i = 0; i < points.count(); ++i)
     {
@@ -1259,7 +1259,7 @@ void COverlayDistance::makeVisible()
     double west  = +180.0 * DEG_TO_RAD;
     double east  = -180.0 * DEG_TO_RAD;
 
-    XY pt;
+    projXY pt;
     foreach(pt, points)
     {
         if(pt.u < west)  west  = pt.u;
@@ -1294,7 +1294,7 @@ QRectF COverlayDistance::getBoundingRectF()
     double west  = +180.0 * DEG_TO_RAD;
     double east  = -180.0 * DEG_TO_RAD;
 
-    XY pt;
+    projXY pt;
     foreach(pt, points)
     {
         if(pt.u < west)  west  = pt.u;

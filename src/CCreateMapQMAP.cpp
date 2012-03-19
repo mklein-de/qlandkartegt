@@ -173,7 +173,7 @@ void CCreateMapQMAP::mapData2Item(QTreeWidgetItem *& item)
     item->setData(0,eEast, east);
 
     double a1,a2;
-    XY p1, p2, p4;
+    projXY p1, p2, p4;
     p1.u = west;
     p1.v = north;
     p2.u = east;
@@ -218,7 +218,7 @@ void CCreateMapQMAP::processLevelList()
     str += tr("Bottom/right corner:\t%1\n").arg(bottomRight);
 
     double a1,a2;
-    XY p1, p2, p4;
+    projXY p1, p2, p4;
     p1.u = west;
     p1.v = north;
     p2.u = east;

@@ -544,8 +544,8 @@ void CMapQMAPExport::startExportGDAL()
             }
 
             // transform the WGS84 points that define the selection into the map files projection system
-            PJ * pjWGS84 = pj_init_plus("+proj=longlat  +datum=WGS84 +no_defs");
-            XY p1,p2;
+            projPJ  pjWGS84 = pj_init_plus("+proj=longlat  +datum=WGS84 +no_defs");
+            projXY p1,p2;
             p1.u = mapsel.lon1;
             p1.v = mapsel.lat1;
             pj_transform(pjWGS84,mapfile.pj,1,0,&p1.u,&p1.v,0);

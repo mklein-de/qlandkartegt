@@ -23,7 +23,7 @@
 #include <QtGui>
 #include <QRegExp>
 #include <gdal_priv.h>
-#include <projects.h>
+#include <proj_api.h>
 
 #include "CGetOpt.h"
 #include "CAppOpts.h"
@@ -145,8 +145,8 @@ int main(int argc, char ** argv)
     QString str1, str2;
 
     {
-        PJ * pjWGS84 = pj_init_plus("+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs");
-        PJ * pjGK    = pj_init_plus("+proj=tmerc +lat_0=0 +lon_0=12 +k=1 +x_0=4500000 +y_0=0 +ellps=bessel +datum=potsdam +units=m +no_defs +towgs84=606.0,23.0,413.0");
+        projPJ  pjWGS84 = pj_init_plus("+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs");
+        projPJ  pjGK    = pj_init_plus("+proj=tmerc +lat_0=0 +lon_0=12 +k=1 +x_0=4500000 +y_0=0 +ellps=bessel +datum=potsdam +units=m +no_defs +towgs84=606.0,23.0,413.0");
 
         //     double x = 12.09    * DEG_TO_RAD;
         //     double y = 49.0336  * DEG_TO_RAD;
@@ -237,8 +237,8 @@ int main(int argc, char ** argv)
 #endif
 
     {
-        PJ * pjWGS84 = pj_init_plus("+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs");
-        PJ * pjGK    = pj_init_plus("+proj=tmerc +lat_0=0 +lon_0=12 +k=1 +x_0=4500000 +y_0=0 +ellps=bessel +datum=potsdam +units=m +no_defs +towgs84=606.0,23.0,413.0");
+        projPJ  pjWGS84 = pj_init_plus("+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs");
+        projPJ  pjGK    = pj_init_plus("+proj=tmerc +lat_0=0 +lon_0=12 +k=1 +x_0=4500000 +y_0=0 +ellps=bessel +datum=potsdam +units=m +no_defs +towgs84=606.0,23.0,413.0");
 
         //     double x = 12.09    * DEG_TO_RAD;
         //     double y = 49.0336  * DEG_TO_RAD;

@@ -300,7 +300,7 @@ void CCreateMapGridTool::slotOk()
 
     GDALInvGeoTransform(adfGeoTransform1, adfGeoTransform2);
 
-    PJ * pjWGS84 = 0, * pjSrc = 0;
+    projPJ  pjWGS84 = 0, pjSrc = 0;
     if(!lineProjection->text().isEmpty())
     {
         pjSrc   = pj_init_plus(lineProjection->text().toLatin1());

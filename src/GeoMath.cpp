@@ -22,8 +22,9 @@
 #include <QtGui>
 #include <limits>
 
-#if WIN32
 #include <math.h>
+
+#if WIN32
 #include <float.h>
 #ifndef __MINGW32__
 typedef __int32 int32_t;
@@ -188,13 +189,13 @@ bool testLineSegForIntersect(float x11, float y11, float x12, float y12, float x
 }
 
 
-bool testPointInPolygon(const XY& pt, const QVector<XY>& poly1)
+bool testPointInPolygon(const projXY& pt, const QVector<projXY>& poly1)
 {
 
     bool    c = false;
     int     npol;
     int     i = 0, j = 0;
-    XY      p1, p2;              // the two points of the polyline close to pt
+    projXY      p1, p2;              // the two points of the polyline close to pt
     float  x = pt.u;
     float  y = pt.v;
 
@@ -219,7 +220,7 @@ bool testPointInPolygon(const XY& pt, const QVector<XY>& poly1)
 }
 
 
-bool testPolygonsForIntersect(const QVector<XY>& poly1, const QVector<XY>& poly2)
+bool testPolygonsForIntersect(const QVector<projXY>& poly1, const QVector<projXY>& poly2)
 {
 
     int n;
@@ -238,7 +239,7 @@ bool testPolygonsForIntersect(const QVector<XY>& poly1, const QVector<XY>& poly2
     int i1 = 0, j1 = 0;
     int i2 = 0, j2 = 0;
 
-    XY  p1, p2, p3, p4;
+    projXY  p1, p2, p3, p4;
 
     for (i1 = 0, j1 = npol1-1; i1 < npol1; j1 = i1++)
     {
@@ -260,7 +261,7 @@ bool testPolygonsForIntersect(const QVector<XY>& poly1, const QVector<XY>& poly2
 
 // from http://www.movable-type.co.uk/scripts/LatLongVincenty.html
 // additional antipodal convergence trick might be a bit lame, but it seems to work
-double distance(const XY& p1, const XY& p2, double& a1, double& a2)
+double distance(const projXY& p1, const projXY& p2, double& a1, double& a2)
 {
     double cosSigma = 0.0;
     double sigma = 0.0;
@@ -277,14 +278,14 @@ double distance(const XY& p1, const XY& p2, double& a1, double& a2)
     double U2 = atan((1-WGS84_f) * tan(p2.v));
     double sinU1 = sin(U1), cosU1 = cos(U1);
     double sinU2 = sin(U2), cosU2 = cos(U2);
-    double lambda = L, lambdaP = (double)(2*PI);
+    double lambda = L, lambdaP = (double)(2*M_PI);
     unsigned iterLimit = 20;
 
     while (fabs(lambda - lambdaP) > 1e-12)
     {
         if (!iterLimit)
         {
-            lambda = PI;
+            lambda = M_PI;
             qDebug() << "No lambda convergence, most likely due to near-antipodal points. Assuming antipodal.";
         }
 
@@ -320,13 +321,13 @@ double distance(const XY& p1, const XY& p2, double& a1, double& a2)
     double deltaSigma = B*sinSigma*(cos2SigmaM+B/4*(cosSigma*(-1+2*cos2SigmaM*cos2SigmaM)-B/6*cos2SigmaM*(-3+4*sinSigma*sinSigma)*(-3+4*cos2SigmaM*cos2SigmaM)));
     double s = WGS84_b*A*(sigma-deltaSigma);
 
-    a1 = atan2(cosU2 * sinLambda, cosU1 * sinU2 - sinU1 * cosU2 * cosLambda) * 360 / TWOPI;
-    a2 = atan2(cosU1 * sinLambda, -sinU1 * cosU2 + cosU1 * sinU2 * cosLambda) * 360 / TWOPI;
+    a1 = atan2(cosU2 * sinLambda, cosU1 * sinU2 - sinU1 * cosU2 * cosLambda) * 360 / (2*M_PI);
+    a2 = atan2(cosU1 * sinLambda, -sinU1 * cosU2 + cosU1 * sinU2 * cosLambda) * 360 / (2*M_PI);
     return s;
 }
 
 
-double parallel_distance(const XY& p1, const XY& p2)
+double parallel_distance(const projXY& p1, const projXY& p2)
 {
     // Assure same latitude V
     if (p1.v != p2.v) return std::numeric_limits<double>::quiet_NaN();
@@ -362,7 +363,7 @@ bool GPS_Math_Str_To_LongLat(const QString& str, float& lon, float& lat, const Q
     double u = 0, v = 0;
     QRegExp re("^\\s*([\\-0-9\\.]+)\\s+([\\-0-9\\.]+)\\s*$");
 
-    PJ * pjTar = 0;
+    projPJ  pjTar = 0;
     if(!tarproj.isEmpty())
     {
         pjTar = pj_init_plus(tarproj.toLatin1());
@@ -373,7 +374,7 @@ bool GPS_Math_Str_To_LongLat(const QString& str, float& lon, float& lat, const Q
         }
     }
 
-    PJ * pjSrc = 0;
+    projPJ  pjSrc = 0;
     if(!srcproj.isEmpty())
     {
         pjSrc = pj_init_plus(srcproj.toLatin1());
@@ -430,16 +431,16 @@ bool GPS_Math_Str_To_LongLat(const QString& str, float& lon, float& lat, const Q
 }
 
 
-XY GPS_Math_Wpt_Projection(const XY& pt1, double distance, double bearing)
+projXY GPS_Math_Wpt_Projection(const projXY& pt1, double distance, double bearing)
 {
-    XY pt2;
+    projXY pt2;
 
     double d    = distance / 6378130.0;
     double lon1 = pt1.u;
     double lat1 = pt1.v;
 
     double lat2 = asin(sin(lat1) * cos(d) + cos(lat1) * sin(d) * cos(-bearing));
-    double lon2 = cos(lat1) == 0 ? lon1 : fmod(lon1 - asin(sin(-bearing) * sin(d) / cos(lat1)) + PI, TWOPI) - PI;
+    double lon2 = cos(lat1) == 0 ? lon1 : fmod(lon1 - asin(sin(-bearing) * sin(d) / cos(lat1)) + M_PI, (2*M_PI)) - M_PI;
 
     pt2.u = lon2;
     pt2.v = lat2;
@@ -450,7 +451,7 @@ XY GPS_Math_Wpt_Projection(const XY& pt1, double distance, double bearing)
 extern void GPS_Math_SubPolyline( const QPoint& pt1, const QPoint& pt2, int threshold, const QPolygon& line1, QPolygon& line2)
 {
     int i, len;
-    XY p1, p2;
+    projXY p1, p2;
     double dx,dy;                // delta x and y defined by p1 and p2
     double d_p1_p2;              // distance between p1 and p2
     double u;                    // ratio u the tangent point will divide d_p1_p2

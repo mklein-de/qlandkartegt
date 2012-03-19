@@ -19,7 +19,7 @@
 #ifndef GEOMATH_H
 #define GEOMATH_H
 //#include <stdint.h>
-#include <projects.h>
+#include <proj_api.h>
 #ifdef __MINGW32__
 #undef LP
 #endif
@@ -77,7 +77,7 @@ extern bool GPS_Math_Str_To_LongLat(const QString& str, float& lon, float& lat, 
 */
 extern void GPS_Math_Deg_To_Str(const float& lon, const float& lat, QString& str);
 
-extern bool testPolygonsForIntersect(const QVector<XY>& poly1, const QVector<XY>& poly2);
+extern bool testPolygonsForIntersect(const QVector<projXY>& poly1, const QVector<projXY>& poly2);
 
 /// calculate the distance between two WGS84 points
 /**
@@ -88,7 +88,7 @@ extern bool testPolygonsForIntersect(const QVector<XY>& poly1, const QVector<XY>
 
     @return Return the distance between pt1 and pt2.
 */
-extern double distance(const XY& p1, const XY& p2, double& a1, double& a2);
+extern double distance(const projXY& p1, const projXY& p2, double& a1, double& a2);
 
 /// calculate the parallel distance between two WGS84 points sharing the same latitude
 /**
@@ -102,7 +102,7 @@ extern double distance(const XY& p1, const XY& p2, double& a1, double& a2);
 
     @return Return the distance along a parallel between pt1 and pt2.
 */
-extern double parallel_distance(const XY& p1, const XY& p2);
+extern double parallel_distance(const projXY& p1, const projXY& p2);
 
 /**
     @param pt1 starting point longlat [rad]
@@ -111,7 +111,7 @@ extern double parallel_distance(const XY& p1, const XY& p2);
 
     @return The function will return the resulting point in [rad]
 */
-extern XY GPS_Math_Wpt_Projection(const XY& pt1, double distance, double bearing);
+extern projXY GPS_Math_Wpt_Projection(const projXY& pt1, double distance, double bearing);
 
 
 extern void GPS_Math_SubPolyline(const QPoint& p1, const QPoint& p2, int threshold, const QPolygon& line1, QPolygon& line2);

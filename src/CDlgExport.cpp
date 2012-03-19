@@ -32,7 +32,7 @@
 
 
 #include <QtGui>
-#include <projects.h>
+#include <proj_api.h>
 
 CDlgExport::CDlgExport(QWidget * parent, QStringList * wpt, QStringList * trk, QStringList * rte)
 : QDialog(parent)

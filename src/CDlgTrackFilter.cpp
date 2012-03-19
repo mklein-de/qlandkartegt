@@ -320,7 +320,7 @@ void CDlgTrackFilter::reduceDataset(CTrack * trk)
             {
                 min_distance *= 0.3048f;
             }
-            XY p1, p2;
+            projXY p1, p2;
             p1.u = DEG_TO_RAD * trkpt->lon;
             p1.v = DEG_TO_RAD * trkpt->lat;
             ++trkpt;

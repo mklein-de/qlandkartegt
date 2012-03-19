@@ -24,7 +24,7 @@
 #include <QtGui>
 #include <QtXml>
 #include <QtNetwork>
-#include <projects.h>
+#include <proj_api.h>
 
 CDlgMapWmsConfig::CDlgMapWmsConfig(CMapWms &map)
     : map(map)

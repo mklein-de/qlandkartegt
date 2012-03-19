@@ -688,7 +688,7 @@ void CRouteToolWidget::slotToTrack()
 
 
         double dist, d, delta = 10.0, a1 , a2;
-        XY pt1, pt2, ptx;
+        projXY pt1, pt2, ptx;
         CTrack::pt_t pt;
         CDlgConvertToTrack::EleMode_e eleMode;
 

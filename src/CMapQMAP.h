@@ -73,7 +73,7 @@ class CMapQMAP : public IMap
         const QString& getFilename(int x, int y);
     private:
         friend class CExportMapThread;
-        void getArea_n_Scaling(XY& p1, XY& p2, float& my_xscale, float& my_yscale);
+        void getArea_n_Scaling(projXY& p1, projXY& p2, float& my_xscale, float& my_yscale);
         void __test();
 
         QString exportPath;
@@ -85,9 +85,9 @@ class CMapQMAP : public IMap
         float zoomFactor;
 
         /// top left corner as long / lat [rad]
-        XY topLeft;
+        projXY topLeft;
         /// top bottom right as long / lat [rad]
-        XY bottomRight;
+        projXY bottomRight;
 
         bool foundMap;
 

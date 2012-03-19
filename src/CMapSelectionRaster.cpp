@@ -19,7 +19,7 @@
 #include "CMapSelectionRaster.h"
 
 #include <QtGui>
-#include <projects.h>
+#include <proj_api.h>
 #ifdef __MINGW32__
 #undef LP
 #endif
@@ -206,7 +206,7 @@ QString CMapSelectionRaster::getDescription()
     GPS_Math_Deg_To_Str(lon2 * RAD_TO_DEG, lat2 * RAD_TO_DEG, pos2);
 
     double a1, a2;
-    XY p1, p2;
+    projXY p1, p2;
 
     p1.u = lon1;
     p1.v = lat1;

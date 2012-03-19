@@ -49,8 +49,8 @@ class CMapDEM : public IMap
         void select(const QRect& rect);
         void dimensions(double& lon1, double& lat1, double& lon2, double& lat2);
         float getElevation(double lon, double lat);
-        bool getRegion(QVector<float>& buffer, XY p1, XY p2, int w, int h);
-        bool getOrigRegion(QVector<qint16>& data, XY &topLeft, XY &bottomRight, int& w, int& h);
+        bool getRegion(QVector<float>& buffer, projXY p1, projXY p2, int w, int h);
+        bool getOrigRegion(QVector<qint16>& data, projXY &topLeft, projXY &bottomRight, int& w, int& h);
 
         bool is32BitRgb(){return false;}
         bool loaded();
@@ -89,8 +89,8 @@ class CMapDEM : public IMap
 
         CStatusDEM * status;
 
-        XY old_p1;
-        XY old_p2;
+        projXY old_p1;
+        projXY old_p2;
         float old_my_xscale;
         float old_my_yscale;
 

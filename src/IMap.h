@@ -30,7 +30,7 @@
 #include <QApplication>
 #include <QThread>
 
-#include <projects.h>
+#include <proj_api.h>
 #include <ogr_spatialref.h>
 #ifdef __MINGW32__
 #undef LP
@@ -238,7 +238,7 @@ class IMap : public QObject
          * \param h - matrix height
          * @return - return new buffer with size w * h
          */
-        virtual bool getOrigRegion(QVector<qint16>& data, XY &topLeft, XY &bottomRight, int& width, int& height) { return false; }
+        virtual bool getOrigRegion(QVector<qint16>& data, projXY &topLeft, projXY &bottomRight, int& width, int& height) { return false; }
         /**
          * get values for the defined region.
          * \param buffer - elevation matrix. It must has size w * h.
@@ -247,7 +247,7 @@ class IMap : public QObject
          * \param w - matrix width
          * \param h - matrix height
          */
-        virtual bool getRegion(QVector<float>& buffer, XY topLeft, XY bottomRight, int width, int height) {return false;}
+        virtual bool getRegion(QVector<float>& buffer, projXY topLeft, projXY bottomRight, int width, int height) {return false;}
         /// return the state of the needsRedraw flag
         virtual bool getNeedsRedraw(){return needsRedraw;}
         /// the map type, hast to be set during construction
@@ -322,8 +322,8 @@ class IMap : public QObject
         virtual void slotOvlChanged();
 
     protected:
-        virtual void getArea_n_Scaling(XY& p1, XY& p2, float& my_xscale, float& my_yscale){}
-        virtual void getArea_n_Scaling_fromBase(XY& p1, XY& p2, float& my_xscale, float& my_yscale);
+        virtual void getArea_n_Scaling(projXY& p1, projXY& p2, float& my_xscale, float& my_yscale){}
+        virtual void getArea_n_Scaling_fromBase(projXY& p1, projXY& p2, float& my_xscale, float& my_yscale);
         virtual void setFastDrawTimer();
 
         inline bool isThread(){return QApplication::instance()->thread() != QThread::currentThread();}
@@ -343,12 +343,12 @@ class IMap : public QObject
             Has to be set by subclass. Destruction has to be
             handeled by subclass.
         */
-        PJ * pjsrc;
+        projPJ  pjsrc;
         /// target projection
         /**
             Is set by IMap() to WGS84. Will be freed by ~IMap()
         */
-        PJ * pjtar;
+        projPJ  pjtar;
 
         /// the source SRS object
         OGRSpatialReference oSRS;

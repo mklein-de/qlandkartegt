@@ -32,7 +32,7 @@
 #include "CSettings.h"
 
 #include <QtGui>
-#include <projects.h>
+#include <proj_api.h>
 #ifdef __MINGW32__
 #undef LP
 #endif
@@ -290,7 +290,7 @@ void COverlayDB::saveGPX(CGpx& gpx, const QStringList& keys)
             elem.appendChild(speed);
             speed.appendChild(gpx.createTextNode(QString("%1").arg(ovl->speed)));
 
-            XY pt;
+            projXY pt;
             foreach(pt, ovl->points)
             {
                 QDomElement point = gpx.createElement("ql:point");

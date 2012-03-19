@@ -23,7 +23,7 @@
 #include <QObject>
 #include <QRgb>
 #include <QVector>
-#include <projects.h>
+#include <proj_api.h>
 #include <ogr_spatialref.h>
 #ifdef __MINGW32__
 #undef LP
@@ -59,7 +59,7 @@ class CMapFile : public QObject
         QString strProj;
         QString strOrigProj;
         /// projection context
-        PJ * pj;
+        projPJ  pj;
 
         /// scale [px/m]
         double xscale;

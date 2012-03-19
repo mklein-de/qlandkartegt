@@ -105,7 +105,7 @@ void CMouseMoveWpt::draw(QPainter& p)
     if(moveWpt && !selWpt.isNull() && selWpt->isMovable())
     {
         double x1, y1, x2, y2;
-        XY p1, p2;
+        projXY p1, p2;
         IMap& map = CMapDB::self().getMap();
 
         x1 = p1.u = selWpt->lon * DEG_TO_RAD;

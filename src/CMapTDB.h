@@ -55,7 +55,7 @@ class CMapTDB : public IMap
         void draw(QPainter& p);
         void draw();
         void draw(const QSize& s, bool needsRedraw, QPainter& p);
-        void getArea_n_Scaling(XY& p1, XY& p2, float& my_xscale, float& my_yscale);
+        void getArea_n_Scaling(projXY& p1, projXY& p2, float& my_xscale, float& my_yscale);
         void registerDEM(CMapDEM& dem);
         void select(IMapSelection& ms, const QRect& rect);
         void getClosePolyline(QPoint& pt1, QPoint& pt2, qint32 threshold, QPolygon& line);
@@ -193,7 +193,7 @@ class CMapTDB : public IMap
             double south;
             double west;
             QRectF area;
-            //             QVector<XY> definitionArea;
+            //             QVector<projXY> definitionArea;
             CGarminTile * img;
             quint32 memSize;
 
@@ -277,9 +277,9 @@ class CMapTDB : public IMap
         /// the used scale
         double zoomFactor;
         /// top left corner as long / lat [rad]
-        XY topLeft;
+        projXY topLeft;
         /// top bottom right as long / lat [rad]
-        XY bottomRight;
+        projXY bottomRight;
 
         QMap<quint32, IGarminTyp::polyline_property> polylineProperties;
         QMap<quint32, IGarminTyp::polygon_property> polygonProperties;

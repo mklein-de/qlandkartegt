@@ -20,7 +20,7 @@
 #include "CCopyright.h"
 #include "version.h"
 #include <gdal.h>
-#include <projects.h>
+#include <proj_api.h>
 #ifdef __MINGW32__
 #undef LP
 #endif

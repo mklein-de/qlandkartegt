@@ -473,7 +473,7 @@ void CCanvas::drawScale(QPainter& p)
 
     if(map.isLonLat())
     {
-        XY p1,p2;
+        projXY p1,p2;
         double a1,a2;
         p1.u = u1;
         p1.v = v1;
@@ -508,7 +508,7 @@ void CCanvas::drawScale(QPainter& p)
     //     qDebug() << "----" << d;
 
     // step III: convert the scale length from [m] into [px]
-    XY pt1, pt2;
+    projXY pt1, pt2;
     pt1.u = px1.x();
     pt1.v = px1.y();
     map.convertPt2Rad(pt1.u,pt1.v);

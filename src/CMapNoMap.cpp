@@ -101,7 +101,7 @@ void CMapNoMap::move(const QPoint& old, const QPoint& next)
 
 void CMapNoMap::zoom(bool zoomIn, const QPoint& p0)
 {
-    XY p1;
+    projXY p1;
 
     // convert point to geo. coordinates
     p1.u = p0.x();

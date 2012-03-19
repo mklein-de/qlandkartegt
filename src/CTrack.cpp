@@ -843,7 +843,7 @@ void CTrack::rebuild(bool reindex)
             dt = pt2->timestamp - pt1->timestamp;
         }
 
-        XY p1,p2;
+        projXY p1,p2;
         p1.u = DEG_TO_RAD * pt1->lon;
         p1.v = DEG_TO_RAD * pt1->lat;
         p2.u = DEG_TO_RAD * pt2->lon;

@@ -112,10 +112,10 @@ CMapRmap::CMapRmap(const QString &key, const QString &fn, CCanvas *parent)
     QPoint p1;
     QPoint p2;
     QPoint p3;
-    XY c0;
-    XY c1;
-    XY c2;
-    XY c3;
+    projXY c0;
+    projXY c1;
+    projXY c2;
+    projXY c3;
 
     bool pointsAreLongLat = true;
     QString projection;
@@ -434,7 +434,7 @@ void CMapRmap::zoom(bool zoomIn, const QPoint& p0)
 {
     qDebug() << "zoom" << zoomIn;
 
-    XY p1;
+    projXY p1;
     if(pjsrc == 0) return;
 
     needsRedraw     = true;
@@ -561,7 +561,7 @@ void CMapRmap::dimensions(double& lon1, double& lat1, double& lon2, double& lat2
 
 }
 
-void CMapRmap::getArea_n_Scaling(XY& p1, XY& p2, float& my_xscale, float& my_yscale)
+void CMapRmap::getArea_n_Scaling(projXY& p1, projXY& p2, float& my_xscale, float& my_yscale)
 {
     if(pjsrc == 0) return;
 

@@ -180,7 +180,7 @@ void CMapDEM::dimensions(double& lon1, double& lat1, double& lon2, double& lat2)
 }
 
 
-bool CMapDEM::getOrigRegion(QVector<qint16>& data,XY &topLeft, XY &bottomRight, int& w, int& h)
+bool CMapDEM::getOrigRegion(QVector<qint16>& data,projXY &topLeft, projXY &bottomRight, int& w, int& h)
 {
     //memset(data, 0, sizeof(qint16) * h * w);
     data.fill(0);
@@ -239,7 +239,7 @@ bool CMapDEM::getOrigRegion(QVector<qint16>& data,XY &topLeft, XY &bottomRight, 
 }
 
 
-bool CMapDEM::getRegion(QVector<float>& data, XY topLeft, XY bottomRight, int w, int h)
+bool CMapDEM::getRegion(QVector<float>& data, projXY topLeft, projXY bottomRight, int w, int h)
 {
     //     qDebug() << topLeft.u << topLeft.v << bottomRight.u << bottomRight.v << w << h;
     data.fill(0.0);
@@ -389,7 +389,7 @@ void CMapDEM::draw()
     // check if old area matches new request
     // kind of a different way to calculate the needRedraw flag
 
-    XY p1, p2;
+    projXY p1, p2;
     float my_xscale, my_yscale;
 
     getArea_n_Scaling_fromBase(p1, p2, my_xscale, my_yscale);
@@ -417,16 +417,16 @@ void CMapDEM::draw()
         Calculate area of DEM data to be read.
     */
 
-    XY _p1 = p1;
-    XY _p2 = p2;
+    projXY _p1 = p1;
+    projXY _p2 = p2;
 
     // 1. convert top left and bottom right point into the projection system used by the DEM data
     pj_transform(pjtar, pjsrc, 1, 0, &_p1.u, &_p1.v, 0);
     pj_transform(pjtar, pjsrc, 1, 0, &_p2.u, &_p2.v, 0);
 
     // determine intersection rect
-    XY r1 = { std::max(_p1.u, xref1), std::min(_p1.v, yref1) };
-    XY r2 = { std::min(_p2.u, xref2), std::max(_p2.v, yref2) };
+    projXY r1 = { std::max(_p1.u, xref1), std::min(_p1.v, yref1) };
+    projXY r2 = { std::min(_p2.u, xref2), std::max(_p2.v, yref2) };
 
     if (r1.u > _p2.u || r1.v < _p2.v || r2.u < _p1.u || r2.v > _p1.v)
     {

@@ -41,7 +41,7 @@
 #include <limits>
 #include <math.h>
 
-#include <projects.h>
+#include <proj_api.h>
 #ifdef __MINGW32__
 #undef LP
 #endif
@@ -610,7 +610,7 @@ void CDeviceGarmin::slotTimeout()
 
         // multiply by 100 to avoid leaving the float range.
         float heading = fabsf((100.0 * pvt.east) / (100.0 * pvt.north));
-        heading = atanf(heading) / (TWOPI) * 360.0;
+        heading = atanf(heading) / (2*M_PI) * 360.0;
         if( (pvt.north > 0.0) & (pvt.east > 0.0) )
         {
             // 1st quadrant

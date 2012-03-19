@@ -21,7 +21,7 @@
 #include <wctype.h>
 
 #include <gdal_priv.h>
-#include <projects.h>
+#include <proj_api.h>
 #include <ogr_spatialref.h>
 
 #include <QtCore>

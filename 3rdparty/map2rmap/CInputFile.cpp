@@ -230,7 +230,7 @@ void CInputFile::summarize()
 
 void CInputFile::getRefP0(double& lon, double& lat)
 {
-    PJ * wgs84 = pj_init_plus("+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs");
+    projPJ  wgs84 = pj_init_plus("+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs");
 
     lon = xref1;
     lat = yref1;
@@ -245,7 +245,7 @@ void CInputFile::getRefP0(double& lon, double& lat)
 
 void CInputFile::getRefP1(double& lon, double& lat)
 {
-    PJ * wgs84 = pj_init_plus("+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs");
+    projPJ  wgs84 = pj_init_plus("+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs");
 
     lon = xref2;
     lat = yref1;
@@ -260,7 +260,7 @@ void CInputFile::getRefP1(double& lon, double& lat)
 
 void CInputFile::getRefP2(double& lon, double& lat)
 {
-    PJ * wgs84 = pj_init_plus("+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs");
+    projPJ  wgs84 = pj_init_plus("+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs");
 
     lon = xref2;
     lat = yref2;
@@ -275,7 +275,7 @@ void CInputFile::getRefP2(double& lon, double& lat)
 
 void CInputFile::getRefP3(double& lon, double& lat)
 {
-    PJ * wgs84 = pj_init_plus("+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs");
+    projPJ  wgs84 = pj_init_plus("+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs");
 
     lon = xref1;
     lat = yref2;

@@ -190,7 +190,7 @@ quint32 CGarminPolygon::decode(qint32 iCenterLon, qint32 iCenterLat, quint32 shi
 
     CShiftReg sr(pData,bs_len,bx,by,extra_bit,signinfo);
     qint32 x1,y1,x = 0,y = 0;
-    XY xy;
+    projXY xy;
 
     bool isNegative = (iCenterLon >= 0x800000);
     // first point
@@ -320,7 +320,7 @@ quint32 CGarminPolygon::decode2(qint32 iCenterLon, qint32 iCenterLat, quint32 sh
 
     CShiftReg sr(pData,bs_len,bx,by,false,signinfo);
     qint32 x1,y1,x = 0,y = 0;
-    XY xy;
+    projXY xy;
 
     bool isNegative = (iCenterLon >= 0x800000);
     // first point
@@ -348,7 +348,7 @@ quint32 CGarminPolygon::decode2(qint32 iCenterLon, qint32 iCenterLat, quint32 sh
         xy.u = GARMIN_RAD(x1);
         xy.v = GARMIN_RAD(y1);
 
-        if(fabs(xy.v) > 2*PI || fabs(xy.u) > 2*PI)
+        if(fabs(xy.v) > 2*M_PI || fabs(xy.u) > 2*M_PI)
         {
             qDebug() << "bam";
             qDebug() << xy.u << xy.v << pStart << pEnd << (pEnd - pStart) << (cnt + 1) << line;

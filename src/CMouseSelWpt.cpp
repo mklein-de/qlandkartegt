@@ -93,7 +93,7 @@ void CMouseSelWpt::mousePressEvent(QMouseEvent * e)
 void CMouseSelWpt::mouseReleaseEvent(QMouseEvent * e)
 {
 
-    XY p1, p2;
+    projXY p1, p2;
     double a1,a2;
     p1.u        = center.x();
     p1.v        = center.y();
@@ -124,7 +124,7 @@ void CMouseSelWpt::draw(QPainter& p)
     double r    = sqrt((u0-u1)*(u0-u1) + (v0-v1)*(v0-v1));
     double a1   = 0, a2 = 0;
 
-    XY p1, p2;
+    projXY p1, p2;
     p1.u        = center.x();
     p1.v        = center.y();
     p2.u        = point1.x();
