@@ -19,8 +19,10 @@
 
 #include "CUnitNautic.h"
 
+// 1 nm = 1852 meters (exactly!)
+// 1 ft = 0.3048 meter (exactly!)
 CUnitNautic::CUnitNautic(QObject * parent)
-: IUnit("nautic", "nm", 0.00053989f, "nm/h", 1.94361780f, parent)
+: IUnit("nautic", "nm", 0.00053996f, "kt", 1.94384449f, parent)
 {
 
 }
@@ -34,8 +36,8 @@ CUnitNautic::~CUnitNautic()
 
 void CUnitNautic::meter2elevation(float meter, QString& val, QString& unit)
 {
-    val.sprintf("%1.0f", meter);
-    unit = "m";
+    val.sprintf("%1.0f", meter / 0.3048);
+    unit = "ft";
 }
 
 
@@ -55,17 +57,25 @@ void CUnitNautic::meter2speed(float meter, QString& val, QString& unit)
 
 float CUnitNautic::elevation2meter(const QString& val)
 {
-    return val.toDouble();
+    return val.toDouble() * 0.3048;
 }
 
 
 float CUnitNautic::str2speed(QString& str)
 {
-    return (str.remove(" nm/h").toDouble() / 0.53989f);
+    return (str.remove(" kt").toDouble() / speedfactor);
 }
 
 
 float CUnitNautic::str2distance(QString& str)
 {
-    return (str.remove(" nm").toDouble() / 0.00053989f);
+    if (str.contains(" nm"))
+    {
+        return (str.remove(" nm").toDouble() / basefactor);
+    }
+    else if (str.contains(" ft"))
+    {
+        return (str.remove(" ft").toDouble() * 0.3048);
+    }
+    return 0;
 }
