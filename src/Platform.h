@@ -32,7 +32,7 @@
 
     The `configure' script in the top-level folder tries to detect if your machine is a
     little endian (like Intel or ARM) or a big endian (like PowerPC or Sparc).  In the latter
-    case, it defines the macro HAVE_BIGENDIAN.  In an other test, it checks if your machine
+    case, it defines the macro HAVE_BIGENDIAN.  In another test, it checks if your machine
     supports accessing unaligned memory (like Intel or PowerPC) or if such accesses would fail
     (as on ARM or Sparc).  If unaligned accesses are supported, the macro CAN_UNALIGNED will
     be defined.  Of course, the file config.h from the top-level folder has to be included.

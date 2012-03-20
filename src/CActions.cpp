@@ -152,7 +152,7 @@ const QString& toolTip)
 {
     if (findChild<QAction *> (actionName))
     {
-        qDebug() << tr("Action with the name '%1' already registered. Please choose an other name.").arg(actionName);
+        qDebug() << tr("Action with the name '%1' already registered. Please choose another name.").arg(actionName);
         return;
     }
 

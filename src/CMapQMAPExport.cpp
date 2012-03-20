@@ -881,7 +881,7 @@ void CMapQMAPExport::slotFinished(int exitCode, QProcess::ExitStatus status)
 
 void CMapQMAPExport::slotOutputPath()
 {
-    QString path = QFileDialog::getExistingDirectory(this, tr("Select ouput path..."), labelPath->text(), FILE_DIALOG_FLAGS);
+    QString path = QFileDialog::getExistingDirectory(this, tr("Select output path..."), labelPath->text(), FILE_DIALOG_FLAGS);
     if(path.isEmpty()) return;
     labelPath->setText(path);
 }

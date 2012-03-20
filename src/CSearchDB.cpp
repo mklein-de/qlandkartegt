@@ -231,7 +231,7 @@ void CSearchDB::slotRequestFinishedGoogle(QByteArray& data)
 
     if(values.count() != 4)
     {
-        emit sigStatus(tr("Bad number of return paramters"));
+        emit sigStatus(tr("Bad number of return parameters"));
     }
     else if(values[0] == "200")
     {
