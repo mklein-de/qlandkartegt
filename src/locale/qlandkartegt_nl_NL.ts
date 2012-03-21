@@ -1253,112 +1253,87 @@ Once you created a map set you can attach DEM data to it via the context menu in
 <context>
     <name>CCreateMapWMS</name>
     <message>
-        <location filename="../CCreateMapWMS.cpp" line="114"/>
-        <location filename="../CCreateMapWMS.cpp" line="132"/>
-        <location filename="../CCreateMapWMS.cpp" line="152"/>
-        <location filename="../CCreateMapWMS.cpp" line="290"/>
         <source>Error...</source>
-        <translation type="unfinished">Fout ...</translation>
+        <translation type="obsolete">Fout ...</translation>
     </message>
     <message>
-        <location filename="../CCreateMapWMS.cpp" line="114"/>
         <source>Failed to query capabilities.
 
 %1
 
 </source>
-        <translation type="unfinished">lijst mogelijkheden mislukt.
+        <translation type="obsolete">lijst mogelijkheden mislukt.
 
 %1
 
 </translation>
     </message>
     <message>
-        <location filename="../CCreateMapWMS.cpp" line="132"/>
         <source>Failed to parse capabilities.
 
 %1
 
 %2</source>
-        <translation type="unfinished">Ontleden van mogelijkheden mislukt.
+        <translation type="obsolete">Ontleden van mogelijkheden mislukt.
 
 %1
 
 %2</translation>
     </message>
     <message>
-        <location filename="../CCreateMapWMS.cpp" line="152"/>
         <source>Failed to check WMS version.
 
 Expected %1, received %2.</source>
-        <translation type="unfinished">Verkeerde WMS versie
+        <translation type="obsolete">Verkeerde WMS versie
 
 verwacht: %1, ontvangen %2.</translation>
     </message>
     <message>
-        <location filename="../CCreateMapWMS.cpp" line="290"/>
         <source>You need to select at least one layer.</source>
-        <translation type="unfinished">Selecteer tenminste een laag.</translation>
+        <translation type="obsolete">Selecteer tenminste een laag.</translation>
     </message>
     <message>
-        <location filename="../CCreateMapWMS.cpp" line="425"/>
         <source>Define GDAL WMS definition file...</source>
-        <translation type="unfinished">Definieer GDAL WMS definitie bestand ...</translation>
+        <translation type="obsolete">Definieer GDAL WMS definitie bestand ...</translation>
     </message>
 </context>
 <context>
     <name>CDeviceGPSD</name>
     <message>
-        <location filename="../CDeviceGPSD.cpp" line="90"/>
-        <location filename="../CDeviceGPSD.cpp" line="96"/>
-        <location filename="../CDeviceGPSD.cpp" line="102"/>
-        <location filename="../CDeviceGPSD.cpp" line="108"/>
-        <location filename="../CDeviceGPSD.cpp" line="114"/>
-        <location filename="../CDeviceGPSD.cpp" line="120"/>
-        <location filename="../CDeviceGPSD.cpp" line="126"/>
-        <location filename="../CDeviceGPSD.cpp" line="132"/>
         <source>Error...</source>
-        <translation type="unfinished">Fout ...</translation>
+        <translation type="obsolete">Fout ...</translation>
     </message>
     <message>
-        <location filename="../CDeviceGPSD.cpp" line="90"/>
         <source>GPSD: Upload waypoints is not implemented.</source>
-        <translation type="unfinished">GPSD: Wegpunten uploaden niet uitgevoerd.</translation>
+        <translation type="obsolete">GPSD: Wegpunten uploaden niet uitgevoerd.</translation>
     </message>
     <message>
-        <location filename="../CDeviceGPSD.cpp" line="96"/>
         <source>GPSD: Download waypoints is not implemented.</source>
-        <translation type="unfinished">GPSD: Wegpunten downloaden niet uitgevoerd.</translation>
+        <translation type="obsolete">GPSD: Wegpunten downloaden niet uitgevoerd.</translation>
     </message>
     <message>
-        <location filename="../CDeviceGPSD.cpp" line="102"/>
         <source>GPSD: Upload tracks is not implemented.</source>
-        <translation type="unfinished">GPSD: Tracks uploaden niet uitgevoerd.</translation>
+        <translation type="obsolete">GPSD: Tracks uploaden niet uitgevoerd.</translation>
     </message>
     <message>
-        <location filename="../CDeviceGPSD.cpp" line="108"/>
         <source>GPSD: Download tracks is not implemented.</source>
-        <translation type="unfinished">GPSD: Tracks downloaden niet uitgevoerd.</translation>
+        <translation type="obsolete">GPSD: Tracks downloaden niet uitgevoerd.</translation>
     </message>
     <message>
-        <location filename="../CDeviceGPSD.cpp" line="114"/>
         <source>GPSD: Upload routes is not implemented.</source>
-        <translation type="unfinished">GPSD: Routes uploaden niet uitgevoerd.</translation>
+        <translation type="obsolete">GPSD: Routes uploaden niet uitgevoerd.</translation>
     </message>
     <message>
-        <location filename="../CDeviceGPSD.cpp" line="120"/>
         <source>GPSD: Download routes is not implemented.</source>
-        <translation type="unfinished">GPSD: Routes downloaden niet uitgevoerd.</translation>
+        <translation type="obsolete">GPSD: Routes downloaden niet uitgevoerd.</translation>
     </message>
     <message>
-        <location filename="../CDeviceGPSD.cpp" line="126"/>
         <source>GPSD: Upload maps is not implemented.</source>
-        <translation type="unfinished">GPSD: Kaarten uploaden niet uitgevoerd.</translation>
+        <translation type="obsolete">GPSD: Kaarten uploaden niet uitgevoerd.</translation>
     </message>
     <message>
-        <location filename="../CDeviceGPSD.cpp" line="132"/>
         <source>GPSD: Download screenshots is not implemented.</source>
-        <translation type="unfinished">GPSD: Schermafdrukken downloaden niet uitgevoerd.</translation>
+        <translation type="obsolete">GPSD: Schermafdrukken downloaden niet uitgevoerd.</translation>
     </message>
 </context>
 <context>
@@ -1516,56 +1491,40 @@ verwacht: %1, ontvangen %2.</translation>
 <context>
     <name>CDeviceMikrokopter</name>
     <message>
-        <location filename="../CDeviceMikrokopter.cpp" line="60"/>
-        <location filename="../CDeviceMikrokopter.cpp" line="131"/>
-        <location filename="../CDeviceMikrokopter.cpp" line="150"/>
-        <location filename="../CDeviceMikrokopter.cpp" line="156"/>
-        <location filename="../CDeviceMikrokopter.cpp" line="162"/>
-        <location filename="../CDeviceMikrokopter.cpp" line="168"/>
-        <location filename="../CDeviceMikrokopter.cpp" line="174"/>
-        <location filename="../CDeviceMikrokopter.cpp" line="180"/>
         <source>Error...</source>
-        <translation type="unfinished">Fout ...</translation>
+        <translation type="obsolete">Fout ...</translation>
     </message>
     <message>
-        <location filename="../CDeviceMikrokopter.cpp" line="60"/>
         <source>Mikrokopter: Failed to open serial port.</source>
-        <translation type="unfinished">Mikrokopter: Openen seriële  poort mislukt.</translation>
+        <translation type="obsolete">Mikrokopter: Openen seriële  poort mislukt.</translation>
     </message>
     <message>
-        <location filename="../CDeviceMikrokopter.cpp" line="131"/>
         <source>Mikrokopter: Upload waypoints is not implemented.</source>
-        <translation type="unfinished">Mikrokopter: Wegpunten uploaden niet uitgevoerd.</translation>
+        <translation type="obsolete">Mikrokopter: Wegpunten uploaden niet uitgevoerd.</translation>
     </message>
     <message>
-        <location filename="../CDeviceMikrokopter.cpp" line="150"/>
         <source>Mikrokopter: Upload tracks is not implemented.</source>
-        <translation type="unfinished">Mikrokopter: Tracks uploaden niet uitgevoerd.</translation>
+        <translation type="obsolete">Mikrokopter: Tracks uploaden niet uitgevoerd.</translation>
     </message>
     <message>
-        <location filename="../CDeviceMikrokopter.cpp" line="156"/>
         <source>Mikrokopter: Download tracks is not implemented.</source>
-        <translation type="unfinished">Mikrokopter: Tracks downloaden niet uitgevoerd.</translation>
+        <translation type="obsolete">Mikrokopter: Tracks downloaden niet uitgevoerd.</translation>
     </message>
     <message>
-        <location filename="../CDeviceMikrokopter.cpp" line="162"/>
         <source>Mikrokopter: Upload routes is not implemented.</source>
-        <translation type="unfinished">Mikrokopter: Routes uploaden niet uitgevoerd.</translation>
+        <translation type="obsolete">Mikrokopter: Routes uploaden niet uitgevoerd.</translation>
     </message>
     <message>
-        <location filename="../CDeviceMikrokopter.cpp" line="168"/>
         <source>Mikrokopter: Download routes is not implemented.</source>
-        <translation type="unfinished">Mikrokopter: Routes downloaden niet uitgevoerd.</translation>
+        <translation type="obsolete">Mikrokopter: Routes downloaden niet uitgevoerd.</translation>
     </message>
     <message>
-        <location filename="../CDeviceMikrokopter.cpp" line="174"/>
         <source>Mikrokopter: Upload maps is not implemented.</source>
-        <translation type="unfinished">Mikrokopter: Kaarten uploaden niet uitgevoerd.</translation>
+        <translation type="obsolete">Mikrokopter: Kaarten uploaden niet uitgevoerd.</translation>
     </message>
     <message>
-        <location filename="../CDeviceMikrokopter.cpp" line="180"/>
         <source>Mikrokopter: Download screenschots is not implemented.</source>
-        <translation type="unfinished">Mikrokopter: Schermafdrukken downloaden niet uitgevoerd.</translation>
+        <translation type="obsolete">Mikrokopter: Schermafdrukken downloaden niet uitgevoerd.</translation>
     </message>
 </context>
 <context>
@@ -2597,14 +2556,12 @@ is not a valid coordinate system definition:
 <context>
     <name>CGarminIndex</name>
     <message>
-        <location filename="../CGarminIndex.cpp" line="143"/>
         <source>Create index... %1</source>
-        <translation type="unfinished">Creëer index... %1</translation>
+        <translation type="obsolete">Creëer index... %1</translation>
     </message>
     <message>
-        <location filename="../CGarminIndex.cpp" line="403"/>
         <source>Done</source>
-        <translation type="unfinished">Klaar</translation>
+        <translation type="obsolete">Klaar</translation>
     </message>
 </context>
 <context>
@@ -3518,64 +3475,52 @@ Do you want to save your changes?</source>
 <context>
     <name>CMap3DWidget</name>
     <message>
-        <location filename="../CMap3DWidget.cpp" line="168"/>
         <source>Flat / 3D Mode</source>
-        <translation type="unfinished">2D/3D kaartweergave</translation>
+        <translation type="obsolete">2D/3D kaartweergave</translation>
     </message>
     <message>
-        <location filename="../CMap3DWidget.cpp" line="173"/>
         <source>Show Track</source>
-        <translation type="unfinished">Laat track zien</translation>
+        <translation type="obsolete">Laat track zien</translation>
     </message>
     <message>
-        <location filename="../CMap3DWidget.cpp" line="178"/>
         <source>Track on Map</source>
-        <translation type="unfinished">Track op kaart</translation>
+        <translation type="obsolete">Track op kaart</translation>
     </message>
     <message>
-        <location filename="../CMap3DWidget.cpp" line="183"/>
         <source>Inc. Elevation</source>
-        <translation type="unfinished">Hoogte vergroten</translation>
+        <translation type="obsolete">Hoogte vergroten</translation>
     </message>
     <message>
-        <location filename="../CMap3DWidget.cpp" line="186"/>
         <source>Dec. Elevation</source>
-        <translation type="unfinished">Hoogte verkeinen</translation>
+        <translation type="obsolete">Hoogte verkeinen</translation>
     </message>
     <message>
-        <location filename="../CMap3DWidget.cpp" line="189"/>
         <source>Reset Elevation</source>
-        <translation type="unfinished">Hoogte herstellen</translation>
+        <translation type="obsolete">Hoogte herstellen</translation>
     </message>
     <message>
-        <location filename="../CMap3DWidget.cpp" line="192"/>
         <source>Reset light source</source>
-        <translation type="unfinished">Lichtbron herstellen</translation>
+        <translation type="obsolete">Lichtbron herstellen</translation>
     </message>
     <message>
-        <location filename="../CMap3DWidget.cpp" line="329"/>
         <source>Add Waypoint ...</source>
-        <translation type="unfinished">Voeg wegpunt toe ...</translation>
+        <translation type="obsolete">Voeg wegpunt toe ...</translation>
     </message>
     <message>
-        <location filename="../CMap3DWidget.cpp" line="333"/>
         <source>Copy Pos. Waypoint</source>
-        <translation type="unfinished">Wegpuntpositie kopieren</translation>
+        <translation type="obsolete">Wegpuntpositie kopieren</translation>
     </message>
     <message>
-        <location filename="../CMap3DWidget.cpp" line="334"/>
         <source>Edit Waypoint...</source>
-        <translation type="unfinished">Bewerk Wegpunt ...</translation>
+        <translation type="obsolete">Bewerk Wegpunt ...</translation>
     </message>
     <message>
-        <location filename="../CMap3DWidget.cpp" line="336"/>
         <source>Delete Waypoint</source>
-        <translation type="unfinished">Verwijder Wegpunt</translation>
+        <translation type="obsolete">Verwijder Wegpunt</translation>
     </message>
     <message>
-        <location filename="../CMap3DWidget.cpp" line="912"/>
         <source>:/skybox/%1.bmp</source>
-        <translation type="unfinished">:/skybox/%1.bmp</translation>
+        <translation type="obsolete">:/skybox/%1.bmp</translation>
     </message>
 </context>
 <context>
@@ -4111,54 +4056,12 @@ Canceled by user&apos;s request.
 <context>
     <name>CMapRmap</name>
     <message>
-        <location filename="../CMapRmap.cpp" line="51"/>
-        <location filename="../CMapRmap.cpp" line="60"/>
-        <location filename="../CMapRmap.cpp" line="130"/>
-        <location filename="../CMapRmap.cpp" line="147"/>
-        <location filename="../CMapRmap.cpp" line="168"/>
-        <location filename="../CMapRmap.cpp" line="190"/>
-        <location filename="../CMapRmap.cpp" line="212"/>
-        <location filename="../CMapRmap.cpp" line="240"/>
-        <source>Error...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../CMapRmap.cpp" line="51"/>
-        <source>This is not a TwoNav RMAP file.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../CMapRmap.cpp" line="60"/>
-        <source>Unknown sub-format.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../CMapRmap.cpp" line="130"/>
-        <source>Unknown version.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../CMapRmap.cpp" line="147"/>
-        <location filename="../CMapRmap.cpp" line="168"/>
-        <location filename="../CMapRmap.cpp" line="190"/>
-        <location filename="../CMapRmap.cpp" line="212"/>
-        <source>Failed to read reference point.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../CMapRmap.cpp" line="240"/>
-        <source>Unknown projection and datum (%1%2).</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../CMapRmap.cpp" line="628"/>
         <source>Overzoom x%1</source>
-        <translation type="unfinished">Overzoom x%1</translation>
+        <translation type="obsolete">Overzoom x%1</translation>
     </message>
     <message>
-        <location filename="../CMapRmap.cpp" line="632"/>
         <source>Zoom level x%1</source>
-        <translation type="unfinished">Zoom niveau x%1</translation>
+        <translation type="obsolete">Zoom niveau x%1</translation>
     </message>
 </context>
 <context>
@@ -5396,9 +5299,8 @@ regel %2, kolom %3:
         <translation type="obsolete">Tegel %1 was van een %2 oude bestand. Nieuwe laden ...</translation>
     </message>
     <message>
-        <location filename="../COsmTilesHash.cpp" line="162"/>
         <source>The recieved data is not an valid image. Maybe it isn&apos;t an image ...</source>
-        <translation type="unfinished">Het ontvangen bestand is geen geldige afbeelding ...</translation>
+        <translation type="obsolete">Het ontvangen bestand is geen geldige afbeelding ...</translation>
     </message>
 </context>
 <context>
@@ -7439,54 +7341,44 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>ICreateMapWMS</name>
     <message>
-        <location filename="../ICreateMapWMS.ui" line="13"/>
         <source>Form</source>
-        <translation type="unfinished">Form</translation>
+        <translation type="obsolete">Form</translation>
     </message>
     <message>
-        <location filename="../ICreateMapWMS.ui" line="21"/>
         <source>Server:</source>
-        <translation type="unfinished">Server:</translation>
+        <translation type="obsolete">Server:</translation>
     </message>
     <message>
-        <location filename="../ICreateMapWMS.ui" line="31"/>
         <source>Load Capabilities</source>
-        <translation type="unfinished">Mogelijkheden bepalen</translation>
+        <translation type="obsolete">Mogelijkheden bepalen</translation>
     </message>
     <message>
-        <location filename="../ICreateMapWMS.ui" line="52"/>
         <source>Title:</source>
-        <translation type="unfinished">Titel:</translation>
+        <translation type="obsolete">Titel:</translation>
     </message>
     <message>
-        <location filename="../ICreateMapWMS.ui" line="59"/>
         <source>Format:</source>
-        <translation type="unfinished">Formaat:</translation>
+        <translation type="obsolete">Formaat:</translation>
     </message>
     <message>
-        <location filename="../ICreateMapWMS.ui" line="69"/>
         <source>Projection</source>
-        <translation type="unfinished">Projectie</translation>
+        <translation type="obsolete">Projectie</translation>
     </message>
     <message>
-        <location filename="../ICreateMapWMS.ui" line="79"/>
         <source>Layers:</source>
-        <translation type="unfinished">Lagen:</translation>
+        <translation type="obsolete">Lagen:</translation>
     </message>
     <message>
-        <location filename="../ICreateMapWMS.ui" line="96"/>
         <source>File</source>
-        <translation type="unfinished">Bestand</translation>
+        <translation type="obsolete">Bestand</translation>
     </message>
     <message>
-        <location filename="../ICreateMapWMS.ui" line="112"/>
         <source>...</source>
-        <translation type="unfinished">...</translation>
+        <translation type="obsolete">...</translation>
     </message>
     <message>
-        <location filename="../ICreateMapWMS.ui" line="134"/>
         <source>Save</source>
-        <translation type="unfinished">Opslaan</translation>
+        <translation type="obsolete">Opslaan</translation>
     </message>
 </context>
 <context>

@@ -1222,110 +1222,85 @@ Once you created a map set you can attach DEM data to it via the context menu in
 <context>
     <name>CCreateMapWMS</name>
     <message>
-        <location filename="../CCreateMapWMS.cpp" line="114"/>
-        <location filename="../CCreateMapWMS.cpp" line="132"/>
-        <location filename="../CCreateMapWMS.cpp" line="152"/>
-        <location filename="../CCreateMapWMS.cpp" line="290"/>
         <source>Error...</source>
-        <translation type="unfinished">Ошибка...</translation>
+        <translation type="obsolete">Ошибка...</translation>
     </message>
     <message>
-        <location filename="../CCreateMapWMS.cpp" line="114"/>
         <source>Failed to query capabilities.
 
 %1
 
 </source>
-        <translation type="unfinished">Невозможно запросить возможности.
+        <translation type="obsolete">Невозможно запросить возможности.
 
 %1
 
 </translation>
     </message>
     <message>
-        <location filename="../CCreateMapWMS.cpp" line="132"/>
         <source>Failed to parse capabilities.
 
 %1
 
 %2</source>
-        <translation type="unfinished">Невозможность провести анализ возможностей.
+        <translation type="obsolete">Невозможность провести анализ возможностей.
 
 %1
 
 %2</translation>
     </message>
     <message>
-        <location filename="../CCreateMapWMS.cpp" line="152"/>
         <source>Failed to check WMS version.
 
 Expected %1, received %2.</source>
-        <translation type="unfinished">Невозможно проверить версию WMS. Ожидалась %1, получено %2.</translation>
+        <translation type="obsolete">Невозможно проверить версию WMS. Ожидалась %1, получено %2.</translation>
     </message>
     <message>
-        <location filename="../CCreateMapWMS.cpp" line="290"/>
         <source>You need to select at least one layer.</source>
-        <translation type="unfinished">Вы должны выбрать хотя бы один уровень.</translation>
+        <translation type="obsolete">Вы должны выбрать хотя бы один уровень.</translation>
     </message>
     <message>
-        <location filename="../CCreateMapWMS.cpp" line="425"/>
         <source>Define GDAL WMS definition file...</source>
-        <translation type="unfinished">Определите GDAL WMS файл...</translation>
+        <translation type="obsolete">Определите GDAL WMS файл...</translation>
     </message>
 </context>
 <context>
     <name>CDeviceGPSD</name>
     <message>
-        <location filename="../CDeviceGPSD.cpp" line="90"/>
-        <location filename="../CDeviceGPSD.cpp" line="96"/>
-        <location filename="../CDeviceGPSD.cpp" line="102"/>
-        <location filename="../CDeviceGPSD.cpp" line="108"/>
-        <location filename="../CDeviceGPSD.cpp" line="114"/>
-        <location filename="../CDeviceGPSD.cpp" line="120"/>
-        <location filename="../CDeviceGPSD.cpp" line="126"/>
-        <location filename="../CDeviceGPSD.cpp" line="132"/>
         <source>Error...</source>
-        <translation type="unfinished">Ошибка...</translation>
+        <translation type="obsolete">Ошибка...</translation>
     </message>
     <message>
-        <location filename="../CDeviceGPSD.cpp" line="90"/>
         <source>GPSD: Upload waypoints is not implemented.</source>
-        <translation type="unfinished">GPSD: Передача путевых точек не поддерживается.</translation>
+        <translation type="obsolete">GPSD: Передача путевых точек не поддерживается.</translation>
     </message>
     <message>
-        <location filename="../CDeviceGPSD.cpp" line="96"/>
         <source>GPSD: Download waypoints is not implemented.</source>
-        <translation type="unfinished">GPSD: Загрузка путевых точек не поддерживается.</translation>
+        <translation type="obsolete">GPSD: Загрузка путевых точек не поддерживается.</translation>
     </message>
     <message>
-        <location filename="../CDeviceGPSD.cpp" line="102"/>
         <source>GPSD: Upload tracks is not implemented.</source>
-        <translation type="unfinished">GPSD: Передача треков не поддерживается.</translation>
+        <translation type="obsolete">GPSD: Передача треков не поддерживается.</translation>
     </message>
     <message>
-        <location filename="../CDeviceGPSD.cpp" line="108"/>
         <source>GPSD: Download tracks is not implemented.</source>
-        <translation type="unfinished">GPSD: Загрузка треков не поддерживается.</translation>
+        <translation type="obsolete">GPSD: Загрузка треков не поддерживается.</translation>
     </message>
     <message>
-        <location filename="../CDeviceGPSD.cpp" line="114"/>
         <source>GPSD: Upload routes is not implemented.</source>
-        <translation type="unfinished">GPSD: Передача маршрутов не поддерживается.</translation>
+        <translation type="obsolete">GPSD: Передача маршрутов не поддерживается.</translation>
     </message>
     <message>
-        <location filename="../CDeviceGPSD.cpp" line="120"/>
         <source>GPSD: Download routes is not implemented.</source>
-        <translation type="unfinished">GPSD: Загрузка маршрутов не поддерживается.</translation>
+        <translation type="obsolete">GPSD: Загрузка маршрутов не поддерживается.</translation>
     </message>
     <message>
-        <location filename="../CDeviceGPSD.cpp" line="126"/>
         <source>GPSD: Upload maps is not implemented.</source>
-        <translation type="unfinished">GPSD: Передача карт не поддерживается.</translation>
+        <translation type="obsolete">GPSD: Передача карт не поддерживается.</translation>
     </message>
     <message>
-        <location filename="../CDeviceGPSD.cpp" line="132"/>
         <source>GPSD: Download screenshots is not implemented.</source>
-        <translation type="unfinished">GPSD:Загрузка снимков экрана не поддерживается.</translation>
+        <translation type="obsolete">GPSD:Загрузка снимков экрана не поддерживается.</translation>
     </message>
 </context>
 <context>
@@ -1483,56 +1458,40 @@ Expected %1, received %2.</source>
 <context>
     <name>CDeviceMikrokopter</name>
     <message>
-        <location filename="../CDeviceMikrokopter.cpp" line="60"/>
-        <location filename="../CDeviceMikrokopter.cpp" line="131"/>
-        <location filename="../CDeviceMikrokopter.cpp" line="150"/>
-        <location filename="../CDeviceMikrokopter.cpp" line="156"/>
-        <location filename="../CDeviceMikrokopter.cpp" line="162"/>
-        <location filename="../CDeviceMikrokopter.cpp" line="168"/>
-        <location filename="../CDeviceMikrokopter.cpp" line="174"/>
-        <location filename="../CDeviceMikrokopter.cpp" line="180"/>
         <source>Error...</source>
-        <translation type="unfinished">Ошибка...</translation>
+        <translation type="obsolete">Ошибка...</translation>
     </message>
     <message>
-        <location filename="../CDeviceMikrokopter.cpp" line="60"/>
         <source>Mikrokopter: Failed to open serial port.</source>
-        <translation type="unfinished">Mikrokopter: Невозможно открыть последовательный порт.</translation>
+        <translation type="obsolete">Mikrokopter: Невозможно открыть последовательный порт.</translation>
     </message>
     <message>
-        <location filename="../CDeviceMikrokopter.cpp" line="131"/>
         <source>Mikrokopter: Upload waypoints is not implemented.</source>
-        <translation type="unfinished">Mikrokopter: Upload waypoints is not implemented.</translation>
+        <translation type="obsolete">Mikrokopter: Upload waypoints is not implemented.</translation>
     </message>
     <message>
-        <location filename="../CDeviceMikrokopter.cpp" line="150"/>
         <source>Mikrokopter: Upload tracks is not implemented.</source>
-        <translation type="unfinished">Mikrokopter: Передача треков не реализована.</translation>
+        <translation type="obsolete">Mikrokopter: Передача треков не реализована.</translation>
     </message>
     <message>
-        <location filename="../CDeviceMikrokopter.cpp" line="156"/>
         <source>Mikrokopter: Download tracks is not implemented.</source>
-        <translation type="unfinished">Mikrokopter: треков не реализована.</translation>
+        <translation type="obsolete">Mikrokopter: треков не реализована.</translation>
     </message>
     <message>
-        <location filename="../CDeviceMikrokopter.cpp" line="162"/>
         <source>Mikrokopter: Upload routes is not implemented.</source>
-        <translation type="unfinished">Mikrokopter: Передача маршрутов не реализована.</translation>
+        <translation type="obsolete">Mikrokopter: Передача маршрутов не реализована.</translation>
     </message>
     <message>
-        <location filename="../CDeviceMikrokopter.cpp" line="168"/>
         <source>Mikrokopter: Download routes is not implemented.</source>
-        <translation type="unfinished">Mikrokopter: Загрузка маршрутов не реализована.</translation>
+        <translation type="obsolete">Mikrokopter: Загрузка маршрутов не реализована.</translation>
     </message>
     <message>
-        <location filename="../CDeviceMikrokopter.cpp" line="174"/>
         <source>Mikrokopter: Upload maps is not implemented.</source>
-        <translation type="unfinished">Mikrokopter: Передача карт не реализована.</translation>
+        <translation type="obsolete">Mikrokopter: Передача карт не реализована.</translation>
     </message>
     <message>
-        <location filename="../CDeviceMikrokopter.cpp" line="180"/>
         <source>Mikrokopter: Download screenschots is not implemented.</source>
-        <translation type="unfinished">Mikrokopter: Загрузка карт не реализована.</translation>
+        <translation type="obsolete">Mikrokopter: Загрузка карт не реализована.</translation>
     </message>
 </context>
 <context>
@@ -2614,14 +2573,12 @@ is not a valid coordinate system definition:
 <context>
     <name>CGarminIndex</name>
     <message>
-        <location filename="../CGarminIndex.cpp" line="143"/>
         <source>Create index... %1</source>
-        <translation type="unfinished">Создание индекса... %1</translation>
+        <translation type="obsolete">Создание индекса... %1</translation>
     </message>
     <message>
-        <location filename="../CGarminIndex.cpp" line="403"/>
         <source>Done</source>
-        <translation type="unfinished">Готово</translation>
+        <translation type="obsolete">Готово</translation>
     </message>
 </context>
 <context>
@@ -3492,64 +3449,52 @@ Do you want to save your changes?</source>
 <context>
     <name>CMap3DWidget</name>
     <message>
-        <location filename="../CMap3DWidget.cpp" line="168"/>
         <source>Flat / 3D Mode</source>
-        <translation type="unfinished">2D/3D режим</translation>
+        <translation type="obsolete">2D/3D режим</translation>
     </message>
     <message>
-        <location filename="../CMap3DWidget.cpp" line="173"/>
         <source>Show Track</source>
-        <translation type="unfinished">Показать трек</translation>
+        <translation type="obsolete">Показать трек</translation>
     </message>
     <message>
-        <location filename="../CMap3DWidget.cpp" line="178"/>
         <source>Track on Map</source>
-        <translation type="unfinished">Трек на карте</translation>
+        <translation type="obsolete">Трек на карте</translation>
     </message>
     <message>
-        <location filename="../CMap3DWidget.cpp" line="183"/>
         <source>Inc. Elevation</source>
-        <translation type="unfinished">Увеличить возвышение</translation>
+        <translation type="obsolete">Увеличить возвышение</translation>
     </message>
     <message>
-        <location filename="../CMap3DWidget.cpp" line="186"/>
         <source>Dec. Elevation</source>
-        <translation type="unfinished">Уменьшить возвышение</translation>
+        <translation type="obsolete">Уменьшить возвышение</translation>
     </message>
     <message>
-        <location filename="../CMap3DWidget.cpp" line="189"/>
         <source>Reset Elevation</source>
-        <translation type="unfinished">Сброс возвышения</translation>
+        <translation type="obsolete">Сброс возвышения</translation>
     </message>
     <message>
-        <location filename="../CMap3DWidget.cpp" line="192"/>
         <source>Reset light source</source>
-        <translation type="unfinished">Сброс источника света</translation>
+        <translation type="obsolete">Сброс источника света</translation>
     </message>
     <message>
-        <location filename="../CMap3DWidget.cpp" line="329"/>
         <source>Add Waypoint ...</source>
-        <translation type="unfinished">Добавить путевую точку...</translation>
+        <translation type="obsolete">Добавить путевую точку...</translation>
     </message>
     <message>
-        <location filename="../CMap3DWidget.cpp" line="333"/>
         <source>Copy Pos. Waypoint</source>
-        <translation type="unfinished">Копировать позицию путевой точки</translation>
+        <translation type="obsolete">Копировать позицию путевой точки</translation>
     </message>
     <message>
-        <location filename="../CMap3DWidget.cpp" line="334"/>
         <source>Edit Waypoint...</source>
-        <translation type="unfinished">Редактировать путевую точку ...</translation>
+        <translation type="obsolete">Редактировать путевую точку ...</translation>
     </message>
     <message>
-        <location filename="../CMap3DWidget.cpp" line="336"/>
         <source>Delete Waypoint</source>
-        <translation type="unfinished">Удалить путевую точку</translation>
+        <translation type="obsolete">Удалить путевую точку</translation>
     </message>
     <message>
-        <location filename="../CMap3DWidget.cpp" line="912"/>
         <source>:/skybox/%1.bmp</source>
-        <translation type="unfinished">:/skybox/%1.bmp</translation>
+        <translation type="obsolete">:/skybox/%1.bmp</translation>
     </message>
 </context>
 <context>
@@ -4080,54 +4025,16 @@ Canceled by user&apos;s request.
 <context>
     <name>CMapRmap</name>
     <message>
-        <location filename="../CMapRmap.cpp" line="51"/>
-        <location filename="../CMapRmap.cpp" line="60"/>
-        <location filename="../CMapRmap.cpp" line="130"/>
-        <location filename="../CMapRmap.cpp" line="147"/>
-        <location filename="../CMapRmap.cpp" line="168"/>
-        <location filename="../CMapRmap.cpp" line="190"/>
-        <location filename="../CMapRmap.cpp" line="212"/>
-        <location filename="../CMapRmap.cpp" line="240"/>
         <source>Error...</source>
-        <translation type="unfinished">Ошибка...</translation>
+        <translation type="obsolete">Ошибка...</translation>
     </message>
     <message>
-        <location filename="../CMapRmap.cpp" line="51"/>
-        <source>This is not a TwoNav RMAP file.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../CMapRmap.cpp" line="60"/>
-        <source>Unknown sub-format.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../CMapRmap.cpp" line="130"/>
-        <source>Unknown version.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../CMapRmap.cpp" line="147"/>
-        <location filename="../CMapRmap.cpp" line="168"/>
-        <location filename="../CMapRmap.cpp" line="190"/>
-        <location filename="../CMapRmap.cpp" line="212"/>
-        <source>Failed to read reference point.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../CMapRmap.cpp" line="240"/>
-        <source>Unknown projection and datum (%1%2).</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../CMapRmap.cpp" line="628"/>
         <source>Overzoom x%1</source>
-        <translation type="unfinished">Чрезмерное увеличение х%1</translation>
+        <translation type="obsolete">Чрезмерное увеличение х%1</translation>
     </message>
     <message>
-        <location filename="../CMapRmap.cpp" line="632"/>
         <source>Zoom level x%1</source>
-        <translation type="unfinished">Уровень масштабирования х%1</translation>
+        <translation type="obsolete">Уровень масштабирования х%1</translation>
     </message>
 </context>
 <context>
@@ -5369,9 +5276,8 @@ line %2, column %3:
         <translation type="obsolete">Тайл %1 был загружен %2 дней назад. Перезагрузка...</translation>
     </message>
     <message>
-        <location filename="../COsmTilesHash.cpp" line="162"/>
         <source>The recieved data is not an valid image. Maybe it isn&apos;t an image ...</source>
-        <translation type="unfinished">Принятые данные не верны. Может быть это не изображение...</translation>
+        <translation type="obsolete">Принятые данные не верны. Может быть это не изображение...</translation>
     </message>
 </context>
 <context>
@@ -7425,54 +7331,44 @@ p, li { white-space: pre-wrap; }￼￼￼￼￼￼
 <context>
     <name>ICreateMapWMS</name>
     <message>
-        <location filename="../ICreateMapWMS.ui" line="13"/>
         <source>Form</source>
-        <translation type="unfinished">Создание карты на основе OSM</translation>
+        <translation type="obsolete">Создание карты на основе OSM</translation>
     </message>
     <message>
-        <location filename="../ICreateMapWMS.ui" line="21"/>
         <source>Server:</source>
-        <translation type="unfinished">Адрес сервера:</translation>
+        <translation type="obsolete">Адрес сервера:</translation>
     </message>
     <message>
-        <location filename="../ICreateMapWMS.ui" line="31"/>
         <source>Load Capabilities</source>
-        <translation type="unfinished">Узнать о возможностях</translation>
+        <translation type="obsolete">Узнать о возможностях</translation>
     </message>
     <message>
-        <location filename="../ICreateMapWMS.ui" line="52"/>
         <source>Title:</source>
-        <translation type="unfinished">Заголовок:</translation>
+        <translation type="obsolete">Заголовок:</translation>
     </message>
     <message>
-        <location filename="../ICreateMapWMS.ui" line="59"/>
         <source>Format:</source>
-        <translation type="unfinished">Формат:</translation>
+        <translation type="obsolete">Формат:</translation>
     </message>
     <message>
-        <location filename="../ICreateMapWMS.ui" line="69"/>
         <source>Projection</source>
-        <translation type="unfinished">Проекция</translation>
+        <translation type="obsolete">Проекция</translation>
     </message>
     <message>
-        <location filename="../ICreateMapWMS.ui" line="79"/>
         <source>Layers:</source>
-        <translation type="unfinished">Слои:</translation>
+        <translation type="obsolete">Слои:</translation>
     </message>
     <message>
-        <location filename="../ICreateMapWMS.ui" line="96"/>
         <source>File</source>
-        <translation type="unfinished">Файл</translation>
+        <translation type="obsolete">Файл</translation>
     </message>
     <message>
-        <location filename="../ICreateMapWMS.ui" line="112"/>
         <source>...</source>
-        <translation type="unfinished">...</translation>
+        <translation type="obsolete">...</translation>
     </message>
     <message>
-        <location filename="../ICreateMapWMS.ui" line="134"/>
         <source>Save</source>
-        <translation type="unfinished">Сохранить</translation>
+        <translation type="obsolete">Сохранить</translation>
     </message>
 </context>
 <context>
