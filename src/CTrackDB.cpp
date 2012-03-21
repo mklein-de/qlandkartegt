@@ -31,6 +31,7 @@
 #include "IMap.h"
 #include "IUnit.h"
 #include "CSettings.h"
+#include "GeoMath.h"
 
 #include <QtGui>
 #include "CUndoStackModel.h"
@@ -832,7 +833,7 @@ void CTrackDB::drawLine(const QPolygon& line, const QRect& extViewport, QPainter
     {
         pt1 = line[i];
 
-        if(!extViewport.contains(pt1) && !extViewport.contains(pt))
+        if(!GPS_Math_LineCrossesRect(pt, pt1, extViewport))
         {
             pt = pt1;
             if(subline.size() > 1)

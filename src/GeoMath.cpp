@@ -607,3 +607,29 @@ extern void GPS_Math_SubPolyline( const QPoint& pt1, const QPoint& pt2, int thre
 
     }
 }
+
+extern bool GPS_Math_LineCrossesRect(const QPoint& p1, const QPoint& p2, const QRect& rect)
+{
+
+    // the trival case
+    if(rect.contains(p1) || rect.contains(p2))
+    {
+        return true;
+    }
+
+    double slope    = double(p2.y() - p1.y()) / (p2.x() - p1.x());
+    double offset   = p1.y() - slope * p1.x();
+    double y1       = offset + slope * rect.left();
+    double y2       = offset + slope * rect.right();
+
+    if((y1 < rect.top()) && (y2 < rect.top()))
+    {
+        return false;
+    }
+    else if((y1 > rect.bottom()) && (y2 > rect.bottom()))
+    {
+        return false;
+    }
+
+    return true;
+}

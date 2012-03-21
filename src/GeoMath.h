@@ -116,5 +116,6 @@ extern projXY GPS_Math_Wpt_Projection(const projXY& pt1, double distance, double
 
 extern void GPS_Math_SubPolyline(const QPoint& p1, const QPoint& p2, int threshold, const QPolygon& line1, QPolygon& line2);
 
+extern bool GPS_Math_LineCrossesRect(const QPoint& p1, const QPoint& p2, const QRect& rect);
 
 #endif                           //GEOMATH_H

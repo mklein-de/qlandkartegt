@@ -26,6 +26,7 @@
 #include "CGpx.h"
 #include "CResources.h"
 #include "IDevice.h"
+#include "GeoMath.h"
 
 #include <QtGui>
 
@@ -629,6 +630,7 @@ void CRouteDB::drawArrows(const QPolygon& line, const QRect& viewport, QPainter&
 
 }
 
+
 void CRouteDB::drawLine(const QPolygon& line, const QRect& extViewport, QPainter& p)
 {
     QPolygon subline;
@@ -645,7 +647,7 @@ void CRouteDB::drawLine(const QPolygon& line, const QRect& extViewport, QPainter
     {
         pt1 = line[i];
 
-        if(!extViewport.contains(pt1) && !extViewport.contains(pt))
+        if(!GPS_Math_LineCrossesRect(pt, pt1, extViewport))
         {
             pt = pt1;
             if(subline.size() > 1)
