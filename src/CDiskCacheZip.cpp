@@ -51,7 +51,8 @@ void CDiskCacheZip::restore(const QString& key, QImage& img)
 //    qDebug()  << "restore img " << key;
 
     int index1 = key.indexOf("file:");
-    QString url = key.right(key.size() - 6);
+    //QString url = key.right(key.size() - 6);
+    QString url = QUrl(key.trimmed()).toLocalFile();
 
     int index2 = url.lastIndexOf('/');
     index1 = url.lastIndexOf('/',index2 - 1);
