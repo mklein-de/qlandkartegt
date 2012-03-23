@@ -1451,7 +1451,7 @@ void CTrackEditWidget::updateStages(QList<CTrack::wpt_t>& wpts)
     table->cellAt(2,eProx).firstCursorPosition().setBlockFormat(fmtBlockRight);
     table->cellAt(2,eProx).firstCursorPosition().insertText(tr("-"), fmtCharStandard);
     table->cellAt(2,eEleWpt).firstCursorPosition().setBlockFormat(fmtBlockRight);
-    table->cellAt(2,eEleWpt).firstCursorPosition().insertText(tr("-").arg(val).arg(unit), fmtCharStandard);
+    table->cellAt(2,eEleWpt).firstCursorPosition().insertText(tr("-"), fmtCharStandard);
     table->cellAt(2,eEleTrk).firstCursorPosition().setBlockFormat(fmtBlockRight);
     table->cellAt(2,eEleTrk).firstCursorPosition().insertText(tr("%1 %2").arg(val).arg(unit), fmtCharStandard);
 
