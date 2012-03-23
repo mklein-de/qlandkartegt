@@ -36,5 +36,6 @@ class CDlgConvertToTrack : public QDialog, private Ui::IDlgConvertToTrack
 
     public slots:
         void accept();
+        int exec();
 };
 #endif                           //CDLGCONVERTTOTRACK_H

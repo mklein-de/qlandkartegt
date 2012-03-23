@@ -48,6 +48,11 @@ CDlgConvertToTrack::CDlgConvertToTrack(QWidget * parent)
     editGeonamesOrgUsername->setText(cfg.value("geonames/username", "demo").toString());
 }
 
+int CDlgConvertToTrack::exec()
+{
+    widgetGeonamesOrgUsername->setEnabled(radioEleFromRemote->isChecked());
+    return QDialog::exec();
+}
 
 void CDlgConvertToTrack::accept()
 {
