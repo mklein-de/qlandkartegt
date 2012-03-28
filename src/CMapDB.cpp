@@ -380,12 +380,29 @@ void CMapDB::openMap(const QString& filename, bool asRaster, CCanvas& canvas)
         // store current map filename for next session
         cfg.setValue("maps/visibleMaps",filename);
     }
+    else if(ext == "tms")
+    {
+        CMapTms * maptms;
+
+        map.filename    = filename;
+        map.key         = filename;
+        map.type        = IMap::eTMS;
+
+        theMap = maptms = new CMapTms(map.key, &canvas);
+        map.description = maptms->getName();
+        if(map.description.isEmpty()) map.description = fi.fileName();
+
+        // add map to known maps
+        knownMaps[map.key] = map;
+        // store current map filename for next session
+        cfg.setValue("maps/visibleMaps",filename);
+
+    }
     else if(filename.startsWith("http") || filename.startsWith("file") )
     {
         theMap = new CMapTms(QString::number(qHash(filename)), theMainWindow->getCanvas());
 
         // store current map filename for next session
-        SETTINGS;
         cfg.setValue("maps/visibleMaps",filename);
     }
     else
@@ -456,6 +473,10 @@ void CMapDB::openMap(const QString& key)
     else if(ext == "xml")
     {
         theMap = new CMapWms(key,filename,theMainWindow->getCanvas());
+    }
+    else if(ext == "tms")
+    {
+        theMap = new CMapTms(key, theMainWindow->getCanvas());
     }
     else if(filename.startsWith("http") || filename.startsWith("file") )
     {

@@ -1296,7 +1296,6 @@ void CTrackEditWidget::slotStagesChanged()
 #define BASE_FONT_SIZE  9
 
 
-
 void CTrackEditWidget::updateStages(QList<CTrack::wpt_t>& wpts)
 {
 
@@ -1361,7 +1360,7 @@ void CTrackEditWidget::updateStages(QList<CTrack::wpt_t>& wpts)
     fmtFrameRoot.setRightMargin(ROOT_FRAME_MARGIN);
 
     QTextTableFormat fmtTableStandard;
-    fmtTableStandard.setBorder(0.5);
+    fmtTableStandard.setBorder(0);
     fmtTableStandard.setBorderStyle(QTextFrameFormat::BorderStyle_Solid);
     fmtTableStandard.setBorderBrush(Qt::darkGray);
     fmtTableStandard.setCellPadding(4);

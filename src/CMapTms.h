@@ -55,6 +55,8 @@ class CMapTms : public IMap
         quint32 scalePixelGrid(quint32 nPixel);
         void select(IMapSelection& ms, const QRect& rect);
 
+        QString getName(){return name;}
+
     public slots:
         void resize(const QSize& size);
 
@@ -63,6 +65,7 @@ class CMapTms : public IMap
         void slotRequestFinished(QNetworkReply* reply);
 
     private:
+        void readConfigFromFile(const QString& filename, QWidget * parent);
 
         struct layer_t
         {
@@ -146,6 +149,8 @@ class CMapTms : public IMap
         QLabel * status;
 
         QVector<layer_t> layers;
+
+        QString name;
 
 };
 #endif                           //CMAPTMS_H

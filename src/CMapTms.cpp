@@ -30,6 +30,7 @@
 
 #include <QtGui>
 #include <QtNetwork>
+#include <QtXml>
 
 #include <iostream>
 
@@ -47,11 +48,18 @@ CMapTms::CMapTms(const QString& key, CCanvas *parent)
     SETTINGS;
 
     CMapDB::map_t mapData = CMapDB::self().getMapData(key);
-    copyright   = mapData.copyright;
 
-    layers.resize(1);
-    layers[0].strUrl = mapData.filename;
+    if(mapData.filename.endsWith(".tms"))
+    {
+        readConfigFromFile(mapData.filename, parent);
+    }
+    else
+    {
 
+        copyright   = mapData.copyright;
+        layers.resize(1);
+        layers[0].strUrl = mapData.filename;
+    }
 
     pjsrc = pj_init_plus("+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +wktext +no_defs");
     oSRS.importFromProj4(getProjection());
@@ -111,6 +119,45 @@ CMapTms::~CMapTms()
     delete status;
 
     theMainWindow->getCheckBoxQuadraticZoom()->show();
+}
+
+void CMapTms::readConfigFromFile(const QString& filename, QWidget *parent)
+{
+    QFile file(filename);
+    if(!file.open(QIODevice::ReadOnly))
+    {
+        QMessageBox::critical(parent, tr("Error..."), tr("Failed to open %1").arg(filename), QMessageBox::Abort, QMessageBox::Abort);
+        return;
+    }
+
+    QString msg;
+    int line, column;
+    QDomDocument dom;
+    if(!dom.setContent(&file, true, &msg, &line, &column))
+    {
+        file.close();
+        QMessageBox::critical(parent, tr("Error..."), tr("Failed to read: %1\nline %2, column %3:\n %4").arg(filename).arg(line).arg(column).arg(msg), QMessageBox::Abort, QMessageBox::Abort);
+        return;
+    }
+    file.close();
+
+    QDomElement tms =  dom.firstChildElement("TMS");
+    name            = tms.firstChildElement("Title").text();
+    copyright       = tms.firstChildElement("Copyright").text();
+
+    const QDomNodeList& layerList = tms.elementsByTagName("Layer");
+    uint N = layerList.count();
+    layers.resize(N);
+
+    for(uint n = 0; n < N; ++n)
+    {
+        const QDomNode& layerSingle = layerList.item(n);
+        int idx = layerSingle.attributes().namedItem("idx").nodeValue().toInt();
+        layers[idx].strUrl = layerSingle.namedItem("ServerUrl").toElement().text();
+
+        qDebug() << idx << layers[idx].strUrl;
+    }
+
 }
 
 void CMapTms::resize(const QSize& size)
@@ -482,7 +529,7 @@ void CMapTms::slotRequestFinished(QNetworkReply* reply)
     QString _url_ = reply->url().toString();
     if(pendRequests.contains(_url_))
     {
-        QImage img;        
+        QImage img;
 
         request_t& req = pendRequests[_url_];
 
