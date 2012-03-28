@@ -156,7 +156,7 @@ CMapWms::CMapWms(const QString &key, const QString &filename, CCanvas *parent)
     accessManager->setProxy(QNetworkProxy(QNetworkProxy::DefaultProxy));
     connect(accessManager,SIGNAL(finished(QNetworkReply*)),this,SLOT(slotRequestFinished(QNetworkReply*)));
 
-    diskCache = new CDiskCache(this);
+    diskCache = new CDiskCache(false, this);
 
     SETTINGS;
     cfg.beginGroup("wms/maps");

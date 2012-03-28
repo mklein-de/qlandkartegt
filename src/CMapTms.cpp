@@ -48,7 +48,10 @@ CMapTms::CMapTms(const QString& key, CCanvas *parent)
 
     CMapDB::map_t mapData = CMapDB::self().getMapData(key);
     copyright   = mapData.copyright;
-    strUrl      = mapData.filename;
+
+    layers.resize(1);
+    layers[0].strUrl = mapData.filename;
+
 
     pjsrc = pj_init_plus("+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +wktext +no_defs");
     oSRS.importFromProj4(getProjection());
@@ -71,13 +74,13 @@ CMapTms::CMapTms(const QString& key, CCanvas *parent)
     accessManager->setProxy(QNetworkProxy(QNetworkProxy::DefaultProxy));
     connect(accessManager,SIGNAL(finished(QNetworkReply*)),this,SLOT(slotRequestFinished(QNetworkReply*)));
 
-    if ( strUrl.startsWith("file") )
+    if ( layers[0].strUrl.startsWith("file") )
     {
         diskCache = new CDiskCacheZip(this);
     }
     else
     {
-        diskCache = new CDiskCache(this);
+        diskCache = new CDiskCache(true, this);
     }
 
     status = new QLabel(theMainWindow->getCanvas());
@@ -85,6 +88,12 @@ CMapTms::CMapTms(const QString& key, CCanvas *parent)
     theMainWindow->getCheckBoxQuadraticZoom()->hide();
 
     zoom(zoomidx);
+
+    if(parent)
+    {
+        resize(parent->size());
+    }
+
 }
 
 
@@ -104,6 +113,16 @@ CMapTms::~CMapTms()
     theMainWindow->getCheckBoxQuadraticZoom()->show();
 }
 
+void CMapTms::resize(const QSize& size)
+{
+    IMap::resize(size);
+
+    for(int i = 0; i < layers.size(); i++)
+    {
+        layer_t& layer = layers[i];
+        layer.buffer = QPixmap(size);
+    }
+}
 
 void CMapTms::convertPt2M(double& u, double& v)
 {
@@ -269,7 +288,12 @@ void CMapTms::draw(QPainter& p)
         draw();
     }
 
-    p.drawPixmap(0,0,pixBuffer);
+    //p.drawPixmap(0,0,pixBuffer);
+    for(int i = 0; i < layers.size(); i++)
+    {
+        layer_t& layer = layers[i];
+        p.drawPixmap(0,0,layer.buffer);
+    }
 
     // render overlay
     if(!ovlMap.isNull() && lastTileLoaded && !doFastDraw)
@@ -329,8 +353,15 @@ void CMapTms::draw()
     QImage img;
     lastTileLoaded  = false;
 
-    pixBuffer.fill(Qt::white);
-    QPainter p(&pixBuffer);
+//    pixBuffer.fill(Qt::white);
+
+    for(int i = 0; i < layers.size(); i++)
+    {
+        layer_t& layer = layers[i];
+
+        layer.buffer.fill(Qt::transparent);
+    }
+
 
     int z      = 18 - zoomidx;
     double lon = x;
@@ -366,23 +397,31 @@ void CMapTms::draw()
 
             convertPt2Rad(p1x, p1y);
 
-            request_t req;
-            req.url         = QUrl(strUrl.arg(z).arg(x1 + n).arg(y1 + m));
-            req.lon         = p1x;
-            req.lat         = p1y;
-            req.zoomFactor  = zoomFactor;
-
-            diskCache->restore(req.url.toString(), img);
-            if(!img.isNull())
+            for(int i = 0; i < layers.size(); i++)
             {
-                convertRad2Pt(req.lon,req.lat);
-                p.drawImage(req.lon, req.lat,img);
-            }
-            else
-            {
-                addToQueue(req);
-            }
+                layer_t& layer = layers[i];
 
+                request_t req;
+                req.url         = QUrl(layer.strUrl.arg(z).arg(x1 + n).arg(y1 + m));
+                req.lon         = p1x;
+                req.lat         = p1y;
+                req.zoomFactor  = zoomFactor;
+                req.layer       = i;
+
+                diskCache->restore(req.url.toString(), img);
+                if(!img.isNull())
+                {
+                    convertRad2Pt(req.lon,req.lat);
+                    QPainter p;
+                    p.begin(&layer.buffer);
+                    p.drawImage(req.lon, req.lat,img);
+                    p.end();
+                }
+                else
+                {
+                    addToQueue(req);
+                }
+            }
             n++;
         }
         while(cx < rect.width());
@@ -443,8 +482,7 @@ void CMapTms::slotRequestFinished(QNetworkReply* reply)
     QString _url_ = reply->url().toString();
     if(pendRequests.contains(_url_))
     {
-        QImage img;
-        QPainter p(&pixBuffer);
+        QImage img;        
 
         request_t& req = pendRequests[_url_];
 
@@ -462,7 +500,10 @@ void CMapTms::slotRequestFinished(QNetworkReply* reply)
         if((req.zoomFactor == zoomFactor))
         {
             convertRad2Pt(req.lon, req.lat);
+            QPainter p;
+            p.begin(&layers[req.layer].buffer);
             p.drawImage(req.lon, req.lat, img);
+            p.end();
         }
 
         // pending request finished

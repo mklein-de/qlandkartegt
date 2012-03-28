@@ -55,10 +55,21 @@ class CMapTms : public IMap
         quint32 scalePixelGrid(quint32 nPixel);
         void select(IMapSelection& ms, const QRect& rect);
 
+    public slots:
+        void resize(const QSize& size);
+
+
     private slots:
         void slotRequestFinished(QNetworkReply* reply);
 
     private:
+
+        struct layer_t
+        {
+            QPixmap buffer;
+            QString strUrl;
+
+        };
 
         struct request_t
         {
@@ -69,6 +80,7 @@ class CMapTms : public IMap
             double lon;
             double lat;
             double zoomFactor;
+            int layer;
         };
 
         void draw();
@@ -125,8 +137,6 @@ class CMapTms : public IMap
         QString copyright;
         bool lastTileLoaded;
 
-        QString strUrl;
-
         QNetworkAccessManager * accessManager;
         QQueue<request_t> newRequests;
         QHash<QString,request_t> pendRequests;
@@ -134,6 +144,8 @@ class CMapTms : public IMap
         QSet<QString> seenRequest;
 
         QLabel * status;
+
+        QVector<layer_t> layers;
 
 };
 #endif                           //CMAPTMS_H

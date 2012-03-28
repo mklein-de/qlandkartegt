@@ -1293,6 +1293,7 @@ void CTrackEditWidget::slotStagesChanged()
 
 #define CHAR_PER_LINE 120
 #define ROOT_FRAME_MARGIN 5
+#define BASE_FONT_SIZE  9
 
 
 
@@ -1310,9 +1311,9 @@ void CTrackEditWidget::updateStages(QList<CTrack::wpt_t>& wpts)
     QTextDocument * doc = new QTextDocument(textStages);
 
     doc->setTextWidth(textStages->size().width() - 20);
-    QFontMetrics fm(QFont(textStages->font().family(),10));
+    QFontMetrics fm(QFont(textStages->font().family(),BASE_FONT_SIZE));
     int w = doc->textWidth();
-    int pointSize = ((10 * (w - 2 * ROOT_FRAME_MARGIN)) / (CHAR_PER_LINE *  fm.width("X")));
+    int pointSize = ((BASE_FONT_SIZE * (w - 2 * ROOT_FRAME_MARGIN)) / (CHAR_PER_LINE *  fm.width("X")));
     if(pointSize == 0) return;
 
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));

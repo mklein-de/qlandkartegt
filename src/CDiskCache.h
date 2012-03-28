@@ -34,7 +34,7 @@ class CDiskCache : public IDiskCache
 #ifdef STANDALONE
         CDiskCache(const QString &path, QObject *parent);
 #else
-        CDiskCache(QObject *parent);
+        CDiskCache(bool overlay, QObject *parent);
 #endif                       //STANDALONE
         virtual ~CDiskCache();
 

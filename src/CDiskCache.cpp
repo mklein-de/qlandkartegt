@@ -28,16 +28,19 @@
 CDiskCache::CDiskCache(const QString &path, QObject *parent)
 : IDiskCache(path, parent)
 #else
-CDiskCache::CDiskCache(QObject *parent)
+CDiskCache::CDiskCache(bool overlay, QObject *parent)
 : IDiskCache(parent)
 #endif                           //STANDALONE
 , dummy(":/icons/noMap256x256.png")
 {
-
 #ifdef STANDALONE
     dir     = QDir(path);
 #else
     dir     = CResources::self().getPathMapCache();
+    if(overlay)
+    {
+        dummy.fill(Qt::transparent);
+    }
 #endif                       //STANDALONE
 
     dir.mkpath(dir.path());
