@@ -101,6 +101,16 @@ CMapDB::CMapDB(QTabWidget * tb, QObject * parent)
             file.close();
             if(m.description.isEmpty()) m.description = fi.fileName();
         }
+        else if(ext == "tms")
+        {
+            QFile file(map);
+            file.open(QIODevice::ReadOnly);
+            QDomDocument dom;
+            dom.setContent(&file, false);
+            m.description = dom.firstChildElement("TMS").firstChildElement("Title").text();
+            file.close();
+            if(m.description.isEmpty()) m.description = fi.fileName();
+        }
 #ifdef HAS_RMAP
         else if(ext == "rmap")
         {
@@ -115,7 +125,7 @@ CMapDB::CMapDB(QTabWidget * tb, QObject * parent)
         }
         if(m.description.isEmpty()) m.description = QFileInfo(map).fileName();
         m.key            = map;
-        m.type           = ext == "qmap" ? IMap::eRaster : ext == "tdb" ? IMap::eGarmin : ext == "xml" ? IMap::eWMS : IMap::eRaster;
+        m.type           = ext == "qmap" ? IMap::eRaster : ext == "tdb" ? IMap::eGarmin : ext == "xml" ? IMap::eWMS : ext == "tms" ? IMap::eTMS : IMap::eRaster;
         knownMaps[m.key] = m;
     }
 
@@ -210,6 +220,7 @@ CMapDB::~CMapDB()
         }
         else
         {
+            qDebug() << map.filename;
             maps += map.filename + "|";
         }
     }
