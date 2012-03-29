@@ -49,9 +49,9 @@ CMapTms::CMapTms(const QString& key, CCanvas *parent)
 
     CMapDB::map_t mapData = CMapDB::self().getMapData(key);
 
-    if(mapData.filename.endsWith(".tms"))
+    if(key.endsWith(".tms"))
     {
-        readConfigFromFile(mapData.filename, parent);
+        readConfigFromFile(key, parent);
     }
     else
     {
