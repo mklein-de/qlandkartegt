@@ -101,11 +101,11 @@ CMapQMAPExport::CMapQMAPExport(const CMapSelectionRaster& mapsel, QWidget * pare
     path_map2rmap       = QCoreApplication::applicationDirPath()+QDir::separator()+"map2rmap.exe";
 #else
 #if defined(Q_WS_MAC)
-    // MacOS X: applications are stored in the bundle folder, be sure to quote (space in path)
-    path_map2gcm        = QString("\"%1/Resources/map2gcm\"").arg(QCoreApplication::applicationDirPath().replace(QRegExp("MacOS$"), ""));
-    path_map2jnx        = QString("\"%1/Resources/map2jnx\"").arg(QCoreApplication::applicationDirPath().replace(QRegExp("MacOS$"), ""));
-    path_cache2gtiff    = QString("\"%1/Resources/cache2gtiff\"").arg(QCoreApplication::applicationDirPath().replace(QRegExp("MacOS$"), ""));
-    path_map2rmap       = QString("\"%1/Resources/map2rmap\"").arg(QCoreApplication::applicationDirPath().replace(QRegExp("MacOS$"), ""));
+    // MacOS X: applications are stored in the bundle folder
+    path_map2gcm        = QString("%1/Resources/map2gcm").arg(QCoreApplication::applicationDirPath().replace(QRegExp("MacOS$"), ""));
+    path_map2jnx        = QString("%1/Resources/map2jnx").arg(QCoreApplication::applicationDirPath().replace(QRegExp("MacOS$"), ""));
+    path_cache2gtiff    = QString("%1/Resources/cache2gtiff").arg(QCoreApplication::applicationDirPath().replace(QRegExp("MacOS$"), ""));
+    path_map2rmap       = QString("%1/Resources/map2rmap").arg(QCoreApplication::applicationDirPath().replace(QRegExp("MacOS$"), ""));
 #else
     path_map2gcm        = "map2gcm";
     path_map2jnx        = MAP2JNX;
@@ -113,7 +113,7 @@ CMapQMAPExport::CMapQMAPExport(const CMapSelectionRaster& mapsel, QWidget * pare
     path_map2rmap       = "map2rmap";
 #endif
     QProcess proc1;
-    proc1.start(path_map2jnx);
+    proc1.start(path_map2jnx, QStringList());
     proc1.waitForFinished();
     has_map2jnx = proc1.error() == QProcess::UnknownError;
 #endif
