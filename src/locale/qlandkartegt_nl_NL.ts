@@ -1253,87 +1253,112 @@ Once you created a map set you can attach DEM data to it via the context menu in
 <context>
     <name>CCreateMapWMS</name>
     <message>
+        <location filename="../CCreateMapWMS.cpp" line="114"/>
+        <location filename="../CCreateMapWMS.cpp" line="132"/>
+        <location filename="../CCreateMapWMS.cpp" line="152"/>
+        <location filename="../CCreateMapWMS.cpp" line="290"/>
         <source>Error...</source>
-        <translation type="obsolete">Fout ...</translation>
+        <translation type="unfinished">Fout ...</translation>
     </message>
     <message>
+        <location filename="../CCreateMapWMS.cpp" line="114"/>
         <source>Failed to query capabilities.
 
 %1
 
 </source>
-        <translation type="obsolete">lijst mogelijkheden mislukt.
+        <translation type="unfinished">lijst mogelijkheden mislukt.
 
 %1
 
 </translation>
     </message>
     <message>
+        <location filename="../CCreateMapWMS.cpp" line="132"/>
         <source>Failed to parse capabilities.
 
 %1
 
 %2</source>
-        <translation type="obsolete">Ontleden van mogelijkheden mislukt.
+        <translation type="unfinished">Ontleden van mogelijkheden mislukt.
 
 %1
 
 %2</translation>
     </message>
     <message>
+        <location filename="../CCreateMapWMS.cpp" line="152"/>
         <source>Failed to check WMS version.
 
 Expected %1, received %2.</source>
-        <translation type="obsolete">Verkeerde WMS versie
+        <translation type="unfinished">Verkeerde WMS versie
 
 verwacht: %1, ontvangen %2.</translation>
     </message>
     <message>
+        <location filename="../CCreateMapWMS.cpp" line="290"/>
         <source>You need to select at least one layer.</source>
-        <translation type="obsolete">Selecteer tenminste een laag.</translation>
+        <translation type="unfinished">Selecteer tenminste een laag.</translation>
     </message>
     <message>
+        <location filename="../CCreateMapWMS.cpp" line="425"/>
         <source>Define GDAL WMS definition file...</source>
-        <translation type="obsolete">Definieer GDAL WMS definitie bestand ...</translation>
+        <translation type="unfinished">Definieer GDAL WMS definitie bestand ...</translation>
     </message>
 </context>
 <context>
     <name>CDeviceGPSD</name>
     <message>
+        <location filename="../CDeviceGPSD.cpp" line="90"/>
+        <location filename="../CDeviceGPSD.cpp" line="96"/>
+        <location filename="../CDeviceGPSD.cpp" line="102"/>
+        <location filename="../CDeviceGPSD.cpp" line="108"/>
+        <location filename="../CDeviceGPSD.cpp" line="114"/>
+        <location filename="../CDeviceGPSD.cpp" line="120"/>
+        <location filename="../CDeviceGPSD.cpp" line="126"/>
+        <location filename="../CDeviceGPSD.cpp" line="132"/>
         <source>Error...</source>
-        <translation type="obsolete">Fout ...</translation>
+        <translation type="unfinished">Fout ...</translation>
     </message>
     <message>
+        <location filename="../CDeviceGPSD.cpp" line="90"/>
         <source>GPSD: Upload waypoints is not implemented.</source>
-        <translation type="obsolete">GPSD: Wegpunten uploaden niet uitgevoerd.</translation>
+        <translation type="unfinished">GPSD: Wegpunten uploaden niet uitgevoerd.</translation>
     </message>
     <message>
+        <location filename="../CDeviceGPSD.cpp" line="96"/>
         <source>GPSD: Download waypoints is not implemented.</source>
-        <translation type="obsolete">GPSD: Wegpunten downloaden niet uitgevoerd.</translation>
+        <translation type="unfinished">GPSD: Wegpunten downloaden niet uitgevoerd.</translation>
     </message>
     <message>
+        <location filename="../CDeviceGPSD.cpp" line="102"/>
         <source>GPSD: Upload tracks is not implemented.</source>
-        <translation type="obsolete">GPSD: Tracks uploaden niet uitgevoerd.</translation>
+        <translation type="unfinished">GPSD: Tracks uploaden niet uitgevoerd.</translation>
     </message>
     <message>
+        <location filename="../CDeviceGPSD.cpp" line="108"/>
         <source>GPSD: Download tracks is not implemented.</source>
-        <translation type="obsolete">GPSD: Tracks downloaden niet uitgevoerd.</translation>
+        <translation type="unfinished">GPSD: Tracks downloaden niet uitgevoerd.</translation>
     </message>
     <message>
+        <location filename="../CDeviceGPSD.cpp" line="114"/>
         <source>GPSD: Upload routes is not implemented.</source>
-        <translation type="obsolete">GPSD: Routes uploaden niet uitgevoerd.</translation>
+        <translation type="unfinished">GPSD: Routes uploaden niet uitgevoerd.</translation>
     </message>
     <message>
+        <location filename="../CDeviceGPSD.cpp" line="120"/>
         <source>GPSD: Download routes is not implemented.</source>
-        <translation type="obsolete">GPSD: Routes downloaden niet uitgevoerd.</translation>
+        <translation type="unfinished">GPSD: Routes downloaden niet uitgevoerd.</translation>
     </message>
     <message>
+        <location filename="../CDeviceGPSD.cpp" line="126"/>
         <source>GPSD: Upload maps is not implemented.</source>
-        <translation type="obsolete">GPSD: Kaarten uploaden niet uitgevoerd.</translation>
+        <translation type="unfinished">GPSD: Kaarten uploaden niet uitgevoerd.</translation>
     </message>
     <message>
+        <location filename="../CDeviceGPSD.cpp" line="132"/>
         <source>GPSD: Download screenshots is not implemented.</source>
-        <translation type="obsolete">GPSD: Schermafdrukken downloaden niet uitgevoerd.</translation>
+        <translation type="unfinished">GPSD: Schermafdrukken downloaden niet uitgevoerd.</translation>
     </message>
 </context>
 <context>
@@ -1491,40 +1516,56 @@ verwacht: %1, ontvangen %2.</translation>
 <context>
     <name>CDeviceMikrokopter</name>
     <message>
+        <location filename="../CDeviceMikrokopter.cpp" line="60"/>
+        <location filename="../CDeviceMikrokopter.cpp" line="131"/>
+        <location filename="../CDeviceMikrokopter.cpp" line="150"/>
+        <location filename="../CDeviceMikrokopter.cpp" line="156"/>
+        <location filename="../CDeviceMikrokopter.cpp" line="162"/>
+        <location filename="../CDeviceMikrokopter.cpp" line="168"/>
+        <location filename="../CDeviceMikrokopter.cpp" line="174"/>
+        <location filename="../CDeviceMikrokopter.cpp" line="180"/>
         <source>Error...</source>
-        <translation type="obsolete">Fout ...</translation>
+        <translation type="unfinished">Fout ...</translation>
     </message>
     <message>
+        <location filename="../CDeviceMikrokopter.cpp" line="60"/>
         <source>Mikrokopter: Failed to open serial port.</source>
-        <translation type="obsolete">Mikrokopter: Openen seriële  poort mislukt.</translation>
+        <translation type="unfinished">Mikrokopter: Openen seriële  poort mislukt.</translation>
     </message>
     <message>
+        <location filename="../CDeviceMikrokopter.cpp" line="131"/>
         <source>Mikrokopter: Upload waypoints is not implemented.</source>
-        <translation type="obsolete">Mikrokopter: Wegpunten uploaden niet uitgevoerd.</translation>
+        <translation type="unfinished">Mikrokopter: Wegpunten uploaden niet uitgevoerd.</translation>
     </message>
     <message>
+        <location filename="../CDeviceMikrokopter.cpp" line="150"/>
         <source>Mikrokopter: Upload tracks is not implemented.</source>
-        <translation type="obsolete">Mikrokopter: Tracks uploaden niet uitgevoerd.</translation>
+        <translation type="unfinished">Mikrokopter: Tracks uploaden niet uitgevoerd.</translation>
     </message>
     <message>
+        <location filename="../CDeviceMikrokopter.cpp" line="156"/>
         <source>Mikrokopter: Download tracks is not implemented.</source>
-        <translation type="obsolete">Mikrokopter: Tracks downloaden niet uitgevoerd.</translation>
+        <translation type="unfinished">Mikrokopter: Tracks downloaden niet uitgevoerd.</translation>
     </message>
     <message>
+        <location filename="../CDeviceMikrokopter.cpp" line="162"/>
         <source>Mikrokopter: Upload routes is not implemented.</source>
-        <translation type="obsolete">Mikrokopter: Routes uploaden niet uitgevoerd.</translation>
+        <translation type="unfinished">Mikrokopter: Routes uploaden niet uitgevoerd.</translation>
     </message>
     <message>
+        <location filename="../CDeviceMikrokopter.cpp" line="168"/>
         <source>Mikrokopter: Download routes is not implemented.</source>
-        <translation type="obsolete">Mikrokopter: Routes downloaden niet uitgevoerd.</translation>
+        <translation type="unfinished">Mikrokopter: Routes downloaden niet uitgevoerd.</translation>
     </message>
     <message>
+        <location filename="../CDeviceMikrokopter.cpp" line="174"/>
         <source>Mikrokopter: Upload maps is not implemented.</source>
-        <translation type="obsolete">Mikrokopter: Kaarten uploaden niet uitgevoerd.</translation>
+        <translation type="unfinished">Mikrokopter: Kaarten uploaden niet uitgevoerd.</translation>
     </message>
     <message>
+        <location filename="../CDeviceMikrokopter.cpp" line="180"/>
         <source>Mikrokopter: Download screenschots is not implemented.</source>
-        <translation type="obsolete">Mikrokopter: Schermafdrukken downloaden niet uitgevoerd.</translation>
+        <translation type="unfinished">Mikrokopter: Schermafdrukken downloaden niet uitgevoerd.</translation>
     </message>
 </context>
 <context>
@@ -2556,12 +2597,14 @@ is not a valid coordinate system definition:
 <context>
     <name>CGarminIndex</name>
     <message>
+        <location filename="../CGarminIndex.cpp" line="143"/>
         <source>Create index... %1</source>
-        <translation type="obsolete">Creëer index... %1</translation>
+        <translation type="unfinished">Creëer index... %1</translation>
     </message>
     <message>
+        <location filename="../CGarminIndex.cpp" line="403"/>
         <source>Done</source>
-        <translation type="obsolete">Klaar</translation>
+        <translation type="unfinished">Klaar</translation>
     </message>
 </context>
 <context>
@@ -3193,7 +3236,7 @@ Cur. proj.: %1</source>
     <message>
         <location filename="../CMainWindow.cpp" line="587"/>
         <source>Exit</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Sluiten</translation>
     </message>
     <message>
         <location filename="../CMainWindow.cpp" line="593"/>
@@ -3475,52 +3518,64 @@ Do you want to save your changes?</source>
 <context>
     <name>CMap3DWidget</name>
     <message>
+        <location filename="../CMap3DWidget.cpp" line="168"/>
         <source>Flat / 3D Mode</source>
-        <translation type="obsolete">2D/3D kaartweergave</translation>
+        <translation type="unfinished">2D/3D kaartweergave</translation>
     </message>
     <message>
+        <location filename="../CMap3DWidget.cpp" line="173"/>
         <source>Show Track</source>
-        <translation type="obsolete">Laat track zien</translation>
+        <translation type="unfinished">Laat track zien</translation>
     </message>
     <message>
+        <location filename="../CMap3DWidget.cpp" line="178"/>
         <source>Track on Map</source>
-        <translation type="obsolete">Track op kaart</translation>
+        <translation type="unfinished">Track op kaart</translation>
     </message>
     <message>
+        <location filename="../CMap3DWidget.cpp" line="183"/>
         <source>Inc. Elevation</source>
-        <translation type="obsolete">Hoogte vergroten</translation>
+        <translation type="unfinished">Hoogte vergroten</translation>
     </message>
     <message>
+        <location filename="../CMap3DWidget.cpp" line="186"/>
         <source>Dec. Elevation</source>
-        <translation type="obsolete">Hoogte verkeinen</translation>
+        <translation type="unfinished">Hoogte verkeinen</translation>
     </message>
     <message>
+        <location filename="../CMap3DWidget.cpp" line="189"/>
         <source>Reset Elevation</source>
-        <translation type="obsolete">Hoogte herstellen</translation>
+        <translation type="unfinished">Hoogte herstellen</translation>
     </message>
     <message>
+        <location filename="../CMap3DWidget.cpp" line="192"/>
         <source>Reset light source</source>
-        <translation type="obsolete">Lichtbron herstellen</translation>
+        <translation type="unfinished">Lichtbron herstellen</translation>
     </message>
     <message>
+        <location filename="../CMap3DWidget.cpp" line="329"/>
         <source>Add Waypoint ...</source>
-        <translation type="obsolete">Voeg wegpunt toe ...</translation>
+        <translation type="unfinished">Voeg wegpunt toe ...</translation>
     </message>
     <message>
+        <location filename="../CMap3DWidget.cpp" line="333"/>
         <source>Copy Pos. Waypoint</source>
-        <translation type="obsolete">Wegpuntpositie kopieren</translation>
+        <translation type="unfinished">Wegpuntpositie kopieren</translation>
     </message>
     <message>
+        <location filename="../CMap3DWidget.cpp" line="334"/>
         <source>Edit Waypoint...</source>
-        <translation type="obsolete">Bewerk Wegpunt ...</translation>
+        <translation type="unfinished">Bewerk Wegpunt ...</translation>
     </message>
     <message>
+        <location filename="../CMap3DWidget.cpp" line="336"/>
         <source>Delete Waypoint</source>
-        <translation type="obsolete">Verwijder Wegpunt</translation>
+        <translation type="unfinished">Verwijder Wegpunt</translation>
     </message>
     <message>
+        <location filename="../CMap3DWidget.cpp" line="912"/>
         <source>:/skybox/%1.bmp</source>
-        <translation type="obsolete">:/skybox/%1.bmp</translation>
+        <translation type="unfinished">:/skybox/%1.bmp</translation>
     </message>
 </context>
 <context>
@@ -3557,54 +3612,54 @@ Do you want to save your changes?</source>
         <translation type="obsolete">--- OSM ---</translation>
     </message>
     <message>
-        <location filename="../CMapDB.cpp" line="918"/>
+        <location filename="../CMapDB.cpp" line="950"/>
         <source>Map 3D...</source>
         <translation>3D Kaart...</translation>
     </message>
     <message>
-        <location filename="../CMapDB.cpp" line="495"/>
-        <location filename="../CMapDB.cpp" line="992"/>
-        <location filename="../CMapDB.cpp" line="1037"/>
+        <location filename="../CMapDB.cpp" line="527"/>
+        <location filename="../CMapDB.cpp" line="1024"/>
+        <location filename="../CMapDB.cpp" line="1069"/>
         <source>Error...</source>
         <translation>Fout ...</translation>
     </message>
     <message>
-        <location filename="../CMapDB.cpp" line="161"/>
+        <location filename="../CMapDB.cpp" line="171"/>
         <source>Crash detected....</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CMapDB.cpp" line="161"/>
+        <location filename="../CMapDB.cpp" line="171"/>
         <source>QLandkarte GT was terminated with a crash. This is really bad. A common reason for that is a bad map. Do you really want to load the last map?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CMapDB.cpp" line="495"/>
+        <location filename="../CMapDB.cpp" line="527"/>
         <source>Only vector maps are valid overlays.</source>
         <translation>Alleen vector kaarten zijn geldige overlays.</translation>
     </message>
     <message>
-        <location filename="../CMapDB.cpp" line="905"/>
+        <location filename="../CMapDB.cpp" line="937"/>
         <source>Edit Map</source>
         <translation>Bewerk kaart</translation>
     </message>
     <message>
-        <location filename="../CMapDB.cpp" line="933"/>
+        <location filename="../CMapDB.cpp" line="965"/>
         <source>Search Map</source>
         <translation>Zoek kaart</translation>
     </message>
     <message>
-        <location filename="../CMapDB.cpp" line="947"/>
+        <location filename="../CMapDB.cpp" line="979"/>
         <source>Sorry...</source>
         <translation>Sorry ...</translation>
     </message>
     <message>
-        <location filename="../CMapDB.cpp" line="947"/>
+        <location filename="../CMapDB.cpp" line="979"/>
         <source>You can&apos;t select subareas from single file maps. Create a collection with F1-&gt;F6.</source>
         <translation>Kan geen kaartdelen maken van een kaart bestand. Creëer een collectie met F1 &gt; F6.</translation>
     </message>
     <message>
-        <location filename="../CMapDB.cpp" line="1037"/>
+        <location filename="../CMapDB.cpp" line="1069"/>
         <source>This map does not support this feature.</source>
         <translation type="unfinished">Deze kaart ondersteunt deze optie niet.</translation>
     </message>
@@ -4056,12 +4111,54 @@ Canceled by user&apos;s request.
 <context>
     <name>CMapRmap</name>
     <message>
-        <source>Overzoom x%1</source>
-        <translation type="obsolete">Overzoom x%1</translation>
+        <location filename="../CMapRmap.cpp" line="51"/>
+        <location filename="../CMapRmap.cpp" line="60"/>
+        <location filename="../CMapRmap.cpp" line="130"/>
+        <location filename="../CMapRmap.cpp" line="147"/>
+        <location filename="../CMapRmap.cpp" line="168"/>
+        <location filename="../CMapRmap.cpp" line="190"/>
+        <location filename="../CMapRmap.cpp" line="212"/>
+        <location filename="../CMapRmap.cpp" line="240"/>
+        <source>Error...</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../CMapRmap.cpp" line="51"/>
+        <source>This is not a TwoNav RMAP file.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../CMapRmap.cpp" line="60"/>
+        <source>Unknown sub-format.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../CMapRmap.cpp" line="130"/>
+        <source>Unknown version.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../CMapRmap.cpp" line="147"/>
+        <location filename="../CMapRmap.cpp" line="168"/>
+        <location filename="../CMapRmap.cpp" line="190"/>
+        <location filename="../CMapRmap.cpp" line="212"/>
+        <source>Failed to read reference point.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../CMapRmap.cpp" line="240"/>
+        <source>Unknown projection and datum (%1%2).</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../CMapRmap.cpp" line="628"/>
+        <source>Overzoom x%1</source>
+        <translation type="unfinished">Overzoom x%1</translation>
+    </message>
+    <message>
+        <location filename="../CMapRmap.cpp" line="632"/>
         <source>Zoom level x%1</source>
-        <translation type="obsolete">Zoom niveau x%1</translation>
+        <translation type="unfinished">Zoom niveau x%1</translation>
     </message>
 </context>
 <context>
@@ -4877,33 +4974,53 @@ Canceled by user&apos;s request.
 <context>
     <name>CMapTms</name>
     <message>
-        <location filename="../CMapTms.cpp" line="289"/>
+        <location filename="../CMapTms.cpp" line="129"/>
+        <location filename="../CMapTms.cpp" line="139"/>
+        <source>Error...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../CMapTms.cpp" line="129"/>
+        <source>Failed to open %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../CMapTms.cpp" line="139"/>
+        <source>Failed to read: %1
+line %2, column %3:
+ %4</source>
+        <translation type="unfinished">Lezen mislukt:  %1 
+regel %2, kolom %3:
+%4</translation>
+    </message>
+    <message>
+        <location filename="../CMapTms.cpp" line="360"/>
         <source>Overzoom x%1</source>
         <translation type="unfinished">Overzoom x%1</translation>
     </message>
     <message>
-        <location filename="../CMapTms.cpp" line="293"/>
+        <location filename="../CMapTms.cpp" line="364"/>
         <source>Zoom level x%1</source>
         <translation type="unfinished">Zoom niveau x%1</translation>
     </message>
     <message>
-        <location filename="../CMapTms.cpp" line="315"/>
-        <location filename="../CMapTms.cpp" line="319"/>
+        <location filename="../CMapTms.cpp" line="386"/>
+        <location filename="../CMapTms.cpp" line="390"/>
         <source>%1 %2</source>
         <translation type="unfinished">%1 %2</translation>
     </message>
     <message>
-        <location filename="../CMapTms.cpp" line="315"/>
+        <location filename="../CMapTms.cpp" line="386"/>
         <source>Copyright notice is missing.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CMapTms.cpp" line="430"/>
+        <location filename="../CMapTms.cpp" line="516"/>
         <source>Map loaded.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CMapTms.cpp" line="436"/>
+        <location filename="../CMapTms.cpp" line="522"/>
         <source>Wait for %1 tiles.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -5299,8 +5416,9 @@ regel %2, kolom %3:
         <translation type="obsolete">Tegel %1 was van een %2 oude bestand. Nieuwe laden ...</translation>
     </message>
     <message>
+        <location filename="../COsmTilesHash.cpp" line="162"/>
         <source>The recieved data is not an valid image. Maybe it isn&apos;t an image ...</source>
-        <translation type="obsolete">Het ontvangen bestand is geen geldige afbeelding ...</translation>
+        <translation type="unfinished">Het ontvangen bestand is geen geldige afbeelding ...</translation>
     </message>
 </context>
 <context>
@@ -5482,12 +5600,12 @@ time: </source>
 <context>
     <name>CRouteDB</name>
     <message>
-        <location filename="../CRouteDB.cpp" line="65"/>
+        <location filename="../CRouteDB.cpp" line="66"/>
         <source>Route%1</source>
         <translation>Route%1</translation>
     </message>
     <message>
-        <location filename="../CRouteDB.cpp" line="197"/>
+        <location filename="../CRouteDB.cpp" line="198"/>
         <source>Unnamed</source>
         <translation>Naamloos</translation>
     </message>
@@ -6093,37 +6211,37 @@ Your selection will be stored in the track&apos;s data. You can save it along wi
 <context>
     <name>CTrackDB</name>
     <message>
-        <location filename="../CTrackDB.cpp" line="626"/>
+        <location filename="../CTrackDB.cpp" line="627"/>
         <source>Track%1</source>
         <translation>Track%1</translation>
     </message>
     <message>
-        <location filename="../CTrackDB.cpp" line="1134"/>
+        <location filename="../CTrackDB.cpp" line="1135"/>
         <source>Hmax=%1%2</source>
         <translation>Hmax=%1%2</translation>
     </message>
     <message>
-        <location filename="../CTrackDB.cpp" line="1139"/>
+        <location filename="../CTrackDB.cpp" line="1140"/>
         <source>Hmin=%1%2</source>
         <translation>Hmin=%1%2</translation>
     </message>
     <message>
-        <location filename="../CTrackDB.cpp" line="1144"/>
+        <location filename="../CTrackDB.cpp" line="1145"/>
         <source>Vmax=%1%2</source>
         <translation>Vmax=%1%2</translation>
     </message>
     <message>
-        <location filename="../CTrackDB.cpp" line="1165"/>
+        <location filename="../CTrackDB.cpp" line="1166"/>
         <source>Failed...</source>
         <translation>Mislukt ...</translation>
     </message>
     <message>
-        <location filename="../CTrackDB.cpp" line="1165"/>
+        <location filename="../CTrackDB.cpp" line="1166"/>
         <source>Failed to copy track. You must select a track or track points of a track.</source>
         <translation>Kopieren van track mislukt. Slecteer een track of trackpunten van een track.</translation>
     </message>
     <message>
-        <location filename="../CTrackDB.cpp" line="1275"/>
+        <location filename="../CTrackDB.cpp" line="1276"/>
         <source>_rev</source>
         <translation>_rev</translation>
     </message>
@@ -6147,12 +6265,19 @@ Your selection will be stored in the track&apos;s data. You can save it along wi
         <location filename="../CTrackEditWidget.cpp" line="667"/>
         <location filename="../CTrackEditWidget.cpp" line="669"/>
         <location filename="../CTrackEditWidget.cpp" line="675"/>
-        <location filename="../CTrackEditWidget.cpp" line="1397"/>
-        <location filename="../CTrackEditWidget.cpp" line="1477"/>
-        <location filename="../CTrackEditWidget.cpp" line="1480"/>
-        <location filename="../CTrackEditWidget.cpp" line="1576"/>
-        <location filename="../CTrackEditWidget.cpp" line="1579"/>
-        <location filename="../CTrackEditWidget.cpp" line="1595"/>
+        <location filename="../CTrackEditWidget.cpp" line="1456"/>
+        <location filename="../CTrackEditWidget.cpp" line="1499"/>
+        <location filename="../CTrackEditWidget.cpp" line="1526"/>
+        <location filename="../CTrackEditWidget.cpp" line="1527"/>
+        <location filename="../CTrackEditWidget.cpp" line="1532"/>
+        <location filename="../CTrackEditWidget.cpp" line="1535"/>
+        <location filename="../CTrackEditWidget.cpp" line="1540"/>
+        <location filename="../CTrackEditWidget.cpp" line="1545"/>
+        <location filename="../CTrackEditWidget.cpp" line="1631"/>
+        <location filename="../CTrackEditWidget.cpp" line="1635"/>
+        <location filename="../CTrackEditWidget.cpp" line="1638"/>
+        <location filename="../CTrackEditWidget.cpp" line="1643"/>
+        <location filename="../CTrackEditWidget.cpp" line="1648"/>
         <source>%1 %2</source>
         <translation>%1 %2</translation>
     </message>
@@ -6204,112 +6329,139 @@ Your selection will be stored in the track&apos;s data. You can save it along wi
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CTrackEditWidget.cpp" line="1387"/>
-        <source>Ele. wpt/trk</source>
+        <location filename="../CTrackEditWidget.cpp" line="1403"/>
+        <source>Name</source>
+        <translation type="unfinished">Naam</translation>
+    </message>
+    <message>
+        <location filename="../CTrackEditWidget.cpp" line="1404"/>
+        <source>Prox.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CTrackEditWidget.cpp" line="1385"/>
-        <source>Name
-Proximity</source>
+        <location filename="../CTrackEditWidget.cpp" line="1405"/>
+        <source>Pic.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CTrackEditWidget.cpp" line="1386"/>
+        <location filename="../CTrackEditWidget.cpp" line="1406"/>
+        <source>Elevation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../CTrackEditWidget.cpp" line="1407"/>
+        <source>To Next</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../CTrackEditWidget.cpp" line="1408"/>
+        <source>Total</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../CTrackEditWidget.cpp" line="1452"/>
+        <location filename="../CTrackEditWidget.cpp" line="1454"/>
+        <location filename="../CTrackEditWidget.cpp" line="1459"/>
+        <location filename="../CTrackEditWidget.cpp" line="1461"/>
+        <location filename="../CTrackEditWidget.cpp" line="1463"/>
+        <location filename="../CTrackEditWidget.cpp" line="1465"/>
+        <location filename="../CTrackEditWidget.cpp" line="1672"/>
+        <location filename="../CTrackEditWidget.cpp" line="1674"/>
+        <location filename="../CTrackEditWidget.cpp" line="1688"/>
+        <location filename="../CTrackEditWidget.cpp" line="1690"/>
+        <location filename="../CTrackEditWidget.cpp" line="1692"/>
+        <location filename="../CTrackEditWidget.cpp" line="1694"/>
+        <source>-</source>
+        <translation type="unfinished">-</translation>
+    </message>
+    <message>
+        <location filename="../CTrackEditWidget.cpp" line="1538"/>
+        <location filename="../CTrackEditWidget.cpp" line="1543"/>
+        <location filename="../CTrackEditWidget.cpp" line="1641"/>
+        <location filename="../CTrackEditWidget.cpp" line="1646"/>
+        <source>%1 %2 </source>
+        <translation type="unfinished">%1 %2 </translation>
+    </message>
+    <message>
+        <location filename="../CTrackEditWidget.cpp" line="1554"/>
+        <location filename="../CTrackEditWidget.cpp" line="1559"/>
+        <location filename="../CTrackEditWidget.cpp" line="1657"/>
+        <location filename="../CTrackEditWidget.cpp" line="1662"/>
+        <source>%1:%2 h</source>
+        <translation type="unfinished">%3 %1:%2 h {1:%2 ?}</translation>
+    </message>
+    <message>
         <source>Picture</source>
-        <translation>Afbeelding</translation>
+        <translation type="obsolete">Afbeelding</translation>
     </message>
     <message>
-        <location filename="../CTrackEditWidget.cpp" line="1388"/>
-        <source>to Next Dist./Time
-Asc./Desc.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../CTrackEditWidget.cpp" line="1389"/>
-        <source>Total Dist./Time
-Asc./Desc.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../CTrackEditWidget.cpp" line="1390"/>
+        <location filename="../CTrackEditWidget.cpp" line="1409"/>
         <source>Comment</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CTrackEditWidget.cpp" line="1395"/>
+        <location filename="../CTrackEditWidget.cpp" line="1412"/>
+        <source>wpt</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../CTrackEditWidget.cpp" line="1415"/>
+        <source>trk</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../CTrackEditWidget.cpp" line="1449"/>
         <source>Start</source>
         <translation>Begin</translation>
     </message>
     <message>
-        <location filename="../CTrackEditWidget.cpp" line="1407"/>
-        <location filename="../CTrackEditWidget.cpp" line="1550"/>
         <source>-/%1 %2</source>
-        <translation>-/%1 %2</translation>
+        <translation type="obsolete">-/%1 %2</translation>
     </message>
     <message>
-        <location filename="../CTrackEditWidget.cpp" line="1408"/>
+        <location filename="../CTrackEditWidget.cpp" line="1467"/>
         <source>Start of track.</source>
         <translation>Begin van track.</translation>
     </message>
     <message>
-        <location filename="../CTrackEditWidget.cpp" line="1435"/>
         <source>%1 %2 %3</source>
-        <translation>%1 %2 %3</translation>
+        <translation type="obsolete">%1 %2 %3</translation>
     </message>
     <message>
-        <location filename="../CTrackEditWidget.cpp" line="1443"/>
         <source>%1
 %2</source>
-        <translation>%1
+        <translation type="obsolete">%1
 %2</translation>
     </message>
     <message>
-        <location filename="../CTrackEditWidget.cpp" line="1466"/>
-        <location filename="../CTrackEditWidget.cpp" line="1471"/>
-        <location filename="../CTrackEditWidget.cpp" line="1565"/>
-        <location filename="../CTrackEditWidget.cpp" line="1570"/>
         <source>%3 %1:%2 h</source>
-        <translation>%3 %1:%2 h</translation>
+        <translation type="obsolete">%3 %1:%2 h</translation>
     </message>
     <message>
-        <location filename="../CTrackEditWidget.cpp" line="1483"/>
-        <location filename="../CTrackEditWidget.cpp" line="1488"/>
-        <location filename="../CTrackEditWidget.cpp" line="1582"/>
-        <location filename="../CTrackEditWidget.cpp" line="1587"/>
         <source>%1%2 %3 </source>
-        <translation>%1%2 %3 </translation>
+        <translation type="obsolete">%1%2 %3 </translation>
     </message>
     <message>
-        <location filename="../CTrackEditWidget.cpp" line="1485"/>
-        <location filename="../CTrackEditWidget.cpp" line="1490"/>
-        <location filename="../CTrackEditWidget.cpp" line="1584"/>
-        <location filename="../CTrackEditWidget.cpp" line="1589"/>
         <source>%1%2 %3</source>
-        <translation>%1%2 %3</translation>
+        <translation type="obsolete">%1%2 %3</translation>
     </message>
     <message>
-        <location filename="../CTrackEditWidget.cpp" line="1510"/>
         <source>%1/%2 %3</source>
-        <translation>%1/%2 %3</translation>
+        <translation type="obsolete">%1/%2 %3</translation>
     </message>
     <message>
-        <location filename="../CTrackEditWidget.cpp" line="1511"/>
-        <location filename="../CTrackEditWidget.cpp" line="1512"/>
-        <location filename="../CTrackEditWidget.cpp" line="1591"/>
-        <location filename="../CTrackEditWidget.cpp" line="1592"/>
         <source>%1 %2
 %3</source>
-        <translation>%1 %2
+        <translation type="obsolete">%1 %2
 %3</translation>
     </message>
     <message>
-        <location filename="../CTrackEditWidget.cpp" line="1538"/>
+        <location filename="../CTrackEditWidget.cpp" line="1669"/>
         <source>End</source>
         <translation>Einde</translation>
     </message>
     <message>
-        <location filename="../CTrackEditWidget.cpp" line="1539"/>
+        <location filename="../CTrackEditWidget.cpp" line="1705"/>
         <source>End of track.</source>
         <translation>Einde van track.</translation>
     </message>
@@ -6935,12 +7087,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../ICreateMapGeoTiff.ui" line="29"/>
         <source>Step1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Stap1</translation>
     </message>
     <message>
         <location filename="../ICreateMapGeoTiff.ui" line="298"/>
         <source>Step2</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Stap2</translation>
     </message>
     <message>
         <location filename="../ICreateMapGeoTiff.ui" line="311"/>
@@ -7044,7 +7196,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../ICreateMapGeoTiff.ui" line="254"/>
         <source>Help</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Help</translation>
     </message>
     <message>
         <location filename="../ICreateMapGeoTiff.ui" line="395"/>
@@ -7347,44 +7499,54 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>ICreateMapWMS</name>
     <message>
+        <location filename="../ICreateMapWMS.ui" line="13"/>
         <source>Form</source>
-        <translation type="obsolete">Form</translation>
+        <translation type="unfinished">Form</translation>
     </message>
     <message>
+        <location filename="../ICreateMapWMS.ui" line="21"/>
         <source>Server:</source>
-        <translation type="obsolete">Server:</translation>
+        <translation type="unfinished">Server:</translation>
     </message>
     <message>
+        <location filename="../ICreateMapWMS.ui" line="31"/>
         <source>Load Capabilities</source>
-        <translation type="obsolete">Mogelijkheden bepalen</translation>
+        <translation type="unfinished">Mogelijkheden bepalen</translation>
     </message>
     <message>
+        <location filename="../ICreateMapWMS.ui" line="52"/>
         <source>Title:</source>
-        <translation type="obsolete">Titel:</translation>
+        <translation type="unfinished">Titel:</translation>
     </message>
     <message>
+        <location filename="../ICreateMapWMS.ui" line="59"/>
         <source>Format:</source>
-        <translation type="obsolete">Formaat:</translation>
+        <translation type="unfinished">Formaat:</translation>
     </message>
     <message>
+        <location filename="../ICreateMapWMS.ui" line="69"/>
         <source>Projection</source>
-        <translation type="obsolete">Projectie</translation>
+        <translation type="unfinished">Projectie</translation>
     </message>
     <message>
+        <location filename="../ICreateMapWMS.ui" line="79"/>
         <source>Layers:</source>
-        <translation type="obsolete">Lagen:</translation>
+        <translation type="unfinished">Lagen:</translation>
     </message>
     <message>
+        <location filename="../ICreateMapWMS.ui" line="96"/>
         <source>File</source>
-        <translation type="obsolete">Bestand</translation>
+        <translation type="unfinished">Bestand</translation>
     </message>
     <message>
+        <location filename="../ICreateMapWMS.ui" line="112"/>
         <source>...</source>
-        <translation type="obsolete">...</translation>
+        <translation type="unfinished">...</translation>
     </message>
     <message>
+        <location filename="../ICreateMapWMS.ui" line="134"/>
         <source>Save</source>
-        <translation type="obsolete">Opslaan</translation>
+        <translation type="unfinished">Opslaan</translation>
     </message>
 </context>
 <context>
@@ -9715,7 +9877,7 @@ DEM: %2</translation>
     <message>
         <location filename="../IMapQMAPExport.ui" line="510"/>
         <source>Details</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Details</translation>
     </message>
     <message>
         <source>Google Earth (KMZ)</source>
@@ -10353,7 +10515,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../IWptToolWidget.ui" line="44"/>
         <source>Sort by time</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Sorteer op tijd</translation>
     </message>
     <message>
         <location filename="../IWptToolWidget.ui" line="60"/>
