@@ -30,12 +30,12 @@
     <message>
         <location filename="../CActions.cpp" line="59"/>
         <source>&amp;Waypoint ...</source>
-        <translation>&amp;Wegpunten ...</translation>
+        <translation>&amp;Waypoint ...</translation>
     </message>
     <message>
         <location filename="../CActions.cpp" line="59"/>
         <source>Manage waypoints.</source>
-        <translation>Beheer wegpunten.</translation>
+        <translation>Beheer waypoints.</translation>
     </message>
     <message>
         <location filename="../CActions.cpp" line="60"/>
@@ -143,7 +143,7 @@
     <message>
         <location filename="../CActions.cpp" line="65"/>
         <source>Remove all waypoints, tracks, ...</source>
-        <translation>Verwijder alle wegpunten, tracks, ...</translation>
+        <translation>Verwijder alle waypoints, tracks, ...</translation>
     </message>
     <message>
         <location filename="../CActions.cpp" line="66"/>
@@ -331,12 +331,12 @@
     <message>
         <location filename="../CActions.cpp" line="90"/>
         <source>&amp;New Waypoint</source>
-        <translation>&amp;Nieuw wegpunt</translation>
+        <translation>&amp;Nieuw waypoint</translation>
     </message>
     <message>
         <location filename="../CActions.cpp" line="90"/>
         <source>Create a new user waypoint. The default position will be the current cursor position.</source>
-        <translation>Creëer een nieuw gebruiker wegpunt. De wegpunt zal onder de huidige cursor verschijnen.</translation>
+        <translation>Creëer een nieuw gebruiker waypoint. Het waypoint zal onder de huidige cursor verschijnen.</translation>
     </message>
     <message>
         <location filename="../CActions.cpp" line="91"/>
@@ -372,12 +372,12 @@
     <message>
         <location filename="../CActions.cpp" line="93"/>
         <source>Create waypoints from geo-referenced images in a path.</source>
-        <translation>Creëer wegpunten van geo referentie afbeeldingen.</translation>
+        <translation>Creëer waypoints van geo referentie afbeeldingen.</translation>
     </message>
     <message>
         <location filename="../CActions.cpp" line="95"/>
         <source>Upload waypoints to device.</source>
-        <translation>Wegpunten uploaden naar apparaat.</translation>
+        <translation>Waypoints uploaden naar apparaat.</translation>
     </message>
     <message>
         <location filename="../CActions.cpp" line="96"/>
@@ -389,7 +389,7 @@
     <message>
         <location filename="../CActions.cpp" line="96"/>
         <source>Download waypoints from device.</source>
-        <translation>Wegpunten downloaden uit apparaat.</translation>
+        <translation>Waypoints downloaden uit apparaat.</translation>
     </message>
     <message>
         <location filename="../CActions.cpp" line="98"/>
@@ -546,12 +546,12 @@
     <message>
         <location filename="../CActions.cpp" line="108"/>
         <source>Add &amp;Waypoint</source>
-        <translation>&amp;Voeg wegpunt toe</translation>
+        <translation>&amp;Voeg waypoint toe</translation>
     </message>
     <message>
         <location filename="../CActions.cpp" line="108"/>
         <source>Add a waypoint at current position.</source>
-        <translation>Voeg wegpunt to op huidige positie.</translation>
+        <translation>Voeg waypoint toe op huidige positie.</translation>
     </message>
     <message>
         <location filename="../CActions.cpp" line="111"/>
@@ -775,7 +775,7 @@
     <message>
         <location filename="../CActions.cpp" line="254"/>
         <source>&amp;Waypoints</source>
-        <translation>&amp;Wegpunten</translation>
+        <translation>&amp;Waypoints</translation>
     </message>
     <message>
         <location filename="../CActions.cpp" line="264"/>
@@ -1544,12 +1544,12 @@ verwacht: %1, ontvangen %2.</translation>
     <message>
         <location filename="../CDeviceNMEA.cpp" line="459"/>
         <source>NMEA: Upload waypoints is not implemented.</source>
-        <translation>NMEA: Wegpunten uploaden niet uitgevoerd.</translation>
+        <translation>NMEA: Waypoints uploaden niet uitgevoerd.</translation>
     </message>
     <message>
         <location filename="../CDeviceNMEA.cpp" line="465"/>
         <source>NMEA: Download waypoints is not implemented.</source>
-        <translation>NMEA: Wegpunten downloaden niet uitgevoerd.</translation>
+        <translation>NMEA: Waypoints downloaden niet uitgevoerd.</translation>
     </message>
     <message>
         <location filename="../CDeviceNMEA.cpp" line="471"/>
@@ -1592,7 +1592,7 @@ verwacht: %1, ontvangen %2.</translation>
     <message>
         <location filename="../CDeviceQLandkarteM.cpp" line="136"/>
         <source>Upload waypoints ...</source>
-        <translation>Wegpunten uploaden ...</translation>
+        <translation>Waypoints uploaden ...</translation>
     </message>
     <message>
         <location filename="../CDeviceQLandkarteM.cpp" line="147"/>
@@ -1628,27 +1628,27 @@ verwacht: %1, ontvangen %2.</translation>
         <location filename="../CDeviceQLandkarteM.cpp" line="155"/>
         <location filename="../CDeviceQLandkarteM.cpp" line="219"/>
         <source>QLandkarteM: Failed to transfer waypoints.</source>
-        <translation>QLandkarteM: Vezenden wegpunten mislukt.</translation>
+        <translation>QLandkarteM: Vezenden waypoints mislukt.</translation>
     </message>
     <message>
         <location filename="../CDeviceQLandkarteM.cpp" line="175"/>
         <source>Download waypoints ...</source>
-        <translation>Wegpunten downloaden ...</translation>
+        <translation>Waypoints downloaden ...</translation>
     </message>
     <message>
         <location filename="../CDeviceQLandkarteM.cpp" line="177"/>
         <source>Query list of waypoints from the device</source>
-        <translation>Wegpuntenlijst van apparaat opvragen</translation>
+        <translation>Waypointslijst van apparaat opvragen</translation>
     </message>
     <message>
         <location filename="../CDeviceQLandkarteM.cpp" line="185"/>
         <source>QLandkarteM: Failed to query waypoints from device.</source>
-        <translation>QLandkarteM: Wegpuntenlijst opvragen mislukt.</translation>
+        <translation>QLandkarteM: Waypointslijst opvragen mislukt.</translation>
     </message>
     <message>
         <location filename="../CDeviceQLandkarteM.cpp" line="212"/>
         <source>Download waypoint: %1</source>
-        <translation>Wegpunt %1 downloaden</translation>
+        <translation>Waypoint %1 downloaden</translation>
     </message>
     <message>
         <location filename="../CDeviceQLandkarteM.cpp" line="249"/>
@@ -1789,47 +1789,47 @@ verwacht: %1, ontvangen %2.</translation>
     <message>
         <location filename="../CDiaryEdit.cpp" line="76"/>
         <source>&amp;Bold</source>
-        <translation type="unfinished">&amp;Vet</translation>
+        <translation>&amp;Vet</translation>
     </message>
     <message>
         <location filename="../CDiaryEdit.cpp" line="85"/>
         <source>&amp;Italic</source>
-        <translation type="unfinished">&amp;Cursief</translation>
+        <translation>&amp;Cursief</translation>
     </message>
     <message>
         <location filename="../CDiaryEdit.cpp" line="94"/>
         <source>&amp;Underline</source>
-        <translation type="unfinished">&amp;Onderstreept</translation>
+        <translation>&amp;Onderstreept</translation>
     </message>
     <message>
         <location filename="../CDiaryEdit.cpp" line="105"/>
         <source>&amp;Color...</source>
-        <translation type="unfinished">&amp;Kleur ...</translation>
+        <translation>&amp;Kleur ...</translation>
     </message>
     <message>
         <location filename="../CDiaryEdit.cpp" line="119"/>
         <source>&amp;Undo</source>
-        <translation type="unfinished">&amp;Ongedaan maken</translation>
+        <translation>&amp;Ongedaan maken</translation>
     </message>
     <message>
         <location filename="../CDiaryEdit.cpp" line="123"/>
         <source>&amp;Redo</source>
-        <translation type="unfinished">&amp;Herhalen</translation>
+        <translation>&amp;Herhalen</translation>
     </message>
     <message>
         <location filename="../CDiaryEdit.cpp" line="127"/>
         <source>Cu&amp;t</source>
-        <translation type="unfinished">&amp;Knippen</translation>
+        <translation>&amp;Knippen</translation>
     </message>
     <message>
         <location filename="../CDiaryEdit.cpp" line="131"/>
         <source>&amp;Copy</source>
-        <translation type="unfinished">&amp;Kopieer</translation>
+        <translation>&amp;Kopieer</translation>
     </message>
     <message>
         <location filename="../CDiaryEdit.cpp" line="135"/>
         <source>&amp;Paste</source>
-        <translation type="unfinished">&amp;Plakken</translation>
+        <translation>&amp;Plakken</translation>
     </message>
     <message>
         <location filename="../CDiaryEdit.cpp" line="221"/>
@@ -1844,7 +1844,7 @@ verwacht: %1, ontvangen %2.</translation>
     <message>
         <location filename="../CDiaryEdit.cpp" line="259"/>
         <source>Failed...</source>
-        <translation type="unfinished">Mislukt ...</translation>
+        <translation>Mislukt ...</translation>
     </message>
     <message>
         <location filename="../CDiaryEdit.cpp" line="259"/>
@@ -1854,7 +1854,7 @@ verwacht: %1, ontvangen %2.</translation>
     <message>
         <location filename="../CDiaryEdit.cpp" line="303"/>
         <source>Print Diary</source>
-        <translation type="unfinished">Dagboek afdrukken</translation>
+        <translation>Dagboek afdrukken</translation>
     </message>
     <message>
         <location filename="../CDiaryEdit.cpp" line="518"/>
@@ -1874,7 +1874,7 @@ verwacht: %1, ontvangen %2.</translation>
     <message>
         <location filename="../CDiaryEdit.cpp" line="653"/>
         <source>Waypoints</source>
-        <translation type="unfinished">Wegpunten</translation>
+        <translation>Waypoints</translation>
     </message>
     <message>
         <location filename="../CDiaryEdit.cpp" line="661"/>
@@ -1891,7 +1891,7 @@ verwacht: %1, ontvangen %2.</translation>
     <message>
         <location filename="../CDiaryEdit.cpp" line="692"/>
         <source>Tracks</source>
-        <translation type="unfinished">Tracks</translation>
+        <translation>Tracks</translation>
     </message>
     <message>
         <location filename="../CDiaryEdit.cpp" line="747"/>
@@ -2166,7 +2166,7 @@ verwacht: %1, ontvangen %2.</translation>
         <location filename="../CDlgCropMap.cpp" line="199"/>
         <location filename="../CDlgCropMap.cpp" line="228"/>
         <source>Close</source>
-        <translation type="unfinished">Sluiten</translation>
+        <translation>Sluiten</translation>
     </message>
     <message>
         <location filename="../CDlgCropMap.cpp" line="207"/>
@@ -2194,7 +2194,7 @@ Canceled by user&apos;s request.
     <message>
         <location filename="../CDlgCropMap.cpp" line="257"/>
         <source>Cancel</source>
-        <translation type="unfinished">Anuleren</translation>
+        <translation>Anuleren</translation>
     </message>
 </context>
 <context>
@@ -2237,12 +2237,12 @@ Canceled by user&apos;s request.
     <message>
         <location filename="../CDlgEditWpt.cpp" line="252"/>
         <source>You must provide a waypoint identifier.</source>
-        <translation>Geef een naam aan het wegpunt.</translation>
+        <translation>Geef een naam aan het waypoint.</translation>
     </message>
     <message>
         <location filename="../CDlgEditWpt.cpp" line="257"/>
         <source>You must provide a waypoint position.</source>
-        <translation>Geef een positie aan het wegpunt.</translation>
+        <translation type="unfinished">Geef een positie aan het waypoint.</translation>
     </message>
     <message>
         <location filename="../CDlgEditWpt.cpp" line="296"/>
@@ -2303,7 +2303,7 @@ Canceled by user&apos;s request.
     <message>
         <location filename="../CDlgExport.cpp" line="55"/>
         <source>Waypoints</source>
-        <translation>Wegpunten</translation>
+        <translation>Waypoints</translation>
     </message>
     <message>
         <location filename="../CDlgExport.cpp" line="59"/>
@@ -2621,7 +2621,7 @@ is not a valid coordinate system definition:
         <location filename="../CGeoDB.cpp" line="102"/>
         <location filename="../CGeoDB.cpp" line="797"/>
         <source>Waypoints</source>
-        <translation>Wegpunten</translation>
+        <translation>Waypoints</translation>
     </message>
     <message>
         <location filename="../CGeoDB.cpp" line="109"/>
@@ -3125,7 +3125,7 @@ Cur. proj.: %1</source>
     <message>
         <location filename="../CMainWindow.cpp" line="515"/>
         <source>This will erase all project data like waypoints and tracks.</source>
-        <translation>Deze actiie zal alle data wissen zoals wegpunten en tracks.</translation>
+        <translation>Deze actiie zal alle data wissen zoals waypoints en tracks.</translation>
     </message>
     <message>
         <location filename="../CMainWindow.cpp" line="559"/>
@@ -3208,7 +3208,7 @@ Cur. proj.: %1</source>
     <message>
         <location filename="../CMainWindow.cpp" line="603"/>
         <source>&amp;Waypoint</source>
-        <translation>&amp;Wegpunt</translation>
+        <translation>&amp;Waypoint</translation>
     </message>
     <message>
         <location filename="../CMainWindow.cpp" line="608"/>
@@ -3333,17 +3333,17 @@ Do you want to save your changes?</source>
     <message>
         <location filename="../CMainWindow.cpp" line="1316"/>
         <source>Currently there is %1 &lt;a href=&apos;Waypoints&apos;&gt;waypoint&lt;/a&gt;, </source>
-        <translation>Momenteel is er  %1 &lt;a href=&apos;Waypoints&apos;&gt;wegpunt&lt;/a&gt;, </translation>
+        <translation>Momenteel is er  %1 &lt;a href=&apos;Waypoints&apos;&gt;waypoint&lt;/a&gt;, </translation>
     </message>
     <message>
         <location filename="../CMainWindow.cpp" line="1320"/>
         <source>Currently there are %1 &lt;a href=&apos;Waypoints&apos;&gt;waypoints&lt;/a&gt;, </source>
-        <translation>Momenteel zijn er  %1 &lt;a href=&apos;Waypoints&apos;&gt;wegpunten&lt;/a&gt;, </translation>
+        <translation>Momenteel zijn er  %1 &lt;a href=&apos;Waypoints&apos;&gt;waypoints&lt;/a&gt;, </translation>
     </message>
     <message>
         <location filename="../CMainWindow.cpp" line="1325"/>
         <source>There are no waypoints, </source>
-        <translation>Er zijn geen wegpunten,</translation>
+        <translation>Er zijn geen waypoints,</translation>
     </message>
     <message>
         <location filename="../CMainWindow.cpp" line="1333"/>
@@ -5172,27 +5172,27 @@ regel %2, kolom %3:
     <message>
         <location filename="../CMouseMoveMap.cpp" line="199"/>
         <source>Copy Pos. Waypoint</source>
-        <translation>Wegpuntpositie kopieren</translation>
+        <translation>Waypointpositie kopieren</translation>
     </message>
     <message>
         <location filename="../CMouseMoveMap.cpp" line="200"/>
         <source>Edit Waypoint ...</source>
-        <translation>Bewerk wegpunt ...</translation>
+        <translation>Bewerk waypoint ...</translation>
     </message>
     <message>
         <location filename="../CMouseMoveMap.cpp" line="204"/>
         <source>Move Waypoint</source>
-        <translation>Verplaats wegpunt</translation>
+        <translation>Verplaats wayppoint</translation>
     </message>
     <message>
         <location filename="../CMouseMoveMap.cpp" line="209"/>
         <source>Delete Waypoint</source>
-        <translation>Verwijder wegpunt</translation>
+        <translation>Verwijder waypoint</translation>
     </message>
     <message>
         <location filename="../CMouseMoveMap.cpp" line="215"/>
         <source>Add Waypoint ...</source>
-        <translation>Voeg wegpunt toe ...</translation>
+        <translation>Voeg waypoint toe ...</translation>
     </message>
     <message>
         <location filename="../CMouseMoveMap.cpp" line="221"/>
@@ -5882,7 +5882,7 @@ length: %1 %2</source>
     <message>
         <location filename="../CSearchToolWidget.cpp" line="50"/>
         <source>Add Waypoint ...</source>
-        <translation>Voeg wegpunt toe ...</translation>
+        <translation>Voeg waypont toe ...</translation>
     </message>
     <message>
         <location filename="../CSearchToolWidget.cpp" line="51"/>
@@ -5892,12 +5892,12 @@ length: %1 %2</source>
     <message>
         <location filename="../CSearchToolWidget.cpp" line="55"/>
         <source>OpenRouteService</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../CSearchToolWidget.cpp" line="57"/>
         <source>Google</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -5905,67 +5905,67 @@ length: %1 %2</source>
     <message>
         <location filename="../CTextEditWidget.cpp" line="84"/>
         <source>&amp;Bold</source>
-        <translation type="unfinished">&amp;Vet</translation>
+        <translation>&amp;Vet</translation>
     </message>
     <message>
         <location filename="../CTextEditWidget.cpp" line="93"/>
         <source>&amp;Italic</source>
-        <translation type="unfinished">&amp;Cursief</translation>
+        <translation>&amp;Cursief</translation>
     </message>
     <message>
         <location filename="../CTextEditWidget.cpp" line="102"/>
         <source>&amp;Underline</source>
-        <translation type="unfinished">&amp;Onderstreept</translation>
+        <translation>&amp;Onderstreept</translation>
     </message>
     <message>
         <location filename="../CTextEditWidget.cpp" line="114"/>
         <source>&amp;Left</source>
-        <translation type="unfinished">&amp;Links uitlijnen</translation>
+        <translation>&amp;Links uitlijnen</translation>
     </message>
     <message>
         <location filename="../CTextEditWidget.cpp" line="118"/>
         <source>C&amp;enter</source>
-        <translation type="unfinished">&amp;Gecentreerd</translation>
+        <translation>&amp;Gecentreerd</translation>
     </message>
     <message>
         <location filename="../CTextEditWidget.cpp" line="122"/>
         <source>&amp;Right</source>
-        <translation type="unfinished">&amp;Rechts uitlijnen</translation>
+        <translation>&amp;Rechts uitlijnen</translation>
     </message>
     <message>
         <location filename="../CTextEditWidget.cpp" line="126"/>
         <source>&amp;Justify</source>
-        <translation type="unfinished">&amp;Uitgevuld</translation>
+        <translation>&amp;Uitgevuld</translation>
     </message>
     <message>
         <location filename="../CTextEditWidget.cpp" line="133"/>
         <source>&amp;Color...</source>
-        <translation type="unfinished">&amp;Kleur ...</translation>
+        <translation>&amp;Kleur ...</translation>
     </message>
     <message>
         <location filename="../CTextEditWidget.cpp" line="168"/>
         <source>&amp;Undo</source>
-        <translation type="unfinished">&amp;Ongedaan maken</translation>
+        <translation>&amp;Ongedaan maken</translation>
     </message>
     <message>
         <location filename="../CTextEditWidget.cpp" line="172"/>
         <source>&amp;Redo</source>
-        <translation type="unfinished">&amp;Herhalen</translation>
+        <translation>&amp;Herhalen</translation>
     </message>
     <message>
         <location filename="../CTextEditWidget.cpp" line="176"/>
         <source>Cu&amp;t</source>
-        <translation type="unfinished">&amp;Knippen</translation>
+        <translation>&amp;Knippen</translation>
     </message>
     <message>
         <location filename="../CTextEditWidget.cpp" line="180"/>
         <source>&amp;Copy</source>
-        <translation type="unfinished">&amp;Kopieer</translation>
+        <translation>&amp;Kopieer</translation>
     </message>
     <message>
         <location filename="../CTextEditWidget.cpp" line="184"/>
         <source>&amp;Paste</source>
-        <translation type="unfinished">&amp;Plakken</translation>
+        <translation>&amp;Plakken</translation>
     </message>
 </context>
 <context>
@@ -5974,7 +5974,8 @@ length: %1 %2</source>
         <location filename="../CTrack.cpp" line="1045"/>
         <source>
 length: %1 %2</source>
-        <translation>lengte: %1 %2</translation>
+        <translation>
+lengte: %1 %2</translation>
     </message>
     <message>
         <source>, points: %1</source>
@@ -5983,19 +5984,21 @@ length: %1 %2</source>
     <message>
         <location filename="../CTrack.cpp" line="1046"/>
         <source>, points: %1 (%2)</source>
-        <translation type="unfinished"></translation>
+        <translation>, punten: %1 (%2)</translation>
     </message>
     <message>
         <location filename="../CTrack.cpp" line="1056"/>
         <source>
 time: %1:</source>
-        <translation>tijd: %1:</translation>
+        <translation>
+tijd: %1:</translation>
     </message>
     <message>
         <location filename="../CTrack.cpp" line="1060"/>
         <source>
 time: </source>
-        <translation>tijd:</translation>
+        <translation>
+tijd:</translation>
     </message>
     <message>
         <location filename="../CTrack.cpp" line="1064"/>
@@ -6019,7 +6022,8 @@ moving: </source>
         <location filename="../CTrack.cpp" line="1085"/>
         <source>
 start: %1</source>
-        <translation>start:%1</translation>
+        <translation>
+start:%1</translation>
     </message>
     <message>
         <location filename="../CTrack.cpp" line="1085"/>
@@ -6031,13 +6035,15 @@ start: %1</source>
         <location filename="../CTrack.cpp" line="1086"/>
         <source>
 end: %1</source>
-        <translation>einde: %1</translation>
+        <translation>
+einde: %1</translation>
     </message>
     <message>
         <location filename="../CTrack.cpp" line="1091"/>
         <source>
 %1%2 %3, %4%5 %6</source>
-        <translation>%1%2 %3, %4%5 %6</translation>
+        <translation>
+%1%2 %3, %4%5 %6</translation>
     </message>
     <message>
         <location filename="../CTrack.cpp" line="1133"/>
@@ -6062,14 +6068,14 @@ end: %1</source>
     <message>
         <location filename="../CTrack.cpp" line="1149"/>
         <source>elevation: %1 %2</source>
-        <translation type="unfinished">hoogte: %1 %2</translation>
+        <translation>hoogte: %1 %2</translation>
     </message>
     <message>
         <location filename="../CTrack.cpp" line="1167"/>
         <source>
  %1: %2 </source>
-        <translation type="unfinished">
- %1:%2 </translation>
+        <translation>
+ %1: %2 </translation>
     </message>
     <message>
         <location filename="../CTrack.cpp" line="1202"/>
@@ -6081,7 +6087,7 @@ Your selection will be stored in the track&apos;s data. You can save it along wi
     <message>
         <location filename="../CTrack.cpp" line="1209"/>
         <source>Warning...</source>
-        <translation type="unfinished">Waarschuwing ...</translation>
+        <translation>Waarschuwing ...</translation>
     </message>
 </context>
 <context>
@@ -6169,7 +6175,7 @@ Your selection will be stored in the track&apos;s data. You can save it along wi
         <location filename="../CTrackEditWidget.cpp" line="819"/>
         <location filename="../CTrackEditWidget.cpp" line="850"/>
         <source>Dist./Time</source>
-        <translation type="unfinished"></translation>
+        <translation>Afst./Tijd</translation>
     </message>
     <message>
         <location filename="../CTrackEditWidget.cpp" line="824"/>
@@ -6211,7 +6217,7 @@ Proximity</source>
     <message>
         <location filename="../CTrackEditWidget.cpp" line="1386"/>
         <source>Picture</source>
-        <translation type="unfinished"></translation>
+        <translation>Afbeelding</translation>
     </message>
     <message>
         <location filename="../CTrackEditWidget.cpp" line="1388"/>
@@ -6233,29 +6239,29 @@ Asc./Desc.</source>
     <message>
         <location filename="../CTrackEditWidget.cpp" line="1395"/>
         <source>Start</source>
-        <translation type="unfinished"></translation>
+        <translation>Begin</translation>
     </message>
     <message>
         <location filename="../CTrackEditWidget.cpp" line="1407"/>
         <location filename="../CTrackEditWidget.cpp" line="1550"/>
         <source>-/%1 %2</source>
-        <translation type="unfinished"></translation>
+        <translation>-/%1 %2</translation>
     </message>
     <message>
         <location filename="../CTrackEditWidget.cpp" line="1408"/>
         <source>Start of track.</source>
-        <translation type="unfinished"></translation>
+        <translation>Begin van track.</translation>
     </message>
     <message>
         <location filename="../CTrackEditWidget.cpp" line="1435"/>
         <source>%1 %2 %3</source>
-        <translation type="unfinished">%1 %2 %3</translation>
+        <translation>%1 %2 %3</translation>
     </message>
     <message>
         <location filename="../CTrackEditWidget.cpp" line="1443"/>
         <source>%1
 %2</source>
-        <translation type="unfinished">%1
+        <translation>%1
 %2</translation>
     </message>
     <message>
@@ -6264,7 +6270,7 @@ Asc./Desc.</source>
         <location filename="../CTrackEditWidget.cpp" line="1565"/>
         <location filename="../CTrackEditWidget.cpp" line="1570"/>
         <source>%3 %1:%2 h</source>
-        <translation type="unfinished"></translation>
+        <translation>%3 %1:%2 h</translation>
     </message>
     <message>
         <location filename="../CTrackEditWidget.cpp" line="1483"/>
@@ -6272,7 +6278,7 @@ Asc./Desc.</source>
         <location filename="../CTrackEditWidget.cpp" line="1582"/>
         <location filename="../CTrackEditWidget.cpp" line="1587"/>
         <source>%1%2 %3 </source>
-        <translation type="unfinished">%1%2 %3 </translation>
+        <translation>%1%2 %3 </translation>
     </message>
     <message>
         <location filename="../CTrackEditWidget.cpp" line="1485"/>
@@ -6280,12 +6286,12 @@ Asc./Desc.</source>
         <location filename="../CTrackEditWidget.cpp" line="1584"/>
         <location filename="../CTrackEditWidget.cpp" line="1589"/>
         <source>%1%2 %3</source>
-        <translation type="unfinished">%1%2 %3</translation>
+        <translation>%1%2 %3</translation>
     </message>
     <message>
         <location filename="../CTrackEditWidget.cpp" line="1510"/>
         <source>%1/%2 %3</source>
-        <translation type="unfinished">%1/%2 %3</translation>
+        <translation>%1/%2 %3</translation>
     </message>
     <message>
         <location filename="../CTrackEditWidget.cpp" line="1511"/>
@@ -6294,18 +6300,18 @@ Asc./Desc.</source>
         <location filename="../CTrackEditWidget.cpp" line="1592"/>
         <source>%1 %2
 %3</source>
-        <translation type="unfinished">%1 %2
+        <translation>%1 %2
 %3</translation>
     </message>
     <message>
         <location filename="../CTrackEditWidget.cpp" line="1538"/>
         <source>End</source>
-        <translation type="unfinished"></translation>
+        <translation>Einde</translation>
     </message>
     <message>
         <location filename="../CTrackEditWidget.cpp" line="1539"/>
         <source>End of track.</source>
-        <translation type="unfinished"></translation>
+        <translation>Einde van track.</translation>
     </message>
 </context>
 <context>
@@ -6313,12 +6319,12 @@ Asc./Desc.</source>
     <message>
         <location filename="../CTrackStatDistanceWidget.cpp" line="34"/>
         <source>time [h]</source>
-        <translation type="unfinished">tijd [h]</translation>
+        <translation>tijd [h]</translation>
     </message>
     <message>
         <location filename="../CTrackStatDistanceWidget.cpp" line="35"/>
         <source>distance [m]</source>
-        <translation type="unfinished">afstand [m]</translation>
+        <translation>afstand [m]</translation>
     </message>
 </context>
 <context>
@@ -6389,12 +6395,12 @@ Asc./Desc.</source>
     <message>
         <location filename="../CTrackStatSpeedWidget.cpp" line="148"/>
         <source>speed</source>
-        <translation type="unfinished">snelheid</translation>
+        <translation>snelheid</translation>
     </message>
     <message>
         <location filename="../CTrackStatSpeedWidget.cpp" line="149"/>
         <source>med. speed</source>
-        <translation type="unfinished"></translation>
+        <translation>gem. snelheid</translation>
     </message>
 </context>
 <context>
@@ -6584,12 +6590,12 @@ end: %1</source>
     <message>
         <location filename="../CWptDB.cpp" line="334"/>
         <source>Do you really want to delete the sticky waypoint &apos;%1&apos;</source>
-        <translation>Moet de Permanente wegpunt &quot;%1&quot; werkelijk verwijderd worden</translation>
+        <translation>Moet de Permanente waypoint &quot;%1&quot; werkelijk verwijderd worden</translation>
     </message>
     <message>
         <location filename="../CWptDB.cpp" line="335"/>
         <source>Delete sticky waypoint ...</source>
-        <translation>Permanente wegpunt verwijderen ...</translation>
+        <translation>Permanente waypoint verwijderen ...</translation>
     </message>
     <message>
         <location filename="../CWptDB.cpp" line="1199"/>
@@ -6628,7 +6634,7 @@ end: %1</source>
     <message>
         <location filename="../CWptToolWidget.cpp" line="48"/>
         <source>Waypoints</source>
-        <translation>Wegpunten</translation>
+        <translation>Waypoints</translation>
     </message>
     <message>
         <location filename="../CWptToolWidget.cpp" line="58"/>
@@ -6969,27 +6975,27 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../ICreateMapGeoTiff.ui" line="200"/>
         <source>2x</source>
-        <translation type="unfinished">2x</translation>
+        <translation>2x</translation>
     </message>
     <message>
         <location filename="../ICreateMapGeoTiff.ui" line="207"/>
         <source>4x</source>
-        <translation type="unfinished">4x</translation>
+        <translation>4x</translation>
     </message>
     <message>
         <location filename="../ICreateMapGeoTiff.ui" line="214"/>
         <source>8x</source>
-        <translation type="unfinished">8x</translation>
+        <translation>8x</translation>
     </message>
     <message>
         <location filename="../ICreateMapGeoTiff.ui" line="221"/>
         <source>16x</source>
-        <translation type="unfinished">16x</translation>
+        <translation>16x</translation>
     </message>
     <message>
         <location filename="../ICreateMapGeoTiff.ui" line="228"/>
         <source>32x</source>
-        <translation type="unfinished">32x</translation>
+        <translation>32x</translation>
     </message>
     <message>
         <location filename="../ICreateMapGeoTiff.ui" line="513"/>
@@ -7132,7 +7138,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../ICreateMapGridTool.ui" line="306"/>
         <source>Help</source>
-        <translation type="unfinished"></translation>
+        <translation>Help</translation>
     </message>
 </context>
 <context>
@@ -7254,22 +7260,22 @@ onder/rechts</translation>
     <message>
         <location filename="../ICreateMapQMAP.ui" line="112"/>
         <source>Create new *.qmap definition</source>
-        <translation type="unfinished"></translation>
+        <translation>creëer nieuwe *.qmap definitie</translation>
     </message>
     <message>
         <location filename="../ICreateMapQMAP.ui" line="144"/>
         <source>Help</source>
-        <translation type="unfinished"></translation>
+        <translation>Help</translation>
     </message>
     <message>
         <location filename="../ICreateMapQMAP.ui" line="29"/>
         <source>Step1</source>
-        <translation type="unfinished"></translation>
+        <translation>Stap1</translation>
     </message>
     <message>
         <location filename="../ICreateMapQMAP.ui" line="191"/>
         <source>Step2</source>
-        <translation type="unfinished"></translation>
+        <translation>Stap2</translation>
     </message>
     <message>
         <location filename="../ICreateMapQMAP.ui" line="209"/>
@@ -7391,12 +7397,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../IDevice.cpp" line="67"/>
         <source>Download finished.</source>
-        <translation type="unfinished"></translation>
+        <translation>Downloaden klaar.</translation>
     </message>
     <message>
         <location filename="../IDevice.cpp" line="89"/>
         <source>Upload finished.</source>
-        <translation type="unfinished"></translation>
+        <translation>Uploaden klaar.</translation>
     </message>
     <message>
         <location filename="../IDevice.cpp" line="95"/>
@@ -7414,12 +7420,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../IDiaryEdit.ui" line="14"/>
         <source>Form</source>
-        <translation type="unfinished">Form</translation>
+        <translation>Form</translation>
     </message>
     <message>
         <location filename="../IDiaryEdit.ui" line="25"/>
         <source>Exit</source>
-        <translation type="unfinished"></translation>
+        <translation>Sluiten</translation>
     </message>
     <message>
         <location filename="../IDiaryEdit.ui" line="31"/>
@@ -7436,32 +7442,32 @@ p, li { white-space: pre-wrap; }
         <location filename="../IDiaryEdit.ui" line="138"/>
         <location filename="../IDiaryEdit.ui" line="151"/>
         <source>...</source>
-        <translation type="unfinished">...</translation>
+        <translation>...</translation>
     </message>
     <message>
         <location filename="../IDiaryEdit.ui" line="125"/>
         <source>Reload</source>
-        <translation type="unfinished"></translation>
+        <translation>Herladen</translation>
     </message>
     <message>
         <location filename="../IDiaryEdit.ui" line="135"/>
         <source>Save</source>
-        <translation type="unfinished">Opslaan</translation>
+        <translation>Opslaan</translation>
     </message>
     <message>
         <location filename="../IDiaryEdit.ui" line="145"/>
         <source>Print</source>
-        <translation type="unfinished">Afdrukken</translation>
+        <translation>Afdrukken</translation>
     </message>
     <message>
         <location filename="../IDiaryEdit.ui" line="182"/>
         <source>show profiles</source>
-        <translation type="unfinished"></translation>
+        <translation>Toon profielen</translation>
     </message>
     <message>
         <location filename="../IDiaryEdit.ui" line="189"/>
         <source>show geocaches</source>
-        <translation type="unfinished"></translation>
+        <translation>Toon geocaches</translation>
     </message>
     <message>
         <location filename="../IDiaryEdit.ui" line="209"/>
@@ -7772,7 +7778,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../IDlgConfig.ui" line="49"/>
         <source>Waypoint text color</source>
-        <translation type="unfinished"></translation>
+        <translation>Waypoint tekst kleur</translation>
     </message>
     <message>
         <location filename="../IDlgConfig.ui" line="84"/>
@@ -7900,22 +7906,22 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../IDlgConfig.ui" line="322"/>
         <source>Size</source>
-        <translation type="unfinished"></translation>
+        <translation>Grootte</translation>
     </message>
     <message>
         <location filename="../IDlgConfig.ui" line="351"/>
         <source>MB</source>
-        <translation type="unfinished"></translation>
+        <translation>MB</translation>
     </message>
     <message>
         <location filename="../IDlgConfig.ui" line="371"/>
         <source>Expire in</source>
-        <translation type="unfinished"></translation>
+        <translation>Verloopt na</translation>
     </message>
     <message>
         <location filename="../IDlgConfig.ui" line="400"/>
         <source>Days</source>
-        <translation type="unfinished"></translation>
+        <translation>dagen</translation>
     </message>
     <message>
         <location filename="../IDlgConfig.ui" line="428"/>
@@ -8016,12 +8022,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../IDlgConfig.ui" line="471"/>
         <source> and every </source>
-        <translation type="unfinished"></translation>
+        <translation> en elke</translation>
     </message>
     <message>
         <location filename="../IDlgConfig.ui" line="488"/>
         <source> min</source>
-        <translation type="unfinished"></translation>
+        <translation> min</translation>
     </message>
     <message>
         <location filename="../IDlgConfig.ui" line="575"/>
@@ -8086,7 +8092,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../IDlgConfig.ui" line="699"/>
         <source>Select your Garmin device from list. If your device is not supported use &quot;whatGarmin&quot; and download waypoints to create a protocol query.</source>
-        <translation>Selecteer Garmin apparaat uit de lijst. als het apparaat niet wordt ondersteunt gebruik &quot;whatGarmin&quot; en download wegpunten om lijst te maken.</translation>
+        <translation>Selecteer Garmin apparaat uit de lijst. als het apparaat niet wordt ondersteunt gebruik &quot;whatGarmin&quot; en download waypoints om lijst te maken.</translation>
     </message>
     <message>
         <location filename="../IDlgConfig.ui" line="721"/>
@@ -8101,7 +8107,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../IDlgConfig.ui" line="738"/>
         <source>Customize Waypoint Icons...</source>
-        <translation>Aanpassen wegpunt iconen ...</translation>
+        <translation>Aanpassen waypoint iconen ...</translation>
     </message>
     <message>
         <location filename="../IDlgConfig.ui" line="764"/>
@@ -8112,7 +8118,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../IDlgConfig.ui" line="770"/>
         <location filename="../IDlgConfig.ui" line="803"/>
         <source>Waypoints</source>
-        <translation>Wegpunten</translation>
+        <translation>Waypoints</translation>
     </message>
     <message>
         <location filename="../IDlgConfig.ui" line="777"/>
@@ -8288,7 +8294,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../IDlgConvertToTrack.ui" line="75"/>
         <source>Username:</source>
-        <translation type="unfinished"></translation>
+        <translation>Gebruikernaam:</translation>
     </message>
 </context>
 <context>
@@ -8349,42 +8355,42 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../IDlgCropMap.ui" line="61"/>
         <source>x2</source>
-        <translation type="unfinished"></translation>
+        <translation>x2</translation>
     </message>
     <message>
         <location filename="../IDlgCropMap.ui" line="68"/>
         <source>x4</source>
-        <translation type="unfinished"></translation>
+        <translation>x4</translation>
     </message>
     <message>
         <location filename="../IDlgCropMap.ui" line="75"/>
         <source>x8</source>
-        <translation type="unfinished"></translation>
+        <translation>x8</translation>
     </message>
     <message>
         <location filename="../IDlgCropMap.ui" line="82"/>
         <source>x16</source>
-        <translation type="unfinished"></translation>
+        <translation>x16</translation>
     </message>
     <message>
         <location filename="../IDlgCropMap.ui" line="101"/>
         <source>Start</source>
-        <translation type="unfinished"></translation>
+        <translation>Start</translation>
     </message>
     <message>
         <location filename="../IDlgCropMap.ui" line="114"/>
         <source>Close</source>
-        <translation type="unfinished">Sluiten</translation>
+        <translation>Sluiten</translation>
     </message>
     <message>
         <location filename="../IDlgCropMap.ui" line="127"/>
         <source>Details</source>
-        <translation type="unfinished"></translation>
+        <translation>Details</translation>
     </message>
     <message>
         <location filename="../IDlgCropMap.ui" line="148"/>
         <source>Press &quot;Start&quot;</source>
-        <translation type="unfinished"></translation>
+        <translation>Druk &quot;Start&quot;</translation>
     </message>
 </context>
 <context>
@@ -8392,7 +8398,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../IDlgDelWpt.ui" line="13"/>
         <source>Delete waypoint by ...</source>
-        <translation>Verwijder wegpunt met ...</translation>
+        <translation>Verwijder waypoint met ...</translation>
     </message>
     <message>
         <location filename="../IDlgDelWpt.ui" line="28"/>
@@ -8558,12 +8564,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../IDlgEditWpt.ui" line="14"/>
         <source>Edit Waypoint ...</source>
-        <translation>Bewerk Wegpunt ...</translation>
+        <translation>Bewerk waypoint ...</translation>
     </message>
     <message>
         <location filename="../IDlgEditWpt.ui" line="39"/>
         <source>Data</source>
-        <translation type="unfinished"></translation>
+        <translation>Gegevens</translation>
     </message>
     <message>
         <location filename="../IDlgEditWpt.ui" line="47"/>
@@ -8573,7 +8579,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../IDlgEditWpt.ui" line="59"/>
         <source>Parent waypoint. Attach this waypoint to a geocache.</source>
-        <translation type="unfinished"></translation>
+        <translation>Huidig waypoint. Verbind dit waypoint met een cache.</translation>
     </message>
     <message>
         <location filename="../IDlgEditWpt.ui" line="72"/>
@@ -8640,17 +8646,17 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../IDlgEditWpt.ui" line="314"/>
         <source>More</source>
-        <translation type="unfinished"></translation>
+        <translation>Meer</translation>
     </message>
     <message>
         <location filename="../IDlgEditWpt.ui" line="321"/>
         <source>about:blank</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../IDlgEditWpt.ui" line="329"/>
         <source>Show hidden information</source>
-        <translation type="unfinished"></translation>
+        <translation>Toon verborgen informatie</translation>
     </message>
     <message>
         <location filename="../IDlgEditWpt.ui" line="337"/>
@@ -8676,12 +8682,12 @@ For modern Garmin device select &quot;Garmin Mass Storage&quot; device to exchan
     <message>
         <location filename="../IDlgEditWpt.ui" line="580"/>
         <source>Barcode</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../IDlgEditWpt.ui" line="607"/>
         <source>xx</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../IDlgEditWpt.ui" line="669"/>
@@ -8695,7 +8701,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../IDlgEditWpt.ui" line="676"/>
         <source>Export buddies</source>
-        <translation type="unfinished"></translation>
+        <translation>Exporteer buddies</translation>
     </message>
     <message>
         <source>Previous</source>
@@ -8728,7 +8734,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../IDlgEditWpt.ui" line="278"/>
         <source>Description</source>
-        <translation type="unfinished">Beschrijving</translation>
+        <translation>Omschrijving</translation>
     </message>
 </context>
 <context>
@@ -8812,7 +8818,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../IDlgMapTmsConfig.ui" line="31"/>
         <source>URL</source>
-        <translation type="unfinished">URL</translation>
+        <translation>URL</translation>
     </message>
     <message>
         <location filename="../IDlgMapTmsConfig.ui" line="41"/>
@@ -8827,7 +8833,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../IDlgMapTmsConfig.ui" line="61"/>
         <source>Name</source>
-        <translation type="unfinished">Naam</translation>
+        <translation>Naam</translation>
     </message>
 </context>
 <context>
@@ -8873,7 +8879,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../IDlgNoMapConfig.ui" line="22"/>
         <source>Projection</source>
-        <translation type="unfinished">Projectie</translation>
+        <translation>Projectie</translation>
     </message>
     <message>
         <location filename="../IDlgNoMapConfig.ui" line="31"/>
@@ -8884,7 +8890,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../IDlgNoMapConfig.ui" line="34"/>
         <location filename="../IDlgNoMapConfig.ui" line="48"/>
         <source>...</source>
-        <translation type="unfinished">...</translation>
+        <translation>...</translation>
     </message>
     <message>
         <location filename="../IDlgNoMapConfig.ui" line="45"/>
@@ -8904,7 +8910,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../IDlgNoMapConfig.ui" line="84"/>
         <source>-</source>
-        <translation type="unfinished">-</translation>
+        <translation>-</translation>
     </message>
 </context>
 <context>
@@ -8996,7 +9002,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../IDlgSetupGarminIcons.ui" line="14"/>
         <source>Garmin Waypoint Icons</source>
-        <translation>Garmin Wegpunt Iconen</translation>
+        <translation>Garmin waypoint Iconen</translation>
     </message>
     <message>
         <location filename="../IDlgSetupGarminIcons.ui" line="32"/>
@@ -9024,7 +9030,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../IDlgSetupGrid.ui" line="22"/>
         <source>Projection</source>
-        <translation type="unfinished">Projectie</translation>
+        <translation>Projectie</translation>
     </message>
     <message>
         <location filename="../IDlgSetupGrid.ui" line="31"/>
@@ -9037,7 +9043,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../IDlgSetupGrid.ui" line="62"/>
         <location filename="../IDlgSetupGrid.ui" line="94"/>
         <source>...</source>
-        <translation type="unfinished">...</translation>
+        <translation>...</translation>
     </message>
     <message>
         <location filename="../IDlgSetupGrid.ui" line="45"/>
@@ -9098,7 +9104,7 @@ p, li { white-space: pre-wrap; }
     <message utf8="true">
         <location filename="../IDlgTrackFilter.ui" line="111"/>
         <source>°</source>
-        <translation type="unfinished">°</translation>
+        <translation>°</translation>
     </message>
     <message>
         <location filename="../IDlgTrackFilter.ui" line="146"/>
@@ -9238,7 +9244,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../IDlgWpt2Rte.ui" line="93"/>
         <location filename="../IDlgWpt2Rte.ui" line="103"/>
         <source>...</source>
-        <translation type="unfinished">...</translation>
+        <translation>...</translation>
     </message>
     <message>
         <location filename="../IDlgWpt2Rte.ui" line="72"/>
@@ -9342,7 +9348,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../IImageSelect.ui" line="14"/>
         <source>Form</source>
-        <translation type="unfinished">Form</translation>
+        <translation>Form</translation>
     </message>
 </context>
 <context>
@@ -9377,7 +9383,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../ILiveLogToolWidget.ui" line="53"/>
         <source>Status:</source>
-        <translation type="unfinished"></translation>
+        <translation>Status:</translation>
     </message>
     <message>
         <location filename="../ILiveLogToolWidget.ui" line="60"/>
@@ -9392,7 +9398,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../ILiveLogToolWidget.ui" line="81"/>
         <source>Satellites:</source>
-        <translation type="unfinished"></translation>
+        <translation>Sateliten:</translation>
     </message>
     <message>
         <location filename="../ILiveLogToolWidget.ui" line="88"/>
@@ -9402,7 +9408,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../ILiveLogToolWidget.ui" line="102"/>
         <source>GPS off</source>
-        <translation type="unfinished">GPS uit</translation>
+        <translation>GPS uit</translation>
     </message>
     <message>
         <location filename="../ILiveLogToolWidget.ui" line="116"/>
@@ -9553,7 +9559,7 @@ DEM: %2</translation>
     <message>
         <location filename="../IMapQMAPExport.ui" line="131"/>
         <source>1 </source>
-        <translation type="unfinished">1 </translation>
+        <translation>1 </translation>
     </message>
     <message>
         <location filename="../IMapQMAPExport.ui" line="145"/>
@@ -9614,17 +9620,17 @@ DEM: %2</translation>
     <message>
         <location filename="../IMapQMAPExport.ui" line="294"/>
         <source>411</source>
-        <translation type="unfinished">411</translation>
+        <translation>411</translation>
     </message>
     <message>
         <location filename="../IMapQMAPExport.ui" line="299"/>
         <source>422</source>
-        <translation type="unfinished">422</translation>
+        <translation>422</translation>
     </message>
     <message>
         <location filename="../IMapQMAPExport.ui" line="304"/>
         <source>444</source>
-        <translation type="unfinished">444</translation>
+        <translation>444</translation>
     </message>
     <message>
         <location filename="../IMapQMAPExport.ui" line="317"/>
@@ -9654,7 +9660,7 @@ DEM: %2</translation>
     <message>
         <location filename="../IMapQMAPExport.ui" line="406"/>
         <source>Projection</source>
-        <translation type="unfinished">Projectie</translation>
+        <translation>Projectie</translation>
     </message>
     <message>
         <location filename="../IMapQMAPExport.ui" line="413"/>
@@ -9689,22 +9695,22 @@ DEM: %2</translation>
     <message>
         <location filename="../IMapQMAPExport.ui" line="455"/>
         <source>2x</source>
-        <translation type="unfinished">2x</translation>
+        <translation>2x</translation>
     </message>
     <message>
         <location filename="../IMapQMAPExport.ui" line="462"/>
         <source>4x</source>
-        <translation type="unfinished">4x</translation>
+        <translation>4x</translation>
     </message>
     <message>
         <location filename="../IMapQMAPExport.ui" line="469"/>
         <source>8x</source>
-        <translation type="unfinished">8x</translation>
+        <translation>8x</translation>
     </message>
     <message>
         <location filename="../IMapQMAPExport.ui" line="476"/>
         <source>16x</source>
-        <translation type="unfinished">16x</translation>
+        <translation>16x</translation>
     </message>
     <message>
         <location filename="../IMapQMAPExport.ui" line="510"/>
@@ -9943,18 +9949,18 @@ DEM: %2</translation>
     <message>
         <location filename="../IRouteToolWidget.ui" line="19"/>
         <source>Sort by name</source>
-        <translation type="unfinished">Sorteer per naam</translation>
+        <translation>Sorteer op naam</translation>
     </message>
     <message>
         <location filename="../IRouteToolWidget.ui" line="22"/>
         <location filename="../IRouteToolWidget.ui" line="38"/>
         <source>...</source>
-        <translation type="unfinished">...</translation>
+        <translation>...</translation>
     </message>
     <message>
         <location filename="../IRouteToolWidget.ui" line="35"/>
         <source>Sort by time</source>
-        <translation type="unfinished"></translation>
+        <translation>Sorteer op tijd</translation>
     </message>
     <message>
         <location filename="../IRouteToolWidget.ui" line="70"/>
@@ -9970,43 +9976,43 @@ DEM: %2</translation>
         <location filename="../IRouteToolWidget.ui" line="117"/>
         <location filename="../IRouteToolWidget.ui" line="157"/>
         <source>Avoid:</source>
-        <translation type="unfinished"></translation>
+        <translation>Vermijd:</translation>
     </message>
     <message>
         <location filename="../IRouteToolWidget.ui" line="126"/>
         <source>Highways</source>
-        <translation type="unfinished"></translation>
+        <translation>Snelwegen</translation>
     </message>
     <message>
         <location filename="../IRouteToolWidget.ui" line="133"/>
         <location filename="../IRouteToolWidget.ui" line="173"/>
         <source>Toll Road</source>
-        <translation type="unfinished"></translation>
+        <translation>Tolwegen</translation>
     </message>
     <message>
         <location filename="../IRouteToolWidget.ui" line="166"/>
         <source>Lim. Access</source>
-        <translation type="unfinished"></translation>
+        <translation>Bep. toegankelijk</translation>
     </message>
     <message>
         <location filename="../IRouteToolWidget.ui" line="180"/>
         <source>Seasonal</source>
-        <translation type="unfinished"></translation>
+        <translation>seizoens afh</translation>
     </message>
     <message>
         <location filename="../IRouteToolWidget.ui" line="187"/>
         <source>Unpaved</source>
-        <translation type="unfinished"></translation>
+        <translation>Onverhard</translation>
     </message>
     <message>
         <location filename="../IRouteToolWidget.ui" line="194"/>
         <source>Ferry</source>
-        <translation type="unfinished">Veer</translation>
+        <translation>Veer</translation>
     </message>
     <message>
         <location filename="../IRouteToolWidget.ui" line="201"/>
         <source>Country Border</source>
-        <translation type="unfinished"></translation>
+        <translation>Landgrens</translation>
     </message>
     <message>
         <location filename="../IRouteToolWidget.ui" line="239"/>
@@ -10083,7 +10089,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../ITextEditWidget.ui" line="14"/>
         <source>Form</source>
-        <translation type="unfinished">Form</translation>
+        <translation>Form</translation>
     </message>
     <message>
         <location filename="../ITextEditWidget.ui" line="25"/>
@@ -10100,7 +10106,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../ITextEditWidget.ui" line="195"/>
         <location filename="../ITextEditWidget.ui" line="208"/>
         <source>...</source>
-        <translation type="unfinished">...</translation>
+        <translation>...</translation>
     </message>
 </context>
 <context>
@@ -10371,7 +10377,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../IWptToolWidget.ui" line="111"/>
         <source>Add position to sort waypoints by distance to that position.</source>
-        <translation>Sorteer wegpunten vanaf ingevoerde positie.</translation>
+        <translation>Sorteer waypoints vanaf ingevoerde positie.</translation>
     </message>
 </context>
 <context>
