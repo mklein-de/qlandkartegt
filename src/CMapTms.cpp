@@ -45,6 +45,8 @@ CMapTms::CMapTms(const QString& key, CCanvas *parent)
 , needsRedrawOvl(true)
 , lastTileLoaded(false)
 , status(0)
+, minZoomLevel(1)
+, maxZoomLevel(18)
 {
     SETTINGS;
 
@@ -146,6 +148,16 @@ void CMapTms::readConfigFromFile(const QString& filename, QWidget *parent)
     name            = tms.firstChildElement("Title").text();
     copyright       = tms.firstChildElement("Copyright").text();
 
+    if(tms.firstChildElement("MaxZoomLevel").isElement())
+    {
+        maxZoomLevel = tms.firstChildElement("MaxZoomLevel").text().toInt();
+    }
+
+    if(tms.firstChildElement("MinZoomLevel").isElement())
+    {
+        minZoomLevel = tms.firstChildElement("MinZoomLevel").text().toInt();
+    }
+
     const QDomNodeList& layerList = tms.elementsByTagName("Layer");
     uint N = layerList.count();
     layers.resize(N);
@@ -155,8 +167,10 @@ void CMapTms::readConfigFromFile(const QString& filename, QWidget *parent)
         const QDomNode& layerSingle = layerList.item(n);
         int idx = layerSingle.attributes().namedItem("idx").nodeValue().toInt();
         layers[idx].strUrl = layerSingle.namedItem("ServerUrl").toElement().text();
+        layers[idx].script = layerSingle.namedItem("Script").toElement().text();
 
-        qDebug() << idx << layers[idx].strUrl;
+//        qDebug() << idx << layers[idx].strUrl;
+//        qDebug() << idx << layers[idx].script;
     }
 
 }
@@ -263,7 +277,7 @@ void CMapTms::zoom(double lon1, double lat1, double lon2, double lat2)
     int z1 = dU / size.width();
     int z2 = dV / size.height();
 
-    for(i=0; i < 18; ++i)
+    for(i=minZoomLevel; i < maxZoomLevel; ++i)
     {
         zoomFactor  = (1<<i);
         zoomidx     = i + 1;
@@ -285,14 +299,14 @@ void CMapTms::zoom(double lon1, double lat1, double lon2, double lat2)
 
 void CMapTms::zoom(qint32& level)
 {
-    if(level > 18) level = 18;
-    // no level less than 1
-    if(level < 1)
+    if(level > maxZoomLevel)
     {
-        level       = 1;
-        zoomFactor  = 1.0;
-        qDebug() << "zoom:" << zoomFactor;
-        return;
+        level = maxZoomLevel;
+    }
+    // no level less than 1
+    if(level < minZoomLevel)
+    {
+        level = minZoomLevel;
     }
     zoomFactor = (1<<(level-1));
     needsRedraw     = true;
@@ -393,12 +407,12 @@ void CMapTms::draw(QPainter& p)
 
 }
 
-QString CMapTms::createUrl(const QString& strUrl, int x, int y, int z)
-{
-    if(strUrl.startsWith("script"))
+QString CMapTms::createUrl(const layer_t& layer, int x, int y, int z)
+{    
+    if(layer.strUrl.startsWith("script"))
     {
-        QScriptEngine engine;
-        QString filename = strUrl.mid(9);
+
+        QString filename = layer.strUrl.mid(9);
         QFile scriptFile(filename);
         if (!scriptFile.open(QIODevice::ReadOnly))
         {
@@ -407,8 +421,9 @@ QString CMapTms::createUrl(const QString& strUrl, int x, int y, int z)
         QTextStream stream(&scriptFile);
         QString contents = stream.readAll();
         scriptFile.close();
-        QScriptValue fun = engine.evaluate(contents, filename);
 
+        QScriptEngine engine;
+        QScriptValue fun = engine.evaluate(contents, filename);
         QScriptValueList args;
         args << z << x << y;
         QScriptValue res = fun.call(QScriptValue(), args);
@@ -418,8 +433,22 @@ QString CMapTms::createUrl(const QString& strUrl, int x, int y, int z)
 
         return res.toString();
     }
+    else if(!layer.script.isEmpty())
+    {
+        QScriptEngine engine;
+        QScriptValue fun = engine.evaluate(layer.script);
+        QScriptValueList args;
+        args << z << x << y;
+        QScriptValue res = fun.call(QScriptValue(), args);
 
-    return strUrl.arg(z).arg(x).arg(y);
+//        qDebug() << res.toString();
+
+
+        return res.toString();
+
+    }
+
+    return layer.strUrl.arg(z).arg(x).arg(y);
 }
 
 void CMapTms::draw()
@@ -476,7 +505,7 @@ void CMapTms::draw()
                 layer_t& layer = layers[i];
 
                 request_t req;
-                req.url         = QUrl(createUrl(layer.strUrl, x1 + n, y1 + m, z));
+                req.url         = QUrl(createUrl(layer, x1 + n, y1 + m, z));
                 req.lon         = p1x;
                 req.lat         = p1y;
                 req.zoomFactor  = zoomFactor;

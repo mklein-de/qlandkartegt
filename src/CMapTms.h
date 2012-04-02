@@ -64,16 +64,20 @@ class CMapTms : public IMap
     private slots:
         void slotRequestFinished(QNetworkReply* reply);
 
-    private:
-        void readConfigFromFile(const QString& filename, QWidget * parent);
-        QString createUrl(const QString& strUrl, int x, int y, int z);
 
+    private:
         struct layer_t
         {
             QPixmap buffer;
             QString strUrl;
+            QString script;
 
         };
+
+
+
+        void readConfigFromFile(const QString& filename, QWidget * parent);
+        QString createUrl(const layer_t &layer, int x, int y, int z);
 
         struct request_t
         {
@@ -152,6 +156,9 @@ class CMapTms : public IMap
         QVector<layer_t> layers;
 
         QString name;
+
+        int minZoomLevel;
+        int maxZoomLevel;
 
 };
 #endif                           //CMAPTMS_H
