@@ -168,20 +168,24 @@ void CMapTms::readConfigFromFile(const QString& filename, QWidget *parent)
     {
         const QDomNode& layerSingle = layerList.item(n);
         int idx = layerSingle.attributes().namedItem("idx").nodeValue().toInt();
-        layers[idx].strUrl = layerSingle.namedItem("ServerUrl").toElement().text();
-        layers[idx].script = layerSingle.namedItem("Script").toElement().text();
+        layers[idx].strUrl          = layerSingle.namedItem("ServerUrl").toElement().text();
+        layers[idx].script          = layerSingle.namedItem("Script").toElement().text();
+        layers[idx].minZoomLevel    = minZoomLevel;
+        layers[idx].maxZoomLevel    = maxZoomLevel;
 
         if(layerSingle.firstChildElement("MinZoomLevel").isElement())
         {
             layers[idx].minZoomLevel = layerSingle.firstChildElement("MinZoomLevel").text().toInt();
         }
+
         if(layerSingle.firstChildElement("MaxZoomLevel").isElement())
         {
             layers[idx].maxZoomLevel = layerSingle.firstChildElement("MaxZoomLevel").text().toInt();
         }
 
 
-//        qDebug() << idx << layers[idx].strUrl;
+//        qDebug() << idx << layers[idx].strUrl << layers[idx].minZoomLevel << layers[idx].maxZoomLevel;
+
 //        qDebug() << idx << layers[idx].script;
     }
 
@@ -436,11 +440,19 @@ QString CMapTms::createUrl(const layer_t& layer, int x, int y, int z)
 
         QScriptEngine engine;
         QScriptValue fun = engine.evaluate(contents, filename);
+
+        if(engine.hasUncaughtException())
+        {
+            int line = engine.uncaughtExceptionLineNumber();
+            qDebug() << "uncaught exception at line" << line << ":" << fun.toString();
+        }
+
+
         QScriptValueList args;
         args << z << x << y;
         QScriptValue res = fun.call(QScriptValue(), args);
 
-//        qDebug() << res.toString();
+        qDebug() << res.toString();
 
 
         return res.toString();
