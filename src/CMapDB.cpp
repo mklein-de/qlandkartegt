@@ -157,6 +157,7 @@ CMapDB::CMapDB(QTabWidget * tb, QObject * parent)
             m.filename      = cfg.value("url", "").toString();
             m.copyright     = cfg.value("copyright", "").toString();
             m.key           = QString::number(qHash(m.filename));
+            m.type          = IMap::eTMS;
             if(!m.description.isEmpty() && !m.filename.isEmpty())
             {
                 knownMaps[m.key] = m;
@@ -209,7 +210,7 @@ CMapDB::~CMapDB()
         {
             continue;
         }
-        if(map.filename.startsWith("http") || map.filename.startsWith("file"))
+        if(map.filename.startsWith("http") || map.filename.startsWith("file")|| map.filename.startsWith("script"))
         {
             mapsTMS += map.key + "|";
             cfg.beginGroup(QString("tms/maps/%1").arg(map.key));
@@ -220,7 +221,6 @@ CMapDB::~CMapDB()
         }
         else
         {
-            qDebug() << map.filename;
             maps += map.filename + "|";
         }
     }
@@ -281,7 +281,7 @@ void CMapDB::openMap(const QString& filename, bool asRaster, CCanvas& canvas)
 
     map_t map;
     QFileInfo fi(filename);
-    if(!fi.exists() && !filename.startsWith("http") && !filename.startsWith("file")) return;
+    if(!fi.exists() && !filename.startsWith("http") && !filename.startsWith("file") && !filename.startsWith("script")) return;
 
     QString ext = fi.suffix().toLower();
     if(ext == "qmap")
@@ -409,7 +409,7 @@ void CMapDB::openMap(const QString& filename, bool asRaster, CCanvas& canvas)
         cfg.setValue("maps/visibleMaps",filename);
 
     }
-    else if(filename.startsWith("http") || filename.startsWith("file") )
+    else if(filename.startsWith("http") || filename.startsWith("file") ||  filename.startsWith("script"))
     {
         theMap = new CMapTms(QString::number(qHash(filename)), theMainWindow->getCanvas());
 
@@ -489,7 +489,7 @@ void CMapDB::openMap(const QString& key)
     {
         theMap = new CMapTms(key, theMainWindow->getCanvas());
     }
-    else if(filename.startsWith("http") || filename.startsWith("file") )
+    else if(filename.startsWith("http") || filename.startsWith("file") || filename.startsWith("script"))
     {
         theMap = new CMapTms(key, theMainWindow->getCanvas());
     }

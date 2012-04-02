@@ -66,6 +66,7 @@ class CMapTms : public IMap
 
     private:
         void readConfigFromFile(const QString& filename, QWidget * parent);
+        QString createUrl(const QString& strUrl, int x, int y, int z);
 
         struct layer_t
         {

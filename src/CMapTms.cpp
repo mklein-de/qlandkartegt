@@ -31,6 +31,7 @@
 #include <QtGui>
 #include <QtNetwork>
 #include <QtXml>
+#include <QtScript>
 
 #include <iostream>
 
@@ -392,6 +393,34 @@ void CMapTms::draw(QPainter& p)
 
 }
 
+QString CMapTms::createUrl(const QString& strUrl, int x, int y, int z)
+{
+    if(strUrl.startsWith("script"))
+    {
+        QScriptEngine engine;
+        QString filename = strUrl.mid(9);
+        QFile scriptFile(filename);
+        if (!scriptFile.open(QIODevice::ReadOnly))
+        {
+            return "";
+        }
+        QTextStream stream(&scriptFile);
+        QString contents = stream.readAll();
+        scriptFile.close();
+        QScriptValue fun = engine.evaluate(contents, filename);
+
+        QScriptValueList args;
+        args << z << x << y;
+        QScriptValue res = fun.call(QScriptValue(), args);
+
+//        qDebug() << res.toString();
+
+
+        return res.toString();
+    }
+
+    return strUrl.arg(z).arg(x).arg(y);
+}
 
 void CMapTms::draw()
 {
@@ -399,8 +428,6 @@ void CMapTms::draw()
 
     QImage img;
     lastTileLoaded  = false;
-
-//    pixBuffer.fill(Qt::white);
 
     for(int i = 0; i < layers.size(); i++)
     {
@@ -449,7 +476,7 @@ void CMapTms::draw()
                 layer_t& layer = layers[i];
 
                 request_t req;
-                req.url         = QUrl(layer.strUrl.arg(z).arg(x1 + n).arg(y1 + m));
+                req.url         = QUrl(createUrl(layer.strUrl, x1 + n, y1 + m, z));
                 req.lon         = p1x;
                 req.lat         = p1y;
                 req.zoomFactor  = zoomFactor;
