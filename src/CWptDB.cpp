@@ -134,7 +134,7 @@ QString CWptDB::getNewWptName()
 
     if(idx == s)
     {
-        return lastWptName + "1";
+        return ""; //lastWptName + "1";
     }
     else if(idx == 0)
     {
