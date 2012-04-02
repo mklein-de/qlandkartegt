@@ -68,6 +68,8 @@ class CMapTms : public IMap
     private:
         struct layer_t
         {
+            int minZoomLevel;
+            int maxZoomLevel;
             QPixmap buffer;
             QString strUrl;
             QString script;
