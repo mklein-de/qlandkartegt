@@ -3634,12 +3634,12 @@ Do you want to save your changes?</source>
         <translation>Fout ...</translation>
     </message>
     <message>
-        <location filename="../CMapDB.cpp" line="171"/>
+        <location filename="../CMapDB.cpp" line="172"/>
         <source>Crash detected....</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CMapDB.cpp" line="171"/>
+        <location filename="../CMapDB.cpp" line="172"/>
         <source>QLandkarte GT was terminated with a crash. This is really bad. A common reason for that is a bad map. Do you really want to load the last map?</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4036,13 +4036,15 @@ Geanuleerd door gebruiker.
         <location filename="../CMapQMAPExport.cpp" line="836"/>
         <source>*** done ***
 </source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">*** klaar ***
+</translation>
     </message>
     <message>
         <location filename="../CMapQMAPExport.cpp" line="839"/>
         <source>Warnings. See &quot;Details&quot; for more information.
 </source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Waarschuwing. Zie &quot;Details&quot;voor meer informatie.
+</translation>
     </message>
     <message>
         <location filename="../CMapQMAPExport.cpp" line="843"/>
@@ -4989,18 +4991,18 @@ Geanuleerd door gebruiker.
 <context>
     <name>CMapTms</name>
     <message>
-        <location filename="../CMapTms.cpp" line="129"/>
-        <location filename="../CMapTms.cpp" line="139"/>
+        <location filename="../CMapTms.cpp" line="134"/>
+        <location filename="../CMapTms.cpp" line="144"/>
         <source>Error...</source>
         <translation>Fout...</translation>
     </message>
     <message>
-        <location filename="../CMapTms.cpp" line="129"/>
+        <location filename="../CMapTms.cpp" line="134"/>
         <source>Failed to open %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CMapTms.cpp" line="139"/>
+        <location filename="../CMapTms.cpp" line="144"/>
         <source>Failed to read: %1
 line %2, column %3:
  %4</source>
@@ -5009,33 +5011,33 @@ regel %2, kolom %3:
 %4</translation>
     </message>
     <message>
-        <location filename="../CMapTms.cpp" line="360"/>
+        <location filename="../CMapTms.cpp" line="391"/>
         <source>Overzoom x%1</source>
         <translation>Overzoom x%1</translation>
     </message>
     <message>
-        <location filename="../CMapTms.cpp" line="364"/>
+        <location filename="../CMapTms.cpp" line="395"/>
         <source>Zoom level x%1</source>
         <translation>Zoom niveau x%1</translation>
     </message>
     <message>
-        <location filename="../CMapTms.cpp" line="386"/>
-        <location filename="../CMapTms.cpp" line="390"/>
+        <location filename="../CMapTms.cpp" line="417"/>
+        <location filename="../CMapTms.cpp" line="421"/>
         <source>%1 %2</source>
         <translation>%1 %2</translation>
     </message>
     <message>
-        <location filename="../CMapTms.cpp" line="386"/>
+        <location filename="../CMapTms.cpp" line="417"/>
         <source>Copyright notice is missing.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CMapTms.cpp" line="516"/>
+        <location filename="../CMapTms.cpp" line="601"/>
         <source>Map loaded.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CMapTms.cpp" line="522"/>
+        <location filename="../CMapTms.cpp" line="607"/>
         <source>Wait for %1 tiles.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -7117,7 +7119,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../ICreateMapGeoTiff.ui" line="191"/>
         <source>Overviews</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Overzichten</translation>
     </message>
     <message>
         <location filename="../ICreateMapGeoTiff.ui" line="78"/>
@@ -8936,7 +8938,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../IDlgMapJNXConfig.ui" line="14"/>
         <source>Information...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Informatie...</translation>
     </message>
     <message>
         <location filename="../IDlgMapJNXConfig.ui" line="21"/>
@@ -9038,7 +9040,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../IDlgMapWmsConfig.ui" line="52"/>
         <source>Value</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Waarde</translation>
     </message>
     <message>
         <location filename="../IDlgMapWmsConfig.ui" line="61"/>
