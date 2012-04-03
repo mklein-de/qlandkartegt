@@ -1360,9 +1360,9 @@ void CTrackEditWidget::updateStages(QList<CTrack::wpt_t>& wpts)
     fmtFrameRoot.setRightMargin(ROOT_FRAME_MARGIN);
 
     QTextTableFormat fmtTableStandard;
-    fmtTableStandard.setBorder(0);
-    fmtTableStandard.setBorderStyle(QTextFrameFormat::BorderStyle_Solid);
-    fmtTableStandard.setBorderBrush(Qt::darkGray);
+    fmtTableStandard.setBorder(1);
+    fmtTableStandard.setBorderStyle(QTextFrameFormat::BorderStyle_Groove);
+    fmtTableStandard.setBorderBrush(QColor("#a0a0a0"));
     fmtTableStandard.setCellPadding(4);
     fmtTableStandard.setCellSpacing(0);
     fmtTableStandard.setHeaderRowCount(2);
