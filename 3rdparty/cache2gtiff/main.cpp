@@ -299,7 +299,7 @@ int main(int argc, char ** argv)
 
     if(isTMS)
     {
-        level = log(level)/log(2) + 1;
+        level = log((double)level)/log(2.0) + 1;
         return exportTMS(level, lon1, lat1, lon2, lat2, infile, outfile, diskCache);
     }
     else

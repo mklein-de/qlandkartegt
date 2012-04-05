@@ -25,6 +25,7 @@ copy %QLGTI_QT_PATH%\bin\QtSvg4.dll
 copy %QLGTI_QT_PATH%\bin\QtWebKit4.dll
 copy %QLGTI_QT_PATH%\bin\phonon4.dll
 copy %QLGTI_QT_PATH%\bin\QtXml4.dll
+copy %QLGTI_QT_PATH%\bin\QtScript4.dll
 mkdir imageformats
 cd imageformats
 copy %QLGTI_QT_PATH%\plugins\imageformats\qgif4.dll

@@ -119,6 +119,7 @@ Section "QLandkarte GT" QLandkarteGT
     File Files\QtSql4.dll
     File Files\QtWebKit4.dll
     File Files\phonon4.dll
+    File Files\QtScript4.dll
 
   SetOutPath "$INSTDIR\imageformats\"
     File Files\imageformats\qgif4.dll
