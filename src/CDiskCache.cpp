@@ -131,7 +131,7 @@ void CDiskCache::slotCleanup()
 {
 #ifndef STANDALONE
     qint64 size = 0;
-    QFileInfoList files = dir.entryInfoList(QStringList("*.png"), QDir::Files, QDir::Time|QDir::Reversed);
+    QFileInfoList files = dir.entryInfoList(QStringList("*.png"), QDir::Files);
     QDateTime now = QDateTime::currentDateTime();
     int days        = CResources::self().getExpireMapCache();
     quint32 maxSize = CResources::self().getSizeMapCache() * 1024*1024;

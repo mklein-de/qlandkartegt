@@ -41,6 +41,13 @@ class CDeviceTwoNav : public IDevice
 
         void downloadScreenshot(QImage& image);
 
+    private:
+        bool aquire(QDir& dir);
+        void readWptFile(const QString &filename, QList<CWpt *> &wpts);
+
+        QString pathRoot;
+        QString pathData;
+
 };
 
 #endif //CDEVICETWONAV_H

@@ -120,7 +120,7 @@ bool CDeviceGarminBulk::aquire(QDir& dir)
             pathGpx      = "Garmin/GPX";
             pathSpoilers = "";
 
-            path = QFileDialog::getExistingDirectory(0, "Path to Garmin device...", dir.absolutePath());
+            path = QFileDialog::getExistingDirectory(0, tr("Path to Garmin device..."), dir.absolutePath());
             if(path.isEmpty())
             {
                 return false;

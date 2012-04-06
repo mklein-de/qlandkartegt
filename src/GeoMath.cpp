@@ -83,9 +83,13 @@ QRegExp reCoord2("^\\s*([N|S]){1}\\s*([0-9]+\\.[0-9]+)\\W*\\s+([E|W|O]){1}\\s*([
 QRegExp reCoord3("^\\s*([-0-9]+\\.[0-9]+)\\s+([-0-9]+\\.[0-9]+)\\s*$");
 
 QRegExp reCoord4("^\\s*([N|S]){1}\\s*([0-9]+)\\W+([0-9]+)\\W+([0-9]+)\\W*([E|W|O]){1}\\W*([0-9]+)\\W+([0-9]+)\\W+([0-9]+)\\W*\\s*$");
+
+QRegExp reCoord5("^\\s*([-0-9]+\\.[0-9]+)([N|S])\\s+([-0-9]+\\.[0-9]+)([W|E])\\s*$");
 }
 
 using namespace GeoMath;
+
+//49.03196968ºN 12.10440376ºE
 
 bool GPS_Math_Str_To_Deg(const QString& str, float& lon, float& lat, bool silent)
 {
@@ -137,6 +141,16 @@ bool GPS_Math_Str_To_Deg(const QString& str, float& lon, float& lat, bool silent
         GPS_Math_DegMinSec_To_Deg(signLon, degLon, minLon, secLon, lon);
 
 
+    }
+    else if(reCoord5.exactMatch(str))
+    {
+        bool signLon    = reCoord4.cap(4) == "W";
+        bool signLat    = reCoord4.cap(2) == "S";
+        lat             = reCoord5.cap(1).toDouble();
+        lon             = reCoord5.cap(3).toDouble();
+
+        if(signLon) lon = -lon;
+        if(signLat) lat = -lat;
     }
     else
     {

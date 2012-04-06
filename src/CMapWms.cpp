@@ -53,6 +53,8 @@ CMapWms::CMapWms(const QString &key, const QString &filename, CCanvas *parent)
 
     IMap::filename = filename;
 
+    qDebug() << filename;
+
     QFile file(filename);
     if(!file.open(QIODevice::ReadOnly))
     {

@@ -18,7 +18,13 @@
 **********************************************************************************************/
 
 
+#include "CMainWindow.h"
+#include "CCanvas.h"
 #include "CDeviceTwoNav.h"
+#include "CSettings.h"
+#include "CGpx.h"
+#include "CWptDB.h"
+#include "GeoMath.h"
 
 #include <QtGui>
 
@@ -33,6 +39,46 @@ CDeviceTwoNav::~CDeviceTwoNav()
 
 }
 
+bool CDeviceTwoNav::aquire(QDir& dir)
+{
+    SETTINGS;
+    QString path = cfg.value("device/path","").toString();
+    dir.setPath(path);
+
+    pathRoot = "";
+    pathData = "TwoNavData/Data";
+
+    if(!dir.exists() || !dir.exists(pathData))
+    {
+        while(1)
+        {
+            pathRoot = "";
+            pathData = "TwoNavData/Data";
+
+            path = QFileDialog::getExistingDirectory(0, tr("Path to TwoNav device..."), dir.absolutePath());
+            if(path.isEmpty())
+            {
+                return false;
+            }
+            dir.setPath(path);
+
+            if(!dir.exists("TwoNavData/Data"))
+            {
+                QMessageBox::information(0,tr("Error..."), tr("I need a path with 'TwoNavData/Data' as subdirectory"),QMessageBox::Retry,QMessageBox::Retry);
+                continue;
+            }
+
+            pathData = dir.absoluteFilePath("TwoNavData/Data");
+
+            break;
+        }
+    }
+
+    pathRoot = dir.absolutePath();
+    cfg.setValue("device/path", pathRoot);
+    return true;
+}
+
 void CDeviceTwoNav::uploadWpts(const QList<CWpt*>& wpts)
 {
     QMessageBox::information(0,tr("Error..."), tr("TwoNav: Upload wapoints is not implemented."),QMessageBox::Abort,QMessageBox::Abort);
@@ -40,7 +86,35 @@ void CDeviceTwoNav::uploadWpts(const QList<CWpt*>& wpts)
 
 void CDeviceTwoNav::downloadWpts(QList<CWpt*>& wpts)
 {
-    QMessageBox::information(0,tr("Error..."), tr("TwoNav: Download wapoints is not implemented."),QMessageBox::Abort,QMessageBox::Abort);
+//    QMessageBox::information(0,tr("Error..."), tr("TwoNav: Download wapoints is not implemented."),QMessageBox::Abort,QMessageBox::Abort);
+
+    QStringList files;
+    QDir dir;
+    if(!aquire(dir))
+    {
+        return;
+    }
+
+    dir.cd(pathData);
+
+    files = dir.entryList(QStringList("*gpx"));
+    foreach(const QString& filename, files)
+    {
+        CGpx gpx(this, CGpx::eCleanExport);
+        gpx.load(dir.absoluteFilePath(filename));
+        CWptDB::self().loadGPX(gpx);
+    }
+
+    files = dir.entryList(QStringList("*wpt"));
+    foreach(const QString& filename, files)
+    {
+        readWptFile(dir.absoluteFilePath(filename), wpts);
+    }
+
+    dir.cd(pathRoot);
+
+    theMainWindow->getCanvas()->setFadingMessage(tr("Download waypoints finished!"));
+
 }
 
 void CDeviceTwoNav::uploadTracks(const QList<CTrack*>& trks)
@@ -71,4 +145,133 @@ void CDeviceTwoNav::uploadMap(const QList<IMapSelection*>& mss)
 void CDeviceTwoNav::downloadScreenshot(QImage& image)
 {
     QMessageBox::information(0,tr("Error..."), tr("TwoNav: Download screenshots is not implemented."),QMessageBox::Abort,QMessageBox::Abort);
+}
+
+struct wpt_t
+{
+    wpt_t(): lon(0), lat(0), ele(0), prox(0){}
+    QDateTime time;
+    QString name;
+    QString comment;
+    QString symbol;
+    QString key;
+    QString url;
+
+    float lon;
+    float lat;
+    float ele;
+    float prox;
+
+};
+
+
+void CDeviceTwoNav::readWptFile(const QString& filename, QList<CWpt*>& wpts)
+{
+    wpt_t tmpwpt;
+    QString line("start");
+    QFile file(filename);
+    file.open(QIODevice::ReadOnly);
+    QTextStream in(&file);
+
+    while(!line.isEmpty())
+    {
+        line = in.readLine();
+
+        switch(line[0].toAscii())
+        {
+        case 'B':
+        {
+            QString name        = line.mid(1).simplified();
+            QTextCodec * codec  = QTextCodec::codecForName(name.toAscii());
+            if(codec)
+            {
+                in.setCodec(codec);
+            }
+            break;
+        }
+        case 'G':
+        {
+            QString name  = line.mid(1).simplified();
+            if(name != "WGS 84")
+            {
+                QMessageBox::information(0,tr("Error..."), tr("Only support lon/lat WGS 84 format."),QMessageBox::Abort,QMessageBox::Abort);
+                return;
+            }
+            break;
+        }
+        case 'U':
+        {
+            QString name  = line.mid(1).simplified();
+            if(name != "1")
+            {
+                QMessageBox::information(0,tr("Error..."), tr("Only support lon/lat WGS 84 format."),QMessageBox::Abort,QMessageBox::Abort);
+                return;
+            }
+            break;
+        }
+        case 'W':
+        {
+            tmpwpt = wpt_t();
+            QStringList values = line.split(' ', QString::SkipEmptyParts);
+
+            tmpwpt.name    = values[1];
+            GPS_Math_Str_To_Deg(values[3].replace("\272","") + " " + values[4].replace("\272",""), tmpwpt.lon, tmpwpt.lat);
+            tmpwpt.time    = QDateTime::fromString(values[5] + " " + values[6], "dd-MMM-yyyy hh:mm:ss");
+            tmpwpt.time.setTimeSpec(Qt::UTC);
+            tmpwpt.ele     = values[7].toFloat();
+
+            if(values.size() > 7)
+            {
+                QStringList list = values.mid(8);
+                tmpwpt.comment = list.join(" ");
+            }
+
+            break;
+        }
+        case 'w':
+        {
+            QStringList values = line.mid(1).simplified().split(',');
+
+            tmpwpt.symbol  = values[0];
+
+            tmpwpt.url     = values[7];
+            tmpwpt.prox    = values[8].toFloat();
+            tmpwpt.key     = values[9];
+
+
+            if(tmpwpt.prox == 0)
+            {
+                tmpwpt.prox = WPT_NOFLOAT;
+            }
+            if(tmpwpt.ele == 0)
+            {
+                tmpwpt.ele = WPT_NOFLOAT;
+            }
+            if(tmpwpt.key == "0")
+            {
+                tmpwpt.key.clear();
+            }
+
+            CWpt * wpt = new CWpt(&CWptDB::self());
+
+            wpt->setName(tmpwpt.name);
+            wpt->setComment(tmpwpt.comment);
+            wpt->setIcon(tmpwpt.symbol);
+            wpt->setKey(tmpwpt.key);
+            wpt->lon        = tmpwpt.lon;
+            wpt->lat        = tmpwpt.lat;
+            wpt->ele        = tmpwpt.ele;
+            wpt->prx        = tmpwpt.prox;
+            wpt->urlname    = tmpwpt.url;
+            wpt->timestamp  = tmpwpt.time.toTime_t();
+
+            wpts << wpt;
+
+//            qDebug() << tmpwpt.name << tmpwpt.time << tmpwpt.lon << tmpwpt.lat << tmpwpt.ele << tmpwpt.prox << tmpwpt.comment << tmpwpt.key;
+            break;
+        }
+        }
+
+    }
+
 }

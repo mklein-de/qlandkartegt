@@ -160,6 +160,7 @@ class CWpt : public IItem
         friend class CDlgEditWpt;
         friend class CDlgWptEdit;
         friend class CWptDB;
+        friend class CDeviceTwoNav;
         static QDir path;
 
         void loadGcExt(const QDomNode& gpxCache);
