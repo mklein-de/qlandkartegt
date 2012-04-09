@@ -34,17 +34,17 @@ class IItem : public QObject
         /// set the item's short name
         virtual void setName(const QString& str){name = str;}
         /// get the item's short name
-        virtual QString getName(){return name;}
+        virtual QString getName() const{return name;}
 
         /// set the item's long comment
         virtual void setComment(const QString& str){comment = str;}
         /// get the item's long comment
-        virtual QString getComment(){return comment;}
+        virtual QString getComment() const{return comment;}
 
         /// set the item's description
         virtual void setDescription(const QString& str){description = str;}
         /// get the item's description
-        virtual QString getDescription(){return description;}
+        virtual QString getDescription() const{return description;}
 
         /// get a summary of item's data to display on screen or in the toolview
         virtual QString getInfo()= 0;
@@ -52,14 +52,14 @@ class IItem : public QObject
         /// set the icon defined by a string
         virtual void setIcon(const QString& str) = 0;
         /// get the icon as pixmap
-        virtual QPixmap getIcon(){return iconPixmap;}
+        virtual QPixmap getIcon() const{return iconPixmap;}
         /// get the icon as string definition
-        virtual QString getIconString(){return iconString;}
+        virtual QString getIconString()const {return iconString;}
 
         /// set the name of the parent waypoint
         virtual void setParentWpt(const QString& name){parentWpt = name;}
         /// get the name of the parent waypoint
-        virtual QString getParentWpt(){ return parentWpt;}
+        virtual QString getParentWpt()const{ return parentWpt;}
 
         /// set the internal unique key
         /**
@@ -69,9 +69,11 @@ class IItem : public QObject
         /// get the unique key
         virtual QString getKey();
 
-        virtual quint32 getTimestamp(){return timestamp;}
+        virtual quint32 getTimestamp()const {return timestamp;}
 
         static void resetKeyCnt(){keycnt = 0;}
+
+        static void removeHtml(QString& str);
 
     protected:
 

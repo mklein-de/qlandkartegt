@@ -50,3 +50,11 @@ void IItem::genKey()
 {
     key = QString("%1%2%3").arg(timestamp).arg(name).arg(keycnt++);
 }
+
+
+void IItem::removeHtml(QString &str)
+{
+    str.remove(QRegExp("<head.*[^>]*><\\/head>"));
+    str.remove(QRegExp("<[^>]*>"));
+    str = str.simplified();
+}

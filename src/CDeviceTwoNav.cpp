@@ -25,6 +25,7 @@
 #include "CGpx.h"
 #include "CWptDB.h"
 #include "GeoMath.h"
+#include "CResources.h"
 
 #include <QtGui>
 
@@ -81,7 +82,68 @@ bool CDeviceTwoNav::aquire(QDir& dir)
 
 void CDeviceTwoNav::uploadWpts(const QList<CWpt*>& wpts)
 {
-    QMessageBox::information(0,tr("Error..."), tr("TwoNav: Upload wapoints is not implemented."),QMessageBox::Abort,QMessageBox::Abort);
+//    QMessageBox::information(0,tr("Error..."), tr("TwoNav: Upload wapoints is not implemented."),QMessageBox::Abort,QMessageBox::Abort);
+
+    QDir dir;
+    if(!aquire(dir))
+    {
+        return;
+    }
+
+    dir.cd(pathData);
+    QString filename = QString("WPT_%1.wpt").arg(QDateTime::currentDateTime().toUTC().toString("yyyy-MM-dd"));
+    QFile file(dir.absoluteFilePath(filename));
+    file.open(QIODevice::WriteOnly);
+    QTextStream out(&file);
+    out.setCodec(QTextCodec::codecForName("UTF-8"));
+    out << "B  UTF-8" << endl;
+    out << "G  WGS 84" << endl;
+    out << "U  1" << endl;
+    foreach(CWpt * wpt, wpts)
+    {
+        QString name    = wpt->getName();
+        QString comment = wpt->getComment();
+
+        name    = name.replace(" ","_");
+
+        IItem::removeHtml(comment);
+        comment = comment.replace("\n","%0A%0D");
+
+        QStringList list;
+        list << "W";
+        list << name.replace(" ", "_");
+        list << "A";
+        list << (wpt->lat > 0 ? QString("%1\272N") : QString("%1\272S")).arg(wpt->lat,0,'f');
+        list << (wpt->lon > 0 ? QString("%1\272E") : QString("%1\272W")).arg(wpt->lon,0,'f');
+        list << QDateTime::fromTime_t(wpt->timestamp).toString("dd-MMM-yyyy");
+        list << QDateTime::fromTime_t(wpt->timestamp).toString("hh:mm:ss");
+        list << QString("%1").arg(wpt->ele == WPT_NOFLOAT ? 0 : wpt->ele,0,'f');
+
+        out << list.join(" ") << " ";
+        out << comment << endl;
+
+        list.clear();
+        list << wpt->getIconString();
+        list << "0"; //test position
+        list << "-1.0";
+        list << "0";
+        list << QString("%1").arg(CResources::self().wptTextColor().value());
+        list << "1";
+        list << "37"; // 1 Name 2 Beschreibung 4 Symbol 8 Höhe 16 URL 32 Radius
+        list << wpt->link;
+        list << QString("%1").arg(wpt->prx == WPT_NOFLOAT ? 0 : wpt->prx,0,'f');
+        list << wpt->getKey();
+        qDebug() << wpt->getKey();
+
+        out << "w ";
+        out << list.join(",");
+        out << endl;
+
+    }
+
+    file.close();
+    dir.cd(pathRoot);
+    theMainWindow->getCanvas()->setFadingMessage(tr("Upload waypoints finished!"));
 }
 
 void CDeviceTwoNav::downloadWpts(QList<CWpt*>& wpts)
@@ -112,9 +174,7 @@ void CDeviceTwoNav::downloadWpts(QList<CWpt*>& wpts)
     }
 
     dir.cd(pathRoot);
-
     theMainWindow->getCanvas()->setFadingMessage(tr("Download waypoints finished!"));
-
 }
 
 void CDeviceTwoNav::uploadTracks(const QList<CTrack*>& trks)
@@ -252,6 +312,8 @@ void CDeviceTwoNav::readWptFile(const QString& filename, QList<CWpt*>& wpts)
                 tmpwpt.key.clear();
             }
 
+            tmpwpt.name = tmpwpt.name.replace("_", " ");
+
             CWpt * wpt = new CWpt(&CWptDB::self());
 
             wpt->setName(tmpwpt.name);
@@ -267,11 +329,10 @@ void CDeviceTwoNav::readWptFile(const QString& filename, QList<CWpt*>& wpts)
 
             wpts << wpt;
 
-//            qDebug() << tmpwpt.name << tmpwpt.time << tmpwpt.lon << tmpwpt.lat << tmpwpt.ele << tmpwpt.prox << tmpwpt.comment << tmpwpt.key;
+            qDebug() << tmpwpt.name << tmpwpt.symbol << tmpwpt.time << tmpwpt.lon << tmpwpt.lat << tmpwpt.ele << tmpwpt.prox << tmpwpt.comment << tmpwpt.key;
             break;
         }
         }
-
     }
 
 }

@@ -1487,9 +1487,7 @@ void CTrackEditWidget::updateStages(QList<CTrack::wpt_t>& wpts)
 
         // prepare data -------------------------------
         QString comment = wpt.wpt->getComment();
-        comment.remove(QRegExp("<head.*[^>]*><\\/head>"));
-        comment.remove(QRegExp("<[^>]*>"));
-        comment = comment.simplified();
+        IItem::removeHtml(comment);
 
         QString proximity;
         if(wpt.wpt->prx != WPT_NOFLOAT)

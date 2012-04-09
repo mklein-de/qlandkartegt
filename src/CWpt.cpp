@@ -539,9 +539,7 @@ QString CWpt::getInfo()
     else
     {
         QString cmt = comment;
-        cmt.remove(QRegExp("<head.*[^>]*><\\/head>"));
-        cmt.remove(QRegExp("<[^>]*>"));
-        cmt = cmt.simplified();
+        IItem::removeHtml(cmt);
 
         if(cmt.count())
         {

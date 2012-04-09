@@ -109,13 +109,8 @@ void CDlgWpt2Rte::accept()
             QString comment     = wpt->getComment();
             QString action;
 
-            description.remove(QRegExp("<head.*[^>]*><\\/head>"));
-            description.remove(QRegExp("<[^>]*>"));
-            description = description.simplified();
-
-            comment.remove(QRegExp("<head.*[^>]*><\\/head>"));
-            comment.remove(QRegExp("<[^>]*>"));
-            comment = description.simplified();
+            IItem::removeHtml(description);
+            IItem::removeHtml(comment);
 
             if(!description.isEmpty())
             {

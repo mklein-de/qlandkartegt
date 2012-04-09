@@ -209,9 +209,7 @@ QList<CWptDB::keys_t> CWptDB::keys()
             k2.comment  = wpts[k1]->comment;
         }
 
-        k2.comment.remove(QRegExp("<head.*[^>]*><\\/head>"));
-        k2.comment.remove(QRegExp("<[^>]*>"));
-        k2.comment = k2.comment.simplified();
+        IItem::removeHtml(k2.comment);
 
         // truncate comment if necessary
         if(k2.comment.size() > 33)
@@ -617,10 +615,7 @@ void CWptDB::saveGPX(CGpx& gpx, const QStringList& keys)
         if(!wpt->comment.isEmpty())
         {
             QString comment = wpt->comment;
-            comment.remove(QRegExp("<head.*[^>]*><\\/head>"));
-            comment.remove(QRegExp("<[^>]*>"));
-            comment = comment.simplified();
-
+            IItem::removeHtml(comment);
 
             QDomElement cmt = gpx.createElement("cmt");
             waypoint.appendChild(cmt);

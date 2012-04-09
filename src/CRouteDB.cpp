@@ -337,9 +337,7 @@ void CRouteDB::saveGPX(CGpx& gpx, const QStringList& keys)
             name.appendChild(_name_);
 
             QString action = rtept->action;
-//            action.remove(QRegExp("<head.*[^>]*><\\/head>"));
-//            action.remove(QRegExp("<[^>]*>"));
-//            action = action.simplified();
+            IItem::removeHtml(action);
 
             QDomElement cmt = gpx.createElement("cmt");
             gpxRtept.appendChild(cmt);
