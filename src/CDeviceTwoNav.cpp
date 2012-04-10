@@ -91,8 +91,16 @@ void CDeviceTwoNav::uploadWpts(const QList<CWpt*>& wpts)
     }
 
     dir.cd(pathData);
-    QString filename = QString("WPT_%1.wpt").arg(QDateTime::currentDateTime().toUTC().toString("yyyy-MM-dd"));
-    QFile file(dir.absoluteFilePath(filename));
+
+    QString pathDay = dir.absoluteFilePath(QString("Data_%1").arg(QDateTime::currentDateTime().toUTC().toString("yyyy-MM-dd")));
+    if(!dir.exists(pathDay))
+    {
+        dir.mkpath(pathDay);
+    }
+
+    dir.cd(pathDay);
+
+    QFile file(dir.absoluteFilePath("Waypoints.wpt"));
     file.open(QIODevice::WriteOnly);
     QTextStream out(&file);
     out.setCodec(QTextCodec::codecForName("UTF-8"));
@@ -102,10 +110,13 @@ void CDeviceTwoNav::uploadWpts(const QList<CWpt*>& wpts)
     foreach(CWpt * wpt, wpts)
     {
         QString name    = wpt->getName();
-        QString comment = wpt->getComment();
-
         name    = name.replace(" ","_");
 
+        QString comment = wpt->getComment();
+        if(comment.isEmpty())
+        {
+            comment = wpt->getDescription();
+        }
         IItem::removeHtml(comment);
         comment = comment.replace("\n","%0A%0D");
 
@@ -123,7 +134,7 @@ void CDeviceTwoNav::uploadWpts(const QList<CWpt*>& wpts)
         out << comment << endl;
 
         list.clear();
-        list << wpt->getIconString();
+        list << wpt->getIconString().replace(",","").replace(" ", "_");
         list << "0"; //test position
         list << "-1.0";
         list << "0";
@@ -133,7 +144,6 @@ void CDeviceTwoNav::uploadWpts(const QList<CWpt*>& wpts)
         list << wpt->link;
         list << QString("%1").arg(wpt->prx == WPT_NOFLOAT ? 0 : wpt->prx,0,'f');
         list << wpt->getKey();
-        qDebug() << wpt->getKey();
 
         out << "w ";
         out << list.join(",");
@@ -151,6 +161,7 @@ void CDeviceTwoNav::downloadWpts(QList<CWpt*>& wpts)
 //    QMessageBox::information(0,tr("Error..."), tr("TwoNav: Download wapoints is not implemented."),QMessageBox::Abort,QMessageBox::Abort);
 
     QStringList files;
+    QStringList subdirs;
     QDir dir;
     if(!aquire(dir))
     {
@@ -158,19 +169,27 @@ void CDeviceTwoNav::downloadWpts(QList<CWpt*>& wpts)
     }
 
     dir.cd(pathData);
+    subdirs = dir.entryList(QDir::Dirs|QDir::NoDotAndDotDot);
 
-    files = dir.entryList(QStringList("*gpx"));
-    foreach(const QString& filename, files)
+    foreach(const QString& subdir, subdirs)
     {
-        CGpx gpx(this, CGpx::eCleanExport);
-        gpx.load(dir.absoluteFilePath(filename));
-        CWptDB::self().loadGPX(gpx);
-    }
+        dir.cd(subdir);
 
-    files = dir.entryList(QStringList("*wpt"));
-    foreach(const QString& filename, files)
-    {
-        readWptFile(dir.absoluteFilePath(filename), wpts);
+        files = dir.entryList(QStringList("*gpx"));
+        foreach(const QString& filename, files)
+        {
+            CGpx gpx(this, CGpx::eCleanExport);
+            gpx.load(dir.absoluteFilePath(filename));
+            CWptDB::self().loadGPX(gpx);
+        }
+
+        files = dir.entryList(QStringList("*wpt"));
+        foreach(const QString& filename, files)
+        {
+            readWptFile(dir.absoluteFilePath(filename), wpts);
+        }
+
+        dir.cdUp();
     }
 
     dir.cd(pathRoot);
@@ -290,7 +309,7 @@ void CDeviceTwoNav::readWptFile(const QString& filename, QList<CWpt*>& wpts)
         }
         case 'w':
         {
-            QStringList values = line.mid(1).simplified().split(',');
+            QStringList values = line.mid(1).simplified().split(',', QString::KeepEmptyParts);
 
             tmpwpt.symbol  = values[0];
 
