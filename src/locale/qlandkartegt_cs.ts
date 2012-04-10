@@ -1303,87 +1303,112 @@ Sobald die Kartenzusammenstellung erzeugt ist, können DEM-Daten im Kontext-Men�
 <context>
     <name>CCreateMapWMS</name>
     <message>
+        <location filename="../CCreateMapWMS.cpp" line="114"/>
+        <location filename="../CCreateMapWMS.cpp" line="132"/>
+        <location filename="../CCreateMapWMS.cpp" line="152"/>
+        <location filename="../CCreateMapWMS.cpp" line="290"/>
         <source>Error...</source>
-        <translation type="obsolete">Fehler ...</translation>
+        <translation type="unfinished">Fehler ...</translation>
     </message>
     <message>
+        <location filename="../CCreateMapWMS.cpp" line="114"/>
         <source>Failed to query capabilities.
 
 %1
 
 </source>
-        <translation type="obsolete">Abfrage der Fähigkeiten fehlgeschlagen.
+        <translation type="unfinished">Abfrage der Fähigkeiten fehlgeschlagen.
 
 %1
 
 </translation>
     </message>
     <message>
+        <location filename="../CCreateMapWMS.cpp" line="132"/>
         <source>Failed to parse capabilities.
 
 %1
 
 %2</source>
-        <translation type="obsolete">Parsen der Fähigkeiten fehlgeschlagen.
+        <translation type="unfinished">Parsen der Fähigkeiten fehlgeschlagen.
 
 %1
 
 %2</translation>
     </message>
     <message>
+        <location filename="../CCreateMapWMS.cpp" line="152"/>
         <source>Failed to check WMS version.
 
 Expected %1, received %2.</source>
-        <translation type="obsolete">Prüfung der WMS-Version fehlgeschlagen.
+        <translation type="unfinished">Prüfung der WMS-Version fehlgeschlagen.
 
 Erwartet: %1, empfangen %2.</translation>
     </message>
     <message>
+        <location filename="../CCreateMapWMS.cpp" line="290"/>
         <source>You need to select at least one layer.</source>
-        <translation type="obsolete">Mindestens eine Ebene muss ausgewählt werden.</translation>
+        <translation type="unfinished">Mindestens eine Ebene muss ausgewählt werden.</translation>
     </message>
     <message>
+        <location filename="../CCreateMapWMS.cpp" line="425"/>
         <source>Define GDAL WMS definition file...</source>
-        <translation type="obsolete">GDAL-WMS-Definitionsdatei festlegen ...</translation>
+        <translation type="unfinished">GDAL-WMS-Definitionsdatei festlegen ...</translation>
     </message>
 </context>
 <context>
     <name>CDeviceGPSD</name>
     <message>
+        <location filename="../CDeviceGPSD.cpp" line="90"/>
+        <location filename="../CDeviceGPSD.cpp" line="96"/>
+        <location filename="../CDeviceGPSD.cpp" line="102"/>
+        <location filename="../CDeviceGPSD.cpp" line="108"/>
+        <location filename="../CDeviceGPSD.cpp" line="114"/>
+        <location filename="../CDeviceGPSD.cpp" line="120"/>
+        <location filename="../CDeviceGPSD.cpp" line="126"/>
+        <location filename="../CDeviceGPSD.cpp" line="132"/>
         <source>Error...</source>
-        <translation type="obsolete">Fehler ...</translation>
+        <translation type="unfinished">Fehler ...</translation>
     </message>
     <message>
+        <location filename="../CDeviceGPSD.cpp" line="90"/>
         <source>GPSD: Upload waypoints is not implemented.</source>
-        <translation type="obsolete">GPSD: Das Hochladen von Wegpunkten auf das Gerät ist nicht implementiert.</translation>
+        <translation type="unfinished">GPSD: Das Hochladen von Wegpunkten auf das Gerät ist nicht implementiert.</translation>
     </message>
     <message>
+        <location filename="../CDeviceGPSD.cpp" line="96"/>
         <source>GPSD: Download waypoints is not implemented.</source>
-        <translation type="obsolete">GPSD: Das Herunterladen von Wegpunkten vom Gerät ist nicht implementiert.</translation>
+        <translation type="unfinished">GPSD: Das Herunterladen von Wegpunkten vom Gerät ist nicht implementiert.</translation>
     </message>
     <message>
+        <location filename="../CDeviceGPSD.cpp" line="102"/>
         <source>GPSD: Upload tracks is not implemented.</source>
-        <translation type="obsolete">GPSD: Das Hochladen von Tracks auf das Gerät ist nicht implementiert.</translation>
+        <translation type="unfinished">GPSD: Das Hochladen von Tracks auf das Gerät ist nicht implementiert.</translation>
     </message>
     <message>
+        <location filename="../CDeviceGPSD.cpp" line="108"/>
         <source>GPSD: Download tracks is not implemented.</source>
-        <translation type="obsolete">GPSD: Das Herunterladen von Tracks vom Gerät ist nicht implementiert.</translation>
+        <translation type="unfinished">GPSD: Das Herunterladen von Tracks vom Gerät ist nicht implementiert.</translation>
     </message>
     <message>
+        <location filename="../CDeviceGPSD.cpp" line="114"/>
         <source>GPSD: Upload routes is not implemented.</source>
-        <translation type="obsolete">GPSD: Das Hochladen von Routen auf das Gerät ist nicht implementiert.</translation>
+        <translation type="unfinished">GPSD: Das Hochladen von Routen auf das Gerät ist nicht implementiert.</translation>
     </message>
     <message>
+        <location filename="../CDeviceGPSD.cpp" line="120"/>
         <source>GPSD: Download routes is not implemented.</source>
-        <translation type="obsolete">GPSD: Das Herunterladen von Routen vom Gerät ist nicht implementiert.</translation>
+        <translation type="unfinished">GPSD: Das Herunterladen von Routen vom Gerät ist nicht implementiert.</translation>
     </message>
     <message>
+        <location filename="../CDeviceGPSD.cpp" line="126"/>
         <source>GPSD: Upload maps is not implemented.</source>
-        <translation type="obsolete">GPSD: Das Hochladen von Karten auf das Gerät ist nicht implementiert.</translation>
+        <translation type="unfinished">GPSD: Das Hochladen von Karten auf das Gerät ist nicht implementiert.</translation>
     </message>
     <message>
+        <location filename="../CDeviceGPSD.cpp" line="132"/>
         <source>GPSD: Download screenshots is not implemented.</source>
-        <translation type="obsolete">GPSD: Das Herunterladen von Bildschirmfotos vom Gerät ist nicht implementiert.</translation>
+        <translation type="unfinished">GPSD: Das Herunterladen von Bildschirmfotos vom Gerät ist nicht implementiert.</translation>
     </message>
 </context>
 <context>
@@ -1411,60 +1436,60 @@ Erwartet: %1, empfangen %2.</translation>
     </message>
     <message>
         <location filename="../CDeviceGarmin.cpp" line="596"/>
-        <location filename="../CDeviceGarmin.cpp" line="709"/>
-        <location filename="../CDeviceGarmin.cpp" line="739"/>
-        <location filename="../CDeviceGarmin.cpp" line="830"/>
-        <location filename="../CDeviceGarmin.cpp" line="859"/>
-        <location filename="../CDeviceGarmin.cpp" line="931"/>
-        <location filename="../CDeviceGarmin.cpp" line="1032"/>
-        <location filename="../CDeviceGarmin.cpp" line="1061"/>
-        <location filename="../CDeviceGarmin.cpp" line="1153"/>
-        <location filename="../CDeviceGarmin.cpp" line="1179"/>
+        <location filename="../CDeviceGarmin.cpp" line="707"/>
+        <location filename="../CDeviceGarmin.cpp" line="737"/>
+        <location filename="../CDeviceGarmin.cpp" line="828"/>
+        <location filename="../CDeviceGarmin.cpp" line="857"/>
+        <location filename="../CDeviceGarmin.cpp" line="929"/>
+        <location filename="../CDeviceGarmin.cpp" line="1030"/>
+        <location filename="../CDeviceGarmin.cpp" line="1059"/>
+        <location filename="../CDeviceGarmin.cpp" line="1151"/>
+        <location filename="../CDeviceGarmin.cpp" line="1177"/>
         <source>Device Link Error</source>
         <translation>Žádné spojení se zařízením</translation>
     </message>
     <message>
-        <location filename="../CDeviceGarmin.cpp" line="714"/>
+        <location filename="../CDeviceGarmin.cpp" line="712"/>
         <source>Upload waypoints finished!</source>
         <translation>Nahrání cestovních bodů dokončeno!</translation>
     </message>
     <message>
-        <location filename="../CDeviceGarmin.cpp" line="773"/>
+        <location filename="../CDeviceGarmin.cpp" line="771"/>
         <source>Download waypoints finished!</source>
         <translation>Stažení cestovních bodů dokončeno!</translation>
     </message>
     <message>
-        <location filename="../CDeviceGarmin.cpp" line="835"/>
+        <location filename="../CDeviceGarmin.cpp" line="833"/>
         <source>Upload tracks finished!</source>
         <translation>Nahrání stop dokončeno!</translation>
     </message>
     <message>
-        <location filename="../CDeviceGarmin.cpp" line="902"/>
+        <location filename="../CDeviceGarmin.cpp" line="900"/>
         <source>Download tracks finished!</source>
         <translation>Stažení stop dokončeno!</translation>
     </message>
     <message>
-        <location filename="../CDeviceGarmin.cpp" line="1037"/>
+        <location filename="../CDeviceGarmin.cpp" line="1035"/>
         <source>Upload routes finished!</source>
         <translation>Nahrání cest dokončeno!</translation>
     </message>
     <message>
-        <location filename="../CDeviceGarmin.cpp" line="1094"/>
+        <location filename="../CDeviceGarmin.cpp" line="1092"/>
         <source>Download routes finished!</source>
         <translation>Stažení cest dokončeno!</translation>
     </message>
     <message>
-        <location filename="../CDeviceGarmin.cpp" line="1123"/>
+        <location filename="../CDeviceGarmin.cpp" line="1121"/>
         <source>Error...</source>
         <translation>Chyba...</translation>
     </message>
     <message>
-        <location filename="../CDeviceGarmin.cpp" line="1123"/>
+        <location filename="../CDeviceGarmin.cpp" line="1121"/>
         <source>Failed to create image file.</source>
         <translation>Nepodařilo se vytvořit soubor s obrázkem.</translation>
     </message>
     <message>
-        <location filename="../CDeviceGarmin.cpp" line="1158"/>
+        <location filename="../CDeviceGarmin.cpp" line="1156"/>
         <source>Upload maps finished!</source>
         <translation>Nahrání map dokončeno!</translation>
     </message>
@@ -1489,6 +1514,11 @@ Erwartet: %1, empfangen %2.</translation>
     <message>
         <source>The selected path must have a subdirectory &apos;JPEG&apos; or &apos;Pictures&apos;.</source>
         <translation type="obsolete">Der ausgewählte Pfad muss ein Unterverzeichnis &apos;JPEG&apos; oder &apos;Pictures&apos; haben.</translation>
+    </message>
+    <message>
+        <location filename="../CDeviceGarminBulk.cpp" line="123"/>
+        <source>Path to Garmin device...</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../CDeviceGarminBulk.cpp" line="142"/>
@@ -1553,40 +1583,56 @@ Erwartet: %1, empfangen %2.</translation>
 <context>
     <name>CDeviceMikrokopter</name>
     <message>
+        <location filename="../CDeviceMikrokopter.cpp" line="60"/>
+        <location filename="../CDeviceMikrokopter.cpp" line="131"/>
+        <location filename="../CDeviceMikrokopter.cpp" line="150"/>
+        <location filename="../CDeviceMikrokopter.cpp" line="156"/>
+        <location filename="../CDeviceMikrokopter.cpp" line="162"/>
+        <location filename="../CDeviceMikrokopter.cpp" line="168"/>
+        <location filename="../CDeviceMikrokopter.cpp" line="174"/>
+        <location filename="../CDeviceMikrokopter.cpp" line="180"/>
         <source>Error...</source>
-        <translation type="obsolete">Fehler...</translation>
+        <translation type="unfinished">Fehler...</translation>
     </message>
     <message>
+        <location filename="../CDeviceMikrokopter.cpp" line="60"/>
         <source>Mikrokopter: Failed to open serial port.</source>
-        <translation type="obsolete">Mikrokopter: Fehler beim Öffnen der seriellen Schnittstelle.</translation>
+        <translation type="unfinished">Mikrokopter: Fehler beim Öffnen der seriellen Schnittstelle.</translation>
     </message>
     <message>
+        <location filename="../CDeviceMikrokopter.cpp" line="131"/>
         <source>Mikrokopter: Upload waypoints is not implemented.</source>
-        <translation type="obsolete">Mikrokopter: Das Hochladen von Wegpunkten ist nicht implementiert.</translation>
+        <translation type="unfinished">Mikrokopter: Das Hochladen von Wegpunkten ist nicht implementiert.</translation>
     </message>
     <message>
+        <location filename="../CDeviceMikrokopter.cpp" line="150"/>
         <source>Mikrokopter: Upload tracks is not implemented.</source>
-        <translation type="obsolete">Mikrokopter: Das Hochladen von Tracks ist nicht implementiert.</translation>
+        <translation type="unfinished">Mikrokopter: Das Hochladen von Tracks ist nicht implementiert.</translation>
     </message>
     <message>
+        <location filename="../CDeviceMikrokopter.cpp" line="156"/>
         <source>Mikrokopter: Download tracks is not implemented.</source>
-        <translation type="obsolete">Mikrokopter: Das Herunterladen von Tracks ist nicht implementiert.</translation>
+        <translation type="unfinished">Mikrokopter: Das Herunterladen von Tracks ist nicht implementiert.</translation>
     </message>
     <message>
+        <location filename="../CDeviceMikrokopter.cpp" line="162"/>
         <source>Mikrokopter: Upload routes is not implemented.</source>
-        <translation type="obsolete">Mikrokopter: Das Hochladen von Routen ist nicht implementiert.</translation>
+        <translation type="unfinished">Mikrokopter: Das Hochladen von Routen ist nicht implementiert.</translation>
     </message>
     <message>
+        <location filename="../CDeviceMikrokopter.cpp" line="168"/>
         <source>Mikrokopter: Download routes is not implemented.</source>
-        <translation type="obsolete">Mikrokopter: Das Herunterladen von Routen ist nicht implementiert.</translation>
+        <translation type="unfinished">Mikrokopter: Das Herunterladen von Routen ist nicht implementiert.</translation>
     </message>
     <message>
+        <location filename="../CDeviceMikrokopter.cpp" line="174"/>
         <source>Mikrokopter: Upload maps is not implemented.</source>
-        <translation type="obsolete">Mikrokopter: Das Hochladen von Karten ist nicht implementiert.</translation>
+        <translation type="unfinished">Mikrokopter: Das Hochladen von Karten ist nicht implementiert.</translation>
     </message>
     <message>
+        <location filename="../CDeviceMikrokopter.cpp" line="180"/>
         <source>Mikrokopter: Download screenschots is not implemented.</source>
-        <translation type="obsolete">Mikrokopter: Das Herunterladen von Bildschirmfotos ist nicht implementiert.</translation>
+        <translation type="unfinished">Mikrokopter: Das Herunterladen von Bildschirmfotos ist nicht implementiert.</translation>
     </message>
 </context>
 <context>
@@ -1861,56 +1907,81 @@ Erwartet: %1, empfangen %2.</translation>
 <context>
     <name>CDeviceTwoNav</name>
     <message>
-        <location filename="../CDeviceTwoNav.cpp" line="38"/>
-        <location filename="../CDeviceTwoNav.cpp" line="43"/>
-        <location filename="../CDeviceTwoNav.cpp" line="48"/>
-        <location filename="../CDeviceTwoNav.cpp" line="53"/>
-        <location filename="../CDeviceTwoNav.cpp" line="58"/>
-        <location filename="../CDeviceTwoNav.cpp" line="63"/>
         <location filename="../CDeviceTwoNav.cpp" line="68"/>
-        <location filename="../CDeviceTwoNav.cpp" line="73"/>
+        <location filename="../CDeviceTwoNav.cpp" line="201"/>
+        <location filename="../CDeviceTwoNav.cpp" line="206"/>
+        <location filename="../CDeviceTwoNav.cpp" line="211"/>
+        <location filename="../CDeviceTwoNav.cpp" line="216"/>
+        <location filename="../CDeviceTwoNav.cpp" line="221"/>
+        <location filename="../CDeviceTwoNav.cpp" line="226"/>
+        <location filename="../CDeviceTwoNav.cpp" line="276"/>
+        <location filename="../CDeviceTwoNav.cpp" line="286"/>
         <source>Error...</source>
         <translation>Chyba...</translation>
     </message>
     <message>
-        <location filename="../CDeviceTwoNav.cpp" line="38"/>
         <source>TwoNav: Upload wapoints is not implemented.</source>
-        <translation>TwoNav: Nahrání cestovních bodů do zařízení není provedeno.</translation>
+        <translation type="obsolete">TwoNav: Nahrání cestovních bodů do zařízení není provedeno.</translation>
     </message>
     <message>
-        <location filename="../CDeviceTwoNav.cpp" line="43"/>
         <source>TwoNav: Download wapoints is not implemented.</source>
-        <translation>TwoNav: Stažení cestovních bodů ze zařízení není provedeno.</translation>
+        <translation type="obsolete">TwoNav: Stažení cestovních bodů ze zařízení není provedeno.</translation>
     </message>
     <message>
-        <location filename="../CDeviceTwoNav.cpp" line="48"/>
+        <location filename="../CDeviceTwoNav.cpp" line="59"/>
+        <source>Path to TwoNav device...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../CDeviceTwoNav.cpp" line="68"/>
+        <source>I need a path with &apos;TwoNavData/Data&apos; as subdirectory</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../CDeviceTwoNav.cpp" line="156"/>
+        <source>Upload waypoints finished!</source>
+        <translation type="unfinished">Nahrání cestovních bodů dokončeno!</translation>
+    </message>
+    <message>
+        <location filename="../CDeviceTwoNav.cpp" line="196"/>
+        <source>Download waypoints finished!</source>
+        <translation type="unfinished">Stažení cestovních bodů dokončeno!</translation>
+    </message>
+    <message>
+        <location filename="../CDeviceTwoNav.cpp" line="201"/>
         <source>TwoNav: Upload tracks is not implemented.</source>
         <translation>TwoNav: Nahrání stop do zařízení není provedeno.</translation>
     </message>
     <message>
-        <location filename="../CDeviceTwoNav.cpp" line="53"/>
+        <location filename="../CDeviceTwoNav.cpp" line="206"/>
         <source>TwoNav: Download tracks is not implemented.</source>
         <translation>TwoNav: Stažení stop ze zařízení není provedeno.</translation>
     </message>
     <message>
-        <location filename="../CDeviceTwoNav.cpp" line="58"/>
+        <location filename="../CDeviceTwoNav.cpp" line="211"/>
         <source>TwoNav: Upload routes is not implemented.</source>
         <translation>TwoNav: Nahrání cest do zařízení není provedeno.</translation>
     </message>
     <message>
-        <location filename="../CDeviceTwoNav.cpp" line="63"/>
+        <location filename="../CDeviceTwoNav.cpp" line="216"/>
         <source>TwoNav: Download routes is not implemented.</source>
         <translation>TwoNav: Stažení cest ze zařízení není provedeno.</translation>
     </message>
     <message>
-        <location filename="../CDeviceTwoNav.cpp" line="68"/>
+        <location filename="../CDeviceTwoNav.cpp" line="221"/>
         <source>TwoNav: Upload maps is not implemented.</source>
         <translation>TwoNav: Nahrání map do zařízení není provedeno.</translation>
     </message>
     <message>
-        <location filename="../CDeviceTwoNav.cpp" line="73"/>
+        <location filename="../CDeviceTwoNav.cpp" line="226"/>
         <source>TwoNav: Download screenshots is not implemented.</source>
         <translation>TwoNav: Stažení map ze zařízení není provedeno.</translation>
+    </message>
+    <message>
+        <location filename="../CDeviceTwoNav.cpp" line="276"/>
+        <location filename="../CDeviceTwoNav.cpp" line="286"/>
+        <source>Only support lon/lat WGS 84 format.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -2727,12 +2798,14 @@ není platným vymezením soustavy souřadnic
 <context>
     <name>CGarminIndex</name>
     <message>
+        <location filename="../CGarminIndex.cpp" line="143"/>
         <source>Create index... %1</source>
-        <translation type="obsolete">Erzeuge Index ... %1</translation>
+        <translation type="unfinished">Erzeuge Index ... %1</translation>
     </message>
     <message>
+        <location filename="../CGarminIndex.cpp" line="403"/>
         <source>Done</source>
-        <translation type="obsolete">Fertig</translation>
+        <translation type="unfinished">Fertig</translation>
     </message>
 </context>
 <context>
@@ -3718,52 +3791,64 @@ Chcete uložit změny?</translation>
 <context>
     <name>CMap3DWidget</name>
     <message>
+        <location filename="../CMap3DWidget.cpp" line="168"/>
         <source>Flat / 3D Mode</source>
-        <translation type="obsolete">2D/3D-Kartendarstellung </translation>
+        <translation type="unfinished">2D/3D-Kartendarstellung </translation>
     </message>
     <message>
+        <location filename="../CMap3DWidget.cpp" line="173"/>
         <source>Show Track</source>
-        <translation type="obsolete">Track zeigen</translation>
+        <translation type="unfinished">Track zeigen</translation>
     </message>
     <message>
+        <location filename="../CMap3DWidget.cpp" line="178"/>
         <source>Track on Map</source>
-        <translation type="obsolete">Track auf der Karte</translation>
+        <translation type="unfinished">Track auf der Karte</translation>
     </message>
     <message>
+        <location filename="../CMap3DWidget.cpp" line="183"/>
         <source>Inc. Elevation</source>
-        <translation type="obsolete">Erhebung vergrößern</translation>
+        <translation type="unfinished">Erhebung vergrößern</translation>
     </message>
     <message>
+        <location filename="../CMap3DWidget.cpp" line="186"/>
         <source>Dec. Elevation</source>
-        <translation type="obsolete">Erhebung verkleinern</translation>
+        <translation type="unfinished">Erhebung verkleinern</translation>
     </message>
     <message>
+        <location filename="../CMap3DWidget.cpp" line="189"/>
         <source>Reset Elevation</source>
-        <translation type="obsolete">Erhebung zurücksetzen</translation>
+        <translation type="unfinished">Erhebung zurücksetzen</translation>
     </message>
     <message>
+        <location filename="../CMap3DWidget.cpp" line="192"/>
         <source>Reset light source</source>
-        <translation type="obsolete">Lichtquelle zurücksetzen</translation>
+        <translation type="unfinished">Lichtquelle zurücksetzen</translation>
     </message>
     <message>
+        <location filename="../CMap3DWidget.cpp" line="329"/>
         <source>Add Waypoint ...</source>
-        <translation type="obsolete">Wegpunkt hinzufügen ...</translation>
+        <translation type="unfinished">Wegpunkt hinzufügen ...</translation>
     </message>
     <message>
+        <location filename="../CMap3DWidget.cpp" line="333"/>
         <source>Copy Pos. Waypoint</source>
-        <translation type="obsolete">Wegpunktposition kopieren</translation>
+        <translation type="unfinished">Wegpunktposition kopieren</translation>
     </message>
     <message>
+        <location filename="../CMap3DWidget.cpp" line="334"/>
         <source>Edit Waypoint...</source>
-        <translation type="obsolete">Wegepunkt bearbeiten ...</translation>
+        <translation type="unfinished">Wegepunkt bearbeiten ...</translation>
     </message>
     <message>
+        <location filename="../CMap3DWidget.cpp" line="336"/>
         <source>Delete Waypoint</source>
-        <translation type="obsolete">Wegpunkt löschen</translation>
+        <translation type="unfinished">Wegpunkt löschen</translation>
     </message>
     <message>
+        <location filename="../CMap3DWidget.cpp" line="912"/>
         <source>:/skybox/%1.bmp</source>
-        <translation type="obsolete">:/skybox/%1.bmp</translation>
+        <translation type="unfinished">:/skybox/%1.bmp</translation>
     </message>
 </context>
 <context>
@@ -3796,54 +3881,54 @@ Chcete uložit změny?</translation>
         <translation>--- Žádná mapa ---</translation>
     </message>
     <message>
-        <location filename="../CMapDB.cpp" line="161"/>
+        <location filename="../CMapDB.cpp" line="172"/>
         <source>Crash detected....</source>
         <translation>Zjištěn pád...</translation>
     </message>
     <message>
-        <location filename="../CMapDB.cpp" line="161"/>
+        <location filename="../CMapDB.cpp" line="172"/>
         <source>QLandkarte GT was terminated with a crash. This is really bad. A common reason for that is a bad map. Do you really want to load the last map?</source>
         <translation>QLandkarte GT byl ukončen pádem. To je skutečně špatné. Obyčejně se to stává, když je mapa špatná. Opravdu chcete nahrát poslední mapu?</translation>
     </message>
     <message>
-        <location filename="../CMapDB.cpp" line="495"/>
-        <location filename="../CMapDB.cpp" line="992"/>
-        <location filename="../CMapDB.cpp" line="1037"/>
+        <location filename="../CMapDB.cpp" line="527"/>
+        <location filename="../CMapDB.cpp" line="1024"/>
+        <location filename="../CMapDB.cpp" line="1069"/>
         <source>Error...</source>
         <translation>Chyba...</translation>
     </message>
     <message>
-        <location filename="../CMapDB.cpp" line="495"/>
+        <location filename="../CMapDB.cpp" line="527"/>
         <source>Only vector maps are valid overlays.</source>
         <translation>Jen vektorové mapy jsou platnými vrstvami.</translation>
     </message>
     <message>
-        <location filename="../CMapDB.cpp" line="918"/>
+        <location filename="../CMapDB.cpp" line="950"/>
         <source>Map 3D...</source>
         <translation>Trojrozměrná mapa...</translation>
     </message>
     <message>
-        <location filename="../CMapDB.cpp" line="1037"/>
+        <location filename="../CMapDB.cpp" line="1069"/>
         <source>This map does not support this feature.</source>
         <translation>Tato mapa tuto vlastnost nepodporuje.</translation>
     </message>
     <message>
-        <location filename="../CMapDB.cpp" line="905"/>
+        <location filename="../CMapDB.cpp" line="937"/>
         <source>Edit Map</source>
         <translation>Upravit mapu</translation>
     </message>
     <message>
-        <location filename="../CMapDB.cpp" line="933"/>
+        <location filename="../CMapDB.cpp" line="965"/>
         <source>Search Map</source>
         <translation>Hledat v mapě</translation>
     </message>
     <message>
-        <location filename="../CMapDB.cpp" line="947"/>
+        <location filename="../CMapDB.cpp" line="979"/>
         <source>Sorry...</source>
         <translation>Promiňte...</translation>
     </message>
     <message>
-        <location filename="../CMapDB.cpp" line="947"/>
+        <location filename="../CMapDB.cpp" line="979"/>
         <source>You can&apos;t select subareas from single file maps. Create a collection with F1-&gt;F6.</source>
         <translation>Nemůžete vybrat žádné výřezy z jednotlivého mapového souboru. Vytvořte mapovou sbírku pomocí F1-&gt;F6.</translation>
     </message>
@@ -4314,8 +4399,54 @@ Zrušeno uživatelem.</translation>
 <context>
     <name>CMapRmap</name>
     <message>
+        <location filename="../CMapRmap.cpp" line="51"/>
+        <location filename="../CMapRmap.cpp" line="60"/>
+        <location filename="../CMapRmap.cpp" line="130"/>
+        <location filename="../CMapRmap.cpp" line="147"/>
+        <location filename="../CMapRmap.cpp" line="168"/>
+        <location filename="../CMapRmap.cpp" line="190"/>
+        <location filename="../CMapRmap.cpp" line="212"/>
+        <location filename="../CMapRmap.cpp" line="240"/>
+        <source>Error...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../CMapRmap.cpp" line="51"/>
+        <source>This is not a TwoNav RMAP file.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../CMapRmap.cpp" line="60"/>
+        <source>Unknown sub-format.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../CMapRmap.cpp" line="130"/>
+        <source>Unknown version.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../CMapRmap.cpp" line="147"/>
+        <location filename="../CMapRmap.cpp" line="168"/>
+        <location filename="../CMapRmap.cpp" line="190"/>
+        <location filename="../CMapRmap.cpp" line="212"/>
+        <source>Failed to read reference point.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../CMapRmap.cpp" line="240"/>
+        <source>Unknown projection and datum (%1%2).</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../CMapRmap.cpp" line="628"/>
         <source>Overzoom x%1</source>
-        <translation type="obsolete">Overzoom x%1</translation>
+        <translation type="unfinished">Overzoom x%1</translation>
+    </message>
+    <message>
+        <location filename="../CMapRmap.cpp" line="632"/>
+        <source>Zoom level x%1</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -5175,33 +5306,53 @@ Zrušeno uživatelem.</translation>
 <context>
     <name>CMapTms</name>
     <message>
-        <location filename="../CMapTms.cpp" line="289"/>
+        <location filename="../CMapTms.cpp" line="134"/>
+        <location filename="../CMapTms.cpp" line="144"/>
+        <source>Error...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../CMapTms.cpp" line="134"/>
+        <source>Failed to open %1</source>
+        <translation type="unfinished">Nepodařilo se otevřít %1</translation>
+    </message>
+    <message>
+        <location filename="../CMapTms.cpp" line="144"/>
+        <source>Failed to read: %1
+line %2, column %3:
+ %4</source>
+        <translation type="unfinished">Chyba při čtení: %1
+Řádek %2, Sloupec %3:
+%4</translation>
+    </message>
+    <message>
+        <location filename="../CMapTms.cpp" line="391"/>
         <source>Overzoom x%1</source>
         <translation>Zvětšení x%1</translation>
     </message>
     <message>
-        <location filename="../CMapTms.cpp" line="293"/>
+        <location filename="../CMapTms.cpp" line="395"/>
         <source>Zoom level x%1</source>
         <translation>Úroveň zvětšení x%1</translation>
     </message>
     <message>
-        <location filename="../CMapTms.cpp" line="315"/>
-        <location filename="../CMapTms.cpp" line="319"/>
+        <location filename="../CMapTms.cpp" line="417"/>
+        <location filename="../CMapTms.cpp" line="421"/>
         <source>%1 %2</source>
         <translation>%1 %2</translation>
     </message>
     <message>
-        <location filename="../CMapTms.cpp" line="315"/>
+        <location filename="../CMapTms.cpp" line="417"/>
         <source>Copyright notice is missing.</source>
         <translation>Chybí údaje o tvůrci.</translation>
     </message>
     <message>
-        <location filename="../CMapTms.cpp" line="430"/>
+        <location filename="../CMapTms.cpp" line="601"/>
         <source>Map loaded.</source>
         <translation>Mapa nahrána.</translation>
     </message>
     <message>
-        <location filename="../CMapTms.cpp" line="436"/>
+        <location filename="../CMapTms.cpp" line="607"/>
         <source>Wait for %1 tiles.</source>
         <translation>Počkat na %1 dlaždice.</translation>
     </message>
@@ -5373,19 +5524,19 @@ Zrušeno uživatelem.</translation>
 <context>
     <name>CMapWms</name>
     <message>
-        <location filename="../CMapWms.cpp" line="59"/>
-        <location filename="../CMapWms.cpp" line="69"/>
-        <location filename="../CMapWms.cpp" line="121"/>
+        <location filename="../CMapWms.cpp" line="61"/>
+        <location filename="../CMapWms.cpp" line="71"/>
+        <location filename="../CMapWms.cpp" line="123"/>
         <source>Error...</source>
         <translation>Chyba...</translation>
     </message>
     <message>
-        <location filename="../CMapWms.cpp" line="59"/>
+        <location filename="../CMapWms.cpp" line="61"/>
         <source>Failed to open %1</source>
         <translation>Nepodařilo se otevřít %1</translation>
     </message>
     <message>
-        <location filename="../CMapWms.cpp" line="69"/>
+        <location filename="../CMapWms.cpp" line="71"/>
         <source>Failed to read: %1
 line %2, column %3:
  %4</source>
@@ -5394,7 +5545,7 @@ line %2, column %3:
 %4</translation>
     </message>
     <message>
-        <location filename="../CMapWms.cpp" line="121"/>
+        <location filename="../CMapWms.cpp" line="123"/>
         <source>Unknown projection %1</source>
         <translation>Neznámé promítání %1</translation>
     </message>
@@ -5403,33 +5554,33 @@ line %2, column %3:
         <translation type="obsolete">Quadratisches Zoom</translation>
     </message>
     <message>
-        <location filename="../CMapWms.cpp" line="429"/>
+        <location filename="../CMapWms.cpp" line="431"/>
         <source>Overzoom x%1</source>
         <translation>Zvětšení x%1</translation>
     </message>
     <message>
-        <location filename="../CMapWms.cpp" line="433"/>
+        <location filename="../CMapWms.cpp" line="435"/>
         <source>Zoom level x%1</source>
         <translation>Úroveň zvětšení x%1</translation>
     </message>
     <message>
-        <location filename="../CMapWms.cpp" line="455"/>
-        <location filename="../CMapWms.cpp" line="459"/>
+        <location filename="../CMapWms.cpp" line="457"/>
+        <location filename="../CMapWms.cpp" line="461"/>
         <source>%1 %2</source>
         <translation>%1 %2</translation>
     </message>
     <message>
-        <location filename="../CMapWms.cpp" line="455"/>
+        <location filename="../CMapWms.cpp" line="457"/>
         <source>Copyright notice is missing. Use &lt;copyright&gt; tag in &lt;service&gt; secton to supply a copyright notice.</source>
         <translation>Chybí údaje o tvůrci. Změňte, prosím, &lt;copyright&gt; značku &lt;service&gt; části souboru XML.</translation>
     </message>
     <message>
-        <location filename="../CMapWms.cpp" line="594"/>
+        <location filename="../CMapWms.cpp" line="596"/>
         <source>Map loaded.</source>
         <translation>Mapa nahrána.</translation>
     </message>
     <message>
-        <location filename="../CMapWms.cpp" line="600"/>
+        <location filename="../CMapWms.cpp" line="602"/>
         <source>Wait for %1 tiles.</source>
         <translation>Počkat na %1 dlaždice.</translation>
     </message>
@@ -6005,8 +6156,9 @@ line %2, column %3:
         <translation type="obsolete">Kachel %1 wurde von einer %2 Tage alten Datei geladen. Lade neu ...</translation>
     </message>
     <message>
+        <location filename="../COsmTilesHash.cpp" line="162"/>
         <source>The recieved data is not an valid image. Maybe it isn&apos;t an image ...</source>
-        <translation type="obsolete">Die empfangenen Daten sind keine Bilddaten. </translation>
+        <translation type="unfinished">Die empfangenen Daten sind keine Bilddaten. </translation>
     </message>
 </context>
 <context>
@@ -6207,12 +6359,12 @@ time: </source>
 <context>
     <name>CRouteDB</name>
     <message>
-        <location filename="../CRouteDB.cpp" line="65"/>
+        <location filename="../CRouteDB.cpp" line="66"/>
         <source>Route%1</source>
         <translation>Cesta %1</translation>
     </message>
     <message>
-        <location filename="../CRouteDB.cpp" line="197"/>
+        <location filename="../CRouteDB.cpp" line="198"/>
         <source>Unnamed</source>
         <translation>Bez názvu</translation>
     </message>
@@ -6823,37 +6975,37 @@ Ihre Auswahlt wird mit den Trackdaten gespeichert. Sie können sie mit den Track
 <context>
     <name>CTrackDB</name>
     <message>
-        <location filename="../CTrackDB.cpp" line="626"/>
+        <location filename="../CTrackDB.cpp" line="627"/>
         <source>Track%1</source>
         <translation>Stopa %1</translation>
     </message>
     <message>
-        <location filename="../CTrackDB.cpp" line="1134"/>
+        <location filename="../CTrackDB.cpp" line="1135"/>
         <source>Hmax=%1%2</source>
         <translation>Vodorovně max=%1%2</translation>
     </message>
     <message>
-        <location filename="../CTrackDB.cpp" line="1139"/>
+        <location filename="../CTrackDB.cpp" line="1140"/>
         <source>Hmin=%1%2</source>
         <translation>Vodorovně min=%1%2</translation>
     </message>
     <message>
-        <location filename="../CTrackDB.cpp" line="1144"/>
+        <location filename="../CTrackDB.cpp" line="1145"/>
         <source>Vmax=%1%2</source>
         <translation>Svisle max=%1%2</translation>
     </message>
     <message>
-        <location filename="../CTrackDB.cpp" line="1165"/>
+        <location filename="../CTrackDB.cpp" line="1166"/>
         <source>Failed...</source>
         <translation>Nepodařilo se...</translation>
     </message>
     <message>
-        <location filename="../CTrackDB.cpp" line="1165"/>
+        <location filename="../CTrackDB.cpp" line="1166"/>
         <source>Failed to copy track. You must select a track or track points of a track.</source>
         <translation>Nepodařilo se zkopírovat stopu. Nejprve musíte vybrat stopu nebo body stopy.</translation>
     </message>
     <message>
-        <location filename="../CTrackDB.cpp" line="1275"/>
+        <location filename="../CTrackDB.cpp" line="1276"/>
         <source>_rev</source>
         <translation>_rev</translation>
     </message>
@@ -6867,12 +7019,19 @@ Ihre Auswahlt wird mit den Trackdaten gespeichert. Sie können sie mit den Track
         <location filename="../CTrackEditWidget.cpp" line="667"/>
         <location filename="../CTrackEditWidget.cpp" line="669"/>
         <location filename="../CTrackEditWidget.cpp" line="675"/>
-        <location filename="../CTrackEditWidget.cpp" line="1397"/>
-        <location filename="../CTrackEditWidget.cpp" line="1477"/>
-        <location filename="../CTrackEditWidget.cpp" line="1480"/>
-        <location filename="../CTrackEditWidget.cpp" line="1576"/>
-        <location filename="../CTrackEditWidget.cpp" line="1579"/>
-        <location filename="../CTrackEditWidget.cpp" line="1595"/>
+        <location filename="../CTrackEditWidget.cpp" line="1456"/>
+        <location filename="../CTrackEditWidget.cpp" line="1497"/>
+        <location filename="../CTrackEditWidget.cpp" line="1524"/>
+        <location filename="../CTrackEditWidget.cpp" line="1525"/>
+        <location filename="../CTrackEditWidget.cpp" line="1530"/>
+        <location filename="../CTrackEditWidget.cpp" line="1533"/>
+        <location filename="../CTrackEditWidget.cpp" line="1538"/>
+        <location filename="../CTrackEditWidget.cpp" line="1543"/>
+        <location filename="../CTrackEditWidget.cpp" line="1629"/>
+        <location filename="../CTrackEditWidget.cpp" line="1633"/>
+        <location filename="../CTrackEditWidget.cpp" line="1636"/>
+        <location filename="../CTrackEditWidget.cpp" line="1641"/>
+        <location filename="../CTrackEditWidget.cpp" line="1646"/>
         <source>%1 %2</source>
         <translation>%1 %2</translation>
     </message>
@@ -6929,119 +7088,165 @@ Ihre Auswahlt wird mit den Trackdaten gespeichert. Sie können sie mit den Track
         <translation>Chystáte se trvale odstranit skryté body stopy. Pokud stisknete Ano, tyto údaje budou ztraceny.</translation>
     </message>
     <message>
+        <location filename="../CTrackEditWidget.cpp" line="1403"/>
+        <source>Name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../CTrackEditWidget.cpp" line="1404"/>
+        <source>Prox.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../CTrackEditWidget.cpp" line="1405"/>
+        <source>Pic.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../CTrackEditWidget.cpp" line="1406"/>
+        <source>Elevation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../CTrackEditWidget.cpp" line="1407"/>
+        <source>To Next</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../CTrackEditWidget.cpp" line="1408"/>
+        <source>Total</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../CTrackEditWidget.cpp" line="1452"/>
+        <location filename="../CTrackEditWidget.cpp" line="1454"/>
+        <location filename="../CTrackEditWidget.cpp" line="1459"/>
+        <location filename="../CTrackEditWidget.cpp" line="1461"/>
+        <location filename="../CTrackEditWidget.cpp" line="1463"/>
+        <location filename="../CTrackEditWidget.cpp" line="1465"/>
+        <location filename="../CTrackEditWidget.cpp" line="1670"/>
+        <location filename="../CTrackEditWidget.cpp" line="1672"/>
+        <location filename="../CTrackEditWidget.cpp" line="1686"/>
+        <location filename="../CTrackEditWidget.cpp" line="1688"/>
+        <location filename="../CTrackEditWidget.cpp" line="1690"/>
+        <location filename="../CTrackEditWidget.cpp" line="1692"/>
+        <source>-</source>
+        <translation type="unfinished">-</translation>
+    </message>
+    <message>
+        <location filename="../CTrackEditWidget.cpp" line="1536"/>
+        <location filename="../CTrackEditWidget.cpp" line="1541"/>
+        <location filename="../CTrackEditWidget.cpp" line="1639"/>
+        <location filename="../CTrackEditWidget.cpp" line="1644"/>
+        <source>%1 %2 </source>
+        <translation type="unfinished">%1 %2 </translation>
+    </message>
+    <message>
+        <location filename="../CTrackEditWidget.cpp" line="1552"/>
+        <location filename="../CTrackEditWidget.cpp" line="1557"/>
+        <location filename="../CTrackEditWidget.cpp" line="1655"/>
+        <location filename="../CTrackEditWidget.cpp" line="1660"/>
+        <source>%1:%2 h</source>
+        <translation type="unfinished">%3 %1:%2 h {1:%2 ?}</translation>
+    </message>
+    <message>
         <source>Info</source>
         <translation type="obsolete">Info</translation>
     </message>
     <message>
-        <location filename="../CTrackEditWidget.cpp" line="1387"/>
         <source>Ele. wpt/trk</source>
-        <translation>Nadmořská výška wpt/trk</translation>
+        <translation type="obsolete">Nadmořská výška wpt/trk</translation>
     </message>
     <message>
-        <location filename="../CTrackEditWidget.cpp" line="1385"/>
         <source>Name
 Proximity</source>
-        <translation>Název
+        <translation type="obsolete">Název
 Odstup</translation>
     </message>
     <message>
-        <location filename="../CTrackEditWidget.cpp" line="1386"/>
         <source>Picture</source>
-        <translation>Obrázek</translation>
+        <translation type="obsolete">Obrázek</translation>
     </message>
     <message>
-        <location filename="../CTrackEditWidget.cpp" line="1388"/>
         <source>to Next Dist./Time
 Asc./Desc.</source>
-        <translation>Další vzdálenost/čas
+        <translation type="obsolete">Další vzdálenost/čas
 Vzestupně/Sestupně</translation>
     </message>
     <message>
-        <location filename="../CTrackEditWidget.cpp" line="1389"/>
         <source>Total Dist./Time
 Asc./Desc.</source>
-        <translation>Celková vzdálenost/čas
+        <translation type="obsolete">Celková vzdálenost/čas
 Vzestupně/Sestupně</translation>
     </message>
     <message>
-        <location filename="../CTrackEditWidget.cpp" line="1390"/>
+        <location filename="../CTrackEditWidget.cpp" line="1409"/>
         <source>Comment</source>
         <translation>Poznámka</translation>
     </message>
     <message>
-        <location filename="../CTrackEditWidget.cpp" line="1395"/>
+        <location filename="../CTrackEditWidget.cpp" line="1412"/>
+        <source>wpt</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../CTrackEditWidget.cpp" line="1415"/>
+        <source>trk</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../CTrackEditWidget.cpp" line="1449"/>
         <source>Start</source>
         <translation>Začátek</translation>
     </message>
     <message>
-        <location filename="../CTrackEditWidget.cpp" line="1407"/>
-        <location filename="../CTrackEditWidget.cpp" line="1550"/>
         <source>-/%1 %2</source>
-        <translation>-/%1 %2</translation>
+        <translation type="obsolete">-/%1 %2</translation>
     </message>
     <message>
-        <location filename="../CTrackEditWidget.cpp" line="1408"/>
+        <location filename="../CTrackEditWidget.cpp" line="1467"/>
         <source>Start of track.</source>
         <translation>Začátek stopy</translation>
     </message>
     <message>
-        <location filename="../CTrackEditWidget.cpp" line="1435"/>
         <source>%1 %2 %3</source>
-        <translation>%1 %2 %3</translation>
+        <translation type="obsolete">%1 %2 %3</translation>
     </message>
     <message>
-        <location filename="../CTrackEditWidget.cpp" line="1443"/>
         <source>%1
 %2</source>
-        <translation>%1
+        <translation type="obsolete">%1
 %2</translation>
     </message>
     <message>
-        <location filename="../CTrackEditWidget.cpp" line="1466"/>
-        <location filename="../CTrackEditWidget.cpp" line="1471"/>
-        <location filename="../CTrackEditWidget.cpp" line="1565"/>
-        <location filename="../CTrackEditWidget.cpp" line="1570"/>
         <source>%3 %1:%2 h</source>
-        <translation>%3 %1:%2 h</translation>
+        <translation type="obsolete">%3 %1:%2 h</translation>
     </message>
     <message>
-        <location filename="../CTrackEditWidget.cpp" line="1483"/>
-        <location filename="../CTrackEditWidget.cpp" line="1488"/>
-        <location filename="../CTrackEditWidget.cpp" line="1582"/>
-        <location filename="../CTrackEditWidget.cpp" line="1587"/>
         <source>%1%2 %3 </source>
-        <translation>%1%2 %3 </translation>
+        <translation type="obsolete">%1%2 %3 </translation>
     </message>
     <message>
-        <location filename="../CTrackEditWidget.cpp" line="1485"/>
-        <location filename="../CTrackEditWidget.cpp" line="1490"/>
-        <location filename="../CTrackEditWidget.cpp" line="1584"/>
-        <location filename="../CTrackEditWidget.cpp" line="1589"/>
         <source>%1%2 %3</source>
-        <translation>%1%2 %3</translation>
+        <translation type="obsolete">%1%2 %3</translation>
     </message>
     <message>
-        <location filename="../CTrackEditWidget.cpp" line="1510"/>
         <source>%1/%2 %3</source>
-        <translation>%1/%2 %3</translation>
+        <translation type="obsolete">%1/%2 %3</translation>
     </message>
     <message>
-        <location filename="../CTrackEditWidget.cpp" line="1511"/>
-        <location filename="../CTrackEditWidget.cpp" line="1512"/>
-        <location filename="../CTrackEditWidget.cpp" line="1591"/>
-        <location filename="../CTrackEditWidget.cpp" line="1592"/>
         <source>%1 %2
 %3</source>
-        <translation>%1 %2
+        <translation type="obsolete">%1 %2
 %3</translation>
     </message>
     <message>
-        <location filename="../CTrackEditWidget.cpp" line="1538"/>
+        <location filename="../CTrackEditWidget.cpp" line="1667"/>
         <source>End</source>
         <translation>Konec</translation>
     </message>
     <message>
-        <location filename="../CTrackEditWidget.cpp" line="1539"/>
+        <location filename="../CTrackEditWidget.cpp" line="1703"/>
         <source>End of track.</source>
         <translation>Konec stopy</translation>
     </message>
@@ -7313,17 +7518,17 @@ Ende: %1</translation>
         <translation>Rodič: %1</translation>
     </message>
     <message>
-        <location filename="../CWpt.cpp" line="968"/>
+        <location filename="../CWpt.cpp" line="966"/>
         <source>No additional information.</source>
         <translation>Žádné další údaje.</translation>
     </message>
     <message>
-        <location filename="../CWpt.cpp" line="975"/>
+        <location filename="../CWpt.cpp" line="973"/>
         <source>&lt;div&gt;&lt;b&gt;Type:&lt;/b&gt; %1 &lt;b&gt;Container:&lt;/b&gt; %2 </source>
         <translation>&lt;div&gt;&lt;b&gt;Typ:&lt;/b&gt; %1 &lt;b&gt;Zásobník:&lt;/b&gt; %2 </translation>
     </message>
     <message>
-        <location filename="../CWpt.cpp" line="976"/>
+        <location filename="../CWpt.cpp" line="974"/>
         <source>&lt;b&gt;D:&lt;/b&gt; %1 &lt;b&gt;T:&lt;/b&gt; %2 </source>
         <translation>&lt;b&gt;D:&lt;/b&gt; %1 &lt;b&gt;T:&lt;/b&gt; %2 </translation>
     </message>
@@ -7331,43 +7536,43 @@ Ende: %1</translation>
 <context>
     <name>CWptDB</name>
     <message>
-        <location filename="../CWptDB.cpp" line="334"/>
+        <location filename="../CWptDB.cpp" line="332"/>
         <source>Do you really want to delete the sticky waypoint &apos;%1&apos;</source>
         <translation>Opravdu chcete smazat stálý cestovní bod &apos;%1&apos;</translation>
     </message>
     <message>
-        <location filename="../CWptDB.cpp" line="335"/>
+        <location filename="../CWptDB.cpp" line="333"/>
         <source>Delete sticky waypoint ...</source>
         <translation>Smazat stálý cestovní bod...</translation>
     </message>
     <message>
-        <location filename="../CWptDB.cpp" line="1199"/>
-        <location filename="../CWptDB.cpp" line="1201"/>
+        <location filename="../CWptDB.cpp" line="1194"/>
+        <location filename="../CWptDB.cpp" line="1196"/>
         <source>Missing libexif</source>
         <translation>Chybějící knihovna: libexif</translation>
     </message>
     <message>
-        <location filename="../CWptDB.cpp" line="1199"/>
+        <location filename="../CWptDB.cpp" line="1194"/>
         <source>Unable to find libexif-12.dll.</source>
         <translation>Nepodařilo se najít soubor libexif-12.dll.</translation>
     </message>
     <message>
-        <location filename="../CWptDB.cpp" line="1201"/>
+        <location filename="../CWptDB.cpp" line="1196"/>
         <source>Unable to find libexif.so.</source>
         <translation>Nepodařilo se najít soubor libexif.so.</translation>
     </message>
     <message>
-        <location filename="../CWptDB.cpp" line="1208"/>
+        <location filename="../CWptDB.cpp" line="1203"/>
         <source>Select path...</source>
         <translation>Vybrat cestu k souboru...</translation>
     </message>
     <message>
-        <location filename="../CWptDB.cpp" line="1221"/>
+        <location filename="../CWptDB.cpp" line="1216"/>
         <source>Read EXIF tags from pictures.</source>
         <translation>Vytáhnout informace EXIF z obrázků.</translation>
     </message>
     <message>
-        <location filename="../CWptDB.cpp" line="1221"/>
+        <location filename="../CWptDB.cpp" line="1216"/>
         <source>Abort</source>
         <translation>Zrušit</translation>
     </message>
@@ -8159,44 +8364,54 @@ Once you created a map set you can attach DEM data to it via the context menu in
 <context>
     <name>ICreateMapWMS</name>
     <message>
+        <location filename="../ICreateMapWMS.ui" line="13"/>
         <source>Form</source>
-        <translation type="obsolete">Form</translation>
+        <translation type="unfinished">Form</translation>
     </message>
     <message>
+        <location filename="../ICreateMapWMS.ui" line="21"/>
         <source>Server:</source>
-        <translation type="obsolete">Server: </translation>
+        <translation type="unfinished">Server: </translation>
     </message>
     <message>
+        <location filename="../ICreateMapWMS.ui" line="31"/>
         <source>Load Capabilities</source>
-        <translation type="obsolete">Möglichkeiten feststellen</translation>
+        <translation type="unfinished">Möglichkeiten feststellen</translation>
     </message>
     <message>
+        <location filename="../ICreateMapWMS.ui" line="52"/>
         <source>Title:</source>
-        <translation type="obsolete">Titel:</translation>
+        <translation type="unfinished">Titel:</translation>
     </message>
     <message>
+        <location filename="../ICreateMapWMS.ui" line="59"/>
         <source>Format:</source>
-        <translation type="obsolete">Format:</translation>
+        <translation type="unfinished">Format:</translation>
     </message>
     <message>
+        <location filename="../ICreateMapWMS.ui" line="69"/>
         <source>Projection</source>
-        <translation type="obsolete">Projektion</translation>
+        <translation type="unfinished">Projektion</translation>
     </message>
     <message>
+        <location filename="../ICreateMapWMS.ui" line="79"/>
         <source>Layers:</source>
-        <translation type="obsolete">Ebenen:</translation>
+        <translation type="unfinished">Ebenen:</translation>
     </message>
     <message>
+        <location filename="../ICreateMapWMS.ui" line="96"/>
         <source>File</source>
-        <translation type="obsolete">Datei</translation>
+        <translation type="unfinished">Datei</translation>
     </message>
     <message>
+        <location filename="../ICreateMapWMS.ui" line="112"/>
         <source>...</source>
-        <translation type="obsolete">...</translation>
+        <translation type="unfinished">...</translation>
     </message>
     <message>
+        <location filename="../ICreateMapWMS.ui" line="134"/>
         <source>Save</source>
-        <translation type="obsolete">Speichern</translation>
+        <translation type="unfinished">Speichern</translation>
     </message>
 </context>
 <context>
@@ -11461,8 +11676,8 @@ p, li { white-space: pre-wrap; }
         <translation>Soubor není souborem http://www.garmin.com/xmlschemas/TrainingCenterDatabase/v2.</translation>
     </message>
     <message>
-        <location filename="../GeoMath.cpp" line="143"/>
-        <location filename="../GeoMath.cpp" line="149"/>
+        <location filename="../GeoMath.cpp" line="157"/>
+        <location filename="../GeoMath.cpp" line="163"/>
         <source>Error</source>
         <translation>Chyba</translation>
     </message>
@@ -11471,32 +11686,32 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">Ungültiges Positionsformat. Richtig ist:[N][S] ddd mm.sss [W][E] ddd mmm.sss</translation>
     </message>
     <message>
-        <location filename="../GeoMath.cpp" line="143"/>
+        <location filename="../GeoMath.cpp" line="157"/>
         <source>Bad position format. Must be: &quot;[N|S] ddd mm.sss [W|E] ddd mm.sss&quot; or &quot;[N|S] ddd.ddd [W|E] ddd.ddd&quot;</source>
         <translation>Neplatný formát polohy. Správný je:&quot;[N][S] ddd mm.sss [W][E] ddd mmm.sss&quot; nebo &quot;[N|S] ddd.ddd [W|E] ddd.ddd&quot;</translation>
     </message>
     <message>
-        <location filename="../GeoMath.cpp" line="149"/>
+        <location filename="../GeoMath.cpp" line="163"/>
         <source>Position values out of bounds. </source>
         <translation>Hodnota polohy je mimo hranice.</translation>
     </message>
     <message>
-        <location filename="../GeoMath.cpp" line="372"/>
-        <location filename="../GeoMath.cpp" line="385"/>
-        <location filename="../GeoMath.cpp" line="403"/>
+        <location filename="../GeoMath.cpp" line="386"/>
+        <location filename="../GeoMath.cpp" line="399"/>
+        <location filename="../GeoMath.cpp" line="417"/>
         <source>Error ...</source>
         <translation>Chyba...</translation>
     </message>
     <message>
-        <location filename="../GeoMath.cpp" line="372"/>
-        <location filename="../GeoMath.cpp" line="385"/>
+        <location filename="../GeoMath.cpp" line="386"/>
+        <location filename="../GeoMath.cpp" line="399"/>
         <source>Failed to setup projection. Bad syntax?
 %1</source>
         <translation>Chyba při nastavování promítání. Neplatná skladba?
 %1</translation>
     </message>
     <message>
-        <location filename="../GeoMath.cpp" line="403"/>
+        <location filename="../GeoMath.cpp" line="417"/>
         <source>Failed to read reference coordinate. Bad syntax?
 %1</source>
         <translation>Chyba při čtení souřadnic výchozího bodu. Neplatná skladba?
