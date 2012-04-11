@@ -29,6 +29,45 @@
 
 #include <QtGui>
 
+struct twonav_icon_t
+{
+    const char * twonav;
+    const char * qlgt;
+};
+
+static twonav_icon_t TwoNavIcons[] =
+{
+     {"City (Capitol)","City (Capitol)"}
+    ,{"City (Large)","City (Large)"}
+    ,{"City (Medium)","City (Medium)"}
+    ,{"City (Small)","City (Small)"}
+    ,{"City (Small)","Small City"}
+    ,{"Closed Box","Geocache"}
+    ,{"Open Box","Geocache Found"}
+    ,{"Red Flag","Flag, Red"}
+    ,{"Blue Flag","Flag, Blue"}
+    ,{"Green Flag","Flag, Green"}
+    ,{"Red Booble","Pin, Red"}
+    ,{"Blue Booble","Pin, Blue"}
+    ,{"Green Booble","Pin, Green"}
+    ,{"Red Cube","Block, Red"}
+    ,{"Blue Cube","Block, Blue"}
+    ,{"Green Cube","Block, Green"}
+    ,{"Blue Diamond","Blue Diamond"}
+    ,{"Green Diamond","Green Diamond"}
+    ,{"Red Diamond","Red Diamond"}
+    ,{"Traditional Cache","Traditional Cache"}
+    ,{"Multi-cache","Multi-cache"}
+    ,{"Unknown Cache","Unknown Cache"}
+    ,{"Wherigo","Wherigo Cache"}
+    ,{"Event Cache","Event Cache"}
+    ,{"Earthcache","Earthcache"}
+    ,{"Letterbox","Letterbox Hybrid"}
+    ,{"Virtual Cache","Virtual Cache"}
+    ,{"Webcam Cache","Webcam Cache"}
+    ,{0,0}
+};
+
 CDeviceTwoNav::CDeviceTwoNav(QObject *parent)
 : IDevice("TwoNav", parent)
 {
@@ -39,6 +78,40 @@ CDeviceTwoNav::~CDeviceTwoNav()
 {
 
 }
+
+
+QString CDeviceTwoNav::iconTwoNav2QlGt(const QString& sym)
+{
+    int i = 0;
+    while(TwoNavIcons[i].qlgt)
+    {
+        if(sym == TwoNavIcons[i].twonav)
+        {
+            return TwoNavIcons[i].qlgt;
+        }
+
+        i++;
+    }
+
+    return sym;
+}
+
+QString CDeviceTwoNav::iconQlGt2TwoNav(const QString& sym)
+{
+    int i = 0;
+    while(TwoNavIcons[i].qlgt)
+    {
+        if(sym == TwoNavIcons[i].qlgt)
+        {
+            return TwoNavIcons[i].twonav;
+        }
+
+        i++;
+    }
+
+    return sym;
+}
+
 
 bool CDeviceTwoNav::aquire(QDir& dir)
 {
@@ -134,7 +207,7 @@ void CDeviceTwoNav::uploadWpts(const QList<CWpt*>& wpts)
         out << comment << endl;
 
         list.clear();
-        list << wpt->getIconString().replace(",","").replace(" ", "_");
+        list << iconQlGt2TwoNav(wpt->getIconString());
         list << "0"; //test position
         list << "-1.0";
         list << "0";
@@ -311,7 +384,7 @@ void CDeviceTwoNav::readWptFile(const QString& filename, QList<CWpt*>& wpts)
         {
             QStringList values = line.mid(1).simplified().split(',', QString::KeepEmptyParts);
 
-            tmpwpt.symbol  = values[0];
+            tmpwpt.symbol  = iconTwoNav2QlGt(values[0]);
 
             tmpwpt.url     = values[7];
             tmpwpt.prox    = values[8].toFloat();
