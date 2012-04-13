@@ -21,6 +21,8 @@
 
 #include "IDevice.h"
 
+class CWpt;
+
 class CDeviceTwoNav : public IDevice
 {
     Q_OBJECT;
@@ -51,6 +53,8 @@ class CDeviceTwoNav : public IDevice
         QString pathRoot;
         QString pathData;
         QString pathDay;
+
+        CWpt * wpt;
 
 };
 

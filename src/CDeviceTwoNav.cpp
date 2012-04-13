@@ -70,6 +70,7 @@ static twonav_icon_t TwoNavIcons[] =
 
 CDeviceTwoNav::CDeviceTwoNav(QObject *parent)
 : IDevice("TwoNav", parent)
+, wpt(0)
 {
 
 }
@@ -144,23 +145,24 @@ bool CDeviceTwoNav::aquire(QDir& dir)
                 continue;
             }
 
-            pathData = dir.absoluteFilePath("TwoNavData/Data");
-
-            dir.cd(pathData);
-
-            pathDay = dir.absoluteFilePath(QString("Data_%1").arg(QDateTime::currentDateTime().toUTC().toString("yyyy-MM-dd")));
-            if(!dir.exists(pathDay))
-            {
-                dir.mkpath(pathDay);
-            }
-
-            dir.cd(path);
-
             break;
         }
     }
 
     pathRoot = dir.absolutePath();
+
+    pathData = dir.absoluteFilePath("TwoNavData/Data");
+
+    dir.cd(pathData);
+
+    pathDay = dir.absoluteFilePath(QString("Data_%1").arg(QDateTime::currentDateTime().toUTC().toString("yyyy-MM-dd")));
+    if(!dir.exists(pathDay))
+    {
+        dir.mkpath(pathDay);
+    }
+
+    dir.cd(pathRoot);
+
     cfg.setValue("device/path", pathRoot);
     return true;
 }
@@ -186,6 +188,8 @@ void CDeviceTwoNav::uploadWpts(const QList<CWpt*>& wpts)
     out << "U  1" << endl;
     foreach(CWpt * wpt, wpts)
     {
+        if(wpt->sticky) continue;
+
         QString name    = wpt->getName();
         name    = name.replace(" ","_");
 
@@ -225,6 +229,19 @@ void CDeviceTwoNav::uploadWpts(const QList<CWpt*>& wpts)
         out << "w ";
         out << list.join(",");
         out << endl;
+
+        if(wpt->isGeoCache())
+        {
+            QDomDocument doc;
+            QDomElement gpxCache = doc.createElement("groundspeak:cache");
+            wpt->saveTwoNavExt(gpxCache, true);
+            doc.appendChild(gpxCache);
+
+            out << "e" << endl;
+            out << doc.toString();
+            out << "ee" << endl;
+
+        }
 
     }
 
@@ -367,6 +384,8 @@ void CDeviceTwoNav::readWptFile(const QString& filename, QList<CWpt*>& wpts)
         }
         case 'W':
         {
+            wpt = 0;
+
             tmpwpt = wpt_t();
             QStringList values = line.split(' ', QString::SkipEmptyParts);
 
@@ -410,7 +429,7 @@ void CDeviceTwoNav::readWptFile(const QString& filename, QList<CWpt*>& wpts)
 
             tmpwpt.name = tmpwpt.name.replace("_", " ");
 
-            CWpt * wpt = new CWpt(&CWptDB::self());
+            wpt = new CWpt(&CWptDB::self());
 
             wpt->setName(tmpwpt.name);
             wpt->setComment(tmpwpt.comment);
@@ -426,6 +445,33 @@ void CDeviceTwoNav::readWptFile(const QString& filename, QList<CWpt*>& wpts)
             wpts << wpt;
 
             qDebug() << tmpwpt.name << tmpwpt.symbol << tmpwpt.time << tmpwpt.lon << tmpwpt.lat << tmpwpt.ele << tmpwpt.prox << tmpwpt.comment << tmpwpt.key;
+            break;
+        }
+        case 'e':
+        {
+            QString str;
+
+            if(wpt == 0) break;
+
+            while(!in.atEnd())
+            {
+                line = in.readLine();
+                if(line == "ee") break;
+
+                str += line;
+            }
+
+            QDomDocument doc;
+            QString errorMsg;
+            int errorLine = 0;
+            int errorColumn = 0;
+            doc.setContent(str, &errorMsg, &errorLine, &errorColumn);
+
+            qDebug() << doc.namedItem("groundspeak:cache").nodeName() << doc.namedItem("groundspeak:cache").nodeValue();
+
+            wpt->loadTwoNavExt(doc.namedItem("groundspeak:cache"));
+
+
             break;
         }
         }

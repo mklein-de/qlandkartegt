@@ -165,8 +165,11 @@ class CWpt : public IItem
 
         void loadGcExt(const QDomNode& gpxCache);
         void loadOcExt(const QDomNode& gpxCache);
+        void loadTwoNavExt(const QDomNode& gpxCache);
         void saveGcExt(QDomElement& gpxCache, bool isExport);
-        void saveOcExt(QDomElement& gpxCache, bool isExport);
+        void saveOcExt(QDomElement& gpxCache, bool isExport);        
+        void saveTwoNavExt(QDomElement& gpxCache, bool isExport);
+
 
         void setEntry(const QString& tag, const QString& val, QDomDocument& gpx, QDomElement& parent);
         void setEntryHtml(const QString& tag, const QString& val, QDomDocument& gpx, QDomElement& parent);
