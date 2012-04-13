@@ -37,7 +37,6 @@ else (PROJ_LIBRARIES AND PROJ_INCLUDE_DIRS)
   find_library(LIBPROJ_LIBRARY
     NAMES
         proj
-        proj
         proj_i
     PATHS
         /usr/lib

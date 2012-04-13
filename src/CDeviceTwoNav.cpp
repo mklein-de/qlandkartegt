@@ -119,15 +119,17 @@ bool CDeviceTwoNav::aquire(QDir& dir)
     QString path = cfg.value("device/path","").toString();
     dir.setPath(path);
 
-    pathRoot = "";
-    pathData = "TwoNavData/Data";
+    pathRoot    = "";
+    pathData    = "TwoNavData/Data";
+    pathDay     = "";
 
     if(!dir.exists() || !dir.exists(pathData))
     {
         while(1)
         {
-            pathRoot = "";
-            pathData = "TwoNavData/Data";
+            pathRoot    = "";
+            pathData    = "TwoNavData/Data";
+            pathDay     = "";
 
             path = QFileDialog::getExistingDirectory(0, tr("Path to TwoNav device..."), dir.absolutePath());
             if(path.isEmpty())
@@ -143,6 +145,16 @@ bool CDeviceTwoNav::aquire(QDir& dir)
             }
 
             pathData = dir.absoluteFilePath("TwoNavData/Data");
+
+            dir.cd(pathData);
+
+            pathDay = dir.absoluteFilePath(QString("Data_%1").arg(QDateTime::currentDateTime().toUTC().toString("yyyy-MM-dd")));
+            if(!dir.exists(pathDay))
+            {
+                dir.mkpath(pathDay);
+            }
+
+            dir.cd(path);
 
             break;
         }
@@ -161,14 +173,6 @@ void CDeviceTwoNav::uploadWpts(const QList<CWpt*>& wpts)
     if(!aquire(dir))
     {
         return;
-    }
-
-    dir.cd(pathData);
-
-    QString pathDay = dir.absoluteFilePath(QString("Data_%1").arg(QDateTime::currentDateTime().toUTC().toString("yyyy-MM-dd")));
-    if(!dir.exists(pathDay))
-    {
-        dir.mkpath(pathDay);
     }
 
     dir.cd(pathDay);

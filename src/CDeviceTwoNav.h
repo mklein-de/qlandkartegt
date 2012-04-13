@@ -50,6 +50,7 @@ class CDeviceTwoNav : public IDevice
 
         QString pathRoot;
         QString pathData;
+        QString pathDay;
 
 };
 
