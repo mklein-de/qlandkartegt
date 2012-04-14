@@ -727,13 +727,13 @@ void CWpt::loadTwoNavExt(const QDomNode& gpxCache)
         const QDomNamedNodeMap& attr = log.attributes();
 
         geocachelog_t geocachelog;
-        geocachelog.id      = attr.namedItem("groundspeak:id").nodeValue().toUInt();
+        geocachelog.id      = attr.namedItem("id").nodeValue().toUInt();
         geocachelog.date    = attr.namedItem("groundspeak:date").nodeValue().toUInt();
         geocachelog.type    = attr.namedItem("groundspeak:type").nodeValue().toUInt();
         if(log.namedItem("groundspeak:finder").isElement())
         {
             const QDomNamedNodeMap& attr = log.namedItem("groundspeak:finder").attributes();
-            geocachelog.finderId = attr.namedItem("groundspeak:id").nodeValue();
+            geocachelog.finderId = attr.namedItem("id").nodeValue();
         }
 
         geocachelog.finder  = getEntry("groundspeak:finder", log);

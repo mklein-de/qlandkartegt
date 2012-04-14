@@ -150,9 +150,15 @@ bool CDeviceTwoNav::aquire(QDir& dir)
     }
 
     pathRoot = dir.absolutePath();
-
     pathData = dir.absoluteFilePath("TwoNavData/Data");
 
+    cfg.setValue("device/path", pathRoot);
+    return true;
+}
+
+void CDeviceTwoNav::createDayPath()
+{
+    QDir dir;
     dir.cd(pathData);
 
     pathDay = dir.absoluteFilePath(QString("Data_%1").arg(QDateTime::currentDateTime().toUTC().toString("yyyy-MM-dd")));
@@ -160,16 +166,13 @@ bool CDeviceTwoNav::aquire(QDir& dir)
     {
         dir.mkpath(pathDay);
     }
-
-    dir.cd(pathRoot);
-
-    cfg.setValue("device/path", pathRoot);
-    return true;
 }
 
 void CDeviceTwoNav::uploadWpts(const QList<CWpt*>& wpts)
 {
 //    QMessageBox::information(0,tr("Error..."), tr("TwoNav: Upload wapoints is not implemented."),QMessageBox::Abort,QMessageBox::Abort);
+
+    int pixcnt = 0;
 
     QDir dir;
     if(!aquire(dir))
@@ -177,6 +180,7 @@ void CDeviceTwoNav::uploadWpts(const QList<CWpt*>& wpts)
         return;
     }
 
+    createDayPath();
     dir.cd(pathDay);
 
     QFile file(dir.absoluteFilePath("Waypoints.wpt"));
@@ -230,6 +234,23 @@ void CDeviceTwoNav::uploadWpts(const QList<CWpt*>& wpts)
         out << list.join(",");
         out << endl;
 
+        foreach(const CWpt::image_t& img, wpt->images)
+        {
+            QString fn = img.info;
+            if(fn.isEmpty())
+            {
+                fn = QString("pix%1.jpg").arg(pixcnt++);
+            }
+            if(!fn.endsWith("jpg"))
+            {
+                fn += ".jpg";
+            }
+
+            img.pixmap.save(dir.absoluteFilePath(fn));
+
+            out << "a " << ".\\" << fn << endl;
+        }
+
         if(wpt->isGeoCache())
         {
             QDomDocument doc;
@@ -280,7 +301,7 @@ void CDeviceTwoNav::downloadWpts(QList<CWpt*>& wpts)
         files = dir.entryList(QStringList("*wpt"));
         foreach(const QString& filename, files)
         {
-            readWptFile(dir.absoluteFilePath(filename), wpts);
+            readWptFile(dir,filename, wpts);
         }
 
         dir.cdUp();
@@ -338,11 +359,11 @@ struct wpt_t
 };
 
 
-void CDeviceTwoNav::readWptFile(const QString& filename, QList<CWpt*>& wpts)
+void CDeviceTwoNav::readWptFile(QDir& dir, const QString& filename, QList<CWpt*>& wpts)
 {
     wpt_t tmpwpt;
     QString line("start");
-    QFile file(filename);
+    QFile file(dir.absoluteFilePath(filename));
     file.open(QIODevice::ReadOnly);
     QTextStream in(&file);
 
@@ -444,7 +465,7 @@ void CDeviceTwoNav::readWptFile(const QString& filename, QList<CWpt*>& wpts)
 
             wpts << wpt;
 
-            qDebug() << tmpwpt.name << tmpwpt.symbol << tmpwpt.time << tmpwpt.lon << tmpwpt.lat << tmpwpt.ele << tmpwpt.prox << tmpwpt.comment << tmpwpt.key;
+//            qDebug() << tmpwpt.name << tmpwpt.symbol << tmpwpt.time << tmpwpt.lon << tmpwpt.lat << tmpwpt.ele << tmpwpt.prox << tmpwpt.comment << tmpwpt.key;
             break;
         }
         case 'e':
@@ -466,10 +487,25 @@ void CDeviceTwoNav::readWptFile(const QString& filename, QList<CWpt*>& wpts)
             int errorLine = 0;
             int errorColumn = 0;
             doc.setContent(str, &errorMsg, &errorLine, &errorColumn);
-
-            qDebug() << doc.namedItem("groundspeak:cache").nodeName() << doc.namedItem("groundspeak:cache").nodeValue();
-
             wpt->loadTwoNavExt(doc.namedItem("groundspeak:cache"));
+            break;
+        }
+        case 'a':
+        {
+            CWpt::image_t img;
+            QString fn = line.mid(1).simplified();
+
+#ifndef WIN32
+            fn = fn.replace("\\","/");
+#endif
+            QFileInfo fi(dir.absoluteFilePath(fn));
+            img.pixmap.load(dir.absoluteFilePath(fn));
+            if(!img.pixmap.isNull())
+            {
+                img.filename    = fi.fileName();
+                img.info        = fi.baseName();
+                wpt->images << img;
+            }
 
 
             break;

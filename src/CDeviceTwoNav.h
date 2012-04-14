@@ -45,7 +45,8 @@ class CDeviceTwoNav : public IDevice
 
     private:
         bool aquire(QDir& dir);
-        void readWptFile(const QString &filename, QList<CWpt *> &wpts);
+        void createDayPath();
+        void readWptFile(QDir &dir, const QString &filename, QList<CWpt *> &wpts);
 
         QString iconTwoNav2QlGt(const QString& sym);
         QString iconQlGt2TwoNav(const QString& sym);
