@@ -56,6 +56,7 @@ class CDlgEditWpt : public QDialog, private Ui::IDlgEditWpt
         void slotUpdateBarcode();
         void slotToggleHint(bool show);
         void slotSelectImage(const CImageSelect::img_t& img);
+        void slotCreateBuddies();
 
     private:
         void showImage(int idx);

@@ -153,6 +153,7 @@ set(qlandkarte_SRCS
     CDlgWpt2Rte.cpp
     CDlgSetupGrid.cpp
     CDlgCropMap.cpp
+    CDlgParentWpt.cpp
     CQlb.cpp
     CGpx.cpp
     IDevice.cpp
@@ -319,6 +320,7 @@ set(qlandkarte_HDRS
     CDlgWpt2Rte.h
     CDlgSetupGrid.h
     CDlgCropMap.h
+    CDlgParentWpt.h
     CQlb.h
     CGpx.h
     IDevice.h
@@ -434,6 +436,7 @@ SET(qlandkarte_UIS
     IDlgWpt2Rte.ui
     IDlgSetupGrid.ui
     IDlgCropMap.ui
+    IDlgParentWpt.ui
     ICreateMapQMAP.ui
     ICreateMapGeoTiff.ui
     ICreateMapGridTool.ui
@@ -673,7 +676,7 @@ target_link_libraries(
       ${QT_PHONON_LIBRARIES}
       ${QT_QTSCRIPT_LIBRARIES}
       ${QT_QTXMLPATTERNS_LIBRARIES}
-      ${QL_OPENGL_LIBRARIES}      
+      ${QL_OPENGL_LIBRARIES}
       ${EXIF_LIBRARIES}
       ${DMTX_LIBRARIES}
       ${GPSD_LIBRARIES}

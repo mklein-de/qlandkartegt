@@ -138,14 +138,14 @@ class CWpt : public IItem
 
         QString getExtInfo(bool showHidden);
 
-        QPixmap getIcon();
+        QPixmap getIcon() const;
 
         const geocache_t& getGeocacheData(){return geocache;}
 
         void loadGpxExt(const QDomNode& wpt);
         void saveGpxExt(QDomNode& wpt, bool isExport);
 
-        bool isGeoCache(){return geocache.hasData;}
+        bool isGeoCache()const{return geocache.hasData;}
         bool isMovable(){return !(geocache.hasData||(bool)sticky);}
         bool isDeletable(){return !(sticky);}
         bool hasHiddenInformation();
@@ -167,7 +167,7 @@ class CWpt : public IItem
         void loadOcExt(const QDomNode& gpxCache);
         void loadTwoNavExt(const QDomNode& gpxCache);
         void saveGcExt(QDomElement& gpxCache, bool isExport);
-        void saveOcExt(QDomElement& gpxCache, bool isExport);        
+        void saveOcExt(QDomElement& gpxCache, bool isExport);
         void saveTwoNavExt(QDomElement& gpxCache, bool isExport);
 
 

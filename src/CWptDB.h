@@ -80,6 +80,7 @@ class CWptDB : public IDB
 
         void setProxyDistance(const QStringList& keys, double dist);
         void setIcon(const QStringList& keys, const QString& iconName);
+        void setParentWpt(const QStringList& keys, const QString& name);;
 
         void loadGPX(CGpx& gpx);
         void saveGPX(CGpx& gpx, const QStringList& keys);

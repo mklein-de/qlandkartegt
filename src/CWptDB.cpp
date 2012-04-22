@@ -417,6 +417,25 @@ void CWptDB::setIcon(const QStringList& keys, const QString& iconName)
 
 }
 
+void CWptDB::setParentWpt(const QStringList& keys, const QString& name)
+{
+    QString key;
+    foreach(key,keys)
+    {
+        CWpt * wpt = wpts[key];
+
+        // no parent change for geocaches
+        if(!wpt->geocache.hasData)
+        {
+            wpt->setParentWpt(name);
+            emit sigModified(key);
+        }
+    }
+    emit sigChanged();
+    emit sigModified();
+
+}
+
 void CWptDB::loadGPX(CGpx& gpx)
 {
     bool hasItems = false;

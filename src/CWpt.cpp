@@ -440,7 +440,7 @@ void CWpt::setIcon(const QString& str)
     iconPixmap = getWptIconByName(str);
 }
 
-QPixmap CWpt::getIcon()
+QPixmap CWpt::getIcon() const
 {
     if(geocache.hasData)
     {

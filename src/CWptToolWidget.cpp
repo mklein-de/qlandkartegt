@@ -32,6 +32,7 @@
 #include "CMapDB.h"
 #include "CDlgWpt2Rte.h"
 #include "CDlgWptIcon.h"
+#include "CDlgParentWpt.h"
 #include "CSettings.h"
 
 #include <QtGui>
@@ -59,12 +60,13 @@ CWptToolWidget::CWptToolWidget(QTabWidget * parent)
     contextMenu->addSeparator();
     actProximity    = contextMenu->addAction(QPixmap(":/icons/iconProximity16x16.png"),tr("Proximity ..."),this,SLOT(slotProximity()));
     actIcon         = contextMenu->addAction(QPixmap(":/icons/iconWaypoint16x16.png"),tr("Icon ..."),this,SLOT(slotIcon()));
+    actParentWpt    = contextMenu->addAction(QPixmap(":/icons/iconWaypoint16x16.png"),tr("Parent Waypoint ..."),this,SLOT(slotParentWpt()));
     actMakeRte      = contextMenu->addAction(QPixmap(":/icons/iconRoute16x16.png"),tr("Make Route ..."),this,SLOT(slotMakeRoute()));
     actResetSel     = contextMenu->addAction(QPixmap(":/icons/iconClear16x16.png"),tr("Reset selection"),this,SLOT(slotResetSel()));
     contextMenu->addSeparator();
     actShowNames    = contextMenu->addAction(tr("Show Names"),this,SLOT(slotShowNames()));
     contextMenu->addSeparator();
-    actZoomToFit    = contextMenu->addAction(QPixmap(":/icons/iconZoomArea16x16.png"),tr("Zoom to fit"),this,SLOT(slotZoomToFit()));    
+    actZoomToFit    = contextMenu->addAction(QPixmap(":/icons/iconZoomArea16x16.png"),tr("Zoom to fit"),this,SLOT(slotZoomToFit()));
     actDelete       = contextMenu->addAction(QPixmap(":/icons/iconClear16x16.png"),tr("Delete"),this,SLOT(slotDelete()),Qt::CTRL + Qt::Key_Delete);
     actDeleteNonSel = contextMenu->addAction(QPixmap(":/icons/iconClear16x16.png"),tr("Delete non-selected"),this,SLOT(slotDeleteNonSel()));
     actDeleteBy     = contextMenu->addAction(QPixmap(":/icons/iconClear16x16.png"),tr("Delete by ..."),this,SLOT(slotDeleteBy()));
@@ -229,7 +231,7 @@ void CWptToolWidget::slotDBChanged()
 
 
 void CWptToolWidget::slotItemDoubleClicked(QListWidgetItem* item)
-{    
+{
     CWpt * wpt = CWptDB::self().getWptByKey(item->data(Qt::UserRole).toString());
     if(wpt)
     {
@@ -379,7 +381,7 @@ void CWptToolWidget::selWptByKey(const QString& key)
                 item->setCheckState(wpt->selected ? Qt::Checked : Qt::Unchecked);
             }
 
-            listWpts->setCurrentItem(item);            
+            listWpts->setCurrentItem(item);
         }
     }
 }
@@ -510,4 +512,40 @@ void CWptToolWidget::slotResetSel()
 
     slotDBChanged();
     theMainWindow->getCanvas()->update();
+}
+
+void CWptToolWidget::slotParentWpt()
+{
+    QString parentWpt;
+
+    CDlgParentWpt dlg(parentWpt, this);
+    dlg.exec();
+
+    if(!parentWpt.isEmpty())
+    {
+        QStringList keys;
+        QList<CWpt*> selWpts;
+        collectSelectedWaypoints(selWpts);
+
+        if(selWpts.count())
+        {
+            foreach(CWpt* wpt, selWpts)
+            {
+                keys << wpt->getKey();
+            }
+        }
+        else
+        {
+            QListWidgetItem * item;
+            const QList<QListWidgetItem*>& items = listWpts->selectedItems();
+
+            foreach(item,items)
+            {
+                keys << item->data(Qt::UserRole).toString();
+            }
+        }
+
+        CWptDB::self().setParentWpt(keys, parentWpt);
+    }
+
 }

@@ -51,6 +51,7 @@ CDlgEditWpt::CDlgEditWpt(CWpt &wpt, QWidget * parent)
     connect(labelLink, SIGNAL(linkActivated(const QString&)),this,SLOT(slotOpenLink(const QString&)));
     connect(toolLink, SIGNAL(pressed()),this,SLOT(slotEditLink()));
     connect(checkHint, SIGNAL(toggled(bool)), this, SLOT(slotToggleHint(bool)));
+    connect(pushCreateBuddies, SIGNAL(clicked()), this, SLOT(slotCreateBuddies()));
 
     labelUnitElevation->setText(IUnit::self().baseunit);
     labelUnitProximity->setText(IUnit::self().baseunit);
@@ -165,14 +166,15 @@ int CDlgEditWpt::exec()
 
     if(wpt.isGeoCache())
     {
-        checkExportBuddies->setChecked(wpt.geocache.exportBuddies);
+//        checkExportBuddies->setChecked(wpt.geocache.exportBuddies);
 
         wpt.showBuddies(true);
 
         if(wpt.buddies.isEmpty())
         {
             listBuddies->hide();
-            checkExportBuddies->hide();
+//            checkExportBuddies->hide();
+            pushCreateBuddies->hide();
         }
         else
         {
@@ -192,7 +194,8 @@ int CDlgEditWpt::exec()
             }
             listBuddies->sortItems();
             listBuddies->show();
-            checkExportBuddies->show();
+//            checkExportBuddies->show();
+            pushCreateBuddies->show();
         }
 
         webView->setHtml(html);
@@ -203,7 +206,8 @@ int CDlgEditWpt::exec()
     else
     {
         listBuddies->hide();
-        checkExportBuddies->hide();
+//        checkExportBuddies->hide();
+        pushCreateBuddies->hide();
         checkHint->hide();
 
         if(!link.isEmpty())
@@ -303,7 +307,7 @@ void CDlgEditWpt::accept()
         CWptDB::self().addWpt(wpt2,false);
     }
 
-    wpt.geocache.exportBuddies = checkExportBuddies->isChecked();
+//    wpt.geocache.exportBuddies = checkExportBuddies->isChecked();
 
     wpt.parentWpt = comboParentWpt->currentText();
 
@@ -540,4 +544,20 @@ void CDlgEditWpt::slotSelectImage(const CImageSelect::img_t& src)
     textComment->setText(src.title);
 
     pushDel->setEnabled(wpt.images.count() != 0);
+}
+
+void CDlgEditWpt::slotCreateBuddies()
+{
+    IMap& dem = CMapDB::self().getDEM();
+
+    wpt.showBuddies(true);
+    const QList<CWpt::buddy_t>& buddies = wpt.buddies;
+    foreach(const CWpt::buddy_t& buddy, buddies)
+    {
+        CWpt * w = CWptDB::self().newWpt(buddy.lon, buddy.lat, dem.getElevation(buddy.lon, buddy.lat), buddy.name);
+        w->setIcon("Civil");
+        w->setParentWpt(wpt.getName());
+    }
+
+    wpt.showBuddies(false);
 }

@@ -73,6 +73,7 @@ class CWptToolWidget : public QWidget, private Ui::IWptToolWidget
         void slotPosTextChanged(const QString& text);
         void slotShowNames();
         void slotResetSel();
+        void slotParentWpt();
 
     private:
         void collectSelectedWaypoints(QList<CWpt*>& selWpts);
@@ -89,6 +90,7 @@ class CWptToolWidget : public QWidget, private Ui::IWptToolWidget
         QAction * actDeleteBy;
         QAction * actShowNames;
         QAction * actResetSel;
+        QAction * actParentWpt;
 
         static sortmode_e sortmode;
         static QString sortpos;
