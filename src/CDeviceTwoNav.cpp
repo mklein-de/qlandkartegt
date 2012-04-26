@@ -29,6 +29,49 @@
 
 #include <QtGui>
 
+CDlgDeviceTwoNavPath::CDlgDeviceTwoNavPath(QDir &dir, QString& subdir, QWidget * parent)
+    : QDialog(parent)
+    , subdir(subdir)
+{
+    setupUi(this);
+
+    QStringList dirs = dir.entryList(QStringList("*"), QDir::AllDirs|QDir::NoDotAndDotDot);
+
+    foreach(const QString& d, dirs)
+    {
+        QListWidgetItem * item = new QListWidgetItem(listWidget);
+        item->setText(d);
+        item->setIcon(QIcon(":/icons/iconFolderBlue16x16.png"));
+    }
+
+    lineEdit->setText(QString("Data_%1").arg(QDateTime::currentDateTime().toUTC().toString("yyyy-MM-dd")));
+    lineEdit->setFocus();
+    lineEdit->selectAll();
+
+    connect(listWidget, SIGNAL(itemClicked(QListWidgetItem*)), this, SLOT(slotItemClicked(QListWidgetItem*)));
+    connect(lineEdit, SIGNAL(returnPressed()), this, SLOT(slotReturnPressed()));
+}
+
+CDlgDeviceTwoNavPath::~CDlgDeviceTwoNavPath()
+{
+
+}
+
+void CDlgDeviceTwoNavPath::slotItemClicked(QListWidgetItem*item)
+{
+    if(item == 0) return;
+
+    subdir = item->text();
+    QDialog::accept();
+}
+
+void CDlgDeviceTwoNavPath::slotReturnPressed()
+{
+    subdir = lineEdit->text();
+    QDialog::accept();
+}
+
+
 struct twonav_icon_t
 {
     const char * twonav;
@@ -158,10 +201,15 @@ bool CDeviceTwoNav::aquire(QDir& dir)
 
 void CDeviceTwoNav::createDayPath()
 {
+
     QDir dir;
+    QString subdir;
     dir.cd(pathData);
 
-    pathDay = dir.absoluteFilePath(QString("Data_%1").arg(QDateTime::currentDateTime().toUTC().toString("yyyy-MM-dd")));
+    CDlgDeviceTwoNavPath dlg(dir, subdir, 0);
+    dlg.exec();
+
+    pathDay = dir.absoluteFilePath(subdir);
     if(!dir.exists(pathDay))
     {
         dir.mkpath(pathDay);

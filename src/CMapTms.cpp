@@ -452,7 +452,7 @@ QString CMapTms::createUrl(const layer_t& layer, int x, int y, int z)
         args << z << x << y;
         QScriptValue res = fun.call(QScriptValue(), args);
 
-        qDebug() << res.toString();
+//        qDebug() << "yyy" << res.toString();
 
 
         return res.toString();
@@ -465,7 +465,7 @@ QString CMapTms::createUrl(const layer_t& layer, int x, int y, int z)
         args << z << x << y;
         QScriptValue res = fun.call(QScriptValue(), args);
 
-//        qDebug() << res.toString();
+//        qDebug() << "xxx" << res.toString();
 
 
         return res.toString();

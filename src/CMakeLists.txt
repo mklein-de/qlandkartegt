@@ -437,6 +437,7 @@ SET(qlandkarte_UIS
     IDlgSetupGrid.ui
     IDlgCropMap.ui
     IDlgParentWpt.ui
+    IDlgDeviceTwoNavPath.ui
     ICreateMapQMAP.ui
     ICreateMapGeoTiff.ui
     ICreateMapGridTool.ui

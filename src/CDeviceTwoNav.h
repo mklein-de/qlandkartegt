@@ -20,8 +20,27 @@
 #define CDEVICETWONAV_H
 
 #include "IDevice.h"
+#include "ui_IDlgDeviceTwoNavPath.h"
+
+#include <QDialog>
 
 class CWpt;
+
+class CDlgDeviceTwoNavPath : public QDialog, private Ui::IDlgDeviceTwoNavPath
+{
+    Q_OBJECT;
+    public:
+        CDlgDeviceTwoNavPath(QDir& dir, QString &subdir, QWidget *parent);
+        ~CDlgDeviceTwoNavPath();
+
+    private slots:
+        void slotItemClicked(QListWidgetItem*item);
+        void slotReturnPressed();
+
+    private:
+        QString& subdir;
+};
+
 
 class CDeviceTwoNav : public IDevice
 {
