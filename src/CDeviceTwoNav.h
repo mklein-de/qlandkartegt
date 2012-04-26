@@ -30,7 +30,7 @@ class CDlgDeviceTwoNavPath : public QDialog, private Ui::IDlgDeviceTwoNavPath
 {
     Q_OBJECT;
     public:
-        CDlgDeviceTwoNavPath(QDir& dir, QString &subdir, QWidget *parent);
+        CDlgDeviceTwoNavPath(const QString &what, QDir &dir, QString &subdir, QWidget *parent);
         ~CDlgDeviceTwoNavPath();
 
     private slots:
@@ -64,8 +64,11 @@ class CDeviceTwoNav : public IDevice
 
     private:
         bool aquire(QDir& dir);
-        void createDayPath();
+        void createDayPath(const QString &what);
         void readWptFile(QDir &dir, const QString &filename, QList<CWpt *> &wpts);
+
+        QString makeUniqueName(const QString name, QDir& dir);
+        void writeWaypointData(QTextStream& out, CWpt * wpt, QDir &dir);
 
         QString iconTwoNav2QlGt(const QString& sym);
         QString iconQlGt2TwoNav(const QString& sym);
