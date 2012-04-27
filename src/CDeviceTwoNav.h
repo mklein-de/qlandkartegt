@@ -25,6 +25,7 @@
 #include <QDialog>
 
 class CWpt;
+class CTrack;
 
 class CDlgDeviceTwoNavPath : public QDialog, private Ui::IDlgDeviceTwoNavPath
 {
@@ -63,12 +64,14 @@ class CDeviceTwoNav : public IDevice
         void downloadScreenshot(QImage& image);
 
     private:
+        QString makeUniqueName(const QString name, QDir& dir);
         bool aquire(QDir& dir);
         void createDayPath(const QString &what);
-        void readWptFile(QDir &dir, const QString &filename, QList<CWpt *> &wpts);
 
-        QString makeUniqueName(const QString name, QDir& dir);
+        void readWptFile(QDir &dir, const QString &filename, QList<CWpt *> &wpts);        
         void writeWaypointData(QTextStream& out, CWpt * wpt, QDir &dir);
+
+        void readTrkFile(QDir &dir, const QString &filename, QList<CTrack *> &trks);
 
         QString iconTwoNav2QlGt(const QString& sym);
         QString iconQlGt2TwoNav(const QString& sym);

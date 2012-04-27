@@ -187,6 +187,7 @@ class CTrack : public IItem
 
         /// set color by id
         void setColor(unsigned i);
+        void setColor(const QColor& c);
         /// get QT color
         const QColor& getColor(){return color;}
         const QPixmap& getBullet(){return bullet;}

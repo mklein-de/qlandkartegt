@@ -475,6 +475,7 @@ void operator <<(QFile& f, CTrack& track)
     f.close();
 }
 
+#define DEFAULT_COLOR 4
 
 const QColor CTrack::lineColors[] =
 {
@@ -545,7 +546,7 @@ CTrack::CTrack(QObject * parent)
 : IItem(parent)
 , color(Qt::darkBlue)
 , bullet(":/icons/small_bullet_darkblue.png")
-, colorIdx(4)
+, colorIdx(DEFAULT_COLOR)
 , highlight(false)
 , traineeData(false)
 , ext1Data(false)
@@ -558,7 +559,7 @@ CTrack::CTrack(QObject * parent)
 {
     ref = 1;
 
-    setColor(4);
+    setColor(DEFAULT_COLOR);
     geonames = new QHttp(this);
     geonames->setProxy(QNetworkProxy(QNetworkProxy::DefaultProxy));
     geonames->setHost("ws.geonames.org");
@@ -697,10 +698,35 @@ QRectF CTrack::getBoundingRectF()
     return QRectF(QPointF(west,north),QPointF(east,south));
 }
 
+void CTrack::setColor(const QColor& c)
+{
+    int n;
+    int N = sizeof(lineColors)/sizeof(QColor);
+
+    for(n = 0; n < N; n++)
+    {
+        if(lineColors[n] == c)
+        {
+            colorIdx    = n;
+            color       = lineColors[n];
+            bullet      = QPixmap(bulletColors[n]);
+        }
+    }
+
+    if(n == N)
+    {
+        colorIdx    = DEFAULT_COLOR;
+        color       = lineColors[DEFAULT_COLOR];
+        bullet      = QPixmap(bulletColors[DEFAULT_COLOR]);
+    }
+
+    setIcon(color.name());
+
+}
 
 void CTrack::setColor(unsigned i)
 {
-    if(i>16) i = 4;
+    if(i>16) i = DEFAULT_COLOR;
     colorIdx    = i;
     color       = lineColors[i];
     bullet      = QPixmap(bulletColors[i]);
