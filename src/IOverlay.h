@@ -21,6 +21,7 @@
 
 #include "IItem.h"
 
+#include <QKeyEvent>
 #include <QObject>
 #include <QPixmap>
 #include <QPointer>
@@ -60,6 +61,11 @@ class IOverlay : public IItem
             true, to keep it from deselecting the overlay.
         */
         virtual bool mouseActionInProgress(){return false;}
+
+        /// get key press event when selected
+        virtual void keyPressEvent(QKeyEvent * e){}
+        /// get key release event when selected
+        virtual void keyRelaseEvent(QKeyEvent * e){}
 
         /// get mouse move event when selected
         virtual void mouseMoveEvent(QMouseEvent * e){}

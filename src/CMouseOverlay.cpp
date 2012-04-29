@@ -35,6 +35,12 @@ CMouseOverlay::~CMouseOverlay()
 }
 
 
+void CMouseOverlay::keyPressEvent(QKeyEvent * e)
+{
+    if(selOverlay) selOverlay->keyPressEvent(e);
+}
+
+
 void CMouseOverlay::mouseMoveEvent(QMouseEvent * e)
 {
     mouseMoveEventOverlay(e);

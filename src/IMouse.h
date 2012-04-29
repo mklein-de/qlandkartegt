@@ -103,7 +103,7 @@ class IMouse : public QObject
         /// for internal use to start a semi-transparent capture rectangle
         void startRect(const QPoint& p);
         /// for internal use to set the bottom right of the capture rectangle
-        void resizeRect(const QPoint& p);
+        void resizeRect(const QPoint& p, bool normalize = false);
         /// actually draw the current capture rectangle
         void drawRect(QPainter& p);
         /// draw selected waypoint

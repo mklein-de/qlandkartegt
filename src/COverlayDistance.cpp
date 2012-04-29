@@ -251,6 +251,51 @@ bool COverlayDistance::isCloseEnough(const QPoint& pt)
 }
 
 
+void COverlayDistance::keyPressEvent(QKeyEvent * e)
+{
+    if (e->key() == Qt::Key_Backspace)
+    {
+        if (!doFuncWheel && addType != eNone && thePoint && points.size() > 1)
+        {
+            int idx;
+            switch (addType)
+            {
+            case eBefore:
+                idx = points.indexOf(*thePoint);
+                if (idx < points.size())
+                {
+                    points.removeAt(idx+1);
+                    thePointAfter = (idx+1 < points.size()) ? &(points[idx+1]) : 0;
+                }
+                break;
+            case eAfter:
+                idx = points.indexOf(*thePoint);
+                if (idx > 0)
+                {
+                    points.removeAt(idx-1);
+                    thePointBefor = (idx > 1) ? &(points[idx-2]) : 0;
+                }
+                break;
+            case eAtEnd:
+                points.removeLast();
+                thePointBefor = (points.size() > 1) ? &(*(points.end() - 2)) : 0;
+                thePoint      = &points.last();
+                break;
+            default:
+                break;
+            }
+            calcDistance();
+            emit sigChanged();
+            QPoint pos = theMainWindow->getCanvas()->mapFromGlobal(QCursor::pos());
+            QMouseEvent * ev = new QMouseEvent(QEvent::MouseMove, pos, Qt::NoButton,
+                                               QApplication::mouseButtons(),
+                                               QApplication::keyboardModifiers());
+            QCoreApplication::postEvent(theMainWindow->getCanvas(), ev);
+        }
+    }
+}
+
+
 void COverlayDistance::mouseMoveEvent(QMouseEvent * e)
 {
 
@@ -300,12 +345,12 @@ void COverlayDistance::mouseMoveEvent(QMouseEvent * e)
             double u1, v1, u2, v2;
             IMap& map = CMapDB::self().getMap();
 
-            if(*thePoint == points.last())
+            if(points.size() > 1 && *thePoint == points.last())
             {
                 u1 = (points.end() - 2)->u;
                 v1 = (points.end() - 2)->v;
             }
-            else if(*thePoint == points.first())
+            else if(points.size() > 1 && *thePoint == points.first())
             {
                 u1 = (points.begin() + 1)->u;
                 v1 = (points.begin() + 1)->v;
@@ -549,10 +594,10 @@ void COverlayDistance::mousePressEvent(QMouseEvent * e)
             calcDistance();
             theMainWindow->getCanvas()->update();
 
-            if(addType == eNone)
-            {
+            //if(addType == eNone)   // why?
+            //{
                 emit sigChanged();
-            }
+            //}
             return;
         }
 

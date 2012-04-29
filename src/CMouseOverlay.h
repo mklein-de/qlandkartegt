@@ -29,6 +29,7 @@ class CMouseOverlay : public IMouse
         CMouseOverlay(CCanvas * canvas);
         virtual ~CMouseOverlay();
 
+        void keyPressEvent(QKeyEvent * e);
         void mouseMoveEvent(QMouseEvent * e);
         void mousePressEvent(QMouseEvent * e);
         void mouseReleaseEvent(QMouseEvent * e);

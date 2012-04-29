@@ -102,7 +102,7 @@ void CMouseAddTextBox::mouseReleaseEvent(QMouseEvent * e)
     {
         if(selArea)
         {
-            resizeRect(e->pos());
+            resizeRect(e->pos(), true);
             selArea     = false;
             selAnchor   = true;
             anchor      = e->pos();

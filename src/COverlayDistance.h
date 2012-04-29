@@ -59,6 +59,7 @@ class COverlayDistance : public IOverlay
         /// draw the ployline, waypoints and action icons
         void draw(QPainter& p, const QRect& viewport);
 
+        void keyPressEvent(QKeyEvent * e);
         void mouseMoveEvent(QMouseEvent * e);
         void mousePressEvent(QMouseEvent * e);
         void mouseReleaseEvent(QMouseEvent * e);
@@ -133,7 +134,7 @@ class COverlayDistance : public IOverlay
         bool doSpecialCursor;
         /// set true while moving a point
         bool doMove;
-        /// set true while showing the function wheeö
+        /// set true while showing the function wheel
         bool doFuncWheel;
 
         enum addType_e{eNone, eBefore, eAfter, eAtEnd};

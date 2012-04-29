@@ -79,9 +79,18 @@ void IMouse::startRect(const QPoint& p)
 }
 
 
-void IMouse::resizeRect(const QPoint& p)
+void IMouse::resizeRect(const QPoint& p, bool normalize)
 {
-    rect.setBottomRight(p);
+    if (normalize)
+    {
+        QPoint p0(rect.topLeft());
+        rect.setCoords(std::min(p.x(), p0.x()), std::min(p.y(), p0.y()),
+                       std::max(p.x(), p0.x()), std::max(p.y(), p0.y()));
+    }
+    else
+    {
+        rect.setBottomRight(p);
+    }
     canvas->update();
 }
 

@@ -78,7 +78,7 @@ void CMouseAddText::mouseReleaseEvent(QMouseEvent * e)
     {
         if(selArea)
         {
-            resizeRect(e->pos());
+            resizeRect(e->pos(), true);
             selArea     = false;
             COverlayDB::self().addText("",rect);
             canvas->setMouseMode(CCanvas::eMouseMoveArea);

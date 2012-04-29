@@ -96,8 +96,6 @@ CCanvas::CCanvas(QWidget * parent)
     mouseColorPicker = new CMouseColorPicker(this);
     mouseSelWpt     = new CMouseSelWpt(this);
 
-    cursorFocus = false;
-
     profile = new CPlot(CPlotData::eLinear, CPlot::eIcon, this);
     profile->resize(300,120);
     profile->hide();
@@ -142,7 +140,7 @@ void CCanvas::slotCopyPosition()
 
 void CCanvas::setMouseMode(mouse_mode_e mode)
 {
-    QApplication::restoreOverrideCursor();
+    leaveEvent(0);
 
     if(mouse) mouse->looseFocus();
     COverlayDB::self().looseFocus();
@@ -215,7 +213,7 @@ void CCanvas::setMouseMode(mouse_mode_e mode)
     }
     if(underMouse())
     {
-        QApplication::setOverrideCursor(*mouse);
+        enterEvent(0);
     }
     mouseMode = mode;
     update();
@@ -297,21 +295,15 @@ void CCanvas::keyReleaseEvent(QKeyEvent * e)
 
 void CCanvas::enterEvent(QEvent * )
 {
-    if (!cursorFocus)
-    {
-        QApplication::setOverrideCursor(*mouse);
-        cursorFocus = true;
-    }
+    QApplication::setOverrideCursor(*mouse);
+    setMouseTracking(true);
 }
 
 
 void CCanvas::leaveEvent(QEvent * )
 {
-    if (cursorFocus)
-    {
-        QApplication::restoreOverrideCursor();
-        cursorFocus = false;
-    }
+    QApplication::restoreOverrideCursor();
+    setMouseTracking(false);
 }
 
 
