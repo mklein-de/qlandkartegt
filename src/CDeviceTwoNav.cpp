@@ -716,7 +716,7 @@ void CDeviceTwoNav::readTrkFile(QDir &dir, const QString &filename, QList<CTrack
             time.setTimeSpec(Qt::UTC);
             time = time.addYears(100);
             pt.timestamp        = time.toTime_t();
-            pt.timestamp_msec   = time.toMSecsSinceEpoch() - pt.timestamp * 1000;
+            pt.timestamp_msec   = time.time().msec();
             pt.ele = values[7].toFloat();
 
             *track << pt;
