@@ -32,6 +32,9 @@ copy %QLGTI_QT_PATH%\plugins\imageformats\qgif4.dll
 copy %QLGTI_QT_PATH%\plugins\imageformats\qjpeg4.dll
 copy %QLGTI_QT_PATH%\plugins\imageformats\qmng4.dll
 copy %QLGTI_QT_PATH%\plugins\imageformats\qsvg4.dll
+copy %QLGTI_QT_PATH%\plugins\imageformats\qtiff4.dll
+copy %QLGTI_QT_PATH%\plugins\imageformats\qico4.dll
+copy %QLGTI_QT_PATH%\plugins\imageformats\qtga4.dll
 cd ..
 mkdir sqldrivers
 cd sqldrivers
