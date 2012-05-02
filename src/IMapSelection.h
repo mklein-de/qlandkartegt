@@ -72,6 +72,8 @@ class IMapSelection : public IItem
 
         void setTimestamp(quint32 t){timestamp = t;}
 
+        virtual QString getDescription() const = 0;
+
         static QString focusedMap;
 
         type_e type;

@@ -42,7 +42,8 @@ class CMapSelectionGarmin : public IMapSelection
         void calcArea();
 
         QString getInfo(){return getDescription();}
-        void setIcon(const QString&){};
+        QString getDescription() const {return IItem::getDescription();}
+        void setIcon(const QString&){}
 
         struct tile_t
         {

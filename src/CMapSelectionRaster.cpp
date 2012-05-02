@@ -199,7 +199,7 @@ void CMapSelectionRaster::draw(QPainter& p, const QRect& rect)
     }
 }
 
-QString CMapSelectionRaster::getDescription()
+QString CMapSelectionRaster::getDescription() const
 {
     QString pos1, pos2, str;
     GPS_Math_Deg_To_Str(lon1 * RAD_TO_DEG, lat1 * RAD_TO_DEG, pos1);

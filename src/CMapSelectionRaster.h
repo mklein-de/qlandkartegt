@@ -31,7 +31,7 @@ class CMapSelectionRaster : public IMapSelection
 
         void draw(QPainter& p, const QRect& rect);
 
-        QString getDescription();
+        QString getDescription() const;
 
         QString getInfo(){return getDescription();}
 
