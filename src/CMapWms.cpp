@@ -540,6 +540,8 @@ void CMapWms::draw()
             req.zoomFactor  = zoomFactor;
             convertM2Rad(req.lon,req.lat);
 
+//            qDebug() << url;
+
             diskCache->restore(url.toString(), img);
             if(!img.isNull())
             {

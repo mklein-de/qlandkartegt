@@ -170,7 +170,8 @@ void CMegaMenu::initStyleOption(QStyleOptionMenuItem *option, const QAction *act
     }
     if(!isCurrent)
     {
-        option->palette.setBrush(QPalette::Normal, QPalette::Window, QColor(0,0,0,0));
+        option->palette.setBrush(QPalette::Normal, QPalette::Window, Qt::transparent);
+        option->palette.setBrush(QPalette::Normal, QPalette::Button, Qt::transparent);
     }
 
     if (isEnabled() && action->isEnabled() && (!action->menu() || action->menu()->isEnabled()))
