@@ -189,29 +189,29 @@ class CTrack : public IItem
         void setColor(unsigned i);
         void setColor(const QColor& c);
         /// get QT color
-        const QColor& getColor(){return color;}
-        const QPixmap& getBullet(){return bullet;}
-        unsigned getColorIdx(){return colorIdx;}
+        const QColor& getColor() const {return color;}
+        const QPixmap& getBullet() const {return bullet;}
+        unsigned getColorIdx() const {return colorIdx;}
 
         /// set the highlight flag
-        void setHighlight(bool yes){highlight = yes;}
+        void setHighlight(bool yes) {highlight = yes;}
         /// get the value of the highlight flag
-        bool isHighlighted(){return highlight;}
+        bool isHighlighted() const {return highlight;}
 
         /// append point to track
         CTrack& operator<<(pt_t& pt);
         /// rebuild secondary track data from primary
         void rebuild(bool reindex);
         /// get list of track points
-        QList<pt_t>& getTrackPoints(){return track;}
+        QList<pt_t>& getTrackPoints() {return track;}
         /// get polyline representation of track
-        QPolygon& getPolyline(){return polyline;}
+        QPolygon& getPolyline() {return polyline;}
         /// get the total distance of the track in [m]
-        double getTotalDistance(){return totalDistance;}
+        double getTotalDistance() const {return totalDistance;}
         /// get the total time covered by the track in seconds
-        quint32 getTotalTime(){return totalTime;}
+        quint32 getTotalTime() const {return totalTime;}
         /// get the total time while moving around
-        quint32 getTotalTimeMoving(){return totalTimeMoving;}
+        quint32 getTotalTimeMoving() const {return totalTimeMoving;}
         /// select tarckpoint by index
         void setPointOfFocus(int idx, bool eraseSelection, bool moveMap);
         /// set point of focus to a point with a given distance from start
@@ -221,9 +221,9 @@ class CTrack : public IItem
         ///
         QDateTime getEndTimestamp();
         /// get the ascend in [m]
-        double getAscend(){return totalAscend;}
+        double getAscend() const {return totalAscend;}
         /// get the descend in [m]
-        double getDescend(){return totalDescend;}
+        double getDescend() const {return totalDescend;}
         /// get information string for a particular trackpoint
         QString getTrkPtInfo(pt_t& trkpt);
         /// get the bounding rectangular that fits the track
@@ -242,7 +242,7 @@ class CTrack : public IItem
         void setExt1Data() { ext1Data = true;}
 
         void hide(bool ok);
-        bool isHidden(){return m_hide;}
+        bool isHidden() const {return m_hide;}
 
         void replaceElevationByRemote();
         void replaceElevationByLocal();
@@ -266,7 +266,7 @@ class CTrack : public IItem
         /// reset all smoothed and purged data to it's original state
         void reset();
 
-        quint32 getMedianFilterCount(){return cntMedianFilterApplied;}
+        quint32 getMedianFilterCount() const {return cntMedianFilterApplied;}
 
         signals:
         void sigChanged();

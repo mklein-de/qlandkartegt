@@ -341,7 +341,37 @@ void CDeviceTwoNav::downloadWpts(QList<CWpt*>& wpts)
 
 void CDeviceTwoNav::uploadTracks(const QList<CTrack*>& trks)
 {
-    QMessageBox::information(0,tr("Error..."), tr("TwoNav: Upload tracks is not implemented."),QMessageBox::Abort,QMessageBox::Abort);
+//    QMessageBox::information(0,tr("Error..."), tr("TwoNav: Upload tracks is not implemented."),QMessageBox::Abort,QMessageBox::Abort);
+
+    QDir dir;
+    if(!aquire(dir))
+    {
+        return;
+    }
+
+    createDayPath(tr("tracks"));
+    dir.cd(pathDay);
+
+    for(int i = 0; i < trks.count(); i++)
+    {
+        CTrack& trk     = *trks[i];
+        QString name    = trk.getName();
+        name            = name.replace(" ","_");
+
+        QFile file(dir.absoluteFilePath(name + ".trk"));
+        file.open(QIODevice::WriteOnly);
+        QTextStream out(&file);
+        out.setCodec(QTextCodec::codecForName("UTF-8"));
+        out << "B  UTF-8" << endl;
+        out << "G  WGS 84" << endl;
+        out << "U  1" << endl;
+
+        writeTrkData(out, trk, dir);
+
+        file.close();
+    }
+    dir.cd(pathRoot);
+    theMainWindow->getCanvas()->setFadingMessage(tr("Upload tracks finished!"));
 }
 
 void CDeviceTwoNav::downloadTracks(QList<CTrack*>& trks)
@@ -591,6 +621,55 @@ QString CDeviceTwoNav::makeUniqueName(const QString name, QDir& dir)
     }
 
     return tmp;
+}
+
+void CDeviceTwoNav::writeTrkData(QTextStream& out, CTrack& trk, QDir& dir)
+{
+    QString name    = trk.getName();
+    name    = name.replace(" ","_");
+
+    QColor color = trk.getColor();
+
+    QStringList list;
+    list << "C";
+    list << QString::number(color.red());
+    list << QString::number(color.green());
+    list << QString::number(color.blue());
+    list << "5"; // ???
+    list << "1";    // ???
+    out << list.join(" ") << endl;
+
+    out << "s " << name << endl;
+
+    QList<CTrack::pt_t>& trkpts = trk.getTrackPoints();
+    foreach(const CTrack::pt_t& trkpt, trkpts)
+    {
+        list.clear();
+
+        list << "T";
+        list << "A";
+        list << (trkpt.lat > 0 ? QString("%1\272N") : QString("%1\272S")).arg(trkpt.lat,0,'f');
+        list << (trkpt.lon > 0 ? QString("%1\272E") : QString("%1\272W")).arg(trkpt.lon,0,'f');
+        list << QDateTime::fromTime_t(trkpt.timestamp).toString("dd-MMM-yyyy");
+        list << QDateTime::fromTime_t(trkpt.timestamp).toString("hh:mm:ss");
+        list << "s";
+        list << QString("%1").arg(trkpt.ele == WPT_NOFLOAT ? 0 : trkpt.ele,0,'f');
+        list << "0.000000";
+        list << "0.000000";
+        list << "0.000000";
+        list << "0";
+        list << "-1000.000000";
+        list << "-1.000000";
+        list << "-1";
+        list << "-1.000000";
+        list << "-1";
+        list << "-1";
+        list << "-1";
+        list << "-1.000000";
+
+        out << list.join(" ") << endl;
+    }
+
 }
 
 void CDeviceTwoNav::writeWaypointData(QTextStream& out, CWpt * wpt, QDir& dir)

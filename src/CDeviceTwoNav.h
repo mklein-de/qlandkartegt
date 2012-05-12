@@ -68,10 +68,11 @@ class CDeviceTwoNav : public IDevice
         bool aquire(QDir& dir);
         void createDayPath(const QString &what);
 
-        void readWptFile(QDir &dir, const QString &filename, QList<CWpt *> &wpts);        
+        void readWptFile(QDir &dir, const QString &filename, QList<CWpt *> &wpts);
         void writeWaypointData(QTextStream& out, CWpt * wpt, QDir &dir);
 
         void readTrkFile(QDir &dir, const QString &filename, QList<CTrack *> &trks);
+        void writeTrkData(QTextStream& out, CTrack &trk, QDir& dir);
 
         QString iconTwoNav2QlGt(const QString& sym);
         QString iconQlGt2TwoNav(const QString& sym);
