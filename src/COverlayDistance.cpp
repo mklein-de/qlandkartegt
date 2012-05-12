@@ -37,7 +37,7 @@
 
 bool COverlayDistance::showBullets = true;
 
-bool operator==(const projXY& p1, const projXY& p2)
+static bool operator==(const projXY& p1, const projXY& p2)
 {
     return (p1.u == p2.u) && (p1.v == p2.v);
 }
@@ -706,35 +706,8 @@ void COverlayDistance::mousePressEvent(QMouseEvent * e)
     }
     else if(e->button() == Qt::RightButton)
     {
-        if(doMove)
-        {
-
-            if(addType != eNone)
-            {
-                points.removeOne(*thePoint);
-            }
-            else
-            {
-                *thePoint = savePoint;
-            }
-            thePoint = 0;
-            thePointBefor   = 0;
-            thePointAfter   = 0;
-
-
-            calcDistance();
-            theMainWindow->getCanvas()->update();
-            emit sigChanged();
-
-            doMove      = false;
-            addType     = eNone;
-            subline.clear();
-
-            COverlayDB::self().emitSigChanged();
-
-            QApplication::restoreOverrideCursor();
-            return;
-        }
+        looseFocus();
+        return;
     }
 
     selectedPoints.clear();
@@ -1318,17 +1291,33 @@ void COverlayDistance::makeVisible()
     emit sigChanged();
 }
 
-
 void COverlayDistance::looseFocus()
 {
+    if(doMove)
+    {
+        if(addType != eNone)
+        {
+            points.removeOne(*thePoint);
+        }
+        else
+        {
+            *thePoint = savePoint;
+        }
+    }
+
     if(doSpecialCursor)
     {
         QApplication::restoreOverrideCursor();
         doSpecialCursor = false;
     }
+
     doMove          = false;
     addType         = eNone;
     doFuncWheel     = false;
+
+    subline.clear();
+    calcDistance();
+    emit sigChanged();
 }
 
 

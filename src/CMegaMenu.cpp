@@ -94,47 +94,38 @@ void CMegaMenu::switchByKeyWord(const QString& key)
     else if (key == "Waypoints")
     {
         actions->funcSwitchToWpt();
-        actions->funcMoveArea();
     }
     else if (key == "Search")
     {
         actions->funcSwitchToMain();
-        actions->funcMoveArea();
     }
     else if (key == "Maps")
     {
         actions->funcSwitchToMap();
-        actions->funcMoveArea();
     }
     else if (key == "Tracks")
     {
         actions->funcSwitchToTrack();
-        actions->funcMoveArea();
     }
     else if (key == "LiveLog")
     {
         actions->funcSwitchToLiveLog();
-        actions->funcMoveArea();
     }
     else if (key == "Overlay")
     {
         actions->funcSwitchToOverlay();
-        actions->funcMoveArea();
     }
     else if (key == "OverlayDistance")
     {
         actions->funcSwitchToOverlayDistance();
-        actions->funcMoveArea();
     }
     else if (key == "Routes")
     {
         actions->funcSwitchToRoute();
-        actions->funcMoveArea();
     }
     else if (key == "GeoDB")
     {
         actions->funcSwitchToMain();
-        actions->funcMoveArea();
     }
 
 
