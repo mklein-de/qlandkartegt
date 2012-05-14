@@ -603,6 +603,7 @@ void CDeviceTwoNav::readWptFile(QDir& dir, const QString& filename, QList<CWpt*>
 
             break;
         }
+
         }
     }
 
@@ -640,6 +641,7 @@ void CDeviceTwoNav::writeTrkData(QTextStream& out, CTrack& trk, QDir& dir)
     out << list.join(" ") << endl;
 
     out << "s " << name << endl;
+    out << "k " << trk.getKey() << endl;
 
     QList<CTrack::pt_t>& trkpts = trk.getTrackPoints();
     foreach(const CTrack::pt_t& trkpt, trkpts)
@@ -806,8 +808,19 @@ void CDeviceTwoNav::readTrkFile(QDir &dir, const QString &filename, QList<CTrack
             *track << pt;
             break;
         }
-
-
+        case 's':
+        {
+            QString name  = line.mid(1).simplified();
+            name = name.replace("_", " ");
+            track->setName(name);
+            break;
+        }
+        case 'k':
+        {
+            QString name  = line.mid(1).simplified();
+            track->setKey(name);
+            break;
+        }
         }
     }
 
