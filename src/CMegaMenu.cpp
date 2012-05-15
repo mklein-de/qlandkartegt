@@ -179,6 +179,9 @@ void CMegaMenu::initStyleOption(QStyleOptionMenuItem *option, const QAction *act
     if (isCurrent && !action->isSeparator())
     {
         option->state |= QStyle::State_Selected | (mouseDown ? QStyle::State_Sunken : QStyle::State_None);
+#ifdef Q_WS_MAC
+        option->palette.setColor(QPalette::Normal, QPalette::HighlightedText, Qt::white);
+#endif
     }
 
     //     option->menuHasCheckableItems = d->hasCheckableItems;

@@ -76,6 +76,7 @@ CCanvas::CCanvas(QWidget * parent)
 : QWidget(parent)
 , mouse(0)
 , info(0)
+, contextMenuActive(false)
 {
     setMouseTracking(true);
     setFocusPolicy(Qt::StrongFocus);
@@ -257,9 +258,15 @@ void CCanvas::paintEvent(QPaintEvent * e)
 
 void CCanvas::mouseMoveEvent(QMouseEvent * e)
 {
-    posMouse = e->pos();
-    mouseMoveEventCoord(e);
-    mouse->mouseMoveEvent(e);
+    // this check shouldn't be necessary in an ideal world.  However, at least
+    // on OS X with Qt 4.7.4 I've seen sporadic mouse move events messing up
+    // posMouse while the context menu is shown
+    if (!contextMenuActive)
+    {
+        posMouse = e->pos();
+        mouseMoveEventCoord(e);
+        mouse->mouseMoveEvent(e);
+    }
 }
 
 
@@ -799,7 +806,9 @@ void CCanvas::raiseContextMenu(const QPoint& pos)
 
     QPoint p = mapToGlobal(pos);
     setMouseTracking(false);
+    contextMenuActive = true;
     menu.exec(p);
+    contextMenuActive = false;
     setMouseTracking(true);
 }
 
