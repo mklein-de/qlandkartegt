@@ -95,7 +95,7 @@ class CTrack : public IItem
                 _lon(WPT_NOFLOAT),_lat(WPT_NOFLOAT),_ele(WPT_NOFLOAT),
                 flags(0), px_valid(FALSE), dem(WPT_NOFLOAT), editItem(NULL){}
 
-            bool operator==(const pt_t& pt){return pt.idx == idx;}
+            bool operator==(const pt_t& pt) const {return pt.idx == idx;}
 
             /// index counter for easy QVector access
             qint32  idx;

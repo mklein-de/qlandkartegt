@@ -629,6 +629,20 @@ void CDeviceTwoNav::writeTrkData(QTextStream& out, CTrack& trk, QDir& dir)
     QString name    = trk.getName();
     name    = name.replace(" ","_");
 
+    QList<CTrack::wpt_t> wpts;
+    trk.scaleWpt2Track(wpts);
+    QList<CTrack::wpt_t>::iterator wpt = wpts.begin();
+    while(wpt != wpts.end())
+    {
+        if(wpt->d > WPT_TO_TRACK_DIST)
+        {
+            wpt = wpts.erase(wpt);
+            continue;
+        }
+        ++wpt;
+    }
+
+
     QColor color = trk.getColor();
 
     QStringList list;
@@ -670,6 +684,47 @@ void CDeviceTwoNav::writeTrkData(QTextStream& out, CTrack& trk, QDir& dir)
         list << "-1.000000";
 
         out << list.join(" ") << endl;
+
+        list.clear();
+        foreach(const CTrack::wpt_t& wpt, wpts)
+        {
+            if(wpt.trkpt == trkpt)
+            {
+                QString comment = wpt.wpt->getComment();
+                if(comment.isEmpty())
+                {
+                    comment = wpt.wpt->getDescription();
+                }
+                IItem::removeHtml(comment);
+                comment = comment.replace("\n","%0A%0D");
+
+
+                list << "7";
+                list << "1";
+                list << "3";
+                list << "0";
+                list << comment;
+                out << "a " << list.join(",") << endl;
+
+                foreach(const CWpt::image_t& img, wpt.wpt->images)
+                {
+                    QString fn = img.info;
+                    if(fn.isEmpty())
+                    {
+                        fn = QString("picture.jpg");
+                    }
+                    if(!fn.endsWith("jpg"))
+                    {
+                        fn += ".jpg";
+                    }
+
+                    fn = makeUniqueName(fn, dir);
+                    img.pixmap.save(dir.absoluteFilePath(fn));
+                    out << "a " << ".\\" << fn << endl;
+                }
+                break;
+            }
+        }
     }
 
 }

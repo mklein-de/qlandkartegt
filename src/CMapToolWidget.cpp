@@ -97,6 +97,7 @@ void CMapToolWidget::slotDBChanged()
     treeKnownMapsStream->clear();
     treeKnownMapsRaster->clear();
     treeKnownMapsVector->clear();
+
     const QMap<QString,CMapDB::map_t>& knownMaps = CMapDB::self().getKnownMaps();
     {
         QMap<QString,CMapDB::map_t>::const_iterator map = knownMaps.begin();
@@ -145,7 +146,7 @@ void CMapToolWidget::slotDBChanged()
             }
             else if(map->type == IMap::eGarmin)
             {
-                icon = QIcon(":/icons/iconTDB22x22.png");                
+                icon = QIcon(":/icons/iconTDB22x22.png");
                 item->setToolTip(eType, tr("Garmin/TDB/IMG"));
             }
             else if(map->type == IMap::eTMS)
