@@ -685,7 +685,6 @@ void CDeviceTwoNav::writeTrkData(QTextStream& out, CTrack& trk, QDir& dir)
 
         out << list.join(" ") << endl;
 
-        list.clear();
         foreach(const CTrack::wpt_t& wpt, wpts)
         {
             if(wpt.trkpt == trkpt)
@@ -698,8 +697,16 @@ void CDeviceTwoNav::writeTrkData(QTextStream& out, CTrack& trk, QDir& dir)
                 IItem::removeHtml(comment);
                 comment = comment.replace("\n","%0A%0D");
 
+                QString iconName    = wpt.wpt->getIconString();
+                QPixmap icon        = wpt.wpt->getIcon();
+                icon                = icon.scaledToWidth(10, Qt::SmoothTransformation);
+                iconName            = iconQlGt2TwoNav(iconName);
+                iconName            = iconName.replace(" ", "_");
 
-                list << "7";
+                icon.save(dir.absoluteFilePath(iconName + ".png"));
+
+                list.clear();
+                list << (iconName + ".png");
                 list << "1";
                 list << "3";
                 list << "0";
@@ -720,7 +727,13 @@ void CDeviceTwoNav::writeTrkData(QTextStream& out, CTrack& trk, QDir& dir)
 
                     fn = makeUniqueName(fn, dir);
                     img.pixmap.save(dir.absoluteFilePath(fn));
-                    out << "a " << ".\\" << fn << endl;
+
+                    list.clear();
+                    list << fn;
+                    list << "1";
+                    list << "8";
+                    list << "0";
+                    out << "a " << list.join(",") << endl;
                 }
                 break;
             }
