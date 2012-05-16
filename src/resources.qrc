@@ -524,5 +524,32 @@
         <file>icons/iconVector22x22.png</file>
         <file>icons/iconTDB22x22.png</file>
         <file>icons/iconRMAP22x22.png</file>
+        <file>pics/roadbook/01t.png</file>
+        <file>pics/roadbook/02t.png</file>
+        <file>pics/roadbook/03t.png</file>
+        <file>pics/roadbook/04t.png</file>
+        <file>pics/roadbook/05t.png</file>
+        <file>pics/roadbook/06t.png</file>
+        <file>pics/roadbook/07t.png</file>
+        <file>pics/roadbook/08t.png</file>
+        <file>pics/roadbook/09t.png</file>
+        <file>pics/roadbook/10t.png</file>
+        <file>pics/roadbook/11t.png</file>
+        <file>pics/roadbook/12t.png</file>
+        <file>pics/roadbook/13t.png</file>
+        <file>pics/roadbook/14t.png</file>
+        <file>pics/roadbook/15t.png</file>
+        <file>pics/roadbook/16t.png</file>
+        <file>pics/roadbook/17t.png</file>
+        <file>pics/roadbook/18t.png</file>
+        <file>pics/roadbook/19t.png</file>
+        <file>pics/roadbook/20t.png</file>
+        <file>pics/roadbook/21t.png</file>
+        <file>pics/roadbook/22t.png</file>
+        <file>pics/roadbook/23t.png</file>
+        <file>pics/roadbook/24t.png</file>
+        <file>pics/roadbook/25t.png</file>
+        <file>pics/roadbook/26t.png</file>
+        <file>pics/roadbook/27t.png</file>
     </qresource>
 </RCC>

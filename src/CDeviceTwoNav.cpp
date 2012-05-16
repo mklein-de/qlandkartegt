@@ -699,7 +699,7 @@ void CDeviceTwoNav::writeTrkData(QTextStream& out, CTrack& trk, QDir& dir)
 
                 QString iconName    = wpt.wpt->getIconString();
                 QPixmap icon        = wpt.wpt->getIcon();
-                icon                = icon.scaledToWidth(10, Qt::SmoothTransformation);
+                icon                = icon.scaledToWidth(15, Qt::SmoothTransformation);
                 iconName            = iconQlGt2TwoNav(iconName);
                 iconName            = iconName.replace(" ", "_");
 
@@ -718,11 +718,11 @@ void CDeviceTwoNav::writeTrkData(QTextStream& out, CTrack& trk, QDir& dir)
                     QString fn = img.info;
                     if(fn.isEmpty())
                     {
-                        fn = QString("picture.jpg");
+                        fn = QString("picture.png");
                     }
-                    if(!fn.endsWith("jpg"))
+                    if(!fn.endsWith("png"))
                     {
-                        fn += ".jpg";
+                        fn += ".png";
                     }
 
                     fn = makeUniqueName(fn, dir);
@@ -789,11 +789,11 @@ void CDeviceTwoNav::writeWaypointData(QTextStream& out, CWpt * wpt, QDir& dir)
         QString fn = img.info;
         if(fn.isEmpty())
         {
-            fn = QString("picture.jpg");
+            fn = QString("picture.png");
         }
-        if(!fn.endsWith("jpg"))
+        if(!fn.endsWith("png"))
         {
-            fn += ".jpg";
+            fn += ".png";
         }
 
         fn = makeUniqueName(fn, dir);

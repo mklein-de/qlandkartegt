@@ -34,6 +34,8 @@ class CImageSelect : public QWidget, private Ui::IImageSelect
 
         void setWpt(CWpt * pt){wpt = pt;}
 
+        void setTransparent(bool yes);
+
         struct img_t
         {
             img_t(const QString& title, const QString& fn, const QString& src)

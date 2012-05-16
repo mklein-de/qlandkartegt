@@ -414,6 +414,19 @@ For modern Garmin device select &quot;Garmin Mass Storage&quot; device to exchan
               </property>
              </widget>
             </item>
+            <item>
+             <widget class="QCheckBox" name="checkTransparent">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="text">
+               <string>Transparent</string>
+              </property>
+             </widget>
+            </item>
            </layout>
           </item>
           <item>

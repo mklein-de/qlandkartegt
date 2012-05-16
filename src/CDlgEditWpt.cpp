@@ -27,6 +27,7 @@
 #include "CMapDB.h"
 #include "IMap.h"
 #include "IUnit.h"
+#include "CSettings.h"
 
 #include "config.h"
 
@@ -52,6 +53,7 @@ CDlgEditWpt::CDlgEditWpt(CWpt &wpt, QWidget * parent)
     connect(toolLink, SIGNAL(pressed()),this,SLOT(slotEditLink()));
     connect(checkHint, SIGNAL(toggled(bool)), this, SLOT(slotToggleHint(bool)));
     connect(pushCreateBuddies, SIGNAL(clicked()), this, SLOT(slotCreateBuddies()));
+    connect(checkTransparent, SIGNAL(toggled(bool)), this, SLOT(slotTransparent(bool)));
 
     labelUnitElevation->setText(IUnit::self().baseunit);
     labelUnitProximity->setText(IUnit::self().baseunit);
@@ -68,7 +70,10 @@ CDlgEditWpt::CDlgEditWpt(CWpt &wpt, QWidget * parent)
 #ifdef HAS_DMTX
     enc = dmtxEncodeCreate();
 #endif
+    SETTINGS;
+    checkTransparent->setChecked(cfg.value("waypoint/transparent", false).toBool());
 
+    imageSelect->setTransparent(true);
     name = wpt.getName();
     imageSelect->setWpt(&wpt);
     connect(imageSelect, SIGNAL(sigSelectImage(const CImageSelect::img_t&)), this, SLOT(slotSelectImage(const CImageSelect::img_t&)));
@@ -77,11 +82,13 @@ CDlgEditWpt::CDlgEditWpt(CWpt &wpt, QWidget * parent)
     {
         labelSpolerHint->show();
         imageSelect->hide();
+        checkTransparent->hide();
     }
     else
     {
         labelSpolerHint->hide();
         imageSelect->show();
+        checkTransparent->show();
     }
 }
 
@@ -92,6 +99,10 @@ CDlgEditWpt::~CDlgEditWpt()
 #ifdef HAS_DMTX
     dmtxEncodeDestroy(&enc);
 #endif
+
+    SETTINGS;
+    cfg.setValue("waypoint/transparent", checkTransparent->isChecked());
+
 }
 
 
@@ -560,4 +571,9 @@ void CDlgEditWpt::slotCreateBuddies()
     }
 
     wpt.showBuddies(false);
+}
+
+void CDlgEditWpt::slotTransparent(bool ok)
+{
+    imageSelect->setTransparent(ok);
 }

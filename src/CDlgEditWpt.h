@@ -57,6 +57,7 @@ class CDlgEditWpt : public QDialog, private Ui::IDlgEditWpt
         void slotToggleHint(bool show);
         void slotSelectImage(const CImageSelect::img_t& img);
         void slotCreateBuddies();
+        void slotTransparent(bool ok);
 
     private:
         void showImage(int idx);
