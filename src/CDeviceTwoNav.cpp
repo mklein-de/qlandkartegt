@@ -693,6 +693,10 @@ void CDeviceTwoNav::writeTrkData(QTextStream& out, CTrack& trk, QDir& dir)
                 if(comment.isEmpty())
                 {
                     comment = wpt.wpt->getDescription();
+                    if(comment.isEmpty())
+                    {
+                        comment = wpt.wpt->getName();
+                    }
                 }
                 IItem::removeHtml(comment);
                 comment = comment.replace("\n","%0A%0D");
