@@ -28,52 +28,10 @@
 #include "GeoMath.h"
 #include "CResources.h"
 #include "CTrack.h"
+#include "CDlgDeviceExportPath.h"
 
 #include <QtGui>
 
-CDlgDeviceTwoNavPath::CDlgDeviceTwoNavPath(const QString& what, QDir &dir, QString& subdir, QWidget * parent)
-    : QDialog(parent)
-    , subdir(subdir)
-{
-    setupUi(this);
-
-    labelHead->setText(tr("Where should I place all %1?").arg(what));
-
-    QStringList dirs = dir.entryList(QStringList("*"), QDir::AllDirs|QDir::NoDotAndDotDot);
-
-    foreach(const QString& d, dirs)
-    {
-        QListWidgetItem * item = new QListWidgetItem(listWidget);
-        item->setText(d);
-        item->setIcon(QIcon(":/icons/iconFolderBlue16x16.png"));
-    }
-
-    lineEdit->setText(QString("Data_%1").arg(QDateTime::currentDateTime().toUTC().toString("yyyy-MM-dd")));
-    lineEdit->setFocus();
-    lineEdit->selectAll();
-
-    connect(listWidget, SIGNAL(itemClicked(QListWidgetItem*)), this, SLOT(slotItemClicked(QListWidgetItem*)));
-    connect(lineEdit, SIGNAL(returnPressed()), this, SLOT(slotReturnPressed()));
-}
-
-CDlgDeviceTwoNavPath::~CDlgDeviceTwoNavPath()
-{
-
-}
-
-void CDlgDeviceTwoNavPath::slotItemClicked(QListWidgetItem*item)
-{
-    if(item == 0) return;
-
-    subdir = item->text();
-    QDialog::accept();
-}
-
-void CDlgDeviceTwoNavPath::slotReturnPressed()
-{
-    subdir = lineEdit->text();
-    QDialog::accept();
-}
 
 
 struct twonav_icon_t
@@ -210,7 +168,7 @@ void CDeviceTwoNav::createDayPath(const QString& what)
     QString subdir;
     dir.cd(pathData);
 
-    CDlgDeviceTwoNavPath dlg(what, dir, subdir, 0);
+    CDlgDeviceExportPath dlg(what, dir, subdir, 0);
     dlg.exec();
 
     pathDay = dir.absoluteFilePath(subdir);
