@@ -50,11 +50,14 @@ class CDeviceGarminBulk : public IDevice
     private:
         void readDeviceXml(const QString& filename);
         bool aquire(QDir& dir);
+        void createDayPath(const QDir &root, const QString &what);
 
         QString pathRoot;
         QString pathPictures;
         QString pathGpx;
         QString pathSpoilers;
+
+        QString pathDay;
 
 };
 
