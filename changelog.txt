@@ -1,3 +1,40 @@
+--- 2012.05.19 ---
+
+Request #373:
+Add export for TwoNav devices
+
+Request #374:
+Add context menu item to split tracks
+
+Request #375:
+Add user login for geonames.
+
+Request #376:
+Use feet for elevation in natic units
+
+Request #377:
+Add definition of TMS maps by xml file with layers and script support
+
+Request #378:
+Limit waypoint auto-nmubering to waypoints with digits at the end only
+
+Bug     #379:
+Fix mega menu transparency for OS X
+
+Bug     #380:
+Fix missing text for raster map selection
+
+Bug     #381:
+Fix missing image formats for Windows
+
+Bug     #382:
+Fix crash in diary
+
+Request #383:
+Add Czech translation
+
+
+
 --- 2012.02.26 ---
 
 Request #363:
@@ -1497,6 +1534,7 @@ Fixed bad calculation of proximity circle size
 
 Request #1:
 Initial release
+
 
 
 
