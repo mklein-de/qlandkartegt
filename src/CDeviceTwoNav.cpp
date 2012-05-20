@@ -271,6 +271,7 @@ void CDeviceTwoNav::downloadWpts(QList<CWpt*>& wpts)
 
     dir.cd(pathData);
     subdirs = dir.entryList(QDir::Dirs|QDir::NoDotAndDotDot);
+    subdirs << pathData;
 
     foreach(const QString& subdir, subdirs)
     {
@@ -345,6 +346,7 @@ void CDeviceTwoNav::downloadTracks(QList<CTrack*>& trks)
 
     dir.cd(pathData);
     subdirs = dir.entryList(QDir::Dirs|QDir::NoDotAndDotDot);
+    subdirs << pathData;
 
     foreach(const QString& subdir, subdirs)
     {

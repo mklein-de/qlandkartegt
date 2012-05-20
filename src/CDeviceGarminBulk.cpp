@@ -275,6 +275,7 @@ void CDeviceGarminBulk::downloadWpts(QList<CWpt*>& /*wpts*/)
     dir.cd(pathGpx);
 
     subdirs = dir.entryList(QDir::Dirs|QDir::NoDotAndDotDot);
+    subdirs << pathGpx;
     foreach(const QString& subdir, subdirs)
     {
         dir.cd(subdir);
@@ -397,6 +398,7 @@ void CDeviceGarminBulk::downloadTracks(QList<CTrack*>& /*trks*/)
     dir.cd(pathGpx);
 
     subdirs = dir.entryList(QDir::Dirs|QDir::NoDotAndDotDot);
+    subdirs << pathGpx;
     foreach(const QString& subdir, subdirs)
     {
         dir.cd(subdir);
@@ -458,6 +460,7 @@ void CDeviceGarminBulk::downloadRoutes(QList<CRoute*>& /*rtes*/)
     dir.cd(pathGpx);
 
     subdirs = dir.entryList(QDir::Dirs|QDir::NoDotAndDotDot);
+    subdirs << pathGpx;
     foreach(const QString& subdir, subdirs)
     {
         dir.cd(subdir);
