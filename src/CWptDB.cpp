@@ -879,6 +879,7 @@ void CWptDB::download()
 
 void CWptDB::selWptByKey(const QString& key, bool selectMode)
 {
+    QStringList keys(key);
     CWptToolWidget * t = qobject_cast<CWptToolWidget*>(toolview);
     if(t)
     {
@@ -887,7 +888,7 @@ void CWptDB::selWptByKey(const QString& key, bool selectMode)
             wpts[key]->selected =! wpts[key]->selected;
         }
 
-        t->selWptByKey(key);
+        t->selWptByKey(keys);
         gainFocus();
     }
 }
@@ -898,6 +899,8 @@ void CWptDB::selWptInRange(const QPointF& center, double radius)
     p0.u = center.x();
     p0.v = center.y();
     CWptToolWidget * t = qobject_cast<CWptToolWidget*>(toolview);
+
+    QStringList keys;
 
     foreach(CWpt * wpt, wpts)
     {
@@ -911,12 +914,16 @@ void CWptDB::selWptInRange(const QPointF& center, double radius)
         if(d < radius)
         {
             wpt->selected = true;
-            if(t)
-            {
-                t->selWptByKey(wpt->getKey());
-            }
+
+            keys << wpt->getKey();
         }
     }
+
+    if(t)
+    {
+        t->selWptByKey(keys);
+    }
+
 }
 
 

@@ -488,11 +488,13 @@ QDateTime readCompeTime(QString str, bool isTrack)
     return timestamp;
 }
 
-QStringList writeCompeTime(const QDateTime& timestamp, bool isTrack)
+QStringList writeCompeTime( const QDateTime& t, bool isTrack)
 {
     QStringList result;
     QString dateFormat;
     QString monthStr;
+
+    QDateTime timestamp = t.toTimeSpec(Qt::UTC);
 
     switch(timestamp.date().month())
     {
@@ -877,7 +879,7 @@ void CDeviceTwoNav::writeWaypointData(QTextStream& out, CWpt * wpt, QDir& dir)
     list << name.replace(" ", "_");
     list << "A";
     list << (wpt->lat > 0 ? QString("%1\272N") : QString("%1\272S")).arg(wpt->lat,0,'f');
-    list << (wpt->lon > 0 ? QString("%1\272E") : QString("%1\272W")).arg(wpt->lon,0,'f');    
+    list << (wpt->lon > 0 ? QString("%1\272E") : QString("%1\272W")).arg(wpt->lon,0,'f');
     list << writeCompeTime(QDateTime::fromTime_t(wpt->timestamp), false);
     list << QString("%1").arg(wpt->ele == WPT_NOFLOAT ? 0 : wpt->ele,0,'f');
 

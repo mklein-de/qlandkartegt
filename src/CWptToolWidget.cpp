@@ -368,12 +368,22 @@ void CWptToolWidget::slotZoomToFit()
 }
 
 
-void CWptToolWidget::selWptByKey(const QString& key)
+void CWptToolWidget::selWptByKey(const QStringList& keys)
 {
+
+    QListWidgetItem * item = 0;
+    listWpts->setUpdatesEnabled(false);
     for(int i=0; i<listWpts->count(); ++i)
     {
-        QListWidgetItem * item = listWpts->item(i);
-        if(item && item->data(Qt::UserRole) == key)
+        item = listWpts->item(i);
+        if(!item)
+        {
+            continue;
+        }
+
+        QString key = item->data(Qt::UserRole).toString();
+
+        if(keys.contains(key))
         {
             CWpt * wpt = CWptDB::self().getWptByKey(key);
             if(wpt)
@@ -381,9 +391,15 @@ void CWptToolWidget::selWptByKey(const QString& key)
                 item->setCheckState(wpt->selected ? Qt::Checked : Qt::Unchecked);
             }
 
-            listWpts->setCurrentItem(item);
         }
     }
+    listWpts->setUpdatesEnabled(true);
+    if(item)
+    {
+        listWpts->setCurrentItem(item);
+    }
+
+    listWpts->update();
 }
 
 

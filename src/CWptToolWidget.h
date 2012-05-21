@@ -34,7 +34,7 @@ class CWptToolWidget : public QWidget, private Ui::IWptToolWidget
     public:
         CWptToolWidget(QTabWidget * parent);
         virtual ~CWptToolWidget();
-        void selWptByKey(const QString& key);
+        void selWptByKey(const QStringList& keys);
 
         enum sortmode_e
         {
