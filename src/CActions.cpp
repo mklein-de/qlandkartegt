@@ -304,7 +304,8 @@ void CActions::funcSwitchToOverlayDistance()
     setMenuPixmap(QPixmap(":/icons/backDistance128x128.png"));
     actionGroup->switchToActionGroup(CMenus::OverlayDistanceMenu);
     COverlayDB::self().gainFocus();
-    funcMoveArea();
+
+    funcDistance();
 }
 
 
