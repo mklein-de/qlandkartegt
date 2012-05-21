@@ -410,6 +410,154 @@ struct wpt_t
 
 };
 
+QDateTime readCompeTime(QString str, bool isTrack)
+{
+    QDateTime timestamp;
+    QRegExp re("([0-9]{2})-([A-Za-z]{3})-.*");
+
+    if(re.exactMatch(str))
+    {
+        QString monthNum;
+        QString monthStr = re.cap(2);
+
+        if(monthStr.toUpper() == "JAN")
+        {
+            monthNum = "01";
+        }
+        else if(monthStr.toUpper() == "FEB")
+        {
+            monthNum = "02";
+        }
+        else if(monthStr.toUpper() == "MAR")
+        {
+            monthNum = "03";
+        }
+        else if(monthStr.toUpper() == "APR")
+        {
+            monthNum = "04";
+        }
+        else if(monthStr.toUpper() == "MAY")
+        {
+            monthNum = "05";
+        }
+        else if(monthStr.toUpper() == "JUN")
+        {
+            monthNum = "06";
+        }
+        else if(monthStr.toUpper() == "JUL")
+        {
+            monthNum = "07";
+        }
+        else if(monthStr.toUpper() == "AUG")
+        {
+            monthNum = "08";
+        }
+        else if(monthStr.toUpper() == "SEP")
+        {
+            monthNum = "09";
+        }
+        else if(monthStr.toUpper() == "OCT")
+        {
+            monthNum = "10";
+        }
+        else if(monthStr.toUpper() == "NOV")
+        {
+            monthNum = "11";
+        }
+        else if(monthStr.toUpper() == "DEC")
+        {
+            monthNum = "12";
+        }
+
+        str.replace(monthStr, monthNum);
+
+        if(isTrack)
+        {
+            timestamp = QDateTime::fromString(str, "dd-MM-yy hh:mm:ss.zzz");
+            timestamp = timestamp.addYears(100);
+        }
+        else
+        {
+            timestamp = QDateTime::fromString(str, "dd-MM-yyyy hh:mm:ss");
+        }
+
+    }
+
+
+    timestamp.setTimeSpec(Qt::UTC);
+    return timestamp;
+}
+
+QStringList writeCompeTime(const QDateTime& timestamp, bool isTrack)
+{
+    QStringList result;
+    QString dateFormat;
+    QString monthStr;
+
+    switch(timestamp.date().month())
+    {
+    case 1:
+        monthStr = "Jan";
+        break;
+    case 2:
+        monthStr = "Feb";
+        break;
+    case 3:
+        monthStr = "Mar";
+        break;
+    case 4:
+        monthStr = "Apr";
+        break;
+    case 5:
+        monthStr = "May";
+        break;
+    case 6:
+        monthStr = "Jun";
+        break;
+    case 7:
+        monthStr = "Jul";
+        break;
+    case 8:
+        monthStr = "Aug";
+        break;
+    case 9:
+        monthStr = "Sep";
+        break;
+    case 10:
+        monthStr = "Oct";
+        break;
+    case 11:
+        monthStr = "Nov";
+        break;
+    case 12:
+        monthStr = "Dec";
+        break;
+    }
+
+
+    if(isTrack)
+    {
+        dateFormat = QString("dd-'%1'-yy").arg(monthStr);
+    }
+    else
+    {
+        dateFormat = QString("dd-'%1'-yyyy").arg(monthStr);
+    }
+
+    result << timestamp.toString(dateFormat);
+
+    if(isTrack)
+    {
+        result << timestamp.toString("hh:mm:ss.000");
+    }
+    else
+    {
+        result << timestamp.toString("hh:mm:ss");
+    }
+
+    return result;
+}
+
 
 void CDeviceTwoNav::readWptFile(QDir& dir, const QString& filename, QList<CWpt*>& wpts)
 {
@@ -463,11 +611,10 @@ void CDeviceTwoNav::readWptFile(QDir& dir, const QString& filename, QList<CWpt*>
             tmpwpt = wpt_t();
             QStringList values = line.split(' ', QString::SkipEmptyParts);
 
-            tmpwpt.name    = values[1];
+            tmpwpt.name = values[1];
             GPS_Math_Str_To_Deg(values[3].replace("\272","") + " " + values[4].replace("\272",""), tmpwpt.lon, tmpwpt.lat);
-            tmpwpt.time    = QDateTime::fromString(values[5] + " " + values[6], "dd-MMM-yyyy hh:mm:ss");
-            tmpwpt.time.setTimeSpec(Qt::UTC);
-            tmpwpt.ele     = values[7].toFloat();
+            tmpwpt.time = readCompeTime(values[5] + " " + values[6], false);
+            tmpwpt.ele  = values[7].toFloat();
 
             if(values.size() > 7)
             {
@@ -626,8 +773,7 @@ void CDeviceTwoNav::writeTrkData(QTextStream& out, CTrack& trk, QDir& dir)
         list << "A";
         list << (trkpt.lat > 0 ? QString("%1\272N") : QString("%1\272S")).arg(trkpt.lat,0,'f');
         list << (trkpt.lon > 0 ? QString("%1\272E") : QString("%1\272W")).arg(trkpt.lon,0,'f');
-        list << QDateTime::fromTime_t(trkpt.timestamp).toString("dd-MMM-yyyy");
-        list << QDateTime::fromTime_t(trkpt.timestamp).toString("hh:mm:ss");
+        list << writeCompeTime(QDateTime::fromTime_t(trkpt.timestamp), true);
         list << "s";
         list << QString("%1").arg(trkpt.ele == WPT_NOFLOAT ? 0 : trkpt.ele,0,'f');
         list << "0.000000";
@@ -650,16 +796,19 @@ void CDeviceTwoNav::writeTrkData(QTextStream& out, CTrack& trk, QDir& dir)
             if(wpt.trkpt == trkpt)
             {
                 QString comment = wpt.wpt->getComment();
+                IItem::removeHtml(comment);
                 if(comment.isEmpty())
                 {
                     comment = wpt.wpt->getDescription();
+                    IItem::removeHtml(comment);
                     if(comment.isEmpty())
                     {
                         comment = wpt.wpt->getName();
+                        IItem::removeHtml(comment);
                     }
                 }
-                IItem::removeHtml(comment);
                 comment = comment.replace("\n","%0A%0D");
+                comment = comment.replace(",","%2C");
 
                 QString iconName    = wpt.wpt->getIconString();
                 QPixmap icon        = wpt.wpt->getIcon();
@@ -684,9 +833,12 @@ void CDeviceTwoNav::writeTrkData(QTextStream& out, CTrack& trk, QDir& dir)
                     {
                         fn = QString("picture.png");
                     }
-                    if(!fn.endsWith("png"))
+
+                    QFileInfo fi(fn);
+
+                    if(!(fi.completeSuffix() == "png"))
                     {
-                        fn += ".png";
+                        fn = fi.baseName() + ".png";
                     }
 
                     fn = makeUniqueName(fn, dir);
@@ -712,11 +864,12 @@ void CDeviceTwoNav::writeWaypointData(QTextStream& out, CWpt * wpt, QDir& dir)
     name    = name.replace(" ","_");
 
     QString comment = wpt->getComment();
+    IItem::removeHtml(comment);
     if(comment.isEmpty())
     {
         comment = wpt->getDescription();
+        IItem::removeHtml(comment);
     }
-    IItem::removeHtml(comment);
     comment = comment.replace("\n","%0A%0D");
 
     QStringList list;
@@ -724,9 +877,8 @@ void CDeviceTwoNav::writeWaypointData(QTextStream& out, CWpt * wpt, QDir& dir)
     list << name.replace(" ", "_");
     list << "A";
     list << (wpt->lat > 0 ? QString("%1\272N") : QString("%1\272S")).arg(wpt->lat,0,'f');
-    list << (wpt->lon > 0 ? QString("%1\272E") : QString("%1\272W")).arg(wpt->lon,0,'f');
-    list << QDateTime::fromTime_t(wpt->timestamp).toString("dd-MMM-yyyy");
-    list << QDateTime::fromTime_t(wpt->timestamp).toString("hh:mm:ss");
+    list << (wpt->lon > 0 ? QString("%1\272E") : QString("%1\272W")).arg(wpt->lon,0,'f');    
+    list << writeCompeTime(QDateTime::fromTime_t(wpt->timestamp), false);
     list << QString("%1").arg(wpt->ele == WPT_NOFLOAT ? 0 : wpt->ele,0,'f');
 
     out << list.join(" ") << " ";
@@ -755,9 +907,12 @@ void CDeviceTwoNav::writeWaypointData(QTextStream& out, CWpt * wpt, QDir& dir)
         {
             fn = QString("picture.png");
         }
-        if(!fn.endsWith("png"))
+
+        QFileInfo fi(fn);
+
+        if(!(fi.completeSuffix() == "png"))
         {
-            fn += ".png";
+            fn = fi.baseName() + ".png";
         }
 
         fn = makeUniqueName(fn, dir);
@@ -825,9 +980,8 @@ void CDeviceTwoNav::readTrkFile(QDir &dir, const QString &filename, QList<CTrack
             QStringList values = line.split(' ', QString::SkipEmptyParts);
 
             GPS_Math_Str_To_Deg(values[2].replace("\272","") + " " + values[3].replace("\272",""), pt.lon, pt.lat);
-            QDateTime time = QDateTime::fromString(values[4] + " " + values[5], "dd-MMM-yy hh:mm:ss.zzz");
-            time.setTimeSpec(Qt::UTC);
-            time = time.addYears(100);
+
+            QDateTime time = readCompeTime(values[4] + " " + values[5], true);
             pt.timestamp        = time.toTime_t();
             pt.timestamp_msec   = time.time().msec();
             pt.ele = values[7].toFloat();

@@ -710,6 +710,7 @@ void CTrack::setColor(const QColor& c)
             colorIdx    = n;
             color       = lineColors[n];
             bullet      = QPixmap(bulletColors[n]);
+            break;
         }
     }
 
