@@ -44,9 +44,7 @@
 #include "CAppOpts.h"
 #include "CMap3D.h"
 #include "CDlgExport.h"
-#ifdef HAS_GEODB
 #include "CGeoDB.h"
-#endif
 #ifdef HAS_DBUS
 #include "CDBus.h"
 #endif
@@ -67,12 +65,8 @@
 CMainWindow * theMainWindow = 0;
 
 CMainWindow::CMainWindow()
-#ifdef HAS_GEODB
     : geodb(0)
     , modified(false)
-#else
-    : modified(false)
-#endif
     , crashed(false)
 {
     theMainWindow = this;
@@ -282,12 +276,11 @@ CMainWindow::CMainWindow()
     searchdb    = new CSearchDB(tabbar, this);
 
 
-#ifdef HAS_GEODB
+
     if(resources->useGeoDB())
     {
         geodb       = new CGeoDB(tabbar, this);
     }
-#endif
 
     connect(searchdb, SIGNAL(sigChanged()), canvas, SLOT(update()));
     connect(wptdb, SIGNAL(sigChanged()), canvas, SLOT(update()));
@@ -306,7 +299,6 @@ CMainWindow::CMainWindow()
     connect(routedb, SIGNAL(sigModified()), this, SLOT(slotModified()));
 
 
-#ifdef HAS_GEODB
     if(geodb)
     {
         geodb->gainFocus();
@@ -315,9 +307,6 @@ CMainWindow::CMainWindow()
     {
         searchdb->gainFocus();
     }
-#else
-    searchdb->gainFocus();
-#endif
 
     // restore last session position and size of mainWidget
     {
@@ -669,7 +658,6 @@ void CMainWindow::closeEvent(QCloseEvent * e)
         return;
     }
 
-#ifdef HAS_GEODB
     if(!(CResources::self().useGeoDB() && CResources::self().saveGeoDBOnExit()))
     {
         if (maybeSave())
@@ -685,16 +673,6 @@ void CMainWindow::closeEvent(QCloseEvent * e)
     {
         e->accept();
     }
-#else
-    if (maybeSave())
-    {
-        e->accept();
-    }
-    else
-    {
-        e->ignore();
-    }
-#endif
 }
 
 

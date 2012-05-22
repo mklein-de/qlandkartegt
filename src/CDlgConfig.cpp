@@ -45,13 +45,9 @@ CDlgConfig::CDlgConfig(QWidget * parent)
     connect(toolWptTextColor,SIGNAL(clicked()),this,SLOT(slotSelectWptTextColor()));
     fillTypeCombo();
 
-#ifndef HAS_GEODB
-    groupBoxGeoDB->hide();
-#else
     connect(toolPathGeoDB, SIGNAL(clicked()),this,SLOT(slotSelectPathGeoDB()));
     connect(checkUseGeoDB, SIGNAL(clicked(bool)), groupSaveWks, SLOT(setEnabled(bool)));
     connect(checkGeoDBSaveOnExit, SIGNAL(clicked(bool)), spinGeoDBMinutes, SLOT(setEnabled(bool)));
-#endif
 
     connect(toolPathMapCache, SIGNAL(clicked()), this, SLOT(slotSelectPathMapCache()));
 
@@ -95,13 +91,13 @@ void CDlgConfig::exec()
     checkShowZoomLevel->setChecked(resources.m_showZoomLevel);
     checkAntiAliasing->setChecked(resources.m_useAntiAliasing);
     checkReducePoiIcons->setChecked(resources.m_reducePoiIcons);
-#ifdef HAS_GEODB
+
     checkUseGeoDB->setChecked(resources.m_useGeoDB);
     groupSaveWks->setEnabled(resources.m_useGeoDB);
     checkGeoDBSaveOnExit->setChecked(resources.m_saveGeoDBOnExit);
     spinGeoDBMinutes->setValue(resources.m_saveGeoDBMinutes);
     labelPathGeoDB->setText(resources.m_pathGeoDB.absolutePath());
-#endif
+
 
 
     comboDevice->addItem(tr(""),"");
@@ -194,13 +190,10 @@ void CDlgConfig::accept()
     resources.m_useAntiAliasing = checkAntiAliasing->isChecked();
     resources.m_reducePoiIcons  = checkReducePoiIcons->isChecked();
 
-#ifdef HAS_GEODB
     resources.m_useGeoDB        = checkUseGeoDB->isChecked();
     resources.m_saveGeoDBOnExit = checkGeoDBSaveOnExit->isChecked();
     resources.m_saveGeoDBMinutes = spinGeoDBMinutes->value();
     resources.m_pathGeoDB       = QDir(labelPathGeoDB->text());
-#endif
-
 
     resources.m_devKey          = comboDevice->itemData(comboDevice->currentIndex()).toString();
     resources.m_devIPAddress    = lineDevIPAddr->text();

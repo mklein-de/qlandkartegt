@@ -57,12 +57,10 @@ class CResources : public QObject
         /// root path of all maps
         QString pathMaps;
 
-#ifdef HAS_GEODB
         bool useGeoDB(){return m_useGeoDB;}
         bool saveGeoDBOnExit(){return m_saveGeoDBOnExit;}
         quint32 saveGeoDBMinutes(){return m_saveGeoDBMinutes;}
         QDir pathGeoDB(){return m_pathGeoDB;}
-#endif
         bool flipMouseWheel(){return m_flipMouseWheel;}
         bool showTrackProfilePreview(){return m_showTrackProfile;}
         bool showNorthIndicator(){return m_showNorth;}
@@ -133,13 +131,10 @@ class CResources : public QObject
         /// play sound after finishing transfers
         bool m_playSound;
 
-#ifdef HAS_GEODB
         bool m_useGeoDB;
         bool m_saveGeoDBOnExit;
         quint32 m_saveGeoDBMinutes;
         QDir m_pathGeoDB;
-#endif
-
 
         bool m_showTrackProfile;
         bool m_showNorth;

@@ -57,7 +57,6 @@ CResources::CResources(QObject * parent)
 , m_device(0)
 , m_devIPPort(4242)
 , m_flipMouseWheel(false)
-#ifdef HAS_GEODB
 , m_useGeoDB(true)
 , m_saveGeoDBOnExit(false)
 , m_saveGeoDBMinutes(5)
@@ -65,7 +64,6 @@ CResources::CResources(QObject * parent)
 , m_pathGeoDB(QDir::homePath())
 #else
 , m_pathGeoDB(QDir::home().filePath(CONFIGDIR))
-#endif
 #endif
 , m_showTrackProfile(true)
 , m_showNorth(true)
@@ -93,12 +91,10 @@ CResources::CResources(QObject * parent)
 
     //m_doMetric        = cfg.value("environment/doMetric",true).toBool();
     m_flipMouseWheel    = cfg.value("environment/flipMouseWheel",m_flipMouseWheel).toBool();
-#ifdef HAS_GEODB
     m_useGeoDB          = cfg.value("environment/GeoDB",m_useGeoDB).toBool();
     m_saveGeoDBOnExit   = cfg.value("environment/saveGeoDBOnExit",m_saveGeoDBOnExit).toBool();
     m_saveGeoDBMinutes  = cfg.value("environment/saveGeoDBMinutes",m_saveGeoDBMinutes).toUInt();
     m_pathGeoDB         = QDir(cfg.value("environment/pathGeoDB", m_pathGeoDB.absolutePath()).toString());
-#endif
 
     m_useHttpProxy      = cfg.value("network/useProxy",m_useHttpProxy).toBool();
     m_httpProxy         = cfg.value("network/proxy/url",m_httpProxy).toString();
@@ -212,12 +208,10 @@ CResources::~CResources()
     cfg.setValue("environment/mapfont/italic",m_mapfont.italic());
 
     cfg.setValue("environment/flipMouseWheel",m_flipMouseWheel);
-#ifdef HAS_GEODB
     cfg.setValue("environment/GeoDB",m_useGeoDB);
     cfg.setValue("environment/saveGeoDBOnExit",m_saveGeoDBOnExit);
     cfg.setValue("environment/saveGeoDBMinutes",m_saveGeoDBMinutes);
     cfg.setValue("environment/pathGeoDB",m_pathGeoDB.absolutePath());
-#endif
     cfg.setValue("network/useProxy",m_useHttpProxy);
     cfg.setValue("network/proxy/url",m_httpProxy);
     cfg.setValue("network/proxy/port",m_httpProxyPort);

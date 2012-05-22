@@ -43,7 +43,6 @@ set(CMAKE_MODULE_PATH
 include(DefineCMakeDefaults)
 include(DefineCompilerFlags)
 include(DefineInstallationPaths)
-include(DefineOptions.cmake)
 include(CPackConfig.cmake)
 
 # config.h generation
