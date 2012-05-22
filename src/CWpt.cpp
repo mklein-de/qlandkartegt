@@ -728,8 +728,8 @@ void CWpt::loadTwoNavExt(const QDomNode& gpxCache)
 
         geocachelog_t geocachelog;
         geocachelog.id      = attr.namedItem("id").nodeValue().toUInt();
-        geocachelog.date    = attr.namedItem("groundspeak:date").nodeValue().toUInt();
-        geocachelog.type    = attr.namedItem("groundspeak:type").nodeValue().toUInt();
+        geocachelog.date    = attr.namedItem("date").nodeValue();
+        geocachelog.type    = attr.namedItem("type").nodeValue();
         if(log.namedItem("groundspeak:finder").isElement())
         {
             const QDomNamedNodeMap& attr = log.namedItem("groundspeak:finder").attributes();
@@ -1032,7 +1032,7 @@ void CWpt::saveTwoNavExt(QDomElement& gpxCache, bool isExport)
             finder.appendChild(_finder_);
             finder.setAttribute("id", log.finderId);
 
-            setEntryHtml("text", log.text, gpx, gpxLog);
+            setEntryHtml("groundspeak:text", log.text, gpx, gpxLog);
         }
     }
 
