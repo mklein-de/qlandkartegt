@@ -1,3 +1,25 @@
+--- 2012.05.22 ---
+
+Bug     #384:
+Fix: Garmin and Twonav: Files in the data path root are not opened.
+
+Bug     #385:
+Fix: TwoNav: Timestamps are not written and read correctly.
+
+Bug     #386:
+Fix: TwoNav: Colons in the roadbook waypoint
+
+Bug     #387:
+Fix: TwoNav: Text strings are not detected as empty due to HTML tags.
+
+Request #388:
+Optimize radius selection for huge amount of waypoints
+
+Bug     #389:
+Fix: TwoNav: geocache logs are missing on download.
+
+
+
 --- 2012.05.19 ---
 
 Request #373:
@@ -1534,6 +1556,7 @@ Fixed bad calculation of proximity circle size
 
 Request #1:
 Initial release
+
 
 
 
