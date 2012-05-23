@@ -1529,17 +1529,20 @@ bool CMapTDB::processPrimaryMapData()
     /* Find best candidate for basemap. */
     while (subfile != subfiles.end())
     {
-        QVector<CGarminTile::maplevel_t>::const_iterator maplevel = subfile->maplevels.begin();
-        /* Skip any upper levels that contain no real data. */
-        while (!maplevel->inherited)
+        if (subfile->parts.contains("TRE"))
         {
-            ++maplevel;
-        }
-        /* Check for the least detailed map. */
-        if (maplevel->bits < fewest_map_bits)
-        {
-            fewest_map_bits = maplevel->bits;
-            basemap_subfile = subfile;
+            QVector<CGarminTile::maplevel_t>::const_iterator maplevel = subfile->maplevels.begin();
+            /* Skip any upper levels that contain no real data. */
+            while (!maplevel->inherited)
+            {
+                ++maplevel;
+            }
+            /* Check for the least detailed map. */
+            if (maplevel->bits < fewest_map_bits)
+            {
+                fewest_map_bits = maplevel->bits;
+                basemap_subfile = subfile;
+            }
         }
         ++subfile;
     }
