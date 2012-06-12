@@ -21,6 +21,7 @@
 #define CMAINWINDOW_H
 
 #include <QMainWindow>
+#include <qtsoap.h>
 class QSplitter;
 class QLabel;
 class QTabWidget;
@@ -108,8 +109,11 @@ class CMainWindow : public QMainWindow
         void slotFAQ();
         void slotHelp();
         void slotSupport();
+        void slotUpdate();
+        void slotDownload();
 
         void slotToggleToolView();
+        void slotGetResponse(const QtSoapMessage &);
 
     private:
         friend class CDBus;
@@ -197,6 +201,9 @@ class CMainWindow : public QMainWindow
         bool crashed;
 
         QCheckBox * quadraticZoom;
+
+        QtSoapHttpTransport soapHttp;
+
 
 };
 

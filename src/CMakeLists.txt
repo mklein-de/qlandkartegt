@@ -613,6 +613,7 @@ include_directories(
   ${CMAKE_SOURCE_DIR}/3rdparty/QZip
   ${CMAKE_SOURCE_DIR}/3rdparty/QTextHtmlExporter
   ${CMAKE_SOURCE_DIR}/3rdparty/getopt
+  ${CMAKE_SOURCE_DIR}/3rdparty/qtsoap
   ${EXIF_INCLUDE_DIRS}
   ${DMTX_INCLUDE_DIRS}
   ${GPSD_INCLUDE_DIRS}
@@ -686,6 +687,7 @@ target_link_libraries(
       qzip
       qtexthtmlexporter
       getopt
+      qtsoap
   )
 
 install(

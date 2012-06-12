@@ -51,6 +51,7 @@
 #include "CGridDB.h"
 #include "CDlgSetupGrid.h"
 #include "CSettings.h"
+#include "version.h"
 
 #include <QtGui>
 #ifndef WIN32
@@ -643,6 +644,7 @@ void CMainWindow::setupMenuBar()
     menu->addAction(QIcon(":/icons/iconHelp16x16.png"),tr("http://Help"),this,SLOT(slotHelp()));
     menu->addAction(QIcon(":/icons/iconHelp16x16.png"),tr("http://Support"),this,SLOT(slotSupport()));
     menu->addSeparator();
+    slotUpdate();
     menu->addAction(QIcon(":/icons/iconGlobe16x16.png"),tr("About &QLandkarte GT"),this,SLOT(slotCopyright()));
 
 #endif
@@ -1518,6 +1520,39 @@ void CMainWindow::slotHelp()
 void CMainWindow::slotSupport()
 {
     QDesktopServices::openUrl(QUrl("http://www.qlandkarte.org/index.php?option=com_content&view=article&id=17&Itemid=19"));
+}
+
+void CMainWindow::slotDownload()
+{
+    QDesktopServices::openUrl(QUrl("http://www.qlandkarte.org/index.php?option=com_content&view=article&id=17&Itemid=19"));
+}
+
+void CMainWindow::slotUpdate()
+{
+    connect(&soapHttp, SIGNAL(responseReady(const QtSoapMessage &)),this, SLOT(slotGetResponse(const QtSoapMessage &)));
+
+    QtSoapMessage request;
+    request.setMethod(QtSoapQName("getlastversion", "urn:qlandkartegt"));
+    request.addMethodArgument("changelog", "", "0");
+    soapHttp.setHost("www.qlandkarte.org");
+    soapHttp.submitRequest(request, "/webservice/qlandkartegt.php");
+}
+
+void CMainWindow::slotGetResponse(const QtSoapMessage &message)
+{
+    if (message.isFault())
+    {
+        qDebug("Error: %s", qPrintable(message.faultString().toString()));
+    }
+    else
+    {
+        QString res = message.returnValue().toString();
+        if (res != VER_STR)
+        {
+            statusBar()->showMessage(tr("New version %1 available").arg(res),20000);
+            qDebug("Version is: %s", res.toLatin1().constData());
+        }
+    }
 }
 
 void CMainWindow::slotToggleToolView()
