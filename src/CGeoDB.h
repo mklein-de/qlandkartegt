@@ -116,6 +116,8 @@ class CGeoDB : public QWidget, private Ui::IGeoToolWidget
         /// create a real copy from item with own unique key
         void slotHardCopyItem();
 
+        void slotExportProject();
+
     private:
         friend class CGeoDBInternalEditLock;
         friend class CDlgSelGeoDBFolder;
@@ -249,6 +251,7 @@ class CGeoDB : public QWidget, private Ui::IGeoToolWidget
         QAction * actAddDiary;
         QAction * actShowDiary;
         QAction * actDelDiary;
+        QAction * actExportProject;
 
         QMenu * contextMenuItem;
         QAction * actMoveItem;

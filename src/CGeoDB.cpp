@@ -205,6 +205,7 @@ CGeoDB::CGeoDB(QTabWidget * tb, QWidget * parent)
     actDelDir           = contextMenuFolder->addAction(QPixmap(":/icons/iconDelete16x16.png"),tr("Delete"),this,SLOT(slotDelFolder()));
     actCopyDir          = contextMenuFolder->addAction(QPixmap(":/icons/editcopy.png"), tr("Copy"), this, SLOT(slotCopyFolder()));
     actMoveDir          = contextMenuFolder->addAction(QPixmap(":/icons/iconWptMove16x16.png"), tr("Move"), this, SLOT(slotMoveFolder()));
+    actExportProject    = contextMenuFolder->addAction(QPixmap(":/icons/iconFileExport16x16.png"), tr("Export"), this, SLOT(slotExportProject()));
 
     contextMenuItem     = new QMenu(this);
     actCopyItem         = contextMenuItem->addAction(QPixmap(":/icons/editcopy.png"), tr("Copy"), this, SLOT(slotCopyItems()));
@@ -2401,6 +2402,7 @@ void CGeoDB::slotContextMenuDatabase(const QPoint& pos)
             actAddDiary->setVisible(false);
             actShowDiary->setVisible(false);
             actDelDiary->setVisible(false);
+            actExportProject->setVisible(false);
 
             if(item == itemDatabase)
             {
@@ -2438,6 +2440,8 @@ void CGeoDB::slotContextMenuDatabase(const QPoint& pos)
 
                     actMoveDir->setVisible(true);
                     actCopyDir->setVisible(true);
+                    actExportProject->setVisible(true);
+
                 }
                 else
                 {
@@ -3528,3 +3532,15 @@ bool CGeoDB::setProjectDiaryData(quint64 id, CDiary& diary)
     return true;
 }
 
+void CGeoDB::slotExportProject()
+{
+    CGeoDBInternalEditLock lock(this);
+
+    QTreeWidgetItem * item = treeDatabase->currentItem();
+    int type        = item->data(eCoName, eUrType).toInt();
+
+    if(type != eFolder2) return;
+
+
+
+}
