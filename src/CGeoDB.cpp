@@ -43,6 +43,7 @@
 #include "CDlgEditFolder.h"
 
 #include "CQlb.h"
+#include "CSettings.h"
 
 #include <QtGui>
 #include <QSqlQuery>
@@ -3534,13 +3535,76 @@ bool CGeoDB::setProjectDiaryData(quint64 id, CDiary& diary)
 
 void CGeoDB::slotExportProject()
 {
-    CGeoDBInternalEditLock lock(this);
-
     QTreeWidgetItem * item = treeDatabase->currentItem();
-    int type        = item->data(eCoName, eUrType).toInt();
 
+    if(item)
+    {
+        exportProject(item,"");
+    }
+}
+
+void CGeoDB::exportProject(QTreeWidgetItem * item, const QString& prefix)
+{
+    CGeoDBInternalEditLock lock(this);
+    QSqlQuery query(db);
+
+    int type        = item->data(eCoName, eUrType).toInt();
     if(type != eFolder2) return;
 
+    query.prepare("SELECT t1.data, t1.type FROM items AS t1, folder2item AS t2 WHERE t2.parent=:parent AND t1.id = t2.child");
+    query.bindValue(":parent",  item->data(eCoName, eUrDBKey));
+    QUERY_EXEC(return);
+
+    quint32 progCnt = 0;
+    PROGRESS_SETUP(tr("Loading items from database."), query.size());
+
+    CQlb qlb(this);
+
+    while(query.next())
+    {
+        PROGRESS(progCnt++, break);
+
+        switch(query.value(1).toInt())
+        {
+            case eWpt:
+                qlb.waypoints() += query.value(0).toByteArray();
+                break;
+            case eTrk:
+                qlb.tracks() += query.value(0).toByteArray();
+                break;
+            case eRte:
+                qlb.routes() += query.value(0).toByteArray();
+                break;
+            case eOvl:
+                qlb.overlays() += query.value(0).toByteArray();
+                break;
+            case eMap:
+                qlb.mapsels() += query.value(0).toByteArray();
+                break;
+        }
+    }
+
+    QString name = item->text(eCoName);
+    QString comment = item->toolTip(eCoName);
+
+    if(!prefix.isEmpty())
+    {
+        name = prefix + "_" + name;
+    }
+
+    if(!comment.isEmpty())
+    {
+        name += "_" + comment;
+    }
+
+    SETTINGS;
+    QString path = cfg.value("path/data","./").toString();
+
+    QString filename = QFileDialog::getSaveFileName(this,tr("Export data to..."),path + "/" + name + ".qlb","QLandkarte Binary (*.qlb)");
+    if(filename.isEmpty()) return;
+
+    cfg.setValue("path/data", QFileInfo(filename).absolutePath());
+    qlb.save(filename);
 
 
 }

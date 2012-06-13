@@ -179,6 +179,8 @@ class CGeoDB : public QWidget, private Ui::IGeoToolWidget
         /// search treeWidget for items with id and update their content from database
         void updateItemById(quint64 id);
 
+        void exportProject(QTreeWidgetItem * item, const QString &prefix);
+
         enum EntryType_e {
             eWpt        = QTreeWidgetItem::UserType + 3,
             eTrk        = QTreeWidgetItem::UserType + 4,
@@ -191,7 +193,7 @@ class CGeoDB : public QWidget, private Ui::IGeoToolWidget
             eFolderT    = QTreeWidgetItem::UserType + 101,
             eFolder1    = QTreeWidgetItem::UserType + 102,
             eFolder2    = QTreeWidgetItem::UserType + 103,
-            eFolderN    = QTreeWidgetItem::UserType + 104,
+            eFolderN    = QTreeWidgetItem::UserType + 104
         };
 
         enum ColumnType_e {
