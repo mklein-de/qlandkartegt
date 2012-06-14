@@ -201,12 +201,13 @@ CGeoDB::CGeoDB(QTabWidget * tb, QWidget * parent)
     actEditDir          = contextMenuFolder->addAction(QPixmap(":/icons/iconEdit16x16.png"),tr("Edit"),this,SLOT(slotEditFolder()));
     actAddDiary         = contextMenuFolder->addAction(QPixmap(":/icons/iconDiary16x16.png"), tr("Add diary"), this, SLOT(slotAddDiary()));
     actShowDiary        = contextMenuFolder->addAction(QPixmap(":/icons/iconDiary16x16.png"), tr("Show/hide diary"), this, SLOT(slotShowDiary()));
-    actDelDiary         = contextMenuFolder->addAction(QPixmap(":/icons/iconDiaryDel16x16.png"), tr("Delete diary"), this, SLOT(slotDelDiary()));
+    actDelDiary         = contextMenuFolder->addAction(QPixmap(":/icons/iconDiaryDel16x16.png"), tr("Delete diary"), this, SLOT(slotDelDiary()));    
     actAddDir           = contextMenuFolder->addAction(QPixmap(":/icons/iconAdd16x16.png"),tr("New"),this,SLOT(slotAddFolder()));
+    actExportProject    = contextMenuFolder->addAction(QPixmap(":/icons/iconFileExport16x16.png"), tr("Export"), this, SLOT(slotExportProject()));
     actDelDir           = contextMenuFolder->addAction(QPixmap(":/icons/iconDelete16x16.png"),tr("Delete"),this,SLOT(slotDelFolder()));
     actCopyDir          = contextMenuFolder->addAction(QPixmap(":/icons/editcopy.png"), tr("Copy"), this, SLOT(slotCopyFolder()));
     actMoveDir          = contextMenuFolder->addAction(QPixmap(":/icons/iconWptMove16x16.png"), tr("Move"), this, SLOT(slotMoveFolder()));
-    actExportProject    = contextMenuFolder->addAction(QPixmap(":/icons/iconFileExport16x16.png"), tr("Export"), this, SLOT(slotExportProject()));
+
 
     contextMenuItem     = new QMenu(this);
     actCopyItem         = contextMenuItem->addAction(QPixmap(":/icons/editcopy.png"), tr("Copy"), this, SLOT(slotCopyItems()));
@@ -2416,6 +2417,7 @@ void CGeoDB::slotContextMenuDatabase(const QPoint& pos)
             {
                 actDelDir->setVisible(true);
                 actEditDir->setVisible(true);
+                actExportProject->setVisible(true);
 
                 if(item->data(eCoName, eUrType).toInt() == eFolder2)
                 {
@@ -2440,9 +2442,7 @@ void CGeoDB::slotContextMenuDatabase(const QPoint& pos)
                     }
 
                     actMoveDir->setVisible(true);
-                    actCopyDir->setVisible(true);
-                    actExportProject->setVisible(true);
-
+                    actCopyDir->setVisible(true);                    
                 }
                 else
                 {
@@ -3539,20 +3539,30 @@ void CGeoDB::slotExportProject()
 
     if(item)
     {
-        exportProject(item,"");
+        int type        = item->data(eCoName, eUrType).toInt();
+        if(type < eFolder1) return;
+
+        QString name    = item->text(eCoName);
+        QString comment = item->toolTip(eCoName);
+        quint64 key     = item->data(eCoName, eUrDBKey).toULongLong();
+
+        if(!comment.isEmpty())
+        {
+            name += "_" + comment;
+        }
+
+        exportProject(key,name,"");
     }
 }
 
-void CGeoDB::exportProject(QTreeWidgetItem * item, const QString& prefix)
+void CGeoDB::exportProject(quint64 key, const QString& name, const QString& prefix)
 {
+    QString tmpName = name;
     CGeoDBInternalEditLock lock(this);
     QSqlQuery query(db);
 
-    int type        = item->data(eCoName, eUrType).toInt();
-    if(type != eFolder2) return;
-
     query.prepare("SELECT t1.data, t1.type FROM items AS t1, folder2item AS t2 WHERE t2.parent=:parent AND t1.id = t2.child");
-    query.bindValue(":parent",  item->data(eCoName, eUrDBKey));
+    query.bindValue(":parent",  key);
     QUERY_EXEC(return);
 
     quint32 progCnt = 0;
@@ -3584,27 +3594,41 @@ void CGeoDB::exportProject(QTreeWidgetItem * item, const QString& prefix)
         }
     }
 
-    QString name = item->text(eCoName);
-    QString comment = item->toolTip(eCoName);
 
     if(!prefix.isEmpty())
     {
-        name = prefix + "_" + name;
+        tmpName = prefix + "_" + name;
     }
 
-    if(!comment.isEmpty())
-    {
-        name += "_" + comment;
-    }
 
     SETTINGS;
     QString path = cfg.value("path/data","./").toString();
 
-    QString filename = QFileDialog::getSaveFileName(this,tr("Export data to..."),path + "/" + name + ".qlb","QLandkarte Binary (*.qlb)");
+    QString filename = QFileDialog::getSaveFileName(this,tr("Export data to..."),path + "/" + tmpName + ".qlb","QLandkarte Binary (*.qlb)");
     if(filename.isEmpty()) return;
 
     cfg.setValue("path/data", QFileInfo(filename).absolutePath());
     qlb.save(filename);
 
+    query.prepare("SELECT t1.id, t1.type, t1.name, t1.comment FROM folders AS t1, folder2folder AS t2 WHERE t2.parent=:parent AND t1.id = t2.child");
+    query.bindValue(":parent",  key);
+    QUERY_EXEC(return);
 
+    while(query.next())
+    {
+        quint64 id       = query.value(0).toULongLong();
+        quint32 type     = query.value(1).toUInt();
+        QString name2    = query.value(2).toString();
+        QString comment2 = query.value(3).toString();
+
+        if(type < eFolder1) continue;
+
+        if(!comment2.isEmpty())
+        {
+            name2 += "_" + comment2;
+        }
+
+        exportProject(id, name2, tmpName);
+
+    }
 }

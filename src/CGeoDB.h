@@ -179,7 +179,7 @@ class CGeoDB : public QWidget, private Ui::IGeoToolWidget
         /// search treeWidget for items with id and update their content from database
         void updateItemById(quint64 id);
 
-        void exportProject(QTreeWidgetItem * item, const QString &prefix);
+        void exportProject(quint64 key, const QString &name, const QString &prefix);
 
         enum EntryType_e {
             eWpt        = QTreeWidgetItem::UserType + 3,
