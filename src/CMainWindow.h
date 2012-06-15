@@ -87,6 +87,7 @@ class CMainWindow : public QMainWindow
         void slotReloadArgs();
         void switchState();
         void slotLoadMapSet();
+        void slotLoadOnlineMapSet();
         void slotCopyright();
         void slotToolBoxChanged(int idx);
         void slotConfig();

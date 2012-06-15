@@ -352,7 +352,7 @@ quint32 CGarminPolygon::decode2(qint32 iCenterLon, qint32 iCenterLat, quint32 sh
         {
             qDebug() << "bam";
             qDebug() << xy.u << xy.v << pStart << pEnd << (pEnd - pStart) << (cnt + 1) << line;
-            assert(0);
+            //assert(0);
         }
 #ifdef DEBUG_SHOW_POLY_PTS
         qDebug() << xy.u << xy.v << (RAD_TO_DEG * xy.u) << (RAD_TO_DEG * xy.v);

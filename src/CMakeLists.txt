@@ -139,6 +139,7 @@ set(qlandkarte_SRCS
     CDlgDelWpt.cpp
     CDlgConvertToTrack.cpp
     CDlgEditRoute.cpp
+    CDlgLoadOnlineMap.cpp
     CDlgMapTDBConfig.cpp
     CDlgMapQMAPConfig.cpp
     CDlgMapJNXConfig.cpp
@@ -298,6 +299,7 @@ set(qlandkarte_HDRS
     CSearchToolWidget.h
     CDlgConfig.h
     CDlgEditWpt.h
+    CDlgLoadOnlineMap.h
     CDlgWptIcon.h
     CDlgEditMapLevel.h
     CDlgCombineTracks.h
@@ -424,6 +426,7 @@ SET(qlandkarte_UIS
     IDlgDelWpt.ui
     IDlgConvertToTrack.ui
     IDlgEditRoute.ui
+    IDlgLoadOnlineMap.ui
     IDlgMapTDBConfig.ui
     IDlgMapQMAPConfig.ui
     IDlgMapJNXConfig.ui

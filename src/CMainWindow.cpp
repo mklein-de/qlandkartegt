@@ -39,6 +39,7 @@
 #include "CMenus.h"
 #include "IDevice.h"
 #include "CDlgScreenshot.h"
+#include "CDlgLoadOnlineMap.h"
 #include "CUndoStack.h"
 #include "WptIcons.h"
 #include "CAppOpts.h"
@@ -558,6 +559,7 @@ void CMainWindow::setupMenuBar()
     menu = new QMenu(this);
     menu->setTitle(tr("&File"));
     menu->addAction(QIcon(":/icons/iconOpenMap16x16.png"),tr("Load Map"),this,SLOT(slotLoadMapSet()));
+    menu->addAction(QIcon(":/icons/iconOpenMap16x16.png"),tr("Load Online Map"),this,SLOT(slotLoadOnlineMapSet()));
     menu->addSeparator();
     menu->addAction(QIcon(":/icons/iconFileLoad16x16.png"),tr("Load Geo Data"),this,SLOT(slotLoadData()), Qt::CTRL + Qt::Key_L);
     menu->addAction(QIcon(":/icons/iconFileSave16x16.png"),tr("Save Geo Data"),this,SLOT(slotSaveData()), Qt::CTRL + Qt::Key_S);
@@ -693,6 +695,33 @@ void CMainWindow::slotLoadMapSet()
         , &filter
         , FILE_DIALOG_FLAGS
         );
+    if(filename.isEmpty()) return;
+
+    CResources::self().pathMaps = QFileInfo(filename).absolutePath();
+    CMapDB::self().openMap(filename, false, *canvas);
+
+    cfg.setValue("maps/filter",filter);
+}
+
+void CMainWindow::slotLoadOnlineMapSet()
+{
+    SETTINGS;
+    //disconnect(SIGNAL(responseReady(const QtSoapMessage &)),&soapHttp);
+    CDlgLoadOnlineMap *dialog = new CDlgLoadOnlineMap();
+    connect(&soapHttp, SIGNAL(responseReady(const QtSoapMessage &)),
+            dialog, SLOT(slotGetMapsResponse(const QtSoapMessage &)));
+
+    QtSoapMessage request;
+    request.setMethod(QtSoapQName("getwmsmaps", "urn:qlandkartegt"));
+    request.addMethodArgument("folder", "", "");
+    soapHttp.setHost("www.qlandkarte.org");
+    soapHttp.submitRequest(request, "/webservice/qlandkartegt.php");
+
+    QString filter   = cfg.value("maps/filter","").toString();
+    dialog->exec();
+
+    QString filename = dialog->selectedfile;
+
     if(filename.isEmpty()) return;
 
     CResources::self().pathMaps = QFileInfo(filename).absolutePath();
@@ -1546,6 +1575,7 @@ void CMainWindow::slotGetResponse(const QtSoapMessage &message)
     }
     else
     {
+        //qDebug("message : %s",qPrintable(message.toXmlString(1)));
         QString res = message.returnValue().toString();
         if (res != VER_STR)
         {
