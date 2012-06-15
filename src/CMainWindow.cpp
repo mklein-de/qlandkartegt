@@ -1577,7 +1577,8 @@ void CMainWindow::slotGetResponse(const QtSoapMessage &message)
     {
         //qDebug("message : %s",qPrintable(message.toXmlString(1)));
         QString res = message.returnValue().toString();
-        if (res != VER_STR)
+        res = res.simplified();
+        if (!res.isEmpty() && res != VER_STR)
         {
             statusBar()->showMessage(tr("New version %1 available").arg(res),20000);
             qDebug("Version is: %s", res.toLatin1().constData());
