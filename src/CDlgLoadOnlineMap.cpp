@@ -84,10 +84,12 @@ void CDlgLoadOnlineMap::slotGetMapsResponse(const QtSoapMessage &message)
         const QtSoapType &array = message.returnValue();
         QStringList list;
         QListWidgetItem *item;
-        for (int i = 0; i < array.count(); ++i) {
+        for (int i = 0; i < array.count(); ++i)
+        {
                 const QtSoapType &map = array[i];
                 QString mapName(map["name"].toString().trimmed());
-                if (mapName.contains(QRegExp(".xml"))) {
+                if (mapName.contains(QRegExp(".xml")))
+                {
                     mapName = mapName.replace(QRegExp(".xml"),"");
                     mapName = mapName.replace(QRegExp("_")," ");
                     item = new QListWidgetItem(QIcon(":/icons/iconWMS22x22.png"),mapName);
@@ -101,20 +103,23 @@ void CDlgLoadOnlineMap::slotGetMapsResponse(const QtSoapMessage &message)
 
 CDlgLoadOnlineMap::~CDlgLoadOnlineMap()
 {
-
+    QApplication::restoreOverrideCursor();
 }
 
 
 void CDlgLoadOnlineMap::accept()
 {
+    QApplication::setOverrideCursor(Qt::WaitCursor);
     QList<QListWidgetItem *> items = mapList->selectedItems();
-    for (int i=0; i < items.count();i++) {
+    for (int i=0; i < items.count();i++)
+    {
         QListWidgetItem *item = items.at(i);
         QtSoapMessage request;
         request.setMethod(QtSoapQName("getwmslink", "urn:qlandkartegt"));
         request.addMethodArgument("link", "", item->data(Qt::UserRole).toString());
         soapHttp.setHost("www.qlandkarte.org");
         soapHttp.submitRequest(request, "/webservice/qlandkartegt.php");
+        selectedfile.prepend(tempDir.absolutePath()+"/");
         selectedfile = item->text() + ".xml";
         qDebug("Call Webservice Url %s",qPrintable(item->data(Qt::UserRole).toString()));
     }
@@ -123,7 +128,8 @@ void CDlgLoadOnlineMap::accept()
 bool CDlgLoadOnlineMap::saveToDisk(const QString &filename, QString data)
 {
     QFile file(filename);
-    if (!file.open(QIODevice::WriteOnly)) {
+    if (!file.open(QIODevice::WriteOnly))
+    {
         fprintf(stderr, "Could not open %s for writing: %s\n",
                 qPrintable(filename),
                 qPrintable(file.errorString()));
@@ -144,8 +150,9 @@ void CDlgLoadOnlineMap::slotGetDownloadLink(const QtSoapMessage &message)
     data.replace(QRegExp("&lt;"), "<");
     data.replace(QRegExp("&gt;"), ">");
     data.replace(QRegExp("&quot;"), "\"");
-    selectedfile.prepend(tempDir.absolutePath());
+
     qDebug("Write result to file %s",qPrintable(selectedfile));
     saveToDisk(selectedfile,data);
     QDialog::accept();
+    QApplication::restoreOverrideCursor();
 }
