@@ -407,6 +407,7 @@ CMainWindow::CMainWindow()
     connect(&CTrackDB::self(), SIGNAL(sigChanged()), canvas, SLOT(slotTrackChanged()));
 
 
+    connect(&soapHttp, SIGNAL(responseReady(const QtSoapMessage &)),this, SLOT(slotGetResponse(const QtSoapMessage &)));
 }
 
 
@@ -705,18 +706,7 @@ void CMainWindow::slotLoadMapSet()
 
 void CMainWindow::slotLoadOnlineMapSet()
 {
-    SETTINGS;
-    //disconnect(SIGNAL(responseReady(const QtSoapMessage &)),&soapHttp);
     CDlgLoadOnlineMap dlg;
-    connect(&soapHttp, SIGNAL(responseReady(const QtSoapMessage &)), &dlg, SLOT(slotGetMapsResponse(const QtSoapMessage &)));
-
-    QtSoapMessage request;
-    request.setMethod(QtSoapQName("getwmsmaps", "urn:qlandkartegt"));
-    request.addMethodArgument("folder", "", "");
-    soapHttp.setHost("www.qlandkarte.org");
-    soapHttp.submitRequest(request, "/webservice/qlandkartegt.php");
-
-    QString filter   = cfg.value("maps/filter","").toString();
     dlg.exec();
 
     QString filename = dlg.selectedfile;
@@ -725,8 +715,6 @@ void CMainWindow::slotLoadOnlineMapSet()
 
     CResources::self().pathMaps = QFileInfo(filename).absolutePath();
     CMapDB::self().openMap(filename, false, *canvas);
-
-    cfg.setValue("maps/filter",filter);
 }
 
 
@@ -1557,8 +1545,6 @@ void CMainWindow::slotDownload()
 
 void CMainWindow::slotUpdate()
 {
-    connect(&soapHttp, SIGNAL(responseReady(const QtSoapMessage &)),this, SLOT(slotGetResponse(const QtSoapMessage &)));
-
     QtSoapMessage request;
     request.setMethod(QtSoapQName("getlastversion", "urn:qlandkartegt"));
     request.addMethodArgument("changelog", "", "0");
@@ -1579,7 +1565,7 @@ void CMainWindow::slotGetResponse(const QtSoapMessage &message)
         res = res.simplified();
         if (!res.isEmpty() && res != VER_STR)
         {
-            statusBar()->showMessage(tr("New version %1 available").arg(res),20000);
+            statusBar()->showMessage(tr("New QLandkarte GT %1 available").arg(res),0);
             qDebug("Version is: %s", res.toLatin1().constData());
         }
     }

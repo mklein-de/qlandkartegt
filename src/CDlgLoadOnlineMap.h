@@ -35,10 +35,10 @@ class CDlgLoadOnlineMap : public QDialog, private Ui::IDlgLoadOnlineMap
         virtual ~CDlgLoadOnlineMap();
         QString selectedfile;
 
+
     public slots:
         void accept();
-        void slotGetMapsResponse(const QtSoapMessage &);
-        void slotGetDownloadLink(const QtSoapMessage &message);
+        void slotWebServiceResponse(const QtSoapMessage &message);
 
 
     private:
@@ -46,5 +46,6 @@ class CDlgLoadOnlineMap : public QDialog, private Ui::IDlgLoadOnlineMap
         QDir tempDir;
         QtSoapHttpTransport soapHttp;
         bool saveToDisk(const QString &filename, QString data);
+        void getMapList();
 };
 #endif

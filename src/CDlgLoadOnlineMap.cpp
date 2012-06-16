@@ -67,38 +67,22 @@ CDlgLoadOnlineMap::CDlgLoadOnlineMap()
 #endif
     tempDir.mkpath(tempDir.path());
 
-    connect(&soapHttp, SIGNAL(responseReady(const QtSoapMessage &)),this, SLOT(slotGetDownloadLink(const QtSoapMessage &)));
+    connect(&soapHttp, SIGNAL(responseReady(const QtSoapMessage &)),this, SLOT(slotWebServiceResponse(const QtSoapMessage &)));
     connect(this, SIGNAL(accepted()), SLOT(deleteLater()));
     connect(this, SIGNAL(rejected()), SLOT(deleteLater()));
+
+    QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
+    getMapList();
 }
 
 
-void CDlgLoadOnlineMap::slotGetMapsResponse(const QtSoapMessage &message)
+void CDlgLoadOnlineMap::getMapList()
 {
-    if (message.isFault())
-    {
-        qDebug("Error: %s", qPrintable(message.faultString().toString()));
-    }
-    else
-    {
-        const QtSoapType &array = message.returnValue();
-        QStringList list;
-        QListWidgetItem *item;
-        for (int i = 0; i < array.count(); ++i)
-        {
-                const QtSoapType &map = array[i];
-                QString mapName(map["name"].toString().trimmed());
-                if (mapName.contains(QRegExp(".xml")))
-                {
-                    mapName = mapName.replace(QRegExp(".xml"),"");
-                    mapName = mapName.replace(QRegExp("_")," ");
-                    item = new QListWidgetItem(QIcon(":/icons/iconWMS22x22.png"),mapName);
-                    item->setData(Qt::UserRole,QUrl(map["link"].toString()));
-                    mapList->addItem(item);
-                }
-        }
-        mapList->sortItems();
-    }
+    QtSoapMessage request;
+    request.setMethod(QtSoapQName("getwmsmaps", "urn:qlandkartegt"));
+    request.addMethodArgument("folder", "", "");
+    soapHttp.setHost("www.qlandkarte.org");
+    soapHttp.submitRequest(request, "/webservice/qlandkartegt.php");
 }
 
 CDlgLoadOnlineMap::~CDlgLoadOnlineMap()
@@ -142,17 +126,48 @@ bool CDlgLoadOnlineMap::saveToDisk(const QString &filename, QString data)
     return true;
 }
 
-void CDlgLoadOnlineMap::slotGetDownloadLink(const QtSoapMessage &message)
+void CDlgLoadOnlineMap::slotWebServiceResponse(const QtSoapMessage &message)
 {
-    //qDebug("Event Download link triggered %s",qPrintable(message.returnValue().toString()));
-    QString data(message.returnValue().toString());
-    //data.replace(QRegExp("&amp;"), "&"); // This _must_ come first
-    data.replace(QRegExp("&lt;"), "<");
-    data.replace(QRegExp("&gt;"), ">");
-    data.replace(QRegExp("&quot;"), "\"");
+    qDebug("Methode name response %s",qPrintable(message.method().name().name()));
+    QString method(message.method().name().name());
+    if (message.isFault())
+    {
+        qDebug("Error: %s", qPrintable(message.faultString().toString()));
+    }
+    else
+    {
+        if (method == "getwmsmapsResponse") {
+                const QtSoapType &array = message.returnValue();
+                QListWidgetItem *item;
+                for (int i = 0; i < array.count(); ++i) {
+                        const QtSoapType &map = array[i];
+                        QString mapName(map["name"].toString().trimmed());
+                        if (mapName.contains(QRegExp(".xml"))) {
+                            mapName = mapName.replace(QRegExp(".xml"),"");
+                            mapName = mapName.replace(QRegExp("_")," ");
+                            item = new QListWidgetItem(QIcon(":/icons/iconWMS22x22.png"),mapName);
+                            item->setData(Qt::UserRole,QUrl(map["link"].toString()));
+                            mapList->addItem(item);
+                        }
+                }
+                mapList->sortItems();
+        }
 
-    qDebug("Write result to file %s",qPrintable(selectedfile));
-    saveToDisk(selectedfile,data);
-    QDialog::accept();
+        if (method == "getwmslinkResponse") {
+            //qDebug("Event Download link triggered %s",qPrintable(message.returnValue().toString()));
+            QString data(message.returnValue().toString());
+            //data.replace(QRegExp("&amp;"), "&"); // This _must_ come first
+            data.replace(QRegExp("&lt;"), "<");
+            data.replace(QRegExp("&gt;"), ">");
+            data.replace(QRegExp("&quot;"), "\"");
+
+            qDebug("Write result to file %s",qPrintable(selectedfile));
+            saveToDisk(selectedfile,data);
+            QDialog::accept();
+        }
+
+        if (method == "getlastversionResponse") {
+        }
+    }
     QApplication::restoreOverrideCursor();
 }
