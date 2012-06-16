@@ -708,7 +708,7 @@ void CMainWindow::slotLoadOnlineMapSet()
     SETTINGS;
     //disconnect(SIGNAL(responseReady(const QtSoapMessage &)),&soapHttp);
     CDlgLoadOnlineMap dlg;
-    connect(&soapHttp, SIGNAL(responseReady(const QtSoapMessage &)), dialog, SLOT(slotGetMapsResponse(const QtSoapMessage &)));
+    connect(&soapHttp, SIGNAL(responseReady(const QtSoapMessage &)), &dlg, SLOT(slotGetMapsResponse(const QtSoapMessage &)));
 
     QtSoapMessage request;
     request.setMethod(QtSoapQName("getwmsmaps", "urn:qlandkartegt"));
@@ -719,7 +719,7 @@ void CMainWindow::slotLoadOnlineMapSet()
     QString filter   = cfg.value("maps/filter","").toString();
     dlg.exec();
 
-    QString filename = dialog->selectedfile;
+    QString filename = dlg.selectedfile;
 
     if(filename.isEmpty()) return;
 
