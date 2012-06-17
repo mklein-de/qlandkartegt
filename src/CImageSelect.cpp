@@ -73,9 +73,10 @@ void CImageSelect::setTransparent(bool yes)
         images << img_t(tr("turn right @x-ing") , "21t.png", ":/pics/roadbook/21t.png");
         images << img_t(tr("turn left @x-ing")  , "22t.png", ":/pics/roadbook/22t.png");
         images << img_t(tr("straight on")       , "23t.png", ":/pics/roadbook/23t.png");
-        images << img_t(tr("u-turn right")      , "25t.png", ":/pics/roadbook/25t.png");
-        images << img_t(tr("u-turn left")       , "26t.png", ":/pics/roadbook/26t.png");
-        images << img_t(tr("river")             , "27t.png", ":/pics/roadbook/27t.png");
+        images << img_t(tr("u-turn right")      , "24t.png", ":/pics/roadbook/24t.png");
+        images << img_t(tr("u-turn left")       , "25t.png", ":/pics/roadbook/25t.png");
+        images << img_t(tr("river")             , "26t.png", ":/pics/roadbook/26t.png");
+        images << img_t(tr("attention")         , "27t.jpg", ":/pics/roadbook/27t.png");
 
     }
     else
