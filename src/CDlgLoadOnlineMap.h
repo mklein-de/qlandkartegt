@@ -39,7 +39,7 @@ class CDlgLoadOnlineMap : public QDialog, private Ui::IDlgLoadOnlineMap
     public slots:
         void accept();
         void slotWebServiceResponse(const QtSoapMessage &message);
-
+        void slotTargetPath();
 
     private:
         static const QString text;
@@ -49,3 +49,4 @@ class CDlgLoadOnlineMap : public QDialog, private Ui::IDlgLoadOnlineMap
         void getMapList();
 };
 #endif
+

@@ -18,6 +18,7 @@
 **********************************************************************************************/
 
 #include "CDlgLoadOnlineMap.h"
+#include "CSettings.h"
 
 #include <QtGui>
 #include <QtNetwork>
@@ -67,9 +68,18 @@ CDlgLoadOnlineMap::CDlgLoadOnlineMap()
 #endif
     tempDir.mkpath(tempDir.path());
 
+    SETTINGS;
+    QString wmsPath     = cfg.value("wmsMaps/path","").toString();
+    if (!wmsPath.isEmpty())
+    {
+        tempDir.setPath(wmsPath);
+    }
+    wmsTargetPath->setText(tempDir.absolutePath());
+
     connect(&soapHttp, SIGNAL(responseReady(const QtSoapMessage &)),this, SLOT(slotWebServiceResponse(const QtSoapMessage &)));
     connect(this, SIGNAL(accepted()), SLOT(deleteLater()));
     connect(this, SIGNAL(rejected()), SLOT(deleteLater()));
+    connect(wmsButtonPath, SIGNAL(clicked()),this,SLOT(slotTargetPath()));
 
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
     getMapList();
@@ -136,13 +146,16 @@ void CDlgLoadOnlineMap::slotWebServiceResponse(const QtSoapMessage &message)
     }
     else
     {
-        if (method == "getwmsmapsResponse") {
+        if (method == "getwmsmapsResponse")
+        {
                 const QtSoapType &array = message.returnValue();
                 QListWidgetItem *item;
-                for (int i = 0; i < array.count(); ++i) {
+                for (int i = 0; i < array.count(); ++i)
+                {
                         const QtSoapType &map = array[i];
                         QString mapName(map["name"].toString().trimmed());
-                        if (mapName.contains(QRegExp(".xml"))) {
+                        if (mapName.contains(QRegExp(".xml")))
+                        {
                             mapName = mapName.replace(QRegExp(".xml"),"");
                             mapName = mapName.replace(QRegExp("_")," ");
                             item = new QListWidgetItem(QIcon(":/icons/iconWMS22x22.png"),mapName);
@@ -153,7 +166,8 @@ void CDlgLoadOnlineMap::slotWebServiceResponse(const QtSoapMessage &message)
                 mapList->sortItems();
         }
 
-        if (method == "getwmslinkResponse") {
+        if (method == "getwmslinkResponse")
+        {
             //qDebug("Event Download link triggered %s",qPrintable(message.returnValue().toString()));
             QString data(message.returnValue().toString());
             //data.replace(QRegExp("&amp;"), "&"); // This _must_ come first
@@ -166,8 +180,22 @@ void CDlgLoadOnlineMap::slotWebServiceResponse(const QtSoapMessage &message)
             QDialog::accept();
         }
 
-        if (method == "getlastversionResponse") {
+        if (method == "getlastversionResponse")
+        {
+
         }
     }
     QApplication::restoreOverrideCursor();
+}
+
+void CDlgLoadOnlineMap::slotTargetPath()
+{
+    QString path = QFileDialog::getExistingDirectory(this, tr("Open Directory"), tempDir.absolutePath(), QFileDialog::ShowDirsOnly);
+    if(!path.isEmpty())
+    {
+        tempDir.setPath(path);
+        wmsTargetPath->setText(tempDir.absolutePath());
+        SETTINGS;
+        cfg.setValue("wmsMaps/path",path);
+    }
 }
