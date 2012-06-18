@@ -74,6 +74,7 @@ CDlgLoadOnlineMap::CDlgLoadOnlineMap()
     {
         tempDir.setPath(wmsPath);
     }
+
     wmsTargetPath->setText(tempDir.absolutePath());
 
     connect(&soapHttp, SIGNAL(responseReady(const QtSoapMessage &)),this, SLOT(slotWebServiceResponse(const QtSoapMessage &)));
@@ -113,8 +114,9 @@ void CDlgLoadOnlineMap::accept()
         request.addMethodArgument("link", "", item->data(Qt::UserRole).toString());
         soapHttp.setHost("www.qlandkarte.org");
         soapHttp.submitRequest(request, "/webservice/qlandkartegt.php");
-        selectedfile.prepend(tempDir.absolutePath()+"/");
-        selectedfile = item->text() + ".xml";
+        selectedfile = "";
+        selectedfile = selectedfile.prepend(tempDir.absolutePath()+"/");
+        selectedfile += item->text() + ".xml";
         qDebug("Call Webservice Url %s",qPrintable(item->data(Qt::UserRole).toString()));
     }
 }
