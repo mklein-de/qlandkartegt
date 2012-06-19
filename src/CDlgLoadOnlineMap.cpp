@@ -78,8 +78,6 @@ CDlgLoadOnlineMap::CDlgLoadOnlineMap()
     wmsTargetPath->setText(tempDir.absolutePath());
 
     connect(&soapHttp, SIGNAL(responseReady(const QtSoapMessage &)),this, SLOT(slotWebServiceResponse(const QtSoapMessage &)));
-    connect(this, SIGNAL(accepted()), SLOT(deleteLater()));
-    connect(this, SIGNAL(rejected()), SLOT(deleteLater()));
     connect(wmsButtonPath, SIGNAL(clicked()),this,SLOT(slotTargetPath()));
 
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
