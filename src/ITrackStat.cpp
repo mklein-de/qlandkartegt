@@ -48,7 +48,6 @@ ITrackStat::ITrackStat(type_e type, QWidget * parent)
     }
     layout()->addWidget(plot);
     QObject::connect(plot, SIGNAL(sigActivePoint(double)), this, SLOT(slotActivePoint(double)));
-    QObject::connect(plot, SIGNAL(sigFocusPoint(double)), this, SLOT(slotFocusPoint(double)));
     QObject::connect(plot, SIGNAL(sigSetWaypoint(double)), this, SLOT(slotSetWaypoint(double)));
 
 }
@@ -90,39 +89,6 @@ void ITrackStat::slotActivePoint(double dist)
     }
 }
 
-void ITrackStat::slotFocusPoint(double dist)
-{
-    if(plot == 0) return;
-    plot->setSelTrackPoint(0);
-
-    if(track.isNull()) return;
-    QList<CTrack::pt_t>& trkpts = track->getTrackPoints();
-    QList<CTrack::pt_t>::iterator trkpt = trkpts.begin();
-    quint32 idx = 0;
-    while(trkpt != trkpts.end())
-    {
-        if(trkpt->flags & CTrack::pt_t::eDeleted)
-        {
-            ++trkpt; continue;
-        }
-
-        if(type == eOverDistance && dist < trkpt->distance)
-        {
-            plot->setSelTrackPoint(&(*trkpt));
-            emit sigFocus(idx);
-            break;
-        }
-        if(type == eOverTime && dist < trkpt->timestamp)
-        {
-            plot->setSelTrackPoint(&(*trkpt));
-            emit sigFocus(idx);
-            break;
-        }
-        idx = trkpt->idx;
-
-        ++trkpt;
-    }
-}
 
 void ITrackStat::slotSetWaypoint(double dist)
 {

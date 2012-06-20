@@ -64,6 +64,8 @@ CPlot::CPlot(CPlotData::axis_type_e type, mode_e mode, QWidget * parent)
 
     m_pData = new CPlotData(type, this);
     createActions();
+
+    connect(&CTrackDB::self(), SIGNAL(sigPointOfFocus(int)), this, SLOT(slotPointOfFocus(int)));
 }
 
 
@@ -360,6 +362,7 @@ void CPlot::draw(QPainter& p)
 
     p.drawImage(0,0,buffer);
 
+    // draw track information for point under mouse
     int x = posMouse.x();
     if(x != -1)
     {
@@ -368,7 +371,7 @@ void CPlot::draw(QPainter& p)
         p.drawLine(x, rectGraphArea.top(), x, rectGraphArea.bottom());
 
         CTrack * track = CTrackDB::self().highlightedTrack();
-        if(selTrkPt && track)
+        if(selTrkPt && track && (mode != eIcon))
         {
             QString str = track->getTrkPtInfo(*selTrkPt);
 
@@ -376,6 +379,7 @@ void CPlot::draw(QPainter& p)
             y = m_pData->y().val2pt(y);
             y = bottom - y;
 
+            // highlight track point
             p.setPen(CCanvas::penBorderBlue);
             p.setBrush(CCanvas::brushBackWhite);
             p.drawEllipse(QRect(x - 5,  y - 5, 11, 11));
@@ -1060,7 +1064,15 @@ void CPlot::mouseMoveEvent(QMouseEvent * e)
 
         posMouse = e->pos();
 
-        emit sigFocusPoint(x);
+        selTrkPt = 0;
+        if(m_pData->axisType == CPlotData::eLinear)
+        {
+            CTrackDB::self().setPointOfFocusByDist(x);
+        }
+        else
+        {
+            CTrackDB::self().setPointOfFocusByTime((quint32)x);
+        }
     }
     update();
 }
@@ -1136,11 +1148,46 @@ void CPlot::slotTrkPt(CTrack::pt_t * pt)
     }
     else
     {
-        int x       = m_pData->x().val2pt(pt->distance);
-        int y       = m_pData->y().val2pt(pt->altitude);
-        posMouse    = QPoint(x + left, y);
+        if(m_pData->axisType == CPlotData::eLinear)
+        {
+            int x       = m_pData->x().val2pt(pt->distance);
+            int y       = m_pData->y().val2pt(pt->altitude);
+            posMouse    = QPoint(x + left, y);
+        }
+        else
+        {
+            int x       = m_pData->x().val2pt(pt->timestamp);
+            int y       = m_pData->y().val2pt(pt->distance);
+            posMouse    = QPoint(x + left, y);
+        }
     }
     needsRedraw = true;
     update();
+}
+
+void CPlot::slotPointOfFocus(const int idx)
+{
+    selTrkPt = 0;
+
+    CTrack * track = CTrackDB::self().highlightedTrack();
+    if(track == 0)
+    {
+        return;
+    }
+
+    QList<CTrack::pt_t>& trkpts = track->getTrackPoints();
+    if(idx < trkpts.size())
+    {
+        if(idx < 0)
+        {
+            slotTrkPt(0);
+        }
+        else
+        {
+            selTrkPt = &trkpts[idx];
+            slotTrkPt(selTrkPt);
+        }
+
+    }
 }
 

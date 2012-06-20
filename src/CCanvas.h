@@ -74,6 +74,8 @@ class CCanvas : public QWidget
         CCanvas(QWidget * parent);
         virtual ~CCanvas();
 
+        void setupDelayed();
+
         enum mouse_mode_e
         {
             eMouseZoomArea       ///< use mouse to define a zoom area
@@ -140,7 +142,7 @@ class CCanvas : public QWidget
         void slotCopyPosition();
         void slotHighlightTrack(CTrack * track);
         void slotTrackChanged();
-        void slotFocusTrackPoint(double dist);
+        void slotPointOfFocus(const int idx);
         void slotFadingMessage();
 
     protected:

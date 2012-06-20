@@ -60,15 +60,15 @@ class CPlot : public QWidget
 
     signals:
         void sigActivePoint(double dist);
-        void sigFocusPoint(double dist);
         void sigSetWaypoint(double dist);
         void sigClicked();
 
-    public slots:
-        void slotTrkPt(CTrack::pt_t * pt);
+    public slots:        
+        void slotPointOfFocus(const int idx);
 
 
     protected slots:
+        void slotTrkPt(CTrack::pt_t * pt);
         void slotSave();
         void slotAddWpt();
 

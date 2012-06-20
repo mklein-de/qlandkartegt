@@ -37,9 +37,6 @@ class ITrackStat : public QWidget, private Ui::ITrackStatWidget
         ITrackStat(type_e type, QWidget * paren);
         virtual ~ITrackStat();
 
-    signals:
-        void sigFocus(quint32 idx);
-
     protected:
 
         type_e type;
@@ -47,7 +44,6 @@ class ITrackStat : public QWidget, private Ui::ITrackStatWidget
         QPointer<CTrack> track;
     protected slots:
         void slotActivePoint(double x);
-        void slotFocusPoint(double x);
         void slotSetWaypoint(double dist);
 };
 #endif                           //ITRACKSTAT_H

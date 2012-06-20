@@ -76,6 +76,7 @@ CCanvas::CCanvas(QWidget * parent)
 : QWidget(parent)
 , mouse(0)
 , info(0)
+, profile(0)
 , contextMenuActive(false)
 {
     setMouseTracking(true);
@@ -97,23 +98,24 @@ CCanvas::CCanvas(QWidget * parent)
     mouseColorPicker = new CMouseColorPicker(this);
     mouseSelWpt     = new CMouseSelWpt(this);
 
-    profile = new CPlot(CPlotData::eLinear, CPlot::eIcon, this);
-    profile->resize(300,120);
-    profile->hide();
-
-    connect(profile, SIGNAL(sigFocusPoint(double)), this, SLOT(slotFocusTrackPoint(double)));
-    connect(mouseMoveMap, SIGNAL(sigTrkPt(CTrack::pt_t*)), profile, SLOT(slotTrkPt(CTrack::pt_t*)));
-
     timerFadingMessage = new QTimer(this);
     timerFadingMessage->setSingleShot(true);
     connect(timerFadingMessage, SIGNAL(timeout()), this, SLOT(slotFadingMessage()));
 }
 
-
 CCanvas::~CCanvas()
 {
 }
 
+
+void CCanvas::setupDelayed()
+{
+    profile = new CPlot(CPlotData::eLinear, CPlot::eIcon, this);
+    profile->resize(300,120);
+    profile->hide();
+
+    connect(&CTrackDB::self(), SIGNAL(sigPointOfFocus(int)), this, SLOT(slotPointOfFocus(int)));
+}
 
 QColor CCanvas::getSelectedColor()
 {
@@ -825,20 +827,24 @@ void CCanvas::slotTrackChanged()
     slotHighlightTrack(trk);
 }
 
-void CCanvas::slotFocusTrackPoint(double dist)
+void CCanvas::slotPointOfFocus(const int idx)
 {
-    CTrack * trk = CTrackDB::self().highlightedTrack();
-    if(trk == 0)
-    {
-        return;
-    }
-    CTrack::pt_t * pt = trk->getPointOfFocus(dist);
-    if(pt == 0)
+    CTrack * track = CTrackDB::self().highlightedTrack();
+    if(track == 0)
     {
         return;
     }
 
-    mouseMoveMap->setSelTrackPt(pt);
+    QList<CTrack::pt_t>& trkpts = track->getTrackPoints();
+    if(idx < trkpts.size())
+    {
+        if(idx < 0)
+        {
+            return;
+        }
+        mouseMoveMap->setSelTrackPt(&trkpts[idx]);
+
+    }
 }
 
 void CCanvas::slotHighlightTrack(CTrack * track)

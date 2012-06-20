@@ -107,8 +107,17 @@ class CTrackDB : public IDB
 
         bool contains(const QString& key){return tracks.contains(key);}
 
-        signals:
+        // set the point of focus to the point closest to distance
+        void setPointOfFocusByDist(double distance);
+        // set the point of focus to the point closest to timestamp
+        void setPointOfFocusByTime(quint32 timestamp);
+        // set the point of focus to the point passed
+        void setPointOfFocusByIdx(qint32 idx);
+
+    signals:
         void sigHighlightTrack(CTrack * track);
+        /// the index into the current track
+        void sigPointOfFocus(const int idx);
 
     private:
 

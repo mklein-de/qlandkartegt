@@ -636,10 +636,16 @@ void IMouse::mouseMoveEventTrack(QMouseEvent * e)
 
     if(oldTrackPt != selTrkPt)
     {
+        if(selTrkPt != 0)
+        {
+            CTrackDB::self().setPointOfFocusByIdx(selTrkPt->idx);
+        }
+        else
+        {
+            CTrackDB::self().setPointOfFocusByIdx(-1);
+        }
         canvas->update();
-        emit sigTrkPt(selTrkPt);
     }
-
 }
 
 void IMouse::mouseMoveEventRoute(QMouseEvent * e)

@@ -76,7 +76,6 @@ CMainWindow::CMainWindow()
     setupMenu = 0;
     setObjectName("MainWidget");
     setWindowTitle("QLandkarte GT");
-//    setWindowIcon(QIcon(":/icons/iconGlobe16x16.png"));
     setAcceptDrops(true);
 
     initWptIcons();
@@ -209,17 +208,12 @@ CMainWindow::CMainWindow()
 #ifdef HAS_DBUS
     actionGroupProvider->addAction(CMenus::MainMoreMenu, "aOcm");
 #endif
-
-
-
     actionGroupProvider->addAction(CMenus::RouteMenu, "aSwitchToMain");
     actionGroupProvider->addAction(CMenus::RouteMenu, "aMoveArea");
     actionGroupProvider->addAction(CMenus::RouteMenu, "aZoomArea");
     actionGroupProvider->addAction(CMenus::RouteMenu, "aCenterMap");
     actionGroupProvider->addAction(CMenus::RouteMenu, "aUploadRoute");
     actionGroupProvider->addAction(CMenus::RouteMenu, "aDownloadRoute");
-
-
 
     connect(actionGroupProvider, SIGNAL(stateChanged()),megaMenu , SLOT(switchState()));
 
@@ -236,7 +230,6 @@ CMainWindow::CMainWindow()
     summary->setAlignment(Qt::AlignJustify|Qt::AlignTop);
     //
     ltmp->addWidget(summary);
-
     ltmp->addWidget(new QLabel(tr("<b>GPS Device:</b>"), wtmp));
 
     comboDevice = new QComboBox(wtmp);
@@ -284,6 +277,8 @@ CMainWindow::CMainWindow()
         geodb       = new CGeoDB(tabbar, this);
     }
 
+    canvas->setupDelayed();
+
     connect(searchdb, SIGNAL(sigChanged()), canvas, SLOT(update()));
     connect(wptdb, SIGNAL(sigChanged()), canvas, SLOT(update()));
     connect(trackdb, SIGNAL(sigChanged()), canvas, SLOT(update()));
@@ -299,7 +294,6 @@ CMainWindow::CMainWindow()
     connect(diarydb, SIGNAL(sigModified()), this, SLOT(slotModified()));
     connect(overlaydb, SIGNAL(sigModified()), this, SLOT(slotModified()));
     connect(routedb, SIGNAL(sigModified()), this, SLOT(slotModified()));
-
 
     if(geodb)
     {
@@ -405,8 +399,6 @@ CMainWindow::CMainWindow()
 
     connect(&CTrackDB::self(), SIGNAL(sigHighlightTrack(CTrack *)), canvas, SLOT(slotHighlightTrack(CTrack*)));
     connect(&CTrackDB::self(), SIGNAL(sigChanged()), canvas, SLOT(slotTrackChanged()));
-
-
     connect(&soapHttp, SIGNAL(responseReady(const QtSoapMessage &)),this, SLOT(slotGetResponse(const QtSoapMessage &)));
 }
 

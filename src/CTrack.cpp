@@ -1177,7 +1177,6 @@ QString CTrack::getTrkPtInfo(pt_t& trkpt)
     }
 
 
-
     //-----------------------------------------------------------------------------------------------------------
     //TODO: HOVERTEXT FOR EXTENSIONS
 #ifdef GPX_EXTENSIONS

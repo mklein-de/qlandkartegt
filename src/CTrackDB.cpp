@@ -1376,3 +1376,73 @@ void CTrackDB::makeVisible(const QStringList& keys)
         highlightTrack(keys[0]);
     }
 }
+
+
+void CTrackDB::setPointOfFocusByDist(double distance)
+{
+    CTrack * track = highlightedTrack();
+    if(track == 0)
+    {
+        return;
+    }
+
+    QList<CTrack::pt_t>& trkpts = track->getTrackPoints();
+    QList<CTrack::pt_t>::iterator trkpt = trkpts.begin();
+
+    while(trkpt != trkpts.end())
+    {
+        if(trkpt->flags & CTrack::pt_t::eDeleted)
+        {
+            ++trkpt; continue;
+        }
+
+        if(distance < trkpt->distance)
+        {
+            emit sigPointOfFocus(trkpt->idx);
+            return;
+        }
+        ++trkpt;
+    }
+}
+
+void CTrackDB::setPointOfFocusByTime(quint32 timestamp)
+{
+    CTrack * track = highlightedTrack();
+    if(track == 0)
+    {
+        return;
+    }
+
+    QList<CTrack::pt_t>& trkpts = track->getTrackPoints();
+    QList<CTrack::pt_t>::iterator trkpt = trkpts.begin();
+
+    while(trkpt != trkpts.end())
+    {
+        if(trkpt->flags & CTrack::pt_t::eDeleted)
+        {
+            ++trkpt; continue;
+        }
+
+        if(timestamp < trkpt->timestamp)
+        {
+            emit sigPointOfFocus(trkpt->idx);
+            return;
+        }
+        ++trkpt;
+    }
+}
+
+void CTrackDB::setPointOfFocusByIdx(qint32 idx)
+{
+    CTrack * track = highlightedTrack();
+    if(track == 0)
+    {
+        return;
+    }
+
+    QList<CTrack::pt_t>& trkpts = track->getTrackPoints();
+    if(idx < trkpts.size())
+    {
+        emit sigPointOfFocus(idx);
+    }
+}
