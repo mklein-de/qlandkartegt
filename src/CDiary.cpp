@@ -305,15 +305,11 @@ void CDiary::close()
     {
         editWidget->close();
     }
-//    deleteLater();
 }
 
 
 void CDiary::clear()
 {
-    //name.clear();
-    //comment.clear();
-
     qDeleteAll(wpts);
     qDeleteAll(trks);
     qDeleteAll(rtes);

@@ -159,6 +159,6 @@ class CTrackEditWidget : public QWidget, private Ui::ITrackEditWidget
         QList<CTrack::wpt_t> wpts;
         QPointer<QTextTable> table;
 
-        QSize oldSize;
+        QSize oldSize;       
 };
 #endif                           //CTRACKEDITWIDGET_H

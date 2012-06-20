@@ -18,7 +18,6 @@
 **********************************************************************************************/
 
 #include "CDiaryDB.h"
-#include "CTextEditWidget.h"
 #include "CTabWidget.h"
 #include "CQlb.h"
 #include "CGpx.h"
