@@ -1097,10 +1097,11 @@ void CPlot::mouseReleaseEvent(QMouseEvent * e)
             emit sigActivePoint(dist);
 
             update();
-        }          
+        }
     }
     else
     {
+        CTrackDB::self().setPointOfFocusByIdx(-1);
         emit sigClicked();
     }
 
@@ -1127,6 +1128,8 @@ void CPlot::leaveEvent(QEvent * event)
     cursorFocus = false;
     needsRedraw = true;
     posMouse    = QPoint(-1, -1);
+
+    CTrackDB::self().setPointOfFocusByIdx(-1);
     QApplication::restoreOverrideCursor();
 
     update();

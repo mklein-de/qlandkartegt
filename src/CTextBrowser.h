@@ -1,7 +1,7 @@
 /**********************************************************************************************
 
   DSP Solutions GmbH & Co. KG
-  http://www.dspsolutions.de/  
+  http://www.dspsolutions.de/
 
   Author:      Oliver Eichler
   Email:       oliver.eichler@dspsolutions.de
@@ -10,7 +10,7 @@
 
   File:        CTextBrowser.h
 
-  Module:      
+  Module:
 
   Description:
 
@@ -32,8 +32,18 @@ class CTextBrowser : public QTextBrowser
         CTextBrowser(QWidget * parent);
         virtual ~CTextBrowser();
 
+        void addArea(const QString& key, const QRect& rect);
+
+        void highlightArea(const QString& key);
+
     protected:
         void paintEvent(QPaintEvent * e);
+
+    private:
+
+        QMap<QString, QRect> areas;
+
+        QString areaKey;
 };
 
 #endif //CTEXTBROWSER_H

@@ -195,7 +195,7 @@ CTrackEditWidget::CTrackEditWidget(QWidget * parent)
     connect(&CTrackDB::self(), SIGNAL(sigChanged()), this, SLOT(slotStagesChanged()));
     connect(checkStages, SIGNAL(stateChanged(int)), this, SLOT(slotStagesChanged(int)));
 
-    //connect(textStages, SIGNAL(cursorPositionChanged()), this, SLOT(slotCursorPositionChanged()));
+    connect(&CTrackDB::self(), SIGNAL(sigPointOfFocus(int)), this, SLOT(slotPointOfFocus(int)));
 }
 
 
@@ -238,6 +238,8 @@ CTrackEditWidget::~CTrackEditWidget()
     tabstat = 0;
     trackStatExtensions.clear();
 #endif
+
+
 
 }
 
@@ -1291,6 +1293,28 @@ void CTrackEditWidget::slotStagesChanged()
 
 }
 
+void CTrackEditWidget::slotPointOfFocus(const int idx)
+{
+    int cnt = 0;
+
+    if(idx < 0)
+    {
+        textStages->highlightArea("");
+        return;
+    }
+
+    foreach(const CTrack::wpt_t& wpt, wpts)
+    {
+        if(idx < wpt.trkpt.idx)
+        {
+            textStages->highlightArea(QString("stage%1").arg(cnt));
+            return;
+        }
+        cnt++;
+    }
+    textStages->highlightArea(QString("stage0"));
+}
+
 #define CHAR_PER_LINE 120
 #define ROOT_FRAME_MARGIN 5
 #define BASE_FONT_SIZE  9
@@ -1703,6 +1727,16 @@ void CTrackEditWidget::updateStages(QList<CTrack::wpt_t>& wpts)
     table->cellAt(cnt ,eComment).firstCursorPosition().insertText(tr("End of track."), fmtCharStandard);
 
     textStages->setDocument(doc);
+
+    const int N = cnt;
+    for(cnt = 2; cnt < N; cnt++)
+    {
+        QRect rect1 = textStages->cursorRect(table->cellAt(cnt, eToNextDist).firstCursorPosition());
+        QRect rect2 = textStages->cursorRect(table->cellAt(cnt, eToNextDesc).lastCursorPosition());
+        QRect rect(rect1.x(), rect1.y(), rect2.x() - rect1.x(), rect1.height());
+        rect.adjust(-5,-5,5,5);
+        textStages->addArea(QString("stage%1").arg(cnt - 2), rect);
+    }
 
     QApplication::restoreOverrideCursor();
 

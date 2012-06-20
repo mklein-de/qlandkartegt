@@ -105,6 +105,8 @@ class CTrackEditWidget : public QWidget, private Ui::ITrackEditWidget
         void slotStagesChanged();
         void slotStagesChanged(int state);
 
+        void slotPointOfFocus(const int idx);
+
     protected:
         void keyPressEvent(QKeyEvent * e);
         void resizeEvent(QResizeEvent * e);
@@ -159,6 +161,6 @@ class CTrackEditWidget : public QWidget, private Ui::ITrackEditWidget
         QList<CTrack::wpt_t> wpts;
         QPointer<QTextTable> table;
 
-        QSize oldSize;       
+        QSize oldSize;
 };
 #endif                           //CTRACKEDITWIDGET_H
