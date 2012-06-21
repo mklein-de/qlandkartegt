@@ -37,6 +37,8 @@ class ITrackStat : public QWidget, private Ui::ITrackStatWidget
         ITrackStat(type_e type, QWidget * paren);
         virtual ~ITrackStat();
 
+        CPlot * getPlot(){return plot;}
+
     protected:
 
         type_e type;

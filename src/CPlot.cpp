@@ -52,6 +52,8 @@ CPlot::CPlot(CPlotData::axis_type_e type, mode_e mode, QWidget * parent)
 , posMouse(-1,-1)
 , posWpt(-1,-1)
 , selTrkPt(0)
+, idxHighlight1(0)
+, idxHighlight2(0)
 {
     setMouseTracking(true);
     setSizePolicy(QSizePolicy::MinimumExpanding,QSizePolicy::MinimumExpanding);
@@ -768,6 +770,39 @@ void CPlot::drawData(QPainter& p)
         ++line;
     }
 
+    if((idxHighlight1 >= 0) && (idxHighlight2 >= 0) && mode != eIcon)
+    {
+        QPolygonF background;
+        QPolygonF line              = lines[0].points.mid(idxHighlight1, idxHighlight2 - idxHighlight1);
+        QPolygonF::iterator point   = line.begin();
+
+        ptx = left   + xaxis.val2pt( point->x() );
+        pty = bottom - yaxis.val2pt( point->y() );
+
+        background << QPointF(ptx,bottom);
+
+        while(point != line.end())
+        {
+            ptx = left   + xaxis.val2pt( point->x() );
+            pty = bottom - yaxis.val2pt( point->y() );
+
+            if(ptx >= left && ptx <= right)
+            {
+                background << QPointF(ptx,pty);
+            }
+            ++point;
+        }
+
+        background << QPointF(ptx,bottom);
+
+        p.save();
+        p.setPen(Qt::NoPen);
+        p.setBrush(QColor(255,100,100,100));
+        p.drawPolygon(background);
+        p.restore();
+
+    }
+
     {
         QPolygonF& marks                = m_pData->marks.points;
         QPolygonF::const_iterator point = marks.begin();
@@ -1194,3 +1229,33 @@ void CPlot::slotPointOfFocus(const int idx)
     }
 }
 
+void CPlot::slotHighlightSection(double x1, double x2)
+{
+    int idx = 0;
+
+    idxHighlight1 = -1;
+    idxHighlight2 = -1;
+
+    if(x1 == WPT_NOFLOAT || x2 == WPT_NOFLOAT)
+    {
+        return;
+    }
+
+    QPolygonF& line = m_pData->lines[0].points;
+    foreach(const QPointF& point, line)
+    {
+        if(idxHighlight1 < 0 && x1 <= point.x())
+        {
+            idxHighlight1 = idx;
+        }
+
+        if(idxHighlight2 < 0 && x2 <= point.x())
+        {
+            idxHighlight2 = idx;
+        }
+
+        idx++;
+    }
+
+    update();
+}

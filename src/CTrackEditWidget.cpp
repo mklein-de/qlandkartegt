@@ -38,7 +38,7 @@
 #include "CDlgTrackFilter.h"
 #include "CWptDB.h"
 #include "CSettings.h"
-
+#include "CPlot.h"
 
 #include <QtGui>
 
@@ -1300,23 +1300,45 @@ void CTrackEditWidget::slotPointOfFocus(const int idx)
     if(idx < 0 || wpts.isEmpty())
     {
         textStages->highlightArea("");
+        if(trackStatProfileDist)
+        {
+            trackStatProfileDist->getPlot()->slotHighlightSection(WPT_NOFLOAT,WPT_NOFLOAT);
+        }
         return;
     }
+
+    double x1 = 0;
+    double x2 = 0;
 
     foreach(const CTrack::wpt_t& wpt, wpts)
     {
 //        qDebug() << idx << wpt.trkpt.idx;
+
+        x2 = wpt.trkpt.distance;
+
         if(idx <= wpt.trkpt.idx)
         {
-            textStages->highlightArea(QString("stage%1").arg(cnt));
+            textStages->highlightArea(QString("stage%1").arg(cnt));            
+            if(trackStatProfileDist)
+            {
+                trackStatProfileDist->getPlot()->slotHighlightSection(x1,x2);
+            }
             return;
         }
+
+        x1 = x2;
         cnt++;
     }
 
     if(idx >= wpts.last().trkpt.idx)
     {
         textStages->highlightArea(QString("stage%1").arg(cnt));
+
+        if(trackStatProfileDist && track)
+        {
+            trackStatProfileDist->getPlot()->slotHighlightSection(x1,track->getTotalDistance());
+        }
+
     }
 }
 

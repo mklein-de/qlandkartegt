@@ -65,6 +65,8 @@ class CPlot : public QWidget
 
     public slots:        
         void slotPointOfFocus(const int idx);
+        void slotHighlightSection(double x1, double x2);
+        void resetZoom();
 
 
     protected slots:
@@ -139,7 +141,6 @@ class CPlot : public QWidget
 
         QPoint startMovePos;
 
-
         double initialYMax;
         double initialYMin;
 
@@ -155,7 +156,8 @@ class CPlot : public QWidget
         QPoint posWpt;
         QImage buffer;
         CTrack::pt_t * selTrkPt;
-    public slots:
-        void resetZoom();
+
+        int idxHighlight1;
+        int idxHighlight2;
 };
 #endif                           //CPLOT_H
