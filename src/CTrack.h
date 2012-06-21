@@ -269,7 +269,7 @@ class CTrack : public IItem
         quint32 getMedianFilterCount() const {return cntMedianFilterApplied;}
 
         signals:
-        void sigChanged();        
+        void sigChanged();
 
     private slots:
         void slotRequestStarted(int );
@@ -334,6 +334,8 @@ class CTrack : public IItem
         quint32 visiblePointCount;
 
         quint32 cntMedianFilterApplied;
+
+        QList<wpt_t> waypoints;
 
 };
 

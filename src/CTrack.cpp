@@ -1176,6 +1176,21 @@ QString CTrack::getTrkPtInfo(pt_t& trkpt)
         str += tr("elevation: %1 %2").arg(val).arg(unit);
     }
 
+//    foreach(const wpt_t& wpt, waypoints)
+//    {
+//        if(trkpt.distance >= wpt.trkpt.distance)
+//        {
+//            double delta    = trkpt.distance - wpt.trkpt.distance;
+//            double ascend   = trkpt.ascend   - wpt.trkpt.ascend;
+//            double descend  = trkpt.descend  - wpt.trkpt.descend;
+
+//            IUnit::self().meter2distance(delta, val, unit);
+
+//            str += tr("\n%1 %2").arg(val).arg(unit);
+
+//            break;
+//        }
+//    }
 
     //-----------------------------------------------------------------------------------------------------------
     //TODO: HOVERTEXT FOR EXTENSIONS
@@ -1215,6 +1230,7 @@ void CTrack::scaleWpt2Track(QList<wpt_t>& wpts)
     IMap& map = CMapDB::self().getMap();
 
     wpts.clear();
+    waypoints.clear();
 
     if(doScaleWpt2Track == Qt::Unchecked)
     {
@@ -1293,6 +1309,8 @@ void CTrack::scaleWpt2Track(QList<wpt_t>& wpts)
         }
         ++trkpt;
     }
+
+    waypoints = wpts;
 
     QApplication::restoreOverrideCursor();
 }
