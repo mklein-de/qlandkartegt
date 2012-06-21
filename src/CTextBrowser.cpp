@@ -29,12 +29,17 @@
 CTextBrowser::CTextBrowser(QWidget *parent)
     : QTextBrowser(parent)
 {
-
+    connect(this, SIGNAL(sigHighlightArea(QString)), this, SLOT(slotHighlightArea(QString)));
 }
 
 CTextBrowser::~CTextBrowser()
 {
 
+}
+
+void CTextBrowser::resetAreas()
+{
+    areas.clear();
 }
 
 void CTextBrowser::addArea(const QString& key, const QRect& rect)
@@ -46,7 +51,7 @@ void CTextBrowser::addArea(const QString& key, const QRect& rect)
     areas[key] = r;
 }
 
-void CTextBrowser::highlightArea(const QString& key)
+void CTextBrowser::slotHighlightArea(const QString& key)
 {
     if(areaKey == key)
     {
@@ -97,4 +102,23 @@ void CTextBrowser::paintEvent(QPaintEvent * e)
     r.moveTop(r.top() - offset);
 
     PAINT_ROUNDED_RECT(p, r);
+}
+
+void CTextBrowser::mouseMoveEvent(QMouseEvent * e)
+{
+    QTextBrowser::mouseMoveEvent(e);
+
+    QPoint p = e->pos();
+    p.setX(p.x() - verticalScrollBar()->value());
+
+    foreach(const QString& key, areas.keys())
+    {
+        if(areas[key].contains(p))
+        {
+            emit sigHighlightArea(key);
+            return;
+        }
+    }
+
+    emit sigHighlightArea("");
 }

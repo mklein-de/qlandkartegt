@@ -797,10 +797,9 @@ void CPlot::drawData(QPainter& p)
 
         p.save();
         p.setPen(Qt::NoPen);
-        p.setBrush(QColor(255,100,100,100));
+        p.setBrush(QColor(255,0,0,150));
         p.drawPolygon(background);
         p.restore();
-
     }
 
     {
@@ -1238,6 +1237,8 @@ void CPlot::slotHighlightSection(double x1, double x2)
 
     if(x1 == WPT_NOFLOAT || x2 == WPT_NOFLOAT)
     {
+        needsRedraw = true;
+        update();
         return;
     }
 
@@ -1257,5 +1258,6 @@ void CPlot::slotHighlightSection(double x1, double x2)
         idx++;
     }
 
+    needsRedraw = true;
     update();
 }

@@ -107,6 +107,8 @@ class CTrackEditWidget : public QWidget, private Ui::ITrackEditWidget
 
         void slotPointOfFocus(const int idx);
 
+        void slotHighlightArea(const QString& key);
+
     protected:
         void keyPressEvent(QKeyEvent * e);
         void resizeEvent(QResizeEvent * e);
@@ -162,5 +164,14 @@ class CTrackEditWidget : public QWidget, private Ui::ITrackEditWidget
         QPointer<QTextTable> table;
 
         QSize oldSize;
+
+        struct stage_t
+        {
+            double x1;
+            double x2;
+        };
+
+        QMap<QString, stage_t> stages;
+        QString lastStageKey;
 };
 #endif                           //CTRACKEDITWIDGET_H

@@ -196,6 +196,8 @@ CTrackEditWidget::CTrackEditWidget(QWidget * parent)
     connect(checkStages, SIGNAL(stateChanged(int)), this, SLOT(slotStagesChanged(int)));
 
     connect(&CTrackDB::self(), SIGNAL(sigPointOfFocus(int)), this, SLOT(slotPointOfFocus(int)));
+
+    connect(textStages, SIGNAL(sigHighlightArea(QString)), this, SLOT(slotHighlightArea(QString)));
 }
 
 
@@ -1299,7 +1301,7 @@ void CTrackEditWidget::slotPointOfFocus(const int idx)
 
     if(idx < 0 || wpts.isEmpty())
     {
-        textStages->highlightArea("");
+        textStages->slotHighlightArea("");
         if(trackStatProfileDist)
         {
             trackStatProfileDist->getPlot()->slotHighlightSection(WPT_NOFLOAT,WPT_NOFLOAT);
@@ -1318,7 +1320,7 @@ void CTrackEditWidget::slotPointOfFocus(const int idx)
 
         if(idx <= wpt.trkpt.idx)
         {
-            textStages->highlightArea(QString("stage%1").arg(cnt));            
+            textStages->slotHighlightArea(QString("stage%1").arg(cnt));
             if(trackStatProfileDist)
             {
                 trackStatProfileDist->getPlot()->slotHighlightSection(x1,x2);
@@ -1332,13 +1334,36 @@ void CTrackEditWidget::slotPointOfFocus(const int idx)
 
     if(idx >= wpts.last().trkpt.idx)
     {
-        textStages->highlightArea(QString("stage%1").arg(cnt));
+        textStages->slotHighlightArea(QString("stage%1").arg(cnt));
 
         if(trackStatProfileDist && track)
         {
             trackStatProfileDist->getPlot()->slotHighlightSection(x1,track->getTotalDistance());
         }
 
+    }
+}
+
+void CTrackEditWidget::slotHighlightArea(const QString& key)
+{
+    if(lastStageKey == key)
+    {
+        return;
+    }
+
+    lastStageKey = key;
+
+    if(trackStatProfileDist)
+    {
+        if(stages.contains(key))
+        {
+            stage_t& stage = stages[key];
+            trackStatProfileDist->getPlot()->slotHighlightSection(stage.x1, stage.x2);
+        }
+        else
+        {
+            trackStatProfileDist->getPlot()->slotHighlightSection(WPT_NOFLOAT, WPT_NOFLOAT);
+        }
     }
 }
 
@@ -1356,7 +1381,7 @@ void CTrackEditWidget::updateStages(QList<CTrack::wpt_t>& wpts)
     tabWidget->setTabEnabled(eStages, true);
     qSort(wpts.begin(), wpts.end(), qSortWptLessDistance);
 
-    // resize font
+
 
     QTextDocument * doc = new QTextDocument(textStages);
 
@@ -1487,6 +1512,7 @@ void CTrackEditWidget::updateStages(QList<CTrack::wpt_t>& wpts)
 
 
     // first entry -------------------------
+    stage_t stage;
     QString val, unit;
     if(track->getStartElevation() != WPT_NOFLOAT)
     {
@@ -1525,6 +1551,8 @@ void CTrackEditWidget::updateStages(QList<CTrack::wpt_t>& wpts)
     int     timeLast = track->getStartTimestamp().toTime_t();
     float   ascLast  = 0;
     float   dscLast  = 0;
+
+    stages.clear();
 
     foreach(const CTrack::wpt_t& wpt, wpts)
     {
@@ -1649,6 +1677,10 @@ void CTrackEditWidget::updateStages(QList<CTrack::wpt_t>& wpts)
 
         table->cellAt(cnt ,eComment).firstCursorPosition().insertText(comment, fmtCharStandard);
 
+        stage.x1 = distLast;
+        stage.x2 = wpt.trkpt.distance;
+        stages[QString("stage%1").arg(cnt - 3)] = stage;
+
         distLast    = wpt.trkpt.distance;
         ascLast     = wpt.trkpt.ascend;
         dscLast     = wpt.trkpt.descend;
@@ -1755,9 +1787,14 @@ void CTrackEditWidget::updateStages(QList<CTrack::wpt_t>& wpts)
 
     table->cellAt(cnt ,eComment).firstCursorPosition().insertText(tr("End of track."), fmtCharStandard);
 
+    stage.x1 = distLast;
+    stage.x2 = track->getTotalDistance();
+    stages[QString("stage%1").arg(cnt - 3)] = stage;
+
     textStages->setDocument(doc);
 
     const int N = cnt;
+    textStages->resetAreas();
     for(cnt = 2; cnt < N; cnt++)
     {
         QRect rect1 = textStages->cursorRect(table->cellAt(cnt, eToNextDist).firstCursorPosition());

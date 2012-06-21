@@ -32,12 +32,19 @@ class CTextBrowser : public QTextBrowser
         CTextBrowser(QWidget * parent);
         virtual ~CTextBrowser();
 
+        void resetAreas();
+
         void addArea(const QString& key, const QRect& rect);
 
-        void highlightArea(const QString& key);
+    public slots:
+        void slotHighlightArea(const QString& key);
+
+    signals:
+        void sigHighlightArea(const QString& key);
 
     protected:
         void paintEvent(QPaintEvent * e);
+        void mouseMoveEvent(QMouseEvent * e);
 
     private:
 
