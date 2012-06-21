@@ -55,27 +55,29 @@ void CTextBrowser::highlightArea(const QString& key)
 
     if(!key.isEmpty() && areas.contains(key))
     {
-        areaKey = key;
+        areaKey     = key;
 
-//        QRect r = areas[key];
+        QRect r     = areas[key];
+        int top     = verticalScrollBar()->value();
+        int bottom  = verticalScrollBar()->value() + verticalScrollBar()->pageStep();
 
-//        if(r.top() < verticalScrollBar()->value())
-//        {
-//            int pos = r.top() - r.height() * 3;
-//            if(pos < 0) pos = 0;
-//            verticalScrollBar()->setValue(pos);
-//        }
+        if(r.top() < (top + r.height()))
+        {
+            int val = r.top() - r.height();
+            if(val < 0) val = 0;
+            verticalScrollBar()->setValue(val);
+        }
 
-//        if(r.bottom() > (verticalScrollBar()->value() + verticalScrollBar()->pageStep()))
-//        {
-//            int pos = r.bottom() - verticalScrollBar()->pageStep() + r.height();
-//            if(pos < 0) pos = 0;
-//            verticalScrollBar()->setValue(pos);
-//        }
-
+        if(r.bottom() > (bottom - r.height()))
+        {
+            int val = r.bottom() + r.height() - verticalScrollBar()->pageStep();
+            if(val < 0) val = 0;
+            verticalScrollBar()->setValue(val);
+        }
     }
     else
     {
+        verticalScrollBar()->setValue(0);
         areaKey.clear();
     }
     viewport()->update();
@@ -95,6 +97,4 @@ void CTextBrowser::paintEvent(QPaintEvent * e)
     r.moveTop(r.top() - offset);
 
     PAINT_ROUNDED_RECT(p, r);
-
-    qDebug() << verticalScrollBar()->value();
 }

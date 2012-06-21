@@ -291,7 +291,8 @@ void CTrackToolWidget::slotShowProfile()
     }
     trackedit->slotShowProfile();
 
-
+    // remove falsely triggered point of focus
+    CTrackDB::self().setPointOfFocusByIdx(-1);
 }
 
 

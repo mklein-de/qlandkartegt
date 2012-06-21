@@ -1297,7 +1297,7 @@ void CTrackEditWidget::slotPointOfFocus(const int idx)
 {
     int cnt = 0;
 
-    if(idx < 0)
+    if(idx < 0 || wpts.isEmpty())
     {
         textStages->highlightArea("");
         return;
@@ -1305,14 +1305,19 @@ void CTrackEditWidget::slotPointOfFocus(const int idx)
 
     foreach(const CTrack::wpt_t& wpt, wpts)
     {
-        if(idx < wpt.trkpt.idx)
+//        qDebug() << idx << wpt.trkpt.idx;
+        if(idx <= wpt.trkpt.idx)
         {
             textStages->highlightArea(QString("stage%1").arg(cnt));
             return;
         }
         cnt++;
     }
-    textStages->highlightArea(QString("stage0"));
+
+    if(idx >= wpts.last().trkpt.idx)
+    {
+        textStages->highlightArea(QString("stage%1").arg(cnt));
+    }
 }
 
 #define CHAR_PER_LINE 120
@@ -1338,6 +1343,7 @@ void CTrackEditWidget::updateStages(QList<CTrack::wpt_t>& wpts)
     int w = doc->textWidth();
     int pointSize = ((BASE_FONT_SIZE * (w - 2 * ROOT_FRAME_MARGIN)) / (CHAR_PER_LINE *  fm.width("X")));
     if(pointSize == 0) return;
+    if(pointSize > 12) pointSize = 12;
 
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
 
@@ -1371,10 +1377,11 @@ void CTrackEditWidget::updateStages(QList<CTrack::wpt_t>& wpts)
 
     QTextBlockFormat fmtBlockRight;
     fmtBlockRight.setAlignment(Qt::AlignRight);
+    fmtBlockRight.setNonBreakableLines(true);
 
     QTextFrameFormat fmtFrameStandard;
-    fmtFrameStandard.setTopMargin(5);
-    fmtFrameStandard.setBottomMargin(5);
+    fmtFrameStandard.setTopMargin(ROOT_FRAME_MARGIN);
+    fmtFrameStandard.setBottomMargin(ROOT_FRAME_MARGIN);
     fmtFrameStandard.setWidth(w - 2 * ROOT_FRAME_MARGIN);
 
     QTextFrameFormat fmtFrameRoot;
@@ -1387,7 +1394,7 @@ void CTrackEditWidget::updateStages(QList<CTrack::wpt_t>& wpts)
     fmtTableStandard.setBorder(1);
     fmtTableStandard.setBorderStyle(QTextFrameFormat::BorderStyle_Groove);
     fmtTableStandard.setBorderBrush(QColor("#a0a0a0"));
-    fmtTableStandard.setCellPadding(4);
+    fmtTableStandard.setCellPadding(2);
     fmtTableStandard.setCellSpacing(0);
     fmtTableStandard.setHeaderRowCount(2);
     fmtTableStandard.setTopMargin(10);
@@ -1733,11 +1740,10 @@ void CTrackEditWidget::updateStages(QList<CTrack::wpt_t>& wpts)
     {
         QRect rect1 = textStages->cursorRect(table->cellAt(cnt, eToNextDist).firstCursorPosition());
         QRect rect2 = textStages->cursorRect(table->cellAt(cnt, eToNextDesc).lastCursorPosition());
-        QRect rect(rect1.x(), rect1.y(), rect2.x() - rect1.x(), rect1.height());
+        QRect rect(rect1.x(), rect1.y(), rect2.x() - rect1.x(), rect2.bottom() - rect1.top());
         rect.adjust(-5,-5,5,5);
         textStages->addArea(QString("stage%1").arg(cnt - 2), rect);
     }
 
     QApplication::restoreOverrideCursor();
-
 }
