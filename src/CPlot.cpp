@@ -1235,6 +1235,11 @@ void CPlot::slotHighlightSection(double x1, double x2)
     idxHighlight1 = -1;
     idxHighlight2 = -1;
 
+    if(m_pData && m_pData->lines.isEmpty())
+    {
+        return;
+    }
+
     if(x1 == WPT_NOFLOAT || x2 == WPT_NOFLOAT)
     {
         needsRedraw = true;
