@@ -216,6 +216,10 @@
         <bool>false</bool>
        </property>
        <widget class="QWidget" name="tabStages">
+        <attribute name="icon">
+         <iconset resource="resources.qrc">
+          <normaloff>:/icons/wpt/flag_pin_red15x15.png</normaloff>:/icons/wpt/flag_pin_red15x15.png</iconset>
+        </attribute>
         <attribute name="title">
          <string>Stages</string>
         </attribute>
@@ -226,6 +230,10 @@
         </layout>
        </widget>
        <widget class="QWidget" name="tabView">
+        <attribute name="icon">
+         <iconset resource="resources.qrc">
+          <normaloff>:/icons/iconTrack16x16.png</normaloff>:/icons/iconTrack16x16.png</iconset>
+        </attribute>
         <attribute name="title">
          <string>Tracklist</string>
         </attribute>
@@ -316,7 +324,25 @@
          </item>
         </layout>
        </widget>
+       <widget class="QWidget" name="tabFilter">
+        <attribute name="icon">
+         <iconset resource="resources.qrc">
+          <normaloff>:/icons/iconFilter16x16.png</normaloff>:/icons/iconFilter16x16.png</iconset>
+        </attribute>
+        <attribute name="title">
+         <string>Filter</string>
+        </attribute>
+        <layout class="QVBoxLayout" name="verticalLayout_2">
+         <item>
+          <widget class="CTrackFilterWidget" name="widget" native="true"/>
+         </item>
+        </layout>
+       </widget>
        <widget class="QWidget" name="tabSettings">
+        <attribute name="icon">
+         <iconset resource="resources.qrc">
+          <normaloff>:/icons/iconConfig16x16.png</normaloff>:/icons/iconConfig16x16.png</iconset>
+        </attribute>
         <attribute name="title">
          <string>Settings</string>
         </attribute>
@@ -724,8 +750,8 @@
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>28</width>
-                 <height>16</height>
+                 <width>156</width>
+                 <height>284</height>
                 </rect>
                </property>
                <layout class="QVBoxLayout" name="verticalLayout_Extensions"/>
@@ -750,7 +776,15 @@
    <header>CTextBrowser.h</header>
    <container>1</container>
   </customwidget>
+  <customwidget>
+   <class>CTrackFilterWidget</class>
+   <extends>QWidget</extends>
+   <header>CTrackFilterWidget.h</header>
+   <container>1</container>
+  </customwidget>
  </customwidgets>
- <resources/>
+ <resources>
+  <include location="resources.qrc"/>
+ </resources>
  <connections/>
 </ui>
