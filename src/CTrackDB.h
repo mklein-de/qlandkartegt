@@ -123,6 +123,7 @@ class CTrackDB : public IDB
 
         friend class CMainWindow;
         friend class CTrackEditWidget;
+        friend class CTrackFilterWidget;
 
         CTrackDB(QTabWidget * tb, QObject * parent);
         void drawLine(const QPolygon& line, const QRect& extViewport, QPainter& p);

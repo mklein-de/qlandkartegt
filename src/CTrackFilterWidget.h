@@ -24,8 +24,12 @@
 #define CTRACKFILTERWIDGET_H
 
 #include <QWidget>
+#include <QPointer>
 
 #include "ui_ITrackFilterWidget.h"
+
+class CTrackEditWidget;
+class CTrack;
 
 class CTrackFilterWidget : public QWidget, private Ui::ITrackFilterWidget
 {
@@ -33,6 +37,23 @@ class CTrackFilterWidget : public QWidget, private Ui::ITrackFilterWidget
     public:
         CTrackFilterWidget(QWidget * parent);
         virtual ~CTrackFilterWidget();
+
+        void setTrackEditWidget(CTrackEditWidget * w);
+
+    private slots:
+        void slotApplyFilter();
+        void slotHighlightTrack(CTrack * trk);
+        void slotComboMeterFeet1(const QString &text);
+        void slotResetFilterList();
+        void slotAddFilterHidePoints1();
+
+    private:
+        bool filterHidePoints1(QDataStream &args, QList<CTrack *> &tracks);
+
+        enum filterType_e {eHidePoints1};
+
+        QPointer<CTrackEditWidget> trackEditWidget;
+        QPointer<CTrack> track;
 };
 
 #endif //CTRACKFILTERWIDGET_H

@@ -197,6 +197,13 @@ CTrackEditWidget::CTrackEditWidget(QWidget * parent)
     connect(&CTrackDB::self(), SIGNAL(sigPointOfFocus(int)), this, SLOT(slotPointOfFocus(int)));
 
     connect(textStages, SIGNAL(sigHighlightArea(QString)), this, SLOT(slotHighlightArea(QString)));
+
+    CTrackFilterWidget * w = tabWidget->findChild<CTrackFilterWidget*>();
+    if(w)
+    {
+        w->setTrackEditWidget(this);
+    }
+
 }
 
 
@@ -239,8 +246,6 @@ CTrackEditWidget::~CTrackEditWidget()
     tabstat = 0;
     trackStatExtensions.clear();
 #endif
-
-
 
 }
 
