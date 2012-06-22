@@ -1275,7 +1275,6 @@ void CTrack::slotScaleWpt2Track()
     waypoints.clear();
     if(wptdb.count() == 0 )
     {
-        CTrackDB::self().emitSigModified();
         CTrackDB::self().emitSigChanged();
         return ;
     }
@@ -1283,7 +1282,6 @@ void CTrack::slotScaleWpt2Track()
     IMap& map = CMapDB::self().getMap();
     if(doScaleWpt2Track == Qt::Unchecked)
     {
-        CTrackDB::self().emitSigModified();
         CTrackDB::self().emitSigChanged();
         return ;
     }
@@ -1373,7 +1371,6 @@ void CTrack::slotScaleWpt2Track()
     }
 
     qSort(waypoints.begin(), waypoints.end(), qSortWptLessDistance);
-    CTrackDB::self().emitSigModified();
     CTrackDB::self().emitSigChanged();
 
     QApplication::restoreOverrideCursor();       
