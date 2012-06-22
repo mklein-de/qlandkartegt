@@ -738,18 +738,8 @@ void CDeviceTwoNav::writeTrkData(QTextStream& out, CTrack& trk, QDir& dir)
     QString name    = trk.getName();
     name    = name.replace(" ","_");
 
-    QList<CTrack::wpt_t> wpts;
-    trk.scaleWpt2Track(wpts);
-    QList<CTrack::wpt_t>::iterator wpt = wpts.begin();
-    while(wpt != wpts.end())
-    {
-        if(wpt->d > WPT_TO_TRACK_DIST)
-        {
-            wpt = wpts.erase(wpt);
-            continue;
-        }
-        ++wpt;
-    }
+    trk.slotScaleWpt2Track();
+    const QList<CTrack::wpt_t>& wpts = trk.getStageWaypoints();
 
 
     QColor color = trk.getColor();

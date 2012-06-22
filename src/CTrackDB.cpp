@@ -680,7 +680,7 @@ void CTrackDB::highlightTrack(const QString& key)
 
     if(tracks.contains(key))
     {
-        tracks[key]->setHighlight(true);
+        tracks[key]->setHighlight(true);      
         emit sigHighlightTrack(tracks[key]);
     }
     else

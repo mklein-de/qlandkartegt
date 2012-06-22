@@ -114,7 +114,7 @@ class CTrackEditWidget : public QWidget, private Ui::ITrackEditWidget
         void resizeEvent(QResizeEvent * e);
 
     private:
-        void updateStages(QList<CTrack::wpt_t>& wpts);
+        void updateStages();
         enum columns_e
         {
             eNum       = 0
@@ -160,7 +160,6 @@ class CTrackEditWidget : public QWidget, private Ui::ITrackEditWidget
         QMenu * contextMenu;
         QAction * actSplit;
 
-        QList<CTrack::wpt_t> wpts;
         QPointer<QTextTable> table;
 
         QSize oldSize;

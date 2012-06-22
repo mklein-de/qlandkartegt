@@ -191,7 +191,6 @@ CTrackEditWidget::CTrackEditWidget(QWidget * parent)
 
     connect(tabWidget, SIGNAL(currentChanged(int)), this, SLOT(slotCurrentChanged(int)));
 
-    connect(&CWptDB::self(), SIGNAL(sigChanged()), this, SLOT(slotStagesChanged()));
     connect(&CTrackDB::self(), SIGNAL(sigChanged()), this, SLOT(slotStagesChanged()));
     connect(checkStages, SIGNAL(stateChanged(int)), this, SLOT(slotStagesChanged(int)));
 
@@ -266,7 +265,7 @@ void CTrackEditWidget::resizeEvent(QResizeEvent * e)
 
     if(oldSize.width() != e->size().width())
     {
-        updateStages(wpts);
+        updateStages();
     }
 
     oldSize = e->size();
@@ -1247,14 +1246,10 @@ void CTrackEditWidget::slotCurrentChanged(int idx)
 {
     if(idx == eStages)
     {
-        updateStages(wpts);
+        updateStages();
     }
 }
 
-static bool qSortWptLessDistance(CTrack::wpt_t& p1, CTrack::wpt_t& p2)
-{
-    return p1.trkpt.distance < p2.trkpt.distance;
-}
 
 void CTrackEditWidget::slotStagesChanged(int state)
 {
@@ -1268,30 +1263,18 @@ void CTrackEditWidget::slotStagesChanged()
     if(track.isNull() || originator) return;
 
     // get waypoints near track
-    originator = true;
-    track->scaleWpt2Track(wpts);
+    originator = true;    
     checkStages->setCheckState(track->getDoScaleWpt2Track());
     originator = false;
 
-    QList<CTrack::wpt_t>::iterator wpt = wpts.begin();
-    while(wpt != wpts.end())
-    {
-        if(wpt->d > WPT_TO_TRACK_DIST)
-        {
-            wpt = wpts.erase(wpt);
-            continue;
-        }
-        ++wpt;
-    }
-
-
+    const QList<CTrack::wpt_t>& wpts = track->getStageWaypoints();
     if(wpts.isEmpty())
     {
         tabWidget->setTabEnabled(eStages, false);
         return;
     }
 
-    updateStages(wpts);
+    updateStages();
 
 }
 
@@ -1299,6 +1282,7 @@ void CTrackEditWidget::slotPointOfFocus(const int idx)
 {
     int cnt = 0;
 
+    const QList<CTrack::wpt_t>& wpts = track->getStageWaypoints();
     if(idx < 0 || wpts.isEmpty())
     {
         textStages->slotHighlightArea("");
@@ -1372,19 +1356,19 @@ void CTrackEditWidget::slotHighlightArea(const QString& key)
 #define BASE_FONT_SIZE  9
 
 
-void CTrackEditWidget::updateStages(QList<CTrack::wpt_t>& wpts)
+void CTrackEditWidget::updateStages()
 {
+    textStages->clear();
 
     if(track.isNull()) return;
+
+    const QList<CTrack::wpt_t>& wpts = track->getStageWaypoints();
+
     if(wpts.isEmpty()) return;
 
     tabWidget->setTabEnabled(eStages, true);
-    qSort(wpts.begin(), wpts.end(), qSortWptLessDistance);
-
-
 
     QTextDocument * doc = new QTextDocument(textStages);
-
     doc->setTextWidth(textStages->size().width() - 20);
     QFontMetrics fm(QFont(textStages->font().family(),BASE_FONT_SIZE));
     int w = doc->textWidth();

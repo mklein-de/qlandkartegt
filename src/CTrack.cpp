@@ -541,6 +541,11 @@ bool trackpointLessThan(const CTrack::pt_t &p1, const CTrack::pt_t &p2)
     return p1.timestamp < p2.timestamp;
 }
 
+static bool qSortWptLessDistance(CTrack::wpt_t& p1, CTrack::wpt_t& p2)
+{
+    return p1.trkpt.distance < p2.trkpt.distance;
+}
+
 
 CTrack::CTrack(QObject * parent)
 : IItem(parent)
@@ -565,12 +570,20 @@ CTrack::CTrack(QObject * parent)
     geonames->setHost("ws.geonames.org");
     connect(geonames,SIGNAL(requestStarted(int)),this,SLOT(slotRequestStarted(int)));
     connect(geonames,SIGNAL(requestFinished(int,bool)),this,SLOT(slotRequestFinished(int,bool)));
+
+    connect(&CWptDB::self(), SIGNAL(sigChanged()), this, SLOT(slotScaleWpt2Track()));
 }
 
 
 CTrack::~CTrack()
 {
 
+}
+
+void CTrack::setHighlight(bool yes)
+{
+    highlight = yes;
+    slotScaleWpt2Track();
 }
 
 void CTrack::replaceElevationByLocal()
@@ -1223,18 +1236,24 @@ void CTrack::setDoScaleWpt2Track(Qt::CheckState state)
     CTrackDB::self().emitSigChanged();
 }
 
-void CTrack::scaleWpt2Track(QList<wpt_t>& wpts)
+void CTrack::slotScaleWpt2Track()
 {
     CWptDB& wptdb = CWptDB::self();
-    if(wptdb.count() == 0 ) return;
-    IMap& map = CMapDB::self().getMap();
 
-    wpts.clear();
     waypoints.clear();
+    if(wptdb.count() == 0 )
+    {
+        CTrackDB::self().emitSigModified();
+        CTrackDB::self().emitSigChanged();
+        return ;
+    }
 
+    IMap& map = CMapDB::self().getMap();
     if(doScaleWpt2Track == Qt::Unchecked)
     {
-        return;
+        CTrackDB::self().emitSigModified();
+        CTrackDB::self().emitSigChanged();
+        return ;
     }
 
     if(doScaleWpt2Track == Qt::PartiallyChecked	)
@@ -1255,7 +1274,7 @@ void CTrack::scaleWpt2Track(QList<wpt_t>& wpts)
                 doScaleWpt2Track = Qt::Unchecked;
                 CTrackDB::self().emitSigModified();
                 CTrackDB::self().emitSigChanged();
-                return;
+                return ;
             }
             else
             {
@@ -1277,7 +1296,7 @@ void CTrack::scaleWpt2Track(QList<wpt_t>& wpts)
 
         map.convertRad2M(wpt.x, wpt.y);
 
-        wpts << wpt;
+        waypoints << wpt;
 
         ++w;
     }
@@ -1296,8 +1315,8 @@ void CTrack::scaleWpt2Track(QList<wpt_t>& wpts)
         double y = trkpt->lat * DEG_TO_RAD;
         map.convertRad2M(x, y);
 
-        QList<wpt_t>::iterator wpt = wpts.begin();
-        while(wpt != wpts.end())
+        QList<wpt_t>::iterator wpt = waypoints.begin();
+        while(wpt != waypoints.end())
         {
             double d = (x - wpt->x) * (x - wpt->x) + (y - wpt->y) * (y - wpt->y);
             if(d < wpt->d)
@@ -1310,9 +1329,23 @@ void CTrack::scaleWpt2Track(QList<wpt_t>& wpts)
         ++trkpt;
     }
 
-    waypoints = wpts;
+    QList<CTrack::wpt_t>::iterator wpt = waypoints.begin();
+    while(wpt != waypoints.end())
+    {
+        if(wpt->d > WPT_TO_TRACK_DIST)
+        {
+            wpt = waypoints.erase(wpt);
+            continue;
+        }
+        ++wpt;
+    }
 
-    QApplication::restoreOverrideCursor();
+    qSort(waypoints.begin(), waypoints.end(), qSortWptLessDistance);
+    CTrackDB::self().emitSigModified();
+    CTrackDB::self().emitSigChanged();
+
+    QApplication::restoreOverrideCursor();       
+    return ;
 }
 
 void CTrack::medianFilter(QProgressDialog& progress)

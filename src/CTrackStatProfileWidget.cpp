@@ -134,10 +134,8 @@ void CTrackStatProfileWidget::slotChanged()
 
     plot->clear();
 
-    QList<CTrack::wpt_t> wpts;
-    track->scaleWpt2Track(wpts);
-
-    QList<CTrack::wpt_t>::const_iterator wpt = wpts.begin();
+    const QList<CTrack::wpt_t>& wpts            = track->getStageWaypoints();
+    QList<CTrack::wpt_t>::const_iterator wpt    = wpts.begin();
     while(wpt != wpts.end())
     {
         if(wpt->d < WPT_TO_TRACK_DIST)
