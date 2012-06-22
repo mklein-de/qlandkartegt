@@ -1185,6 +1185,39 @@ QString CTrack::getTrkPtInfo(pt_t& trkpt)
     IUnit::self().meter2distance(getTotalDistance() - trkpt.distance, val, unit);
     str += tr(" | (%3%) %1%2 %4 %5").arg(val).arg(unit).arg((getTotalDistance() - trkpt.distance) * 100.0 / getTotalDistance(),0,'f',0).arg(QChar(0x21A6)).arg(QChar(0x2691));
 
+    QString lastName = tr("Start");
+    double lastDist = 0;
+    double lastAsc  = 0;
+    double lastDesc = 0;
+
+    foreach(const wpt_t& wpt, waypoints)
+    {
+        if(trkpt.distance < wpt.trkpt.distance)
+        {
+            break;
+        }
+
+        lastDist = wpt.trkpt.distance;
+        lastAsc  = wpt.trkpt.ascend;
+        lastDesc = wpt.trkpt.descend;
+        lastName = wpt.wpt->getName();
+    }
+
+    if(!waypoints.isEmpty())
+    {
+        double delta    = trkpt.distance - lastDist;
+        double ascend   = trkpt.ascend   - lastAsc;
+        double descend  = trkpt.descend  - lastDesc;
+
+        str += "\n" + lastName + ":";
+        IUnit::self().meter2distance(delta, val, unit);
+        str += tr(" %3 %1 %2").arg(val).arg(unit).arg(QChar(0x21A4));
+        IUnit::self().meter2elevation(ascend, val, unit);
+        str += tr(" %3 %1 %2").arg(val).arg(unit).arg(QChar(0x2197));
+        IUnit::self().meter2elevation(descend, val, unit);
+        str += tr(" %3 %1 %2").arg(val).arg(unit).arg(QChar(0x2198));
+    }
+
     if(trkpt.ele != WPT_NOFLOAT)
     {
         if(str.count()) str += "\n";
@@ -1192,21 +1225,6 @@ QString CTrack::getTrkPtInfo(pt_t& trkpt)
         str += tr("elevation: %1 %2").arg(val).arg(unit);
     }
 
-//    foreach(const wpt_t& wpt, waypoints)
-//    {
-//        if(trkpt.distance >= wpt.trkpt.distance)
-//        {
-//            double delta    = trkpt.distance - wpt.trkpt.distance;
-//            double ascend   = trkpt.ascend   - wpt.trkpt.ascend;
-//            double descend  = trkpt.descend  - wpt.trkpt.descend;
-
-//            IUnit::self().meter2distance(delta, val, unit);
-
-//            str += tr("\n%1 %2").arg(val).arg(unit);
-
-//            break;
-//        }
-//    }
 
     //-----------------------------------------------------------------------------------------------------------
     //TODO: HOVERTEXT FOR EXTENSIONS

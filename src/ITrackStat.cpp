@@ -116,7 +116,7 @@ void ITrackStat::slotSetWaypoint(double dist)
             {
                 ele = trkpt->ele;
             }
-            CWptDB::self().newWpt(lon, lat, ele, "");
+            CWptDB::self().newWpt(lon, lat, ele, CWptDB::self().getNewWptName());
             break;
         }
         if(type == eOverTime && dist < trkpt->timestamp)
@@ -129,7 +129,7 @@ void ITrackStat::slotSetWaypoint(double dist)
             {
                 ele = trkpt->ele;
             }
-            CWptDB::self().newWpt(lon, lat, ele, "");
+            CWptDB::self().newWpt(lon, lat, ele, CWptDB::self().getNewWptName());
             break;
         }
 
