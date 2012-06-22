@@ -583,7 +583,10 @@ CTrack::~CTrack()
 void CTrack::setHighlight(bool yes)
 {
     highlight = yes;
-    slotScaleWpt2Track();
+    if(yes)
+    {
+        slotScaleWpt2Track();
+    }
 }
 
 void CTrack::replaceElevationByLocal()

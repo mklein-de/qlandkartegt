@@ -91,6 +91,7 @@ void CTrackDB::clear()
     cnt = 0;
     delTracks(tracks.keys());
     CTrack::resetKeyCnt();
+    emit sigHighlightTrack(0);
     emit sigChanged();
 }
 
