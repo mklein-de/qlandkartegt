@@ -27,7 +27,6 @@
 #include "COverlayDB.h"
 #include "COverlayDistance.h"
 #include "CMegaMenu.h"
-#include "CDlgTrackFilter.h"
 #include "GeoMath.h"
 #include "CSettings.h"
 

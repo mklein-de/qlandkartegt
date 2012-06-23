@@ -659,20 +659,187 @@ bool CTrackFilterWidget::filterSplit2Tracks(QDataStream &args, QList<CTrack *> &
 
 bool CTrackFilterWidget::filterSplit3Stages(QDataStream &args, QList<CTrack *> &tracks)
 {
+    double val;
+    args >> val;
+
+    foreach(CTrack * trk, tracks)
+    {
+        QList<CTrack::pt_t>& trkpts = trk->getTrackPoints();
+        int npts        = trkpts.count();
+        int totalCnt    = 0;
+        int trkCnt      = 1;
+        double offset   = 0;
+
+        QProgressDialog progress(groupSplit1->title(), tr("Abort filter"), 0, npts, this);
+        progress.setWindowTitle(groupSplit1->title());
+        progress.setWindowModality(Qt::WindowModal);
+
+        foreach(const CTrack::pt_t& trkpt, trkpts)
+        {
+            progress.setValue(totalCnt++);
+            qApp->processEvents();
+
+            if((trkpt.distance - offset) >= val)
+            {
+                offset = trkpt.distance;
+                CWptDB::self().newWpt(trkpt.lon * DEG_TO_RAD, trkpt.lat * DEG_TO_RAD, trkpt.ele, QString("S%1").arg(trkCnt++));
+            }
+
+            if(progress.wasCanceled())
+            {
+                return true;
+            }
+        }
+    }
     return false;
 }
 
 bool CTrackFilterWidget::filterSplit3Tracks(QDataStream &args, QList<CTrack *> &tracks)
 {
+    double val;
+    args >> val;
+
+    QList<CTrack *> newTracks;
+
+    foreach(CTrack * trk, tracks)
+    {
+        QList<CTrack::pt_t>& trkpts = trk->getTrackPoints();
+        int npts        = trkpts.count();
+        int totalCnt    = 0;
+        int trkCnt      = 1;
+        double offset   = 0;
+
+        QProgressDialog progress(groupSplit2->title(), tr("Abort filter"), 0, npts, this);
+        progress.setWindowTitle(groupSplit2->title());
+        progress.setWindowModality(Qt::WindowModal);
+
+        CTrack * newTrack = new CTrack(&CTrackDB::self());
+        newTrack->setName(trk->getName() + QString("_%1").arg(trkCnt++));
+        newTrack->setColor(trk->getColorIdx());
+        newTracks << newTrack;
+
+        foreach(const CTrack::pt_t& trkpt, trkpts)
+        {
+            progress.setValue(totalCnt++);
+            qApp->processEvents();
+
+            *newTrack << trkpt;
+            if((trkpt.distance - offset) >= val)
+            {
+                offset = trkpt.distance;
+
+                CTrackDB::self().addTrack(newTrack, true);
+
+                newTrack = new CTrack(&CTrackDB::self());
+                newTrack->setName(trk->getName() + QString("_%1").arg(trkCnt++));
+                newTrack->setColor(trk->getColorIdx());
+
+                newTracks << newTrack;
+            }
+
+            if(progress.wasCanceled())
+            {
+                return true;
+            }
+        }
+        CTrackDB::self().addTrack(newTrack, true);
+    }
+
+
+    tracks = newTracks;
     return false;
+
 }
 
 bool CTrackFilterWidget::filterSplit4Stages(QDataStream &args, QList<CTrack *> &tracks)
 {
+    double val;
+    args >> val;
+
+    foreach(CTrack * trk, tracks)
+    {
+        QList<CTrack::pt_t>& trkpts = trk->getTrackPoints();
+        int npts        = trkpts.count();
+        int totalCnt    = 0;
+        int trkCnt      = 1;
+        double offset   = 0;
+
+        QProgressDialog progress(groupSplit1->title(), tr("Abort filter"), 0, npts, this);
+        progress.setWindowTitle(groupSplit1->title());
+        progress.setWindowModality(Qt::WindowModal);
+
+        foreach(const CTrack::pt_t& trkpt, trkpts)
+        {
+            progress.setValue(totalCnt++);
+            qApp->processEvents();
+
+            if((trkpt.ascend - offset) >= val)
+            {
+                offset = trkpt.ascend;
+                CWptDB::self().newWpt(trkpt.lon * DEG_TO_RAD, trkpt.lat * DEG_TO_RAD, trkpt.ele, QString("S%1").arg(trkCnt++));
+            }
+
+            if(progress.wasCanceled())
+            {
+                return true;
+            }
+        }
+    }
     return false;
 }
 
 bool CTrackFilterWidget::filterSplit4Tracks(QDataStream &args, QList<CTrack *> &tracks)
 {
+    double val;
+    args >> val;
+
+    QList<CTrack *> newTracks;
+
+    foreach(CTrack * trk, tracks)
+    {
+        QList<CTrack::pt_t>& trkpts = trk->getTrackPoints();
+        int npts        = trkpts.count();
+        int totalCnt    = 0;
+        int trkCnt      = 1;
+        double offset   = 0;
+
+        QProgressDialog progress(groupSplit2->title(), tr("Abort filter"), 0, npts, this);
+        progress.setWindowTitle(groupSplit2->title());
+        progress.setWindowModality(Qt::WindowModal);
+
+        CTrack * newTrack = new CTrack(&CTrackDB::self());
+        newTrack->setName(trk->getName() + QString("_%1").arg(trkCnt++));
+        newTrack->setColor(trk->getColorIdx());
+        newTracks << newTrack;
+
+        foreach(const CTrack::pt_t& trkpt, trkpts)
+        {
+            progress.setValue(totalCnt++);
+            qApp->processEvents();
+
+            *newTrack << trkpt;
+            if((trkpt.ascend - offset) >= val)
+            {
+                offset = trkpt.ascend;
+                CTrackDB::self().addTrack(newTrack, true);
+
+                newTrack = new CTrack(&CTrackDB::self());
+                newTrack->setName(trk->getName() + QString("_%1").arg(trkCnt++));
+                newTrack->setColor(trk->getColorIdx());
+
+                newTracks << newTrack;
+            }
+
+            if(progress.wasCanceled())
+            {
+                return true;
+            }
+        }
+        CTrackDB::self().addTrack(newTrack, true);
+    }
+
+
+    tracks = newTracks;
     return false;
+
 }

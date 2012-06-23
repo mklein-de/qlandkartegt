@@ -35,7 +35,6 @@
 #include "IUnit.h"
 #include "CMenus.h"
 #include "CActions.h"
-#include "CDlgTrackFilter.h"
 #include "CWptDB.h"
 #include "CSettings.h"
 #include "CPlot.h"
