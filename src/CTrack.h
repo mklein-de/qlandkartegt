@@ -199,7 +199,7 @@ class CTrack : public IItem
         bool isHighlighted() const {return highlight;}
 
         /// append point to track
-        CTrack& operator<<(pt_t& pt);
+        CTrack& operator<<(const pt_t& pt);
         /// rebuild secondary track data from primary
         void rebuild(bool reindex);
         /// get list of track points

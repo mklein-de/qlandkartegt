@@ -40,17 +40,30 @@ class CTrackFilterWidget : public QWidget, private Ui::ITrackFilterWidget
     private slots:
         void slotApplyFilter();
         void slotHighlightTrack(CTrack * trk);
-        void slotComboMeterFeet1(const QString &text);
+        void slotComboMeterFeet(const QString &text);
         void slotResetFilterList();
         void slotAddFilterHidePoints1();
         void slotAddFilterSmoothProfile1();
+        void slotAddFilterSplit1();
+        void slotAddFilterSplit2();
+        void slotAddFilterSplit3();
+        void slotAddFilterSplit4();
 
     private:
         void addFilter(const QString& name, const QString& icon, QByteArray& args);
         bool filterHidePoints1(QDataStream &args, QList<CTrack *> &tracks);
         bool filterSmoothProfile1(QDataStream &args, QList<CTrack *> &tracks);
+        bool filterSplit1Tracks(QDataStream &args, QList<CTrack *> &tracks);
+        bool filterSplit1Stages(QDataStream &args, QList<CTrack *> &tracks);
+        bool filterSplit2Tracks(QDataStream &args, QList<CTrack *> &tracks);
+        bool filterSplit2Stages(QDataStream &args, QList<CTrack *> &tracks);
+        bool filterSplit3Tracks(QDataStream &args, QList<CTrack *> &tracks);
+        bool filterSplit3Stages(QDataStream &args, QList<CTrack *> &tracks);
+        bool filterSplit4Tracks(QDataStream &args, QList<CTrack *> &tracks);
+        bool filterSplit4Stages(QDataStream &args, QList<CTrack *> &tracks);
 
-        enum filterType_e {eHidePoints1, eSmoothProfile1};
+
+        enum filterType_e {eHidePoints1, eSmoothProfile1, eSplit1, eSplit2, eSplit3, eSplit4};
 
         QPointer<CTrackEditWidget> trackEditWidget;
         QPointer<CTrack> track;

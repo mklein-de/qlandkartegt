@@ -753,7 +753,7 @@ void CTrack::setColor(unsigned i)
 
 
 
-CTrack& CTrack::operator<<(pt_t& pt)
+CTrack& CTrack::operator<<(const pt_t& pt)
 {
     track.push_back(pt);
     track.last().idx     = track.size() - 1;
@@ -1382,7 +1382,7 @@ void CTrack::medianFilter(quint32 len, QProgressDialog& progress)
     cntMedianFilterApplied = (len - 5) >> 1;
 
     QList<float> window;
-    for(int i = 0; i<len; i++)
+    for(quint32 i = 0; i<len; i++)
     {
         window << 0.0;
     }
@@ -1408,7 +1408,7 @@ void CTrack::medianFilter(quint32 len, QProgressDialog& progress)
     for(int i = (len>>1); i < (ele.size()-(len>>1)); i++)
     {
         // apply median filter over all trackpoints
-        for(int n = 0; n < len; n++)
+        for(quint32 n = 0; n < len; n++)
         {
             window[n] = ele[i - (len>>1) + n];
         }
