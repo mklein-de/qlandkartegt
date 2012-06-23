@@ -128,16 +128,6 @@
       </widget>
      </item>
      <item>
-      <widget class="QToolButton" name="toolFilter">
-       <property name="toolTip">
-        <string>Filter track points.</string>
-       </property>
-       <property name="text">
-        <string>...</string>
-       </property>
-      </widget>
-     </item>
-     <item>
       <widget class="QToolButton" name="toolReset">
        <property name="toolTip">
         <string>Reset all changes (hidden track points and filters)</string>
@@ -750,8 +740,8 @@
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>156</width>
-                 <height>284</height>
+                 <width>28</width>
+                 <height>16</height>
                 </rect>
                </property>
                <layout class="QVBoxLayout" name="verticalLayout_Extensions"/>

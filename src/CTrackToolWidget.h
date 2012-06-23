@@ -60,7 +60,6 @@ class CTrackToolWidget : public QWidget, private Ui::ITrackToolWidget
         void slotContextMenu(const QPoint& pos);
         void slotDelete();
         void slotToOverlay();
-        void slotFilter();
         void slotShow();
         void slotZoomToFit();
         void slotRevert();
@@ -75,7 +74,6 @@ class CTrackToolWidget : public QWidget, private Ui::ITrackToolWidget
         QPointer<CTrackEditWidget> trackedit;
 
         QAction * actEdit;
-        QAction * actFilter;
         QAction * actDistance;
         QAction * actHide;
         QAction * actZoomToFit;

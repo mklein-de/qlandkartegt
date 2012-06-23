@@ -79,7 +79,6 @@ class CTrackEditWidget : public QWidget, private Ui::ITrackEditWidget
         void slotToggleStatTime();
         void slotToggleTrainee();
         void slotShowProfile();
-        void slotFilter();
         void slotReset();
         void slotDelete();
 

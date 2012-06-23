@@ -130,9 +130,6 @@ CTrackEditWidget::CTrackEditWidget(QWidget * parent)
     traineeGraph->setIcon(QIcon(":/icons/package_favorite.png"));
     connect(traineeGraph, SIGNAL(clicked()), this, SLOT(slotToggleTrainee()));
 
-    toolFilter->setIcon(QIcon(":/icons/iconFilter16x16.png"));
-    connect(toolFilter, SIGNAL(clicked()), this, SLOT(slotFilter()));
-
     toolReset->setIcon(QIcon(":/icons/editundo.png"));
     connect(toolReset, SIGNAL(clicked()), this, SLOT(slotReset()));
 
@@ -1189,13 +1186,6 @@ void CTrackEditWidget::slotNameChanged()
     lineName->setPalette(palette);
 }
 
-void CTrackEditWidget::slotFilter()
-{
-    if(track.isNull()) return;
-    CDlgTrackFilter dlg(*track, this);
-    dlg.exec();
-}
-
 
 void CTrackEditWidget::slotReset()
 {
@@ -1268,7 +1258,7 @@ void CTrackEditWidget::slotStagesChanged()
     if(track.isNull() || originator) return;
 
     // get waypoints near track
-    originator = true;    
+    originator = true;
     checkStages->setCheckState(track->getDoScaleWpt2Track());
     originator = false;
 

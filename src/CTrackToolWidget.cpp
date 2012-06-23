@@ -54,7 +54,6 @@ CTrackToolWidget::CTrackToolWidget(QTabWidget * parent)
 
     contextMenu     = new QMenu(this);
     actEdit         = contextMenu->addAction(QPixmap(":/icons/iconEdit16x16.png"),tr("Edit..."),this,SLOT(slotEdit()));
-    actFilter       = contextMenu->addAction(QPixmap(":/icons/iconFilter16x16.png"),tr("Filter..."),this,SLOT(slotFilter()));
     actRevert       = contextMenu->addAction(QPixmap(":/icons/iconReload16x16.png"),tr("Revert"),this,SLOT(slotRevert()));
     contextMenu->addSeparator();
     actDistance     = contextMenu->addAction(QPixmap(":/icons/iconDistance16x16.png"),tr("Make Overlay"),this,SLOT(slotToOverlay()));
@@ -230,13 +229,11 @@ void CTrackToolWidget::slotContextMenu(const QPoint& pos)
         if(cnt > 1)
         {
             actEdit->setEnabled(false);
-            actFilter->setEnabled(false);
             actRevert->setEnabled(false);
         }
         else
         {
             actEdit->setEnabled(true);
-            actFilter->setEnabled(true);
             actRevert->setEnabled(true);
         }
 
@@ -361,24 +358,6 @@ void CTrackToolWidget::slotToOverlay()
 
     CMegaMenu::self().switchByKeyWord("Overlay");
 }
-
-
-void CTrackToolWidget::slotFilter()
-{
-    const QListWidgetItem* item = listTracks->currentItem();
-
-    if(item == 0)
-    {
-        QMessageBox::information(0,tr("Filter"), tr("You have to select a track first."),
-            QMessageBox::Ok,QMessageBox::Ok);
-        return;
-    };
-
-    CTrack *track = CTrackDB::self().highlightedTrack();
-    CDlgTrackFilter dlg(*track, this);
-    dlg.exec();
-}
-
 
 void CTrackToolWidget::slotZoomToFit()
 {
