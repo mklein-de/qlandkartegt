@@ -401,7 +401,7 @@ void CDlgTrackFilter::reduceDataset(CTrack * trk)
         if(checkMedian->isChecked())
         {
             QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
-            trk->medianFilter(progress);
+            trk->medianFilter(5, progress);
             QApplication::restoreOverrideCursor();
         }
         progress.setValue(npts);

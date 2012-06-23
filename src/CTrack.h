@@ -252,16 +252,16 @@ class CTrack : public IItem
         /// set the icon defined by a string
         void setIcon(const QString& str);
 
-        void setTimestamp(quint32 ts){timestamp = ts;}        
+        void setTimestamp(quint32 ts){timestamp = ts;}
         float getStartElevation();
         float getEndElevation();
 
         Qt::CheckState getDoScaleWpt2Track(){return (Qt::CheckState)doScaleWpt2Track;}
-        void setDoScaleWpt2Track(Qt::CheckState state);       
+        void setDoScaleWpt2Track(Qt::CheckState state);
         const QList<wpt_t>& getStageWaypoints(){return waypoints;}
 
         /// smooth profile with a median filter
-        void medianFilter(QProgressDialog& progress);
+        void medianFilter(quint32 len, QProgressDialog &progress);
 
         /// reset all smoothed and purged data to it's original state
         void reset();

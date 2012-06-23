@@ -1373,13 +1373,13 @@ void CTrack::slotScaleWpt2Track()
     qSort(waypoints.begin(), waypoints.end(), qSortWptLessDistance);
     CTrackDB::self().emitSigChanged();
 
-    QApplication::restoreOverrideCursor();       
+    QApplication::restoreOverrideCursor();
     return ;
 }
 
-void CTrack::medianFilter(QProgressDialog& progress)
+void CTrack::medianFilter(quint32 len, QProgressDialog& progress)
 {
-    qint32 len = 5 + (cntMedianFilterApplied<<1);
+    cntMedianFilterApplied = (len - 5) >> 1;
 
     QList<float> window;
     for(int i = 0; i<len; i++)
@@ -1424,7 +1424,6 @@ void CTrack::medianFilter(QProgressDialog& progress)
         }
     }
 
-    cntMedianFilterApplied++;
 }
 
 void CTrack::reset()
