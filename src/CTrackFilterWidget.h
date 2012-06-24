@@ -48,6 +48,8 @@ class CTrackFilterWidget : public QWidget, private Ui::ITrackFilterWidget
         void slotAddFilterSplit2();
         void slotAddFilterSplit3();
         void slotAddFilterSplit4();
+        void slotAddFilterReset();
+        void slotAddFilterDelete();
 
     private:
         void addFilter(const QString& name, const QString& icon, QByteArray& args);
@@ -61,9 +63,11 @@ class CTrackFilterWidget : public QWidget, private Ui::ITrackFilterWidget
         bool filterSplit3Stages(QDataStream &args, QList<CTrack *> &tracks);
         bool filterSplit4Tracks(QDataStream &args, QList<CTrack *> &tracks);
         bool filterSplit4Stages(QDataStream &args, QList<CTrack *> &tracks);
+        bool filterReset(QDataStream &args, QList<CTrack *> &tracks);
+        bool filterDelete(QDataStream &args, QList<CTrack *> &tracks);
 
 
-        enum filterType_e {eHidePoints1, eSmoothProfile1, eSplit1, eSplit2, eSplit3, eSplit4};
+        enum filterType_e {eHidePoints1, eSmoothProfile1, eSplit1, eSplit2, eSplit3, eSplit4, eReset, eDelete};
 
         QPointer<CTrackEditWidget> trackEditWidget;
         QPointer<CTrack> track;

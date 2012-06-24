@@ -129,12 +129,6 @@ CTrackEditWidget::CTrackEditWidget(QWidget * parent)
     traineeGraph->setIcon(QIcon(":/icons/package_favorite.png"));
     connect(traineeGraph, SIGNAL(clicked()), this, SLOT(slotToggleTrainee()));
 
-    toolReset->setIcon(QIcon(":/icons/editundo.png"));
-    connect(toolReset, SIGNAL(clicked()), this, SLOT(slotReset()));
-
-    toolDelete->setIcon(QIcon(":/icons/iconDelete16x16.png"));
-    connect(toolDelete, SIGNAL(clicked()), this, SLOT(slotDelete()));
-
     QPixmap icon(16,8);
     for(int i=0; i < 17; ++i)
     {

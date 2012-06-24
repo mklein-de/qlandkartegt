@@ -26,13 +26,14 @@
 #include "CSettings.h"
 #include "IUnit.h"
 #include "CWptDB.h"
+#include "config.h"
 
 #include <QtGui>
 
 enum meter_feet_index
 {
     METER_INDEX,
-    FEET_INDEX,
+    FEET_INDEX
 };
 
 
@@ -55,6 +56,8 @@ CTrackFilterWidget::CTrackFilterWidget(QWidget *parent)
     connect(toolAddSplit2, SIGNAL(clicked()), this, SLOT(slotAddFilterSplit2()));
     connect(toolAddSplit3, SIGNAL(clicked()), this, SLOT(slotAddFilterSplit3()));
     connect(toolAddSplit4, SIGNAL(clicked()), this, SLOT(slotAddFilterSplit4()));
+    connect(toolReset, SIGNAL(clicked()), this, SLOT(slotAddFilterReset()));
+    connect(toolDelete, SIGNAL(clicked()), this, SLOT(slotAddFilterDelete()));
 
     // ----------- read in GUI configuration -----------
     SETTINGS;
@@ -103,6 +106,38 @@ CTrackFilterWidget::CTrackFilterWidget(QWidget *parent)
 
     radioSplitTracks->setChecked(cfg.value("trackfilter/Split/asTrack", radioSplitTracks->isChecked()).toBool());
     radioSplitStages->setChecked(cfg.value("trackfilter/Split/asStages", radioSplitStages->isChecked()).toBool());
+
+    // restore last filter list
+    QFile file(QDir::home().filePath(CONFIGDIR "track_filter_current.dat"));
+    file.open(QIODevice::ReadOnly);
+    QDataStream in(&file);
+    in.setVersion(QDataStream::Qt_4_5);
+
+    qint32 N;
+    in >> N;
+    for(int i = 0; i < N; i++)
+    {
+        QListWidgetItem * item = new QListWidgetItem(listFilters);
+
+        QIcon icon;
+        QString text;
+        QVariant data;
+
+        in >> icon >> text >> data;
+
+        item->setIcon(icon);
+        item->setText(text);
+        item->setData(Qt::UserRole, data);
+    }
+
+    file.close();
+
+    if(listFilters->count())
+    {
+        pushResetFilterList->setEnabled(true);
+        pushApply->setEnabled(true);
+    }
+
 }
 
 CTrackFilterWidget::~CTrackFilterWidget()
@@ -131,14 +166,30 @@ CTrackFilterWidget::~CTrackFilterWidget()
 
     cfg.setValue("trackfilter/Split/asTrack", radioSplitTracks->isChecked());
     cfg.setValue("trackfilter/Split/asStages", radioSplitStages->isChecked());
+
+    // store current filter list
+    QFile file(QDir::home().filePath(CONFIGDIR "track_filter_current.dat"));
+    file.open(QIODevice::WriteOnly);
+    QDataStream out(&file);
+    out.setVersion(QDataStream::Qt_4_5);
+
+    out << qint32(listFilters->count());
+    for(int i = 0; i < listFilters->count(); i++)
+    {
+        QListWidgetItem * item = listFilters->item(i);
+
+        out << item->icon();
+        out << item->text();
+        out << item->data(Qt::UserRole);
+    }
+
+    file.close();
 }
 
 
 void CTrackFilterWidget::setTrackEditWidget(CTrackEditWidget * w)
 {
     trackEditWidget = w;
-//    connect(pushReset, SIGNAL(clicked()), trackEditWidget, SLOT(slotReset()));
-//    connect(pushDelete, SIGNAL(clicked()), trackEditWidget, SLOT(slotDelete()));
 }
 
 void CTrackFilterWidget::slotHighlightTrack(CTrack * trk)
@@ -253,6 +304,28 @@ void CTrackFilterWidget::slotAddFilterSplit4()
     addFilter(name, ":/icons/editcut.png", args);
 }
 
+void CTrackFilterWidget::slotAddFilterReset()
+{
+    QByteArray args;
+    QDataStream stream(&args, QIODevice::WriteOnly);
+
+    stream << quint32(eReset);
+
+    QString name = groupReset->title();
+    addFilter(name, ":/icons/editundo.png", args);
+}
+
+void CTrackFilterWidget::slotAddFilterDelete()
+{
+    QByteArray args;
+    QDataStream stream(&args, QIODevice::WriteOnly);
+
+    stream << quint32(eDelete);
+
+    QString name = groupDelete->title();
+    addFilter(name, ":/icons/iconDelete16x16.png", args);
+}
+
 
 void CTrackFilterWidget::addFilter(const QString& name, const QString& icon, QByteArray& args)
 {
@@ -337,6 +410,14 @@ void CTrackFilterWidget::slotApplyFilter()
                 {
                     cancelled = filterSplit4Stages(args, tracks);
                 }
+                break;
+
+            case eReset:
+                cancelled = filterReset(args, tracks);
+                break;
+
+            case eDelete:
+                cancelled = filterDelete(args, tracks);
                 break;
 
             default:
@@ -655,7 +736,6 @@ bool CTrackFilterWidget::filterSplit2Tracks(QDataStream &args, QList<CTrack *> &
         CTrackDB::self().addTrack(newTrack, true);
     }
 
-
     tracks = newTracks;
     return false;
 }
@@ -748,10 +828,8 @@ bool CTrackFilterWidget::filterSplit3Tracks(QDataStream &args, QList<CTrack *> &
         CTrackDB::self().addTrack(newTrack, true);
     }
 
-
     tracks = newTracks;
     return false;
-
 }
 
 bool CTrackFilterWidget::filterSplit4Stages(QDataStream &args, QList<CTrack *> &tracks)
@@ -841,8 +919,18 @@ bool CTrackFilterWidget::filterSplit4Tracks(QDataStream &args, QList<CTrack *> &
         CTrackDB::self().addTrack(newTrack, true);
     }
 
-
     tracks = newTracks;
     return false;
+}
 
+bool CTrackFilterWidget::filterReset(QDataStream &args, QList<CTrack *> &tracks)
+{
+    trackEditWidget->slotReset();
+    return false;
+}
+
+bool CTrackFilterWidget::filterDelete(QDataStream &args, QList<CTrack *> &tracks)
+{
+    trackEditWidget->slotDelete();
+    return false;
 }
