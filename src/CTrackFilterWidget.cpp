@@ -351,6 +351,9 @@ void CTrackFilterWidget::slotApplyFilter()
         }
     }
 
+    track->rebuild(true);
+    track->slotScaleWpt2Track();
+
     CTrackDB::self().emitSigModified();
     QApplication::restoreOverrideCursor();
 }

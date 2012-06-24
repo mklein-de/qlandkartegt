@@ -791,7 +791,6 @@ void CTrack::hide(bool ok)
 
 void CTrack::rebuild(bool reindex)
 {
-
     double slope    = 0;
     IMap& dem = CMapDB::self().getDEM();
     quint32 t1 = 0, t2 = 0;
@@ -1443,6 +1442,7 @@ void CTrack::reset()
     cntMedianFilterApplied = 0;
 
     rebuild(true);
+    slotScaleWpt2Track();
 }
 
 QDataStream& operator >>(QDataStream& s, CFlags& flag)
