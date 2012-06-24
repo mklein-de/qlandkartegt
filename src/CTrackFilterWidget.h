@@ -27,6 +27,7 @@
 
 class CTrackEditWidget;
 class CTrack;
+class QMenu;
 
 class CTrackFilterWidget : public QWidget, private Ui::ITrackFilterWidget
 {
@@ -38,6 +39,7 @@ class CTrackFilterWidget : public QWidget, private Ui::ITrackFilterWidget
         void setTrackEditWidget(CTrackEditWidget * w);
 
     private slots:
+        void slotSaveFilter();
         void slotApplyFilter();
         void slotHighlightTrack(CTrack * trk);
         void slotComboMeterFeet(const QString &text);
@@ -51,7 +53,14 @@ class CTrackFilterWidget : public QWidget, private Ui::ITrackFilterWidget
         void slotAddFilterReset();
         void slotAddFilterDelete();
 
+        void slotDoubleClickStoredFilter(QListWidgetItem * item);
+        void slotContextMenuStoredFilter( const QPoint & pos);
+        void slotStoredFilterEdit();
+        void slotStoredFilterDelete();
+
     private:
+        void saveFilterList(const QString& filename);
+        void loadFilterList(const QString& filename);
         void addFilter(const QString& name, const QString& icon, QByteArray& args);
         bool filterHidePoints1(QDataStream &args, QList<CTrack *> &tracks);
         bool filterSmoothProfile1(QDataStream &args, QList<CTrack *> &tracks);
@@ -71,6 +80,8 @@ class CTrackFilterWidget : public QWidget, private Ui::ITrackFilterWidget
 
         QPointer<CTrackEditWidget> trackEditWidget;
         QPointer<CTrack> track;
+
+        QMenu * contextMenuStoredFilter;
 };
 
 #endif //CTRACKFILTERWIDGET_H

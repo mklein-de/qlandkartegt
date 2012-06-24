@@ -44,6 +44,7 @@ CTrackFilterWidget::CTrackFilterWidget(QWidget *parent)
     setObjectName("CTrackFilterWidget");
     connect(pushApply, SIGNAL(clicked()), this, SLOT(slotApplyFilter()));
     connect(pushResetFilterList, SIGNAL(clicked()), this, SLOT(slotResetFilterList()));
+    connect(pushSave, SIGNAL(clicked()), this, SLOT(slotSaveFilter()));
     connect(&CTrackDB::self(), SIGNAL(sigHighlightTrack(CTrack*)), this, SLOT(slotHighlightTrack(CTrack*)));
 
     connect(comboMeterFeet1, SIGNAL(currentIndexChanged(const QString &)), this, SLOT(slotComboMeterFeet(const QString &)));
@@ -61,7 +62,6 @@ CTrackFilterWidget::CTrackFilterWidget(QWidget *parent)
 
     // ----------- read in GUI configuration -----------
     SETTINGS;
-
     if(IUnit::self().baseunit == "ft")
     {
         comboMeterFeet1->setCurrentIndex((int)FEET_INDEX);
@@ -108,35 +108,26 @@ CTrackFilterWidget::CTrackFilterWidget(QWidget *parent)
     radioSplitStages->setChecked(cfg.value("trackfilter/Split/asStages", radioSplitStages->isChecked()).toBool());
 
     // restore last filter list
-    QFile file(QDir::home().filePath(CONFIGDIR "track_filter_current.dat"));
-    file.open(QIODevice::ReadOnly);
-    QDataStream in(&file);
-    in.setVersion(QDataStream::Qt_4_5);
+    loadFilterList(QDir::home().filePath(CONFIGDIR ".track_filter_current.filter"));
 
-    qint32 N;
-    in >> N;
-    for(int i = 0; i < N; i++)
+    QDir dir(QDir::home());
+    dir.cd(CONFIGDIR);
+    QStringList filenames = dir.entryList(QStringList("*.filter"), QDir::Files, QDir::Name);
+
+    foreach(const QString& filename, filenames)
     {
-        QListWidgetItem * item = new QListWidgetItem(listFilters);
-
-        QIcon icon;
-        QString text;
-        QVariant data;
-
-        in >> icon >> text >> data;
-
-        item->setIcon(icon);
-        item->setText(text);
-        item->setData(Qt::UserRole, data);
+        qDebug() << filename;
+        QListWidgetItem * item = new QListWidgetItem(listStored);
+        item->setText(QFileInfo(filename).baseName());
+        item->setIcon(QIcon(":/icons/iconFilter16x16.png"));
     }
 
-    file.close();
+    connect(listStored, SIGNAL(itemDoubleClicked(QListWidgetItem*)), this, SLOT(slotDoubleClickStoredFilter(QListWidgetItem*)));
+    connect(listStored, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(slotContextMenuStoredFilter(QPoint)));
 
-    if(listFilters->count())
-    {
-        pushResetFilterList->setEnabled(true);
-        pushApply->setEnabled(true);
-    }
+    contextMenuStoredFilter = new QMenu(this);
+    contextMenuStoredFilter->addAction(QIcon(":/icons/iconEdit16x16.png"), tr("Edit name..."), this, SLOT(slotStoredFilterEdit()));
+    contextMenuStoredFilter->addAction(QIcon(":/icons/iconClear16x16.png"), tr("Delete"), this, SLOT(slotStoredFilterDelete()));
 
 }
 
@@ -168,7 +159,13 @@ CTrackFilterWidget::~CTrackFilterWidget()
     cfg.setValue("trackfilter/Split/asStages", radioSplitStages->isChecked());
 
     // store current filter list
-    QFile file(QDir::home().filePath(CONFIGDIR "track_filter_current.dat"));
+    saveFilterList(QDir::home().filePath(CONFIGDIR ".track_filter_current.filter"));
+}
+
+
+void CTrackFilterWidget::saveFilterList(const QString& filename)
+{
+    QFile file(filename);
     file.open(QIODevice::WriteOnly);
     QDataStream out(&file);
     out.setVersion(QDataStream::Qt_4_5);
@@ -186,6 +183,41 @@ CTrackFilterWidget::~CTrackFilterWidget()
     file.close();
 }
 
+void CTrackFilterWidget::loadFilterList(const QString& filename)
+{
+    QFile file(filename);
+    file.open(QIODevice::ReadOnly);
+    QDataStream in(&file);
+    in.setVersion(QDataStream::Qt_4_5);
+
+    listFilters->clear();
+
+    qint32 N;
+    in >> N;
+    for(int i = 0; i < N; i++)
+    {
+        QListWidgetItem * item = new QListWidgetItem(listFilters);
+
+        QIcon icon;
+        QString text;
+        QVariant data;
+
+        in >> icon >> text >> data;
+
+        item->setIcon(icon);
+        item->setText(text);
+        item->setData(Qt::UserRole, data);
+    }
+
+    file.close();
+
+    if(listFilters->count())
+    {
+        pushResetFilterList->setEnabled(true);
+        pushApply->setEnabled(true);
+        pushSave->setEnabled(true);
+    }
+}
 
 void CTrackFilterWidget::setTrackEditWidget(CTrackEditWidget * w)
 {
@@ -218,11 +250,37 @@ void CTrackFilterWidget::slotComboMeterFeet(const QString &text)
 }
 
 
+void CTrackFilterWidget::slotDoubleClickStoredFilter(QListWidgetItem * item)
+{
+    if(item)
+    {
+        loadFilterList(QDir::home().filePath(CONFIGDIR + item->text() + ".filter"));
+    }
+}
+
+void CTrackFilterWidget::slotContextMenuStoredFilter( const QPoint & pos)
+{
+    QPoint p = listStored->mapToGlobal(pos);
+    contextMenuStoredFilter->exec(p);
+}
+
+void CTrackFilterWidget::slotStoredFilterEdit()
+{
+
+}
+
+void CTrackFilterWidget::slotStoredFilterDelete()
+{
+
+}
+
+
 void CTrackFilterWidget::slotResetFilterList()
 {
     listFilters->clear();
     pushResetFilterList->setEnabled(false);
     pushApply->setEnabled(false);
+    pushSave->setEnabled(false);
 }
 
 void CTrackFilterWidget::slotAddFilterHidePoints1()
@@ -336,8 +394,27 @@ void CTrackFilterWidget::addFilter(const QString& name, const QString& icon, QBy
 
     pushApply->setEnabled(true);
     pushResetFilterList->setEnabled(true);
+    pushSave->setEnabled(true);
 }
 
+
+void CTrackFilterWidget::slotSaveFilter()
+{
+    QString name = QInputDialog::getText(this, tr("Filter name ..."), tr("Please enter a name for the filter list to store."));
+
+    if(name.isEmpty())
+    {
+        return;
+    }
+
+    QString filename = QDir::home().filePath(CONFIGDIR + name + ".filter");
+
+    saveFilterList(filename);
+
+    QListWidgetItem * item = new QListWidgetItem(listStored);
+    item->setText(name);
+    item->setIcon(QIcon(":/icons/iconFilter16x16.png"));
+}
 
 void CTrackFilterWidget::slotApplyFilter()
 {
