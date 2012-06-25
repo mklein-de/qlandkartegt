@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1068</width>
-    <height>407</height>
+    <height>504</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -132,8 +132,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>763</width>
-            <height>433</height>
+            <width>778</width>
+            <height>453</height>
            </rect>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -745,7 +745,7 @@
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="tab_2">
+     <widget class="QWidget" name="tabAnnonymous">
       <attribute name="icon">
        <iconset resource="resources.qrc">
         <normaloff>:/icons/cache/Virtual-Cache.png</normaloff>:/icons/cache/Virtual-Cache.png</iconset>
@@ -753,6 +753,18 @@
       <attribute name="title">
        <string>Annonymous</string>
       </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout_6">
+       <item>
+        <widget class="QLabel" name="label_17">
+         <property name="text">
+          <string>To be done.</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+      </layout>
      </widget>
     </widget>
    </item>
