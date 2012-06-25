@@ -1600,7 +1600,7 @@ Annuler par une demande utilisateur.</translation>
     <name>CDlgLoadOnlineMap</name>
     <message>
         <source>Target path is %1</source>
-        <translation>Le repertoire de destination est %1</translation>
+        <translation type="obsolete">Le repertoire de destination est %1</translation>
     </message>
     <message>
         <source>Open Directory</source>
@@ -1996,6 +1996,14 @@ n&apos;est pas un systéme de coordonné valide:
     <message>
         <source>Add to database</source>
         <translation>Ajouter à la base</translation>
+    </message>
+    <message>
+        <source>Delete diary...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Do you really want to delete the diary?</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -4505,6 +4513,10 @@ distance: %1 %2</translation>
 Your selection will be stored in the track&apos;s data. You can save it along with the data. To change the selection use the checkbox in the track edit dialog.</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source> %3 %1 %2</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>CTrackDB</name>
@@ -4649,6 +4661,37 @@ Your selection will be stored in the track&apos;s data. You can save it along wi
     </message>
 </context>
 <context>
+    <name>CTrackFilterWidget</name>
+    <message>
+        <source>Edit name...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Delete</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Filter name ...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Please enter a name for the filter list to store.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Delete track filter...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Do you really want to delete &apos;%1&apos;?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Abort filter</source>
+        <translation type="unfinished">Annuler le filtre</translation>
+    </message>
+</context>
+<context>
     <name>CTrackStatDistanceWidget</name>
     <message>
         <source>time [h]</source>
@@ -4755,7 +4798,7 @@ Your selection will be stored in the track&apos;s data. You can save it along wi
     </message>
     <message>
         <source>Filter...</source>
-        <translation>Filtrer...</translation>
+        <translation type="obsolete">Filtrer...</translation>
     </message>
     <message>
         <source>Make Overlay</source>
@@ -6276,11 +6319,19 @@ For modern Garmin device select &quot;Garmin Mass Storage&quot; device to exchan
     </message>
     <message>
         <source>Target path is %1</source>
-        <translation>Le repertoire de destination est %1</translation>
+        <translation type="obsolete">Le repertoire de destination est %1</translation>
     </message>
     <message>
         <source>Available Online Map ...</source>
         <translation>Cartes en ligne disponible ...</translation>
+    </message>
+    <message>
+        <source>Download map file to:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>-</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -7329,7 +7380,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Reset all changes (hidden track points and filters)</source>
-        <translation>Réinitialiser tout les changements ( points cachés du tracé et les filtres)</translation>
+        <translation type="obsolete">Réinitialiser tout les changements ( points cachés du tracé et les filtres)</translation>
     </message>
     <message>
         <source>Use &apos;return&apos; key to change name permanently.</source>
@@ -7341,7 +7392,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Remove hidden track points permanently.</source>
-        <translation>Supprimer les points cachés définitivement.</translation>
+        <translation type="obsolete">Supprimer les points cachés définitivement.</translation>
     </message>
     <message>
         <source>Stages</source>
@@ -7409,7 +7460,154 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Filter track points.</source>
-        <translation>Filtrer les points du tracé.</translation>
+        <translation type="obsolete">Filtrer les points du tracé.</translation>
+    </message>
+    <message>
+        <source>Filter</source>
+        <translation type="unfinished">Filtrer</translation>
+    </message>
+</context>
+<context>
+    <name>ITrackFilterWidget</name>
+    <message>
+        <source>Form</source>
+        <translation type="unfinished">Form</translation>
+    </message>
+    <message>
+        <source>Reset Filter List</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Apply Filters</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Save Filter List</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Points</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Reset changes</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>...</source>
+        <translation type="unfinished">...</translation>
+    </message>
+    <message>
+        <source>Restore hidden points and changes applied by filters.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Reduce Points</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Hide track points if:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Distance to previous point less than</source>
+        <translation type="unfinished">La distance avec le point précédent est plus petite que</translation>
+    </message>
+    <message>
+        <source>Azimuth from previous point less than</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message utf8="true">
+        <source>°</source>
+        <translation type="unfinished">°</translation>
+    </message>
+    <message>
+        <source>Smooth Profile</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Change elevation data of track:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Median filter over</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>points</source>
+        <translation type="unfinished">points</translation>
+    </message>
+    <message>
+        <source>Delete hidden points</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Delete hidden track points for ever. No way back!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Split</source>
+        <translation type="unfinished">Découper</translation>
+    </message>
+    <message>
+        <source>Split into equal chunks</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Split the track into </source>
+        <translation type="unfinished">Decouper le tracé en </translation>
+    </message>
+    <message>
+        <source>chunks</source>
+        <translation type="unfinished">parties</translation>
+    </message>
+    <message>
+        <source>Split by number of points</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>SplitTrack into chunks of </source>
+        <translation type="unfinished">Decouper le tracé en parties de</translation>
+    </message>
+    <message>
+        <source>Split by distance</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>m</source>
+        <translation type="unfinished">m</translation>
+    </message>
+    <message>
+        <source>length</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Split by ascend</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>SplitTrack into chunks with </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>ascend</source>
+        <translation type="unfinished">monté</translation>
+    </message>
+    <message>
+        <source>Split track</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add only waypoints for stages</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Annonymous</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>To be done.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
