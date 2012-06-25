@@ -1267,7 +1267,7 @@ void CTrackEditWidget::slotPointOfFocus(const int idx)
     int cnt = 0;
 
     const QList<CTrack::wpt_t>& wpts = track->getStageWaypoints();
-    if(idx < 0 || wpts.isEmpty())
+    if(idx < 0 || wpts.isEmpty() || track.isNull())
     {
         textStages->slotHighlightArea("");
         if(trackStatProfileDist)
@@ -1291,7 +1291,8 @@ void CTrackEditWidget::slotPointOfFocus(const int idx)
             textStages->slotHighlightArea(QString("stage%1").arg(cnt));
             if(trackStatProfileDist)
             {
-                trackStatProfileDist->getPlot()->slotHighlightSection(x1,x2);
+                double x = track->getTrackPoints()[idx].distance;
+                trackStatProfileDist->getPlot()->slotHighlightSection(x1,x);
             }
             return;
         }
@@ -1306,7 +1307,8 @@ void CTrackEditWidget::slotPointOfFocus(const int idx)
 
         if(trackStatProfileDist && track)
         {
-            trackStatProfileDist->getPlot()->slotHighlightSection(x1,track->getTotalDistance());
+            double x = track->getTrackPoints()[idx].distance;
+            trackStatProfileDist->getPlot()->slotHighlightSection(x1,x);
         }
 
     }
