@@ -112,10 +112,11 @@ void CDlgLoadOnlineMap::accept()
         request.addMethodArgument("link", "", item->data(Qt::UserRole).toString());
         soapHttp.setHost("www.qlandkarte.org");
         soapHttp.submitRequest(request, "/webservice/qlandkartegt.php");
+
+
         selectedfile = "";
         selectedfile = selectedfile.prepend(tempDir.absolutePath()+"/");
-        selectedfile += item->text() + ".xml";
-        qDebug("Call Webservice Url %s",qPrintable(item->data(Qt::UserRole).toString()));
+        selectedfile += item->data(Qt::UserRole + 1).toString();
     }
 }
 
@@ -138,7 +139,6 @@ bool CDlgLoadOnlineMap::saveToDisk(const QString &filename, QString data)
 
 void CDlgLoadOnlineMap::slotWebServiceResponse(const QtSoapMessage &message)
 {
-    qDebug("Methode name response %s",qPrintable(message.method().name().name()));
     QString method(message.method().name().name());
     if (message.isFault())
     {
@@ -154,12 +154,15 @@ void CDlgLoadOnlineMap::slotWebServiceResponse(const QtSoapMessage &message)
                 {
                         const QtSoapType &map = array[i];
                         QString mapName(map["name"].toString().trimmed());
-                        if (mapName.contains(QRegExp(".xml")))
+                        if (mapName.endsWith(".xml") || mapName.endsWith(".tms"))
                         {
-                            mapName = mapName.replace(QRegExp(".xml"),"");
-                            mapName = mapName.replace(QRegExp("_")," ");
-                            item = new QListWidgetItem(QIcon(":/icons/iconWMS22x22.png"),mapName);
-                            item->setData(Qt::UserRole,QUrl(map["link"].toString()));
+                            QIcon icon      = mapName.endsWith(".xml") ? QIcon(":/icons/iconWMS22x22.png") : QIcon(":/icons/iconTMS22x22.png");
+                            QString text    = QFileInfo(mapName).baseName();
+                            text = text.replace(QRegExp("_")," ");
+
+                            item = new QListWidgetItem(icon ,text);
+                            item->setData(Qt::UserRole + 0,QUrl(map["link"].toString()));
+                            item->setData(Qt::UserRole + 1, mapName);
                             mapList->addItem(item);
                         }
                 }
@@ -168,14 +171,12 @@ void CDlgLoadOnlineMap::slotWebServiceResponse(const QtSoapMessage &message)
 
         if (method == "getwmslinkResponse")
         {
-            //qDebug("Event Download link triggered %s",qPrintable(message.returnValue().toString()));
             QString data(message.returnValue().toString());
             //data.replace(QRegExp("&amp;"), "&"); // This _must_ come first
             data.replace(QRegExp("&lt;"), "<");
             data.replace(QRegExp("&gt;"), ">");
             data.replace(QRegExp("&quot;"), "\"");
 
-            qDebug("Write result to file %s",qPrintable(selectedfile));
             saveToDisk(selectedfile,data);
             QDialog::accept();
         }
