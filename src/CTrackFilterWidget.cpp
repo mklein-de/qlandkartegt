@@ -266,12 +266,45 @@ void CTrackFilterWidget::slotContextMenuStoredFilter( const QPoint & pos)
 
 void CTrackFilterWidget::slotStoredFilterEdit()
 {
+    QListWidgetItem * item = listStored->currentItem();
+    if(item == 0)
+    {
+        return;
+    }
 
+    QString name = item->text();
+    QFile file(QDir::home().filePath(CONFIGDIR + name + ".filter"));
+
+    name = QInputDialog::getText(this, tr("Filter name ..."), tr("Please enter a name for the filter list to store."), QLineEdit::Normal, name);
+    if(name.isEmpty())
+    {
+        return;
+    }
+
+    file.rename(QDir::home().filePath(CONFIGDIR + name + ".filter"));
+    item->setText(name);
 }
 
 void CTrackFilterWidget::slotStoredFilterDelete()
 {
+    QListWidgetItem * item = listStored->currentItem();
+    if(item == 0)
+    {
+        return;
+    }
 
+    QString name = item->text();
+    QFile file(QDir::home().filePath(CONFIGDIR + name + ".filter"));
+
+    QMessageBox::StandardButton res = QMessageBox::question(this, tr("Delete track filter..."), tr("Do you really want to delete '%1'?").arg(name), QMessageBox::Yes|QMessageBox::No, QMessageBox::Yes);
+
+    if(res == QMessageBox::No)
+    {
+        return;
+    }
+
+    file.remove();
+    delete item;
 }
 
 
