@@ -244,8 +244,8 @@ class CTrack : public IItem
         void hide(bool ok);
         bool isHidden() const {return m_hide;}
 
-        void replaceElevationByRemote();
-        void replaceElevationByLocal();
+        void replaceElevationByRemote(bool replaceOrignalData);
+        void replaceElevationByLocal(bool replaceOrignalData);
 
         /// get a summary of item's data to display on screen or in the toolview
         QString getInfo();
@@ -340,6 +340,8 @@ class CTrack : public IItem
         quint32 cntMedianFilterApplied;
 
         QList<wpt_t> waypoints;
+
+        bool replaceOrigData;
 
 };
 

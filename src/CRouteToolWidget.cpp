@@ -778,11 +778,11 @@ void CRouteToolWidget::slotToTrack()
 
         if(eleMode == CDlgConvertToTrack::eLocal)
         {
-            track->replaceElevationByLocal();
+            track->replaceElevationByLocal(true);
         }
         else if(eleMode == CDlgConvertToTrack::eRemote)
         {
-            track->replaceElevationByRemote();
+            track->replaceElevationByRemote(true);
         }
 
         CTrackDB::self().addTrack(track, false);

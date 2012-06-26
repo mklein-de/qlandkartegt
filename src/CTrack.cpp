@@ -561,6 +561,7 @@ CTrack::CTrack(QObject * parent)
 , geonames(0)
 , visiblePointCount(0)
 , cntMedianFilterApplied(0)
+, replaceOrigData(true)
 {
     ref = 1;
 
@@ -589,24 +590,29 @@ void CTrack::setHighlight(bool yes)
     }
 }
 
-void CTrack::replaceElevationByLocal()
+void CTrack::replaceElevationByLocal(bool replaceOrignalData)
 {
-    qDebug() << "CTrack::replaceElevationByLocal()";
+//    qDebug() << "CTrack::replaceElevationByLocal()";
     IMap& map       = CMapDB::self().getDEM();
     const int size = track.size();
     for(int i = 0; i<size; i++)
     {
         track[i].ele    = map.getElevation(track[i].lon * DEG_TO_RAD, track[i].lat * DEG_TO_RAD);
-        track[i]._ele   = track[i].ele;
+        if(replaceOrignalData)
+        {
+            track[i]._ele   = track[i].ele;
+        }
     }
     rebuild(false);
     emit sigChanged();
 }
 
-void CTrack::replaceElevationByRemote()
+void CTrack::replaceElevationByRemote(bool replaceOrignalData)
 {
     SETTINGS;
     QString username = cfg.value("geonames/username","demo").toString();
+
+    replaceOrigData = replaceOrignalData;
 
     int idx = 0, id;
     const int size = track.size();
@@ -648,13 +654,13 @@ void CTrack::slotRequestFinished(int id, bool error)
 
     if(error)
     {
-        qDebug() << geonames->errorString();
+//        qDebug() << geonames->errorString();
         return;
     }
 
     QString asw = geonames->readAll().simplified();
 
-    qDebug() << asw;
+//    qDebug() << asw;
 
     if(asw.isEmpty())
     {
@@ -672,7 +678,10 @@ void CTrack::slotRequestFinished(int id, bool error)
             if(idx < track.size())
             {
                 track[idx].ele    = val.toDouble();
-                track[idx]._ele   = val.toDouble();
+                if(replaceOrigData)
+                {
+                    track[idx]._ele   = track[idx].ele;
+                }
                 idx++;
             }
         }

@@ -52,6 +52,7 @@ class CTrackFilterWidget : public QWidget, private Ui::ITrackFilterWidget
         void slotAddFilterSplit4();
         void slotAddFilterReset();
         void slotAddFilterDelete();
+        void slotAddReplaceElevation();
 
         void slotDoubleClickStoredFilter(QListWidgetItem * item);
         void slotContextMenuStoredFilter( const QPoint & pos);
@@ -74,9 +75,11 @@ class CTrackFilterWidget : public QWidget, private Ui::ITrackFilterWidget
         bool filterSplit4Stages(QDataStream &args, QList<CTrack *> &tracks);
         bool filterReset(QDataStream &args, QList<CTrack *> &tracks);
         bool filterDelete(QDataStream &args, QList<CTrack *> &tracks);
+        bool filterReplaceElevation(QDataStream &args, QList<CTrack *> &tracks);
 
 
-        enum filterType_e {eHidePoints1, eSmoothProfile1, eSplit1, eSplit2, eSplit3, eSplit4, eReset, eDelete};
+        enum filterType_e {eHidePoints1, eSmoothProfile1, eSplit1, eSplit2, eSplit3, eSplit4, eReset, eDelete, eReplaceElevation};
+        enum replaceEleType_e {eLocal, eRemote};
 
         QPointer<CTrackEditWidget> trackEditWidget;
         QPointer<CTrack> track;

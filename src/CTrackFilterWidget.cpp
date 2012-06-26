@@ -59,6 +59,7 @@ CTrackFilterWidget::CTrackFilterWidget(QWidget *parent)
     connect(toolAddSplit4, SIGNAL(clicked()), this, SLOT(slotAddFilterSplit4()));
     connect(toolReset, SIGNAL(clicked()), this, SLOT(slotAddFilterReset()));
     connect(toolDelete, SIGNAL(clicked()), this, SLOT(slotAddFilterDelete()));
+    connect(toolAddReplaceEle, SIGNAL(clicked()), this, SLOT(slotAddReplaceElevation()));
 
     // ----------- read in GUI configuration -----------
     SETTINGS;
@@ -100,6 +101,11 @@ CTrackFilterWidget::CTrackFilterWidget(QWidget *parent)
     // Filter: Split 4
     spinSplit4->setValue(cfg.value("trackfilter/Split4/val",spinSplit4->value()).toInt());
 
+    // Filter: Replace Elevation
+    radioEleFromLocal->setChecked(cfg.value("trackfilter/ReplaceElevation/fromLocal", radioEleFromLocal->isChecked()).toBool());
+    radioEleFromRemote->setChecked(cfg.value("trackfilter/ReplaceElevation/fromRemote", radioEleFromRemote->isChecked()).toBool());
+    editGeonamesOrgUsername->setText(cfg.value("geonames/username", "").toString());
+
     // register current track
     slotHighlightTrack(CTrackDB::self().highlightedTrack());
 
@@ -116,7 +122,6 @@ CTrackFilterWidget::CTrackFilterWidget(QWidget *parent)
 
     foreach(const QString& filename, filenames)
     {
-        qDebug() << filename;
         QListWidgetItem * item = new QListWidgetItem(listStored);
         item->setText(QFileInfo(filename).baseName());
         item->setIcon(QIcon(":/icons/iconFilter16x16.png"));
@@ -153,6 +158,11 @@ CTrackFilterWidget::~CTrackFilterWidget()
 
     // Filter: Split 4
     cfg.setValue("trackfilter/Split4/val",spinSplit4->value());
+
+    // Filter: Replace Elevation
+    cfg.setValue("trackfilter/ReplaceElevation/fromLocal", radioEleFromLocal->isChecked());
+    cfg.setValue("trackfilter/ReplaceElevation/fromRemote", radioEleFromRemote->isChecked());
+    cfg.setValue("geonames/username", editGeonamesOrgUsername->text());
 
 
     cfg.setValue("trackfilter/Split/asTrack", radioSplitTracks->isChecked());
@@ -344,7 +354,7 @@ void CTrackFilterWidget::slotAddFilterSmoothProfile1()
     stream << quint32(eSmoothProfile1) << tabs;
 
     QString name = groupSmoothProfile1->title() + QString(" (%1 points)").arg(tabs);
-    addFilter(name, ":/icons/iconTrack16x16.png", args);
+    addFilter(name, ":/icons/iconGraph16x16.png", args);
 }
 
 void CTrackFilterWidget::slotAddFilterSplit1()
@@ -415,6 +425,23 @@ void CTrackFilterWidget::slotAddFilterDelete()
 
     QString name = groupDelete->title();
     addFilter(name, ":/icons/iconDelete16x16.png", args);
+}
+
+void CTrackFilterWidget::slotAddReplaceElevation()
+{
+    QByteArray args;
+    QDataStream stream(&args, QIODevice::WriteOnly);
+
+    quint32 type = eLocal;
+    if(radioEleFromRemote->isChecked())
+    {
+        type = eRemote;
+    }
+
+    stream << quint32(eReplaceElevation) << type << editGeonamesOrgUsername->text();
+
+    QString name = groupReplaceElevation->title() + (type == eLocal ? tr(" (local)") : tr(" (remote)"));
+    addFilter(name, ":/icons/iconGraph16x16.png", args);
 }
 
 
@@ -528,6 +555,10 @@ void CTrackFilterWidget::slotApplyFilter()
 
             case eDelete:
                 cancelled = filterDelete(args, tracks);
+                break;
+
+            case eReplaceElevation:
+                cancelled = filterReplaceElevation(args, tracks);
                 break;
 
             default:
@@ -1042,5 +1073,29 @@ bool CTrackFilterWidget::filterReset(QDataStream &args, QList<CTrack *> &tracks)
 bool CTrackFilterWidget::filterDelete(QDataStream &args, QList<CTrack *> &tracks)
 {
     trackEditWidget->slotDelete();
+    return false;
+}
+
+bool CTrackFilterWidget::filterReplaceElevation(QDataStream &args, QList<CTrack *> &tracks)
+{
+    QString username;
+    quint32 type;
+    args >> type >> username;
+
+    SETTINGS;
+    cfg.setValue("geonames/username", username);
+
+    foreach(CTrack* trk, tracks)
+    {
+        if(type == eLocal)
+        {
+            trk->replaceElevationByLocal(false);
+        }
+        if(type == eRemote)
+        {
+            trk->replaceElevationByRemote(false);
+        }
+    }
+
     return false;
 }

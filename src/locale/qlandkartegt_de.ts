@@ -1954,7 +1954,7 @@ Erwartet: %1, empfangen %2.</translation>
     <message>
         <location filename="../CDeviceTwoNav.cpp" line="257"/>
         <source>Upload waypoints finished!</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Fertig mit dem Hochladen von Wegpunkten!</translation>
     </message>
     <message>
         <location filename="../CDeviceTwoNav.cpp" line="298"/>
@@ -1964,17 +1964,17 @@ Erwartet: %1, empfangen %2.</translation>
     <message>
         <location filename="../CDeviceTwoNav.cpp" line="311"/>
         <source>tracks</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Tracks</translation>
     </message>
     <message>
         <location filename="../CDeviceTwoNav.cpp" line="333"/>
         <source>Upload tracks finished!</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Fertig mit dem Hochladen von Tracks!</translation>
     </message>
     <message>
         <location filename="../CDeviceTwoNav.cpp" line="373"/>
         <source>Download tracks finished!</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Fertig mit dem Herunterladen von Tracks!</translation>
     </message>
     <message>
         <location filename="../CDeviceTwoNav.cpp" line="378"/>
@@ -6941,7 +6941,7 @@ Länge: %1 %2</translation>
 <context>
     <name>CTrack</name>
     <message>
-        <location filename="../CTrack.cpp" line="1087"/>
+        <location filename="../CTrack.cpp" line="1096"/>
         <source>
 length: %1 %2</source>
         <translation>
@@ -6952,112 +6952,112 @@ Länge: %1 %2</translation>
         <translation type="obsolete">, Punkte: %1</translation>
     </message>
     <message>
-        <location filename="../CTrack.cpp" line="1088"/>
+        <location filename="../CTrack.cpp" line="1097"/>
         <source>, points: %1 (%2)</source>
         <translation>, Punkte: %1 (%2)</translation>
     </message>
     <message>
-        <location filename="../CTrack.cpp" line="1098"/>
+        <location filename="../CTrack.cpp" line="1107"/>
         <source>
 time: %1:</source>
         <translation>
 Zeit: %1:</translation>
     </message>
     <message>
-        <location filename="../CTrack.cpp" line="1102"/>
+        <location filename="../CTrack.cpp" line="1111"/>
         <source>
 time: </source>
         <translation>
 Zeit:  </translation>
     </message>
     <message>
-        <location filename="../CTrack.cpp" line="1106"/>
-        <location filename="../CTrack.cpp" line="1124"/>
+        <location filename="../CTrack.cpp" line="1115"/>
+        <location filename="../CTrack.cpp" line="1133"/>
         <source>, speed: %1 %2</source>
         <translation>, Geschw.: %1 %2</translation>
     </message>
     <message>
-        <location filename="../CTrack.cpp" line="1116"/>
+        <location filename="../CTrack.cpp" line="1125"/>
         <source>
 moving: %1:</source>
         <translation>
 Bewegung: %1:</translation>
     </message>
     <message>
-        <location filename="../CTrack.cpp" line="1120"/>
+        <location filename="../CTrack.cpp" line="1129"/>
         <source>
 moving: </source>
         <translation>
 Bewegung: </translation>
     </message>
     <message>
-        <location filename="../CTrack.cpp" line="1127"/>
+        <location filename="../CTrack.cpp" line="1136"/>
         <source>
 start: %1</source>
         <translation>
 Beginn: %1</translation>
     </message>
     <message>
-        <location filename="../CTrack.cpp" line="1127"/>
-        <location filename="../CTrack.cpp" line="1128"/>
+        <location filename="../CTrack.cpp" line="1136"/>
+        <location filename="../CTrack.cpp" line="1137"/>
         <source>-</source>
         <translation>-</translation>
     </message>
     <message>
-        <location filename="../CTrack.cpp" line="1128"/>
+        <location filename="../CTrack.cpp" line="1137"/>
         <source>
 end: %1</source>
         <translation>
 Ende: %1</translation>
     </message>
     <message>
-        <location filename="../CTrack.cpp" line="1133"/>
+        <location filename="../CTrack.cpp" line="1142"/>
         <source>
 %1%2 %3, %4%5 %6</source>
         <translation>
 %1%2 %3, %4%5 %6</translation>
     </message>
     <message>
-        <location filename="../CTrack.cpp" line="1189"/>
-        <location filename="../CTrack.cpp" line="1191"/>
-        <location filename="../CTrack.cpp" line="1193"/>
+        <location filename="../CTrack.cpp" line="1198"/>
+        <location filename="../CTrack.cpp" line="1200"/>
+        <location filename="../CTrack.cpp" line="1202"/>
         <source> %3 %1 %2</source>
         <translation> %3 %1 %2</translation>
     </message>
     <message>
-        <location filename="../CTrack.cpp" line="1216"/>
+        <location filename="../CTrack.cpp" line="1225"/>
         <source>%4 %3 %1:%2h (%5%)</source>
         <translation>%4 %3 %1:%2h (%5%)</translation>
     </message>
     <message>
-        <location filename="../CTrack.cpp" line="1217"/>
+        <location filename="../CTrack.cpp" line="1226"/>
         <source> | (%5%) %1:%2h %3 %4</source>
         <translation> | (%5%) %1:%2h %3 %4</translation>
     </message>
     <message>
-        <location filename="../CTrack.cpp" line="1225"/>
+        <location filename="../CTrack.cpp" line="1234"/>
         <source>%5 %4 %1%2 (%3%)</source>
         <translation>%5 %4 %1%2 (%3%)</translation>
     </message>
     <message>
-        <location filename="../CTrack.cpp" line="1227"/>
+        <location filename="../CTrack.cpp" line="1236"/>
         <source> | (%3%) %1%2 %4 %5</source>
         <translation> | (%3%) %1%2 %4 %5</translation>
     </message>
     <message>
-        <location filename="../CTrack.cpp" line="1235"/>
+        <location filename="../CTrack.cpp" line="1244"/>
         <source>elevation: %1 %2</source>
         <translation>Höhe: %1 %2</translation>
     </message>
     <message>
-        <location filename="../CTrack.cpp" line="1252"/>
+        <location filename="../CTrack.cpp" line="1261"/>
         <source>
  %1: %2 </source>
         <translation>
  %1: %2 </translation>
     </message>
     <message>
-        <location filename="../CTrack.cpp" line="1292"/>
+        <location filename="../CTrack.cpp" line="1301"/>
         <source>You are trying to find waypoints along a track with %1 waypoints and a track of size %2. This can be a very time consuming operation. Go on?
 
 Your selection will be stored in the track&apos;s data. You can save it along with the data. To change the selection use the checkbox in the track edit dialog.</source>
@@ -7066,7 +7066,7 @@ Your selection will be stored in the track&apos;s data. You can save it along wi
 Ihre Auswahlt wird mit den Trackdaten gespeichert. Sie können sie mit den Trackdaten sichern. Bitte benützen Sie die Checkbox im Dialog zum Track editieren, um die Auswahl zu ändern </translation>
     </message>
     <message>
-        <location filename="../CTrack.cpp" line="1299"/>
+        <location filename="../CTrack.cpp" line="1308"/>
         <source>Warning...</source>
         <translation>Warnung ...</translation>
     </message>
@@ -7358,48 +7358,58 @@ Auf/Ab</translation>
 <context>
     <name>CTrackFilterWidget</name>
     <message>
-        <location filename="../CTrackFilterWidget.cpp" line="129"/>
+        <location filename="../CTrackFilterWidget.cpp" line="135"/>
         <source>Edit name...</source>
         <translation>Name ändern...</translation>
     </message>
     <message>
-        <location filename="../CTrackFilterWidget.cpp" line="130"/>
+        <location filename="../CTrackFilterWidget.cpp" line="136"/>
         <source>Delete</source>
         <translation>Löschen</translation>
     </message>
     <message>
-        <location filename="../CTrackFilterWidget.cpp" line="278"/>
-        <location filename="../CTrackFilterWidget.cpp" line="436"/>
+        <location filename="../CTrackFilterWidget.cpp" line="289"/>
+        <location filename="../CTrackFilterWidget.cpp" line="464"/>
         <source>Filter name ...</source>
         <translation>Filtername...</translation>
     </message>
     <message>
-        <location filename="../CTrackFilterWidget.cpp" line="278"/>
-        <location filename="../CTrackFilterWidget.cpp" line="436"/>
+        <location filename="../CTrackFilterWidget.cpp" line="289"/>
+        <location filename="../CTrackFilterWidget.cpp" line="464"/>
         <source>Please enter a name for the filter list to store.</source>
         <translation>Bitte geben sie einen Namen für die zu speichernde Filterliste ein.</translation>
     </message>
     <message>
-        <location filename="../CTrackFilterWidget.cpp" line="299"/>
+        <location filename="../CTrackFilterWidget.cpp" line="310"/>
         <source>Delete track filter...</source>
         <translation>Trackfilter löschen...</translation>
     </message>
     <message>
-        <location filename="../CTrackFilterWidget.cpp" line="299"/>
+        <location filename="../CTrackFilterWidget.cpp" line="310"/>
         <source>Do you really want to delete &apos;%1&apos;?</source>
         <translation>Wollen Sie wirklich &apos;%1&apos; löschen?</translation>
     </message>
     <message>
-        <location filename="../CTrackFilterWidget.cpp" line="564"/>
-        <location filename="../CTrackFilterWidget.cpp" line="651"/>
-        <location filename="../CTrackFilterWidget.cpp" line="681"/>
-        <location filename="../CTrackFilterWidget.cpp" line="722"/>
-        <location filename="../CTrackFilterWidget.cpp" line="774"/>
-        <location filename="../CTrackFilterWidget.cpp" line="814"/>
-        <location filename="../CTrackFilterWidget.cpp" line="866"/>
-        <location filename="../CTrackFilterWidget.cpp" line="905"/>
-        <location filename="../CTrackFilterWidget.cpp" line="958"/>
-        <location filename="../CTrackFilterWidget.cpp" line="997"/>
+        <location filename="../CTrackFilterWidget.cpp" line="444"/>
+        <source> (local)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../CTrackFilterWidget.cpp" line="444"/>
+        <source> (remote)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../CTrackFilterWidget.cpp" line="596"/>
+        <location filename="../CTrackFilterWidget.cpp" line="683"/>
+        <location filename="../CTrackFilterWidget.cpp" line="713"/>
+        <location filename="../CTrackFilterWidget.cpp" line="754"/>
+        <location filename="../CTrackFilterWidget.cpp" line="806"/>
+        <location filename="../CTrackFilterWidget.cpp" line="846"/>
+        <location filename="../CTrackFilterWidget.cpp" line="898"/>
+        <location filename="../CTrackFilterWidget.cpp" line="937"/>
+        <location filename="../CTrackFilterWidget.cpp" line="990"/>
+        <location filename="../CTrackFilterWidget.cpp" line="1029"/>
         <source>Abort filter</source>
         <translation>Filtern abbrechen</translation>
     </message>
@@ -11737,18 +11747,19 @@ p, li { white-space: pre-wrap; }
         <location filename="../ITrackFilterWidget.ui" line="149"/>
         <location filename="../ITrackFilterWidget.ui" line="241"/>
         <location filename="../ITrackFilterWidget.ui" line="274"/>
-        <location filename="../ITrackFilterWidget.ui" line="341"/>
-        <location filename="../ITrackFilterWidget.ui" line="411"/>
-        <location filename="../ITrackFilterWidget.ui" line="469"/>
-        <location filename="../ITrackFilterWidget.ui" line="536"/>
-        <location filename="../ITrackFilterWidget.ui" line="620"/>
+        <location filename="../ITrackFilterWidget.ui" line="350"/>
+        <location filename="../ITrackFilterWidget.ui" line="417"/>
+        <location filename="../ITrackFilterWidget.ui" line="524"/>
+        <location filename="../ITrackFilterWidget.ui" line="582"/>
+        <location filename="../ITrackFilterWidget.ui" line="649"/>
+        <location filename="../ITrackFilterWidget.ui" line="733"/>
         <source>...</source>
         <translation>...</translation>
     </message>
     <message>
         <location filename="../ITrackFilterWidget.ui" line="160"/>
         <source>Restore hidden points and changes applied by filters.</source>
-        <translation>Stellt versteckte Punkte und Änderungen and der Höhe durch Filter zurück.</translation>
+        <translation type="unfinished">Stellt die versteckten Punkte wieder her und macht alle Änderungen durch Filter rückgängig.</translation>
     </message>
     <message>
         <location filename="../ITrackFilterWidget.ui" line="170"/>
@@ -11776,115 +11787,140 @@ p, li { white-space: pre-wrap; }
         <translation>°</translation>
     </message>
     <message>
-        <location filename="../ITrackFilterWidget.ui" line="268"/>
+        <location filename="../ITrackFilterWidget.ui" line="344"/>
         <source>Smooth Profile</source>
         <translation>Profil glätten</translation>
     </message>
     <message>
-        <location filename="../ITrackFilterWidget.ui" line="285"/>
+        <location filename="../ITrackFilterWidget.ui" line="361"/>
         <source>Change elevation data of track:</source>
         <translation>Ändert die Höheninformation im Track</translation>
     </message>
     <message>
-        <location filename="../ITrackFilterWidget.ui" line="292"/>
+        <location filename="../ITrackFilterWidget.ui" line="368"/>
         <source>Median filter over</source>
         <translation>Medianfilter über</translation>
     </message>
     <message>
-        <location filename="../ITrackFilterWidget.ui" line="312"/>
-        <location filename="../ITrackFilterWidget.ui" line="505"/>
+        <location filename="../ITrackFilterWidget.ui" line="388"/>
+        <location filename="../ITrackFilterWidget.ui" line="618"/>
         <source>points</source>
         <translation>Punkte</translation>
     </message>
     <message>
-        <location filename="../ITrackFilterWidget.ui" line="335"/>
+        <location filename="../ITrackFilterWidget.ui" line="268"/>
         <source>Delete hidden points</source>
         <translation>Lösche versteckte Punkte</translation>
     </message>
     <message>
-        <location filename="../ITrackFilterWidget.ui" line="352"/>
+        <location filename="../ITrackFilterWidget.ui" line="285"/>
         <source>Delete hidden track points for ever. No way back!</source>
         <translation>Lösche versteckte Punkte für immer. Kein Weg zurück!</translation>
     </message>
     <message>
-        <location filename="../ITrackFilterWidget.ui" line="384"/>
+        <location filename="../ITrackFilterWidget.ui" line="317"/>
+        <source>Profile</source>
+        <translation>Profil</translation>
+    </message>
+    <message>
+        <location filename="../ITrackFilterWidget.ui" line="411"/>
+        <source>Replace elevation data</source>
+        <translation>Ersetze Höhendaten</translation>
+    </message>
+    <message>
+        <location filename="../ITrackFilterWidget.ui" line="441"/>
+        <source>Use elevation from loaded DEM data</source>
+        <translation>Verwende die Höhe aus den lokalen DEM Daten</translation>
+    </message>
+    <message>
+        <location filename="../ITrackFilterWidget.ui" line="451"/>
+        <source>Use elevation from www.geonames.org</source>
+        <translation>Verwende die Höhe von www.geonames.org</translation>
+    </message>
+    <message>
+        <location filename="../ITrackFilterWidget.ui" line="460"/>
+        <source>Username:</source>
+        <translation>Benutzer:</translation>
+    </message>
+    <message>
+        <location filename="../ITrackFilterWidget.ui" line="497"/>
         <source>Split</source>
         <translation>Teilen</translation>
     </message>
     <message>
-        <location filename="../ITrackFilterWidget.ui" line="405"/>
+        <location filename="../ITrackFilterWidget.ui" line="518"/>
         <source>Split into equal chunks</source>
         <translation>Teile in gleiche Stücke.</translation>
     </message>
     <message>
-        <location filename="../ITrackFilterWidget.ui" line="424"/>
+        <location filename="../ITrackFilterWidget.ui" line="537"/>
         <source>Split the track into </source>
         <translation>Zerteile den Track in</translation>
     </message>
     <message>
-        <location filename="../ITrackFilterWidget.ui" line="438"/>
+        <location filename="../ITrackFilterWidget.ui" line="551"/>
         <source>chunks</source>
         <translation>Teilstücke</translation>
     </message>
     <message>
-        <location filename="../ITrackFilterWidget.ui" line="463"/>
+        <location filename="../ITrackFilterWidget.ui" line="576"/>
         <source>Split by number of points</source>
         <translation>Teile nach der Anzahl von Punkten</translation>
     </message>
     <message>
-        <location filename="../ITrackFilterWidget.ui" line="482"/>
-        <location filename="../ITrackFilterWidget.ui" line="549"/>
+        <location filename="../ITrackFilterWidget.ui" line="595"/>
+        <location filename="../ITrackFilterWidget.ui" line="662"/>
         <source>SplitTrack into chunks of </source>
         <translation>Zerteile den Track in Teilstücke mit </translation>
     </message>
     <message>
-        <location filename="../ITrackFilterWidget.ui" line="530"/>
+        <location filename="../ITrackFilterWidget.ui" line="643"/>
         <source>Split by distance</source>
         <translation>Teile nach Distanz</translation>
     </message>
     <message>
-        <location filename="../ITrackFilterWidget.ui" line="556"/>
-        <location filename="../ITrackFilterWidget.ui" line="640"/>
+        <location filename="../ITrackFilterWidget.ui" line="669"/>
+        <location filename="../ITrackFilterWidget.ui" line="753"/>
         <source>m</source>
         <translation>m</translation>
     </message>
     <message>
-        <location filename="../ITrackFilterWidget.ui" line="589"/>
+        <location filename="../ITrackFilterWidget.ui" line="702"/>
         <source>length</source>
         <translation>Länge</translation>
     </message>
     <message>
-        <location filename="../ITrackFilterWidget.ui" line="614"/>
+        <location filename="../ITrackFilterWidget.ui" line="727"/>
         <source>Split by ascend</source>
         <translation>Teile nach Aufstieg</translation>
     </message>
     <message>
-        <location filename="../ITrackFilterWidget.ui" line="633"/>
+        <location filename="../ITrackFilterWidget.ui" line="746"/>
         <source>SplitTrack into chunks with </source>
         <translation>Teile den Track in Stücke mit</translation>
     </message>
     <message>
-        <location filename="../ITrackFilterWidget.ui" line="673"/>
+        <location filename="../ITrackFilterWidget.ui" line="786"/>
         <source>ascend</source>
         <translation>Aufstieg</translation>
     </message>
     <message>
-        <location filename="../ITrackFilterWidget.ui" line="717"/>
+        <location filename="../ITrackFilterWidget.ui" line="830"/>
         <source>Split track</source>
         <translation>Teile den Track</translation>
     </message>
     <message>
-        <location filename="../ITrackFilterWidget.ui" line="727"/>
+        <location filename="../ITrackFilterWidget.ui" line="840"/>
         <source>Add only waypoints for stages</source>
         <translation>Füge nur Wegpunkte als Etappen hinzu</translation>
     </message>
     <message>
-        <location filename="../ITrackFilterWidget.ui" line="754"/>
+        <location filename="../ITrackFilterWidget.ui" line="867"/>
         <source>Annonymous</source>
         <translation>Annonymisieren</translation>
     </message>
     <message>
-        <location filename="../ITrackFilterWidget.ui" line="760"/>
+        <location filename="../ITrackFilterWidget.ui" line="873"/>
         <source>To be done.</source>
         <translation>Muss noch gemacht werden.</translation>
     </message>
