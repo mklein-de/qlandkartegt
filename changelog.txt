@@ -1,3 +1,22 @@
+--- 2012.06.26 ---
+
+Request #390:
+Add online version check
+
+Request #391:
+Add selection for online maps
+
+Request #392:
+Track: Highlight stage under cursor for list of stages and track plot
+
+Request #393:
+Restructure track filter dialog.
+
+Request #394:
+GeoDB: add data export to QLB
+
+
+
 --- 2012.05.22 ---
 
 Bug     #384:
@@ -1556,6 +1575,7 @@ Fixed bad calculation of proximity circle size
 
 Request #1:
 Initial release
+
 
 
 
