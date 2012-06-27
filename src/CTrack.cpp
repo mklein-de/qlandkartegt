@@ -1167,17 +1167,25 @@ QString CTrack::getTrkPtInfo(pt_t& trkpt)
 
     }
 
-
     // distance ascend descend in current stage
-    QString lastName = QChar(0x2690);
-    double lastDist = 0;
-    double lastAsc  = 0;
-    double lastDesc = 0;
+    QString lastName = tr("Start");/* = QChar(0x2690);*/
+    double lastDist  = 0;
+    double lastAsc   = 0;
+    double lastDesc  = 0;
+
+    QString nextName = tr("End");/* = QChar(0x2691);*/
+    double nextDist  = getTotalDistance();
+    double nextAsc   = getAscend();
+    double nextDesc  = getDescend();
 
     foreach(const wpt_t& wpt, waypoints)
     {
         if(trkpt.distance < wpt.trkpt.distance)
         {
+            nextDist = wpt.trkpt.distance;
+            nextAsc  = wpt.trkpt.ascend;
+            nextDesc = wpt.trkpt.descend;
+            nextName = wpt.wpt->getName();
             break;
         }
 
@@ -1189,17 +1197,37 @@ QString CTrack::getTrkPtInfo(pt_t& trkpt)
 
     if(!waypoints.isEmpty())
     {
-        double delta    = trkpt.distance - lastDist;
-        double ascend   = trkpt.ascend   - lastAsc;
-        double descend  = trkpt.descend  - lastDesc;
+        double delta, ascend, descend;
 
-        str += "\n" + lastName + ":";
-        IUnit::self().meter2distance(delta, val, unit);
-        str += tr(" %3 %1 %2").arg(val).arg(unit).arg(QChar(0x21A4));
-        IUnit::self().meter2elevation(ascend, val, unit);
-        str += tr(" %3 %1 %2").arg(val).arg(unit).arg(QChar(0x2197));
-        IUnit::self().meter2elevation(descend, val, unit);
-        str += tr(" %3 %1 %2").arg(val).arg(unit).arg(QChar(0x2198));
+        if(!lastName.isEmpty())
+        {
+            delta    = trkpt.distance - lastDist;
+            ascend   = trkpt.ascend   - lastAsc;
+            descend  = trkpt.descend  - lastDesc;
+
+            str += "\n" + lastName + ":";
+            IUnit::self().meter2distance(delta, val, unit);
+            str += tr(" %3 %1 %2").arg(val).arg(unit).arg(QChar(0x21A4));
+            IUnit::self().meter2elevation(ascend, val, unit);
+            str += tr(" %3 %1 %2").arg(val).arg(unit).arg(QChar(0x2197));
+            IUnit::self().meter2elevation(descend, val, unit);
+            str += tr(" %3 %1 %2").arg(val).arg(unit).arg(QChar(0x2198));
+        }
+
+        if(!nextName.isEmpty())
+        {
+            delta    = nextDist - trkpt.distance;
+            ascend   = nextAsc - trkpt.ascend;
+            descend  = nextDesc - trkpt.descend;
+
+            str += "\n" + nextName + ":";
+            IUnit::self().meter2distance(delta, val, unit);
+            str += tr(" %3 %1 %2").arg(val).arg(unit).arg(QChar(0x21A6));
+            IUnit::self().meter2elevation(ascend, val, unit);
+            str += tr(" %3 %1 %2").arg(val).arg(unit).arg(QChar(0x2197));
+            IUnit::self().meter2elevation(descend, val, unit);
+            str += tr(" %3 %1 %2").arg(val).arg(unit).arg(QChar(0x2198));
+        }
     }
 
     // time to start and time to end
@@ -1264,7 +1292,6 @@ QString CTrack::getTrkPtInfo(pt_t& trkpt)
 
     }
 #endif
-
 
     return str;
 }
