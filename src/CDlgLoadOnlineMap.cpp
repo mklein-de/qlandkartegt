@@ -26,6 +26,9 @@
 #ifndef WIN32
 #include <unistd.h>
 #include <pwd.h>
+#ifdef Q_WS_MAC
+#include "config.h"
+#endif
 #endif
 
 const QString CDlgLoadOnlineMap::text =  QObject::tr(""
@@ -60,8 +63,12 @@ CDlgLoadOnlineMap::CDlgLoadOnlineMap()
     }
     else
     {
+#ifndef Q_WS_MAC
         struct passwd * userInfo = getpwuid(getuid());
         tempDir = QDir::homePath() + "/qlandkartegt-" + userInfo->pw_name + "/maps/";
+#else
+	tempDir = QDir::home().filePath(CONFIGDIR) + "/Maps/";
+#endif
     }
 #else
     tempDir = QDir::homePath() + "/qlandkarteqt/cache/";

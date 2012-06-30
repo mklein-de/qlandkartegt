@@ -81,7 +81,12 @@ CResources::CResources(QObject * parent)
 
     SETTINGS;
 
+#ifndef Q_WS_MAC
     QString family      = cfg.value("environment/mapfont/family","Arial").toString();
+#else
+    // Qt on Mac OS X 10.6 sometimes fails to render, so use the Mac default font here...
+    QString family      = cfg.value("environment/mapfont/family","Lucida Grande").toString();
+#endif
     int size            = cfg.value("environment/mapfont/size",8).toInt();
     bool bold           = cfg.value("environment/mapfont/bold",false).toBool();
     bool italic         = cfg.value("environment/mapfont/italic",false).toBool();
