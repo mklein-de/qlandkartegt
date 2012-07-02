@@ -84,7 +84,8 @@ void CDlgConfig::exec()
 
     checkPlaySound->setChecked(resources.m_playSound);
     checkFlipMouseWheel->setChecked(resources.m_flipMouseWheel);
-    checkShowProfilePreview->setChecked(resources.m_showTrackProfile);
+    checkShowProfilePreview->setChecked(resources.m_showTrackProfile);    
+    checkShowTrackEleInfo->setChecked(resources.m_showTrackEleInfo);
     checkShowNorth->setChecked(resources.m_showNorth);
     checkShowScale->setChecked(resources.m_showScale);
     checkTooltip->setChecked(resources.m_showToolTip);
@@ -181,7 +182,8 @@ void CDlgConfig::accept()
     }
 
     resources.m_flipMouseWheel  = checkFlipMouseWheel->isChecked();
-    resources.m_showTrackProfile  = checkShowProfilePreview->isChecked();
+    resources.m_showTrackProfile = checkShowProfilePreview->isChecked();
+    resources.m_showTrackEleInfo = checkShowTrackEleInfo->isChecked();
     resources.m_showNorth       = checkShowNorth->isChecked();
     resources.m_showScale       = checkShowScale->isChecked();
     resources.m_showToolTip     = checkTooltip->isChecked();

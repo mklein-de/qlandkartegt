@@ -317,14 +317,13 @@ void IMouse::drawSelTrkPt(QPainter& p)
             QRect           r1 = fm.boundingRect(QRect(0,0,300,0), Qt::AlignLeft|Qt::AlignTop, str);
 
             QRect r = theMainWindow->getCanvas()->rect();
-
-            r1.moveTopLeft(QPoint(300, r.bottom() - r1.height() - 20));
+            r1.moveTopLeft(QPoint((r.width() - r1.width())/2, 20));
 
             QRect           r2 = r1;
             r2.setWidth(r1.width() + 20);
             r2.moveLeft(r1.left() - 10);
-            r2.setHeight(r1.height() + 20);
-            r2.moveTop(r1.top() - 10);
+            r2.setHeight(r1.height() + 10);
+            r2.moveTop(r1.top() - 5);
 
 
             p.setPen(QPen(CCanvas::penBorderBlue));

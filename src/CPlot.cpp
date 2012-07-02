@@ -288,6 +288,7 @@ void CPlot::setSizeIconArea()
 }
 
 
+
 /*
   x = a <br>
   y = widget height - xlabel height <br>
@@ -375,8 +376,7 @@ void CPlot::draw(QPainter& p)
         CTrack * track = CTrackDB::self().highlightedTrack();
         if(selTrkPt && track && (mode != eIcon))
         {
-            QString str = track->getTrkPtInfo1(*selTrkPt);
-
+            QString str;
             double y = getYValByPixel(x);
             y = m_pData->y().val2pt(y);
             y = bottom - y;
@@ -386,7 +386,7 @@ void CPlot::draw(QPainter& p)
             p.setBrush(CCanvas::brushBackWhite);
             p.drawEllipse(QRect(x - 5,  y - 5, 11, 11));
 
-
+            str = track->getTrkPtInfo1(*selTrkPt);
             if(!str.isEmpty())
             {
                 QFont           f = CResources::self().getMapFont();
@@ -425,6 +425,21 @@ void CPlot::draw(QPainter& p)
                 p.setFont(CResources::self().getMapFont());
                 p.setPen(Qt::darkBlue);
                 p.drawText(r1, Qt::AlignLeft|Qt::AlignTop|Qt::TextWordWrap,str);
+            }
+
+            str = track->getTrkPtInfo2(*selTrkPt);
+            if(!str.isEmpty())
+            {
+                QFont           f = CResources::self().getMapFont();
+                QFontMetrics    fm(f);
+                QRect           r1 = fm.boundingRect(QRect(0,0,1,1), Qt::AlignLeft|Qt::AlignTop, str);
+
+                r1.moveTopLeft(QPoint(left, rectX1Label.bottom()));
+
+                qDebug() << r1;
+
+                CCanvas::drawText(str, p, r1.center());
+
             }
         }
     }

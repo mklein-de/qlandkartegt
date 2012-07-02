@@ -63,6 +63,7 @@ class CResources : public QObject
         QDir pathGeoDB(){return m_pathGeoDB;}
         bool flipMouseWheel(){return m_flipMouseWheel;}
         bool showTrackProfilePreview(){return m_showTrackProfile;}
+        bool showTrackProfileEleInfo(){return m_showTrackEleInfo;}
         bool showNorthIndicator(){return m_showNorth;}
         bool showScale(){return m_showScale;}
         bool showToolTip(){return m_showToolTip;}
@@ -137,6 +138,7 @@ class CResources : public QObject
         QDir m_pathGeoDB;
 
         bool m_showTrackProfile;
+        bool m_showTrackEleInfo;
         bool m_showNorth;
         bool m_showScale;
         bool m_showToolTip;

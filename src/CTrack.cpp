@@ -1167,68 +1167,6 @@ QString CTrack::getTrkPtInfo1(pt_t& trkpt)
 
     }
 
-    // distance ascend descend in current stage
-    QString lastName = tr("Start");/* = QChar(0x2690);*/
-    double lastDist  = 0;
-    double lastAsc   = 0;
-    double lastDesc  = 0;
-
-    QString nextName = tr("End");/* = QChar(0x2691);*/
-    double nextDist  = getTotalDistance();
-    double nextAsc   = getAscend();
-    double nextDesc  = getDescend();
-
-    foreach(const wpt_t& wpt, waypoints)
-    {
-        if(trkpt.distance < wpt.trkpt.distance)
-        {
-            nextDist = wpt.trkpt.distance;
-            nextAsc  = wpt.trkpt.ascend;
-            nextDesc = wpt.trkpt.descend;
-            nextName = wpt.wpt->getName();
-            break;
-        }
-
-        lastDist = wpt.trkpt.distance;
-        lastAsc  = wpt.trkpt.ascend;
-        lastDesc = wpt.trkpt.descend;
-        lastName = wpt.wpt->getName();
-    }
-
-    if(!waypoints.isEmpty())
-    {
-        double delta, ascend, descend;
-
-        if(!lastName.isEmpty())
-        {
-            delta    = trkpt.distance - lastDist;
-            ascend   = trkpt.ascend   - lastAsc;
-            descend  = trkpt.descend  - lastDesc;
-
-            str += "\n" + lastName + ":";
-            IUnit::self().meter2distance(delta, val, unit);
-            str += tr(" %3 %1 %2").arg(val).arg(unit).arg(QChar(0x21A4));
-            IUnit::self().meter2elevation(ascend, val, unit);
-            str += tr(" %3 %1 %2").arg(val).arg(unit).arg(QChar(0x2197));
-            IUnit::self().meter2elevation(descend, val, unit);
-            str += tr(" %3 %1 %2").arg(val).arg(unit).arg(QChar(0x2198));
-        }
-
-        if(!nextName.isEmpty())
-        {
-            delta    = nextDist - trkpt.distance;
-            ascend   = nextAsc - trkpt.ascend;
-            descend  = nextDesc - trkpt.descend;
-
-            str += "\n" + nextName + ":";
-            IUnit::self().meter2distance(delta, val, unit);
-            str += tr(" %3 %1 %2").arg(val).arg(unit).arg(QChar(0x21A6));
-            IUnit::self().meter2elevation(ascend, val, unit);
-            str += tr(" %3 %1 %2").arg(val).arg(unit).arg(QChar(0x2197));
-            IUnit::self().meter2elevation(descend, val, unit);
-            str += tr(" %3 %1 %2").arg(val).arg(unit).arg(QChar(0x2198));
-        }
-    }
 
     // time to start and time to end
     if(trkpt.timestamp != 0x00000000 && trkpt.timestamp != 0xFFFFFFFF)
@@ -1298,7 +1236,75 @@ QString CTrack::getTrkPtInfo1(pt_t& trkpt)
 
 QString CTrack::getTrkPtInfo2(pt_t& trkpt)
 {
-    return "jhjyfhaios sd ihfkusdh uhsukHSUOSH S hOH GUSH Gshg OHG OIHG oSUHGIUSH ghusGH IUSH";
+    QString str, val, unit;
+
+    if(CResources::self().showTrackProfileEleInfo())
+    {
+        // distance ascend descend in current stage
+        QString lastName = tr("Start");/* = QChar(0x2690);*/
+        double lastDist  = 0;
+        double lastAsc   = 0;
+        double lastDesc  = 0;
+
+        QString nextName = tr("End");/* = QChar(0x2691);*/
+        double nextDist  = getTotalDistance();
+        double nextAsc   = getAscend();
+        double nextDesc  = getDescend();
+
+        foreach(const wpt_t& wpt, waypoints)
+        {
+            if(trkpt.distance < wpt.trkpt.distance)
+            {
+                nextDist = wpt.trkpt.distance;
+                nextAsc  = wpt.trkpt.ascend;
+                nextDesc = wpt.trkpt.descend;
+                nextName = wpt.wpt->getName();
+                break;
+            }
+
+            lastDist = wpt.trkpt.distance;
+            lastAsc  = wpt.trkpt.ascend;
+            lastDesc = wpt.trkpt.descend;
+            lastName = wpt.wpt->getName();
+        }
+
+        if(!waypoints.isEmpty())
+        {
+            double delta, ascend, descend;
+
+            if(!lastName.isEmpty())
+            {
+                delta    = trkpt.distance - lastDist;
+                ascend   = trkpt.ascend   - lastAsc;
+                descend  = trkpt.descend  - lastDesc;
+
+                str += lastName + ":";
+                IUnit::self().meter2distance(delta, val, unit);
+                str += tr(" %3 %1 %2").arg(val).arg(unit).arg(QChar(0x21A4));
+                IUnit::self().meter2elevation(ascend, val, unit);
+                str += tr(" %3 %1 %2").arg(val).arg(unit).arg(QChar(0x2197));
+                IUnit::self().meter2elevation(descend, val, unit);
+                str += tr(" %3 %1 %2 ").arg(val).arg(unit).arg(QChar(0x2198));
+            }
+
+            if(!nextName.isEmpty())
+            {
+                delta    = nextDist - trkpt.distance;
+                ascend   = nextAsc - trkpt.ascend;
+                descend  = nextDesc - trkpt.descend;
+
+                IUnit::self().meter2elevation(ascend, val, unit);
+                str += tr("| %3 %1 %2").arg(val).arg(unit).arg(QChar(0x2197));
+                IUnit::self().meter2elevation(descend, val, unit);
+                str += tr(" %3 %1 %2").arg(val).arg(unit).arg(QChar(0x2198));
+                IUnit::self().meter2distance(delta, val, unit);
+                str += tr(" %1 %2").arg(val).arg(unit);
+                str += tr(" %1 :%2").arg(QChar(0x21A6)).arg(nextName);
+            }
+        }
+    }
+
+    return str;
 }
 
 void CTrack::setDoScaleWpt2Track(Qt::CheckState state)

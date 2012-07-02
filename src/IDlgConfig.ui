@@ -197,6 +197,13 @@
             </property>
            </widget>
           </item>
+          <item row="2" column="3">
+           <widget class="QCheckBox" name="checkShowTrackEleInfo">
+            <property name="text">
+             <string>Show track elevation info</string>
+            </property>
+           </widget>
+          </item>
          </layout>
         </widget>
        </item>

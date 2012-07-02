@@ -136,6 +136,7 @@ class CPlot : public QWidget
         QRect rectY1Label;
         QRect rectGraphArea;
         QRect rectIconArea;
+        QRect rectTrackInfo;
 
         QFontMetrics fm;
 

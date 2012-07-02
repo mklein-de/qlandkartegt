@@ -66,6 +66,7 @@ CResources::CResources(QObject * parent)
 , m_pathGeoDB(QDir::home().filePath(CONFIGDIR))
 #endif
 , m_showTrackProfile(true)
+, m_showTrackEleInfo(true)
 , m_showNorth(true)
 , m_showScale(true)
 , m_showToolTip(true)
@@ -148,6 +149,7 @@ CResources::CResources(QObject * parent)
     }
 
     m_showTrackProfile = cfg.value("environment/showTrackProfile",m_showTrackProfile).toBool();
+    m_showTrackEleInfo = cfg.value("environment/showTrackEleInfo",m_showTrackEleInfo).toBool();
     m_showNorth        = cfg.value("environment/showNorth",m_showNorth).toBool();
     m_showScale        = cfg.value("environment/showScale",m_showScale).toBool();
     m_showToolTip      = cfg.value("environment/showToolTip",m_showToolTip).toBool();
@@ -240,6 +242,7 @@ CResources::~CResources()
 
     cfg.setValue("environment/unittype",unit->type);
     cfg.setValue("environment/showTrackProfile",m_showTrackProfile);
+    cfg.setValue("environment/showTrackEleInfo",m_showTrackEleInfo);
     cfg.setValue("environment/showNorth",m_showNorth);
     cfg.setValue("environment/showScale",m_showScale);
     cfg.setValue("environment/showToolTip",m_showToolTip);
