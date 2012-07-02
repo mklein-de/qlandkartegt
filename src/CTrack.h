@@ -225,7 +225,8 @@ class CTrack : public IItem
         /// get the descend in [m]
         double getDescend() const {return totalDescend;}
         /// get information string for a particular trackpoint
-        QString getTrkPtInfo(pt_t& trkpt);
+        QString getTrkPtInfo1(pt_t& trkpt);
+        QString getTrkPtInfo2(pt_t& trkpt);
         /// get the bounding rectangular that fits the track
         QRectF getBoundingRectF();
         /// sort trackpoints by timestamp

@@ -375,7 +375,7 @@ void CPlot::draw(QPainter& p)
         CTrack * track = CTrackDB::self().highlightedTrack();
         if(selTrkPt && track && (mode != eIcon))
         {
-            QString str = track->getTrkPtInfo(*selTrkPt);
+            QString str = track->getTrkPtInfo1(*selTrkPt);
 
             double y = getYValByPixel(x);
             y = m_pData->y().val2pt(y);

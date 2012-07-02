@@ -1154,7 +1154,7 @@ void CTrack::setIcon(const QString& str)
 }
 
 
-QString CTrack::getTrkPtInfo(pt_t& trkpt)
+QString CTrack::getTrkPtInfo1(pt_t& trkpt)
 {
     QString str, val, unit;
 
@@ -1294,6 +1294,11 @@ QString CTrack::getTrkPtInfo(pt_t& trkpt)
 #endif
 
     return str;
+}
+
+QString CTrack::getTrkPtInfo2(pt_t& trkpt)
+{
+    return "jhjyfhaios sd ihfkusdh uhsukHSUOSH S hOH GUSH Gshg OHG OIHG oSUHGIUSH ghusGH IUSH";
 }
 
 void CTrack::setDoScaleWpt2Track(Qt::CheckState state)

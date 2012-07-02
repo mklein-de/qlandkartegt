@@ -274,7 +274,7 @@ void IMouse::drawSelTrkPt(QPainter& p)
             return;
         }
 
-        QString val, unit;
+        QString str;
         double u = selTrkPt->lon * DEG_TO_RAD;
         double v = selTrkPt->lat * DEG_TO_RAD;
         map.convertRad2Pt(u,v);
@@ -283,7 +283,7 @@ void IMouse::drawSelTrkPt(QPainter& p)
         p.setBrush(CCanvas::brushBackWhite);
         p.drawEllipse(QRect(u - 5,  v - 5, 11, 11));
 
-        QString str = track-> getTrkPtInfo(*selTrkPt);
+        str = track->getTrkPtInfo1(*selTrkPt);
         //-----------------------------------------------------------------------------------------------------------
         if (str != "")
         {
@@ -306,6 +306,34 @@ void IMouse::drawSelTrkPt(QPainter& p)
             p.setFont(CResources::self().getMapFont());
             p.setPen(Qt::darkBlue);
             p.drawText(r1, Qt::AlignLeft|Qt::AlignTop|Qt::TextWordWrap,str);
+        }
+
+        str = track->getTrkPtInfo2(*selTrkPt);
+        //-----------------------------------------------------------------------------------------------------------
+        if (str != "")
+        {
+            QFont           f = CResources::self().getMapFont();
+            QFontMetrics    fm(f);
+            QRect           r1 = fm.boundingRect(QRect(0,0,300,0), Qt::AlignLeft|Qt::AlignTop, str);
+
+            QRect r = theMainWindow->getCanvas()->rect();
+
+            r1.moveTopLeft(QPoint(300, r.bottom() - r1.height() - 20));
+
+            QRect           r2 = r1;
+            r2.setWidth(r1.width() + 20);
+            r2.moveLeft(r1.left() - 10);
+            r2.setHeight(r1.height() + 20);
+            r2.moveTop(r1.top() - 10);
+
+
+            p.setPen(QPen(CCanvas::penBorderBlue));
+            p.setBrush(CCanvas::brushBackWhite);
+            PAINT_ROUNDED_RECT(p,r2);
+
+            p.setFont(CResources::self().getMapFont());
+            p.setPen(Qt::darkBlue);
+            p.drawText(r1, Qt::AlignLeft|Qt::AlignTop,str);
         }
     }
 }
