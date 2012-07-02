@@ -103,6 +103,7 @@ class CPlot : public QWidget
         void setSizeIconArea();
         void setSizeXLabel();
         void setSizeYLabel();
+        void setSizeTrackInfo();
         void setSizeDrawArea();
         void zoom(CPlotAxis &axis, bool in, int cur = 0);
 
