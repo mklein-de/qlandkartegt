@@ -641,6 +641,10 @@ bool CTrackFilterWidget::filterHidePoints1(QDataStream& args, QList<CTrack*>& tr
                 {
                     trkpt->flags |= CTrack::pt_t::eDeleted;
                 }
+                else
+                {
+                    lastEle = trkpt->ele;
+                }
 
             }
             else
