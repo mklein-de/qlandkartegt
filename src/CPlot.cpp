@@ -281,7 +281,7 @@ void CPlot::setLRTB()
         bottom -= deadAreaY;
     }
 
-    if(!m_pData->tags.isEmpty())
+    if(!m_pData->tags.isEmpty() && CResources::self().showTrackProfileEleInfo())
     {
         bottom -= fontHeight;
     }
@@ -313,7 +313,7 @@ void CPlot::setSizeXLabel()
         rectX1Label.setWidth( right - left );
         rectX1Label.setHeight( fontHeight );
         y = ( size().height() - rectX1Label.height()) - deadAreaY;
-        if(!m_pData->tags.isEmpty())
+        if(!m_pData->tags.isEmpty() && CResources::self().showTrackProfileEleInfo())
         {
             y -= fontHeight;
         }
@@ -347,7 +347,7 @@ void CPlot::setSizeYLabel()
 
 void CPlot::setSizeTrackInfo()
 {
-    if(m_pData->tags.isEmpty())
+    if(m_pData->tags.isEmpty() || !CResources::self().showTrackProfileEleInfo())
     {
         rectTrackInfo = QRect();
         return;
@@ -895,7 +895,7 @@ void CPlot::drawLegend(QPainter& p)
 
 void CPlot::drawTags(QPainter& p)
 {
-    if(m_pData->tags.isEmpty()) return;
+    if(m_pData->tags.isEmpty() || !CResources::self().showTrackProfileEleInfo()) return;
 
     QRect rect;
     int ptx, pty;

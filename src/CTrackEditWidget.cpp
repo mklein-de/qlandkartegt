@@ -1267,7 +1267,7 @@ void CTrackEditWidget::slotPointOfFocus(const int idx)
     int cnt = 0;
 
     const QList<CTrack::wpt_t>& wpts = track->getStageWaypoints();
-    if(idx < 0 || wpts.isEmpty() || track.isNull())
+    if(idx < 0 || wpts.isEmpty() || track.isNull() || !CResources::self().showTrackProfileEleInfo())
     {
         textStages->slotHighlightArea("");
         if(trackStatProfileDist)
