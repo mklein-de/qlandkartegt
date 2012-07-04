@@ -179,7 +179,7 @@ void CDlgLoadOnlineMap::slotWebServiceResponse(const QtSoapMessage &message)
         if (method == "getwmslinkResponse")
         {
             QString data(message.returnValue().toString());
-            //data.replace(QRegExp("&amp;"), "&"); // This _must_ come first
+            data.replace(QRegExp("&amp;"), "&"); // This _must_ come first
             data.replace(QRegExp("&lt;"), "<");
             data.replace(QRegExp("&gt;"), ">");
             data.replace(QRegExp("&quot;"), "\"");
