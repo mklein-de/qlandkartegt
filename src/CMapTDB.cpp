@@ -869,7 +869,14 @@ void CMapTDB::checkMdrFile()
     {
         mdrfile = mdrfiles.first();
     }
-
+    else
+    {
+        int idx(mdrfiles.indexOf(fi.completeBaseName() + "_mdr.img", Qt::CaseInsensitive));
+        if (idx != -1)
+        {
+            mdrfile = mdrfiles[idx];
+        }
+    }
 }
 
 void CMapTDB::checkTypFiles()
