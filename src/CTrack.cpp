@@ -1405,10 +1405,17 @@ void CTrack::slotScaleWpt2Track()
         ++trkpt;
     }
 
+    double minDist = WPT_TO_TRACK_DIST;
+    if(map.isLonLat())
+    {
+        minDist = 6.50375e-10;
+    }
+
     QList<CTrack::wpt_t>::iterator wpt = waypoints.begin();
     while(wpt != waypoints.end())
     {
-        if(wpt->d > WPT_TO_TRACK_DIST)
+
+        if(wpt->d > minDist)
         {
             wpt = waypoints.erase(wpt);
             continue;
