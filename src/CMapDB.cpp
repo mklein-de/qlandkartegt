@@ -178,7 +178,7 @@ CMapDB::CMapDB(QTabWidget * tb, QObject * parent)
         }
     }
 
-    maps = cfg.value("maps/visibleMaps","").toString().split("|",QString::SkipEmptyParts);
+    maps = cfg.value("maps/visibleMaps","http://tile.openstreetmap.org/%1/%2/%3.png").toString().split("|",QString::SkipEmptyParts);
     cfg.setValue("maps/visibleMaps","");
     cfg.sync();
 
