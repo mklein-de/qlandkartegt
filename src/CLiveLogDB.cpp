@@ -40,7 +40,7 @@
 CLiveLogDB * CLiveLogDB::m_self = 0;
 
 CLiveLogDB::CLiveLogDB(QTabWidget * tb, QObject * parent)
-: IDB(tb,parent)
+    : IDB(IDB::eTypeLog,  tb, parent)
 , m_lockToCenter(false)
 {
     m_self      = this;
@@ -126,12 +126,12 @@ bool CLiveLogDB::logging()
 
 
 void CLiveLogDB::clear()
-{
+{    
     saveBackupLog();
     track.clear();
     polyline.clear();
     m_log.fix = CLiveLog::eOff;
-    emit sigChanged();
+    emitSigChanged();
 }
 
 
@@ -317,7 +317,7 @@ void CLiveLogDB::slotLiveLog(const CLiveLog& log)
         w->labelCenter->hide();
     }
 
-    emit sigChanged();
+    emitSigChanged();
 }
 
 

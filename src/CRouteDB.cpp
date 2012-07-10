@@ -45,7 +45,7 @@ bool CRouteDB::keyLessThanTime(keys_t&  s1, keys_t&  s2)
 
 
 CRouteDB::CRouteDB(QTabWidget * tb, QObject * parent)
-: IDB(tb, parent)
+    : IDB(IDB::eTypeRte, tb, parent)
 , cnt(0)
 {
     m_self      = this;
@@ -72,8 +72,8 @@ void CRouteDB::addRoute(CRoute * route, bool silent)
     connect(route,SIGNAL(sigChanged()),SIGNAL(sigChanged()));
     if(!silent)
     {
-        emit sigChanged();
-        emit sigModified();
+        emitSigChanged();
+        emitSigModified();
     }
 
 }
@@ -86,8 +86,8 @@ void CRouteDB::delRoute(const QString& key, bool silent)
     rte->deleteLater();
     if(!silent)
     {
-        emit sigChanged();
-        emit sigModified();
+        emitSigChanged();
+        emitSigModified();
     }
 }
 
@@ -101,8 +101,8 @@ void CRouteDB::delRoutes(const QStringList& keys)
     }
     if(!keys.isEmpty())
     {
-        emit sigChanged();
-        emit sigModified();
+        emitSigChanged();
+        emitSigModified();
     }
 }
 
@@ -136,7 +136,7 @@ void CRouteDB::highlightRoute(const QString& key)
 
     }
 
-    emit sigChanged();
+    emitSigChanged();
 
 }
 
@@ -260,7 +260,7 @@ void CRouteDB::loadGPX(CGpx& gpx)
 
     if(hasItems)
     {
-        emit sigChanged();
+        emitSigChanged();
     }
 }
 
@@ -382,7 +382,7 @@ void CRouteDB::loadQLB(CQlb& qlb, bool newKey)
 
     if(qlb.routes().size())
     {
-        emit sigChanged();
+        emitSigChanged();
     }
 }
 
@@ -442,16 +442,17 @@ void CRouteDB::download()
         }
     }
 
-    emit sigChanged();
-    emit sigModified();
+    emitSigChanged();
+    emitSigModified();
 }
 
 
 void CRouteDB::clear()
 {
+    if(routes.isEmpty()) return;
     cnt = 0;
     delRoutes(routes.keys());
-    emit sigChanged();
+    emitSigChanged();
 
 }
 
@@ -747,9 +748,9 @@ void CRouteDB::loadSecondaryRoute(const QString& key, QDomDocument& xml, CRoute:
     if(routes.contains(key))
     {
         routes[key]->loadSecondaryRoute(xml, service);
-        emit sigChanged();
-        emit sigModified();
-        emit sigModified(key);
+        emitSigChanged();
+        emitSigModified();
+        emitSigModified(key);
     }
 }
 
@@ -758,8 +759,8 @@ void CRouteDB::reset(const QString& key)
     if(routes.contains(key))
     {
         routes[key]->reset();
-        emit sigChanged();
-        emit sigModified();
-        emit sigModified(key);
+        emitSigChanged();
+        emitSigModified();
+        emitSigModified(key);
     }
 }

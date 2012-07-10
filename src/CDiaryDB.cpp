@@ -27,7 +27,7 @@
 CDiaryDB * CDiaryDB::m_self = 0;
 
 CDiaryDB::CDiaryDB(QTabWidget * tb, QObject * parent)
-: IDB(tb, parent)
+    : IDB(IDB::eTypeDry, tb, parent)
 {
     m_self = this;
 
@@ -58,7 +58,7 @@ void CDiaryDB::loadQLB(CQlb& qlb, bool newKey)
 
     if(qlb.diary().size())
     {
-        emit sigChanged();
+        emitSigChanged();
     }
 
 }
@@ -75,8 +75,9 @@ void CDiaryDB::saveQLB(CQlb& qlb)
 
 void CDiaryDB::clear()
 {
+    if(diarys.isEmpty()) return;
     delDiarys(diarys.keys());
-    emit sigChanged();
+    emitSigChanged();
 }
 
 int CDiaryDB::count()
@@ -117,8 +118,8 @@ void CDiaryDB::addDiary(CDiary * diary, bool silent, bool fromDB)
     connect(diary,SIGNAL(sigChanged()),SIGNAL(sigChanged()));
     if(!silent)
     {
-        emit sigChanged();
-        emit sigModified();
+        emitSigChanged();
+        emitSigModified();
     }
 }
 
@@ -128,8 +129,8 @@ void CDiaryDB::delDiary(const QString& key, bool silent)
     diarys.take(key)->close();
     if(!silent)
     {
-        emit sigChanged();
-        emit sigModified();
+        emitSigChanged();
+        emitSigModified();
     }
 }
 
@@ -141,8 +142,8 @@ void CDiaryDB::delDiarys(const QStringList& keys)
     }
     if(!keys.isEmpty())
     {
-        emit sigChanged();
-        emit sigModified();
+        emitSigChanged();
+        emitSigModified();
     }
 }
 

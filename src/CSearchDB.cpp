@@ -35,7 +35,7 @@ CSearchDB * CSearchDB::m_self;
 static const char google_api_key[] = "ABQIAAAAPztEvITCpkvDNrq-hFRvThQNZ4aRbgDVTL9C0r5u06RhgW2EtRR8yuKglxlHgpZfC5_TdLXlJvIWgA";
 
 CSearchDB::CSearchDB(QTabWidget * tb, QObject * parent)
-: IDB(tb,parent)
+    : IDB(IDB::eTypeSrc, tb, parent)
 , tmpResult(0)
 {
     m_self      = this;
@@ -54,8 +54,9 @@ CSearchDB::~CSearchDB()
 
 void CSearchDB::clear()
 {
+    if(results.isEmpty()) return;
     results.clear();
-    emit sigChanged();
+    emitSigChanged();
 }
 
 void CSearchDB::search(const QString& str, hosts_t host)
@@ -75,7 +76,7 @@ void CSearchDB::search(const QString& str, hosts_t host)
         default:
             emit sigStatus(tr("Unknown host."));
             emit sigFinished();
-            emit sigChanged();
+            emitSigChanged();
     }
 }
 
@@ -181,7 +182,7 @@ void CSearchDB::slotRequestFinished(QNetworkReply * reply)
     {
         emit sigStatus(reply->errorString());
         emit sigFinished();
-        emit sigChanged();
+        emitSigChanged();
         reply->deleteLater();
         return;
     }
@@ -208,7 +209,7 @@ void CSearchDB::slotRequestFinished(QNetworkReply * reply)
         default:
             emit sigStatus(tr("Unknown host."));
             emit sigFinished();
-            emit sigChanged();
+            emitSigChanged();
     }
 
 
@@ -276,7 +277,7 @@ void CSearchDB::slotRequestFinishedGoogle(QByteArray& data)
     }
 
     emit sigFinished();
-    emit sigChanged();
+    emitSigChanged();
 }
 
 void CSearchDB::slotRequestFinishedOpenRouteService(QByteArray& data)
@@ -342,7 +343,7 @@ void CSearchDB::slotRequestFinishedOpenRouteService(QByteArray& data)
 
     emit sigStatus(status);
     emit sigFinished();
-    emit sigChanged();
+    emitSigChanged();
 
 }
 
@@ -358,7 +359,7 @@ void CSearchDB::slotRequestFinishedMapQuest(QByteArray& data)
 
     emit sigStatus(status);
     emit sigFinished();
-    emit sigChanged();
+    emitSigChanged();
 
 }
 
@@ -402,7 +403,7 @@ void CSearchDB::delResults(const QStringList& keys)
         results.remove(key);
     }
 
-    emit sigChanged();
+    emitSigChanged();
 
 }
 
@@ -416,7 +417,7 @@ void CSearchDB::add(const QString& label, double lon, double lat)
 
     results[item->getKey()] = item;
 
-    emit sigChanged();
+    emitSigChanged();
 }
 
 void CSearchDB::selSearchByKey(const QString& key)

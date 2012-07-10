@@ -87,11 +87,10 @@ class CTrackDB : public IDB
         void pasteFromClipboard();
         CTrack *take(const QString& key, bool silent);
         void insert(const QString& key, CTrack *track, bool silent);
-        void emitSigChanged();
         void emitSigModified();
-        void setShowBullets(bool on){showBullets = on; emit sigChanged();}
+        void setShowBullets(bool on){showBullets = on; emitSigChanged();}
         bool getShowBullets(){return showBullets;}
-        void setShowMinMax(bool on){showMinMax = on; emit sigChanged();}
+        void setShowMinMax(bool on){showMinMax = on; emitSigChanged();}
         bool getShowMinMax(){return showMinMax;}
 
         struct keys_t{QString key; QString name; QString comment; QPixmap icon; quint32 time;};

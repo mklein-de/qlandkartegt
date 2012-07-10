@@ -60,7 +60,7 @@ static exif_data_get_byte_order_t f_exif_data_get_byte_order;
 #endif
 
 CWptDB::CWptDB(QTabWidget * tb, QObject * parent)
-: IDB(tb,parent)
+    : IDB(IDB::eTypeWpt, tb, parent)
 , showNames(true)
 {
     SETTINGS;
@@ -178,9 +178,11 @@ bool CWptDB::keyLessThanTime(CWptDB::keys_t&  s1, CWptDB::keys_t&  s2)
 
 void CWptDB::clear()
 {
+    if(wpts.isEmpty()) return;
+
     delWpt(wpts.keys());
     CWpt::resetKeyCnt();
-    emit sigChanged();
+    emitSigChanged();
 }
 
 
@@ -302,8 +304,8 @@ CWpt * CWptDB::newWpt(float lon, float lat, float ele, const QString& name)
 
     cfg.setValue("waypoint/lastSymbol",wpt->iconString);
 
-    emit sigChanged();
-    emit sigModified();
+    emitSigChanged();
+    emitSigModified();
 
     lastWptName = wpt->getName();
 
@@ -339,8 +341,8 @@ void CWptDB::delWpt(const QString& key, bool silent, bool saveSticky)
     wpt->deleteLater();
     if(!silent)
     {
-        emit sigChanged();
-        emit sigModified();
+        emitSigChanged();
+        emitSigModified();
     }
 }
 
@@ -355,8 +357,8 @@ void CWptDB::delWpt(const QStringList& keys, bool saveSticky)
 
     if(!keys.isEmpty())
     {
-        emit sigChanged();
-        emit sigModified();
+        emitSigChanged();
+        emitSigModified();
     }
 }
 
@@ -379,8 +381,8 @@ void CWptDB::addWpt(CWpt * wpt, bool silent)
 
     if(!silent)
     {
-        emit sigChanged();
-        emit sigModified();
+        emitSigChanged();
+        emitSigModified();
     }
 }
 
@@ -391,10 +393,10 @@ void CWptDB::setProxyDistance(const QStringList& keys, double dist)
     foreach(key,keys)
     {
         wpts[key]->prx = dist;
-        emit sigModified(key);
+        emitSigModified(key);
     }
-    emit sigChanged();
-    emit sigModified();
+    emitSigChanged();
+    emitSigModified();
 
 }
 
@@ -409,11 +411,11 @@ void CWptDB::setIcon(const QStringList& keys, const QString& iconName)
         if(!wpt->geocache.hasData)
         {
             wpt->setIcon(iconName);
-            emit sigModified(key);
+            emitSigModified(key);
         }
     }
-    emit sigChanged();
-    emit sigModified();
+    emitSigChanged();
+    emitSigModified();
 
 }
 
@@ -428,11 +430,11 @@ void CWptDB::setParentWpt(const QStringList& keys, const QString& name)
         if(!wpt->geocache.hasData)
         {
             wpt->setParentWpt(name);
-            emit sigModified(key);
+            emitSigModified(key);
         }
     }
-    emit sigChanged();
-    emit sigModified();
+    emitSigChanged();
+    emitSigModified();
 
 }
 
@@ -573,7 +575,7 @@ void CWptDB::loadGPX(CGpx& gpx)
 
     if(hasItems)
     {
-        emit sigChanged();
+        emitSigChanged();
     }
 }
 
@@ -810,7 +812,7 @@ void CWptDB::loadQLB(CQlb& qlb, bool newKey)
 
     if(qlb.waypoints().size())
     {
-        emit sigChanged();
+        emitSigChanged();
     }
 
 }
@@ -872,8 +874,8 @@ void CWptDB::download()
         }
     }
 
-    emit sigChanged();
-    emit sigModified();
+    emitSigChanged();
+    emitSigModified();
 }
 
 
@@ -1291,8 +1293,8 @@ void CWptDB::createWaypointsFromImages()
 
         f_exif_data_unref(exifData);
     }
-    emit sigChanged();
-    emit sigModified();
+    emitSigChanged();
+    emitSigModified();
 }
 #endif
 

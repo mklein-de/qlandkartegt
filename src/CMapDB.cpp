@@ -55,7 +55,7 @@
 CMapDB * CMapDB::m_self = 0;
 
 CMapDB::CMapDB(QTabWidget * tb, QObject * parent)
-: IDB(tb,parent)
+    : IDB(IDB::eTypeMap, tb, parent)
 {
     SETTINGS;
 
@@ -173,7 +173,7 @@ CMapDB::CMapDB(QTabWidget * tb, QObject * parent)
         if(res == QMessageBox::No)
         {
             cfg.setValue("maps/visibleMaps","");
-            emit sigChanged();
+            emitSigChanged();
             return;
         }
     }
@@ -190,7 +190,7 @@ CMapDB::CMapDB(QTabWidget * tb, QObject * parent)
     cfg.setValue("maps/visibleMaps",maps.join("|"));
 
 
-    emit sigChanged();
+    emitSigChanged();
 
 }
 
@@ -240,8 +240,9 @@ CMap3D * CMapDB::getMap3D()
 
 void CMapDB::clear()
 {
+    if(selectedMaps.isEmpty()) return;
     selectedMaps.clear();
-    emit sigChanged();
+    emitSigChanged();
 }
 
 
@@ -436,7 +437,7 @@ void CMapDB::openMap(const QString& filename, bool asRaster, CCanvas& canvas)
     QString fileDEM = cfg.value(QString("map/dem/%1").arg(theMap->getKey()),"").toString();
     if(!fileDEM.isEmpty()) openDEM(fileDEM);
 
-    emit sigChanged();
+    emitSigChanged();
 
     QApplication::restoreOverrideCursor();
 }
@@ -513,7 +514,7 @@ void CMapDB::openMap(const QString& key)
         theMap->move(QPoint(midU, midV), theMainWindow->getCanvas()->rect().center());
     }
 
-    emit sigChanged();
+    emitSigChanged();
     QApplication::restoreOverrideCursor();
 }
 
@@ -576,7 +577,7 @@ void CMapDB::openDEM(const QString& filename)
         cfg.setValue(QString("map/dem/%1/ignoreWarning").arg(theMap->getKey()), false);
     }
 
-    emit sigChanged();
+    emitSigChanged();
 }
 
 
@@ -636,7 +637,7 @@ void CMapDB::delKnownMap(const QStringList& keys)
 
     }
 
-    emit sigChanged();
+    emitSigChanged();
 }
 
 
@@ -648,7 +649,7 @@ void CMapDB::delSelectedMap(const QStringList& keys)
         delSelectedMap(key,true);
     }
 
-    emit sigChanged();
+    emitSigChanged();
 }
 
 void CMapDB::delSelectedMap(const QString& key, bool silent)
@@ -658,7 +659,7 @@ void CMapDB::delSelectedMap(const QString& key, bool silent)
         delete selectedMaps.take(key);
         if(!silent)
         {
-            emit sigChanged();
+            emitSigChanged();
         }
     }
 }
@@ -1016,7 +1017,7 @@ void CMapDB::select(const QRect& rect, const QMap< QPair<int,int>, bool>& selTil
                 mapsearch->setArea(*ms);
             }
 
-            emit sigChanged();
+            emitSigChanged();
         }
         catch(const QString& msg)
         {
@@ -1060,9 +1061,9 @@ void CMapDB::select(const QRect& rect, const QMap< QPair<int,int>, bool>& selTil
 
         if(ms && isEdit)
         {
-            emit sigModified(ms->getKey());
+            emitSigModified(ms->getKey());
         }
-        emit sigChanged();
+        emitSigChanged();
     }
     else
     {
@@ -1134,7 +1135,7 @@ void CMapDB::setMapData(const map_t& map)
 
     knownMaps[m.key] = m;
 
-    emit sigChanged();
+    emitSigChanged();
 }
 
 void CMapDB::reloadMap()

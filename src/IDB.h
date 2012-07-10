@@ -36,7 +36,21 @@ class IDB : public QObject
 {
     Q_OBJECT;
     public:
-        IDB(QTabWidget * tb, QObject * parent);
+        enum dbType_e
+        {
+             eTypeWpt = 0x00000001
+            ,eTypeTrk = 0x00000002
+            ,eTypeRte = 0x00000004
+            ,eTypeSrc = 0x00000008
+            ,eTypeGeo = 0x00000010
+            ,eTypeOvl = 0x00000020
+            ,eTypeMap = 0x00000040
+            ,eTypeDry = 0x00000080
+            ,eTypeLog = 0x00000100
+
+        };
+
+        IDB(dbType_e type, QTabWidget * tb, QObject * parent);
         virtual ~IDB();
 
         /// move database views into focus
@@ -79,15 +93,20 @@ class IDB : public QObject
         static void signalsOff();
         static void signalsOn();
 
-        void emitSigChanged(){emit sigChanged();}
-        void emitSigModified(const QString& key){emit sigModified(key);}
+        virtual void emitSigChanged(){emit sigChanged(); signalFlags |= type;}
+        virtual void emitSigModified(){emit sigModified();}
+        virtual void emitSigModified(const QString& key){emit sigModified(key);}
     signals:
         void sigChanged();
         void sigModified();
         void sigModified(const QString&);
 
     protected:
+        dbType_e type;
+
         QTabWidget *  tabbar;
         QWidget *  toolview;
+
+        static quint32 signalFlags;
 };
 #endif                           //IDB_H

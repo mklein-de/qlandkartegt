@@ -40,7 +40,7 @@
 COverlayDB * COverlayDB::m_self = 0;
 
 COverlayDB::COverlayDB(QTabWidget * tb, QObject * parent)
-: IDB(tb,parent)
+    : IDB(IDB::eTypeOvl, tb, parent)
 , addOverlaysAsDuplicate(false)
 {
     m_self      = this;
@@ -206,7 +206,7 @@ void COverlayDB::loadGPX(CGpx& gpx)
 
     if(hasItems)
     {
-        emit sigChanged();
+        emitSigChanged();
     }
 }
 
@@ -319,7 +319,7 @@ void COverlayDB::loadQLB(CQlb& qlb, bool newKey)
 
     if(qlb.overlays().size())
     {
-        emit sigChanged();
+        emitSigChanged();
     }
 }
 
@@ -337,6 +337,7 @@ void COverlayDB::saveQLB(CQlb& qlb)
 
 void COverlayDB::clear()
 {
+    if(overlays.isEmpty()) return;
     delOverlays(overlays.keys());
     IOverlay::resetKeyCnt();
 }
@@ -351,8 +352,8 @@ void COverlayDB::delOverlays(const QStringList& keys)
     }
     if(!keys.isEmpty())
     {
-        emit sigChanged();
-        emit sigModified();
+        emitSigChanged();
+        emitSigModified();
     }
 
 }
@@ -366,8 +367,8 @@ void COverlayDB::delOverlay(const QString& key, bool silent)
 
         if(!silent)
         {
-            emit sigChanged();
-            emit sigModified();
+            emitSigChanged();
+            emitSigModified();
         }
     }
 }
@@ -396,7 +397,7 @@ COverlayText * COverlayDB::addText(const QString& text, const QRect& rect, const
 
     if(!silent)
     {
-        emit sigChanged();
+        emitSigChanged();
     }
 
     return qobject_cast<COverlayText*>(overlay);
@@ -427,7 +428,7 @@ COverlayTextBox * COverlayDB::addTextBox(const QString& text, double lon, double
 
     if(!silent)
     {
-        emit sigChanged();
+        emitSigChanged();
     }
 
     return qobject_cast<COverlayTextBox*>(overlay);
@@ -458,7 +459,7 @@ COverlayDistance * COverlayDB::addDistance(const QString& name, const QString& c
 
     if(!silent)
     {
-        emit sigChanged();
+        emitSigChanged();
     }
 
     return qobject_cast<COverlayDistance*>(overlay);
@@ -535,7 +536,7 @@ void COverlayDB::pasteFromClipboard()
 
         loadQLB(qlb, true);
 
-        emit sigModified();
+        emitSigModified();
     }
 }
 
@@ -566,7 +567,7 @@ void COverlayDB::highlightOverlay(const QString& key)
         ovl->setHighlight(true);
     }
 
-    emit sigChanged();
+    emitSigChanged();
 
 }
 
@@ -641,7 +642,7 @@ void COverlayDB::slotModified()
     IOverlay * ovl = qobject_cast<IOverlay*>(sender());
     if(ovl)
     {
-        emit sigModified(ovl->getKey());
+        emitSigModified(ovl->getKey());
     }
 }
 

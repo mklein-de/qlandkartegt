@@ -124,7 +124,7 @@ class CWptDB : public IDB
         static bool keyLessThanTime(CWptDB::keys_t&  s1, CWptDB::keys_t&  s2);
 
         bool getShowNames(){return showNames;}
-        void setShowNames(bool yes){showNames = yes;  emit sigChanged();}
+        void setShowNames(bool yes){showNames = yes;  emitSigChanged();}
 
         void getListOfGeoCaches(QStringList& caches);
 
