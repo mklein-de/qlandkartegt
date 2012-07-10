@@ -24,6 +24,9 @@
 #include <QString>
 #include <QDateTime>
 
+#include "CWptDB.h"
+#include "CTrackDB.h"
+
 IDB::IDB(QTabWidget * tb, QObject * parent)
 : QObject(parent)
 , tabbar(tb)
@@ -131,3 +134,16 @@ bool IDB::parseTimestamp(const QString &time, quint32 &tstamp,
      return parseTstampInternal(time, tstamp, true, tstamp_msec);
 }
 
+void IDB::signalsOff()
+{
+    CWptDB::self().blockSignals(true);
+    CTrackDB::self().blockSignals(true);
+}
+
+void IDB::signalsOn()
+{
+    CWptDB::self().blockSignals(false);
+    CWptDB::self().emitSigChanged();
+    CTrackDB::self().blockSignals(false);
+    CTrackDB::self().emitSigChanged();
+}

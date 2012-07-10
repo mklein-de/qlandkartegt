@@ -97,15 +97,14 @@ CMainWindow::CMainWindow()
     canvasTab = new CTabWidget(this);
     rightSplitter->addWidget(canvasTab);
 
-    canvas = new CCanvas(this);
-    canvasTab->addTab(canvas,tr("Map"));
-
 #ifdef DO_PROFILING
     Q_INIT_RESOURCE(Conan);
     conanWidget = new conan::ConanWidget(this);
-    conanWidget->AddRootObject(this);
     canvasTab->addTab(conanWidget,tr("Profilig"));
 #endif
+
+    canvas = new CCanvas(this);
+    canvasTab->addTab(canvas,tr("Map"));
 
     actionGroupProvider = new CMenus(this);
 
@@ -278,6 +277,9 @@ CMainWindow::CMainWindow()
     searchdb    = new CSearchDB(tabbar, this);
 
 
+#ifdef DO_PROFILING
+    conanWidget->AddRootObject(this);
+#endif
 
     if(resources->useGeoDB())
     {
@@ -509,6 +511,8 @@ void CMainWindow::clearAll()
 
     if(res == QMessageBox::Ok)
     {
+        IDB::signalsOff();
+
         CSearchDB::self().clear();
         CMapDB::self().clear();
         CWptDB::self().clear();
@@ -517,6 +521,8 @@ void CMainWindow::clearAll()
         COverlayDB::self().clear();
         CRouteDB::self().clear();
         clear();
+
+        IDB::signalsOn();
     }
 }
 
@@ -762,6 +768,8 @@ void CMainWindow::slotLoadData()
         }
     }
 
+    IDB::signalsOff();
+
     CMapDB::self().clear();
     CWptDB::self().clear();
     CTrackDB::self().clear();
@@ -775,6 +783,8 @@ void CMainWindow::slotLoadData()
         loadData(filename, filter);
         addRecent(filename);
     }
+
+    IDB::signalsOn();
 
     wksFile = filename;
 
