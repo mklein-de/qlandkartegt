@@ -49,6 +49,10 @@ class CDBus;
 class CGridDB;
 class QCheckBox;
 
+#ifdef DO_PROFILING
+#include <Conan.h>
+#endif
+
 class CMainWindow : public QMainWindow
 {
     Q_OBJECT;
@@ -206,6 +210,9 @@ class CMainWindow : public QMainWindow
         QtSoapHttpTransport soapHttp;
 
 
+#ifdef DO_PROFILING
+        conan::ConanWidget * conanWidget;
+#endif
 };
 
 extern CMainWindow * theMainWindow;

@@ -1,0 +1,1 @@
+All icons are part of the free 'Silk' icon set made by Mark James and available from www.famfamfam.com. The icon set is licenced under a Creative Commons Attribution 2.5 License (see CCL.txt for details).

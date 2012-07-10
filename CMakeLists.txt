@@ -61,6 +61,8 @@ endif(NATIVE_FILE_DIALOG)
 include(ConfigureChecks.cmake)
 configure_file(config.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config.h)
 
+option(WITH_PROFILING "BUILD WITH PROFILING" OFF)
+
 add_subdirectory(3rdparty/SerialPort)
 add_subdirectory(3rdparty/QMKToolBox)
 add_subdirectory(3rdparty/QZip)
@@ -70,6 +72,12 @@ add_subdirectory(3rdparty/map2gcm)
 add_subdirectory(3rdparty/map2rmap)
 add_subdirectory(3rdparty/cache2gtiff)
 add_subdirectory(3rdparty/qtsoap)
+
+if(WITH_PROFILING)
+add_definitions(-DDO_PROFILING)
+add_subdirectory(3rdparty/conan)
+endif(WITH_PROFILING)
+
 add_subdirectory(src)
 
 if (UNIX AND NOT WIN32 AND NOT APPLE)

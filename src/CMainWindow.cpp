@@ -100,6 +100,13 @@ CMainWindow::CMainWindow()
     canvas = new CCanvas(this);
     canvasTab->addTab(canvas,tr("Map"));
 
+#ifdef DO_PROFILING
+    Q_INIT_RESOURCE(Conan);
+    conanWidget = new conan::ConanWidget(this);
+    conanWidget->AddRootObject(this);
+    canvasTab->addTab(conanWidget,tr("Profilig"));
+#endif
+
     actionGroupProvider = new CMenus(this);
 
     megaMenu = new CMegaMenu(canvas);
@@ -400,6 +407,8 @@ CMainWindow::CMainWindow()
     connect(&CTrackDB::self(), SIGNAL(sigHighlightTrack(CTrack *)), canvas, SLOT(slotHighlightTrack(CTrack*)));
     connect(&CTrackDB::self(), SIGNAL(sigChanged()), canvas, SLOT(slotTrackChanged()));
     connect(&soapHttp, SIGNAL(responseReady(const QtSoapMessage &)),this, SLOT(slotGetResponse(const QtSoapMessage &)));
+
+
 }
 
 

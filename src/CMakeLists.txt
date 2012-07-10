@@ -59,6 +59,13 @@ else(GPSBABEL)
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DGPSBABEL=\\\"gpsbabel\\\"")
 endif(GPSBABEL)
 
+if(WITH_PROFILING)
+    set(PROFILING_LIBRARIES "conan")
+else(WITH_PROFILING)
+    set(PROFILING_LIBRARIES "")
+endif(WITH_PROFILING)
+
+
 if (NOT WIN32)
   find_program(MAP2JNX map2jnx DOC "full path of the map2jnx application")
   if(MAP2JNX)
@@ -622,6 +629,7 @@ include_directories(
   ${CMAKE_SOURCE_DIR}/3rdparty/QTextHtmlExporter
   ${CMAKE_SOURCE_DIR}/3rdparty/getopt
   ${CMAKE_SOURCE_DIR}/3rdparty/qtsoap
+  ${CMAKE_SOURCE_DIR}/3rdparty/conan/include
   ${EXIF_INCLUDE_DIRS}
   ${DMTX_INCLUDE_DIRS}
   ${GPSD_INCLUDE_DIRS}
@@ -696,6 +704,7 @@ target_link_libraries(
       qtexthtmlexporter
       getopt
       qtsoap
+      ${PROFILING_LIBRARIES}
   )
 
 install(

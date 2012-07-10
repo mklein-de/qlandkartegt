@@ -1,0 +1,20 @@
+<RCC>
+  <qresource prefix="/icons/conan">
+    <file alias="disconnect">../icons/disconnect.png</file>
+    <file alias="info">../icons/information.png</file>
+    <file alias="export">../icons/page_save.png</file>
+    <file alias="bug">../icons/bug.png</file>
+    <file alias="connect">../icons/connect.png</file>
+    <file alias="camera">../icons/camera.png</file>
+    <file alias="refresh">../icons/arrow_refresh.png</file>
+    <file alias="find">../icons/find.png</file>
+    <file alias="key">../icons/key.png</file>
+    <file alias="lock">../icons/lock.png</file>
+    <file alias="next">../icons/resultset_next.png</file>
+    <file alias="prev">../icons/resultset_previous.png</file>
+    <file alias="hierarchy">../icons/chart_organisation.png</file>
+    <file alias="transmit">../icons/transmit_blue.png</file>
+    <file alias="spy">../icons/zoom.png</file>
+    <file alias="delete">../icons/delete.png</file>
+  </qresource>
+</RCC>

@@ -1,0 +1,8 @@
+future versions:
+-refactor conan: decouple core conan functionality from gui code, allowing anyone to roll their own
+ ConanWidget
+-allow run-time creation of new signal/slot connections
+-extend log options: output to console or file
+-add a toolbutton to compute various statistics
+-add source code to conan demo app release package
+-keep qt-apps.org / sf.net / mac.softpedia.com / qt centre in sync
