@@ -93,6 +93,8 @@ class CTrackEditWidget : public QWidget, private Ui::ITrackEditWidget
                                  //TODO: Kill Tab
         void slotKillTab(int index);
 
+        void slotResetAllZoom();
+
     protected slots:
         void slotContextMenu(const QPoint& pos);
         void slotSplit();

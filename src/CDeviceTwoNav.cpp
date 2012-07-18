@@ -194,6 +194,24 @@ void CDeviceTwoNav::uploadWpts(const QList<CWpt*>& wpts)
 
     // export normal waypoints.
     {
+        float north = -90.0;
+        float south = 90.0;
+        float west = 180.0;
+        float east = -180.0;
+
+        foreach(CWpt * wpt, wpts)
+        {
+            // do not export sticky waypoints
+            if(wpt->sticky) continue;
+            // geocaches are exported in a separate file
+            if(wpt->isGeoCache()) continue;
+
+            if(north < wpt->lat) north = wpt->lat;
+            if(south > wpt->lat) south = wpt->lat;
+            if(west > wpt->lon) west = wpt->lon;
+            if(east < wpt->lon) east = wpt->lon;
+        }
+
         QFile file(dir.absoluteFilePath("MyWaypoints.wpt"));
         file.open(QIODevice::WriteOnly);
         QTextStream out(&file);
@@ -201,6 +219,7 @@ void CDeviceTwoNav::uploadWpts(const QList<CWpt*>& wpts)
         out << "B  UTF-8" << endl;
         out << "G  WGS 84" << endl;
         out << "U  1" << endl;
+        out << "z " << west << ", " << south << ", " << east << ", " << north << endl;
         foreach(CWpt * wpt, wpts)
         {
             // do not export sticky waypoints
@@ -216,6 +235,24 @@ void CDeviceTwoNav::uploadWpts(const QList<CWpt*>& wpts)
     }
     // export geocaches.
     {
+        float north = -90.0;
+        float south = 90.0;
+        float west = 180.0;
+        float east = -180.0;
+
+        foreach(CWpt * wpt, wpts)
+        {
+            // do not export sticky waypoints
+            if(wpt->sticky) continue;
+            // only accept geocaches
+            if(!wpt->isGeoCache()) continue;
+
+            if(north < wpt->lat) north = wpt->lat;
+            if(south > wpt->lat) south = wpt->lat;
+            if(west > wpt->lon) west = wpt->lon;
+            if(east < wpt->lon) east = wpt->lon;
+        }
+
         QFile file(dir.absoluteFilePath("GeoCaches.wpt"));
         file.open(QIODevice::WriteOnly);
         QTextStream out(&file);
@@ -223,6 +260,7 @@ void CDeviceTwoNav::uploadWpts(const QList<CWpt*>& wpts)
         out << "B  UTF-8" << endl;
         out << "G  WGS 84" << endl;
         out << "U  1" << endl;
+        out << "z " << west << ", " << south << ", " << east << ", " << north << endl;
         foreach(CWpt * wpt, wpts)
         {
             // do not export sticky waypoints
@@ -232,6 +270,25 @@ void CDeviceTwoNav::uploadWpts(const QList<CWpt*>& wpts)
 
             // write basic data
             writeWaypointData(out, wpt, dir);
+
+            // --------------- create html page
+//            QString pagename = wpt->getName() + ".html";
+//            out << "a .\\" << pagename << endl;
+
+//            QFile pagefile(dir.absoluteFilePath(pagename));
+//            pagefile.open(QIODevice::WriteOnly);
+//            QTextStream html(&pagefile);
+
+//            html << "<!DOCTYPE html>" << endl;
+//            html << "<html>" << endl;
+//            html << "<body> " << endl;
+//            html << "<p><b>" << wpt->geocache.name << "</b></p>" << endl;
+//            html << "<p>" << wpt->geocache.longDesc << "</p>" << endl;
+//            html << "</body>" << endl;
+//            html << "</html>" << endl;
+
+//            pagefile.close();
+            // ----------------
 
             // write geocache data
             QDomDocument doc;

@@ -577,6 +577,9 @@ void CTrackFilterWidget::slotApplyFilter()
     track->slotScaleWpt2Track();
 
     CTrackDB::self().emitSigModified();
+
+    trackEditWidget->slotResetAllZoom();
+
     QApplication::restoreOverrideCursor();
 }
 
