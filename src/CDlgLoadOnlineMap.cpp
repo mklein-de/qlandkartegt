@@ -119,8 +119,6 @@ void CDlgLoadOnlineMap::accept()
         request.addMethodArgument("link", "", item->data(Qt::UserRole).toString());
         soapHttp.setHost("www.qlandkarte.org");
         soapHttp.submitRequest(request, "/webservice/qlandkartegt.php");
-
-
         selectedfile = "";
         selectedfile = selectedfile.prepend(tempDir.absolutePath()+"/");
         selectedfile += item->data(Qt::UserRole + 1).toString();
@@ -183,8 +181,9 @@ void CDlgLoadOnlineMap::slotWebServiceResponse(const QtSoapMessage &message)
             data.replace(QRegExp("&lt;"), "<");
             data.replace(QRegExp("&gt;"), ">");
             data.replace(QRegExp("&quot;"), "\"");
-
-            saveToDisk(selectedfile,data);
+            QDomDocument doc("mydocument");
+            doc.setContent(data);
+            saveToDisk(selectedfile,doc.toString());
             QDialog::accept();
         }
 
