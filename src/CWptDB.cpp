@@ -622,7 +622,7 @@ void CWptDB::saveGPX(CGpx& gpx, const QStringList& keys)
             ele.appendChild(_ele_);
         }
 
-        QDateTime t = QDateTime::fromTime_t(wpt->timestamp);
+        QDateTime t = QDateTime::fromTime_t(wpt->timestamp).toUTC();
         QDomElement time = gpx.createElement("time");
         waypoint.appendChild(time);
         QDomText _time_ = gpx.createTextNode(t.toString("yyyy-MM-dd'T'hh:mm:ss'Z'"));
