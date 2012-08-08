@@ -192,6 +192,18 @@ CMapWms::~CMapWms()
 
 }
 
+void CMapWms::convertPixel2M(double& u, double& v)
+{
+    u = xref1 + u * xscale;
+    v = yref1 + v * yscale;
+}
+
+void CMapWms::convertM2Pixel(double& u, double& v)
+{
+    u = (u - xref1) / (xscale);
+    v = (v - yref1) / (yscale);
+}
+
 void CMapWms::convertPt2M(double& u, double& v)
 {
     u = x + u * xscale * zoomFactor;
@@ -472,26 +484,28 @@ void CMapWms::draw()
     pixBuffer.fill(Qt::white);
     QPainter p(&pixBuffer);
 
+    // convert top/left corner to abs. pixel in map
     double x1 = 0;
     double y1 = 0;
     convertPt2M(x1, y1);
+    convertM2Pixel(x1, y1);
 
-    // convert to abs pixel in map
-    x1 = (x1 - xref1) / (xscale);
-    y1 = (y1 - yref1) / (yscale);
+    // convert bottom/right corner to abs. pixel in map
+    double x2 = rect.width();
+    double y2 = rect.height();
+    convertPt2M(x2, y2);
+    convertM2Pixel(x2, y2);
+
+    qDebug() << "----" << x1 << y1;
+    double xx1 = x1;
+    double yy1 = y1;
 
     // quantify to smalles multiple of blocksize
     x1 = floor(x1/(blockSizeX * zoomFactor)) * blockSizeX * zoomFactor;
     y1 = floor(y1/(blockSizeY * zoomFactor)) * blockSizeY * zoomFactor;
 
-    // convert back to meter/rad
-    x1 = x1*xscale + xref1;
-    y1 = y1*yscale + yref1;
-
-    // convert ref1 to point on screen
-    double xx1 = x1;
-    double yy1 = y1;
-    convertM2Pt(xx1, yy1);
+    qDebug() << "aaaa" << x1 << y1 << blockSizeY << zoomFactor;
+    qDebug() << "bbbb" << xx1 << yy1;
 
     int n = 0;
     int m = 0;
@@ -503,16 +517,19 @@ void CMapWms::draw()
     {
         do
         {
-            double p1x = xx1 + n * blockSizeX;
-            double p1y = yy1 + m * blockSizeY;
-            double p2x = xx1 + (n + 1) * blockSizeX;
-            double p2y = yy1 + (m + 1) * blockSizeY;
+            qDebug() << "-------------";
+            double p1x = x1 + n * blockSizeX * zoomFactor;
+            double p1y = y1 + m * blockSizeY * zoomFactor;
+            double p2x = x1 + (n + 1) * blockSizeX * zoomFactor;
+            double p2y = y1 + (m + 1) * blockSizeY * zoomFactor;
 
             cx = p2x;
             cy = p2y;
 
-            convertPt2M(p1x, p1y);
-            convertPt2M(p2x, p2y);
+            qDebug() << p1x << p1y;
+            convertPixel2M(p1x, p1y);
+            convertPixel2M(p2x, p2y);
+            qDebug() << p1x << p1y;
 
             QUrl url(urlstr);
             url.addQueryItem("request", "GetMap");
@@ -555,12 +572,12 @@ void CMapWms::draw()
 
             n++;
         }
-        while(cx < rect.width());
+        while(cx < x2);
 
         n = 0;
         m++;
     }
-    while(cy < rect.height());
+    while(cy < y2);
 
     checkQueue();
 }

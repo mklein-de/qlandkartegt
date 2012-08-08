@@ -31,6 +31,8 @@
 
 #include "config.h"
 
+#include "CImageViewer.h"
+
 #include <QtGui>
 
 CDlgEditWpt::CDlgEditWpt(CWpt &wpt, QWidget * parent)
@@ -90,6 +92,9 @@ CDlgEditWpt::CDlgEditWpt(CWpt &wpt, QWidget * parent)
         imageSelect->show();
         checkTransparent->show();
     }
+
+//    CImageViewer view(wpt.images, this);
+//    view.exec();
 }
 
 

@@ -61,6 +61,9 @@ class CMapWms : public IMap
         void slotRequestFinished(QNetworkReply* reply);
 
     private:
+        void convertPixel2M(double& u, double& v);
+        void convertM2Pixel(double& u, double& v);
+
         friend class CDlgMapWmsConfig;
         struct request_t
         {

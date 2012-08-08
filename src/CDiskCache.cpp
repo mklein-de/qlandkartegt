@@ -96,6 +96,8 @@ void CDiskCache::restore(const QString& key, QImage& img)
 
     QString hash = md5.result().toHex();
 
+    qDebug() << hash << key;
+
     if(cache.contains(hash))
     {
         img = cache[hash];

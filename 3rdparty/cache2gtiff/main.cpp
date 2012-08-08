@@ -75,14 +75,14 @@ struct map_t
 
 static void convertPt2M(map_t& map, double& u, double& v)
 {
-    u = map.xref1 + u * map.xscale * map.level;
-    v = map.yref1 + v * map.yscale * map.level;
+    u = map.xref1 + u * map.xscale;
+    v = map.yref1 + v * map.yscale;
 }
 
 static void convertM2Pt(map_t& map, double& u, double& v)
 {
-    u = (u - map.xref1) / (map.xscale * map.level);
-    v = (v - map.yref1) / (map.yscale * map.level);
+    u = (u - map.xref1) / (map.xscale);
+    v = (v - map.yref1) / (map.yscale);
 }
 
 
@@ -618,9 +618,7 @@ static int exportWMS(int level, double lon1, double lat1, double lon2, double la
     x1 = floor(x1/(map.blockSizeX * map.level)) * map.blockSizeX * map.level;
     y1 = floor(y1/(map.blockSizeY * map.level)) * map.blockSizeY * map.level;
 
-    int n = 0;
-    int m = 0;
-
+    qDebug() << "aaaa" << x1 << y1 << map.blockSizeY << map.level;
 
     int total       = ceil((x2 - x1)/(map.blockSizeX*map.level)) * ceil((y2 - y1)/(map.blockSizeY*map.level));
     int prog        = 1;
@@ -698,6 +696,11 @@ static int exportWMS(int level, double lon1, double lat1, double lon2, double la
     double yy1 = lat1;
     convertRad2Pt(map, xx1, yy1);
 
+    qDebug() << "bbbb" << xx1 << yy1;
+
+    int n = 0;
+    int m = 0;
+
     double tx1; // tile pixel left
     double ty1; // tile pixel top
     double tx2; // tile pixel right
@@ -709,13 +712,16 @@ static int exportWMS(int level, double lon1, double lat1, double lon2, double la
         {
             printProgress(prog++, total);
 
-            double p1x = tx1 = x1 + n * map.blockSizeX;
-            double p1y = ty1 = y1 + m * map.blockSizeY;
-            double p2x = tx2 = x1 + (n + 1) * map.blockSizeX;
-            double p2y = ty2 = y1 + (m + 1) * map.blockSizeY;
+            qDebug() << "-------------";
+            double p1x = tx1 = x1 + n * map.blockSizeX * map.level;
+            double p1y = ty1 = y1 + m * map.blockSizeY * map.level;
+            double p2x = tx2 = x1 + (n + 1) * map.blockSizeX * map.level;
+            double p2y = ty2 = y1 + (m + 1) * map.blockSizeY * map.level;
 
+            qDebug() << p1x << p1y;
             convertPt2M(map, p1x, p1y);
             convertPt2M(map, p2x, p2y);
+            qDebug() << p1x << p1y;
 
             QString bbox;
             if(pj_is_latlong(map.pjsrc))
