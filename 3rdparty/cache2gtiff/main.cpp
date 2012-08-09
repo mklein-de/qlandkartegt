@@ -75,14 +75,14 @@ struct map_t
 
 static void convertPt2M(map_t& map, double& u, double& v)
 {
-    u = map.xref1 + u * map.xscale;
-    v = map.yref1 + v * map.yscale;
+    u = map.xref1 + u * map.xscale/* * map.level*/;
+    v = map.yref1 + v * map.yscale/* * map.level*/;
 }
 
 static void convertM2Pt(map_t& map, double& u, double& v)
 {
-    u = (u - map.xref1) / (map.xscale);
-    v = (v - map.yref1) / (map.yscale);
+    u = (u - map.xref1) / (map.xscale/* * map.level*/);
+    v = (v - map.yref1) / (map.yscale/* * map.level*/);
 }
 
 
@@ -331,10 +331,15 @@ static int exportTMS(int level, double lon1, double lat1, double lon2, double la
     double x1   = lon1;
     double y1   = lat1;
     convertRad2Pt(map, x1, y1);
+    x1 = x1/map.level;
+    y1 = y1/map.level;
 
     double x2   = lon2;
     double y2   = lat2;
     convertRad2Pt(map, x2, y2);
+    x2 = x2/map.level;
+    y2 = y2/map.level;
+
 
     int w       = int(x2 - x1);
     int h       = int(y2 - y1);
@@ -344,9 +349,11 @@ static int exportTMS(int level, double lon1, double lat1, double lon2, double la
     x1  = tile2lon(idxx, z) * DEG_TO_RAD;
     y1  = tile2lat(idxy, z) * DEG_TO_RAD;
     convertRad2Pt(map, x1, y1);
+    x1 = x1/map.level;
+    y1 = y1/map.level;
 
 
-    int total       = ceil((x2 - x1)/(map.blockSizeX*map.level)) * ceil((y2 - y1)/(map.blockSizeY*map.level));
+    int total       = ceil((x2 - x1)/(map.blockSizeX)) * ceil((y2 - y1)/(map.blockSizeY));
     int prog        = 1;
     int badTiles    = 0;
 
@@ -410,6 +417,9 @@ static int exportTMS(int level, double lon1, double lat1, double lon2, double la
     double xx1 = lon1;
     double yy1 = lat1;
     convertRad2Pt(map, xx1, yy1);
+    xx1 = xx1/map.level;
+    yy1 = yy1/map.level;
+
 
     double tx1; // tile pixel left
     double ty1; // tile pixel top
