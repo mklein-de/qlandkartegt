@@ -215,11 +215,6 @@ static void printProgress(int current, int total)
 
 static int exportTMS(int level, double lon1, double lat1, double lon2, double lat2, const QString infile, const QString& outfile, CDiskCache& diskCache);
 static int exportWMS(int level, double lon1, double lat1, double lon2, double lat2, const QString infile, const QString& outfile, CDiskCache& diskCache);
-//bin/cache2gtiff -a 1 12.021501 49.064661 12.160464 48.975336 -c /tmp/qlandkarteqt-oeichler/cache -i /home/oeichler/dateien/Maps/bayern_dop_wms.xml -o test.tiff
-//bin/cache2gtiff -a 1 12.051988 49.050000 12.151614 48.998211 -c /tmp/qlandkarteqt-oliver/cache -i /home/oliver/data/Maps/bayern_dop_wms.xml -o test.tif
-
-//bin/cache2gtiff -a 1 12.080746 49.044661 12.124606 49.015901 -c /tmp/qlandkarteqt-oliver/cache -i "http://mt.google.com/vt/lyrs=s&x=%2&y=%3&z=%1" -o test.tif
-
 
 int main(int argc, char ** argv)
 {
@@ -611,14 +606,14 @@ static int exportWMS(int level, double lon1, double lat1, double lon2, double la
     double y2 = lat2;
     convertRad2Pt(map, x2, y2);
 
-    int w = int(x2 - x1);
-    int h = int(y2 - y1);
+    int w = int(x2 - x1)/map.level;
+    int h = int(y2 - y1)/map.level;
+
 
     // quantify to smalles multiple of blocksize
     x1 = floor(x1/(map.blockSizeX * map.level)) * map.blockSizeX * map.level;
     y1 = floor(y1/(map.blockSizeY * map.level)) * map.blockSizeY * map.level;
 
-    qDebug() << "aaaa" << x1 << y1 << map.blockSizeY << map.level;
 
     int total       = ceil((x2 - x1)/(map.blockSizeX*map.level)) * ceil((y2 - y1)/(map.blockSizeY*map.level));
     int prog        = 1;
@@ -696,7 +691,6 @@ static int exportWMS(int level, double lon1, double lat1, double lon2, double la
     double yy1 = lat1;
     convertRad2Pt(map, xx1, yy1);
 
-    qDebug() << "bbbb" << xx1 << yy1;
 
     int n = 0;
     int m = 0;
@@ -712,16 +706,14 @@ static int exportWMS(int level, double lon1, double lat1, double lon2, double la
         {
             printProgress(prog++, total);
 
-            qDebug() << "-------------";
             double p1x = tx1 = x1 + n * map.blockSizeX * map.level;
             double p1y = ty1 = y1 + m * map.blockSizeY * map.level;
             double p2x = tx2 = x1 + (n + 1) * map.blockSizeX * map.level;
             double p2y = ty2 = y1 + (m + 1) * map.blockSizeY * map.level;
 
-            qDebug() << p1x << p1y;
             convertPt2M(map, p1x, p1y);
             convertPt2M(map, p2x, p2y);
-            qDebug() << p1x << p1y;
+
 
             QString bbox;
             if(pj_is_latlong(map.pjsrc))
@@ -754,8 +746,9 @@ static int exportWMS(int level, double lon1, double lat1, double lon2, double la
                 continue;
             }
 
-            int xoff    = tx1 - xx1;
-            int yoff    = ty1 - yy1;
+            int xoff    = (tx1 - xx1)/map.level;
+            int yoff    = (ty1 - yy1)/map.level;
+
 
             if(xoff < 0)
             {
@@ -780,6 +773,8 @@ static int exportWMS(int level, double lon1, double lat1, double lon2, double la
 
             int width   = img.width();
             int height  = img.height();
+
+            img.save(QString("%1_%2.png").arg(tx1).arg(ty1));
 
             if(img.format() != QImage::Format_ARGB32)
             {

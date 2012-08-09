@@ -496,16 +496,12 @@ void CMapWms::draw()
     convertPt2M(x2, y2);
     convertM2Pixel(x2, y2);
 
-    qDebug() << "----" << x1 << y1;
     double xx1 = x1;
     double yy1 = y1;
 
     // quantify to smalles multiple of blocksize
     x1 = floor(x1/(blockSizeX * zoomFactor)) * blockSizeX * zoomFactor;
     y1 = floor(y1/(blockSizeY * zoomFactor)) * blockSizeY * zoomFactor;
-
-    qDebug() << "aaaa" << x1 << y1 << blockSizeY << zoomFactor;
-    qDebug() << "bbbb" << xx1 << yy1;
 
     int n = 0;
     int m = 0;
@@ -517,7 +513,6 @@ void CMapWms::draw()
     {
         do
         {
-            qDebug() << "-------------";
             double p1x = x1 + n * blockSizeX * zoomFactor;
             double p1y = y1 + m * blockSizeY * zoomFactor;
             double p2x = x1 + (n + 1) * blockSizeX * zoomFactor;
@@ -526,10 +521,8 @@ void CMapWms::draw()
             cx = p2x;
             cy = p2y;
 
-            qDebug() << p1x << p1y;
             convertPixel2M(p1x, p1y);
             convertPixel2M(p2x, p2y);
-            qDebug() << p1x << p1y;
 
             QUrl url(urlstr);
             url.addQueryItem("request", "GetMap");
@@ -556,8 +549,6 @@ void CMapWms::draw()
             req.lat         = p1y;
             req.zoomFactor  = zoomFactor;
             convertM2Rad(req.lon,req.lat);
-
-//            qDebug() << url;
 
             diskCache->restore(url.toString(), img);
             if(!img.isNull())

@@ -59,7 +59,6 @@ CDiskCache::CDiskCache(bool overlay, QObject *parent)
     slotCleanup();
 #endif                       // !STANDALONE
 
-    //qDebug() << "cache: found" << table.count() << "cache entries";
 }
 
 
@@ -95,8 +94,6 @@ void CDiskCache::restore(const QString& key, QImage& img)
     md5.addData(key.toAscii());
 
     QString hash = md5.result().toHex();
-
-    qDebug() << hash << key;
 
     if(cache.contains(hash))
     {

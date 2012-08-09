@@ -1355,10 +1355,10 @@ void CMapExportStateReadTileCache::nextJob(QProcess& cmd)
 
         QStringList args;
         args << "-a" << QString::number(job.level)
-             << QString::number(job.lon1, 'f')
-             << QString::number(job.lat1, 'f')
-             << QString::number(job.lon2, 'f')
-             << QString::number(job.lat2, 'f');
+             << QString::number(job.lon1, 'f', 12)
+             << QString::number(job.lat1, 'f', 12)
+             << QString::number(job.lon2, 'f', 12)
+             << QString::number(job.lat2, 'f', 12);
         args << "-c" << CResources::self().getPathMapCache().absolutePath();
         args << "-i" << job.srcFile;
         args << "-o" << job.tarFile;
