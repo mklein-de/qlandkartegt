@@ -59,6 +59,17 @@ class CTrackFilterWidget : public QWidget, private Ui::ITrackFilterWidget
         void slotStoredFilterEdit();
         void slotStoredFilterDelete();
 
+        void slotResetNow();
+        void slotAddHidePoints1Now();
+        void slotDeleteNow();
+        void slotAddSmoothProfile1Now();
+        void slotAddReplaceEleNow();
+        void slotAddSplit1Now();
+        void slotAddSplit2Now();
+        void slotAddSplit3Now();
+        void slotAddSplit4Now();
+
+
     private:
         void saveFilterList(const QString& filename);
         void loadFilterList(const QString& filename);
@@ -76,6 +87,17 @@ class CTrackFilterWidget : public QWidget, private Ui::ITrackFilterWidget
         bool filterReset(QDataStream &args, QList<CTrack *> &tracks);
         bool filterDelete(QDataStream &args, QList<CTrack *> &tracks);
         bool filterReplaceElevation(QDataStream &args, QList<CTrack *> &tracks);
+
+        void readGuiReset(QByteArray& args);
+        void readGuiHidePoints1(QByteArray& args, double &d, double &a);
+        void readGuiDelete(QByteArray& args);
+        void readGuiSmoothProfile1(QByteArray& args, quint32& tabs);
+        void readGuiReplaceEle(QByteArray& args, quint32& type);
+        void readGuiSplit1(QByteArray& args, double &val);
+        void readGuiSplit2(QByteArray& args, double &val);
+        void readGuiSplit3(QByteArray& args, double &val);
+        void readGuiSplit4(QByteArray& args, double &val);
+
 
 
         enum filterType_e {eHidePoints1, eSmoothProfile1, eSplit1, eSplit2, eSplit3, eSplit4, eReset, eDelete, eReplaceElevation};
