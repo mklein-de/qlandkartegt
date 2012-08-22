@@ -138,12 +138,12 @@ struct point3D
 */
 extern double GPS_Math_distPointLine3D(point3D& x1, point3D& x2, point3D& x0);
 
-struct pointEntry : public point3D
+struct pointDP : public point3D
 {
-    pointEntry():used(true){}
+    pointDP():used(true){}
     bool used;
 };
 
-extern void GPS_Math_DouglasPeukert(QVector<pointEntry>& line);
+extern void GPS_Math_DouglasPeukert(QVector<pointDP>& line, double d);
 
 #endif                           //GEOMATH_H

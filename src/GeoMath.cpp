@@ -686,7 +686,50 @@ double GPS_Math_distPointLine3D(point3D& x1, point3D& x2, point3D& x0)
     return a1x2/a3;
 }
 
-extern void GPS_Math_DouglasPeukert(QVector<pointEntry>& line)
+struct segment
 {
+    segment(): idx1(0), idx2(0){}
+    segment(qint32 idx1, quint32 idx2) : idx1(idx1), idx2(idx2) {}
+    qint32 idx1;
+    qint32 idx2;
+};
 
+extern void GPS_Math_DouglasPeukert(QVector<pointDP> &line, double d)
+{
+    if(line.count() < 3) return;
+
+    QStack<segment> stack;
+    stack << segment(0, line.size() - 1);
+
+    while(!stack.isEmpty())
+    {
+        int idx = -1;
+        segment seg = stack.pop();
+
+        pointDP& x1 = line[seg.idx1];
+        pointDP& x2 = line[seg.idx2];
+
+        for(int i = seg.idx1 + 1; i < seg.idx2; i++)
+        {
+            double distance = GPS_Math_distPointLine3D(x1, x2, line[i]);
+            if(distance > d)
+            {
+                idx = i;
+                break;
+            }
+        }
+
+        if(idx > 0)
+        {
+            stack << segment(seg.idx1, idx);
+            stack << segment(idx, seg.idx2);
+        }
+        else
+        {
+            for(int i = seg.idx1 + 1; i < seg.idx2; i++)
+            {
+                line[i].used = false;
+            }
+        }
+    }
 }

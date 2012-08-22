@@ -1001,6 +1001,59 @@ bool CTrackFilterWidget::filterHidePoints2(QDataStream& args, QList<CTrack*>& tr
 {
     qDebug() << "bool CTrackFilterWidget::filterHidePoints2(QDataStream& args, QList<CTrack*>& tracks)";
 
+    double d;
+    args >> d;
+
+    foreach(CTrack * trk, tracks)
+    {
+        // convert track points into a vector of pointDP (Douglas-Peukert points)
+        QList<CTrack::pt_t>& trkpts = trk->getTrackPoints();
+        int npts    = trkpts.count();
+        int idx     = 0;
+        QVector<pointDP> line(npts);
+
+        // the used projection will be mercator thus all values are meter
+        projPJ pjsrc   = pj_init_plus("+proj=longlat +a=6378137.0000 +b=6356752.3142 +towgs84=0,0,0,0,0,0,0,0 +units=m  +no_defs");
+        projPJ pjtar   = pj_init_plus("+proj=merc +a=6378137.0000 +b=6356752.3142 +towgs84=0,0,0,0,0,0,0,0 +units=m  +no_defs");
+
+        foreach(const CTrack::pt_t& pt, trkpts)
+        {
+            pointDP& point = line[idx];
+
+            point.x = pt.lon * DEG_TO_RAD;
+            point.y = pt.lat * DEG_TO_RAD;
+            point.z = pt.ele;
+
+            pj_transform(pjsrc, pjtar, 1, 0, &point.x, &point.y, 0);
+
+            idx++;
+        }
+
+        pj_free(pjsrc);
+        pj_free(pjtar);
+
+        GPS_Math_DouglasPeukert(line, d);
+
+        // now read back the the "used" flags
+        idx = 0;
+        foreach(const pointDP& pt, line)
+        {
+            if(pt.used)
+            {
+                trkpts[idx].flags &= ~CTrack::pt_t::eDeleted;
+            }
+            else
+            {
+                trkpts[idx].flags |= CTrack::pt_t::eDeleted;
+            }
+
+            idx++;
+        }
+
+
+        trk->rebuild(false);
+    }
+
     return false;
 }
 
