@@ -124,7 +124,7 @@
       <enum>QTabWidget::South</enum>
      </property>
      <property name="currentIndex">
-      <number>2</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="tab">
       <attribute name="icon">
@@ -316,6 +316,74 @@
             </widget>
            </item>
            <item>
+            <widget class="QGroupBox" name="groupReducePoints2">
+             <property name="title">
+              <string>Reduce Point (Douglas-Peuker)</string>
+             </property>
+             <layout class="QGridLayout" name="gridLayout_10">
+              <item row="0" column="0">
+               <widget class="QToolButton" name="toolHidePoints2Now">
+                <property name="text">
+                 <string>...</string>
+                </property>
+                <property name="icon">
+                 <iconset resource="resources.qrc">
+                  <normaloff>:/icons/toolswizard.png</normaloff>:/icons/toolswizard.png</iconset>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="1">
+               <widget class="QToolButton" name="toolAddHidePoints2">
+                <property name="text">
+                 <string>...</string>
+                </property>
+                <property name="icon">
+                 <iconset resource="resources.qrc">
+                  <normaloff>:/icons/iconAdd16x16.png</normaloff>:/icons/iconAdd16x16.png</iconset>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="2">
+               <widget class="QLabel" name="label_18">
+                <property name="text">
+                 <string>Hide track points if:</string>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="2">
+               <widget class="QLabel" name="label_19">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="text">
+                 <string>Distance of point to a straight line between neighpour points is less than</string>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="3">
+               <widget class="QSpinBox" name="spinDistance2">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="4">
+               <widget class="QLabel" name="label_20">
+                <property name="text">
+                 <string>m</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
+           <item>
             <widget class="QGroupBox" name="groupDelete">
              <property name="title">
               <string>Delete hidden points</string>
@@ -403,8 +471,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>784</width>
-            <height>459</height>
+            <width>389</width>
+            <height>221</height>
            </rect>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_8">
@@ -611,8 +679,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>776</width>
-            <height>424</height>
+            <width>449</width>
+            <height>274</height>
            </rect>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_5">

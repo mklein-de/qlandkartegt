@@ -52,6 +52,7 @@ CTrackFilterWidget::CTrackFilterWidget(QWidget *parent)
     connect(comboMeterFeet3, SIGNAL(currentIndexChanged(const QString &)), this, SLOT(slotComboMeterFeet(const QString &)));
 
     connect(toolAddHidePoints1, SIGNAL(clicked()), this, SLOT(slotAddFilterHidePoints1()));
+    connect(toolAddHidePoints2, SIGNAL(clicked()), this, SLOT(slotAddFilterHidePoints2()));
     connect(toolAddSmoothProfile1, SIGNAL(clicked()), this, SLOT(slotAddFilterSmoothProfile1()));
     connect(toolAddSplit1, SIGNAL(clicked()), this, SLOT(slotAddFilterSplit1()));
     connect(toolAddSplit2, SIGNAL(clicked()), this, SLOT(slotAddFilterSplit2()));
@@ -63,6 +64,7 @@ CTrackFilterWidget::CTrackFilterWidget(QWidget *parent)
 
     connect(toolResetNow, SIGNAL(clicked()), this, SLOT(slotResetNow()));
     connect(toolHidePoints1Now, SIGNAL(clicked()), this, SLOT(slotHidePoints1Now()));
+    connect(toolHidePoints2Now, SIGNAL(clicked()), this, SLOT(slotHidePoints2Now()));
     connect(toolDeleteNow, SIGNAL(clicked()), this, SLOT(slotDeleteNow()));
     connect(toolSmoothProfile1Now, SIGNAL(clicked()), this, SLOT(slotSmoothProfile1Now()));
     connect(toolReplaceEleNow, SIGNAL(clicked()), this, SLOT(slotReplaceEleNow()));
@@ -96,6 +98,9 @@ CTrackFilterWidget::CTrackFilterWidget(QWidget *parent)
     // Filter: Hide points 1
     spinDistance1->setValue(cfg.value("trackfilter/HidePoints1/distance",10).toInt());
     spinAzimuthDelta1->setValue(cfg.value("trackfilter/HidePoints1/azimuthdelta",10).toInt());
+
+    // Filter: Hide points 2
+    spinDistance2->setValue(cfg.value("trackfilter/HidePoints2/distance",1).toInt());
 
     // Filter: Smooth profile 1
     spinSmoothProfileTabs1->setValue(cfg.value("trackfilter/SmoothProfile1/tabs",5).toInt());
@@ -154,6 +159,9 @@ CTrackFilterWidget::~CTrackFilterWidget()
     // Filter: Hide points 1
     cfg.setValue("trackfilter/HidePoints1/distance",spinDistance1->value());
     cfg.setValue("trackfilter/HidePoints1/azimuthdelta",spinAzimuthDelta1->value());
+
+    // Filter: Hide points 2
+    cfg.setValue("trackfilter/HidePoints2/distance",spinDistance2->value());
 
     // Filter: Smooth profile 1
     cfg.setValue("trackfilter/SmoothProfile1/tabs",spinSmoothProfileTabs1->value());
@@ -348,6 +356,7 @@ void CTrackFilterWidget::slotAddFilterHidePoints1()
     addFilter(name, ":/icons/iconTrack16x16.png", args);
 }
 
+
 void CTrackFilterWidget::readGuiHidePoints1(QByteArray& args, double& d, double& a)
 {
     QDataStream stream(&args, QIODevice::WriteOnly);
@@ -360,6 +369,23 @@ void CTrackFilterWidget::readGuiHidePoints1(QByteArray& args, double& d, double&
 
     a = spinAzimuthDelta1->value();
     stream << quint32(eHidePoints1) << d << a;
+}
+
+void CTrackFilterWidget::slotAddFilterHidePoints2()
+{
+    QByteArray args;
+    double d;
+
+    readGuiHidePoints2(args, d);
+    QString name = groupReducePoints2->title() + QString(" (%1m)").arg(d);
+    addFilter(name, ":/icons/iconTrack16x16.png", args);
+}
+
+void CTrackFilterWidget::readGuiHidePoints2(QByteArray& args, double& d)
+{
+    QDataStream stream(&args, QIODevice::WriteOnly);
+    d =  spinDistance1->value();
+    stream << quint32(eHidePoints2) << d;
 }
 
 void CTrackFilterWidget::slotAddFilterSmoothProfile1()
@@ -555,6 +581,26 @@ void CTrackFilterWidget::slotHidePoints1Now()
     tracks << track;
 
     filterHidePoints1(stream, tracks);
+
+    postProcessTrack();
+}
+
+void CTrackFilterWidget::slotHidePoints2Now()
+{
+    if(track.isNull()) return;
+
+    quint32 type;
+    double d;
+    QByteArray args;
+    readGuiHidePoints2(args, d);
+
+    QDataStream stream(&args, QIODevice::ReadOnly);
+    stream >> type;
+
+    QList<CTrack*> tracks;
+    tracks << track;
+
+    filterHidePoints2(stream, tracks);
 
     postProcessTrack();
 }
@@ -769,6 +815,10 @@ void CTrackFilterWidget::slotApplyFilter()
                 cancelled = filterHidePoints1(args, tracks);
                 break;
 
+            case eHidePoints2:
+                cancelled = filterHidePoints2(args, tracks);
+                break;
+
             case eSmoothProfile1:
                 cancelled = filterSmoothProfile1(args, tracks);
                 break;
@@ -943,6 +993,13 @@ bool CTrackFilterWidget::filterHidePoints1(QDataStream& args, QList<CTrack*>& tr
         }
         trk->rebuild(false);
     }
+
+    return false;
+}
+
+bool CTrackFilterWidget::filterHidePoints2(QDataStream& args, QList<CTrack*>& tracks)
+{
+    qDebug() << "bool CTrackFilterWidget::filterHidePoints2(QDataStream& args, QList<CTrack*>& tracks)";
 
     return false;
 }

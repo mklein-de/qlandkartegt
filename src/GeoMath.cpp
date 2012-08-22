@@ -462,7 +462,7 @@ projXY GPS_Math_Wpt_Projection(const projXY& pt1, double distance, double bearin
 }
 
 
-extern void GPS_Math_SubPolyline( const QPoint& pt1, const QPoint& pt2, int threshold, const QPolygon& line1, QPolygon& line2)
+void GPS_Math_SubPolyline( const QPoint& pt1, const QPoint& pt2, int threshold, const QPolygon& line1, QPolygon& line2)
 {
     int i, len;
     projXY p1, p2;
@@ -622,7 +622,7 @@ extern void GPS_Math_SubPolyline( const QPoint& pt1, const QPoint& pt2, int thre
     }
 }
 
-extern bool GPS_Math_LineCrossesRect(const QPoint& p1, const QPoint& p2, const QRect& rect)
+bool GPS_Math_LineCrossesRect(const QPoint& p1, const QPoint& p2, const QRect& rect)
 {
 
     // the trival case
@@ -646,4 +646,47 @@ extern bool GPS_Math_LineCrossesRect(const QPoint& p1, const QPoint& p2, const Q
     }
 
     return true;
+}
+
+
+
+
+double GPS_Math_distPointLine3D(point3D& x1, point3D& x2, point3D& x0)
+{
+
+    point3D v1, v2, v3, v1x2;
+
+    double a1x2, a3;
+
+    // (x0 - x1)
+    v1.x    = x0.x - x1.x;
+    v1.y    = x0.y - x1.y;
+    v1.z    = x0.z - x1.z;
+
+    // (x0 - x2)
+    v2.x    = x0.x - x2.x;
+    v2.y    = x0.y - x2.y;
+    v2.z    = x0.z - x2.z;
+
+    // (x2 - x1)
+    v3.x    = x2.x - x1.x;
+    v3.y    = x2.y - x1.y;
+    v3.z    = x2.z - x1.z;
+
+    // (x0 - x1)x(x0 - x2)
+    v1x2.x  = v1.y * v2.z - v1.z * v2.y;
+    v1x2.y  = v1.z * v2.x - v1.x * v2.z;
+    v1x2.z  = v1.x * v2.y - v1.y * v2.x;
+
+    // |(x0 - x1)x(x0 - x2)|
+    a1x2    = sqrt(v1x2.x*v1x2.x + v1x2.y*v1x2.y + v1x2.z*v1x2.z);
+    // |(x2 - x1)|
+    a3      = sqrt(v3.x*v3.x + v3.y*v3.y + v3.z*v3.z);
+
+    return a1x2/a3;
+}
+
+extern void GPS_Math_DouglasPeukert(QVector<pointEntry>& line)
+{
+
 }

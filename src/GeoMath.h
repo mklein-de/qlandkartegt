@@ -118,4 +118,32 @@ extern void GPS_Math_SubPolyline(const QPoint& p1, const QPoint& p2, int thresho
 
 extern bool GPS_Math_LineCrossesRect(const QPoint& p1, const QPoint& p2, const QRect& rect);
 
+struct point3D
+{
+    double x;
+    double y;
+    double z;
+};
+
+/// calculate the distance of a point to a line
+/**
+    The line is defined by the points x1 and x2. The point is x0
+
+    @param x1 first point on the line
+    @param x2 second point on the line
+    @param x0 the point itself
+
+
+    @return the distance between point and line.
+*/
+extern double GPS_Math_distPointLine3D(point3D& x1, point3D& x2, point3D& x0);
+
+struct pointEntry : public point3D
+{
+    pointEntry():used(true){}
+    bool used;
+};
+
+extern void GPS_Math_DouglasPeukert(QVector<pointEntry>& line);
+
 #endif                           //GEOMATH_H
