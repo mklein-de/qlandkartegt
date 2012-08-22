@@ -124,7 +124,7 @@
       <enum>QTabWidget::South</enum>
      </property>
      <property name="currentIndex">
-      <number>0</number>
+      <number>2</number>
      </property>
      <widget class="QWidget" name="tab">
       <attribute name="icon">
@@ -299,7 +299,7 @@
                </spacer>
               </item>
               <item row="0" column="0">
-               <widget class="QToolButton" name="toolAddHidePoints1Now">
+               <widget class="QToolButton" name="toolHidePoints1Now">
                 <property name="toolTip">
                  <string>apply now</string>
                 </property>
@@ -476,7 +476,7 @@
                </spacer>
               </item>
               <item row="0" column="0">
-               <widget class="QToolButton" name="toolAddSmoothProfile1Now">
+               <widget class="QToolButton" name="toolSmoothProfile1Now">
                 <property name="toolTip">
                  <string>apply now</string>
                 </property>
@@ -557,7 +557,7 @@
                </layout>
               </item>
               <item row="0" column="0">
-               <widget class="QToolButton" name="toolAddReplaceEleNow">
+               <widget class="QToolButton" name="toolReplaceEleNow">
                 <property name="toolTip">
                  <string>apply now</string>
                 </property>
@@ -675,7 +675,7 @@
                </spacer>
               </item>
               <item row="0" column="0">
-               <widget class="QToolButton" name="toolAddSplit1Now">
+               <widget class="QToolButton" name="toolSplit1Now">
                 <property name="toolTip">
                  <string>apply now</string>
                 </property>
@@ -759,7 +759,7 @@
                </spacer>
               </item>
               <item row="0" column="0">
-               <widget class="QToolButton" name="toolAddSplit2Now">
+               <widget class="QToolButton" name="toolSplit2Now">
                 <property name="toolTip">
                  <string>apply now</string>
                 </property>
@@ -860,7 +860,7 @@
                </spacer>
               </item>
               <item row="0" column="0">
-               <widget class="QToolButton" name="toolAddSplit3Now">
+               <widget class="QToolButton" name="toolSplit3Now">
                 <property name="toolTip">
                  <string>apply now</string>
                 </property>
@@ -961,7 +961,7 @@
                </spacer>
               </item>
               <item row="0" column="0">
-               <widget class="QToolButton" name="toolAddSplit4Now">
+               <widget class="QToolButton" name="toolSplit4Now">
                 <property name="toolTip">
                  <string>apply now</string>
                 </property>

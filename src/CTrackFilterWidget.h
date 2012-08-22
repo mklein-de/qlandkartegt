@@ -60,14 +60,14 @@ class CTrackFilterWidget : public QWidget, private Ui::ITrackFilterWidget
         void slotStoredFilterDelete();
 
         void slotResetNow();
-        void slotAddHidePoints1Now();
+        void slotHidePoints1Now();
         void slotDeleteNow();
-        void slotAddSmoothProfile1Now();
-        void slotAddReplaceEleNow();
-        void slotAddSplit1Now();
-        void slotAddSplit2Now();
-        void slotAddSplit3Now();
-        void slotAddSplit4Now();
+        void slotSmoothProfile1Now();
+        void slotReplaceEleNow();
+        void slotSplit1Now();
+        void slotSplit2Now();
+        void slotSplit3Now();
+        void slotSplit4Now();
 
 
     private:
@@ -98,7 +98,7 @@ class CTrackFilterWidget : public QWidget, private Ui::ITrackFilterWidget
         void readGuiSplit3(QByteArray& args, double &val);
         void readGuiSplit4(QByteArray& args, double &val);
 
-
+        void postProcessTrack();
 
         enum filterType_e {eHidePoints1, eSmoothProfile1, eSplit1, eSplit2, eSplit3, eSplit4, eReset, eDelete, eReplaceElevation};
         enum replaceEleType_e {eLocal, eRemote};

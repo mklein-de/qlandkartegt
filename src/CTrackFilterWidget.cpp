@@ -62,14 +62,14 @@ CTrackFilterWidget::CTrackFilterWidget(QWidget *parent)
     connect(toolAddReplaceEle, SIGNAL(clicked()), this, SLOT(slotAddReplaceElevation()));
 
     connect(toolResetNow, SIGNAL(clicked()), this, SLOT(slotResetNow()));
-    connect(toolAddHidePoints1Now, SIGNAL(clicked()), this, SLOT(slotAddHidePoints1Now()));
+    connect(toolHidePoints1Now, SIGNAL(clicked()), this, SLOT(slotHidePoints1Now()));
     connect(toolDeleteNow, SIGNAL(clicked()), this, SLOT(slotDeleteNow()));
-    connect(toolAddSmoothProfile1Now, SIGNAL(clicked()), this, SLOT(slotAddSmoothProfile1Now()));
-    connect(toolAddReplaceEleNow, SIGNAL(clicked()), this, SLOT(slotAddReplaceEleNow()));
-    connect(toolAddSplit1Now, SIGNAL(clicked()), this, SLOT(slotAddSplit1Now()));
-    connect(toolAddSplit2Now, SIGNAL(clicked()), this, SLOT(slotAddSplit2Now()));
-    connect(toolAddSplit3Now, SIGNAL(clicked()), this, SLOT(slotAddSplit3Now()));
-    connect(toolAddSplit4Now, SIGNAL(clicked()), this, SLOT(slotAddSplit4Now()));
+    connect(toolSmoothProfile1Now, SIGNAL(clicked()), this, SLOT(slotSmoothProfile1Now()));
+    connect(toolReplaceEleNow, SIGNAL(clicked()), this, SLOT(slotReplaceEleNow()));
+    connect(toolSplit1Now, SIGNAL(clicked()), this, SLOT(slotSplit1Now()));
+    connect(toolSplit2Now, SIGNAL(clicked()), this, SLOT(slotSplit2Now()));
+    connect(toolSplit3Now, SIGNAL(clicked()), this, SLOT(slotSplit3Now()));
+    connect(toolSplit4Now, SIGNAL(clicked()), this, SLOT(slotSplit4Now()));
 
 
     // ----------- read in GUI configuration -----------
@@ -535,9 +535,11 @@ void CTrackFilterWidget::slotResetNow()
     tracks << track;
 
     filterReset(stream, tracks);
+
+    postProcessTrack();
 }
 
-void CTrackFilterWidget::slotAddHidePoints1Now()
+void CTrackFilterWidget::slotHidePoints1Now()
 {
     if(track.isNull()) return;
 
@@ -553,6 +555,8 @@ void CTrackFilterWidget::slotAddHidePoints1Now()
     tracks << track;
 
     filterHidePoints1(stream, tracks);
+
+    postProcessTrack();
 }
 
 void CTrackFilterWidget::slotDeleteNow()
@@ -570,9 +574,11 @@ void CTrackFilterWidget::slotDeleteNow()
     tracks << track;
 
     filterDelete(stream, tracks);
+
+    postProcessTrack();
 }
 
-void CTrackFilterWidget::slotAddSmoothProfile1Now()
+void CTrackFilterWidget::slotSmoothProfile1Now()
 {
     if(track.isNull()) return;
 
@@ -588,9 +594,11 @@ void CTrackFilterWidget::slotAddSmoothProfile1Now()
     tracks << track;
 
     filterSmoothProfile1(stream, tracks);
+
+    postProcessTrack();
 }
 
-void CTrackFilterWidget::slotAddReplaceEleNow()
+void CTrackFilterWidget::slotReplaceEleNow()
 {
     if(track.isNull()) return;
 
@@ -605,9 +613,11 @@ void CTrackFilterWidget::slotAddReplaceEleNow()
     tracks << track;
 
     filterReplaceElevation(stream, tracks);
+
+    postProcessTrack();
 }
 
-void CTrackFilterWidget::slotAddSplit1Now()
+void CTrackFilterWidget::slotSplit1Now()
 {
     if(track.isNull()) return;
 
@@ -630,9 +640,11 @@ void CTrackFilterWidget::slotAddSplit1Now()
     {
         filterSplit1Stages(stream, tracks);
     }
+
+    postProcessTrack();
 }
 
-void CTrackFilterWidget::slotAddSplit2Now()
+void CTrackFilterWidget::slotSplit2Now()
 {
     if(track.isNull()) return;
 
@@ -655,9 +667,11 @@ void CTrackFilterWidget::slotAddSplit2Now()
     {
         filterSplit2Stages(stream, tracks);
     }
+
+    postProcessTrack();
 }
 
-void CTrackFilterWidget::slotAddSplit3Now()
+void CTrackFilterWidget::slotSplit3Now()
 {
     if(track.isNull()) return;
 
@@ -680,9 +694,11 @@ void CTrackFilterWidget::slotAddSplit3Now()
     {
         filterSplit3Stages(stream, tracks);
     }
+
+    postProcessTrack();
 }
 
-void CTrackFilterWidget::slotAddSplit4Now()
+void CTrackFilterWidget::slotSplit4Now()
 {
     if(track.isNull()) return;
 
@@ -705,6 +721,8 @@ void CTrackFilterWidget::slotAddSplit4Now()
     {
         filterSplit4Stages(stream, tracks);
     }
+
+    postProcessTrack();
 }
 
 
@@ -823,14 +841,18 @@ void CTrackFilterWidget::slotApplyFilter()
         }
     }
 
+    postProcessTrack();
+    QApplication::restoreOverrideCursor();
+}
+
+void CTrackFilterWidget::postProcessTrack()
+{
     track->rebuild(true);
     track->slotScaleWpt2Track();
 
     CTrackDB::self().emitSigModified();
 
     trackEditWidget->slotResetAllZoom();
-
-    QApplication::restoreOverrideCursor();
 }
 
 
