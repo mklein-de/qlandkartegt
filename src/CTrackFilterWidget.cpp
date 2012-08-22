@@ -384,7 +384,7 @@ void CTrackFilterWidget::slotAddFilterHidePoints2()
 void CTrackFilterWidget::readGuiHidePoints2(QByteArray& args, double& d)
 {
     QDataStream stream(&args, QIODevice::WriteOnly);
-    d =  spinDistance1->value();
+    d =  spinDistance2->value();
     stream << quint32(eHidePoints2) << d;
 }
 
