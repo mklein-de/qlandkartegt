@@ -318,7 +318,7 @@
            <item>
             <widget class="QGroupBox" name="groupReducePoints2">
              <property name="title">
-              <string>Reduce Point (Douglas-Peuker)</string>
+              <string>Reduce Points (Douglas-Peuker)</string>
              </property>
              <layout class="QGridLayout" name="gridLayout_10">
               <item row="0" column="0">
@@ -359,7 +359,7 @@
                  </sizepolicy>
                 </property>
                 <property name="text">
-                 <string>Distance of point to a straight line between neighpour points is less than</string>
+                 <string>Distance of a point to a straight line between neighbor points is less than</string>
                 </property>
                </widget>
               </item>
