@@ -1039,6 +1039,8 @@ void CDeviceTwoNav::readTrkFile(QDir &dir, const QString &filename, QList<CTrack
             pt._lon = pt.lon;
             pt._lat = pt.lat;
             pt._ele = pt.ele;
+            pt._timestamp = pt.timestamp;
+            pt._timestamp_msec = pt.timestamp_msec;
 
             *track << pt;
             break;

@@ -131,6 +131,8 @@ QDataStream& operator >>(QDataStream& s, CTrack& track)
                     trkpt._lon = trkpt.lon;
                     trkpt._lat = trkpt.lat;
                     trkpt._ele = trkpt.ele;
+                    trkpt._timestamp = trkpt.timestamp;
+                    trkpt._timestamp_msec = trkpt.timestamp_msec;
 
                     track << trkpt;
                 }
@@ -245,6 +247,36 @@ QDataStream& operator >>(QDataStream& s, CTrack& track)
                     s1 >> trkpt._lon;
                     s1 >> trkpt._lat;
                     s1 >> trkpt._ele;
+                }
+                break;
+            }
+
+            case CTrack::eTrkShdw2:
+            {
+                QDataStream s1(&entry->data, QIODevice::ReadOnly);
+                s1.setVersion(QDataStream::Qt_4_5);
+                quint32 n;
+
+                quint32 nTrkPts1 = 0;
+
+                s1 >> nTrkPts1;
+                if(nTrkPts1 != nTrkPts)
+                {
+                    QMessageBox::warning(0, QObject::tr("Corrupt track ..."), QObject::tr("Number of trackpoints is not equal the number of shadow data trackpoints."), QMessageBox::Ignore,QMessageBox::Ignore);
+                    break;
+                }
+
+                for(n = 0; n < nTrkPts; ++n)
+                {
+                    quint32 dummy;
+                    CTrack::pt_t& trkpt = track.track[n];
+                    s1 >> trkpt._timestamp;
+                    s1 >> trkpt._timestamp_msec;
+                    s1 >> dummy;
+                    s1 >> dummy;
+                    s1 >> dummy;
+                    s1 >> dummy;
+                    s1 >> dummy;
                 }
                 break;
             }
@@ -409,6 +441,34 @@ QDataStream& operator <<(QDataStream& s, CTrack& track)
     }
 
     entries << entryShdwPts;
+
+
+    //---------------------------------------
+    // prepare track shadow data 2
+    //---------------------------------------
+    quint32 dummy = 0;
+    trk_head_entry_t entryShdwPts2;
+    entryShdwPts2.type = CTrack::eTrkShdw2;
+    QDataStream s7(&entryShdwPts2.data, QIODevice::WriteOnly);
+    s7.setVersion(QDataStream::Qt_4_5);
+
+    trkpt = trkpts.begin();
+
+    s7 << (quint32)trkpts.size();
+    while(trkpt != trkpts.end())
+    {
+        s7 << trkpt->_timestamp;
+        s7 << trkpt->_timestamp_msec;
+        s7 << dummy;
+        s7 << dummy;
+        s7 << dummy;
+        s7 << dummy;
+        s7 << dummy;
+        ++trkpt;
+    }
+
+    entries << entryShdwPts2;
+
 
     //---------------------------------------
     // prepare terminator
@@ -1489,6 +1549,8 @@ void CTrack::reset()
         trkpt->lon = trkpt->_lon;
         trkpt->lat = trkpt->_lat;
         trkpt->ele = trkpt->_ele;
+        trkpt->timestamp = trkpt->_timestamp;
+        trkpt->timestamp_msec = trkpt->_timestamp_msec;
 
         ++trkpt;
     }

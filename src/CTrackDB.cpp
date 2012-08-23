@@ -286,6 +286,9 @@ void CTrackDB::loadGPX(CGpx& gpx)
                 {
                     QString timetext = tmpelem.text();
                     (void)parseTimestamp(timetext, pt.timestamp, pt.timestamp_msec);
+
+                    pt._timestamp = pt.timestamp;
+                    pt._timestamp_msec = pt.timestamp_msec;
                 }
 
                 tmpelem = trkptmap.value("fix");

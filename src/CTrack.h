@@ -71,7 +71,7 @@ class CTrack : public IItem
 
         virtual ~CTrack();
         int ref;
-        enum type_e {eEnd,eBase,eTrkPts,eTrain,eTrkExt1,eTrkGpxExt,eTrkShdw};
+        enum type_e {eEnd,eBase,eTrkPts,eTrain,eTrkExt1,eTrkGpxExt,eTrkShdw, eTrkShdw2};
 
 #ifdef GPX_EXTENSIONS
         CGpxExtTr tr_ext;        //TODO: CGpxExtPt -> tr_ext
@@ -92,7 +92,7 @@ class CTrack : public IItem
                 ascend(0), descend(0), heartReateBpm(-1), cadenceRpm(-1), slope(0), timeSinceStart(0),
                 fix(""), sat(0), velocity(WPT_NOFLOAT), heading(WPT_NOFLOAT),
                 vdop(WPT_NOFLOAT), hdop(WPT_NOFLOAT), pdop(WPT_NOFLOAT),
-                _lon(WPT_NOFLOAT),_lat(WPT_NOFLOAT),_ele(WPT_NOFLOAT),
+                _lon(WPT_NOFLOAT),_lat(WPT_NOFLOAT),_ele(WPT_NOFLOAT), _timestamp(0), _timestamp_msec(0),
                 flags(0), px_valid(FALSE), dem(WPT_NOFLOAT), editItem(NULL){}
 
             bool operator==(const pt_t& pt) const {return pt.idx == idx;}
@@ -160,7 +160,9 @@ class CTrack : public IItem
             /// latitude [deg]
             float   _lat;
             /// elevation [m]
-            float   _ele;
+            float   _ele;           
+            quint32 _timestamp;
+            quint32 _timestamp_msec;
 
             /// display flags
             CFlags flags;
