@@ -999,8 +999,6 @@ bool CTrackFilterWidget::filterHidePoints1(QDataStream& args, QList<CTrack*>& tr
 
 bool CTrackFilterWidget::filterHidePoints2(QDataStream& args, QList<CTrack*>& tracks)
 {
-    qDebug() << "bool CTrackFilterWidget::filterHidePoints2(QDataStream& args, QList<CTrack*>& tracks)";
-
     double d;
     args >> d;
 
@@ -1011,7 +1009,7 @@ bool CTrackFilterWidget::filterHidePoints2(QDataStream& args, QList<CTrack*>& tr
 
     foreach(CTrack * trk, tracks)
     {
-        // convert track points into a vector of pointDP (Douglas-Peukert points)
+        // convert track points into a vector of pointDP (Douglas-Peucker points)
         QList<CTrack::pt_t>& trkpts = trk->getTrackPoints();
         int npts    = trkpts.count();
         int idx     = 0;
