@@ -1004,6 +1004,11 @@ bool CTrackFilterWidget::filterHidePoints2(QDataStream& args, QList<CTrack*>& tr
     double d;
     args >> d;
 
+    int prog = 0;
+    QProgressDialog progress(groupReducePoints2->title(), tr("Abort filter"), 0, tracks.size() * 3, this);
+    progress.setWindowTitle(groupReducePoints2->title());
+    progress.setWindowModality(Qt::WindowModal);
+
     foreach(CTrack * trk, tracks)
     {
         // convert track points into a vector of pointDP (Douglas-Peukert points)
@@ -1032,7 +1037,13 @@ bool CTrackFilterWidget::filterHidePoints2(QDataStream& args, QList<CTrack*>& tr
         pj_free(pjsrc);
         pj_free(pjtar);
 
-        GPS_Math_DouglasPeukert(line, d);
+        progress.setValue(prog++);
+        qApp->processEvents();
+
+        GPS_Math_DouglasPeucker(line, d);
+
+        progress.setValue(prog++);
+        qApp->processEvents();
 
         // now read back the the "used" flags
         idx = 0;
@@ -1050,8 +1061,14 @@ bool CTrackFilterWidget::filterHidePoints2(QDataStream& args, QList<CTrack*>& tr
             idx++;
         }
 
-
         trk->rebuild(false);
+
+        if(progress.wasCanceled())
+        {
+            return true;
+        }
+        progress.setValue(prog++);
+        qApp->processEvents();
     }
 
     return false;
@@ -1073,13 +1090,13 @@ bool CTrackFilterWidget::filterSmoothProfile1(QDataStream &args, QList<CTrack *>
         progress.setWindowModality(Qt::WindowModal);
 
         trk->medianFilter(tabs, progress);
+        trk->rebuild(false);
 
         if(progress.wasCanceled())
         {
             return true;
         }
 
-        trk->rebuild(false);
     }
     return false;
 }

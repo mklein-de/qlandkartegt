@@ -694,7 +694,7 @@ struct segment
     qint32 idx2;
 };
 
-extern void GPS_Math_DouglasPeukert(QVector<pointDP> &line, double d)
+extern void GPS_Math_DouglasPeucker(QVector<pointDP> &line, double d)
 {
     if(line.count() < 3) return;
 

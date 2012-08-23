@@ -318,7 +318,7 @@
            <item>
             <widget class="QGroupBox" name="groupReducePoints2">
              <property name="title">
-              <string>Reduce Points (Douglas-Peuker)</string>
+              <string>Douglas-Peucker</string>
              </property>
              <layout class="QGridLayout" name="gridLayout_10">
               <item row="0" column="0">
@@ -471,8 +471,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>389</width>
-            <height>221</height>
+            <width>784</width>
+            <height>459</height>
            </rect>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_8">
@@ -679,8 +679,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>449</width>
-            <height>274</height>
+            <width>776</width>
+            <height>424</height>
            </rect>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_5">

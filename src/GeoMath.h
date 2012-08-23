@@ -144,6 +144,6 @@ struct pointDP : public point3D
     bool used;
 };
 
-extern void GPS_Math_DouglasPeukert(QVector<pointDP>& line, double d);
+extern void GPS_Math_DouglasPeucker(QVector<pointDP>& line, double d);
 
 #endif                           //GEOMATH_H
