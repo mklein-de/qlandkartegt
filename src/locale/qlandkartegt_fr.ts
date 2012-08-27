@@ -6843,6 +6843,13 @@ For modern Garmin device select &quot;Garmin Mass Storage&quot; device to exchan
     </message>
 </context>
 <context>
+    <name>IImageViewer</name>
+    <message>
+        <source>Dialog</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>ILiveLogToolWidget</name>
     <message>
         <source>-</source>
@@ -7671,6 +7678,22 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Username:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>apply now</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>add to list</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Douglas-Peucker</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Distance of a point to a straight line between neighbor points is less than</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
