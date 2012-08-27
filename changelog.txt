@@ -1,3 +1,31 @@
+--- 2012.08.27 ---
+
+Bug     #395:
+Fixed: Waypoint is not highlighted in list when selected on map
+
+Request #396:
+Add Douglas Peucker filter to track filters
+
+Request #397:
+Add "apply now" butoon to all track filter
+
+Bug     #398:
+Fixed: Various bugs in export of streaming server cache
+
+Bug     #399:
+Fixed: Local timestamp is used when waypoint is saved to gpx.
+
+Request #400:
+Spped up loading of many gpx files
+
+Bug     #401:
+Fixed: Wrong mdr file picked if there are multiple ones
+
+Request #402:
+Add image viewer for waypoint images
+
+
+
 --- 2012.06.26 ---
 
 Request #390:
@@ -1575,6 +1603,7 @@ Fixed bad calculation of proximity circle size
 
 Request #1:
 Initial release
+
 
 
 
