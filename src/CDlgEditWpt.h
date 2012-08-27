@@ -59,6 +59,9 @@ class CDlgEditWpt : public QDialog, private Ui::IDlgEditWpt
         void slotCreateBuddies();
         void slotTransparent(bool ok);
 
+    protected:
+        bool eventFilter(QObject *obj, QEvent *event);
+
     private:
         void showImage(int idx);
 

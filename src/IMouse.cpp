@@ -579,7 +579,7 @@ void IMouse::mousePressEventWpt(QMouseEvent * e)
         }
         else
         {
-            CImageViewer view(selWpt->images, theMainWindow);
+            CImageViewer view(selWpt->images, 0, theMainWindow);
             view.exec();
         }
     }

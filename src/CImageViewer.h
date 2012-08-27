@@ -10,7 +10,8 @@ class CImageViewer : public QDialog, private Ui::IImageViewer
 {
     Q_OBJECT;
     public:
-        CImageViewer(QList<CWpt::image_t> &images, QWidget *parent);
+        CImageViewer(QList<CWpt::image_t> &images, int idx, QWidget *parent);
+
         virtual ~CImageViewer();
 
     protected:

@@ -3,10 +3,10 @@
 #include "CImageViewer.h"
 #include <QtGui>
 
-CImageViewer::CImageViewer(QList<CWpt::image_t>& images, QWidget *parent)
+CImageViewer::CImageViewer(QList<CWpt::image_t>& images, int idx, QWidget *parent)
 : QDialog(parent)
 , images(images)
-, idx(0)
+, idx(idx)
 , rectImage(0,0,100,100)
 , rectClose(0,0,32,32)
 , rectPrev(0,0,32,32)
