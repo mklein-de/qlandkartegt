@@ -54,16 +54,16 @@ void CImageViewer::setImageAtIdx(int i)
 
         if(pixmap.width() > width)
         {
-            double ratio = width / pixmap.width();
+            double ratio = width / rectImage.width();
             rectImage.setWidth(width);
-            rectImage.setHeight(rectImage.height() * ratio);
+            rectImage.setHeight(floor(rectImage.height() * ratio) - 1);
         }
 
         if(pixmap.height() > height)
         {
-            double ratio = height / pixmap.height();
+            double ratio = height / rectImage.height();
             rectImage.setHeight(height);
-            rectImage.setWidth(rectImage.width() * ratio);
+            rectImage.setWidth(floor(rectImage.width() * ratio) - 1);
         }
 
         rectImage.moveCenter(center);
@@ -94,7 +94,7 @@ void CImageViewer::paintEvent(QPaintEvent * e)
     p.drawRect(rectImage);
 
 
-    p.drawPixmap(rectImage, images[idx].pixmap);
+    p.drawPixmap(rectImage, images[idx].pixmap.scaled(rectImage.size(), Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
     p.drawPixmap(rectClose, QPixmap(":/icons/iconClose32x32.png"));
 
     if(idx != (images.size() - 1))
@@ -137,5 +137,7 @@ void CImageViewer::mousePressEvent(QMouseEvent * e)
             update();
         }
     }
+
+    e->accept();
 }
 
