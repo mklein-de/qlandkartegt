@@ -11927,7 +11927,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../ITrackFilterWidget.ui" line="362"/>
         <source>Distance of a point to a straight line between neighbor points is less than</source>
-        <translation>Die Distanz eines Punktes zu einer Linien zwischen Nachbarpunkten muss weniger als </translation>
+        <translation type="unfinished">Die Distanz eines Punktes zu einer Linien zwischen 2 Nachbarpunkten muss mehr als </translation>
     </message>
     <message>
         <location filename="../ITrackFilterWidget.ui" line="409"/>
