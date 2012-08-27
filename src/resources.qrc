@@ -551,5 +551,8 @@
         <file>pics/roadbook/25t.png</file>
         <file>pics/roadbook/26t.png</file>
         <file>pics/roadbook/27t.png</file>
+        <file>icons/iconClose32x32.png</file>
+        <file>icons/iconLeft32x32.png</file>
+        <file>icons/iconRight32x32.png</file>
     </qresource>
 </RCC>

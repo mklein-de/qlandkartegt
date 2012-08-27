@@ -35,6 +35,7 @@
 #include "CSearch.h"
 #include "CSearchDB.h"
 #include "IMapSelection.h"
+#include "CImageViewer.h"
 #include <QtGui>
 
 QPointer<IOverlay> IMouse::selOverlay;
@@ -168,7 +169,7 @@ void IMouse::drawSelWpt(QPainter& p)
 
         p.drawPixmap(rectEditWpt, QPixmap(":/icons/iconEdit16x16.png"));
         p.drawPixmap(rectCopyWpt, QPixmap(":/icons/iconClipboard16x16.png"));
-        if(!selWpt->images.isEmpty() && !selWpt->images[0].filePath.isEmpty())
+        if(!selWpt->images.isEmpty() /*&& !selWpt->images[0].filePath.isEmpty()*/)
         {
             p.drawPixmap(rectViewWpt, QPixmap(":/icons/iconRaster16x16.png"));
         }
@@ -570,9 +571,17 @@ void IMouse::mousePressEventWpt(QMouseEvent * e)
         selWpt = 0;
         canvas->update();
     }
-    else if(rectViewWpt.contains(pt) && !selWpt->images.isEmpty() && !selWpt->images[0].filePath.isEmpty())
+    else if(rectViewWpt.contains(pt) && !selWpt->images.isEmpty() /*&& !selWpt->images[0].filePath.isEmpty()*/)
     {
-        QDesktopServices::openUrl(QUrl("file:///" + selWpt->images[0].filePath));
+        if(!selWpt->images[0].filePath.isEmpty())
+        {
+            QDesktopServices::openUrl(QUrl("file:///" + selWpt->images[0].filePath));
+        }
+        else
+        {
+            CImageViewer view(selWpt->images, theMainWindow);
+            view.exec();
+        }
     }
     else if(rectMarkWpt.contains(pt))
     {
