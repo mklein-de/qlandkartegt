@@ -323,6 +323,9 @@
              <layout class="QGridLayout" name="gridLayout_10">
               <item row="0" column="0">
                <widget class="QToolButton" name="toolHidePoints2Now">
+                <property name="toolTip">
+                 <string>apply now</string>
+                </property>
                 <property name="text">
                  <string>...</string>
                 </property>
@@ -334,6 +337,9 @@
               </item>
               <item row="0" column="1">
                <widget class="QToolButton" name="toolAddHidePoints2">
+                <property name="toolTip">
+                 <string>add to list</string>
+                </property>
                 <property name="text">
                  <string>...</string>
                 </property>
@@ -679,8 +685,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>776</width>
-            <height>424</height>
+            <width>449</width>
+            <height>274</height>
            </rect>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_5">

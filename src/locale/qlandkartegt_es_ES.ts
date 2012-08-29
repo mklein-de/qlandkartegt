@@ -2453,7 +2453,7 @@ Cancelado a petición del usuario.
     <message>
         <location filename="../CDlgDeviceExportPath.cpp" line="29"/>
         <source>Where should I place all %1?</source>
-        <translation type="unfinished">¿Dónde debería poner todo %1?</translation>
+        <translation>¿Dónde debería poner todo %1?</translation>
     </message>
 </context>
 <context>
@@ -6641,22 +6641,22 @@ final: %1</translation>
     <message>
         <location filename="../CTrack.cpp" line="1347"/>
         <source> %3 %1 %2 </source>
-        <translation type="unfinished"> %3 %1 %2 </translation>
+        <translation> %3 %1 %2 </translation>
     </message>
     <message>
         <location filename="../CTrack.cpp" line="1357"/>
         <source>| %3 %1 %2</source>
-        <translation type="unfinished"></translation>
+        <translation>| %3 %1 %2</translation>
     </message>
     <message>
         <location filename="../CTrack.cpp" line="1361"/>
         <source> %1 %2</source>
-        <translation type="unfinished"> %1 %2</translation>
+        <translation> %1 %2</translation>
     </message>
     <message>
         <location filename="../CTrack.cpp" line="1362"/>
         <source> %1 :%2</source>
-        <translation type="unfinished"></translation>
+        <translation> %1 :%2</translation>
     </message>
     <message>
         <location filename="../CTrack.cpp" line="1399"/>
@@ -9128,7 +9128,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../IDlgConfig.ui" line="203"/>
         <source>Show track elevation info</source>
-        <translation type="unfinished"></translation>
+        <translation>Mostrar información de alturas del track</translation>
     </message>
     <message>
         <location filename="../IDlgConfig.ui" line="227"/>
@@ -9440,7 +9440,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../IDlgDeviceExportPath.ui" line="20"/>
         <source>Where to place..?</source>
-        <translation type="unfinished">¿Dónde poner...?</translation>
+        <translation>¿Dónde poner...?</translation>
     </message>
     <message>
         <location filename="../IDlgDeviceExportPath.ui" line="30"/>
@@ -10471,7 +10471,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../IImageViewer.ui" line="429"/>
         <source>Dialog</source>
-        <translation type="unfinished">Diálogo</translation>
+        <translation>Diálogo</translation>
     </message>
 </context>
 <context>
@@ -11593,7 +11593,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../ITrackFilterWidget.ui" line="162"/>
         <source>Reset changes</source>
-        <translation type="unfinished">Reiniciar cambios</translation>
+        <translation>Reiniciar cambios</translation>
     </message>
     <message>
         <location filename="../ITrackFilterWidget.ui" line="37"/>
@@ -11696,7 +11696,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../ITrackFilterWidget.ui" line="81"/>
         <source>Apply</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Aplicar</translation>
     </message>
     <message>
         <location filename="../ITrackFilterWidget.ui" line="121"/>
@@ -11710,7 +11710,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../ITrackFilterWidget.ui" line="933"/>
         <location filename="../ITrackFilterWidget.ui" line="1034"/>
         <source>apply now</source>
-        <translation type="unfinished"></translation>
+        <translation>aplicar ahora</translation>
     </message>
     <message>
         <location filename="../ITrackFilterWidget.ui" line="168"/>
@@ -11723,17 +11723,17 @@ p, li { white-space: pre-wrap; }
         <location filename="../ITrackFilterWidget.ui" line="855"/>
         <location filename="../ITrackFilterWidget.ui" line="956"/>
         <source>add to list</source>
-        <translation type="unfinished"></translation>
+        <translation>añadir a la lista</translation>
     </message>
     <message>
         <location filename="../ITrackFilterWidget.ui" line="321"/>
         <source>Douglas-Peucker</source>
-        <translation type="unfinished"></translation>
+        <translation>Douglas-Peucker</translation>
     </message>
     <message>
         <location filename="../ITrackFilterWidget.ui" line="362"/>
         <source>Distance of a point to a straight line between neighbor points is less than</source>
-        <translation type="unfinished"></translation>
+        <translation>Distancia de un punto a una línea recta entre puntos vecinos es inferior a</translation>
     </message>
     <message>
         <location filename="../ITrackFilterWidget.ui" line="409"/>
