@@ -538,6 +538,11 @@ else(EXIF_FOUND)
     set(DMTX_LIBRARIES "")
 ENDIF(DMTX_FOUND)
 
+IF(NOT QTSOAP_FOUND)
+    set(QTSOAP_INCLUDE_DIRS "${CMAKE_SOURCE_DIR}/3rdparty/qtsoap")
+    set(QTSOAP_LIBRARIES "qtsoap")
+ENDIF()
+
 
 add_definitions(-DDB_VERSION=8)
 SET(qlandkarte_HDRS ${qlandkarte_HDRS}  CGeoDB.h CDlgSelGeoDBFolder.h CDlgEditFolder.h)
@@ -630,8 +635,8 @@ include_directories(
   ${CMAKE_SOURCE_DIR}/3rdparty/QZip
   ${CMAKE_SOURCE_DIR}/3rdparty/QTextHtmlExporter
   ${CMAKE_SOURCE_DIR}/3rdparty/getopt
-  ${CMAKE_SOURCE_DIR}/3rdparty/qtsoap
   ${CMAKE_SOURCE_DIR}/3rdparty/conan/include
+  ${QTSOAP_INCLUDE_DIRS}
   ${EXIF_INCLUDE_DIRS}
   ${DMTX_INCLUDE_DIRS}
   ${GPSD_INCLUDE_DIRS}
@@ -705,7 +710,7 @@ target_link_libraries(
       qzip
       qtexthtmlexporter
       getopt
-      qtsoap
+      ${QTSOAP_LIBRARIES}
       ${PROFILING_LIBRARIES}
   )
 
