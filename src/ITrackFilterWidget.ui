@@ -1104,13 +1104,13 @@
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="tabAnnonymous">
+     <widget class="QWidget" name="tabAnonymous">
       <attribute name="icon">
        <iconset resource="resources.qrc">
         <normaloff>:/icons/cache/Virtual-Cache.png</normaloff>:/icons/cache/Virtual-Cache.png</iconset>
       </attribute>
       <attribute name="title">
-       <string>Annonymous</string>
+       <string>Anonymous</string>
       </attribute>
       <layout class="QVBoxLayout" name="verticalLayout_6">
        <item>
