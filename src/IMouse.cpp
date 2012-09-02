@@ -573,15 +573,8 @@ void IMouse::mousePressEventWpt(QMouseEvent * e)
     }
     else if(rectViewWpt.contains(pt) && !selWpt->images.isEmpty() /*&& !selWpt->images[0].filePath.isEmpty()*/)
     {
-        if(!selWpt->images[0].filePath.isEmpty())
-        {
-            QDesktopServices::openUrl(QUrl("file:///" + selWpt->images[0].filePath));
-        }
-        else
-        {
-            CImageViewer view(selWpt->images, 0, theMainWindow);
-            view.exec();
-        }
+        CImageViewer view(selWpt->images, 0, theMainWindow);
+        view.exec();
     }
     else if(rectMarkWpt.contains(pt))
     {

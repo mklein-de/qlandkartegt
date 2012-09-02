@@ -45,6 +45,11 @@ void CImageViewer::setImageAtIdx(int i)
     const QPoint& center    = rectScreen.center();
     QPixmap& pixmap         = images[i].pixmap;
 
+    if(!images[i].filePath.isEmpty())
+    {
+        pixmap = QPixmap(images[i].filePath);
+    }
+
     double width  = rectScreen.width() - 64;
     double height = rectScreen.height() - 64;
 
