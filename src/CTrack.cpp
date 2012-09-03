@@ -1237,19 +1237,29 @@ QString CTrack::getTrkPtInfo1(pt_t& trkpt)
             quint32 t1s = trkpt.timeSinceStart;
             quint32 t2s = total - trkpt.timeSinceStart;
 
-            quint32 t1h = qreal(t1s)/3600;
-            quint32 t2h = qreal(t2s)/3600;
+            quint32 t1hh = t1s/3600;
+            quint32 t2hh = t2s/3600;
 
-            quint32 t1m = quint32(qreal(t1s - t1h * 3600)/60  + 0.5);
-            quint32 t2m = quint32(qreal(t2s - t2h * 3600)/60  + 0.5);
+            quint32 t1mm = (t1s - t1hh * 3600)/60;
+            quint32 t2mm = (t2s - t2hh * 3600)/60;
+
+            quint32 t1ss = t1s%60;
+            quint32 t2ss = t2s%60;
 
             quint32 t1p = quint32(qreal(100 * t1s) / total + 0.5);
             quint32 t2p = 100 - t1p;
 
 
             str += "\n";
-            str += tr("%4 %3 %1:%2h (%5%)").arg(t1h).arg(t1m, 2, 10, QChar('0')).arg(QChar(0x21A4)).arg(QChar(0x2690)).arg(t1p);
-            str += tr(" | (%5%) %1:%2h %3 %4").arg(t2h).arg(t2m, 2, 10, QChar('0')).arg(QChar(0x21A6)).arg(QChar(0x2691)).arg(t2p);
+#ifndef WIN32
+            str += tr("%5 %4 %1:%2:%3 (%6%)").arg(t1hh, 2, 10, QChar('0')).arg(t1mm, 2, 10, QChar('0')).arg(t1ss, 2, 10, QChar('0')).arg(QChar(0x21A4)).arg(QChar(0x2690)).arg(t1p);
+            str += tr(" | (%6%) %1:%2:%3 %4 %5").arg(t2hh, 2, 10, QChar('0')).arg(t2mm, 2, 10, QChar('0')).arg(t2ss, 2, 10, QChar('0')).arg(QChar(0x21A6)).arg(QChar(0x2691)).arg(t2p);
+#else
+            //Unicode character 0x2690 "WHITE FLAG" is not supported for Windows
+            str += tr("%4 %1:%2:%3 (%5%)").arg(t1hh, 2, 10, QChar('0')).arg(t1mm, 2, 10, QChar('0')).arg(t1ss, 2, 10, QChar('0')).arg(QChar(0x21A4)).arg(t1p);
+            //Unicode character 0x2691 "BLACK FLAG" is not supported for Windows
+            str += tr(" | (%5%) %1:%2:%3 %4").arg(t2hh, 2, 10, QChar('0')).arg(t2mm, 2, 10, QChar('0')).arg(t2ss, 2, 10, QChar('0')).arg(QChar(0x21A6)).arg(t2p);
+#endif
         }
 
     }
@@ -1257,9 +1267,19 @@ QString CTrack::getTrkPtInfo1(pt_t& trkpt)
     // distance to start and distance to end
     if(str.count()) str += "\n";
     IUnit::self().meter2distance(trkpt.distance, val, unit);
+#ifndef WIN32
     str += tr("%5 %4 %1%2 (%3%)").arg(val).arg(unit).arg(trkpt.distance * 100.0 / getTotalDistance(),0,'f',0).arg(QChar(0x21A4)).arg(QChar(0x2690));
+#else
+    //Unicode character 0x2690 "WHITE FLAG" is not supported for Windows
+    str += tr("%4 %1%2 (%3%)").arg(val).arg(unit).arg(trkpt.distance * 100.0 / getTotalDistance(),0,'f',0).arg(QChar(0x21A4));
+#endif
     IUnit::self().meter2distance(getTotalDistance() - trkpt.distance, val, unit);
+#ifndef WIN32
     str += tr(" | (%3%) %1%2 %4 %5").arg(val).arg(unit).arg((getTotalDistance() - trkpt.distance) * 100.0 / getTotalDistance(),0,'f',0).arg(QChar(0x21A6)).arg(QChar(0x2691));
+#else
+    //Unicode character 0x2691 "BLACK FLAG" is not supported for Windows
+    str += tr(" | (%3%) %1%2 %4").arg(val).arg(unit).arg((getTotalDistance() - trkpt.distance) * 100.0 / getTotalDistance(),0,'f',0).arg(QChar(0x21A6));
+#endif
 
 
     // elevation of point
@@ -1267,7 +1287,27 @@ QString CTrack::getTrkPtInfo1(pt_t& trkpt)
     {
         if(str.count()) str += "\n";
         IUnit::self().meter2elevation(trkpt.ele, val, unit);
-        str += tr("elevation: %1 %2").arg(val).arg(unit);
+        str += tr("elevation: %1%2").arg(val).arg(unit);
+     }
+
+    if((trkpt.heartReateBpm != -1) || (trkpt.cadenceRpm != -1))
+    {
+         if(str.count()) str += "\n";
+    }
+
+    if(trkpt.heartReateBpm != -1)
+    {
+        str += tr("heart rate: %1bpm").arg(trkpt.heartReateBpm);
+    }
+
+    if((trkpt.heartReateBpm != -1) && (trkpt.cadenceRpm != -1))
+    {
+         str += " | ";
+    }
+
+    if(trkpt.cadenceRpm != -1)
+    {
+        str += tr("cadence: %1rpm").arg(trkpt.cadenceRpm);
     }
 
 

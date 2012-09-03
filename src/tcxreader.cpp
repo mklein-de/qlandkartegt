@@ -367,10 +367,19 @@ void TcxReader::readTrackpoint(CTrack *track, int lap)
                 readHeartRateBpm(pt);
                 pold.heartReateBpm  = pt->heartReateBpm;
             }
+            else if (name() == "Cadence")
+            {
+                //readCadenceRpm(pt);
+                pt->cadenceRpm = readElementText().toInt();
+                pold.cadenceRpm  = pt->cadenceRpm;
+            }
             else
                 readUnknownElement();
         }
     }
+    pt->_lat=pt->lat;
+    pt->_lon=pt->lon;
+    pt->_ele=pt->ele;
     if (firstPositionFound)
     {
         *track << *pt;
