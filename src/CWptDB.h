@@ -100,7 +100,16 @@ class CWptDB : public IDB
         void    setNewWptName(const QString& name){lastWptName = name;}
 
 #ifdef HAS_EXIF
+        enum exifMode_e
+        {
+            eExifModeSmall,
+            eExifModeLarge,
+            eExifModeOriginal,
+            eExifModeLink
+        };
+
         void createWaypointsFromImages();
+        void createWaypointsFromImages(const QStringList& files, exifMode_e mode);
 
         struct exifGPS_t
         {

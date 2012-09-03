@@ -1231,26 +1231,16 @@ void CWptDB::createWaypointsFromImages()
     dlg.exec();
 
     return;
+}
 
-    SETTINGS;
-    QString path = cfg.value("path/images", "./").toString();
-    path = QFileDialog::getExistingDirectory(0, tr("Select path..."), path, FILE_DIALOG_FLAGS);
-
-    if(path.isEmpty()) return;
-
-    cfg.setValue("path/images", path);
-
-    QDir dir(path);
-    QStringList filter;
-    filter << "*.jpg" << "*.jpeg" << "*.png";
-    QStringList files = dir.entryList(filter, QDir::Files);
-    QString file;
+void CWptDB::createWaypointsFromImages(const QStringList& files, exifMode_e mode)
+{
 
     quint32 progCnt = 0;
     QProgressDialog progress(tr("Read EXIF tags from pictures."), tr("Abort"), 0, files.size());
 
 
-    foreach(file, files)
+    foreach(const QString& file, files)
     {
         //         qDebug() << "---------------" << file << "---------------";
 
@@ -1259,12 +1249,9 @@ void CWptDB::createWaypointsFromImages()
         qApp->processEvents();
 
 
-        ExifData * exifData = f_exif_data_new_from_file(dir.filePath(file).toLocal8Bit());
-
+        ExifData * exifData = f_exif_data_new_from_file(file.toLocal8Bit());
         ExifByteOrder exifByteOrder = f_exif_data_get_byte_order(exifData);
-
         exifGPS_t exifGPS(exifByteOrder);
-
         f_exif_data_foreach_content(exifData, exifDataForeachContentFunc, &exifGPS);
 
         CWpt * wpt      = new CWpt(this);
@@ -1276,23 +1263,47 @@ void CWptDB::createWaypointsFromImages()
 
         CWpt::image_t image;
 
-        QPixmap pixtmp(dir.filePath(file).toLocal8Bit());
+        QPixmap pixtmp(file.toLocal8Bit());
         int w = pixtmp.width();
         int h = pixtmp.height();
 
-        if(w < h)
+        if(mode == eExifModeSmall)
         {
-            h *= 240.0 / w;
-            w  = 240;
+            if(w < h)
+            {
+                h *= 400.0 / w;
+                w  = 400;
+            }
+            else
+            {
+                h *= 600.0 / w;
+                w  = 600;
+            }
+            image.pixmap = pixtmp.scaled(w,h,Qt::KeepAspectRatio, Qt::SmoothTransformation);
         }
-        else
+        else if(mode == eExifModeLarge)
         {
-            h *= 320.0 / w;
-            w  = 320;
+            if(w < h)
+            {
+                h *= 700.0 / w;
+                w  = 700;
+            }
+            else
+            {
+                h *= 1024.0 / w;
+                w  = 1024;
+            }
+            image.pixmap = pixtmp.scaled(w,h,Qt::KeepAspectRatio, Qt::SmoothTransformation);
+        }
+        else if(mode == eExifModeOriginal)
+        {
+            image.pixmap = pixtmp;
+        }
+        else if(mode == eExifModeLink)
+        {
+            image.filePath = file;
         }
 
-        image.filePath  = dir.filePath(file).toLocal8Bit();
-        image.pixmap    = pixtmp.scaled(w,h,Qt::KeepAspectRatio, Qt::SmoothTransformation);
         image.info      = file;
         wpt->images << image;
         addWpt(wpt, true);

@@ -28,6 +28,16 @@ class CDlgImportImages : public QDialog, private Ui::IDlgImportImages
     public:
         CDlgImportImages(QWidget * parent);
         virtual ~CDlgImportImages();
+
+    public slots:
+        void accept();
+
+    private slots:
+        void slotSelectPath();
+
+
+    private:
+        void searchForFiles(const QString& path);
 };
 
 #endif //CDLGIMPORTIMAGES_H
