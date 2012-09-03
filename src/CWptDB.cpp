@@ -34,6 +34,7 @@
 #include "GeoMath.h"
 #include "config.h"
 #include "CSettings.h"
+#include "CDlgImportImages.h"
 
 #include <QtGui>
 
@@ -1225,6 +1226,11 @@ void CWptDB::createWaypointsFromImages()
 #endif
         return;
     }
+
+    CDlgImportImages dlg(theMainWindow->getCanvas());
+    dlg.exec();
+
+    return;
 
     SETTINGS;
     QString path = cfg.value("path/images", "./").toString();
