@@ -1125,6 +1125,8 @@ static void exifContentForeachEntryFuncGPS(ExifEntry * exifEntry, void *user_dat
 {
     CWptDB::exifGPS_t& exifGPS = *(CWptDB::exifGPS_t*)user_data;
 
+    qDebug() << "exifEntry->tag" << exifEntry->tag << "exifEntry->components" << exifEntry->components;
+
     switch(exifEntry->tag)
     {
         case EXIF_TAG_GPS_LATITUDE_REF:
@@ -1144,6 +1146,11 @@ static void exifContentForeachEntryFuncGPS(ExifEntry * exifEntry, void *user_dat
                 ExifRational min = f_exif_get_rational((const unsigned char*)p++, exifGPS.byte_order);
                 ExifRational sec = f_exif_get_rational((const unsigned char*)p++, exifGPS.byte_order);
                 exifGPS.lat = (double)deg.numerator/deg.denominator + (double)min.numerator/(min.denominator * 60) + (double)sec.numerator/((double)sec.denominator * 3600.0);
+
+                if(isnan(exifGPS.lat))
+                {
+                    exifGPS.lat = 0;
+                }
             }
             break;
         }
@@ -1164,6 +1171,34 @@ static void exifContentForeachEntryFuncGPS(ExifEntry * exifEntry, void *user_dat
                 ExifRational min = f_exif_get_rational((const unsigned char*)p++, exifGPS.byte_order);
                 ExifRational sec = f_exif_get_rational((const unsigned char*)p++, exifGPS.byte_order);
                 exifGPS.lon = (double)deg.numerator/deg.denominator + (double)min.numerator/(min.denominator * 60) + (double)sec.numerator/((double)sec.denominator * 3600.0);
+
+                if(isnan(exifGPS.lon))
+                {
+                    exifGPS.lon = 0;
+                }
+            }
+            break;
+        }
+        case EXIF_TAG_GPS_ALTITUDE_REF:
+        {
+            if(exifEntry->components == 1)
+            {
+//                qDebug() << exifEntry->data[0];
+            }
+            break;
+        }
+        case EXIF_TAG_GPS_ALTITUDE:
+        {
+            if(exifEntry->components == 1)
+            {
+                ExifRational * p = (ExifRational*)exifEntry->data;
+                ExifRational ele = f_exif_get_rational((const unsigned char*)p++, exifGPS.byte_order);
+                exifGPS.ele = (double)ele.numerator/ele.denominator;
+                if(isnan(exifGPS.ele))
+                {
+                    exifGPS.ele = WPT_NOFLOAT;
+                }
+
             }
             break;
         }
@@ -1242,7 +1277,7 @@ void CWptDB::createWaypointsFromImages(const QStringList& files, exifMode_e mode
 
     foreach(const QString& file, files)
     {
-        //         qDebug() << "---------------" << file << "---------------";
+        qDebug() << "---------------" << file << "---------------";
 
         progress.setValue(progCnt++);
         if (progress.wasCanceled()) break;
@@ -1257,9 +1292,10 @@ void CWptDB::createWaypointsFromImages(const QStringList& files, exifMode_e mode
         CWpt * wpt      = new CWpt(this);
         wpt->lon        = exifGPS.lon * exifGPS.lon_sign;
         wpt->lat        = exifGPS.lat * exifGPS.lat_sign;
+        wpt->ele        = exifGPS.ele;
         wpt->timestamp  = exifGPS.timestamp;
         wpt->setIcon("Flag, Red");
-        wpt->name       = file;
+        wpt->name       = QFileInfo(file).fileName();
 
         CWpt::image_t image;
 
@@ -1304,7 +1340,7 @@ void CWptDB::createWaypointsFromImages(const QStringList& files, exifMode_e mode
             image.filePath = file;
         }
 
-        image.info      = file;
+        image.info = wpt->name;
         wpt->images << image;
         addWpt(wpt, true);
 
