@@ -1280,6 +1280,9 @@
                 <property name="text">
                  <string>Local time</string>
                 </property>
+                <property name="checked">
+                 <bool>true</bool>
+                </property>
                </widget>
               </item>
               <item>
