@@ -163,7 +163,6 @@ set(qlandkarte_SRCS
     CDlgCropMap.cpp
     CDlgParentWpt.cpp
     CDlgDeviceExportPath.cpp
-    CDlgImportImages.cpp
     CQlb.cpp
     CGpx.cpp
     IDevice.cpp
@@ -336,7 +335,6 @@ set(qlandkarte_HDRS
     CDlgCropMap.h
     CDlgParentWpt.h
     CDlgDeviceExportPath.h
-    CDlgImportImages.h
     CQlb.h
     CGpx.h
     IDevice.h
@@ -459,7 +457,6 @@ SET(qlandkarte_UIS
     IDlgCropMap.ui
     IDlgParentWpt.ui
     IDlgDeviceExportPath.ui
-    IDlgImportImages.ui
     ICreateMapQMAP.ui
     ICreateMapGeoTiff.ui
     ICreateMapGridTool.ui
@@ -529,6 +526,9 @@ endif(GPSD_FOUND)
 
 IF(EXIF_FOUND)
     add_definitions(-DHAS_EXIF)
+    SET(qlandkarte_HDRS ${qlandkarte_HDRS} CDlgImportImages.h )
+    SET(qlandkarte_SRCS ${qlandkarte_SRCS} CDlgImportImages.cpp)
+    SET(qlandkarte_UIS ${qlandkarte_UIS} IDlgImportImages.ui)
 else(EXIF_FOUND)
     set(EXIF_INCLUDE_DIRS "")
     set(EXIF_LIBRARIES "")
@@ -536,7 +536,7 @@ ENDIF(EXIF_FOUND)
 
 IF(DMTX_FOUND)
     add_definitions(-DHAS_DMTX)
-else(EXIF_FOUND)
+else(DMTX_FOUND)
     set(DMTX_INCLUDE_DIRS "")
     set(DMTX_LIBRARIES "")
 ENDIF(DMTX_FOUND)

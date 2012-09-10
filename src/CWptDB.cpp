@@ -34,7 +34,7 @@
 #include "GeoMath.h"
 #include "config.h"
 #include "CSettings.h"
-#include "CDlgImportImages.h"
+
 
 #include <QtGui>
 
@@ -42,6 +42,7 @@ CWptDB * CWptDB::m_self = 0;
 
 #ifdef HAS_EXIF
 #include <libexif/exif-data.h>
+#include "CDlgImportImages.h"
 
 typedef void (*exif_content_foreach_entry_t)(ExifContent *, ExifContentForeachEntryFunc , void *);
 typedef void (*exif_data_unref_t)(ExifData *);
