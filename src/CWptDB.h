@@ -117,6 +117,7 @@ class CWptDB : public IDB
             double lon;
             double lat;
             double ele;
+            double dir;
 
             int lon_sign;
             int lat_sign;

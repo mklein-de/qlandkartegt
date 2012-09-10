@@ -952,6 +952,24 @@ void CWptDB::draw(QPainter& p, const QRect& rect, bool& needsRedraw)
 
         if(rect.contains(QPoint(u,v)))
         {
+
+            if((*wpt)->dir != WPT_NOFLOAT)
+            {
+                p.save();
+
+                p.translate(u,v);
+                p.rotate((*wpt)->dir);
+
+                p.setPen(QPen(Qt::white,3));
+                p.drawLine(0,0, 200,0);
+
+
+                p.setPen(Qt::black);
+                p.drawLine(0,0, 200,0);
+                p.restore();
+            }
+
+
             QPixmap icon = (*wpt)->getIcon();
             QPixmap back = QPixmap(icon.size());
             back.fill(Qt::white);
@@ -1203,6 +1221,30 @@ static void exifContentForeachEntryFuncGPS(ExifEntry * exifEntry, void *user_dat
             }
             break;
         }
+        case EXIF_TAG_GPS_IMG_DIRECTION_REF:
+        {
+            if(exifEntry->components == 2)
+            {
+                qDebug() << (char)exifEntry->data[0];
+            }
+            break;
+        }
+        case EXIF_TAG_GPS_IMG_DIRECTION:
+        {
+            if(exifEntry->components == 1)
+            {
+                ExifRational * p = (ExifRational*)exifEntry->data;
+                ExifRational dir = f_exif_get_rational((const unsigned char*)p++, exifGPS.byte_order);
+                exifGPS.dir = (double)dir.numerator/dir.denominator;
+                if(isnan(exifGPS.dir))
+                {
+                    exifGPS.dir = WPT_NOFLOAT;
+                }
+
+            }
+            break;
+        }
+
         default:;
     }
 }
@@ -1294,6 +1336,7 @@ void CWptDB::createWaypointsFromImages(const QStringList& files, exifMode_e mode
         wpt->lon        = exifGPS.lon * exifGPS.lon_sign;
         wpt->lat        = exifGPS.lat * exifGPS.lat_sign;
         wpt->ele        = exifGPS.ele;
+        wpt->dir        = exifGPS.dir;
         wpt->timestamp  = exifGPS.timestamp;
         wpt->setIcon("Flag, Red");
         wpt->name       = QFileInfo(file).fileName();

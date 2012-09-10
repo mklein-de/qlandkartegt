@@ -190,9 +190,12 @@ class CWpt : public IItem
         float   lon;             ///< [deg]
         float   ele;             ///< [m]
         float   prx;             ///< [m]
+        float   dir;             ///< [deg]
         QString link;
         QString urlname;
         QString type;
+
+
 
         struct image_t
         {

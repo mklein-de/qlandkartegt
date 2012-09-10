@@ -138,6 +138,15 @@ QDataStream& operator >>(QDataStream& s, CWpt& wpt)
                 s1 >> wpt.parentWpt;
                 s1 >> wpt.selected;
 
+                if(!s1.atEnd())
+                {
+                    s1 >> wpt.dir;
+                }
+                else
+                {
+                    wpt.dir = WPT_NOFLOAT;
+                }
+
                 wpt.setIcon(icon);
                 wpt.setKey(key);
                 break;
@@ -258,6 +267,7 @@ QDataStream& operator <<(QDataStream& s, CWpt& wpt)
     s1 << wpt.type;
     s1 << wpt.getParentWpt();
     s1 << wpt.selected;
+    s1 << wpt.dir;
 
     entries << entryBase;
 
@@ -424,6 +434,7 @@ CWpt::CWpt(QObject * parent)
 , lon(1000)
 , ele(WPT_NOFLOAT)
 , prx(WPT_NOFLOAT)
+, dir(WPT_NOFLOAT)
 {
     setIcon("Small City");
 }
