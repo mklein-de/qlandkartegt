@@ -507,6 +507,12 @@ QString CWpt::getInfo()
         str += tr("elevation: %1 %2").arg(val).arg(unit);
     }
 
+    if(dir != WPT_NOFLOAT)
+    {
+        if(str.count()) str += "\n";
+        str += tr("direction: %1%2").arg(dir).arg(QChar('\260'));
+    }
+
     if(prx != WPT_NOFLOAT)
     {
         if(str.count()) str += "\n";

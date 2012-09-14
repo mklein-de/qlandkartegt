@@ -953,23 +953,6 @@ void CWptDB::draw(QPainter& p, const QRect& rect, bool& needsRedraw)
         if(rect.contains(QPoint(u,v)))
         {
 
-            if((*wpt)->dir != WPT_NOFLOAT)
-            {
-                p.save();
-
-                p.translate(u,v);
-                p.rotate((*wpt)->dir);
-
-                p.setPen(QPen(Qt::white,3));
-                p.drawLine(0,0, 200,0);
-
-
-                p.setPen(Qt::black);
-                p.drawLine(0,0, 200,0);
-                p.restore();
-            }
-
-
             QPixmap icon = (*wpt)->getIcon();
             QPixmap back = QPixmap(icon.size());
             back.fill(Qt::white);

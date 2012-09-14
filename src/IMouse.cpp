@@ -234,6 +234,27 @@ void IMouse::drawSelWpt(QPainter& p)
 
         p.restore();
 
+        if(selWpt->dir != WPT_NOFLOAT)
+        {
+#define ARROWDIR_H 15
+#define ARROWDIR_W 20
+
+            p.save();
+            p.setPen(CCanvas::penBorderBlue);
+            p.setBrush(CCanvas::brushBackWhite);
+
+            p.translate(u, v);
+            p.rotate(selWpt->dir);
+            p.translate(0,  - 37 - ARROWDIR_H/2);
+
+            QPolygon arrow;
+            arrow << QPoint(0, -ARROWDIR_H/2) << QPoint(-ARROWDIR_W/2, ARROWDIR_H/2) << QPoint(0, ARROWDIR_H/3) << QPoint(ARROWDIR_W/2, ARROWDIR_H/2);
+
+            p.drawPolygon(arrow);
+
+            p.restore();
+        }
+
     }
 }
 
