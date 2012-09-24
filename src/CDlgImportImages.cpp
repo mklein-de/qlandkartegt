@@ -40,7 +40,17 @@ CDlgImportImages::CDlgImportImages(QWidget *parent)
 
     connect(toolPath, SIGNAL(clicked()), this, SLOT(slotSelectPath()));
 
+    radioRefExif->setChecked(cfg.value("imageImport/ref/exif", true).toBool());
+    radioRefTime->setChecked(cfg.value("imageImport/ref/time", false).toBool());
+    radioRefPosition->setChecked(cfg.value("imageImport/ref/position", false).toBool());
+
+    connect(radioRefExif, SIGNAL(clicked()), this, SLOT(slotSelectRefMethod()));
+    connect(radioRefTime, SIGNAL(clicked()), this, SLOT(slotSelectRefMethod()));
+    connect(radioRefPosition, SIGNAL(clicked()), this, SLOT(slotSelectRefMethod()));
+
     searchForFiles(path);
+
+    slotSelectRefMethod();
 }
 
 CDlgImportImages::~CDlgImportImages()
@@ -80,6 +90,10 @@ void CDlgImportImages::accept()
     cfg.setValue("imageImport/copy/original", radioCopyOriginal->isChecked());
     cfg.setValue("imageImport/copy/link", radioCopyLink->isChecked());
 
+    cfg.setValue("imageImport/ref/exif", radioRefExif->isChecked());
+    cfg.setValue("imageImport/ref/time", radioRefTime->isChecked());
+    cfg.setValue("imageImport/ref/position", radioRefPosition->isChecked());
+
     QDialog::accept();
 }
 
@@ -108,4 +122,25 @@ void CDlgImportImages::slotSelectPath()
     labelPath->setText(path);
 
     searchForFiles(path);
+}
+
+void CDlgImportImages::slotSelectRefMethod()
+{
+    if(radioRefTime->isChecked())
+    {
+        groupRefTime->show();
+    }
+    else
+    {
+        groupRefTime->hide();
+    }
+
+    if(radioRefPosition->isChecked())
+    {
+        groupRefPosition->show();
+    }
+    else
+    {
+        groupRefPosition->hide();
+    }
 }

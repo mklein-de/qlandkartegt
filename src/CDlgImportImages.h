@@ -34,6 +34,7 @@ class CDlgImportImages : public QDialog, private Ui::IDlgImportImages
 
     private slots:
         void slotSelectPath();
+        void slotSelectRefMethod();
 
 
     private:
