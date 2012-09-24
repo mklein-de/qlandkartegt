@@ -122,10 +122,16 @@ class CWptDB : public IDB
             int lon_sign;
             int lat_sign;
 
-            int timestamp;
+            quint32 timestamp;
 
             ExifByteOrder byte_order;
         };
+
+        void createWaypointsFromImages(const QStringList& files, exifMode_e mode, const QString& filename, quint32 timestamp);
+        void createWaypointsFromImages(const QStringList& files, exifMode_e mode, const QString& filename, double lon, double lat);
+        void createWaypointsFromImages(const QStringList& files, exifMode_e mode, qint32 offset);
+
+        void addWptFromExif(const exifGPS_t& exif, exifMode_e mode, const QString& filename);
 #endif
 
         static bool keyLessThanAlpha(CWptDB::keys_t&  s1, CWptDB::keys_t&  s2);
@@ -148,6 +154,9 @@ class CWptDB : public IDB
 
         CWptDB(QTabWidget * tb, QObject * parent);
         void addWpt(CWpt * wpt, bool silent);
+
+
+
         static CWptDB * m_self;
 
         QMap<QString,CWpt*> wpts;

@@ -34,6 +34,7 @@
 #include "GeoMath.h"
 #include "config.h"
 #include "CSettings.h"
+#include "CTrackDB.h"
 
 
 #include <QtGui>
@@ -1299,83 +1300,146 @@ void CWptDB::createWaypointsFromImages(const QStringList& files, exifMode_e mode
 
     quint32 progCnt = 0;
     QProgressDialog progress(tr("Read EXIF tags from pictures."), tr("Abort"), 0, files.size());
-
+    progress.setWindowModality(Qt::WindowModal);
 
     foreach(const QString& file, files)
     {
-        qDebug() << "---------------" << file << "---------------";
-
         progress.setValue(progCnt++);
         if (progress.wasCanceled()) break;
-        qApp->processEvents();
-
 
         ExifData * exifData = f_exif_data_new_from_file(file.toLocal8Bit());
         ExifByteOrder exifByteOrder = f_exif_data_get_byte_order(exifData);
         exifGPS_t exifGPS(exifByteOrder);
         f_exif_data_foreach_content(exifData, exifDataForeachContentFunc, &exifGPS);
 
-        CWpt * wpt      = new CWpt(this);
-        wpt->lon        = exifGPS.lon * exifGPS.lon_sign;
-        wpt->lat        = exifGPS.lat * exifGPS.lat_sign;
-        wpt->ele        = exifGPS.ele;
-        wpt->dir        = exifGPS.dir;
-        wpt->timestamp  = exifGPS.timestamp;
-        wpt->setIcon("Flag, Red");
-        wpt->name       = QFileInfo(file).fileName();
-
-        CWpt::image_t image;
-
-        QPixmap pixtmp(file.toLocal8Bit());
-        int w = pixtmp.width();
-        int h = pixtmp.height();
-
-        if(mode == eExifModeSmall)
-        {
-            if(w < h)
-            {
-                h *= 400.0 / w;
-                w  = 400;
-            }
-            else
-            {
-                h *= 600.0 / w;
-                w  = 600;
-            }
-            image.pixmap = pixtmp.scaled(w,h,Qt::KeepAspectRatio, Qt::SmoothTransformation);
-        }
-        else if(mode == eExifModeLarge)
-        {
-            if(w < h)
-            {
-                h *= 700.0 / w;
-                w  = 700;
-            }
-            else
-            {
-                h *= 1024.0 / w;
-                w  = 1024;
-            }
-            image.pixmap = pixtmp.scaled(w,h,Qt::KeepAspectRatio, Qt::SmoothTransformation);
-        }
-        else if(mode == eExifModeOriginal)
-        {
-            image.pixmap = pixtmp;
-        }
-        else if(mode == eExifModeLink)
-        {
-            image.filePath = file;
-        }
-
-        image.info = wpt->name;
-        wpt->images << image;
-        addWpt(wpt, true);
+        addWptFromExif(exifGPS, mode, file);
 
         f_exif_data_unref(exifData);
     }
     emitSigChanged();
     emitSigModified();
 }
+
+void CWptDB::createWaypointsFromImages(const QStringList& files, exifMode_e mode, const QString& filename, quint32 timestamp)
+{
+
+    //06.09.12 10:32:00
+
+    qint32 offset;
+    ExifData * exifData = f_exif_data_new_from_file(filename.toLocal8Bit());
+    ExifByteOrder exifByteOrder = f_exif_data_get_byte_order(exifData);
+    exifGPS_t exifGPS(exifByteOrder);
+    f_exif_data_foreach_content(exifData, exifDataForeachContentFunc, &exifGPS);
+
+    offset = timestamp - exifGPS.timestamp;
+    createWaypointsFromImages(files, mode, offset);
+
+    f_exif_data_unref(exifData);
+}
+
+
+void CWptDB::createWaypointsFromImages(const QStringList& files, exifMode_e mode, const QString& filename, double lon, double lat)
+{
+}
+
+void CWptDB::createWaypointsFromImages(const QStringList& files, exifMode_e mode, qint32 offset)
+{
+    quint32 progCnt = 0;
+    QProgressDialog progress(tr("Reference pictures by timestamp."), tr("Abort"), 0, files.size());
+    progress.setWindowModality(Qt::WindowModal);
+
+    foreach(const QString& file, files)
+    {
+
+        progress.setValue(progCnt++);
+        if (progress.wasCanceled()) break;
+
+        double lon = 0, lat = 0;
+
+        ExifData * exifData = f_exif_data_new_from_file(file.toLocal8Bit());
+        ExifByteOrder exifByteOrder = f_exif_data_get_byte_order(exifData);
+        exifGPS_t exifGPS(exifByteOrder);
+        f_exif_data_foreach_content(exifData, exifDataForeachContentFunc, &exifGPS);
+
+        if(CTrackDB::self().getClosestPoint2Timestamp(exifGPS.timestamp + offset, 120, lon, lat))
+        {
+            exifGPS.timestamp += offset;
+            exifGPS.ele = WPT_NOFLOAT;
+            exifGPS.dir = WPT_NOFLOAT;
+            exifGPS.lon = lon;
+            exifGPS.lat = lat;
+
+            addWptFromExif(exifGPS, mode, file);
+        }
+
+
+        f_exif_data_unref(exifData);
+    }
+
+    emitSigChanged();
+    emitSigModified();
+}
+
+void CWptDB::addWptFromExif(const exifGPS_t& exif, exifMode_e mode, const QString& filename)
+{
+    CWpt * wpt      = new CWpt(this);
+    wpt->lon        = exif.lon;
+    wpt->lat        = exif.lat;
+    wpt->timestamp  = exif.timestamp;
+    wpt->ele        = exif.ele;
+    wpt->dir        = exif.dir;
+    wpt->setIcon("Flag, Red");
+    wpt->name       = QFileInfo(filename).fileName();
+
+    CWpt::image_t image;
+
+    QPixmap pixtmp(filename.toLocal8Bit());
+    int w = pixtmp.width();
+    int h = pixtmp.height();
+
+    if(mode == eExifModeSmall)
+    {
+        if(w < h)
+        {
+            h *= 400.0 / w;
+            w  = 400;
+        }
+        else
+        {
+            h *= 600.0 / w;
+            w  = 600;
+        }
+        image.pixmap = pixtmp.scaled(w,h,Qt::KeepAspectRatio, Qt::SmoothTransformation);
+    }
+    else if(mode == eExifModeLarge)
+    {
+        if(w < h)
+        {
+            h *= 700.0 / w;
+            w  = 700;
+        }
+        else
+        {
+            h *= 1024.0 / w;
+            w  = 1024;
+        }
+        image.pixmap = pixtmp.scaled(w,h,Qt::KeepAspectRatio, Qt::SmoothTransformation);
+    }
+    else if(mode == eExifModeOriginal)
+    {
+        image.pixmap = pixtmp;
+    }
+    else if(mode == eExifModeLink)
+    {
+        image.filePath = filename;
+    }
+
+    image.info = wpt->name;
+    wpt->images << image;
+    addWpt(wpt, true);
+
+}
+
 #endif
 
 void CWptDB::makeVisible(const QStringList& keys)

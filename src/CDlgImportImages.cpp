@@ -20,6 +20,7 @@
 #include "CSettings.h"
 #include "config.h"
 #include "CWptDB.h"
+#include "GeoMath.h"
 
 #include <QtGui>
 
@@ -51,6 +52,8 @@ CDlgImportImages::CDlgImportImages(QWidget *parent)
     searchForFiles(path);
 
     slotSelectRefMethod();
+
+    connect(listImages, SIGNAL(itemDoubleClicked(QListWidgetItem*)), this, SLOT(slotSelectPicture(QListWidgetItem*)));
 }
 
 CDlgImportImages::~CDlgImportImages()
@@ -80,7 +83,26 @@ void CDlgImportImages::accept()
         mode = CWptDB::eExifModeLink;
     }
 
-    CWptDB::self().createWaypointsFromImages(files, mode);
+    if(radioRefExif->isChecked())
+    {
+        CWptDB::self().createWaypointsFromImages(files, mode);
+    }
+    else if(radioRefTime->isChecked())
+    {
+        quint32 timestamp = dateTimeEdit->dateTime().toUTC().toTime_t();
+        CWptDB::self().createWaypointsFromImages(files, mode, selectedFile, timestamp);
+    }
+    else if(radioRefPosition->isChecked())
+    {
+        float lon = 0;
+        float lat = 0;
+
+        if(GPS_Math_Str_To_Deg(linePosition->text(), lon, lat))
+        {
+            CWptDB::self().createWaypointsFromImages(files, mode, selectedFile, lon, lat);
+        }
+    }
+
 
 
     SETTINGS;
@@ -143,4 +165,18 @@ void CDlgImportImages::slotSelectRefMethod()
     {
         groupRefPosition->hide();
     }
+}
+
+void CDlgImportImages::slotSelectPicture(QListWidgetItem * item)
+{
+    labelRefTimeFile->setText(item->text());
+    labelRefPositionFile->setText(item->text());
+
+    dateTimeEdit->setEnabled(true);
+    linePosition->setEnabled(true);
+
+    QFileInfo fi(item->data(Qt::UserRole).toString());
+    dateTimeEdit->setDateTime(fi.created());
+
+    selectedFile = fi.absoluteFilePath();
 }

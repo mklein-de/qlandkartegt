@@ -1447,3 +1447,35 @@ void CTrackDB::setPointOfFocusByIdx(qint32 idx)
         emit sigPointOfFocus(idx);
     }
 }
+
+bool CTrackDB::getClosestPoint2Timestamp(quint32 timestamp, quint32 maxDelta, double& lon, double& lat)
+{
+    quint32 delta = 0xFFFFFFFF;
+    const CTrack::pt_t * selTrkPt = 0;
+
+    foreach(CTrack * track, tracks)
+    {
+        QList<CTrack::pt_t>& trkpts = track->getTrackPoints();
+
+        foreach(const CTrack::pt_t& trkpt, trkpts)
+        {
+            if(abs(timestamp - trkpt.timestamp) < delta)
+            {
+                delta = abs(timestamp - trkpt.timestamp);
+                if(delta < maxDelta)
+                {
+                    selTrkPt = &trkpt;
+                }
+            }
+        }
+    }
+
+    if(selTrkPt)
+    {
+        lon = selTrkPt->lon;
+        lat = selTrkPt->lat;
+        return true;
+    }
+
+    return false;
+}
