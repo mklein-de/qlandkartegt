@@ -59,11 +59,12 @@ if(!query.exec())\
 
 #define PROGRESS_SETUP(lbl, max) \
 QProgressDialog progress(lbl, "Abort", 0, max, 0);\
+progress.setWindowModality(Qt::WindowModal);\
 
 #define PROGRESS(x, cmd) \
 progress.setValue(x); \
-if (progress.wasCanceled()) cmd; \
-qApp->processEvents(QEventLoop::ExcludeUserInputEvents);\
+if (progress.wasCanceled()) cmd;\
+
 
 
 class CGeoDBInternalEditLock

@@ -313,6 +313,7 @@ void CCanvas::leaveEvent(QEvent * )
 {
     QApplication::restoreOverrideCursor();
     setMouseTracking(false);
+    if (mouse) mouse->setSelTrackPt(0);
 }
 
 
