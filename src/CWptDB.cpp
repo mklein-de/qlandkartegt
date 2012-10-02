@@ -1340,6 +1340,12 @@ void CWptDB::createWaypointsFromImages(const QStringList& files, exifMode_e mode
 
 void CWptDB::createWaypointsFromImages(const QStringList& files, exifMode_e mode, const QString& filename, double lon, double lat)
 {
+    // N46 34.623 E012 07.545
+    quint32 timestamp = 0;
+    if(CTrackDB::self().getClosestPoint2Position(lon, lat, timestamp, 50))
+    {
+        createWaypointsFromImages(files, mode, filename, timestamp);
+    }
 }
 
 void CWptDB::createWaypointsFromImages(const QStringList& files, exifMode_e mode, qint32 offset)

@@ -115,6 +115,8 @@ class CTrackDB : public IDB
 
         // find the point with the lowest delta to the given timestamp
         bool getClosestPoint2Timestamp(quint32 timestamp, quint32 maxDelta, double& lon, double& lat);
+        // find the point with the lowest distance delta to the given position and return it's position and timestamp
+        bool getClosestPoint2Position(double& lon, double& lat, quint32& timestamp, double maxDelta);
 
     signals:
         void sigHighlightTrack(CTrack * track);

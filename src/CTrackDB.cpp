@@ -1448,6 +1448,48 @@ void CTrackDB::setPointOfFocusByIdx(qint32 idx)
     }
 }
 
+bool CTrackDB::getClosestPoint2Position(double &lon, double &lat, quint32& timestamp, double maxDelta)
+{
+    double delta = WPT_NOFLOAT;
+    const CTrack::pt_t * selTrkPt = 0;
+    double d, a1, a2;
+    projUV p1, p2;
+
+    p1.u = lon*DEG_TO_RAD;
+    p1.v = lat*DEG_TO_RAD;
+
+    foreach(CTrack * track, tracks)
+    {
+        QList<CTrack::pt_t>& trkpts = track->getTrackPoints();
+
+        foreach(const CTrack::pt_t& trkpt, trkpts)
+        {
+            p2.u = trkpt.lon*DEG_TO_RAD;
+            p2.v = trkpt.lat*DEG_TO_RAD;
+            d = distance(p1, p2, a1, a2);
+
+            if(d < delta)
+            {
+                delta = d;
+                if(delta < maxDelta)
+                {
+                    selTrkPt = &trkpt;
+                }
+            }
+        }
+    }
+
+    if(selTrkPt)
+    {
+        lon         = selTrkPt->lon;
+        lat         = selTrkPt->lat;
+        timestamp   = selTrkPt->timestamp;
+        return true;
+    }
+
+    return false;
+}
+
 bool CTrackDB::getClosestPoint2Timestamp(quint32 timestamp, quint32 maxDelta, double& lon, double& lat)
 {
     quint32 delta = 0xFFFFFFFF;
