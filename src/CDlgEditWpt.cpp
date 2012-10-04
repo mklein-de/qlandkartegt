@@ -471,6 +471,12 @@ void CDlgEditWpt::slotSaveBarcode()
 
     if(filename.isEmpty()) return;
 
+    QFileInfo fi(filename);
+    if(fi.suffix().toLower() != "png")
+    {
+        filename += ".png";
+    }
+
     labelBarcode->pixmap()->save(filename);
 }
 

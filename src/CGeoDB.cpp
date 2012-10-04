@@ -201,7 +201,7 @@ CGeoDB::CGeoDB(QTabWidget * tb, QWidget * parent)
     actEditDir          = contextMenuFolder->addAction(QPixmap(":/icons/iconEdit16x16.png"),tr("Edit"),this,SLOT(slotEditFolder()));
     actAddDiary         = contextMenuFolder->addAction(QPixmap(":/icons/iconDiary16x16.png"), tr("Add diary"), this, SLOT(slotAddDiary()));
     actShowDiary        = contextMenuFolder->addAction(QPixmap(":/icons/iconDiary16x16.png"), tr("Show/hide diary"), this, SLOT(slotShowDiary()));
-    actDelDiary         = contextMenuFolder->addAction(QPixmap(":/icons/iconDiaryDel16x16.png"), tr("Delete diary"), this, SLOT(slotDelDiary()));    
+    actDelDiary         = contextMenuFolder->addAction(QPixmap(":/icons/iconDiaryDel16x16.png"), tr("Delete diary"), this, SLOT(slotDelDiary()));
     actAddDir           = contextMenuFolder->addAction(QPixmap(":/icons/iconAdd16x16.png"),tr("New"),this,SLOT(slotAddFolder()));
     actExportProject    = contextMenuFolder->addAction(QPixmap(":/icons/iconFileExport16x16.png"), tr("Export"), this, SLOT(slotExportProject()));
     actDelDir           = contextMenuFolder->addAction(QPixmap(":/icons/iconDelete16x16.png"),tr("Delete"),this,SLOT(slotDelFolder()));
@@ -2442,7 +2442,7 @@ void CGeoDB::slotContextMenuDatabase(const QPoint& pos)
                     }
 
                     actMoveDir->setVisible(true);
-                    actCopyDir->setVisible(true);                    
+                    actCopyDir->setVisible(true);
                 }
                 else
                 {
