@@ -26,8 +26,7 @@
 
 #ifdef HAS_DMTX
 #include <dmtx.h>
-#endif //HAS_DMTX
-
+#endif                           //HAS_DMTX
 
 class CWpt;
 

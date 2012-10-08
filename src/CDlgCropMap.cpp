@@ -45,7 +45,6 @@ CDlgCropMap::CDlgCropMap(const QString &filename, quint32 x, quint32 y, quint32 
     connect(&cmd, SIGNAL(readyReadStandardOutput()), this, SLOT(slotStdout()));
     connect(&cmd, SIGNAL(finished(int,QProcess::ExitStatus)), this, SLOT(slotFinished(int,QProcess::ExitStatus)));
 
-
     SETTINGS;
     checkOverview2x->setChecked(cfg.value("map/export/over2x", true).toBool());
     checkOverview4x->setChecked(cfg.value("map/export/over4x", true).toBool());
@@ -71,6 +70,7 @@ CDlgCropMap::CDlgCropMap(const QString &filename, quint32 x, quint32 y, quint32 
 
 }
 
+
 CDlgCropMap::~CDlgCropMap()
 {
     SETTINGS;
@@ -82,6 +82,7 @@ CDlgCropMap::~CDlgCropMap()
     cfg.setValue("map/export/hidedetails", textBrowser->isHidden());
 
 }
+
 
 void CDlgCropMap::progress(const QString& str)
 {
@@ -103,6 +104,7 @@ void CDlgCropMap::progress(const QString& str)
 
 }
 
+
 void CDlgCropMap::stdOut(const QString& str, bool gui)
 {
     textBrowser->setTextColor(Qt::black);
@@ -117,6 +119,7 @@ void CDlgCropMap::stdOut(const QString& str, bool gui)
     }
 }
 
+
 void CDlgCropMap::stdErr(const QString& str, bool gui)
 {
     textBrowser->setTextColor(Qt::red);
@@ -130,6 +133,7 @@ void CDlgCropMap::stdErr(const QString& str, bool gui)
         labelStatus->setText(str.simplified());
     }
 }
+
 
 void CDlgCropMap::slotStderr()
 {
@@ -156,6 +160,7 @@ void CDlgCropMap::slotStderr()
     tainted = true;
 }
 
+
 void CDlgCropMap::slotStdout()
 {
     QString str;
@@ -174,12 +179,12 @@ void CDlgCropMap::slotStdout()
     }
 #endif
 
-
     progress(str);
 
     textBrowser->insertPlainText(str);
     textBrowser->verticalScrollBar()->setValue(textBrowser->verticalScrollBar()->maximum());
 }
+
 
 void CDlgCropMap::setNextState()
 {
@@ -208,6 +213,7 @@ void CDlgCropMap::setNextState()
     }
 }
 
+
 void CDlgCropMap::slotFinished(int exitCode, QProcess::ExitStatus status)
 {
     output.clear();
@@ -233,6 +239,7 @@ void CDlgCropMap::slotFinished(int exitCode, QProcess::ExitStatus status)
     state->nextJob(cmd);
 }
 
+
 void CDlgCropMap::slotCancel()
 {
     if(cmd.state() != QProcess::NotRunning)
@@ -250,6 +257,7 @@ void CDlgCropMap::slotCancel()
     }
 }
 
+
 void CDlgCropMap::slotStart()
 {
     if(!states.isEmpty() || !state.isNull()) return;
@@ -258,7 +266,6 @@ void CDlgCropMap::slotStart()
     textBrowser->clear();
 
     tainted = false;
-
 
     CMapCropStateCrop * state1 =  new CMapCropStateCrop(this);
     {
@@ -273,9 +280,6 @@ void CDlgCropMap::slotStart()
         state1->addJob(job);
         states << state1;
     }
-
-
-
 
     QStringList overviews;
     if(checkOverview2x->isChecked())  overviews << "2";
@@ -294,11 +298,11 @@ void CDlgCropMap::slotStart()
         states << state2;
     }
 
-
     totalNumberOfStates = states.count();
     // start the statemachine
     setNextState();
 }
+
 
 void CDlgCropMap::slotDetails()
 {
@@ -327,10 +331,12 @@ IMapCropState::IMapCropState(CDlgCropMap * parent)
 
 }
 
+
 IMapCropState::~IMapCropState()
 {
 
 }
+
 
 QString IMapCropState::getTempFilename()
 {
@@ -343,6 +349,7 @@ QString IMapCropState::getTempFilename()
     return fn;
 }
 
+
 // --------------------------------------------------------------------------------------------
 CMapCropStateCrop::CMapCropStateCrop(CDlgCropMap * parent)
 : IMapCropState(parent)
@@ -350,10 +357,12 @@ CMapCropStateCrop::CMapCropStateCrop(CDlgCropMap * parent)
 {
 }
 
+
 CMapCropStateCrop::~CMapCropStateCrop()
 {
     qDebug() << "~CMapCropStateCrop()";
 }
+
 
 void CMapCropStateCrop::explain()
 {
@@ -361,6 +370,7 @@ void CMapCropStateCrop::explain()
     gui->stdOut(tr("Cut area from files..."), true);
     gui->stdOut(   "-------------------------------------");
 }
+
 
 void CMapCropStateCrop::nextJob(QProcess& cmd)
 {
@@ -388,6 +398,7 @@ void CMapCropStateCrop::nextJob(QProcess& cmd)
     }
 }
 
+
 // --------------------------------------------------------------------------------------------
 CMapCropStateOptimize::CMapCropStateOptimize(CDlgCropMap * parent)
 : IMapCropState(parent)
@@ -396,10 +407,12 @@ CMapCropStateOptimize::CMapCropStateOptimize(CDlgCropMap * parent)
 
 }
 
+
 CMapCropStateOptimize::~CMapCropStateOptimize()
 {
     qDebug() << "~CMapCropStateOptimize()";
 }
+
 
 void CMapCropStateOptimize::explain()
 {
@@ -407,6 +420,7 @@ void CMapCropStateOptimize::explain()
     gui->stdOut(tr("Optimize file..."), true);
     gui->stdOut(   "-------------------------------------");
 }
+
 
 void CMapCropStateOptimize::nextJob(QProcess& cmd)
 {

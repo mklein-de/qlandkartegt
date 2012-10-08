@@ -38,7 +38,7 @@ class CWptToolWidget : public QWidget, private Ui::IWptToolWidget
 
         enum sortmode_e
         {
-             eSortByName
+            eSortByName
             ,eSortByComment
             ,eSortByIcon
             ,eSortByDistance
@@ -47,11 +47,8 @@ class CWptToolWidget : public QWidget, private Ui::IWptToolWidget
 
         static sortmode_e  getSortMode(QString& pos){pos = sortpos; return sortmode;}
 
-    signals:
+        signals:
         void sigChanged();
-
-
-
 
     protected:
         void keyPressEvent(QKeyEvent * e);

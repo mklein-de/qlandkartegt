@@ -38,10 +38,12 @@ CDeviceGarminBulk::CDeviceGarminBulk(QObject * parent)
 
 }
 
+
 CDeviceGarminBulk::~CDeviceGarminBulk()
 {
 
 }
+
 
 void CDeviceGarminBulk::readDeviceXml(const QString& filename)
 {
@@ -86,8 +88,8 @@ void CDeviceGarminBulk::readDeviceXml(const QString& filename)
 
     }
 
-
 }
+
 
 bool CDeviceGarminBulk::aquire(QDir& dir)
 {
@@ -109,8 +111,6 @@ bool CDeviceGarminBulk::aquire(QDir& dir)
     {
         readDeviceXml(dir.absoluteFilePath("Garmin/GarminDevice.xml"));
     }
-
-
 
     if(!dir.exists() || !dir.exists(pathGpx))
     {
@@ -164,6 +164,7 @@ bool CDeviceGarminBulk::aquire(QDir& dir)
     return true;
 }
 
+
 void CDeviceGarminBulk::createDayPath(const QDir& root, const QString& what)
 {
 
@@ -205,7 +206,6 @@ void CDeviceGarminBulk::uploadWpts(const QList<CWpt*>& wpts)
                 QString name = wpt->getName();
                 quint32 size = name.size();
                 QString path = QString("%1/%2/%3").arg(name.at(size-1)).arg(name.at(size -2)).arg(name);
-
 
                 dir.cd(pathSpoilers);
                 dir.mkpath(path + "/Spoilers");
@@ -491,6 +491,7 @@ void CDeviceGarminBulk::downloadScreenshot(QImage& /*image*/)
 {
     QMessageBox::information(0,tr("Error..."), tr("Garmin Mass Storage: Download screenshots is not implemented."),QMessageBox::Abort,QMessageBox::Abort);
 }
+
 
 void CDeviceGarminBulk::setLiveLog(bool on)
 {

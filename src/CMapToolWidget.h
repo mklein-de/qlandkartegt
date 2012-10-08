@@ -58,7 +58,7 @@ class CMapToolWidget : public QWidget, private Ui::IMapToolWidget
     private:
         enum tabs_t
         {
-             eTabStream
+            eTabStream
             ,eTabRaster
             ,eTabVector
         };

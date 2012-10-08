@@ -64,13 +64,12 @@
 
 #include "config.h"
 
-
 CMainWindow * theMainWindow = 0;
 
 CMainWindow::CMainWindow()
-    : geodb(0)
-    , modified(false)
-    , crashed(false)
+: geodb(0)
+, modified(false)
+, crashed(false)
 {
     theMainWindow = this;
     groupProvidedMenu = 0;
@@ -277,7 +276,6 @@ CMainWindow::CMainWindow()
     diarydb     = new CDiaryDB(canvasTab, this);
     searchdb    = new CSearchDB(tabbar, this);
 
-
 #ifdef DO_PROFILING
     conanWidget->AddRootObject(this);
 #endif
@@ -411,7 +409,6 @@ CMainWindow::CMainWindow()
     connect(&CTrackDB::self(), SIGNAL(sigChanged()), canvas, SLOT(slotTrackChanged()));
     connect(&soapHttp, SIGNAL(responseReady(const QtSoapMessage &)),this, SLOT(slotGetResponse(const QtSoapMessage &)));
 
-
 }
 
 
@@ -456,7 +453,7 @@ CMainWindow::~CMainWindow()
     cfg.setValue("geodata/mostRecent", mostRecent);
     cfg.setValue("maps/quadraticZoom", quadraticZoom->isChecked());
 
-    canvas = 0;	
+    canvas = 0;
 }
 
 
@@ -657,7 +654,6 @@ void CMainWindow::setupMenuBar()
     menu->addSeparator();
     slotUpdate();
     menu->addAction(QIcon(":/icons/iconGlobe16x16.png"),tr("About &QLandkarte GT"),this,SLOT(slotCopyright()));
-
 #endif
     menuBar()->addMenu(menu);
 }
@@ -696,11 +692,11 @@ void CMainWindow::slotLoadMapSet()
     QString filter   = cfg.value("maps/filter","").toString();
     QString filename = QFileDialog::getOpenFileName( 0, tr("Select map...")
         ,CResources::self().pathMaps
-#ifdef HAS_RMAP
+    #ifdef HAS_RMAP
         ,"All (*.*);;Map Collection (*.qmap);;Garmin (*.tdb);;BirdsEye (*.jnx);;TwoNav (*.rmap)"
-#else
+    #else
         ,"All (*.*);;Map Collection (*.qmap);;Garmin (*.tdb);;BirdsEye (*.jnx)"
-#endif
+    #endif
         , &filter
         , FILE_DIALOG_FLAGS
         );
@@ -711,6 +707,7 @@ void CMainWindow::slotLoadMapSet()
 
     cfg.setValue("maps/filter",filter);
 }
+
 
 void CMainWindow::slotLoadOnlineMapSet()
 {
@@ -745,6 +742,7 @@ void CMainWindow::slotConfig()
     CDlgConfig dlg(this);
     dlg.exec();
 }
+
 
 void CMainWindow::slotLoadData()
 {
@@ -919,7 +917,6 @@ void CMainWindow::loadData(const QString& filename, const QString& filter)
                 loadGPXData = convertData("unicsv", filename, "gpx", tmpfile.fileName());
             }
 
-
             if (!loadGPXData)
             {
                 QMessageBox::critical(0,tr("Convert error"),"Error in data conversion?",QMessageBox::Ok,QMessageBox::NoButton);
@@ -933,7 +930,6 @@ void CMainWindow::loadData(const QString& filename, const QString& filter)
             CRouteDB::self().loadGPX(gpx);
             CDiaryDB::self().loadGPX(gpx);
             COverlayDB::self().loadGPX(gpx);
-
 
         }
         wksFile = filename;
@@ -1085,7 +1081,7 @@ void CMainWindow::saveData(QString& fn, const QString& filter, bool exportFlag)
             {
                 filename += ".qlb";
             }
-        ext = "QLB";
+            ext = "QLB";
         }
     }
     else
@@ -1199,14 +1195,12 @@ void CMainWindow::exportToOcm()
         return;
     }
 
-
     CGpx gpx(this, CGpx::eOcmExport);
     CWptDB::self().saveGPX(gpx, keysWpt);
     CTrackDB::self().saveGPX(gpx, keysTrk);
     CRouteDB::self().saveGPX(gpx, keysRte);
     gpx.makeExtensions();
     COverlayDB::self().saveGPX(gpx, QStringList());
-
 
     QDBusConnection dbus = QDBusConnection::sessionBus();
     QStringList serviceNames = dbus.interface()->registeredServiceNames();
@@ -1218,7 +1212,7 @@ void CMainWindow::exportToOcm()
             return;
         }
 
-//        qDebug() << "start ocm-gtk";
+        //        qDebug() << "start ocm-gtk";
         ocm.startDetached("ocm-gtk");
         sleep(3);
         cnt++;
@@ -1232,15 +1226,16 @@ void CMainWindow::exportToOcm()
     msg = QDBusMessage::createMethodCall("org.ocm.dbus", "/org/ocm/dbus", "org.ocm.dbus", "ShowOCM");
     msg = dbus.call(msg);
 
-//    qDebug() << msg.errorName()  << msg.errorMessage();
+    //    qDebug() << msg.errorName()  << msg.errorMessage();
 
     msg = QDBusMessage::createMethodCall("org.ocm.dbus", "/org/ocm/dbus", "org.ocm.dbus", "ImportGPX");
     msg << file.fileName();
     msg = dbus.call(msg);
 
-//    qDebug() << msg.errorName()  << msg.errorMessage();
+    //    qDebug() << msg.errorName()  << msg.errorMessage();
 #endif
 }
+
 
 void CMainWindow::slotPrint()
 {
@@ -1305,8 +1300,6 @@ void CMainWindow::slotModified()
     modified = true;
     setTitleBar();
 }
-
-
 
 
 void CMainWindow::slotDataChanged()
@@ -1384,15 +1377,15 @@ void CMainWindow::slotDataChanged()
         str += tr("no overlays. ");
     }
 
-//    c = CDiaryDB::self().count();
-//    if(c > 0)
-//    {
-//        str += tr("A <a href='Diary'>diary</a> is loaded.");
-//    }
-//    else
-//    {
-//        str += tr("The diary (<a href='Diary'>new</a>) is empty.");
-//    }
+    //    c = CDiaryDB::self().count();
+    //    if(c > 0)
+    //    {
+    //        str += tr("A <a href='Diary'>diary</a> is loaded.");
+    //    }
+    //    else
+    //    {
+    //        str += tr("The diary (<a href='Diary'>new</a>) is empty.");
+    //    }
 
     str += "</p>";
 
@@ -1405,7 +1398,7 @@ void CMainWindow::slotOpenLink(const QString& link)
 {
     if(link == "Diary")
     {
-//        CDiaryDB::self().openEditWidget();
+        //        CDiaryDB::self().openEditWidget();
     }
     else if(link == "Clear")
     {
@@ -1509,6 +1502,7 @@ void CMainWindow::addRecent(const QString& filename)
 
 }
 
+
 void CMainWindow::setTempWidget(QWidget * w, const QString& label)
 {
     tmpTabWidget->addTab(w, label);
@@ -1518,6 +1512,7 @@ void CMainWindow::setTempWidget(QWidget * w, const QString& label)
     connect(w, SIGNAL(destroyed(QObject*)), this, SLOT(slotItemDestroyed(QObject*)));
 }
 
+
 void CMainWindow::slotItemDestroyed(QObject *)
 {
     if(tmpTabWidget->count() < 2)
@@ -1525,6 +1520,7 @@ void CMainWindow::slotItemDestroyed(QObject *)
         tmpTabWidget->hide();
     }
 }
+
 
 void CMainWindow::slotTabCloseRequest(int i)
 {
@@ -1535,25 +1531,30 @@ void CMainWindow::slotTabCloseRequest(int i)
     }
 }
 
+
 void CMainWindow::slotFAQ()
 {
     QDesktopServices::openUrl(QUrl("http://sourceforge.net/apps/mediawiki/qlandkartegt/index.php?title=FAQ"));
 }
+
 
 void CMainWindow::slotHelp()
 {
     QDesktopServices::openUrl(QUrl("http://sourceforge.net/apps/mediawiki/qlandkartegt/index.php?title=Help_for_QLandkarte_GT"));
 }
 
+
 void CMainWindow::slotSupport()
 {
     QDesktopServices::openUrl(QUrl("http://www.qlandkarte.org/index.php?option=com_content&view=article&id=17&Itemid=19"));
 }
 
+
 void CMainWindow::slotDownload()
 {
     QDesktopServices::openUrl(QUrl("http://www.qlandkarte.org/index.php?option=com_content&view=article&id=17&Itemid=19"));
 }
+
 
 void CMainWindow::slotUpdate()
 {
@@ -1563,6 +1564,7 @@ void CMainWindow::slotUpdate()
     soapHttp.setHost("www.qlandkarte.org");
     soapHttp.submitRequest(request, "/webservice/qlandkartegt.php");
 }
+
 
 void CMainWindow::slotGetResponse(const QtSoapMessage &message)
 {
@@ -1582,6 +1584,7 @@ void CMainWindow::slotGetResponse(const QtSoapMessage &message)
         }
     }
 }
+
 
 void CMainWindow::slotToggleToolView()
 {
@@ -1607,7 +1610,9 @@ bool CMainWindow::isGPSBabel()
     return haveGPSBabel;
 }
 
-QString CMainWindow::getGeoDataFormats() {
+
+QString CMainWindow::getGeoDataFormats()
+{
 
     bool haveGPSBabel = isGPSBabel();
 

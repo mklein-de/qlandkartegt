@@ -86,7 +86,7 @@ void IMouse::resizeRect(const QPoint& p, bool normalize)
     {
         QPoint p0(rect.topLeft());
         rect.setCoords(std::min(p.x(), p0.x()), std::min(p.y(), p0.y()),
-                       std::max(p.x(), p0.x()), std::max(p.y(), p0.y()));
+            std::max(p.x(), p0.x()), std::max(p.y(), p0.y()));
     }
     else
     {
@@ -133,6 +133,7 @@ void IMouse::drawPos1(QPainter& p)
     CCanvas::drawText(fi.fileName(), p, QRect(u,v, LENGTH, 20));
 }
 
+
 void IMouse::drawSelWpt(QPainter& p)
 {
     IMap& map = CMapDB::self().getMap();
@@ -143,7 +144,6 @@ void IMouse::drawSelWpt(QPainter& p)
         map.convertRad2Pt(u,v);
 
         QPixmap icon = selWpt->getIcon().scaled(16,16, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
-
 
         p.setPen(CCanvas::penBorderBlue);
         p.setBrush(CCanvas::brushBackWhite);
@@ -320,7 +320,6 @@ void IMouse::drawSelTrkPt(QPainter& p)
             r2.setHeight(r1.height() + 20);
             r2.moveTop(r1.top() - 10);
 
-
             p.setPen(QPen(CCanvas::penBorderBlue));
             p.setBrush(CCanvas::brushBackWhite);
             PAINT_ROUNDED_RECT(p,r2);
@@ -347,7 +346,6 @@ void IMouse::drawSelTrkPt(QPainter& p)
             r2.setHeight(r1.height() + 10);
             r2.moveTop(r1.top() - 5);
 
-
             p.setPen(QPen(CCanvas::penBorderBlue));
             p.setBrush(CCanvas::brushBackWhite);
             PAINT_ROUNDED_RECT(p,r2);
@@ -358,6 +356,7 @@ void IMouse::drawSelTrkPt(QPainter& p)
         }
     }
 }
+
 
 void IMouse::drawSelRtePt(QPainter& p)
 {
@@ -384,7 +383,6 @@ void IMouse::drawSelRtePt(QPainter& p)
         r2.setHeight(r1.height() + 20);
         r2.moveTop(r1.top() - 10);
 
-
         p.setPen(QPen(CCanvas::penBorderBlue));
         p.setBrush(CCanvas::brushBackWhite);
         PAINT_ROUNDED_RECT(p,r2);
@@ -394,7 +392,6 @@ void IMouse::drawSelRtePt(QPainter& p)
         p.drawText(r1, Qt::AlignLeft|Qt::AlignTop|Qt::TextWordWrap,str);
     }
 }
-
 
 
 void IMouse::mouseMoveEventWpt(QMouseEvent * e)
@@ -654,7 +651,6 @@ void IMouse::mousePressEventSearch(QMouseEvent * e)
 }
 
 
-
 void IMouse::mouseMoveEventTrack(QMouseEvent * e)
 {
     CTrack * track = CTrackDB::self().highlightedTrack();
@@ -697,6 +693,7 @@ void IMouse::mouseMoveEventTrack(QMouseEvent * e)
         canvas->update();
     }
 }
+
 
 void IMouse::mouseMoveEventRoute(QMouseEvent * e)
 {
@@ -783,6 +780,7 @@ void IMouse::mouseMoveEventOverlay(QMouseEvent * e)
     }
 }
 
+
 void IMouse::mouseMoveEventMapSel(QMouseEvent * e)
 {
 
@@ -805,13 +803,13 @@ void IMouse::mouseMoveEventMapSel(QMouseEvent * e)
         theMainWindow->getCanvas()->setMouseMode(CCanvas::eMouseMoveArea);
     }
 
-
     if(selMap != oldSel)
     {
         canvas->update();
     }
 
 }
+
 
 void IMouse::slotSetPos1()
 {

@@ -89,6 +89,7 @@ CQlb& CQlb::operator <<(IOverlay& ovl)
     return *this;
 }
 
+
 CQlb& CQlb::operator <<(IMapSelection& sel)
 {
     QDataStream stream(&sels, QIODevice::Append);

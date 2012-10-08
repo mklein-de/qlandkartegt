@@ -33,9 +33,6 @@ const QString CGpx::rmc_ns      = "urn:net:trekbuddy:1.0:nmea:rmc";
 const QString CGpx::ql_ns       = "http://www.qlandkarte.org/xmlschemas/v1.1";
 const QString CGpx::gs_ns       = "http://www.groundspeak.com/cache/1/0";
 
-
-
-
 uint qHash(QColor color)
 {
     return qHash(color.rgba());
@@ -112,7 +109,6 @@ void CGpx::writeMetadata()
     {
         root.setAttribute("xmlns:ql",ql_ns);
     }
-
 
     QString schemaLocation = QString()
         + gpx_ns    + " http://www.topografix.com/GPX/1/1/gpx.xsd "

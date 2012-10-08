@@ -151,7 +151,7 @@ bool CMenus::addActionsToMenu(QMenu *menu, MenuContextNames contex, ActionGroupN
     else if(groupName == EditMenu)
     {
         menu->addAction(actions->getAction("aUndo"));
-//        menu->addAction(actions->getAction("aRedo"));
+        //        menu->addAction(actions->getAction("aRedo"));
         menu->addAction(actions->getAction("aCopyToClipboard"));
         menu->addAction(actions->getAction("aPasteFromClipboard"));
     }

@@ -92,6 +92,7 @@ double CPlot::getXValByPixel(int px)
     return m_pData->x().pt2val(px - left);
 }
 
+
 double CPlot::getYValByPixel(int px)
 {
     if(m_pData->lines.isEmpty())
@@ -294,7 +295,6 @@ void CPlot::setSizeIconArea()
 }
 
 
-
 /*
   x = a <br>
   y = widget height - xlabel height <br>
@@ -345,6 +345,7 @@ void CPlot::setSizeYLabel()
     }
 }
 
+
 void CPlot::setSizeTrackInfo()
 {
     if(m_pData->tags.isEmpty() || !CResources::self().showTrackProfileEleInfo())
@@ -359,6 +360,7 @@ void CPlot::setSizeTrackInfo()
     rectTrackInfo.moveTop(size().height() - fontHeight);
 }
 
+
 void CPlot::setSizeDrawArea()
 {
     rectGraphArea.setWidth( right - left );
@@ -369,6 +371,7 @@ void CPlot::setSizeDrawArea()
     m_pData->y().setScale( rectGraphArea.height() );
 }
 
+
 void CPlot::draw(QPainter& p, const QSize& s)
 {
     resize(s);
@@ -377,6 +380,7 @@ void CPlot::draw(QPainter& p, const QSize& s)
 
     draw(p);
 }
+
 
 void CPlot::draw(QPainter& p)
 {
@@ -417,7 +421,6 @@ void CPlot::draw(QPainter& p)
                 QFontMetrics    fm(f);
                 QRect           r1 = fm.boundingRect(QRect(0,0,300,0), Qt::AlignLeft|Qt::AlignTop|Qt::TextWordWrap, str);
 
-
                 if((r1.width() + 45 + x) > right)
                 {
                     x = x - 45 - r1.width();
@@ -432,7 +435,6 @@ void CPlot::draw(QPainter& p)
                     y = y - r1.height();
                 }
 
-
                 r1.moveTopLeft(QPoint(x,y));
 
                 QRect r2 = r1;
@@ -440,7 +442,6 @@ void CPlot::draw(QPainter& p)
                 r2.moveLeft(r1.left() - 10);
                 r2.setHeight(r1.height() + 20);
                 r2.moveTop(r1.top() - 10);
-
 
                 p.setPen(QPen(CCanvas::penBorderBlue));
                 p.setBrush(CCanvas::brushBackWhite);
@@ -463,6 +464,7 @@ void CPlot::draw(QPainter& p)
         }
     }
 }
+
 
 void CPlot::draw()
 {
@@ -488,7 +490,6 @@ void CPlot::draw()
             p.setPen(CCanvas::penBorderBlack);
             p.setBrush(QColor(255,255,255,150));
         }
-
 
         PAINT_ROUNDED_RECT(p,r);
 
@@ -949,8 +950,6 @@ void CPlot::contextMenuEvent(QContextMenuEvent *event)
         return ;
     }
 
-
-
     QMenu menu(this);
     menu.addAction(hZoomAct);
     menu.addAction(vZoomAct);
@@ -1012,7 +1011,6 @@ void CPlot::slotSave()
     QString pathData = cfg.value("path/data","./").toString();
     QString filter   = cfg.value("trackstat/imagetype","Bitmap (*.png)").toString();
 
-
     QString filename = QFileDialog::getSaveFileName( 0, tr("Select output file")
         ,pathData
         ,"Bitmap (*.png)"
@@ -1049,6 +1047,7 @@ void CPlot::slotAddWpt()
     double x = getXValByPixel(posWpt.x());
     emit sigSetWaypoint(x);
 }
+
 
 void CPlot::zoom(CPlotAxis &axis, bool in, int curInt)
 {
@@ -1191,6 +1190,7 @@ void CPlot::mousePressEvent(QMouseEvent * e)
 
 }
 
+
 void CPlot::leaveEvent(QEvent * event)
 {
     cursorFocus = false;
@@ -1203,6 +1203,7 @@ void CPlot::leaveEvent(QEvent * event)
     update();
 }
 
+
 void CPlot::enterEvent(QEvent * event)
 {
     cursorFocus = true;
@@ -1210,6 +1211,7 @@ void CPlot::enterEvent(QEvent * event)
     QApplication::setOverrideCursor(Qt::PointingHandCursor);
     update();
 }
+
 
 void CPlot::slotTrkPt(CTrack::pt_t * pt)
 {
@@ -1236,6 +1238,7 @@ void CPlot::slotTrkPt(CTrack::pt_t * pt)
     update();
 }
 
+
 void CPlot::slotPointOfFocus(const int idx)
 {
     selTrkPt = 0;
@@ -1261,6 +1264,7 @@ void CPlot::slotPointOfFocus(const int idx)
 
     }
 }
+
 
 void CPlot::slotHighlightSection(double x1, double x2)
 {

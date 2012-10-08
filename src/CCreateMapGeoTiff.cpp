@@ -105,6 +105,7 @@ CCreateMapGeoTiff::CCreateMapGeoTiff(QWidget * parent)
     tabWidget->setCurrentIndex(0);
 }
 
+
 CCreateMapGeoTiff::~CCreateMapGeoTiff()
 {
     if(closemap) CMapDB::self().closeMap();
@@ -119,6 +120,7 @@ CCreateMapGeoTiff::~CCreateMapGeoTiff()
     cfg.setValue("create/overview/32", check32x->isChecked());
 
 }
+
 
 bool CCreateMapGeoTiff::eventFilter(QObject * watched, QEvent * event)
 {
@@ -151,7 +153,6 @@ bool CCreateMapGeoTiff::eventFilter(QObject * watched, QEvent * event)
                 idx--;
             }
 
-
             if(idx < 0)
             {
                 return QWidget::eventFilter(watched, event);
@@ -172,6 +173,7 @@ bool CCreateMapGeoTiff::eventFilter(QObject * watched, QEvent * event)
 
     return QWidget::eventFilter(watched, event);
 }
+
 
 void CCreateMapGeoTiff::selRefPointByKey(const quint32 key)
 {
@@ -729,8 +731,6 @@ void CCreateMapGeoTiff::slotGoOn()
     tabWidget->setTabEnabled(2,true);
     tabWidget->setCurrentIndex(2);
 
-
-
     // get / store target projection
     QString gcpproj = lineGCPProjection->text();
     QString mapproj = lineMapProjection->text();
@@ -739,8 +739,6 @@ void CCreateMapGeoTiff::slotGoOn()
         mapproj = "+proj=merc +ellps=WGS84 +datum=WGS84 +no_defs";
     }
     islonlat = mapproj.contains("longlat");
-
-
 
     SETTINGS;
     cfg.setValue("create/mapproj",mapproj);
@@ -768,7 +766,7 @@ void CCreateMapGeoTiff::slotGoOn()
             {
                 return;
             }
-//            qDebug() << "islonlat" << lon << lat;
+            //            qDebug() << "islonlat" << lon << lat;
         }
         else
         {
@@ -777,10 +775,8 @@ void CCreateMapGeoTiff::slotGoOn()
                 return;
             }
 
-//            qDebug() << "!islonlat" << lon << lat;
+            //            qDebug() << "!islonlat" << lon << lat;
         }
-
-
 
         u1 = u2; u2 = lon;
         v1 = v2; v2 = lat;
@@ -1032,6 +1028,7 @@ void CCreateMapGeoTiff::slotProjWizard()
     CDlgProjWizzard dlg(*lineMapProjection, this);
     dlg.exec();
 }
+
 
 void CCreateMapGeoTiff::slotGCPProjWizard()
 {

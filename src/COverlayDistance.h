@@ -86,7 +86,7 @@ class COverlayDistance : public IOverlay
 
         static void setShowBullets(bool show){showBullets = show;}
         static bool getShowBullets(){return showBullets;}
-    signals:
+        signals:
         void sigSelectionChanged();
 
     private slots:
@@ -155,5 +155,4 @@ class COverlayDistance : public IOverlay
 };
 
 #define OVL_NOFLOAT 1e25f
-
 #endif                           //COVERLAYDISTANCE_H

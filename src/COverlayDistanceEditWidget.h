@@ -42,7 +42,6 @@ class COverlayDistanceEditWidget : public QWidget, private Ui::IOverlayDistanceE
         void slotContextMenu(const QPoint& pos);
         void slotDelete();
 
-
     private:
         friend class COverlayDistance;
         enum columns_e {eNo, ePos};
@@ -50,6 +49,4 @@ class COverlayDistanceEditWidget : public QWidget, private Ui::IOverlayDistanceE
         QPointer<COverlayDistance> ovl;
         QMenu * contextMenu;
 };
-
-#endif //COVERLAYDISTANCEEDITWIDGET_H
-
+#endif                           //COVERLAYDISTANCEEDITWIDGET_H

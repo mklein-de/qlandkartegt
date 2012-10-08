@@ -45,7 +45,7 @@ bool CRouteDB::keyLessThanTime(keys_t&  s1, keys_t&  s2)
 
 
 CRouteDB::CRouteDB(QTabWidget * tb, QObject * parent)
-    : IDB(IDB::eTypeRte, tb, parent)
+: IDB(IDB::eTypeRte, tb, parent)
 , cnt(0)
 {
     m_self      = this;
@@ -217,7 +217,6 @@ void CRouteDB::loadGPX(CGpx& gpx)
             r->setParentWpt(rte.namedItem("parent").toElement().text());
         }
 
-
         QDomElement rtept = rte.firstChildElement("rtept");
 
         while (!rtept.isNull())
@@ -235,7 +234,6 @@ void CRouteDB::loadGPX(CGpx& gpx)
             pt.v = attr.namedItem("lat").nodeValue().toDouble();
 
             r->addPosition(pt.u,pt.v, name);
-
 
             if(rtept.namedItem("sym").isElement())
             {
@@ -277,7 +275,6 @@ void CRouteDB::saveGPX(CGpx& gpx, const QStringList& keys)
             ++route;
             continue;
         }
-
 
         QDomElement rte = gpx.createElement("rte");
         root.appendChild(rte);
@@ -474,8 +471,6 @@ void CRouteDB::draw(QPainter& p, const QRect& rect, bool& needsRedraw)
         QPolygon& points    = (*route)->getPoints();
         bool firstTime      = (*route)->firstTime;
 
-
-
         if ( needsRedraw || firstTime)
         {
             bool isPriRoute = (*route)->secRoute.isEmpty();
@@ -562,6 +557,7 @@ void CRouteDB::draw(QPainter& p, const QRect& rect, bool& needsRedraw)
 
 }
 
+
 void CRouteDB::drawArrows(const QPolygon& line, const QRect& viewport, QPainter& p)
 {
     QPointF arrow[4] =
@@ -571,7 +567,6 @@ void CRouteDB::drawArrows(const QPolygon& line, const QRect& viewport, QPainter&
         QPointF( 5.0, 7.0),      //mid tail
         QPointF( 0.0, 15.0)      //lower tail
     };
-
 
     QPoint  pt, pt1, ptt;
 
@@ -589,10 +584,9 @@ void CRouteDB::drawArrows(const QPolygon& line, const QRect& viewport, QPainter&
     t_paint.drawPolygon(arrow, 4);
     t_paint.end();
 
-
     foreach(pt,line)
     {
-        if(start)        // no arrow on  the first loop
+        if(start)                // no arrow on  the first loop
         {
             start = false;
         }
@@ -606,7 +600,7 @@ void CRouteDB::drawArrows(const QPolygon& line, const QRect& viewport, QPainter&
             {
                 continue;
             }
-                         // keep distance
+            // keep distance
             if((abs(pt.x() - ptt.x()) + abs(pt.y() - ptt.y())) > 100)
             {
                 if(0 != pt.x() - pt1.x() && (pt.y() - pt1.y()))
@@ -619,7 +613,7 @@ void CRouteDB::drawArrows(const QPolygon& line, const QRect& viewport, QPainter&
                     p.rotate(heading);
                     p.drawImage(-11, -7, arrow_pic);
                     p.restore();
-                         //remember last point
+                    //remember last point
                     ptt = pt;
                 }
             }
@@ -712,9 +706,9 @@ QList<CRouteDB::keys_t> CRouteDB::keys()
             break;
     }
 
-
     return k;
 }
+
 
 void CRouteDB::makeVisible(const QStringList& keys)
 {
@@ -743,6 +737,7 @@ void CRouteDB::makeVisible(const QStringList& keys)
 
 }
 
+
 void CRouteDB::loadSecondaryRoute(const QString& key, QDomDocument& xml, CRoute::service_e service)
 {
     if(routes.contains(key))
@@ -753,6 +748,7 @@ void CRouteDB::loadSecondaryRoute(const QString& key, QDomDocument& xml, CRoute:
         emitSigModified(key);
     }
 }
+
 
 void CRouteDB::reset(const QString& key)
 {

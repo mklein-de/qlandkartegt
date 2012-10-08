@@ -1,6 +1,6 @@
 /**********************************************************************************************
     Copyright (C) 2008 Oliver Eichler oliver.eichler@gmx.de
-	Copyright (C) 2010 Christian Treffs ctreffs@gmail.com
+    Copyright (C) 2010 Christian Treffs ctreffs@gmail.com
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -26,7 +26,6 @@
 
 #include <QtGui>
 
-
 CTrackStatExtensionWidget::CTrackStatExtensionWidget(type_e type, QWidget * parent,  QString name)
 : ITrackStat(type, parent)
 , needResetZoom(true)
@@ -35,7 +34,7 @@ CTrackStatExtensionWidget::CTrackStatExtensionWidget(type_e type, QWidget * pare
     myName = name;
     setObjectName(name);
     setToolTip(name);
-    
+
     connect(&CTrackDB::self(),SIGNAL(sigChanged()),this,SLOT(slotChanged()));
     connect(&CTrackDB::self(), SIGNAL(sigHighlightTrack(CTrack*)), this, SLOT(slotSetTrack(CTrack*)));
 
@@ -68,12 +67,12 @@ void CTrackStatExtensionWidget::slotChanged()
 
     QList<CTrack::pt_t>& trkpts = track->getTrackPoints();
     QList<CTrack::pt_t>::iterator trkpt = trkpts.begin();
-    
+
     while(trkpt != trkpts.end())
     {
                                  //Wert einfgen
         QString val1 = trkpt->gpx_exts.getValue(myName);
-        if (val1 == "")     
+        if (val1 == "")
         {
             val = 0;
         }
@@ -84,7 +83,7 @@ void CTrackStatExtensionWidget::slotChanged()
 
         if(trkpt->flags & CTrack::pt_t::eDeleted)
         {
-            ++trkpt; 
+            ++trkpt;
             continue;
         }
 

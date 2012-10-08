@@ -36,6 +36,4 @@ class CDlgParentWpt : public QDialog, private Ui::IDlgParentWpt
     private:
         QString& name;
 };
-
-#endif //CDLGPARENTWPT_H
-
+#endif                           //CDLGPARENTWPT_H

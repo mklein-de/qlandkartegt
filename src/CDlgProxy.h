@@ -36,6 +36,4 @@ class CDlgProxy : public QDialog, private Ui::ProxyDialog
         QString& user;
         QString& pwd;
 };
-
-#endif //CDLGPROXY_H
-
+#endif                           //CDLGPROXY_H

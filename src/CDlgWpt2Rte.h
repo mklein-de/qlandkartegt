@@ -20,7 +20,6 @@
 #ifndef CDLGWPT2RTE_H
 #define CDLGWPT2RTE_H
 
-
 #include <QDialog>
 #include <QList>
 #include "ui_IDlgWpt2Rte.h"
@@ -47,6 +46,4 @@ class CDlgWpt2Rte  : public QDialog, private Ui::IDlgWpt2Rte
     private:
         QList<CWpt*>& selWpt;
 };
-
-#endif //CDLGWPT2RTE_H
-
+#endif                           //CDLGWPT2RTE_H

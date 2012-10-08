@@ -275,13 +275,13 @@ void CGarminTile::readBasics(const QString& fn)
 
         readSubfileBasics(*subfile, file);
 
-// dem test code ----- start
+        // dem test code ----- start
         if((*subfile).parts.contains("DEM"))
         {
-//            qDebug() <<   fn;
-//            readDEM(*subfile, file);
+            //            qDebug() <<   fn;
+            //            readDEM(*subfile, file);
         }
-// dem test code ----- end
+        // dem test code ----- end
         ++subfile;
     }
 }
@@ -295,7 +295,6 @@ void CGarminTile::readDEM(subfile_desc_t& subfile, QFileExt &file)
     readFile(file, subfile.parts["DEM"].offset, sizeof(hdr_dem_t), demhdr);
     hdr_dem_t * pDemHdr = (hdr_dem_t * )demhdr.data();
 
-
     quint16 levels  = gar_load(uint16_t,pDemHdr->levels);
     quint32 size    = gar_load(uint32_t, pDemHdr->blk3_size);
     quint32 offset  = gar_load(uint32_t, pDemHdr->blk3_offset);
@@ -304,7 +303,6 @@ void CGarminTile::readDEM(subfile_desc_t& subfile, QFileExt &file)
     qDebug() << "levels" << hex << levels;
     qDebug() << "length" << hex << size;
     qDebug() << "offset" << hex << offset;
-
 
     for(i = 0; i < levels; i++)
     {
@@ -334,6 +332,7 @@ void CGarminTile::readDEM(subfile_desc_t& subfile, QFileExt &file)
     }
 
 }
+
 
 //static quint32 rgnoff = 0;
 void CGarminTile::readSubfileBasics(subfile_desc_t& subfile, QFileExt &file)
@@ -726,7 +725,7 @@ void CGarminTile::loadVisibleData(bool fast, polytype_t& polygons, polytype_t& p
     {
         return;
     }
-//    fprintf(stderr, "loadVisibleData(fast:%d, level:%d): %s (%d)\n", fast, level, qPrintable(filename), file.size());
+    //    fprintf(stderr, "loadVisibleData(fast:%d, level:%d): %s (%d)\n", fast, level, qPrintable(filename), file.size());
 
     QMap<QString,subfile_desc_t>::const_iterator subfile = subfiles.constBegin();
     while(subfile != subfiles.constEnd())
@@ -812,7 +811,6 @@ static inline bool isCompletlyOutside(const QVector<double> &u, const QVector<do
     {
         return false;
     }
-
 
     return true;
 }
@@ -962,7 +960,6 @@ void CGarminTile::loadSubDiv(QFileExt &file, const subdiv_desc_t& subdiv, IGarmi
                 continue;
             }
 
-
             if(strtbl && !p.lbl_in_NET && p.lbl_info)
             {
                 strtbl->get(file, p.lbl_info,IGarminStrTbl::norm, p.labels);
@@ -1038,7 +1035,6 @@ void CGarminTile::loadSubDiv(QFileExt &file, const subdiv_desc_t& subdiv, IGarmi
             }
 
             polygons.push_back(p);
-
 
         }
     }
@@ -1219,5 +1215,3 @@ void CGarminTile::loadPolygonsOfType(polytype_t& polygons, quint16 type, unsigne
         ++subfile;
     }
 }
-
-

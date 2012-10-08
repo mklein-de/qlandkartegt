@@ -24,7 +24,7 @@
 #include <QtGui>
 
 CDlgCombineDistOvl::CDlgCombineDistOvl(QWidget * parent)
-    : QDialog(parent)
+: QDialog(parent)
 {
 
     setupUi(this);
@@ -57,10 +57,12 @@ CDlgCombineDistOvl::CDlgCombineDistOvl(QWidget * parent)
 
 }
 
+
 CDlgCombineDistOvl::~CDlgCombineDistOvl()
 {
 
 }
+
 
 void CDlgCombineDistOvl::slotAdd()
 {
@@ -93,7 +95,6 @@ void CDlgCombineDistOvl::accept()
 
     if(items.isEmpty() || lineOverlayName->text().isEmpty()) return;
 
-
     QList<COverlayDistance::pt_t> points;
     foreach(item, items)
     {
@@ -111,7 +112,6 @@ void CDlgCombineDistOvl::accept()
 
     QDialog::accept();
 }
-
 
 
 void CDlgCombineDistOvl::slotItemSelectionChanged ()
@@ -157,4 +157,3 @@ void CDlgCombineDistOvl::slotDown()
         listSelOverlays->setCurrentItem(item);
     }
 }
-

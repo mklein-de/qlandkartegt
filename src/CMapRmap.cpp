@@ -22,7 +22,6 @@
 #include "CCanvas.h"
 #include "CSettings.h"
 
-
 #include <QtGui>
 
 CMapRmap::CMapRmap(const QString &key, const QString &fn, CCanvas *parent)
@@ -81,7 +80,6 @@ CMapRmap::CMapRmap(const QString &key, const QString &fn, CCanvas *parent)
         levels << level;
     }
 
-
     for(int i=0; i<levels.size(); i++)
     {
         level_t& level = levels[i];
@@ -99,7 +97,6 @@ CMapRmap::CMapRmap(const QString &key, const QString &fn, CCanvas *parent)
             level.offsetJpegs << offset;
         }
     }
-
 
     file.seek(mapDataOffset);
     stream >> tmp32 >> tmp32;
@@ -228,7 +225,7 @@ CMapRmap::CMapRmap(const QString &key, const QString &fn, CCanvas *parent)
         }
         else
         {
-//            qDebug() << line;
+            //            qDebug() << line;
         }
         qDebug() << line;
     }
@@ -321,9 +318,9 @@ CMapRmap::CMapRmap(const QString &key, const QString &fn, CCanvas *parent)
     cfg.endGroup();
     cfg.endGroup();
 
-
     zoom(zoomidx);
 }
+
 
 CMapRmap::~CMapRmap()
 {
@@ -341,6 +338,7 @@ CMapRmap::~CMapRmap()
     cfg.endGroup();
 
 }
+
 
 bool CMapRmap::setProjection(const QString& projection, const QString& datum)
 {
@@ -372,7 +370,6 @@ bool CMapRmap::setProjection(const QString& projection, const QString& datum)
         projstr += "+proj=tmerc +lat_0=0 +lon_0=9  +k=1 +x_0=3500000 +y_0=0";
     }
 
-
     if(datum == "WGS 84")
     {
         projstr += " +datum=WGS84 +units=m +no_defs";
@@ -391,7 +388,6 @@ bool CMapRmap::setProjection(const QString& projection, const QString& datum)
     char * ptr = pj_get_def(pjsrc,0);
     qDebug() << "rmap:" << ptr;
 
-
     return true;
 }
 
@@ -401,6 +397,7 @@ void CMapRmap::convertPt2M(double& u, double& v)
     u = x + u * xscale * zoomFactor;
     v = y + v * yscale * zoomFactor;
 }
+
 
 void CMapRmap::convertM2Pt(double& u, double& v)
 {
@@ -429,6 +426,7 @@ void CMapRmap::move(const QPoint& old, const QPoint& next)
 
     setAngleNorth();
 }
+
 
 void CMapRmap::zoom(bool zoomIn, const QPoint& p0)
 {
@@ -484,6 +482,7 @@ void CMapRmap::zoom(bool zoomIn, const QPoint& p0)
     emit sigChanged();
 }
 
+
 void CMapRmap::zoom(double lon1, double lat1, double lon2, double lat2)
 {
     if(pjsrc == 0) return;
@@ -529,6 +528,7 @@ void CMapRmap::zoom(double lon1, double lat1, double lon2, double lat2)
     qDebug() << "zoom:" << zoomFactor;
 }
 
+
 void CMapRmap::zoom(qint32& level)
 {
     if(pjsrc == 0) return;
@@ -547,6 +547,7 @@ void CMapRmap::zoom(qint32& level)
     qDebug() << "zoom:" << zoomFactor;
 }
 
+
 void CMapRmap::dimensions(double& lon1, double& lat1, double& lon2, double& lat2)
 {
     if(pjsrc == 0) return;
@@ -560,6 +561,7 @@ void CMapRmap::dimensions(double& lon1, double& lat1, double& lon2, double& lat2
     pj_transform(pjsrc,pjtar,1,0,&lon2,&lat2,0);
 
 }
+
 
 void CMapRmap::getArea_n_Scaling(projXY& p1, projXY& p2, float& my_xscale, float& my_yscale)
 {
@@ -576,6 +578,7 @@ void CMapRmap::getArea_n_Scaling(projXY& p1, projXY& p2, float& my_xscale, float
     my_xscale   = xscale * zoomFactor;
     my_yscale   = yscale * zoomFactor;
 }
+
 
 CMapRmap::level_t& CMapRmap::findBestLevel(double sx, double sy)
 {
@@ -597,6 +600,7 @@ CMapRmap::level_t& CMapRmap::findBestLevel(double sx, double sy)
 
     return levels[i];
 }
+
 
 void CMapRmap::draw(QPainter& p)
 {
@@ -648,6 +652,7 @@ void CMapRmap::draw(QPainter& p)
         p.drawText(10,24,str);
     }
 }
+
 
 void CMapRmap::draw()
 {
@@ -712,4 +717,3 @@ void CMapRmap::draw()
         }
     }
 }
-

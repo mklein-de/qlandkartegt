@@ -98,8 +98,6 @@ class CMapCropStateOptimize : public IMapCropState
 
 };
 
-
-
 class CDlgCropMap : public QDialog, private Ui::IDlgCropMap
 {
     Q_OBJECT;
@@ -122,7 +120,6 @@ class CDlgCropMap : public QDialog, private Ui::IDlgCropMap
         void slotCancel();
         void slotDetails();
 
-
     private:
         void progress(const QString& str);
 
@@ -142,6 +139,4 @@ class CDlgCropMap : public QDialog, private Ui::IDlgCropMap
 
         int totalNumberOfStates;
 };
-
-#endif //CDLGCROPMAP_H
-
+#endif                           //CDLGCROPMAP_H

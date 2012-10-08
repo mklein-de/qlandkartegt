@@ -40,6 +40,4 @@ class CDlgSelGeoDBFolder : public QDialog, private Ui::IDlgSelGeoDBFolder
         quint64& result;
         bool topLevelToo;
 };
-
-#endif //CDLGSELGEODBFOLDER_H
-
+#endif                           //CDLGSELGEODBFOLDER_H

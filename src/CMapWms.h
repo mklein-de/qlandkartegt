@@ -60,7 +60,7 @@ class CMapWms : public IMap
 
     private slots:
         void slotRequestFinished(QNetworkReply* reply);
-		void slotProxyAuthenticationRequired(const QNetworkProxy&, QAuthenticator*);	
+        void slotProxyAuthenticationRequired(const QNetworkProxy&, QAuthenticator*);
 
     private:
         void convertPixel2M(double& u, double& v);
@@ -133,6 +133,4 @@ class CMapWms : public IMap
         qint32 maxZoomLevel;
 
 };
-
-#endif //CMAPWMS_H
-
+#endif                           //CMAPWMS_H

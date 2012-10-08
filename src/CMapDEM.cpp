@@ -126,10 +126,12 @@ CMapDEM::CMapDEM(const QString& filename, CCanvas * parent)
 
 }
 
+
 bool CMapDEM::loaded()
 {
     return (dataset != 0) && (status != 0);
 }
+
 
 CMapDEM::~CMapDEM()
 {
@@ -483,7 +485,7 @@ void CMapDEM::draw()
     GDALRasterBand * pBand;
     pBand = dataset->GetRasterBand(1);
     CPLErr err = pBand->RasterIO(GF_Read, xoff1, yoff1, std::min(w1, xsize_px - xoff1),
-                                 std::min(h1, ysize_px - yoff1), data.data(), w1, h1, GDT_Int16, 0, 0);
+        std::min(h1, ysize_px - yoff1), data.data(), w1, h1, GDT_Int16, 0, 0);
     if(err == CE_Failure)
     {
         return;

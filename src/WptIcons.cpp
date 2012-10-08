@@ -22,9 +22,7 @@
 #include "CSettings.h"
 #include <QtCore>
 
-
 const char * wptDefault = ":/icons/iconWaypoint16x16.png";
-
 
 static QMap<QString, QString> wptIcons;
 
@@ -74,7 +72,6 @@ void initWptIcons()
     wptIcons["Blue Diamond"]        = ":/icons/wpt/diamond_blue15x15.png";
     wptIcons["Green Diamond"]       = ":/icons/wpt/diamond_green15x15.png";
     wptIcons["Red Diamond"]         = ":/icons/wpt/diamond_red15x15.png";
-
 
     SETTINGS;
 
@@ -128,6 +125,7 @@ void initWptIcons()
     }
 }
 
+
 QPixmap loadIcon(const QString& path)
 {
     QFileInfo finfo(path);
@@ -150,6 +148,7 @@ void setWptIconByName(const QString& name, const QString& filename)
 {
     wptIcons[name] = filename;
 }
+
 
 void setWptIconByName(const QString& name, const QPixmap& icon)
 {

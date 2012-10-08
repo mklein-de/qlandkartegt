@@ -43,6 +43,4 @@ class CCreateMapFineTune : public QWidget, private Ui::ICreateMapFineTune
         friend int CPL_STDCALL ProgressFunc(double dfComplete, const char *pszMessage, void *pProgressArg);
         QDir path;
 };
-
-#endif //CCREATEMAPFINETUNE_H
-
+#endif                           //CCREATEMAPFINETUNE_H

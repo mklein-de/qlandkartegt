@@ -41,37 +41,37 @@
 
 #include <QtGui>
 
-
 #ifdef Q_WS_MAC
 #include <CoreFoundation/CoreFoundation.h>
 
 template<class T>
 class CFType
 {
-public:
-    CFType(const T & t) : ref(t) { }
-    ~CFType() { CFRelease(ref); }
-    operator T() const { return ref; }
+    public:
+        CFType(const T & t) : ref(t) { }
+        ~CFType() { CFRelease(ref); }
+        operator T() const { return ref; }
 
-private:
-    T ref;
+    private:
+        T ref;
 };
 
 static QString CFStringToQString(const CFStringRef & str)
 {
     CFIndex length = CFStringGetLength(str);
     const UniChar * chars = CFStringGetCharactersPtr(str);
-    if (chars == 0) {
+    if (chars == 0)
+    {
         UniChar buffer[length];
         CFStringGetCharacters(str, CFRangeMake(0, length), buffer);
         return QString(reinterpret_cast<const QChar *>(buffer), length);
-    } else {
+    }
+    else
+    {
         return QString(reinterpret_cast<const QChar *>(chars), length);
     }
 }
-
 #endif
-
 
 bool CTrackTreeWidgetItem::operator< ( const QTreeWidgetItem & other ) const
 {
@@ -252,6 +252,7 @@ void CTrackEditWidget::keyPressEvent(QKeyEvent * e)
     }
 }
 
+
 void CTrackEditWidget::resizeEvent(QResizeEvent * e)
 {
     QWidget::resizeEvent(e);
@@ -264,6 +265,7 @@ void CTrackEditWidget::resizeEvent(QResizeEvent * e)
     oldSize = e->size();
 }
 
+
 void CTrackEditWidget::slotContextMenu(const QPoint& pos)
 {
     int cnt = treePoints->selectedItems().count();
@@ -271,7 +273,6 @@ void CTrackEditWidget::slotContextMenu(const QPoint& pos)
     {
 
         actSplit->setEnabled(cnt == 1);
-
 
         QPoint p = treePoints->mapToGlobal(pos);
         contextMenu->exec(p);
@@ -308,6 +309,7 @@ void CTrackEditWidget::slotResetAllZoom()
     }
 }
 
+
 void CTrackEditWidget::slotSplit()
 {
     QList<QTreeWidgetItem *> items = treePoints->selectedItems();
@@ -334,7 +336,6 @@ void CTrackEditWidget::slotSetTrack(CTrack * t)
         disconnect(track,SIGNAL(sigChanged()), this, SLOT(slotUpdate()));
         disconnect(track,SIGNAL(destroyed(QObject*)), this, SLOT(deleteLater()));
 
-
 #ifdef GPX_EXTENSIONS
         //delete all extension tabs and reset tab status
         int num_of_tabs  = trackStatExtensions.size();
@@ -351,7 +352,8 @@ void CTrackEditWidget::slotSetTrack(CTrack * t)
 
         //delete extensions columns in table
         //get names and number of extensions
-        QList<QString> names_of_ext = track->tr_ext.set.toList();                                 //Anzahl der Extensions
+                                 //Anzahl der Extensions
+        QList<QString> names_of_ext = track->tr_ext.set.toList();
         int num_of_ext              = names_of_ext.size();
         for(int i=0; i < num_of_ext; ++i)
         {
@@ -391,7 +393,8 @@ void CTrackEditWidget::slotSetTrack(CTrack * t)
 #ifdef GPX_EXTENSIONS
 
     //get names and number of extensions
-    QList<QString> names_of_ext = track->tr_ext.set.toList();                                 //Anzahl der Extensions
+                                 //Anzahl der Extensions
+    QList<QString> names_of_ext = track->tr_ext.set.toList();
     int num_of_ext              = names_of_ext.size();
 
     if (num_of_ext)
@@ -445,7 +448,7 @@ void CTrackEditWidget::slotSetTrack(CTrack * t)
             font.setStyleStrategy(QFont::PreferDefault);
             label->setFont(font);
             label->setAlignment(Qt::AlignCenter);
-             //keine extensions Elemente in dieser Datei
+            //keine extensions Elemente in dieser Datei
             label->setText(tr("no extensions elements in this file"));
             verticalLayout_Extensions->addWidget(label);
             no_ext_info_stat = 1;
@@ -499,7 +502,7 @@ void CTrackEditWidget::slotSetTrack(CTrack * t)
 #ifdef GPX_EXTENSIONS
     for(int i=0; i < eMaxColumn+num_of_ext-1; ++i)
 #else
-    for(int i=0; i < eMaxColumn; ++i)
+        for(int i=0; i < eMaxColumn; ++i)
 #endif
     {
         treePoints->resizeColumnToContents(i);
@@ -510,7 +513,6 @@ void CTrackEditWidget::slotSetTrack(CTrack * t)
 
     slotStagesChanged();
 }
-
 
 
 void CTrackEditWidget::slotUpdate()
@@ -530,7 +532,8 @@ void CTrackEditWidget::slotUpdate()
     //TODO: endable ext. sym. only when there are exts
 
     //get names and number of extensions
-    QList<QString> names_of_ext = track->tr_ext.set.toList();                                 //Anzahl der Extensions
+                                 //Anzahl der Extensions
+    QList<QString> names_of_ext = track->tr_ext.set.toList();
     int num_of_ext              = names_of_ext.size();
 
     if (num_of_ext == 0)
@@ -598,7 +601,7 @@ void CTrackEditWidget::slotUpdate()
 #ifdef GPX_EXTENSIONS
             for(i = 0; i < eMaxColumn+num_of_ext; ++i)
 #else
-            for(i = 0; i < eMaxColumn; ++i)
+                for(i = 0; i < eMaxColumn; ++i)
 #endif
             {
                 item->setForeground(i,QBrush(Qt::gray));
@@ -610,7 +613,7 @@ void CTrackEditWidget::slotUpdate()
 #ifdef GPX_EXTENSIONS
             for(i = 0; i < eMaxColumn+num_of_ext; ++i)
 #else
-            for(i = 0; i < eMaxColumn; ++i)
+                for(i = 0; i < eMaxColumn; ++i)
 #endif
             {
                 item->setForeground(i,QBrush(Qt::black));
@@ -704,11 +707,9 @@ void CTrackEditWidget::slotUpdate()
         }
         item->setText(eSpeed,str);
 
-
         // position
         GPS_Math_Deg_To_Str(trkpt->lon, trkpt->lat, str);
         item->setText(ePosition,str);
-
 
 #ifdef GPX_EXTENSIONS
         //fill cells of tracklist with extensions
@@ -851,9 +852,9 @@ void CTrackEditWidget::slotShowProfile()
     theMainWindow->getCanvasTab()->setCurrentWidget(trackStatProfileDist);
 }
 
+
 void CTrackEditWidget::slotToggleStatDistance()
 {
-
 
     if(trackStatSpeedDist.isNull())
     {
@@ -952,7 +953,8 @@ void CTrackEditWidget::slotToggleExtensionsGraph()
 
             //add tab
             theMainWindow->getCanvasTab()->addTab(tab, name+"/t");
-            trackStatExtensions.insert(i, tab); //add Tab index to list for further handling
+                                 //add Tab index to list for further handling
+            trackStatExtensions.insert(i, tab);
         }
         connect(theMainWindow->getCanvasTab(),SIGNAL(tabCloseRequested(int)),this,SLOT(slotKillTab(int)));
         tabstat = 1;
@@ -972,7 +974,6 @@ void CTrackEditWidget::slotToggleExtensionsGraph()
         tabstat = 0;
         trackStatExtensions.clear();
     }
-
 
     //Tab Settings
     theMainWindow->getCanvasTab()->setTabPosition(QTabWidget::South);
@@ -1072,7 +1073,6 @@ void CTrackEditWidget::slotSetColumnsExt(bool checked)
 }
 #endif
 
-
 //TODO: Show Track in Google Maps
 void CTrackEditWidget::slotGoogleMaps()
 {
@@ -1151,6 +1151,7 @@ void CTrackEditWidget::slotKillTab(int index)
     }
 }
 
+
 void CTrackEditWidget::slotColorChanged(int idx)
 {
     if(track.isNull()) return;
@@ -1163,6 +1164,7 @@ void CTrackEditWidget::slotColorChanged(int idx)
         CTrackDB::self().emitSigModified();
     }
 }
+
 
 void CTrackEditWidget::slotNameChanged(const QString& name)
 {
@@ -1179,6 +1181,7 @@ void CTrackEditWidget::slotNameChanged(const QString& name)
     }
     lineName->setPalette(palette);
 }
+
 
 void CTrackEditWidget::slotNameChanged()
 {
@@ -1198,7 +1201,6 @@ void CTrackEditWidget::slotNameChanged()
         palette.setColor(QPalette::Base, QColor(128, 255, 128));
     }
 
-
     lineName->setPalette(palette);
 }
 
@@ -1211,6 +1213,7 @@ void CTrackEditWidget::slotReset()
     emit CTrackDB::self().sigModified();
     emit CTrackDB::self().sigModified(track->getKey());
 }
+
 
 void CTrackEditWidget::slotDelete()
 {
@@ -1254,6 +1257,7 @@ void CTrackEditWidget::slotDelete()
     CTrackDB::self().emitSigModified();
 }
 
+
 void CTrackEditWidget::slotCurrentChanged(int idx)
 {
     if(idx == eStages)
@@ -1268,6 +1272,7 @@ void CTrackEditWidget::slotStagesChanged(int state)
     if(track.isNull() || originator) return;
     track->setDoScaleWpt2Track((Qt::CheckState)state);
 }
+
 
 void CTrackEditWidget::slotStagesChanged()
 {
@@ -1290,6 +1295,7 @@ void CTrackEditWidget::slotStagesChanged()
 
 }
 
+
 void CTrackEditWidget::slotPointOfFocus(const int idx)
 {
     int cnt = 0;
@@ -1310,7 +1316,7 @@ void CTrackEditWidget::slotPointOfFocus(const int idx)
 
     foreach(const CTrack::wpt_t& wpt, wpts)
     {
-//        qDebug() << idx << wpt.trkpt.idx;
+        //        qDebug() << idx << wpt.trkpt.idx;
 
         x2 = wpt.trkpt.distance;
 
@@ -1342,6 +1348,7 @@ void CTrackEditWidget::slotPointOfFocus(const int idx)
     }
 }
 
+
 void CTrackEditWidget::slotHighlightArea(const QString& key)
 {
     if(lastStageKey == key)
@@ -1365,10 +1372,10 @@ void CTrackEditWidget::slotHighlightArea(const QString& key)
     }
 }
 
+
 #define CHAR_PER_LINE 120
 #define ROOT_FRAME_MARGIN 5
 #define BASE_FONT_SIZE  9
-
 
 void CTrackEditWidget::updateStages()
 {
@@ -1396,7 +1403,6 @@ void CTrackEditWidget::updateStages()
     f.setPointSize(pointSize);
     textStages->setFont(f);
 
-
     // copied from CDiaryEdit
     QTextCharFormat fmtCharStandard;
     fmtCharStandard.setFont(f);
@@ -1410,7 +1416,6 @@ void CTrackEditWidget::updateStages()
     fmtCharHeader.setBackground(Qt::darkBlue);
     fmtCharHeader.setFontWeight(QFont::Bold);
     fmtCharHeader.setForeground(Qt::white);
-
 
     QTextBlockFormat fmtBlockStandard;
     fmtBlockStandard.setTopMargin(10);
@@ -1448,11 +1453,11 @@ void CTrackEditWidget::updateStages()
 
     QVector<QTextLength> constraints;
     constraints << QTextLength(QTextLength::FixedLength, 32);
-//    constraints << QTextLength(QTextLength::VariableLength, 50);
-//    constraints << QTextLength(QTextLength::VariableLength, 30);
-//    constraints << QTextLength(QTextLength::VariableLength, 30);
-//    constraints << QTextLength(QTextLength::VariableLength, 30);
-//    constraints << QTextLength(QTextLength::VariableLength, 100);
+    //    constraints << QTextLength(QTextLength::VariableLength, 50);
+    //    constraints << QTextLength(QTextLength::VariableLength, 30);
+    //    constraints << QTextLength(QTextLength::VariableLength, 30);
+    //    constraints << QTextLength(QTextLength::VariableLength, 30);
+    //    constraints << QTextLength(QTextLength::VariableLength, 100);
     fmtTableStandard.setColumnWidthConstraints(constraints);
 
     doc->rootFrame()->setFrameFormat(fmtFrameRoot);
@@ -1466,7 +1471,6 @@ void CTrackEditWidget::updateStages()
         table->cellAt(0,i).setFormat(fmtCharHeader);
         table->cellAt(1,i).setFormat(fmtCharHeader);
     }
-
 
     // header -------------------------
     table->mergeCells(0, eEleWpt, 1, 2);
@@ -1507,7 +1511,6 @@ void CTrackEditWidget::updateStages()
     table->cellAt(1,eTotalAsc).firstCursorPosition().insertText(QChar(0x2197));
     table->cellAt(1,eTotalDesc).firstCursorPosition().setBlockFormat(fmtBlockCenter);
     table->cellAt(1,eTotalDesc).firstCursorPosition().insertText(QChar(0x2198));
-
 
     // first entry -------------------------
     stage_t stage;
@@ -1695,7 +1698,6 @@ void CTrackEditWidget::updateStages()
     }
 
     // prepare data -------------------------------
-
 
     QString eleTrk;
     {

@@ -25,7 +25,6 @@
 #include <QMap>
 #include <QRectF>
 
-
 class CMapSelectionGarmin : public IMapSelection
 {
     public:

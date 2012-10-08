@@ -50,11 +50,11 @@
 #ifdef WIN32
 #define CMAPTDB_MIN(x,y) _cpp_min(x,y)
 #define CMAPTDB_MAX(x,y) _cpp_max(x,y)
-#else //WIN32
+#else                            //WIN32
 #define CMAPTDB_MIN(x,y) std::min(x,y)
 #define CMAPTDB_MAX(x,y) std::max(x,y)
 #include <pwd.h>
-#endif //WIN32
+#endif                           //WIN32
 
 #define MAX_IDX_ZOOM 35
 #define MIN_IDX_ZOOM 0
@@ -457,11 +457,13 @@ CMapTDB::~CMapTDB()
     qDebug() << "CMapTDB::~CMapTDB()";
 }
 
+
 QString CMapTDB::getCopyright()
 {
 
     return filename + "<br>" + copyright;
 }
+
 
 QString CMapTDB::getMapLevelInfo()
 {
@@ -475,6 +477,7 @@ QString CMapTDB::getMapLevelInfo()
 
     return str;
 }
+
 
 QString CMapTDB::createLegendString(const QMap<int,QString>& strings)
 {
@@ -498,6 +501,7 @@ QString CMapTDB::createLegendString(const QMap<int,QString>& strings)
 
     return lang;
 }
+
 
 QString CMapTDB::getLegendLines()
 {
@@ -542,7 +546,6 @@ QString CMapTDB::getLegendLines()
         {
             continue;
         }
-
 
         str += "<tr>";
         str += QString("<td>%1</td>").arg(createLegendString(prop.strings));
@@ -621,6 +624,7 @@ QString CMapTDB::getLegendLines()
 
     return str;
 }
+
 
 QString CMapTDB::getLegendArea()
 {
@@ -702,6 +706,7 @@ QString CMapTDB::getLegendArea()
     str += "</table>";
     return str;
 }
+
 
 QString CMapTDB::getLegendPoints()
 {
@@ -806,6 +811,7 @@ void CMapTDB::slotToolTip()
     QToolTip::showText(p,str);
 }
 
+
 void CMapTDB::slotPoiLabels(bool checked)
 {
     poiLabels   = checked;
@@ -838,6 +844,7 @@ void CMapTDB::slotLanguageChanged(int idx)
     emit sigChanged();
 }
 
+
 void CMapTDB::slotTypfileChanged(int idx)
 {
     typfile = comboTypfiles->itemData(idx).toString();
@@ -846,6 +853,7 @@ void CMapTDB::slotTypfileChanged(int idx)
     emit sigChanged();
 
 }
+
 
 void CMapTDB::checkMdrFile()
 {
@@ -878,6 +886,7 @@ void CMapTDB::checkMdrFile()
         }
     }
 }
+
 
 void CMapTDB::checkTypFiles()
 {
@@ -936,6 +945,7 @@ void CMapTDB::checkTypFiles()
         connect(comboTypfiles, SIGNAL(currentIndexChanged(int)), this, SLOT(slotTypfileChanged(int)));
     }
 }
+
 
 void CMapTDB::setup()
 {
@@ -1130,8 +1140,6 @@ void CMapTDB::setup()
     polygonProperties[0x59] = IGarminTyp::polygon_property(0x59, Qt::NoPen,     "#0080ff", Qt::SolidPattern);
     polygonProperties[0x69] = IGarminTyp::polygon_property(0x69, Qt::NoPen,     "#0080ff", Qt::SolidPattern);
 
-
-
     polygonProperties[0x01].strings[0x00] = tr("Large urban area (&gt;200K)");
     polygonProperties[0x02].strings[0x00] = tr("Small urban area (&lt;200K)");
     polygonProperties[0x03].strings[0x00] = tr("Rural housing area");
@@ -1176,8 +1184,8 @@ void CMapTDB::setup()
     polygonProperties[0x47].strings[0x00] = tr("Large River");
     polygonProperties[0x48].strings[0x00] = tr("Medium River");
     polygonProperties[0x49].strings[0x00] = tr("Small River");
-//    polygonProperties[0x4a].strings[0x00] = tr("Definition area");
-//    polygonProperties[0x4b].strings[0x00] = tr("Background");
+    //    polygonProperties[0x4a].strings[0x00] = tr("Definition area");
+    //    polygonProperties[0x4b].strings[0x00] = tr("Background");
     polygonProperties[0x4c].strings[0x00] = tr("Intermittent water");
     polygonProperties[0x51].strings[0x00] = tr("Wetland/Swamp");
     polygonProperties[0x4d].strings[0x00] = tr("Glacier");
@@ -1425,7 +1433,7 @@ void CMapTDB::readTDB(const QString& filename)
 
                 copyright += str;
 
-                                 qDebug() << "copyright:" << copyright;
+                qDebug() << "copyright:" << copyright;
             }
             break;
         }
@@ -1555,7 +1563,7 @@ bool CMapTDB::processPrimaryMapData()
     }
 
     /* Add all basemap levels to the list. */
-    quint8 largestBitsBasemap = 0;    
+    quint8 largestBitsBasemap = 0;
     if(basemap_subfile != subfiles.end())
     {
         QVector<CGarminTile::maplevel_t>::const_iterator maplevel = basemap_subfile->maplevels.begin();
@@ -1998,7 +2006,7 @@ void CMapTDB::simplifyPolyline(QPolygonF::iterator begin, QPolygonF::iterator en
                 else
                 {
                     dist = CMAPTDB_MIN(sqrt((p1.x() - p.x()) * (p1.x() - p.x()) + (p1.y() - p.y()) * (p1.y() - p.y())),
-                                    sqrt((p2.x() - p.x()) * (p2.x() - p.x()) + (p2.y() - p.y()) * (p2.y() - p.y())));
+                        sqrt((p2.x() - p.x()) * (p2.x() - p.x()) + (p2.y() - p.y()) * (p2.y() - p.y())));
                 }
 
                 if (dist > max_dist)
@@ -2089,14 +2097,12 @@ void CMapTDB::draw()
         if(bits >= maplevel->bits) break;
     } while(maplevel != maplevels.begin());
 
-
     QRectF viewport(QPointF(topLeft.u, topLeft.v), QPointF(bottomRight.u, bottomRight.v));
     polygons.clear();
     polylines.clear();
     pois.clear();
     points.clear();
     labels.clear();
-
 
     if(maplevel->useBaseMap)
     {
@@ -2418,11 +2424,11 @@ void CMapTDB::drawPolylines(QPainter& p, polytype_t& lines)
         }
 
     }
-//    qDebug() << "pixmapCount:" << pixmapCount
-//        << "borderCount:" << borderCount
-//        << "normalCount:" << normalCount
-//        << "imageCount:" << imageCount
-//        << "deletedCount:" << deletedCount;
+    //    qDebug() << "pixmapCount:" << pixmapCount
+    //        << "borderCount:" << borderCount
+    //        << "normalCount:" << normalCount
+    //        << "imageCount:" << imageCount
+    //        << "deletedCount:" << deletedCount;
 }
 
 
@@ -2499,8 +2505,6 @@ void CMapTDB::drawText(QPainter& p)
             path.moveTo(polyline.first());
             p.drawPixmap(polyline.first(), QPixmap(":/icons/small_bullet_black.png"));
 
-
-
             QPointF p1 = polyline[0];
 
             for(i = 2; i < N; i += 1)
@@ -2554,7 +2558,6 @@ void CMapTDB::drawText(QPainter& p)
 
                 path.cubicTo(c1,p2,p3);
 
-
                 p.drawPixmap(c1, QPixmap(":/icons/small_bullet_red.png"));
                 p.drawPixmap(c2, QPixmap(":/icons/small_bullet_red.png"));
                 p.drawPixmap(p3, QPixmap(":/icons/small_bullet_blue.png"));
@@ -2570,9 +2573,9 @@ void CMapTDB::drawText(QPainter& p)
         {
             path.addPolygon(textpath->polyline);
         }
-#else // BEZIER
+#else                    // BEZIER
         path.addPolygon(textpath->polyline);
-#endif // BEZIER
+#endif                   // BEZIER
 
         // get path length and string length
         qreal length        = fabs(path.length());
@@ -2625,7 +2628,6 @@ void CMapTDB::drawText(QPainter& p)
         qreal percent1  =  offset / length;
         qreal percent2  = (offset + fm.width(text.left(2))) / length;
 
-
         QPointF point1  = path.pointAtPercent(percent1);
 
         QPointF point2  = path.pointAtPercent(percent2);
@@ -2638,7 +2640,6 @@ void CMapTDB::drawText(QPainter& p)
         {
             path    = path.toReversed();
         }
-
 
         // draw string letter by letter and adjust angle
         const int size = text.size();
@@ -2762,6 +2763,7 @@ inline bool isCluttered(QVector<QRect>& rectPois, const QRect& rect)
     rectPois << rect;
     return false;
 }
+
 
 void CMapTDB::drawPoints(QPainter& p, pointtype_t& pts, QVector<QRect>& rectPois)
 {
@@ -3047,7 +3049,7 @@ void CMapTDB::getInfoPolylines(QPoint& pt, QMultiMap<QString, QString>& dict)
 {
     int i = 0;                   // index into poly line
     int len;                     // number of points in line
-    projXY p1, p2;                   // the two points of the polyline close to pt
+    projXY p1, p2;               // the two points of the polyline close to pt
     double dx,dy;                // delta x and y defined by p1 and p2
     double d_p1_p2;              // distance between p1 and p2
     double u;                    // ratio u the tangent point will divide d_p1_p2
@@ -3176,7 +3178,7 @@ static double getDistance(polytype_t::const_iterator& line, QPoint& pt, double t
 {
     int i = 0;                   // index into poly line
     int len;                     // number of points in line
-    projXY p1, p2;                   // the two points of the polyline close to pt
+    projXY p1, p2;               // the two points of the polyline close to pt
     double dx,dy;                // delta x and y defined by p1 and p2
     double d_p1_p2;              // distance between p1 and p2
     double u;                    // ratio u the tangent point will divide d_p1_p2
@@ -3232,6 +3234,7 @@ static double getDistance(polytype_t::const_iterator& line, QPoint& pt, double t
     return d;
 }
 
+
 void CMapTDB::getClosePolyline(QPoint& pt1, QPoint& pt2, qint32 threshold, QPolygon& polyline)
 {
 
@@ -3286,7 +3289,7 @@ void CMapTDB::getInfoPolygons(const QPoint& pt, QMultiMap<QString, QString>& dic
 {
     int     npol;
     int     i = 0, j = 0 ,c = 0;
-    projXY      p1, p2;              // the two points of the polyline close to pt
+    projXY      p1, p2;          // the two points of the polyline close to pt
     double  x = pt.x();
     double  y = pt.y();
     QString value;
@@ -3352,7 +3355,6 @@ void CMapTDB::select(IMapSelection& ms, const QRect& rect)
 
     QFileInfo fi(filename);
     QDir path = fi.absoluteDir();
-
 
     double lon1 = rect.left();
     double lat1 = rect.top();
@@ -3543,4 +3545,3 @@ void CMapTDB::config()
     dlg->show();
 
 }
-

@@ -41,7 +41,7 @@ void CTrackUndoCommandPurgePts::redo()
     {
         if(trkpt->flags & CTrack::pt_t::eSelected)
         {
-//            trkpt->flags |= CTrack::pt_t::eDeleted;
+            //            trkpt->flags |= CTrack::pt_t::eDeleted;
             trkpt->flags &= ~CTrack::pt_t::eSelected;
             if(trkpt->flags & CTrack::pt_t::eDeleted)
             {
@@ -80,7 +80,7 @@ void CTrackUndoCommandPurgePts::undo()
             {
                 trkpt->flags |= CTrack::pt_t::eDeleted;
             }
-//            trkpt->flags |= CTrack::pt_t::eSelected;
+            //            trkpt->flags |= CTrack::pt_t::eSelected;
         }
         ++trkpt;
     }

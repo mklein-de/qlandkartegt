@@ -40,7 +40,7 @@
 CLiveLogDB * CLiveLogDB::m_self = 0;
 
 CLiveLogDB::CLiveLogDB(QTabWidget * tb, QObject * parent)
-    : IDB(IDB::eTypeLog,  tb, parent)
+: IDB(IDB::eTypeLog,  tb, parent)
 , m_lockToCenter(false)
 {
     m_self      = this;
@@ -126,7 +126,7 @@ bool CLiveLogDB::logging()
 
 
 void CLiveLogDB::clear()
-{    
+{
     saveBackupLog();
     track.clear();
     polyline.clear();
@@ -179,8 +179,8 @@ void CLiveLogDB::slotLiveLog(const CLiveLog& log)
 
     //3.) only if the position is considered valid
     if(log.fix == CLiveLog::e2DFix ||
-       log.fix == CLiveLog::e3DFix ||
-       log.fix == CLiveLog::eEstimated)
+        log.fix == CLiveLog::e3DFix ||
+        log.fix == CLiveLog::eEstimated)
     {
         //3.1) update the other text fields
         QString val, unit;

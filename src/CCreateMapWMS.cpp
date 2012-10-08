@@ -70,9 +70,9 @@ void CCreateMapWMS::slotSetupLink()
     if(enableProxy)
     {
         server->setProxy(url,port);
-		connect(server, SIGNAL(proxyAuthenticationRequired(const QNetworkProxy&, QAuthenticator*)), 
-				this, SLOT(slotProxyAuthenticationRequired(const QNetworkProxy&, QAuthenticator*)));
-	}
+        connect(server, SIGNAL(proxyAuthenticationRequired(const QNetworkProxy&, QAuthenticator*)),
+            this, SLOT(slotProxyAuthenticationRequired(const QNetworkProxy&, QAuthenticator*)));
+    }
 
     connect(server,SIGNAL(requestStarted(int)),this,SLOT(slotRequestStarted(int)));
     connect(server,SIGNAL(requestFinished(int,bool)),this,SLOT(slotRequestFinished(int,bool)));
@@ -254,11 +254,11 @@ void CCreateMapWMS::slotProxyAuthenticationRequired(const QNetworkProxy &prox, Q
 {
     QString user;
     QString pwd;
-	
+
     CResources::self().getHttpProxyAuth(user,pwd);
-	
-	auth->setUser(user);
-	auth->setPassword(pwd);
+
+    auth->setUser(user);
+    auth->setPassword(pwd);
 }
 
 

@@ -38,7 +38,7 @@ class IDB : public QObject
     public:
         enum dbType_e
         {
-             eTypeWpt = 0x00000001
+            eTypeWpt = 0x00000001
             ,eTypeTrk = 0x00000002
             ,eTypeRte = 0x00000004
             ,eTypeSrc = 0x00000008
@@ -63,7 +63,7 @@ class IDB : public QObject
         /// parse a GPX timestamp, including timezone calculations
         virtual bool parseTimestamp(const QString &time, quint32 &tstamp);
         virtual bool parseTimestamp(const QString &time, quint32 &tstamp,
-                                    quint32 &tstamp_msec);
+            quint32 &tstamp_msec);
 
         /// load database data from gpx
         virtual void loadGPX(CGpx& gpx) = 0;
@@ -96,7 +96,7 @@ class IDB : public QObject
         virtual void emitSigChanged(){emit sigChanged(); signalFlags |= type;}
         virtual void emitSigModified(){emit sigModified();}
         virtual void emitSigModified(const QString& key){emit sigModified(key);}
-    signals:
+        signals:
         void sigChanged();
         void sigModified();
         void sigModified(const QString&);

@@ -166,7 +166,6 @@ class CMapExportStateConvColor : public IMapExportState
 
 };
 
-
 class CMapExportStateReproject : public IMapExportState
 {
     Q_OBJECT;
@@ -312,7 +311,6 @@ class CMapExportStateRMAP : public IMapExportState
 
 };
 
-
 class CMapQMAPExport : public QDialog, private Ui::IMapQMAPExport
 {
     Q_OBJECT;
@@ -368,6 +366,4 @@ class CMapQMAPExport : public QDialog, private Ui::IMapQMAPExport
 
         int totalNumberOfStates;
 };
-
-#endif //CMAPQMAPEXPORT_H
-
+#endif                           //CMAPQMAPEXPORT_H

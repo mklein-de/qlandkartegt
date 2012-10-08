@@ -26,7 +26,7 @@
 #include <QtGui>
 
 CDlgWpt2Rte::CDlgWpt2Rte(QList<CWpt*>& selWpt)
-    : selWpt(selWpt)
+: selWpt(selWpt)
 {
     setupUi(this);
 
@@ -63,7 +63,6 @@ CDlgWpt2Rte::CDlgWpt2Rte(QList<CWpt*>& selWpt)
                 item->setText(wpt->getName());
             }
 
-
             item->setData(Qt::UserRole, wpt->getKey());
         }
     }
@@ -85,6 +84,7 @@ CDlgWpt2Rte::CDlgWpt2Rte(QList<CWpt*>& selWpt)
         }
     }
 }
+
 
 CDlgWpt2Rte::~CDlgWpt2Rte()
 {
@@ -125,7 +125,6 @@ void CDlgWpt2Rte::accept()
                 action = wpt->getName();
             }
 
-
             route->addPosition(wpt->lon, wpt->lat, action);
         }
     }
@@ -138,6 +137,7 @@ void CDlgWpt2Rte::accept()
     QDialog::accept();
 }
 
+
 void CDlgWpt2Rte::slotAdd()
 {
     QListWidgetItem * item;
@@ -149,6 +149,7 @@ void CDlgWpt2Rte::slotAdd()
     }
 }
 
+
 void CDlgWpt2Rte::slotDel()
 {
     QListWidgetItem * item;
@@ -159,6 +160,7 @@ void CDlgWpt2Rte::slotDel()
         listWaypoints->addItem(listSelWaypoints->takeItem(listSelWaypoints->row(item)));
     }
 }
+
 
 void CDlgWpt2Rte::slotUp()
 {
@@ -174,6 +176,7 @@ void CDlgWpt2Rte::slotUp()
     }
 }
 
+
 void CDlgWpt2Rte::slotDown()
 {
     QListWidgetItem * item = listSelWaypoints->currentItem();
@@ -188,6 +191,7 @@ void CDlgWpt2Rte::slotDown()
     }
 }
 
+
 void CDlgWpt2Rte::slotItemSelectionChanged()
 {
     if(listSelWaypoints->currentItem() == 0)
@@ -201,4 +205,3 @@ void CDlgWpt2Rte::slotItemSelectionChanged()
         toolDown->setEnabled(true);
     }
 }
-

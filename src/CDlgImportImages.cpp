@@ -25,7 +25,7 @@
 #include <QtGui>
 
 CDlgImportImages::CDlgImportImages(QWidget *parent)
-    : QDialog(parent)
+: QDialog(parent)
 {
     setupUi(this);
 
@@ -56,9 +56,11 @@ CDlgImportImages::CDlgImportImages(QWidget *parent)
     connect(listImages, SIGNAL(itemDoubleClicked(QListWidgetItem*)), this, SLOT(slotSelectPicture(QListWidgetItem*)));
 }
 
+
 CDlgImportImages::~CDlgImportImages()
 {
 }
+
 
 void CDlgImportImages::accept()
 {
@@ -103,8 +105,6 @@ void CDlgImportImages::accept()
         }
     }
 
-
-
     SETTINGS;
     cfg.setValue("path/images", labelPath->text());
     cfg.setValue("imageImport/copy/small", radioCopySmall->isChecked());
@@ -118,6 +118,7 @@ void CDlgImportImages::accept()
 
     QDialog::accept();
 }
+
 
 void CDlgImportImages::searchForFiles(const QString& path)
 {
@@ -146,6 +147,7 @@ void CDlgImportImages::slotSelectPath()
     searchForFiles(path);
 }
 
+
 void CDlgImportImages::slotSelectRefMethod()
 {
     if(radioRefTime->isChecked())
@@ -166,6 +168,7 @@ void CDlgImportImages::slotSelectRefMethod()
         groupRefPosition->hide();
     }
 }
+
 
 void CDlgImportImages::slotSelectPicture(QListWidgetItem * item)
 {

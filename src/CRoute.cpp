@@ -305,6 +305,7 @@ CRoute::~CRoute()
 
 }
 
+
 void CRoute::addPosition(const double lon, const double lat, const QString& action)
 {
     pt_t pt;
@@ -390,18 +391,20 @@ void CRoute::setIcon(const QString& symname)
     emit sigChanged();
 }
 
+
 QPixmap CRoute::getIcon()
 {
     if(calcRoutePending)
     {
         return QPixmap(":/icons/iconReload16x16.png");
-//        return QPixmap(":/icons/iconInProgress.mng");
+        //        return QPixmap(":/icons/iconInProgress.mng");
     }
     else
     {
         return iconPixmap;
     }
 }
+
 
 QString CRoute::getInfo()
 {
@@ -429,9 +432,10 @@ QString CRoute::getInfo()
     return str;
 }
 
+
 void CRoute::loadSecondaryRoute(QDomDocument& xml, service_e service)
 {
-//    qDebug() << xml.toString();
+    //    qDebug() << xml.toString();
 
     calcRoutePending = false;
 
@@ -440,18 +444,19 @@ void CRoute::loadSecondaryRoute(QDomDocument& xml, service_e service)
 
     switch(service)
     {
-    case eOpenRouteService:
-        loadSecondaryRouteORS(xml);
-        break;
-    case eMapQuest:
-        loadSecondaryRouteMQ(xml);
-        break;
+        case eOpenRouteService:
+            loadSecondaryRouteORS(xml);
+            break;
+        case eMapQuest:
+            loadSecondaryRouteMQ(xml);
+            break;
     }
 
     calcDistance();
     emit sigChanged();
 
 }
+
 
 void CRoute::loadSecondaryRouteMQ(QDomDocument& xml)
 {
@@ -511,6 +516,7 @@ void CRoute::loadSecondaryRouteMQ(QDomDocument& xml)
     }
 }
 
+
 void CRoute::loadSecondaryRouteORS(QDomDocument& xml)
 {
     QDomElement root = xml.documentElement();
@@ -552,7 +558,6 @@ void CRoute::loadSecondaryRouteORS(QDomDocument& xml)
         }
     }
 
-
     QDomNodeList instructions = root.elementsByTagName("xls:RouteInstruction");
 
     const qint32 N = instructions.size();
@@ -586,6 +591,7 @@ void CRoute::loadSecondaryRouteORS(QDomDocument& xml)
         }
     }
 }
+
 
 void CRoute::reset()
 {

@@ -122,7 +122,6 @@ CMapQMAP::CMapQMAP(const QString& key, const QString& fn, CCanvas * parent)
         }
     }
 
-
     info += "</table></p>";
 
     // If no configuration is stored read values from the map definition's "home" section
@@ -176,7 +175,6 @@ const QString& CMapQMAP::getFilename(int u, int v)
 {
     if(pMaplevel.isNull()) return filename;
 
-
     QVector<CMapFile*>::const_iterator it = pMaplevel->begin();
     while(it != pMaplevel->end())
     {
@@ -204,6 +202,7 @@ const QString& CMapQMAP::getFilename(int u, int v)
 
     return filename;
 }
+
 
 bool CMapQMAP::is32BitRgb()
 {
@@ -446,10 +445,11 @@ void CMapQMAP::draw()
 
                             for (offset = 0; offset < sizeof(testPix) && *(((quint8 *)&testPix) + offset) != pbandColour; offset++);
 
-/// @todo this has to be removed with GDAL 1.8.0
+                            /// @todo this has to be removed with GDAL 1.8.0
 #ifdef WIN32
                             //offset = 3 - b;
-#endif // WIN32
+                                 // WIN32
+#endif
 
                             if(offset < sizeof(testPix))
                             {
@@ -511,6 +511,7 @@ void CMapQMAP::convertM2Pt(double& u, double& v)
     v = floor((v - pt.v) / (map->yscale * zoomFactor) + 0.5);
 }
 
+
 void CMapQMAP::convertPt2Pixel(double& u, double& v)
 {
     QVector<CMapFile*>::const_iterator it = pMaplevel->begin();
@@ -543,6 +544,7 @@ void CMapQMAP::convertPt2Pixel(double& u, double& v)
     v = -1;
 
 }
+
 
 void CMapQMAP::move(const QPoint& old, const QPoint& next)
 {
@@ -795,6 +797,7 @@ void CMapQMAP::select(IMapSelection& ms, const QRect& rect)
 
 }
 
+
 quint32 CMapQMAP::scalePixelGrid(quint32 nPixel)
 {
     CMapLevel * level       = maplevels[0];
@@ -803,6 +806,7 @@ quint32 CMapQMAP::scalePixelGrid(quint32 nPixel)
     return quint32((nPixel * file1->xscale)/(zoomFactor * file2->xscale) + 0.5);
 }
 
+
 void CMapQMAP::config()
 {
 
@@ -810,4 +814,3 @@ void CMapQMAP::config()
     dlg->show();
 
 }
-

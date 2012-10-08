@@ -94,7 +94,6 @@ quint32 CGarminPolygon::decode(qint32 iCenterLon, qint32 iCenterLat, quint32 shi
     // bits per y coord.
     quint32 by;
 
-
     const quint8 * const pStart = pData;
 
     labels.clear();
@@ -238,7 +237,7 @@ quint32 CGarminPolygon::decode(qint32 iCenterLon, qint32 iCenterLat, quint32 shi
 
     if(maxVecSize < u.size())
     {
-      maxVecSize = u.size();
+        maxVecSize = u.size();
     }
     if(u.size() * 1.2 < maxVecSize)
     {
@@ -378,7 +377,7 @@ quint32 CGarminPolygon::decode2(qint32 iCenterLon, qint32 iCenterLat, quint32 sh
 
     if(maxVecSize < u.size())
     {
-      maxVecSize = u.size();
+        maxVecSize = u.size();
     }
     if(u.size() * 1.2 < maxVecSize)
     {

@@ -32,7 +32,6 @@ class CSearch : public IItem
 
         void setIcon(const QString& str){}
 
-
         qreal   lon;
         qreal   lat;
         QString street;

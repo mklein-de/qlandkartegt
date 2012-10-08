@@ -60,6 +60,7 @@ void CTrackStatSpeedWidget::slotSetTrack(CTrack* track)
 
 }
 
+
 #define MEDIAN_FLT_LEN 15
 void CTrackStatSpeedWidget::slotChanged()
 {
@@ -95,8 +96,7 @@ void CTrackStatSpeedWidget::slotChanged()
     QVector<float> speed;
 
     while(trkpt0 != trkpts.end())
-    {      
-
+    {
 
         if(trkpt0->flags & CTrack::pt_t::eDeleted)
         {
@@ -107,7 +107,7 @@ void CTrackStatSpeedWidget::slotChanged()
         speed << trkpt0->speed;
 
         lineSpeed       << QPointF(type == eOverDistance ? trkpt0->distance : (double)trkpt0->timestamp, trkpt0->speed * speedfactor);
-//        lineAvgSpeed    << QPointF(type == eOverDistance ? trkpt0->distance : (double)trkpt0->timestamp, trkpt0->avgspeed * speedfactor);
+        //        lineAvgSpeed    << QPointF(type == eOverDistance ? trkpt0->distance : (double)trkpt0->timestamp, trkpt0->avgspeed * speedfactor);
 
         if(trkpt0->flags & CTrack::pt_t::eSelected)
         {

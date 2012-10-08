@@ -40,10 +40,9 @@ class CRoute : public IItem
 
         enum service_e
         {
-             eOpenRouteService
+            eOpenRouteService
             ,eMapQuest
         };
-
 
         enum type_e {eEnd, eBase, eRtePts, eRteSec};
         struct pt_t
@@ -62,7 +61,6 @@ class CRoute : public IItem
             }
         };
 
-
         /// set the highlight flag
         void setHighlight(bool yes){highlight = yes;}
         /// get the value of the highlight flag
@@ -76,7 +74,6 @@ class CRoute : public IItem
 
         QPolygon& getPolyline(){return polyline;}
         QPolygon& getPoints(){return points;}
-
 
         QVector<pt_t>& getPriRtePoints(){return priRoute;}
         QVector<pt_t>& getSecRtePoints(){return secRoute;}
@@ -131,7 +128,6 @@ class CRoute : public IItem
 
         /// secondary route with all intermediate points from auto routing
         QVector<pt_t> secRoute;
-
 
         bool calcRoutePending;
 

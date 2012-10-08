@@ -28,8 +28,6 @@
 #include <QString>
 #include <QPixmap>
 
-
-
 class QDomDocument;
 
 class CRouteDB : public IDB
@@ -45,7 +43,6 @@ class CRouteDB : public IDB
         void delRoute(const QString& key, bool silent);
 
         CRoute * getRouteByKey(const QString& key);
-
 
         void delRoutes(const QStringList& keys);
         /// load database data from gpx

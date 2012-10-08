@@ -27,7 +27,6 @@ class CCreateMapQMAP;
 class CCreateMapGeoTiff;
 class CCreateMapFineTune;
 
-
 class CMapEditWidget : public QWidget, private Ui::IMapEditWidget
 {
     Q_OBJECT;

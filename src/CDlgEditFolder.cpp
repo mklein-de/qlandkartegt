@@ -23,9 +23,9 @@
 #include <QtGui>
 
 CDlgEditFolder::CDlgEditFolder(QString& name, QString& comment, int& type)
-    : name(name)
-    , comment(comment)
-    , type(type)
+: name(name)
+, comment(comment)
+, type(type)
 {
     setupUi(this);
 
@@ -39,10 +39,12 @@ CDlgEditFolder::CDlgEditFolder(QString& name, QString& comment, int& type)
     comboType->setCurrentIndex(comboType->findData(type));
 }
 
+
 CDlgEditFolder::~CDlgEditFolder()
 {
 
 }
+
 
 void CDlgEditFolder::accept()
 {

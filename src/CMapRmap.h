@@ -104,6 +104,4 @@ class CMapRmap : public IMap
         QCheckBox * quadraticZoom;
 
 };
-
-#endif //CMAPRMAP_H
-
+#endif                           //CMAPRMAP_H

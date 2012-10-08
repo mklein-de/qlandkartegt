@@ -17,7 +17,6 @@
 
 **********************************************************************************************/
 
-
 #include "CDlgExport.h"
 #include "IDevice.h"
 #include "CWptDB.h"
@@ -29,7 +28,6 @@
 #include "CRoute.h"
 #include "WptIcons.h"
 #include "GeoMath.h"
-
 
 #include <QtGui>
 #include <proj_api.h>
@@ -44,10 +42,12 @@ CDlgExport::CDlgExport(QWidget * parent, QStringList * wpt, QStringList * trk, Q
     connect(checkAll, SIGNAL(toggled(bool)), this, SLOT(slotCheckAll(bool)));
 }
 
+
 CDlgExport::~CDlgExport()
 {
 
 }
+
 
 int CDlgExport::exec()
 {
@@ -128,9 +128,9 @@ int CDlgExport::exec()
         itemRte->setDisabled(true);
     }
 
-
     return QDialog::exec();
 }
+
 
 void CDlgExport::accept()
 {
@@ -138,7 +138,8 @@ void CDlgExport::accept()
     QTreeWidgetItem * item;
     QList<QTreeWidgetItem*> items;
 
-    if(keysWpt){
+    if(keysWpt)
+    {
         items = itemWpt->takeChildren();
         foreach(item, items)
         {
@@ -194,6 +195,7 @@ void CDlgExport::accept()
 
     QDialog::accept();
 }
+
 
 void CDlgExport::slotCheckAll(bool checked)
 {

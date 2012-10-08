@@ -26,7 +26,7 @@ class CDBus : public QDBusAbstractAdaptor
     Q_OBJECT;
     Q_CLASSINFO("D-Bus Interface", "org.QLandkarteGT.dbus")
 
-    public:
+        public:
         virtual ~CDBus();
 
     public slots:
@@ -39,6 +39,4 @@ class CDBus : public QDBusAbstractAdaptor
         friend class CMainWindow;
         CDBus(QObject * parent);
 };
-
-#endif //CDBUS_H
-
+#endif                           //CDBUS_H

@@ -33,12 +33,9 @@ class CDlgEditFolder : public QDialog, private Ui::IDlgEditFolder
     public slots:
         void accept();
 
-
     private:
         QString& name;
         QString& comment;
         int& type;
 };
-
-#endif //CDLGEDITFOLDER_H
-
+#endif                           //CDLGEDITFOLDER_H

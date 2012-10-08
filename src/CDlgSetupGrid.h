@@ -39,6 +39,4 @@ class CDlgSetupGrid : public QDialog, private Ui::IDlgSetupGrid
         void slotRestoreDefault();
         void slotProjFromMap();
 };
-
-#endif //CDLGSETUPGRID_H
-
+#endif                           //CDLGSETUPGRID_H

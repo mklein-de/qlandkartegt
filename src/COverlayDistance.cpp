@@ -42,6 +42,7 @@ static bool operator==(const projXY& p1, const projXY& p2)
     return (p1.u == p2.u) && (p1.v == p2.v);
 }
 
+
 QPointer<COverlayDistanceEditWidget> overlayDistanceEditWidget;
 
 COverlayDistance::COverlayDistance(const QString& name, const QString& comment, double speed, const QList<pt_t>& pts, QObject * parent)
@@ -155,13 +156,11 @@ QString COverlayDistance::getInfo()
         }
     }
 
-
     info += tr("Length: %1 %2").arg(val).arg(unit);
 
     if(speed > 0)
     {
         info += "\n" + QString::number(speed * IUnit::self().speedfactor)  + IUnit::self().speedunit + " " + QChar(0x21E8) + " ";
-
 
         double ttime = distance * 3.6/ (speed * IUnit::self().speedfactor);
         quint32 days = ttime / 86400;
@@ -260,36 +259,36 @@ void COverlayDistance::keyPressEvent(QKeyEvent * e)
             int idx;
             switch (addType)
             {
-            case eBefore:
-                idx = points.indexOf(*thePoint);
-                if (idx < points.size())
-                {
-                    points.removeAt(idx+1);
-                    thePointAfter = (idx+1 < points.size()) ? &(points[idx+1]) : 0;
-                }
-                break;
-            case eAfter:
-                idx = points.indexOf(*thePoint);
-                if (idx > 0)
-                {
-                    points.removeAt(idx-1);
-                    thePointBefor = (idx > 1) ? &(points[idx-2]) : 0;
-                }
-                break;
-            case eAtEnd:
-                points.removeLast();
-                thePointBefor = (points.size() > 1) ? &(*(points.end() - 2)) : 0;
-                thePoint      = &points.last();
-                break;
-            default:
-                break;
+                case eBefore:
+                    idx = points.indexOf(*thePoint);
+                    if (idx < points.size())
+                    {
+                        points.removeAt(idx+1);
+                        thePointAfter = (idx+1 < points.size()) ? &(points[idx+1]) : 0;
+                    }
+                    break;
+                case eAfter:
+                    idx = points.indexOf(*thePoint);
+                    if (idx > 0)
+                    {
+                        points.removeAt(idx-1);
+                        thePointBefor = (idx > 1) ? &(points[idx-2]) : 0;
+                    }
+                    break;
+                case eAtEnd:
+                    points.removeLast();
+                    thePointBefor = (points.size() > 1) ? &(*(points.end() - 2)) : 0;
+                    thePoint      = &points.last();
+                    break;
+                default:
+                    break;
             }
             calcDistance();
             emit sigChanged();
             QPoint pos = theMainWindow->getCanvas()->mapFromGlobal(QCursor::pos());
             QMouseEvent * ev = new QMouseEvent(QEvent::MouseMove, pos, Qt::NoButton,
-                                               QApplication::mouseButtons(),
-                                               QApplication::keyboardModifiers());
+                QApplication::mouseButtons(),
+                QApplication::keyboardModifiers());
             QCoreApplication::postEvent(theMainWindow->getCanvas(), ev);
         }
     }
@@ -380,7 +379,6 @@ void COverlayDistance::mouseMoveEvent(QMouseEvent * e)
 
             map.convertRad2Pt(u2,v2);
             QPoint pt2(u2, v2);
-
 
             CMapDB::self().getMap().getClosePolyline(pt1, pt2, 10, leadline);
 
@@ -562,7 +560,6 @@ void COverlayDistance::mousePressEvent(QMouseEvent * e)
                     idx++;
                 }
 
-
                 pt.u = e->pos().x();
                 pt.v = e->pos().y();
                 map.convertPt2Rad(pt.u, pt.v);
@@ -596,7 +593,7 @@ void COverlayDistance::mousePressEvent(QMouseEvent * e)
 
             //if(addType == eNone)   // why?
             //{
-                emit sigChanged();
+            emit sigChanged();
             //}
             return;
         }
@@ -613,7 +610,6 @@ void COverlayDistance::mousePressEvent(QMouseEvent * e)
         }
 
         QPoint pos1 = e->pos();
-
 
         projXY pt = *thePoint;
         map.convertRad2Pt(pt.u, pt.v);
@@ -723,6 +719,7 @@ void COverlayDistance::mouseReleaseEvent(QMouseEvent * e)
 
 }
 
+
 void COverlayDistance::drawArrows(const QPolygon& line, const QRect& viewport, QPainter& p)
 {
     QPointF arrow[4] =
@@ -749,10 +746,9 @@ void COverlayDistance::drawArrows(const QPolygon& line, const QRect& viewport, Q
     t_paint.drawPolygon(arrow, 4);
     t_paint.end();
 
-
     foreach(pt,line)
     {
-        if(start)        // no arrow on  the first loop
+        if(start)                // no arrow on  the first loop
         {
             start = false;
         }
@@ -766,7 +762,7 @@ void COverlayDistance::drawArrows(const QPolygon& line, const QRect& viewport, Q
             {
                 continue;
             }
-                         // keep distance
+            // keep distance
             if((abs(pt.x() - ptt.x()) + abs(pt.y() - ptt.y())) > 100)
             {
                 if(0 != pt.x() - pt1.x() && (pt.y() - pt1.y()))
@@ -779,7 +775,7 @@ void COverlayDistance::drawArrows(const QPolygon& line, const QRect& viewport, Q
                     p.rotate(heading);
                     p.drawImage(-11, -7, arrow_pic);
                     p.restore();
-                         //remember last point
+                    //remember last point
                     ptt = pt;
                 }
             }
@@ -803,12 +799,10 @@ void COverlayDistance::draw(QPainter& p, const QRect& viewport)
     projXY pt1, pt2;
     QPoint pt;
 
-
     int i;
     int start   = 0;
     int stop    = points.count();
     int skip    = -1;
-
 
     // if there is an active subline fine tune start and stop index
     // to make the subline replace the first of last line segment
@@ -822,7 +816,6 @@ void COverlayDistance::draw(QPainter& p, const QRect& viewport)
         {
             start += 1;
         }
-
 
         int idx = points.indexOf(*thePoint);
 
@@ -891,7 +884,6 @@ void COverlayDistance::draw(QPainter& p, const QRect& viewport)
     p.setPen(pen2);
     p.drawPolyline(polyline);
 
-
     // draw the points
     if(showBullets)
     {
@@ -904,7 +896,6 @@ void COverlayDistance::draw(QPainter& p, const QRect& viewport)
     p.setBrush(QColor(0,150,0,255));
     drawArrows(polyline, viewport, p);
 
-
     // overlay _the_ point with a red bullet
     if(thePoint)
     {
@@ -912,7 +903,6 @@ void COverlayDistance::draw(QPainter& p, const QRect& viewport)
         map.convertRad2Pt(pt2.u, pt2.v);
         p.drawPixmap(pt2.u - 4, pt2.v - 4, icon_red);
     }
-
 
     // if there is a subline draw it
     if(!subline.isEmpty())
@@ -939,7 +929,6 @@ void COverlayDistance::draw(QPainter& p, const QRect& viewport)
         {
             p.drawPixmap(subline[i] - QPoint(4,4), icon_red);
         }
-
 
     }
 
@@ -1029,6 +1018,7 @@ void COverlayDistance::draw(QPainter& p, const QRect& viewport)
 
 }
 
+
 void COverlayDistance::drawDistanceInfo(projXY p1, projXY p2, QPainter& p, IMap& map)
 {
     QString val, unit, str;
@@ -1065,7 +1055,6 @@ void COverlayDistance::drawDistanceInfo(projXY p1, projXY p2, QPainter& p, IMap&
     p.restore();
 
 }
-
 
 
 void COverlayDistance::calcDistance()
@@ -1110,17 +1099,20 @@ void COverlayDistance::customMenu(QMenu& menu)
     actPoints->setChecked(showBullets);
 }
 
+
 void COverlayDistance::slotShow()
 {
     isVisible = !isVisible;
     emit sigChanged();
 }
 
+
 void COverlayDistance::slotShowBullets()
 {
     showBullets = !showBullets;
     emit sigChanged();
 }
+
 
 void COverlayDistance::slotToTrack()
 {
@@ -1142,7 +1134,6 @@ void COverlayDistance::slotToTrack()
 
     delta   = dlg.getDelta();
     eleMode = dlg.getEleMode();
-
 
     if(delta == -1)
     {
@@ -1257,6 +1248,7 @@ void COverlayDistance::slotEdit()
     theMainWindow->setTempWidget(overlayDistanceEditWidget, tr("Overlay"));
 }
 
+
 void COverlayDistance::slotRevert()
 {
     QList<pt_t> rev;
@@ -1269,6 +1261,7 @@ void COverlayDistance::slotRevert()
 
     COverlayDB::self().addDistance(name + "_rev", comment, speed, rev);
 }
+
 
 void COverlayDistance::makeVisible()
 {
@@ -1290,6 +1283,7 @@ void COverlayDistance::makeVisible()
     isVisible = true;
     emit sigChanged();
 }
+
 
 void COverlayDistance::looseFocus()
 {
@@ -1341,6 +1335,7 @@ QRectF COverlayDistance::getBoundingRectF()
 
 }
 
+
 void COverlayDistance::delPointsByIdx(const QList<int>& idx)
 {
     int i;
@@ -1373,4 +1368,3 @@ void COverlayDistance::delPointsByIdx(const QList<int>& idx)
     calcDistance();
     emit sigChanged();
 }
-

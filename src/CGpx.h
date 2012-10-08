@@ -54,7 +54,7 @@ class CGpx : public QObject, public QDomDocument
 
         enum exportMode_e
         {
-              eQlgtExport
+            eQlgtExport
             , eCleanExport
             , eOcmExport
             , eBackupExport

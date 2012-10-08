@@ -33,7 +33,6 @@
 #include "CSettings.h"
 #include "CMainWindow.h"
 
-
 #include <QtGui>
 #include <QtXml>
 #include <QNetworkAccessManager>
@@ -172,7 +171,7 @@ CRouteToolWidget::CRouteToolWidget(QTabWidget * parent)
     m_networkAccessManager->setProxy(QNetworkProxy(QNetworkProxy::DefaultProxy));
 
     connect(m_networkAccessManager, SIGNAL(proxyAuthenticationRequired(const QNetworkProxy&, QAuthenticator*)),
-            this, SLOT(slotProxyAuthenticationRequired(const QNetworkProxy&, QAuthenticator*)));
+        this, SLOT(slotProxyAuthenticationRequired(const QNetworkProxy&, QAuthenticator*)));
 
     timer = new QTimer(this);
     timer->setSingleShot(true);
@@ -185,7 +184,6 @@ CRouteToolWidget::CRouteToolWidget(QTabWidget * parent)
 
     toolSortAlpha->setChecked(cfg.value("route/sortAlpha", true).toBool());
     toolSortTime->setChecked(cfg.value("route/sortTime", true).toBool());
-
 
     connect(timer, SIGNAL(timeout()), this, SLOT(slotTimeout()));
 }
@@ -203,6 +201,7 @@ CRouteToolWidget::~CRouteToolWidget()
     }
 }
 
+
 void CRouteToolWidget::slotServiceChanged(int idx)
 {
     groupORS->hide();
@@ -217,6 +216,7 @@ void CRouteToolWidget::slotServiceChanged(int idx)
         groupMQ->show();
     }
 }
+
 
 void CRouteToolWidget::slotDBChanged()
 {
@@ -360,6 +360,7 @@ void CRouteToolWidget::slotDelete()
     slotDBChanged();
 }
 
+
 void CRouteToolWidget::slotCalcRoute()
 {
 
@@ -414,15 +415,12 @@ void CRouteToolWidget::slotCalcRoute()
 }
 
 
-
-
 const QString CRouteToolWidget::gml_ns = "http://www.opengis.net/gml";
 const QString CRouteToolWidget::xls_ns = "http://www.opengis.net/xls";
 const QString CRouteToolWidget::xsi_ns = "http://www.w3.org/2001/XMLSchema-instance";
 const QString CRouteToolWidget::sch_ns = "http://www.ascc.net/xml/schematron";
 const QString CRouteToolWidget::xlink_ns = "http://www.w3.org/1999/xlink";
 const QString CRouteToolWidget::schemaLocation = "http://www.opengis.net/xls http://schemas.opengis.net/ols/1.1.0/RouteService.xsd";
-
 
 void CRouteToolWidget::startOpenRouteService(CRoute& rte)
 {
@@ -448,7 +446,6 @@ void CRouteToolWidget::startOpenRouteService(CRoute& rte)
     Request.setAttribute("methodName", "RouteRequest");
     Request.setAttribute("requestID", rte.getKey());
     Request.setAttribute("version", "1.1");
-
 
     QDomElement DetermineRouteRequest = xml.createElement("xls:DetermineRouteRequest");
     Request.appendChild(DetermineRouteRequest);
@@ -489,8 +486,6 @@ void CRouteToolWidget::startOpenRouteService(CRoute& rte)
         AvoidFeature.appendChild(_AvoidFeature_);
     }
 
-
-
     QDomElement RouteInstructionsRequest = xml.createElement("xls:RouteInstructionsRequest");
     RouteInstructionsRequest.setAttribute("provideGeometry", "1");
     DetermineRouteRequest.appendChild(RouteInstructionsRequest);
@@ -513,6 +508,7 @@ void CRouteToolWidget::startOpenRouteService(CRoute& rte)
     timer->start(20000);
 
 }
+
 
 void CRouteToolWidget::addOpenLSWptList(QDomDocument& xml, QDomElement& WayPointList, CRoute& rte)
 {
@@ -539,6 +535,7 @@ void CRouteToolWidget::addOpenLSWptList(QDomDocument& xml, QDomElement& WayPoint
     WayPointList.appendChild(EndPoint);
     addOpenLSPos(xml, EndPoint, wpts.last());
 }
+
 
 void CRouteToolWidget::addOpenLSPos(QDomDocument& xml, QDomElement& Parent, CRoute::pt_t& pt)
 {
@@ -579,11 +576,11 @@ void CRouteToolWidget::slotRequestFinished(QNetworkReply* reply)
     if(pendingRequests.contains(reply))
     {
         key = pendingRequests.take(reply);
-//        qDebug() << "--------------------removed" << key << reply;
+        //        qDebug() << "--------------------removed" << key << reply;
     }
     else
     {
-//        qDebug() << "--------------------reply not found" << reply;
+        //        qDebug() << "--------------------reply not found" << reply;
     }
 
     if(reply->error() != QNetworkReply::NoError)
@@ -606,8 +603,8 @@ void CRouteToolWidget::slotRequestFinished(QNetworkReply* reply)
 
     QDomDocument xml;
     xml.setContent(res);
-//    qDebug() << xml.toString();
-//    qDebug() << "key:" << key;
+    //    qDebug() << xml.toString();
+    //    qDebug() << "key:" << key;
 
     qint32 service = comboService->itemData(comboService->currentIndex()).toInt();
     if(service == CRoute::eOpenRouteService)
@@ -638,6 +635,7 @@ void CRouteToolWidget::slotRequestFinished(QNetworkReply* reply)
     CRouteDB::self().loadSecondaryRoute(key, xml, (CRoute::service_e)service);
 }
 
+
 void CRouteToolWidget::slotResetRoute()
 {
     QListWidgetItem * item;
@@ -650,6 +648,7 @@ void CRouteToolWidget::slotResetRoute()
     }
 }
 
+
 void CRouteToolWidget::slotSelectionChanged()
 {
     if(originator)
@@ -661,6 +660,7 @@ void CRouteToolWidget::slotSelectionChanged()
         CRouteDB::self().highlightRoute("");
     }
 }
+
 
 void CRouteToolWidget::slotToOverlay()
 {
@@ -692,6 +692,7 @@ void CRouteToolWidget::slotToOverlay()
     CMegaMenu::self().switchByKeyWord("Overlay");
 }
 
+
 void CRouteToolWidget::slotToTrack()
 {
 
@@ -702,7 +703,6 @@ void CRouteToolWidget::slotToTrack()
         CRoute * route = CRouteDB::self().getRouteByKey(item->data(Qt::UserRole).toString());
 
         QVector<CRoute::pt_t>& rtepts = route->getSecRtePoints().isEmpty() ? route->getPriRtePoints() : route->getSecRtePoints();
-
 
         double dist, d, delta = 10.0, a1 , a2;
         projXY pt1, pt2, ptx;
@@ -720,7 +720,6 @@ void CRouteToolWidget::slotToTrack()
 
         delta   = dlg.getDelta();
         eleMode = dlg.getEleMode();
-
 
         if(delta == -1)
         {
@@ -750,7 +749,6 @@ void CRouteToolWidget::slotToTrack()
             pt._lat = pt.lat;
             *track << pt;
 
-
             pt1.u = pt1.u * DEG_TO_RAD;
             pt1.v = pt1.v * DEG_TO_RAD;
 
@@ -761,7 +759,6 @@ void CRouteToolWidget::slotToTrack()
 
                 pt2.u = pt2.u * DEG_TO_RAD;
                 pt2.v = pt2.v * DEG_TO_RAD;
-
 
                 // all points from pt1 -> pt2, with 10m steps
                 dist = ::distance(pt1, pt2, a1, a2);
@@ -808,6 +805,7 @@ void CRouteToolWidget::slotToTrack()
 
 }
 
+
 void CRouteToolWidget::slotZoomToFit()
 {
     QRectF r;
@@ -829,10 +827,12 @@ void CRouteToolWidget::slotZoomToFit()
     }
 }
 
+
 void CRouteToolWidget::slotTimeout()
 {
     QMessageBox::warning(0,tr("Failed..."), tr("Route request timed out. Please try again later."), QMessageBox::Abort);
 }
+
 
 const QByteArray keyMapQuest = "Fmjtd%7Cluu2n16t2h%2Crw%3Do5-haya0";
 
@@ -857,7 +857,6 @@ void CRouteToolWidget::startMapQuest(CRoute& rte)
     QDomElement generalize = xml.createElement("generalize");
     generalize.appendChild(xml.createTextNode("0"));
     options.appendChild(generalize);
-
 
     QDomElement unit = xml.createElement("unit");
     unit.appendChild(xml.createTextNode("k"));
@@ -925,7 +924,7 @@ void CRouteToolWidget::startMapQuest(CRoute& rte)
     queryItems << QPair<QByteArray, QByteArray>(QByteArray("xml"), QUrl::toPercentEncoding(xmlstr));
     url.setEncodedQueryItems(queryItems);
 
-//    qDebug() << url.toString();
+    //    qDebug() << url.toString();
 
     QNetworkRequest request;
     request.setUrl(url);
@@ -937,6 +936,7 @@ void CRouteToolWidget::startMapQuest(CRoute& rte)
     timer->start(20000);
 }
 
+
 void CRouteToolWidget::addMapQuestLocations(QDomDocument& xml, QDomElement& locations, CRoute& rte)
 {
     QVector<CRoute::pt_t> wpts = rte.getPriRtePoints();
@@ -947,6 +947,3 @@ void CRouteToolWidget::addMapQuestLocations(QDomDocument& xml, QDomElement& loca
         locations.appendChild(location);
     }
 }
-
-
-

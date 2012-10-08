@@ -140,7 +140,6 @@ QDataStream& operator >>(QDataStream& s, CDiary& diary)
         ++entry;
     }
 
-
     return s;
 }
 
@@ -216,7 +215,6 @@ QDataStream& operator <<(QDataStream& s, CDiary& diary)
     }
 
     entries << entryRte;
-
 
     //---------------------------------------
     // prepare terminator
@@ -299,6 +297,7 @@ CDiary::~CDiary()
     if(!editWidget.isNull()) delete editWidget;
 }
 
+
 void CDiary::close()
 {
     if(!editWidget.isNull())
@@ -319,10 +318,12 @@ void CDiary::clear()
     rtes.clear();
 }
 
+
 bool CDiary::isModified()
 {
     return modified;
 }
+
 
 void CDiary::setModified()
 {
@@ -333,10 +334,12 @@ void CDiary::setModified()
     }
 }
 
+
 void CDiary::slotEditWidgetDied(QObject*)
 {
     CDiaryDB::self().delDiary(getKey(), false);
 }
+
 
 QString CDiary::getInfo()
 {
@@ -346,6 +349,7 @@ QString CDiary::getInfo()
 
     return str;
 }
+
 
 void CDiary::linkToProject(quint64 key)
 {
@@ -363,4 +367,3 @@ void CDiary::showEditWidget(CTabWidget * tab, bool fromDB)
     tab->addTab(editWidget, tr("Diary"));
     editWidget->slotReload(fromDB);
 }
-

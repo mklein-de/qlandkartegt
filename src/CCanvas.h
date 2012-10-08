@@ -57,11 +57,11 @@ class CTrack;
 #define COMPASS_OFFSET_X 50
 #define COMPASS_OFFSET_Y 100
 
-
 inline  void USE_ANTI_ALIASING(QPainter& p, bool useAntiAliasing)
 {
     p.setRenderHints(QPainter::TextAntialiasing|QPainter::Antialiasing|QPainter::SmoothPixmapTransform|QPainter::HighQualityAntialiasing, useAntiAliasing);
 }
+
 
 /// the map canvas area
 class CCanvas : public QWidget

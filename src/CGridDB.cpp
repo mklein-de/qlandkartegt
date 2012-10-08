@@ -64,6 +64,7 @@ CGridDB::CGridDB(QObject * parent)
     setProjAndColor(projstr, color);
 }
 
+
 CGridDB::~CGridDB()
 {
     if(pjWGS84) pj_free(pjWGS84);
@@ -75,11 +76,13 @@ CGridDB::~CGridDB()
     cfg.setValue("map/grid/color", color.name());
 }
 
+
 void CGridDB::slotSetupGrid()
 {
     CDlgSetupGrid dlg(theMainWindow);
     dlg.exec();
 }
+
 
 void CGridDB::setProjAndColor(const QString& proj, const QColor& c)
 {
@@ -93,6 +96,7 @@ void CGridDB::setProjAndColor(const QString& proj, const QColor& c)
 
     theMainWindow->getCanvas()->update();
 }
+
 
 void CGridDB::convertPt2Pos(double& x, double& y, bool& isLonLat)
 {
@@ -109,6 +113,7 @@ void CGridDB::convertPt2Pos(double& x, double& y, bool& isLonLat)
     isLonLat = pj_is_latlong(pjGrid);
 
 }
+
 
 void CGridDB::findGridSpace(double min, double max, double& xSpace, double& ySpace)
 {
@@ -192,6 +197,7 @@ void CGridDB::findGridSpace(double min, double max, double& xSpace, double& ySpa
 
 }
 
+
 bool CGridDB::calcIntersection(double x1, double y1, double x2, double y2, double x3, double y3, double x4, double y4, double& x, double& y)
 {
     double ua = ((x4 - x3)*(y1 - y3) - (y4 - y3)*(x1 - x3))/((y4 - y3)*(x2 - x1) - (x4 - x3)*(y2 - y1));
@@ -206,9 +212,9 @@ bool CGridDB::calcIntersection(double x1, double y1, double x2, double y2, doubl
     double d3x = (x3 - x)  * (x3 - x)  + (y3 - y)  * (y3 - y);
     double d4x = (x4 - x)  * (x4 - x)  + (y4 - y)  * (y4 - y);
 
-
     return (d12 >= d1x) && (d12 >= d2x) && (d34 >= d3x) && (d34 >= d4x);
 }
+
 
 struct val_t
 {
@@ -240,24 +246,22 @@ void CGridDB::draw(QPainter& p, const QRect& rect, bool& needsRedraw)
     pj_transform(pjWGS84, pjGrid, 1, 0, &btmLeft.u, &btmLeft.v, 0);
     pj_transform(pjWGS84, pjGrid, 1, 0, &btmRight.u, &btmRight.v, 0);
 
-//    qDebug() << "---";
-//    qDebug() << "topLeft " << topLeft.u  << topLeft.v;
-//    qDebug() << "topRight" << topRight.u << topRight.v;
-//    qDebug() << "btmLeft " << btmLeft.u  << btmLeft.v;
-//    qDebug() << "btmRight" << btmRight.u << btmRight.v;
+    //    qDebug() << "---";
+    //    qDebug() << "topLeft " << topLeft.u  << topLeft.v;
+    //    qDebug() << "topRight" << topRight.u << topRight.v;
+    //    qDebug() << "btmLeft " << btmLeft.u  << btmLeft.v;
+    //    qDebug() << "btmRight" << btmRight.u << btmRight.v;
 
-//    qDebug() << topLeft.u - topRight.u;
-//    qDebug() << btmLeft.u - btmRight.u;
+    //    qDebug() << topLeft.u - topRight.u;
+    //    qDebug() << btmLeft.u - btmRight.u;
 
-//    qDebug() << topLeft.v  - btmLeft.v;
-//    qDebug() << topRight.v - btmRight.v;
-
+    //    qDebug() << topLeft.v  - btmLeft.v;
+    //    qDebug() << topRight.v - btmRight.v;
 
     double topMax   = topLeft.v  > topRight.v   ? topLeft.v  : topRight.v;
     double btmMin   = btmLeft.v  < btmRight.v   ? btmLeft.v  : btmRight.v;
     double leftMin  = topLeft.u  < btmLeft.u    ? topLeft.u  : btmLeft.u;
     double rightMax = topRight.u > btmRight.u   ? topRight.u : btmRight.u;
-
 
     double xGridSpace = 1000;
     double yGridSpace = 1000;
@@ -269,8 +273,8 @@ void CGridDB::draw(QPainter& p, const QRect& rect, bool& needsRedraw)
     double x = xStart - xGridSpace;
     double y = yStart + yGridSpace;
 
-//    qDebug() << xStart  << yStart ;
-//    qDebug() << xGridSpace  << yGridSpace ;
+    //    qDebug() << xStart  << yStart ;
+    //    qDebug() << xGridSpace  << yGridSpace ;
 
     QList< val_t > horzTopTicks;
     QList< val_t > horzBtmTicks;
@@ -339,7 +343,6 @@ void CGridDB::draw(QPainter& p, const QRect& rect, bool& needsRedraw)
         y -= yGridSpace;
     }
     p.restore();
-
 
     if(pj_is_latlong(pjGrid))
     {

@@ -183,7 +183,6 @@ class CGarminTile : public QObject
         */
         void loadPolygonsOfType(polytype_t& polygons, quint16 type, unsigned level);
 
-
     private:
         void readFile(QFileExt& file, quint32 offset, quint32 size, QByteArray& data);
         void readSubfileBasics(subfile_desc_t& subfile, QFileExt& file);
@@ -404,13 +403,12 @@ class CGarminTile : public QObject
 
         struct hdr_dem_t : public hdr_subfile_part_t
         {
-            quint32 dem_flags;      ///< 0x00000015 .. 0x00000018
-            quint16 levels;         ///< 0x00000019 .. 0x0000001A
+            quint32 dem_flags;   ///< 0x00000015 .. 0x00000018
+            quint16 levels;      ///< 0x00000019 .. 0x0000001A
             quint8  byte0x0000001B_0x0000001E[4];
-            quint16 blk3_size;      ///< 0x0000001f .. 0x00000020
-            quint32 blk3_offset;    ///< 0x00000021 .. 0x00000024
+            quint16 blk3_size;   ///< 0x0000001f .. 0x00000020
+            quint32 blk3_offset; ///< 0x00000021 .. 0x00000024
         };
-
 
         struct dem_level_t
         {

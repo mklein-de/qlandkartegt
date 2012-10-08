@@ -65,6 +65,4 @@ class CGridDB : public QObject
         QString projstr;
         QColor color;
 };
-
-#endif //CGRIDDB_H
-
+#endif                           //CGRIDDB_H

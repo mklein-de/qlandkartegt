@@ -48,11 +48,13 @@ CDlgConvertToTrack::CDlgConvertToTrack(QWidget * parent)
     editGeonamesOrgUsername->setText(cfg.value("geonames/username", "demo").toString());
 }
 
+
 int CDlgConvertToTrack::exec()
 {
     widgetGeonamesOrgUsername->setEnabled(radioEleFromRemote->isChecked());
     return QDialog::exec();
 }
+
 
 void CDlgConvertToTrack::accept()
 {
@@ -72,6 +74,7 @@ int CDlgConvertToTrack::getDelta()
 
     return comboDelta->itemData(comboDelta->currentIndex()).toInt();
 }
+
 
 CDlgConvertToTrack::EleMode_e CDlgConvertToTrack::getEleMode()
 {

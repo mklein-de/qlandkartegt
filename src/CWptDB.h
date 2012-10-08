@@ -155,8 +155,6 @@ class CWptDB : public IDB
         CWptDB(QTabWidget * tb, QObject * parent);
         void addWpt(CWpt * wpt, bool silent);
 
-
-
         static CWptDB * m_self;
 
         QMap<QString,CWpt*> wpts;

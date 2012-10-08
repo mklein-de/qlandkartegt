@@ -347,4 +347,3 @@ void CMapSearchWidget::slotMapChanged()
     IMap& map  = CMapDB::self().getMap();
     tabWidget->widget(0)->setEnabled(map.maptype == IMap::eRaster);
 }
-

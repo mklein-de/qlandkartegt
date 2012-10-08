@@ -36,7 +36,7 @@ class CTextBrowser : public QTextBrowser
     public slots:
         void slotHighlightArea(const QString& key);
 
-    signals:
+        signals:
         void sigHighlightArea(const QString& key);
 
     protected:
@@ -49,6 +49,4 @@ class CTextBrowser : public QTextBrowser
 
         QString areaKey;
 };
-
-#endif //CTEXTBROWSER_H
-
+#endif                           //CTEXTBROWSER_H

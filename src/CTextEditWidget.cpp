@@ -69,10 +69,8 @@
 #include "CResources.h"
 #include "CCanvas.h"
 
-
 #include <QtGui>
 #include <QTextHtmlExporter.h>
-
 
 CTextEditWidget::CTextEditWidget(QWidget * parent)
 : QWidget(parent)
@@ -213,6 +211,7 @@ CTextEditWidget::CTextEditWidget(QWidget * parent)
 CTextEditWidget::~CTextEditWidget()
 {
 }
+
 
 void CTextEditWidget::textBold()
 {
@@ -405,10 +404,7 @@ void CTextEditWidget::cursorPositionChanged()
 }
 
 
-
 void CTextEditWidget::clipboardDataChanged()
 {
     actionPaste->setEnabled(!QApplication::clipboard()->text().isEmpty());
 }
-
-

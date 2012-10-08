@@ -17,7 +17,6 @@
 
 **********************************************************************************************/
 
-
 #include "CMouseSelWpt.h"
 #include "CMapDB.h"
 #include "GeoMath.h"
@@ -28,7 +27,6 @@
 
 #include <QtGui>
 
-
 CMouseSelWpt::CMouseSelWpt(CCanvas * canvas)
 : IMouse(canvas)
 , mousePressed(false)
@@ -36,10 +34,12 @@ CMouseSelWpt::CMouseSelWpt(CCanvas * canvas)
     cursor = QCursor(QPixmap(":/cursors/cursorArrow.png"),0,0);
 }
 
+
 CMouseSelWpt::~CMouseSelWpt()
 {
 
 }
+
 
 void CMouseSelWpt::mouseMoveEvent(QMouseEvent * e)
 {
@@ -78,6 +78,7 @@ void CMouseSelWpt::mouseMoveEvent(QMouseEvent * e)
     canvas->update();
 }
 
+
 void CMouseSelWpt::mousePressEvent(QMouseEvent * e)
 {
     IMap& map = CMapDB::self().getMap();
@@ -89,6 +90,7 @@ void CMouseSelWpt::mousePressEvent(QMouseEvent * e)
 
     mousePressed = true;
 }
+
 
 void CMouseSelWpt::mouseReleaseEvent(QMouseEvent * e)
 {
@@ -108,6 +110,7 @@ void CMouseSelWpt::mouseReleaseEvent(QMouseEvent * e)
     mousePressed = false;
     canvas->setMouseMode(CCanvas::eMouseMoveArea);
 }
+
 
 void CMouseSelWpt::draw(QPainter& p)
 {

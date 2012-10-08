@@ -20,7 +20,6 @@
 #ifndef CDEVICEGARMINBULK_H
 #define CDEVICEGARMINBULK_H
 
-
 #include "IDevice.h"
 
 class CDeviceGarminBulk : public IDevice
@@ -46,7 +45,6 @@ class CDeviceGarminBulk : public IDevice
 
         void downloadScreenshot(QImage& image);
 
-
     private:
         void readDeviceXml(const QString& filename);
         bool aquire(QDir& dir);
@@ -60,6 +58,4 @@ class CDeviceGarminBulk : public IDevice
         QString pathDay;
 
 };
-
-#endif //CDEVICEGARMINBULK_H
-
+#endif                           //CDEVICEGARMINBULK_H

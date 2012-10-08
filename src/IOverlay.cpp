@@ -224,6 +224,7 @@ void IOverlay::select(IOverlay * s)
     selected = s;
 }
 
+
 void IOverlay::setIcon(const QString& str)
 {
     iconPixmap = QPixmap(str);

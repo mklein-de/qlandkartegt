@@ -25,7 +25,7 @@
 #include <QtGui>
 
 CDlgSetupGrid::CDlgSetupGrid(QWidget * parent)
-    : QDialog(parent)
+: QDialog(parent)
 {
     this->setWindowModality(Qt::WindowModal);
 #if defined(Q_WS_MAC)
@@ -49,10 +49,12 @@ CDlgSetupGrid::CDlgSetupGrid(QWidget * parent)
     connect(toolFromMap, SIGNAL(clicked()), this, SLOT(slotProjFromMap()));
 }
 
+
 CDlgSetupGrid::~CDlgSetupGrid()
 {
 
 }
+
 
 void CDlgSetupGrid::accept()
 {
@@ -65,11 +67,13 @@ void CDlgSetupGrid::accept()
     }
 }
 
+
 void CDlgSetupGrid::slotProjWizard()
 {
     CDlgProjWizzard dlg(*lineProjection, this);
     dlg.exec();
 }
+
 
 void CDlgSetupGrid::slotSelectGridColor()
 {
@@ -86,11 +90,13 @@ void CDlgSetupGrid::slotSelectGridColor()
 
 }
 
+
 void CDlgSetupGrid::slotRestoreDefault()
 {
     lineProjection->setText("+proj=longlat +datum=WGS84 +no_defs");
     lineProjection->setCursorPosition(0);
 }
+
 
 void CDlgSetupGrid::slotProjFromMap()
 {

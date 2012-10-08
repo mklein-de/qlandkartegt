@@ -29,17 +29,16 @@
 class CApplication : public QApplication
 {
     Q_OBJECT;
-public:
-    CApplication(int & argc, char **argv): QApplication(argc, argv)
-    {
-    }
+    public:
+        CApplication(int & argc, char **argv): QApplication(argc, argv)
+        {
+        }
 
-protected:
-    bool event(QEvent *);
-    void timerEvent(QTimerEvent *);
+    protected:
+        bool event(QEvent *);
+        void timerEvent(QTimerEvent *);
 
-private:
-    QQueue<QString> filesToOpen;
+    private:
+        QQueue<QString> filesToOpen;
 };
-
 #endif

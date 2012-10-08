@@ -40,6 +40,4 @@ class CMouseSelWpt : public IMouse
         QPointF point1;
 
 };
-
-#endif //CMOUSESELWPT_H
-
+#endif                           //CMOUSESELWPT_H

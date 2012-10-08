@@ -97,6 +97,5 @@ class CMapQMAP : public IMap
 
         QCheckBox * checkQuadZoom;
 
-
 };
 #endif                           //CMAPQMAP_H

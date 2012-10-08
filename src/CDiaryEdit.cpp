@@ -17,7 +17,6 @@
 
 **********************************************************************************************/
 
-
 #include "CDiaryEdit.h"
 #include "CGeoDB.h"
 #include "CDiary.h"
@@ -45,7 +44,6 @@ class CDiaryEditLock
     private:
         CDiaryEdit * d;
 };
-
 
 CDiaryEdit::CDiaryEdit(CDiary& diary, QWidget * parent)
 : QWidget(parent)
@@ -172,6 +170,7 @@ CDiaryEdit::CDiaryEdit(CDiary& diary, QWidget * parent)
 
 }
 
+
 CDiaryEdit::~CDiaryEdit()
 {
     collectData();
@@ -181,7 +180,6 @@ CDiaryEdit::~CDiaryEdit()
     cfg.setValue("diary/showProfiles", checkProfile->isChecked());
     cfg.setValue("diary/addMapView", checkAddMap->isChecked());
 }
-
 
 
 void CDiaryEdit::mergeFormatOnWordOrSelection(const QTextCharFormat &format)
@@ -195,12 +193,14 @@ void CDiaryEdit::mergeFormatOnWordOrSelection(const QTextCharFormat &format)
     textEdit->mergeCurrentCharFormat(format);
 }
 
+
 void CDiaryEdit::fontChanged(const QFont &f)
 {
     actionTextBold->setChecked(f.bold());
     actionTextItalic->setChecked(f.italic());
     actionTextUnderline->setChecked(f.underline());
 }
+
 
 void CDiaryEdit::resizeEvent(QResizeEvent * e)
 {
@@ -214,6 +214,7 @@ void CDiaryEdit::resizeEvent(QResizeEvent * e)
     draw(*textEdit->document());
 }
 
+
 void CDiaryEdit::closeEvent(QCloseEvent * e)
 {
     if(diary.isModified())
@@ -226,14 +227,15 @@ void CDiaryEdit::closeEvent(QCloseEvent * e)
         }
     }
 
-
     QWidget::closeEvent(e);
 }
+
 
 void CDiaryEdit::setWindowModified()
 {
     setWindowModified(true);
 }
+
 
 void CDiaryEdit::setWindowModified(bool yes)
 {
@@ -250,6 +252,7 @@ void CDiaryEdit::setWindowModified(bool yes)
 
 }
 
+
 void CDiaryEdit::slotSave()
 {
     collectData();
@@ -265,10 +268,12 @@ void CDiaryEdit::slotSave()
     setTabTitle();
 }
 
+
 void CDiaryEdit::slotReload()
 {
     slotReload(true);
 }
+
 
 void CDiaryEdit::slotReload(bool fromDB)
 {
@@ -292,6 +297,7 @@ void CDiaryEdit::slotReload(bool fromDB)
 
     QApplication::restoreOverrideCursor();
 }
+
 
 void CDiaryEdit::slotPrintPreview()
 {
@@ -322,10 +328,12 @@ void CDiaryEdit::slotPrintPreview()
     draw(*textEdit->document());
 }
 
+
 void CDiaryEdit::slotClipboardDataChanged()
 {
     actionPaste->setEnabled(!QApplication::clipboard()->text().isEmpty());
 }
+
 
 void CDiaryEdit::slotTextBold()
 {
@@ -350,6 +358,7 @@ void CDiaryEdit::slotTextItalic()
     mergeFormatOnWordOrSelection(fmt);
 }
 
+
 void CDiaryEdit::slotTextColor()
 {
     QColor col = QColorDialog::getColor(textEdit->textColor(), this);
@@ -362,6 +371,7 @@ void CDiaryEdit::slotTextColor()
     mergeFormatOnWordOrSelection(fmt);
     colorChanged(col);
 }
+
 
 void CDiaryEdit::slotTextStyle(int styleIndex)
 {
@@ -433,10 +443,12 @@ void CDiaryEdit::slotCurrentCharFormatChanged(const QTextCharFormat &format)
     colorChanged(format.foreground().color());
 }
 
+
 void CDiaryEdit::slotIntReload()
 {
     slotReload(false);
 }
+
 
 void CDiaryEdit::colorChanged(const QColor &c)
 {
@@ -526,6 +538,7 @@ void CDiaryEdit::setTabTitle()
     }
 }
 
+
 static bool qSortWptLessName(CWpt * p1, CWpt * p2)
 {
 
@@ -546,10 +559,12 @@ static bool qSortWptLessTime(CWpt * p1, CWpt * p2)
     return p1->getTimestamp() < p2->getTimestamp();
 }
 
+
 static bool qSortTrkLessTime(CTrack * t1, CTrack * t2)
 {
     return t1->getStartTimestamp() < t2->getStartTimestamp();
 }
+
 
 #define CHAR_PER_LINE 100
 #define ROOT_FRAME_MARGIN 5
@@ -648,7 +663,6 @@ void CDiaryEdit::draw(QTextDocument& doc)
         cursor.setPosition(cursor1.position()+1);
     }
 
-
     if(!diary.getWpts().isEmpty())
     {
         QList<CWpt*>& wpts = diary.getWpts();
@@ -668,7 +682,6 @@ void CDiaryEdit::draw(QTextDocument& doc)
 
         foreach(CWpt * wpt, wpts)
         {
-
 
             table->cellAt(cnt,eSym).firstCursorPosition().insertImage(wpt->getIcon().toImage().scaledToWidth(16, Qt::SmoothTransformation));
             table->cellAt(cnt,eInfo).firstCursorPosition().insertText(wpt->getInfo(), fmtCharStandard);
@@ -766,7 +779,6 @@ void CDiaryEdit::getTrackProfile(CTrack * track, QImage& image)
     plot.hide();
     plot.clear();
 
-
     QPolygonF lineElev;
     QPointF   focusElev;
     float basefactor = IUnit::self().basefactor;
@@ -797,6 +809,7 @@ void CDiaryEdit::getTrackProfile(CTrack * track, QImage& image)
     plot.draw(p,image.size());
 
 }
+
 
 //static QString toPlainText(const QTextTableCell& cell)
 //{
@@ -869,5 +882,3 @@ void CDiaryEdit::collectData()
         }
     }
 }
-
-

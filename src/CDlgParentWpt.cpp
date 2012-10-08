@@ -17,7 +17,6 @@
 
 **********************************************************************************************/
 
-
 #include "CDlgParentWpt.h"
 #include "CWptDB.h"
 #include "CWpt.h"
@@ -44,10 +43,12 @@ CDlgParentWpt::CDlgParentWpt(QString &name, QWidget *parent)
     connect(listParentWpt, SIGNAL(itemClicked(QListWidgetItem*)), this, SLOT(slotItemClicked(QListWidgetItem*)));
 }
 
+
 CDlgParentWpt::~CDlgParentWpt()
 {
 
 }
+
 
 void CDlgParentWpt::slotItemClicked(QListWidgetItem * item)
 {

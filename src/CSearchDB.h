@@ -25,14 +25,13 @@
 #include <QMap>
 #include <QtNetwork>
 
-
 class QNetworkReply;
 
 /// search database
 class CSearchDB : public IDB
 {
     Q_OBJECT
-    public:
+        public:
         virtual ~CSearchDB();
 
         //         struct result_t
@@ -46,7 +45,7 @@ class CSearchDB : public IDB
 
         enum hosts_t
         {
-             eOpenRouteService
+            eOpenRouteService
             ,eMapQuest
             ,eGoogle
             ,eNoHost
@@ -91,8 +90,8 @@ class CSearchDB : public IDB
         void slotRequestFinishedGoogle(QByteArray& data);
         void slotRequestFinishedOpenRouteService(QByteArray& data);
         void slotRequestFinishedMapQuest(QByteArray& data);
-		void slotProxyAuthenticationRequired(const QNetworkProxy&, QAuthenticator*);
- 
+        void slotProxyAuthenticationRequired(const QNetworkProxy&, QAuthenticator*);
+
     private:
         friend class CMainWindow;
 

@@ -54,14 +54,13 @@ static void usage(std::ostream &s)
 
 
 static const QString text = QObject::tr(
-        "There is a problem with your Proj4 library and localization. The key issue is "
-        "that the floating point definition in your localization is different from what "
-        "Proj4 uses for it's correction tables ('1.2' vs '1,2'). That might cause an "
-        "offset when using raster maps. Vector maps are not affected, as they use a "
-        "projection that works without a textual table. "
+"There is a problem with your Proj4 library and localization. The key issue is "
+"that the floating point definition in your localization is different from what "
+"Proj4 uses for it's correction tables ('1.2' vs '1,2'). That might cause an "
+"offset when using raster maps. Vector maps are not affected, as they use a "
+"projection that works without a textual table. "
 
-        "");
-
+"");
 
 static void myMessageOutput(QtMsgType type, const char *msg)
 {
@@ -154,9 +153,9 @@ int main(int argc, char ** argv)
         double y = 0.855797;
         pj_transform(pjWGS84,pjGK,1,0,&x,&y,0);
 
-//        printf("------------ %f %f\n", x, y);
+        //        printf("------------ %f %f\n", x, y);
         char * ptr = pj_get_def(pjGK,0);
-//        printf("------------ %s\n",ptr);
+        //        printf("------------ %s\n",ptr);
         str1 = ptr;
 
         pj_free(pjWGS84);
@@ -182,19 +181,18 @@ int main(int argc, char ** argv)
 #endif
 
 #ifdef WIN32
-	// setup environment variables for GDAL/Proj4
-	QString apppath = QCoreApplication::applicationDirPath();
-	apppath = apppath.replace("/", "\\");
+    // setup environment variables for GDAL/Proj4
+    QString apppath = QCoreApplication::applicationDirPath();
+    apppath = apppath.replace("/", "\\");
 
-	QString env_path = qgetenv("PATH");
-	env_path += QString(";%1;%1\\proj\\apps;%1\\gdal\\apps;%1\\curl;").arg(apppath);
-	qputenv("PATH", env_path.toUtf8());
+    QString env_path = qgetenv("PATH");
+    env_path += QString(";%1;%1\\proj\\apps;%1\\gdal\\apps;%1\\curl;").arg(apppath);
+    qputenv("PATH", env_path.toUtf8());
 
-	qputenv("GDAL_DATA", QString("%1\\gdal-data").arg(apppath).toUtf8());
-	qputenv("GDAL_DRIVER_PATH", QString("%1\\gdal\\plugins;").arg(apppath).toUtf8());	
-	qputenv("PROJ_LIB", QString("%1\\proj\\SHARE").arg(apppath).toUtf8());
+    qputenv("GDAL_DATA", QString("%1\\gdal-data").arg(apppath).toUtf8());
+    qputenv("GDAL_DRIVER_PATH", QString("%1\\gdal\\plugins;").arg(apppath).toUtf8());
+    qputenv("PROJ_LIB", QString("%1\\proj\\SHARE").arg(apppath).toUtf8());
 #endif
-
 
 #ifdef ENABLE_TRANSLATION
     {
@@ -246,9 +244,9 @@ int main(int argc, char ** argv)
         double y = 0.855797;
         pj_transform(pjWGS84,pjGK,1,0,&x,&y,0);
 
-//        printf("------------ %f %f\n", x, y);
+        //        printf("------------ %f %f\n", x, y);
         char * ptr = pj_get_def(pjGK,0);
-//        printf("------------ %s\n",ptr);
+        //        printf("------------ %s\n",ptr);
         str2 = ptr;
 
         pj_free(pjWGS84);

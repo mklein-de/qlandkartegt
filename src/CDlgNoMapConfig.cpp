@@ -37,17 +37,18 @@ CDlgNoMapConfig::CDlgNoMapConfig(CMapNoMap &map)
     lineYScale->setText(QString::number(- map.yscale, 'f'));
 }
 
+
 CDlgNoMapConfig::~CDlgNoMapConfig()
 {
 
 }
+
 
 void CDlgNoMapConfig::accept()
 {
     if (CDlgProjWizzard::validProjStr(lineProjection->text()))
     {
         map.setup(lineProjection->text(), lineXScale->text().toDouble(), -lineYScale->text().toDouble());
-
 
         QDialog::accept();
     }
@@ -59,6 +60,7 @@ void CDlgNoMapConfig::slotRestoreDefault()
     lineProjection->setText("+proj=merc +a=6378137.0000 +b=6356752.3142 +towgs84=0,0,0,0,0,0,0,0 +units=m  +no_defs");
     lineProjection->setCursorPosition(0);
 }
+
 
 void CDlgNoMapConfig::slotProjWizard()
 {

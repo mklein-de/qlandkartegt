@@ -25,9 +25,9 @@
 #include <QSqlError>
 
 CDlgSelGeoDBFolder::CDlgSelGeoDBFolder(QSqlDatabase& db, quint64& result, bool topLevelToo)
-    : db(db)
-    , result(result)
-    , topLevelToo(topLevelToo)
+: db(db)
+, result(result)
+, topLevelToo(topLevelToo)
 {
     result = 0;
     setupUi(this);
@@ -36,10 +36,10 @@ CDlgSelGeoDBFolder::CDlgSelGeoDBFolder(QSqlDatabase& db, quint64& result, bool t
     item.setData(CGeoDB::eCoName, CGeoDB::eUrDBKey, 1);
     queryChildrenFromDB(&item);
 
-
     treeWidget->addTopLevelItems(item.takeChildren());
     treeWidget->expandAll();
 }
+
 
 CDlgSelGeoDBFolder::~CDlgSelGeoDBFolder()
 {

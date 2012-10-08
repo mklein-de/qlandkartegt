@@ -57,7 +57,6 @@ CMegaMenu::CMegaMenu(CCanvas * canvas)
     actionGroup = theMainWindow->getActionGroupProvider();
     actions     = actionGroup->getActions();
 
-
 }
 
 
@@ -127,7 +126,6 @@ void CMegaMenu::switchByKeyWord(const QString& key)
     {
         actions->funcSwitchToMain();
     }
-
 
 }
 

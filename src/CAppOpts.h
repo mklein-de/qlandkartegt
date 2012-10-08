@@ -43,5 +43,4 @@ class CAppOpts
 };
 
 extern CAppOpts *qlOpts;
-
-#endif //CAPPOPTS_H
+#endif                           //CAPPOPTS_H

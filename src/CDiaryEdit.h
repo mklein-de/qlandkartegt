@@ -57,7 +57,6 @@ class CDiaryEdit : public QWidget, private Ui::IDiaryEdit
 
         void slotIntReload();
 
-
     protected:
         void resizeEvent(QResizeEvent * e);
         void closeEvent(QCloseEvent * event);
@@ -77,8 +76,6 @@ class CDiaryEdit : public QWidget, private Ui::IDiaryEdit
 
         CDiary& diary;
 
-
-
         QAction * actionUndo;
         QAction * actionRedo;
         QAction * actionCut;
@@ -90,8 +87,5 @@ class CDiaryEdit : public QWidget, private Ui::IDiaryEdit
         QAction * actionTextItalic;
         QAction * actionTextColor;
 
-
 };
-
-#endif //CDIARYEDIT_H
-
+#endif                           //CDIARYEDIT_H

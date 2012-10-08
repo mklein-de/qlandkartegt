@@ -15,7 +15,6 @@
     along with this program; if not, write to the Free Software
     Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
 
-
     This code is refactured from the QWT project. http://qwt.sourceforge.net/
 
 **********************************************************************************************/
@@ -30,11 +29,11 @@ static int lookup(double x, const QPolygonF &values)
 
     if (x <= values[0].x())
     {
-       i1 = 0;
+        i1 = 0;
     }
     else if (x >= values[size - 2].x())
     {
-       i1 = size - 2;
+        i1 = size - 2;
     }
     else
     {
@@ -48,12 +47,12 @@ static int lookup(double x, const QPolygonF &values)
 
             if (values[i3].x() > x)
             {
-               i2 = i3;
-           }
+                i2 = i3;
+            }
             else
             {
-               i1 = i3;
-           }
+                i1 = i3;
+            }
         }
     }
     return i1;
@@ -65,10 +64,12 @@ CSpline::CSpline()
 
 }
 
+
 CSpline::~CSpline()
 {
 
 }
+
 
 void CSpline::reset()
 {
@@ -77,6 +78,7 @@ void CSpline::reset()
     coefC.resize(0);
     points.resize(0);
 }
+
 
 bool CSpline::setPoints(const QPolygonF& p)
 {
@@ -89,20 +91,19 @@ bool CSpline::setPoints(const QPolygonF& p)
 
     points = p;
 
-
     coefA.resize(size-1);
     coefB.resize(size-1);
     coefC.resize(size-1);
 
     bool ok;
-//    if ( d_data->splineType == Periodic )
-//    {
-//        ok = buildPeriodicSpline(points);
-//    }
-//    else
-//    {
-//        ok = buildNaturalSpline(points);
-//    }
+    //    if ( d_data->splineType == Periodic )
+    //    {
+    //        ok = buildPeriodicSpline(points);
+    //    }
+    //    else
+    //    {
+    //        ok = buildNaturalSpline(points);
+    //    }
     ok = buildNaturalSpline(points);
 
     if (!ok)
@@ -112,6 +113,7 @@ bool CSpline::setPoints(const QPolygonF& p)
 
     return ok;
 }
+
 
 double CSpline::value(double x)
 {
@@ -178,14 +180,14 @@ bool CSpline::buildNaturalSpline(const QPolygonF &points)
     s[1] = d[1];
     for ( i = 2; i < size - 1; i++)
     {
-       s[i] = d[i] - c[i-1] * s[i-1];
+        s[i] = d[i] - c[i-1] * s[i-1];
     }
 
     // backward elimination
     s[size - 2] = - s[size - 2] / a[size - 2];
     for (i = size -3; i > 0; i--)
     {
-       s[i] = - (s[i] + b[i] * s[i+1]) / a[i];
+        s[i] = - (s[i] + b[i] * s[i+1]) / a[i];
     }
     s[size - 1] = s[0] = 0.0;
 
@@ -201,6 +203,7 @@ bool CSpline::buildNaturalSpline(const QPolygonF &points)
 
     return true;
 }
+
 
 bool CSpline::buildPeriodicSpline(const QPolygonF &points)
 {
@@ -257,14 +260,13 @@ bool CSpline::buildPeriodicSpline(const QPolygonF &points)
         b[i] /= a[i];
         if (i > 0)
         {
-           c[i] = - c[i-1] * b[i-1] / a[i];
+            c[i] = - c[i-1] * b[i-1] / a[i];
         }
         a[i+1] = sqrt( a[i+1] - b[i] * b[i]);
         sum += c[i] * c[i];
     }
     b[imax-1] = (b[imax-1] - c[imax-2] * b[imax-2]) / a[imax-1];
     a[imax] = sqrt(a[imax] - b[imax-1] * b[imax-1] - sum);
-
 
     // forward elimination
     s[0] = d[0] / a[0];
@@ -276,13 +278,12 @@ bool CSpline::buildPeriodicSpline(const QPolygonF &points)
     }
     s[imax] = (d[imax] - b[imax-1] * s[imax-1] - sum) / a[imax];
 
-
     // backward elimination
     s[imax] = - s[imax] / a[imax];
     s[imax-1] = -(s[imax-1] + b[imax-1] * s[imax]) / a[imax-1];
     for (i= imax - 2; i >= 0; i--)
     {
-       s[i] = - (s[i] + b[i] * s[i+1] + c[i] * s[imax]) / a[i];
+        s[i] = - (s[i] + b[i] * s[i+1] + c[i] * s[imax]) / a[i];
     }
 
     //

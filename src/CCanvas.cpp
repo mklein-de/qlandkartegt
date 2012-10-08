@@ -103,6 +103,7 @@ CCanvas::CCanvas(QWidget * parent)
     connect(timerFadingMessage, SIGNAL(timeout()), this, SLOT(slotFadingMessage()));
 }
 
+
 CCanvas::~CCanvas()
 {
 }
@@ -116,6 +117,7 @@ void CCanvas::setupDelayed()
 
     connect(&CTrackDB::self(), SIGNAL(sigPointOfFocus(int)), this, SLOT(slotPointOfFocus(int)));
 }
+
 
 QColor CCanvas::getSelectedColor()
 {
@@ -285,16 +287,19 @@ void CCanvas::mouseReleaseEvent(QMouseEvent * e)
     mouse->mouseReleaseEvent(e);
 }
 
+
 void CCanvas::mouseDoubleClickEvent(QMouseEvent * e)
 {
     posMouse = e->pos();
     mouse->mouseDoubleClickEvent(e);
 }
 
+
 void CCanvas::keyPressEvent(QKeyEvent * e)
 {
     mouse->keyPressEvent(e);
 }
+
 
 void CCanvas::keyReleaseEvent(QKeyEvent * e)
 {
@@ -369,6 +374,7 @@ void CCanvas::print(QImage& img)
     p.end();
 
 }
+
 
 void CCanvas::print(QImage& img, const QSize& pagesize)
 {
@@ -558,7 +564,6 @@ void CCanvas::drawCompass(QPainter& p)
     }
     QPolygon arrow;
 
-
     arrow << QPoint(0, -COMPASS_H/2) << QPoint(-COMPASS_W/2, COMPASS_H/2) << QPoint(0, COMPASS_H/3) << QPoint(COMPASS_W/2, COMPASS_H/2);
 
     p.save();
@@ -704,7 +709,6 @@ void CCanvas::move(move_direction_e dir)
             p2.ry() -= height() / 50;
             break;
 
-
         case eMoveCenter:
         {
             double lon1 = 0, lat1 = 0, lon2 = 0, lat2 = 0;
@@ -751,7 +755,7 @@ void CCanvas::mouseMoveEventCoord(QMouseEvent * e)
     {
         map.convertPt2M(x,y);
         info += QString(" (%1 %2)").arg(x,0,'f',0).arg(y,0,'f',0);
-//        qDebug() << "--" << info;
+        //        qDebug() << "--" << info;
     }
     else
     {
@@ -804,7 +808,7 @@ void CCanvas::raiseContextMenu(const QPoint& pos)
         }
         menu.addSeparator();
     }
-//    menu.addAction(QIcon(":/icons/iconClipboard16x16.png"),tr("Copy Position"),this,SLOT(slotCopyPosition()));
+    //    menu.addAction(QIcon(":/icons/iconClipboard16x16.png"),tr("Copy Position"),this,SLOT(slotCopyPosition()));
     mouse->contextMenu(menu);
 
     QPoint p = mapToGlobal(pos);
@@ -822,11 +826,13 @@ void CCanvas::showEvent ( QShowEvent * event )
     map.resize(size());
 }
 
+
 void CCanvas::slotTrackChanged()
 {
     CTrack * trk = CTrackDB::self().highlightedTrack();
     slotHighlightTrack(trk);
 }
+
 
 void CCanvas::slotPointOfFocus(const int idx)
 {
@@ -847,6 +853,7 @@ void CCanvas::slotPointOfFocus(const int idx)
 
     }
 }
+
 
 void CCanvas::slotHighlightTrack(CTrack * track)
 {
@@ -897,6 +904,7 @@ void CCanvas::slotHighlightTrack(CTrack * track)
     }
 }
 
+
 void CCanvas::setFadingMessage(const QString& msg)
 {
     fadingMessage = msg;
@@ -904,12 +912,14 @@ void CCanvas::setFadingMessage(const QString& msg)
     timerFadingMessage->start(1000);
 }
 
+
 void CCanvas::slotFadingMessage()
 {
     fadingMessage.clear();
     update();
 
 }
+
 
 void CCanvas::drawFadingMessage(QPainter& p)
 {

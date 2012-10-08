@@ -113,6 +113,7 @@ CDlgProjWizzard::~CDlgProjWizzard()
 
 }
 
+
 void CDlgProjWizzard::findDatum(const QString& str)
 {
     QString cmp;
@@ -147,6 +148,7 @@ void CDlgProjWizzard::findDatum(const QString& str)
     }
 
 }
+
 
 void CDlgProjWizzard::slotChange()
 {
@@ -204,6 +206,7 @@ void CDlgProjWizzard::accept()
         QDialog::accept();
     }
 }
+
 
 bool CDlgProjWizzard::validProjStr(const QString projStr)
 {

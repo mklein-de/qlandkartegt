@@ -26,7 +26,6 @@ class CWpt;
 class CTrack;
 class QTextStream;
 
-
 class CDeviceTwoNav : public IDevice
 {
     Q_OBJECT;
@@ -68,6 +67,4 @@ class CDeviceTwoNav : public IDevice
         CWpt * wpt;
 
 };
-
-#endif //CDEVICETWONAV_H
-
+#endif                           //CDEVICETWONAV_H

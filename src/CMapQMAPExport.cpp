@@ -38,10 +38,12 @@ static bool tileIndexLessThan(const QPair<int, int> &i1, const QPair<int, int> &
     {
         return i1.first < i2.first;
     }
-    else{
+    else
+    {
         return false;
     }
 }
+
 
 // --------------------------------------------------------------------------------------------
 CMapQMAPExport::CMapQMAPExport(const CMapSelectionRaster& mapsel, QWidget * parent)
@@ -141,7 +143,6 @@ CMapQMAPExport::CMapQMAPExport(const CMapSelectionRaster& mapsel, QWidget * pare
         radioJNX->hide();
     }
 
-
     checkOverview2x->setChecked(cfg.value("map/export/over2x", true).toBool());
     checkOverview4x->setChecked(cfg.value("map/export/over4x", true).toBool());
     checkOverview8x->setChecked(cfg.value("map/export/over8x", true).toBool());
@@ -191,6 +192,7 @@ CMapQMAPExport::CMapQMAPExport(const CMapSelectionRaster& mapsel, QWidget * pare
 
 }
 
+
 CMapQMAPExport::~CMapQMAPExport()
 {
     SETTINGS;
@@ -219,6 +221,7 @@ CMapQMAPExport::~CMapQMAPExport()
     cfg.setValue("map/export/hidedetails", textBrowser->isHidden());
 }
 
+
 void CMapQMAPExport::slotSetupProj()
 {
     CDlgProjWizzard dlg(*lineGeoTiffProjection, this);
@@ -226,12 +229,14 @@ void CMapQMAPExport::slotSetupProj()
     lineGeoTiffProjection->setCursorPosition(0);
 }
 
+
 void CMapQMAPExport::slotSetupProjFromMap()
 {
     IMap& map = CMapDB::self().getMap();
     lineGeoTiffProjection->setText(map.getProjection());
     lineGeoTiffProjection->setCursorPosition(0);
 }
+
 
 void CMapQMAPExport::slotBirdsEyeToggled(bool checked)
 {
@@ -254,6 +259,7 @@ void CMapQMAPExport::slotBirdsEyeToggled(bool checked)
 
     adjustSize();
 }
+
 
 void CMapQMAPExport::slotGCMToggled(bool checked)
 {
@@ -278,6 +284,7 @@ void CMapQMAPExport::slotGCMToggled(bool checked)
     adjustSize();
 }
 
+
 void CMapQMAPExport::slotQLMToggled(bool checked)
 {
     if(checked)
@@ -300,6 +307,7 @@ void CMapQMAPExport::slotQLMToggled(bool checked)
 
     adjustSize();
 }
+
 
 void CMapQMAPExport::slotRMAPToggled(bool checked)
 {
@@ -350,6 +358,7 @@ void CMapQMAPExport::slotStderr()
     tainted = true;
 }
 
+
 void CMapQMAPExport::slotStdout()
 {
     QString str;
@@ -368,12 +377,12 @@ void CMapQMAPExport::slotStdout()
     }
 #endif
 
-
     progress(str);
 
     textBrowser->insertPlainText(str);
     textBrowser->verticalScrollBar()->setValue(textBrowser->verticalScrollBar()->maximum());
 }
+
 
 void CMapQMAPExport::progress(const QString& str)
 {
@@ -395,6 +404,7 @@ void CMapQMAPExport::progress(const QString& str)
 
 }
 
+
 void CMapQMAPExport::stdOut(const QString& str, bool gui)
 {
     textBrowser->setTextColor(Qt::black);
@@ -408,6 +418,7 @@ void CMapQMAPExport::stdOut(const QString& str, bool gui)
         labelStatus->setText(str.simplified());
     }
 }
+
 
 void CMapQMAPExport::stdErr(const QString& str, bool gui)
 {
@@ -423,6 +434,7 @@ void CMapQMAPExport::stdErr(const QString& str, bool gui)
     }
 }
 
+
 void CMapQMAPExport::slotDetails()
 {
     if(textBrowser->isHidden())
@@ -436,6 +448,7 @@ void CMapQMAPExport::slotDetails()
 
     adjustSize();
 }
+
 
 void CMapQMAPExport::slotCancel()
 {
@@ -451,6 +464,7 @@ void CMapQMAPExport::slotCancel()
         reject();
     }
 }
+
 
 void CMapQMAPExport::slotStart()
 {
@@ -478,6 +492,7 @@ void CMapQMAPExport::slotStart()
     // start the statemachine
     setNextState();
 }
+
 
 void CMapQMAPExport::startExportStreaming()
 {
@@ -511,6 +526,7 @@ void CMapQMAPExport::startExportStreaming()
 
     startExportCommon(files, tarPath, prefix);
 }
+
 
 void CMapQMAPExport::startExportGDAL()
 {
@@ -634,6 +650,7 @@ void CMapQMAPExport::startExportGDAL()
     startExportCommon(files, tarPath, prefix);
 }
 
+
 void CMapQMAPExport::startExportCommon(QStringList& srcFiles, QDir& tarPath, const QString& prefix)
 {
     // *********************************************
@@ -658,7 +675,6 @@ void CMapQMAPExport::startExportCommon(QStringList& srcFiles, QDir& tarPath, con
         projection = comboRmapProjection->itemData(comboRmapProjection->currentIndex()).toString();
     }
 
-
     CMapExportStateReproject * state4 = new CMapExportStateReproject(projection, this);
     foreach(const QString& srcFile, srcFiles)
     {
@@ -677,7 +693,6 @@ void CMapQMAPExport::startExportCommon(QStringList& srcFiles, QDir& tarPath, con
         state4->addJob(job);
     }
     states << state4;
-
 
     if(radioQLM->isChecked())
     {
@@ -732,7 +747,6 @@ void CMapQMAPExport::startExportCommon(QStringList& srcFiles, QDir& tarPath, con
             file.close();
             tileFile = file.fileName();
         }
-
 
         CMapExportStateGCM * state5 = new CMapExportStateGCM(path_map2gcm, this);
 
@@ -800,7 +814,6 @@ void CMapQMAPExport::startExportCommon(QStringList& srcFiles, QDir& tarPath, con
         }
         states << state5;
 
-
         // *********************************************
         // 5. step: convert Geotiff to TwoNav RMAP
         // ---------------------------------------------
@@ -824,6 +837,7 @@ void CMapQMAPExport::startExportCommon(QStringList& srcFiles, QDir& tarPath, con
     }
 
 }
+
 
 void CMapQMAPExport::setNextState()
 {
@@ -853,6 +867,7 @@ void CMapQMAPExport::setNextState()
     }
 }
 
+
 void CMapQMAPExport::slotFinished(int exitCode, QProcess::ExitStatus status)
 {
     output.clear();
@@ -879,13 +894,13 @@ void CMapQMAPExport::slotFinished(int exitCode, QProcess::ExitStatus status)
     labelJob->setText(tr("Job %1/%2 - ").arg(state->getJobIdx()).arg(state->getJobCnt()));
 }
 
+
 void CMapQMAPExport::slotOutputPath()
 {
     QString path = QFileDialog::getExistingDirectory(this, tr("Select output path..."), labelPath->text(), FILE_DIALOG_FLAGS);
     if(path.isEmpty()) return;
     labelPath->setText(path);
 }
-
 
 
 // --------------------------------------------------------------------------------------------
@@ -900,10 +915,12 @@ IMapExportState::IMapExportState(CMapQMAPExport * parent)
 
 }
 
+
 IMapExportState::~IMapExportState()
 {
 
 }
+
 
 QString IMapExportState::getTempFilename()
 {
@@ -916,6 +933,7 @@ QString IMapExportState::getTempFilename()
     return fn;
 }
 
+
 // --------------------------------------------------------------------------------------------
 CMapExportStateCutFiles::CMapExportStateCutFiles(CMapQMAPExport * parent)
 : IMapExportState(parent)
@@ -923,10 +941,12 @@ CMapExportStateCutFiles::CMapExportStateCutFiles(CMapQMAPExport * parent)
 {
 }
 
+
 CMapExportStateCutFiles::~CMapExportStateCutFiles()
 {
     qDebug() << "~CMapExportStateCutFiles()";
 }
+
 
 void CMapExportStateCutFiles::explain()
 {
@@ -934,6 +954,7 @@ void CMapExportStateCutFiles::explain()
     gui->stdOut(tr("Cut area from files..."), true);
     gui->stdOut(   "-------------------------------------");
 }
+
 
 void CMapExportStateCutFiles::nextJob(QProcess& cmd)
 {
@@ -973,6 +994,7 @@ void CMapExportStateCutFiles::nextJob(QProcess& cmd)
     }
 }
 
+
 // --------------------------------------------------------------------------------------------
 CMapExportStateCombineFiles::CMapExportStateCombineFiles(CMapQMAPExport * parent)
 : IMapExportState(parent)
@@ -980,6 +1002,7 @@ CMapExportStateCombineFiles::CMapExportStateCombineFiles(CMapQMAPExport * parent
 {
 
 }
+
 
 CMapExportStateCombineFiles::~CMapExportStateCombineFiles()
 {
@@ -994,12 +1017,14 @@ CMapExportStateCombineFiles::~CMapExportStateCombineFiles()
     }
 }
 
+
 void CMapExportStateCombineFiles::explain()
 {
     gui->stdOut(   "*************************************");
     gui->stdOut(tr("Combine files for each level..."), true);
     gui->stdOut(   "-------------------------------------");
 }
+
 
 void CMapExportStateCombineFiles::nextJob(QProcess& cmd)
 {
@@ -1033,6 +1058,7 @@ void CMapExportStateCombineFiles::nextJob(QProcess& cmd)
     }
 }
 
+
 // --------------------------------------------------------------------------------------------
 CMapExportStateConvColor::CMapExportStateConvColor(CMapQMAPExport * parent)
 : IMapExportState(parent)
@@ -1040,6 +1066,7 @@ CMapExportStateConvColor::CMapExportStateConvColor(CMapQMAPExport * parent)
 {
 
 }
+
 
 CMapExportStateConvColor::~CMapExportStateConvColor()
 {
@@ -1052,12 +1079,14 @@ CMapExportStateConvColor::~CMapExportStateConvColor()
 
 }
 
+
 void CMapExportStateConvColor::explain()
 {
     gui->stdOut(   "*************************************");
     gui->stdOut(tr("Reduce color bands to 3 (RGB)..."), true);
     gui->stdOut(   "-------------------------------------");
 }
+
 
 void CMapExportStateConvColor::nextJob(QProcess& cmd)
 {
@@ -1088,6 +1117,7 @@ void CMapExportStateConvColor::nextJob(QProcess& cmd)
     }
 }
 
+
 // --------------------------------------------------------------------------------------------
 CMapExportStateReproject::CMapExportStateReproject(const QString& proj, CMapQMAPExport * parent)
 : IMapExportState(parent)
@@ -1096,6 +1126,7 @@ CMapExportStateReproject::CMapExportStateReproject(const QString& proj, CMapQMAP
 {
 
 }
+
 
 CMapExportStateReproject::~CMapExportStateReproject()
 {
@@ -1108,12 +1139,14 @@ CMapExportStateReproject::~CMapExportStateReproject()
 
 }
 
+
 void CMapExportStateReproject::explain()
 {
     gui->stdOut(   "*************************************");
     gui->stdOut(tr("Re-project files..."), true);
     gui->stdOut(   "-------------------------------------");
 }
+
 
 void CMapExportStateReproject::nextJob(QProcess& cmd)
 {
@@ -1130,7 +1163,6 @@ void CMapExportStateReproject::nextJob(QProcess& cmd)
             gui->slotFinished(0, QProcess::NormalExit);
             return;
         }
-
 
         QString width, height;
         {
@@ -1152,13 +1184,13 @@ void CMapExportStateReproject::nextJob(QProcess& cmd)
         gui->stdOut(GDALWARP " " +  args.join(" ") + "\n");
         cmd.start(GDALWARP, args);
 
-
     }
     else
     {
         gui->setNextState();
     }
 }
+
 
 // --------------------------------------------------------------------------------------------
 CMapExportStateOptimize::CMapExportStateOptimize(CMapQMAPExport * parent)
@@ -1168,10 +1200,12 @@ CMapExportStateOptimize::CMapExportStateOptimize(CMapQMAPExport * parent)
 
 }
 
+
 CMapExportStateOptimize::~CMapExportStateOptimize()
 {
     qDebug() << "~CMapExportStateOptimize()";
 }
+
 
 void CMapExportStateOptimize::explain()
 {
@@ -1179,6 +1213,7 @@ void CMapExportStateOptimize::explain()
     gui->stdOut(tr("Optimize files..."), true);
     gui->stdOut(   "-------------------------------------");
 }
+
 
 void CMapExportStateOptimize::nextJob(QProcess& cmd)
 {
@@ -1212,6 +1247,7 @@ void CMapExportStateOptimize::nextJob(QProcess& cmd)
     }
 }
 
+
 // --------------------------------------------------------------------------------------------
 CMapExportStateGCM::CMapExportStateGCM(const QString& app, CMapQMAPExport * parent)
 : IMapExportState(parent)
@@ -1220,6 +1256,7 @@ CMapExportStateGCM::CMapExportStateGCM(const QString& app, CMapQMAPExport * pare
 {
 
 }
+
 
 CMapExportStateGCM::~CMapExportStateGCM()
 {
@@ -1235,12 +1272,14 @@ CMapExportStateGCM::~CMapExportStateGCM()
     }
 }
 
+
 void CMapExportStateGCM::explain()
 {
     gui->stdOut(   "*************************************");
     gui->stdOut(tr("Create Garmin Custom Map..."), true);
     gui->stdOut(   "-------------------------------------");
 }
+
 
 void CMapExportStateGCM::nextJob(QProcess& cmd)
 {
@@ -1269,6 +1308,7 @@ void CMapExportStateGCM::nextJob(QProcess& cmd)
     }
 }
 
+
 // --------------------------------------------------------------------------------------------
 CMapExportStateJNX::CMapExportStateJNX(const QString& app, CMapQMAPExport * parent)
 : IMapExportState(parent)
@@ -1277,6 +1317,7 @@ CMapExportStateJNX::CMapExportStateJNX(const QString& app, CMapQMAPExport * pare
 {
 
 }
+
 
 CMapExportStateJNX::~CMapExportStateJNX()
 {
@@ -1291,12 +1332,14 @@ CMapExportStateJNX::~CMapExportStateJNX()
     }
 }
 
+
 void CMapExportStateJNX::explain()
 {
     gui->stdOut(   "*************************************");
     gui->stdOut(tr("Create Garmin JNX Map..."), true);
     gui->stdOut(   "-------------------------------------");
 }
+
 
 void CMapExportStateJNX::nextJob(QProcess& cmd)
 {
@@ -1326,6 +1369,7 @@ void CMapExportStateJNX::nextJob(QProcess& cmd)
     }
 }
 
+
 // --------------------------------------------------------------------------------------------
 CMapExportStateReadTileCache::CMapExportStateReadTileCache(const QString& app, CMapQMAPExport * parent)
 : IMapExportState(parent)
@@ -1334,11 +1378,13 @@ CMapExportStateReadTileCache::CMapExportStateReadTileCache(const QString& app, C
 
 }
 
+
 CMapExportStateReadTileCache::~CMapExportStateReadTileCache()
 {
     qDebug() << "~CMapExportStateReadTileCache()";
 
 }
+
 
 void CMapExportStateReadTileCache::explain()
 {
@@ -1346,6 +1392,7 @@ void CMapExportStateReadTileCache::explain()
     gui->stdOut(tr("Create GeoTiff from map cache..."), true);
     gui->stdOut(   "-------------------------------------");
 }
+
 
 void CMapExportStateReadTileCache::nextJob(QProcess& cmd)
 {
@@ -1355,10 +1402,10 @@ void CMapExportStateReadTileCache::nextJob(QProcess& cmd)
 
         QStringList args;
         args << "-a" << QString::number(job.level)
-             << QString::number(job.lon1, 'f', 12)
-             << QString::number(job.lat1, 'f', 12)
-             << QString::number(job.lon2, 'f', 12)
-             << QString::number(job.lat2, 'f', 12);
+            << QString::number(job.lon1, 'f', 12)
+            << QString::number(job.lat1, 'f', 12)
+            << QString::number(job.lon2, 'f', 12)
+            << QString::number(job.lat2, 'f', 12);
         args << "-c" << CResources::self().getPathMapCache().absolutePath();
         args << "-i" << job.srcFile;
         args << "-o" << job.tarFile;
@@ -1384,6 +1431,7 @@ CMapExportStateRMAP::CMapExportStateRMAP(const QString& app, CMapQMAPExport * pa
 
 }
 
+
 CMapExportStateRMAP::~CMapExportStateRMAP()
 {
     qDebug() << "~CMapExportStateRMAP()";
@@ -1397,12 +1445,14 @@ CMapExportStateRMAP::~CMapExportStateRMAP()
     }
 }
 
+
 void CMapExportStateRMAP::explain()
 {
     gui->stdOut(   "*************************************");
     gui->stdOut(tr("Create TwoNav RMAP..."), true);
     gui->stdOut(   "-------------------------------------");
 }
+
 
 void CMapExportStateRMAP::nextJob(QProcess& cmd)
 {

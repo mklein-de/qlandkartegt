@@ -38,7 +38,7 @@ class CCreateMapWMS : public QWidget, private Ui::ICreateMapWMS
         void slotSetupLink();
         void slotRequestStarted(int );
         void slotRequestFinished(int , bool error);
-		void slotProxyAuthenticationRequired(const QNetworkProxy&, QAuthenticator*);	
+        void slotProxyAuthenticationRequired(const QNetworkProxy&, QAuthenticator*);
         void slotSave();
         void slotSelectFile();
 

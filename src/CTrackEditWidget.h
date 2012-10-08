@@ -65,7 +65,7 @@ class CTrackEditWidget : public QWidget, private Ui::ITrackEditWidget
         CTrackEditWidget(QWidget * parent);
         virtual ~CTrackEditWidget();
 
-    signals:
+        signals:
         void sigZoomToDistance(float d1, float d2);
         void sigZoomToTime(quint32 t1, quint32 t2);
 

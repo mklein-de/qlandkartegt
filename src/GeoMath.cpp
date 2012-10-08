@@ -62,6 +62,7 @@ void GPS_Math_DegMin_To_Deg(bool sign, const int32_t d, const float m, float& de
     return;
 }
 
+
 void GPS_Math_DegMinSec_To_Deg(bool sign, const int32_t d, const int32_t m, const int32_t s, float& deg)
 {
 
@@ -74,22 +75,24 @@ void GPS_Math_DegMinSec_To_Deg(bool sign, const int32_t d, const int32_t m, cons
     return;
 }
 
+
 namespace GeoMath
 {
-QRegExp reCoord1("^\\s*([N|S]){1}\\W*([0-9]+)\\W*([0-9]+\\.[0-9]+)\\s+([E|W|O]){1}\\W*([0-9]+)\\W*([0-9]+\\.[0-9]+)\\s*$");
+    QRegExp reCoord1("^\\s*([N|S]){1}\\W*([0-9]+)\\W*([0-9]+\\.[0-9]+)\\s+([E|W|O]){1}\\W*([0-9]+)\\W*([0-9]+\\.[0-9]+)\\s*$");
 
-QRegExp reCoord2("^\\s*([N|S]){1}\\s*([0-9]+\\.[0-9]+)\\W*\\s+([E|W|O]){1}\\s*([0-9]+\\.[0-9]+)\\W*\\s*$");
+    QRegExp reCoord2("^\\s*([N|S]){1}\\s*([0-9]+\\.[0-9]+)\\W*\\s+([E|W|O]){1}\\s*([0-9]+\\.[0-9]+)\\W*\\s*$");
 
-QRegExp reCoord3("^\\s*([-0-9]+\\.[0-9]+)\\s+([-0-9]+\\.[0-9]+)\\s*$");
+    QRegExp reCoord3("^\\s*([-0-9]+\\.[0-9]+)\\s+([-0-9]+\\.[0-9]+)\\s*$");
 
-QRegExp reCoord4("^\\s*([N|S]){1}\\s*([0-9]+)\\W+([0-9]+)\\W+([0-9]+)\\W*([E|W|O]){1}\\W*([0-9]+)\\W+([0-9]+)\\W+([0-9]+)\\W*\\s*$");
+    QRegExp reCoord4("^\\s*([N|S]){1}\\s*([0-9]+)\\W+([0-9]+)\\W+([0-9]+)\\W*([E|W|O]){1}\\W*([0-9]+)\\W+([0-9]+)\\W+([0-9]+)\\W*\\s*$");
 
-QRegExp reCoord5("^\\s*([-0-9]+\\.[0-9]+)([N|S])\\s+([-0-9]+\\.[0-9]+)([W|E])\\s*$");
+    QRegExp reCoord5("^\\s*([-0-9]+\\.[0-9]+)([N|S])\\s+([-0-9]+\\.[0-9]+)([W|E])\\s*$");
 }
+
 
 using namespace GeoMath;
 
-//49.03196968ºN 12.10440376ºE
+//49.03196968N 12.10440376E
 
 bool GPS_Math_Str_To_Deg(const QString& str, float& lon, float& lat, bool silent)
 {
@@ -139,7 +142,6 @@ bool GPS_Math_Str_To_Deg(const QString& str, float& lon, float& lat, bool silent
         int secLon    = reCoord4.cap(8).toInt();
 
         GPS_Math_DegMinSec_To_Deg(signLon, degLon, minLon, secLon, lon);
-
 
     }
     else if(reCoord5.exactMatch(str))
@@ -209,7 +211,7 @@ bool testPointInPolygon(const projXY& pt, const QVector<projXY>& poly1)
     bool    c = false;
     int     npol;
     int     i = 0, j = 0;
-    projXY      p1, p2;              // the two points of the polyline close to pt
+    projXY      p1, p2;          // the two points of the polyline close to pt
     float  x = pt.u;
     float  y = pt.v;
 
@@ -437,8 +439,6 @@ bool GPS_Math_Str_To_LongLat(const QString& str, float& lon, float& lat, const Q
     lon = u;
     lat = v;
 
-
-
     if(pjSrc) pj_free(pjSrc);
     if(pjTar) pj_free(pjTar);
     return true;
@@ -470,7 +470,7 @@ void GPS_Math_SubPolyline( const QPoint& pt1, const QPoint& pt2, int threshold, 
     double d_p1_p2;              // distance between p1 and p2
     double u;                    // ratio u the tangent point will divide d_p1_p2
     double x,y;                  // coord. (x,y) of the point on line defined by [p1,p2] close to pt
-    double distance;     // the distance to the polyline
+    double distance;             // the distance to the polyline
     double shortest1 = threshold;
     double shortest2 = threshold;
     int idx11 = -1, idx21 = -1, idx12 = -1;
@@ -494,7 +494,6 @@ void GPS_Math_SubPolyline( const QPoint& pt1, const QPoint& pt2, int threshold, 
         dy = p2.v - p1.v;
         d_p1_p2 = sqrt(dx * dx + dy * dy);
 
-
         // find point on line closest to pt1
         u = ((pt1.x() - p1.u) * dx + (pt1.y() - p1.v) * dy) / (d_p1_p2 * d_p1_p2);
 
@@ -514,7 +513,6 @@ void GPS_Math_SubPolyline( const QPoint& pt1, const QPoint& pt2, int threshold, 
                 shortest1 = distance;
             }
         }
-
 
         // find point on line closest to pt2
         u = ((pt2.x() - p1.u) * dx + (pt2.y() - p1.v) * dy) / (d_p1_p2 * d_p1_p2);
@@ -584,7 +582,7 @@ void GPS_Math_SubPolyline( const QPoint& pt1, const QPoint& pt2, int threshold, 
         }
     }
 
-//    qDebug() << line1.size() << idx11 << idx12 << idx21 << pt1 << pt2 << pt11 << pt21;
+    //    qDebug() << line1.size() << idx11 << idx12 << idx21 << pt1 << pt2 << pt11 << pt21;
 
     // copy segment of line 1 to line2
     if(idx11 != -1 && idx21 != -1)
@@ -622,6 +620,7 @@ void GPS_Math_SubPolyline( const QPoint& pt1, const QPoint& pt2, int threshold, 
     }
 }
 
+
 bool GPS_Math_LineCrossesRect(const QPoint& p1, const QPoint& p2, const QRect& rect)
 {
 
@@ -647,8 +646,6 @@ bool GPS_Math_LineCrossesRect(const QPoint& p1, const QPoint& p2, const QRect& r
 
     return true;
 }
-
-
 
 
 double GPS_Math_distPointLine3D(point3D& x1, point3D& x2, point3D& x0)
@@ -685,6 +682,7 @@ double GPS_Math_distPointLine3D(point3D& x1, point3D& x2, point3D& x0)
 
     return a1x2/a3;
 }
+
 
 struct segment
 {

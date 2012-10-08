@@ -21,8 +21,8 @@
 #include <QtGui>
 
 CDlgDeviceExportPath::CDlgDeviceExportPath(const QString& what, QDir &dir, QString& subdir, QWidget * parent)
-    : QDialog(parent)
-    , subdir(subdir)
+: QDialog(parent)
+, subdir(subdir)
 {
     setupUi(this);
 
@@ -45,10 +45,12 @@ CDlgDeviceExportPath::CDlgDeviceExportPath(const QString& what, QDir &dir, QStri
     connect(lineEdit, SIGNAL(returnPressed()), this, SLOT(slotReturnPressed()));
 }
 
+
 CDlgDeviceExportPath::~CDlgDeviceExportPath()
 {
 
 }
+
 
 void CDlgDeviceExportPath::slotItemClicked(QListWidgetItem*item)
 {
@@ -58,9 +60,9 @@ void CDlgDeviceExportPath::slotItemClicked(QListWidgetItem*item)
     QDialog::accept();
 }
 
+
 void CDlgDeviceExportPath::slotReturnPressed()
 {
     subdir = lineEdit->text();
     QDialog::accept();
 }
-

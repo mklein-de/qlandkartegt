@@ -182,6 +182,7 @@ void CMouseRefPoint::mouseReleaseEvent(QMouseEvent * e)
     }
 }
 
+
 void CMouseRefPoint::contextMenu(QMenu& menu)
 {
     IMap& map = CMapDB::self().getMap();
@@ -210,6 +211,7 @@ void CMouseRefPoint::contextMenu(QMenu& menu)
 
 }
 
+
 void CMouseRefPoint::slotCopyPosPixel()
 {
     IMap& map = CMapDB::self().getMap();
@@ -224,6 +226,7 @@ void CMouseRefPoint::slotCopyPosPixel()
     clipboard->setText(position);
 
 }
+
 
 void CMouseRefPoint::slotCopyPosPixelSize()
 {
@@ -241,4 +244,3 @@ void CMouseRefPoint::slotCopyPosPixelSize()
     clipboard->setText(position);
 
 }
-

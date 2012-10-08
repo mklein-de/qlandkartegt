@@ -33,6 +33,7 @@ CSearch::~CSearch()
 
 }
 
+
 QString CSearch::getInfo()
 {
     QString str;

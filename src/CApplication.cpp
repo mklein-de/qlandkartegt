@@ -45,6 +45,7 @@ bool CApplication::event(QEvent *event)
     }
 }
 
+
 void CApplication::timerEvent(QTimerEvent *event)
 {
     if (theMainWindow)

@@ -112,12 +112,11 @@ void CTrackStatProfileWidget::slotChanged()
         }
         else
         {
-//            lineElev.clear();
-//            lineDEM.clear();
-//            marksElev.clear();
-//            break;
+            //            lineElev.clear();
+            //            lineDEM.clear();
+            //            marksElev.clear();
+            //            break;
         }
-
 
         if(trkpt->flags & CTrack::pt_t::eSelected)
         {

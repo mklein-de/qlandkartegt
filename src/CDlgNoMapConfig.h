@@ -17,7 +17,6 @@
 
 **********************************************************************************************/
 
-
 #ifndef CDLGNOMAPCONFIG_H
 #define CDLGNOMAPCONFIG_H
 
@@ -29,7 +28,7 @@ class CMapNoMap;
 class CDlgNoMapConfig : public QDialog, private Ui::IDlgNoMapConfig
 {
     Q_OBJECT
-    public:
+        public:
         CDlgNoMapConfig(CMapNoMap& map);
         virtual ~CDlgNoMapConfig();
 
@@ -43,6 +42,4 @@ class CDlgNoMapConfig : public QDialog, private Ui::IDlgNoMapConfig
     private:
         CMapNoMap& map;
 };
-
-#endif //CDLGNOMAPCONFIG_H
-
+#endif                           //CDLGNOMAPCONFIG_H

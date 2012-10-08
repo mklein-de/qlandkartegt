@@ -19,7 +19,6 @@ class CImageViewer : public QDialog, private Ui::IImageViewer
         void resizeEvent(QResizeEvent * e);
         void mousePressEvent(QMouseEvent * e);
 
-
     private:
         void setImageAtIdx(int i);
 
@@ -32,6 +31,4 @@ class CImageViewer : public QDialog, private Ui::IImageViewer
         QRect rectPrev;
         QRect rectNext;
 };
-
-#endif //CIMAGEVIEWER_H
-
+#endif                           //CIMAGEVIEWER_H

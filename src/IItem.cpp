@@ -30,6 +30,7 @@ IItem::IItem(QObject * parent)
 
 }
 
+
 IItem::~IItem()
 {
 
@@ -45,6 +46,7 @@ QString IItem::getKey()
 
     return key;
 }
+
 
 void IItem::genKey()
 {

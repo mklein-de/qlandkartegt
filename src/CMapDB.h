@@ -149,7 +149,6 @@ class CMapDB : public IDB
 
         QDataStream& operator<<(QDataStream&);
 
-
         CMapDB(QTabWidget * tb, QObject * parent);
 
         /// get access to known map dictionary, CMapToolWidget only

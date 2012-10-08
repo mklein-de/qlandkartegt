@@ -73,10 +73,10 @@ void IDevice::uploadAll()
     QStringList keysWpt, keysTrk, keysRte;
 
     CDlgExport dlg(0,
-                   m_UploadAllWpt ? &keysWpt : 0,
-                   m_UploadAllTrk ? &keysTrk : 0,
-                   m_UploadAllRte ? &keysRte : 0
-                   );
+        m_UploadAllWpt ? &keysWpt : 0,
+        m_UploadAllTrk ? &keysTrk : 0,
+        m_UploadAllRte ? &keysRte : 0
+        );
 
     if( dlg.exec() == QDialog::Rejected)
     {

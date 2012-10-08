@@ -51,6 +51,7 @@ CMapNoMap::~CMapNoMap()
     if(pjsrc) pj_free(pjsrc);
 }
 
+
 void CMapNoMap::setup(const QString& proj, double xscale, double yscale)
 {
     if(pjsrc) pj_free(pjsrc);
@@ -64,6 +65,7 @@ void CMapNoMap::setup(const QString& proj, double xscale, double yscale)
 
     emit sigChanged();
 }
+
 
 void CMapNoMap::convertPt2M(double& u, double& v)
 {
@@ -125,7 +127,6 @@ void CMapNoMap::zoom(bool zoomIn, const QPoint& p0)
     {
         zoomidx += zoomIn ? -1 : 1;
     }
-
 
     // sigChanged will be sent at the end of this function
     blockSignals(true);
@@ -199,7 +200,6 @@ void CMapNoMap::zoom(double lon1, double lat1, double lon2, double lat2)
         zoomidx = zoomFactor;
     }
 
-
     double u_ = lon1 + (lon2 - lon1)/2;
     double v_ = lat1 + (lat2 - lat1)/2;
     convertRad2Pt(u_,v_);
@@ -219,6 +219,7 @@ void CMapNoMap::dimensions(double& lon1, double& lat1, double& lon2, double& lat
     lat1 =   90 * DEG_TO_RAD;
     lat2 =  -90 * DEG_TO_RAD;
 }
+
 
 void CMapNoMap::config()
 {

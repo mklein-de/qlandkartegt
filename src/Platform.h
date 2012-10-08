@@ -139,27 +139,30 @@ __gar_endian_uint16_t(uint16_t x)
     return ((x >> 8) & 0xffu) | ((x & 0xffu) << 8);
 }
 
+
 static inline uint32_t
 __gar_endian_uint32_t(uint32_t x)
 {
     return (((x & 0xff000000u) >> 24) |
-            ((x & 0x00ff0000u) >>  8) |
-            ((x & 0x0000ff00u) <<  8) |
-            ((x & 0x000000ffu) << 24));
+        ((x & 0x00ff0000u) >>  8) |
+        ((x & 0x0000ff00u) <<  8) |
+        ((x & 0x000000ffu) << 24));
 }
+
 
 static inline uint64_t
 __gar_endian_uint64_t(uint64_t x)
 {
     return (((x & 0xff00000000000000ull) >> 56) |
-            ((x & 0x00ff000000000000ull) >> 40) |
-            ((x & 0x0000ff0000000000ull) >> 24) |
-            ((x & 0x000000ff00000000ull) >>  8) |
-            ((x & 0x00000000ff000000ull) <<  8) |
-            ((x & 0x0000000000ff0000ull) << 24) |
-            ((x & 0x000000000000ff00ull) << 40) |
-            ((x & 0x00000000000000ffull) << 56));
+        ((x & 0x00ff000000000000ull) >> 40) |
+        ((x & 0x0000ff0000000000ull) >> 24) |
+        ((x & 0x000000ff00000000ull) >>  8) |
+        ((x & 0x00000000ff000000ull) <<  8) |
+        ((x & 0x0000000000ff0000ull) << 24) |
+        ((x & 0x000000000000ff00ull) << 40) |
+        ((x & 0x00000000000000ffull) << 56));
 }
+
 
 static inline int16_t
 __gar_endian_int16_t(int16_t x)
@@ -167,36 +170,40 @@ __gar_endian_int16_t(int16_t x)
     return ((x >> 8) & 0xffu) | ((x & 0xffu) << 8);
 }
 
+
 static inline int32_t
 __gar_endian_int32_t(int32_t x)
 {
     return (((x & 0xff000000u) >> 24) |
-            ((x & 0x00ff0000u) >>  8) |
-            ((x & 0x0000ff00u) <<  8) |
-            ((x & 0x000000ffu) << 24));
+        ((x & 0x00ff0000u) >>  8) |
+        ((x & 0x0000ff00u) <<  8) |
+        ((x & 0x000000ffu) << 24));
 }
+
 
 static inline int64_t
 __gar_endian_int64_t(int64_t x)
 {
     return (((x & 0xff00000000000000ull) >> 56) |
-            ((x & 0x00ff000000000000ull) >> 40) |
-            ((x & 0x0000ff0000000000ull) >> 24) |
-            ((x & 0x000000ff00000000ull) >>  8) |
-            ((x & 0x00000000ff000000ull) <<  8) |
-            ((x & 0x0000000000ff0000ull) << 24) |
-            ((x & 0x000000000000ff00ull) << 40) |
-            ((x & 0x00000000000000ffull) << 56));
+        ((x & 0x00ff000000000000ull) >> 40) |
+        ((x & 0x0000ff0000000000ull) >> 24) |
+        ((x & 0x000000ff00000000ull) >>  8) |
+        ((x & 0x00000000ff000000ull) <<  8) |
+        ((x & 0x0000000000ff0000ull) << 24) |
+        ((x & 0x000000000000ff00ull) << 40) |
+        ((x & 0x00000000000000ffull) << 56));
 }
+
 
 static inline float
 __gar_endian_float(float x)
 {
-    union {
+    union
+    {
         uint32_t _u;
         float _f;
     } _v;
-    
+
     _v._f = x;
     _v._u = gar_endian(uint32_t, _v._u);
     return _v._f;
@@ -206,11 +213,12 @@ __gar_endian_float(float x)
 static inline double
 __gar_endian_double(double x)
 {
-    union {
+    union
+    {
         uint64_t _u;
         double _d;
     } _v;
-    
+
     _v._d = x;
     _v._u = gar_endian(uint64_t, _v._u);
     return _v._d;
@@ -264,12 +272,14 @@ __gar_ptr_store_int24_t(uint8_t * p, int32_t src)
     p[2] = src >> 16;
 }
 
+
 static inline void
 __gar_ptr_store_uint24_t(uint8_t * p, uint32_t src)
 {
     __gar_ptr_store_uint16_t(p, src & 0xffffu);
     p[2] = src >> 16;
 }
+
 
 #else                            // machine is either Big Endian or does not support unaligned accesses
 
@@ -294,6 +304,7 @@ __gar_ptr_load_uint16_t(const uint8_t *p)
 #endif
 }
 
+
 static inline uint32_t
 __gar_ptr_load_uint24_t(const uint8_t *p)
 {
@@ -308,6 +319,7 @@ __gar_ptr_load_uint24_t(const uint8_t *p)
 #endif
 }
 
+
 static inline uint32_t
 __gar_ptr_load_uint32_t(const uint8_t *p)
 {
@@ -321,12 +333,14 @@ __gar_ptr_load_uint32_t(const uint8_t *p)
 #endif
 }
 
+
 static inline uint64_t
 __gar_ptr_load_uint64_t(const uint8_t *p)
 {
     return ((uint64_t)__gar_ptr_load_uint32_t(p) |
-            ((uint64_t)__gar_ptr_load_uint32_t(p + 4) << 32));
+        ((uint64_t)__gar_ptr_load_uint32_t(p + 4) << 32));
 }
+
 
 static inline int16_t
 __gar_ptr_load_int16_t(const uint8_t *p)
@@ -340,6 +354,7 @@ __gar_ptr_load_int16_t(const uint8_t *p)
     return (int16_t)(p[0] | (p[1] << 8));
 #endif
 }
+
 
 static inline int32_t
 __gar_ptr_load_int24_t(const uint8_t *p)
@@ -355,6 +370,7 @@ __gar_ptr_load_int24_t(const uint8_t *p)
 #endif
 }
 
+
 static inline int32_t
 __gar_ptr_load_int32_t(const uint8_t *p)
 {
@@ -368,17 +384,20 @@ __gar_ptr_load_int32_t(const uint8_t *p)
 #endif
 }
 
+
 static inline int64_t
 __gar_ptr_load_int64_t(const uint8_t *p)
 {
     return ((int64_t)__gar_ptr_load_uint32_t(p) |
-            ((int64_t)__gar_ptr_load_int32_t(p + 4) << 32));
+        ((int64_t)__gar_ptr_load_int32_t(p + 4) << 32));
 }
+
 
 static inline float
 __gar_ptr_load_float(const uint8_t * p)
 {
-    union {
+    union
+    {
         uint32_t _u;
         float _f;
     } _v;
@@ -391,7 +410,8 @@ __gar_ptr_load_float(const uint8_t * p)
 static inline double
 __gar_ptr_load_double(const uint8_t * p)
 {
-    union {
+    union
+    {
         uint64_t _u;
         double _d;
     } _v;
@@ -409,6 +429,7 @@ __gar_ptr_store_uint16_t(uint8_t *p, uint16_t src)
     p[1] = (src >> 8) & 0xffu;
 }
 
+
 static inline void
 __gar_ptr_store_uint24_t(uint8_t *p, uint32_t src)
 {
@@ -416,6 +437,7 @@ __gar_ptr_store_uint24_t(uint8_t *p, uint32_t src)
     p[1] = (src >> 8) & 0xffu;
     p[2] = (src >> 16) & 0xffu;
 }
+
 
 static inline void
 __gar_ptr_store_uint32_t(uint8_t *p, uint32_t src)
@@ -426,12 +448,14 @@ __gar_ptr_store_uint32_t(uint8_t *p, uint32_t src)
     p[3] = (src >> 24) & 0xffu;
 }
 
+
 static inline void
 __gar_ptr_store_uint64_t(uint8_t *p, uint64_t src)
 {
     __gar_ptr_store_uint32_t(p, src & 0xffffffffu);
     __gar_ptr_store_uint32_t(p + 4, src >> 32);
 }
+
 
 #define __gar_ptr_store_int16_t(p, src) __gar_ptr_store_uint16_t(p, (uint16_t)src)
 #define __gar_ptr_store_int24_t(p, src) __gar_ptr_store_uint24_t(p, (uint32_t)src)
@@ -445,12 +469,12 @@ __gar_ptr_store_float(uint8_t *p, float src)
     memcpy(p, &__fv, 4);
 }
 
+
 static inline void
 __gar_ptr_store_double(uint8_t *p, double src)
 {
     double __dv = gar_endian(double, src);
     memcpy(p, &__dv, 8);
 }
-
 #endif                           // cannot unaligned or big endian
 #endif                           // __PLATFORM_H__

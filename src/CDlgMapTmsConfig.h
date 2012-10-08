@@ -29,7 +29,7 @@ class CMapTms;
 class CDlgMapTmsConfig : public QDialog, private Ui::IDlgMapTmsConfig
 {
     Q_OBJECT
-    public:
+        public:
         CDlgMapTmsConfig(CMapTms& map);
         CDlgMapTmsConfig();
         virtual ~CDlgMapTmsConfig();

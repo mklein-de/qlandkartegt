@@ -39,9 +39,9 @@ class COsmTilesHash: public QObject
         virtual ~COsmTilesHash();
         void startNewDrawing( double lon, double lat, int osm_zoom, const QRect& window);
 
-    signals:
+        signals:
         void newImageReady(const QPixmap& image, bool lastTileLoaded);
-		
+
     private:
         QUrl m_tileUrl;
         QString m_tilePath;
@@ -59,9 +59,9 @@ class COsmTilesHash: public QObject
         QNetworkAccessManager *m_networkAccessManager;
 
         void dequeue();
-		
+
     private slots:
         void slotRequestFinished(QNetworkReply*);
-		void slotProxyAuthenticationRequired(const QNetworkProxy&, QAuthenticator*);				
+        void slotProxyAuthenticationRequired(const QNetworkProxy&, QAuthenticator*);
 };
 #endif                           /* COSMTILESHASH_H_ */

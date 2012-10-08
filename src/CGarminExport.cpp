@@ -111,7 +111,6 @@ void CGarminExport::exportToFile(CMapSelectionGarmin& ms, const QString& fn)
             ++tile;
         }
 
-
         if(!map->mdrfile.isEmpty())
         {
             tile_t  mdrTile;
@@ -171,6 +170,7 @@ void CGarminExport::exportToFile(CMapSelectionGarmin& ms, const QString& fn)
     }
 }
 
+
 quint32 CGarminExport::estimateBlockCount(QVector<tile_t>& _tiles, quint8 _e2)
 {
     tile_t tile;
@@ -194,7 +194,7 @@ quint32 CGarminExport::estimateBlockCount(QVector<tile_t>& _tiles, quint8 _e2)
 
     _nBlocks = _totalSize >> (e1 + _e2);
 
-//    qDebug() << hex << _e2 << _mask << _totalSize << _nBlocks << _totalSize2 << _blocksize;
+    //    qDebug() << hex << _e2 << _mask << _totalSize << _nBlocks << _totalSize2 << _blocksize;
 
     return _nBlocks;
 }
@@ -634,7 +634,6 @@ void CGarminExport::slotStart()
         {
             writeStdout(tr("Block count: %1 (of %2)").arg(totalBlocks).arg(65536));
         }
-
 
         if(filesize > maxFileSize)
         {

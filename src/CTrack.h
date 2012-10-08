@@ -39,7 +39,6 @@
 #define MAX_TRACK_SIZE 10000
 #define WPT_TO_TRACK_DIST 2500
 
- 
 class QHttp;
 class QProgressDialog;
 
@@ -162,7 +161,7 @@ class CTrack : public IItem
             /// latitude [deg]
             float   _lat;
             /// elevation [m]
-            float   _ele;           
+            float   _ele;
             quint32 _timestamp;
             quint32 _timestamp_msec;
 
@@ -187,7 +186,6 @@ class CTrack : public IItem
             double y;
             pt_t trkpt;
         };
-
 
         /// set color by id
         void setColor(unsigned i);
@@ -282,7 +280,7 @@ class CTrack : public IItem
     private slots:
         void slotRequestStarted(int );
         void slotRequestFinished(int , bool error);
-		void slotProxyAuthenticationRequired(const QNetworkProxy&, QAuthenticator*);	
+        void slotProxyAuthenticationRequired(const QNetworkProxy&, QAuthenticator*);
 
     private:
         friend class CTrackDB;

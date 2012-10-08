@@ -1684,7 +1684,6 @@ void CMap3D::keyPressEvent ( QKeyEvent * e )
             zoomFactorEle /= 1.1;
             break;
 
-
         default:
             e->ignore();
     }

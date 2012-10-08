@@ -53,7 +53,6 @@ class QCheckBox;
 #include <Conan.h>
 #endif
 
-
 class CMainWindow : public QMainWindow
 {
     Q_OBJECT;
@@ -82,8 +81,7 @@ class CMainWindow : public QMainWindow
         bool didCrash(){return crashed;}
 
         QCheckBox * getCheckBoxQuadraticZoom(){return quadraticZoom;}
-		
-		
+
     protected:
         void closeEvent(QCloseEvent * e);
         void dragEnterEvent(QDragEnterEvent *event);
@@ -120,7 +118,7 @@ class CMainWindow : public QMainWindow
         void slotDownload();
 
         void slotToggleToolView();
-        void slotGetResponse(const QtSoapMessage &);	
+        void slotGetResponse(const QtSoapMessage &);
 
     private:
         friend class CDBus;
@@ -134,8 +132,7 @@ class CMainWindow : public QMainWindow
         bool convertData(const QString& inFormat, const QString& inFile, const QString& outFormat, const QString& outFile);
         bool isGPSBabel();
         QString getGeoDataFormats();
-		
-		
+
         QMenu *setupMenu;
         QMenu *groupProvidedMenu;
         /// horizontal main splitter holding the canvas and the tool view
@@ -163,7 +160,7 @@ class CMainWindow : public QMainWindow
         QString pathData;
 
         CResources * resources;
-		
+
         /// the waypoint data base
         CWptDB * wptdb;
         /// the search database
@@ -211,7 +208,6 @@ class CMainWindow : public QMainWindow
         QCheckBox * quadraticZoom;
 
         QtSoapHttpTransport soapHttp;
-
 
 #ifdef DO_PROFILING
         conan::ConanWidget * conanWidget;

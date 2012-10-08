@@ -67,7 +67,7 @@ CDlgLoadOnlineMap::CDlgLoadOnlineMap()
         struct passwd * userInfo = getpwuid(getuid());
         tempDir = QDir::homePath() + "/qlandkartegt-" + userInfo->pw_name + "/maps/";
 #else
-	tempDir = QDir::home().filePath(CONFIGDIR) + "/Maps/";
+        tempDir = QDir::home().filePath(CONFIGDIR) + "/Maps/";
 #endif
     }
 #else
@@ -101,6 +101,7 @@ void CDlgLoadOnlineMap::getMapList()
     soapHttp.submitRequest(request, "/webservice/qlandkartegt.php");
 }
 
+
 CDlgLoadOnlineMap::~CDlgLoadOnlineMap()
 {
     QApplication::restoreOverrideCursor();
@@ -125,14 +126,15 @@ void CDlgLoadOnlineMap::accept()
     }
 }
 
+
 bool CDlgLoadOnlineMap::saveToDisk(const QString &filename, QString data)
 {
     QFile file(filename);
     if (!file.open(QIODevice::WriteOnly))
     {
         fprintf(stderr, "Could not open %s for writing: %s\n",
-                qPrintable(filename),
-                qPrintable(file.errorString()));
+            qPrintable(filename),
+            qPrintable(file.errorString()));
         return false;
     }
 
@@ -141,6 +143,7 @@ bool CDlgLoadOnlineMap::saveToDisk(const QString &filename, QString data)
 
     return true;
 }
+
 
 void CDlgLoadOnlineMap::slotWebServiceResponse(const QtSoapMessage &message)
 {
@@ -153,31 +156,32 @@ void CDlgLoadOnlineMap::slotWebServiceResponse(const QtSoapMessage &message)
     {
         if (method == "getwmsmapsResponse")
         {
-                const QtSoapType &array = message.returnValue();
-                QListWidgetItem *item;
-                for (int i = 0; i < array.count(); ++i)
+            const QtSoapType &array = message.returnValue();
+            QListWidgetItem *item;
+            for (int i = 0; i < array.count(); ++i)
+            {
+                const QtSoapType &map = array[i];
+                QString mapName(map["name"].toString().trimmed());
+                if (mapName.endsWith(".xml") || mapName.endsWith(".tms"))
                 {
-                        const QtSoapType &map = array[i];
-                        QString mapName(map["name"].toString().trimmed());
-                        if (mapName.endsWith(".xml") || mapName.endsWith(".tms"))
-                        {
-                            QIcon icon      = mapName.endsWith(".xml") ? QIcon(":/icons/iconWMS22x22.png") : QIcon(":/icons/iconTMS22x22.png");
-                            QString text    = QFileInfo(mapName).baseName();
-                            text = text.replace(QRegExp("_")," ");
+                    QIcon icon      = mapName.endsWith(".xml") ? QIcon(":/icons/iconWMS22x22.png") : QIcon(":/icons/iconTMS22x22.png");
+                    QString text    = QFileInfo(mapName).baseName();
+                    text = text.replace(QRegExp("_")," ");
 
-                            item = new QListWidgetItem(icon ,text);
-                            item->setData(Qt::UserRole + 0,QUrl(map["link"].toString()));
-                            item->setData(Qt::UserRole + 1, mapName);
-                            mapList->addItem(item);
-                        }
+                    item = new QListWidgetItem(icon ,text);
+                    item->setData(Qt::UserRole + 0,QUrl(map["link"].toString()));
+                    item->setData(Qt::UserRole + 1, mapName);
+                    mapList->addItem(item);
                 }
-                mapList->sortItems();
+            }
+            mapList->sortItems();
         }
 
         if (method == "getwmslinkResponse")
         {
             QString data(message.returnValue().toString());
-            data.replace(QRegExp("&amp;"), "&"); // This _must_ come first
+                                 // This _must_ come first
+            data.replace(QRegExp("&amp;"), "&");
             data.replace(QRegExp("&lt;"), "<");
             data.replace(QRegExp("&gt;"), ">");
             data.replace(QRegExp("&quot;"), "\"");
@@ -194,6 +198,7 @@ void CDlgLoadOnlineMap::slotWebServiceResponse(const QtSoapMessage &message)
     }
     QApplication::restoreOverrideCursor();
 }
+
 
 void CDlgLoadOnlineMap::slotTargetPath()
 {

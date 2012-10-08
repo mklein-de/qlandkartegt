@@ -1,5 +1,4 @@
 
-
 #include "CImageViewer.h"
 #include <QtGui>
 
@@ -24,20 +23,22 @@ CImageViewer::CImageViewer(QList<CWpt::image_t>& images, int idx, QWidget *paren
         return;
     }
 
-
     setImageAtIdx(idx);
 }
+
 
 CImageViewer::~CImageViewer()
 {
 
 }
 
+
 void CImageViewer::resizeEvent(QResizeEvent * e)
 {
     QDialog::resizeEvent(e);
     setImageAtIdx(idx);
 }
+
 
 void CImageViewer::setImageAtIdx(int i)
 {
@@ -85,6 +86,7 @@ void CImageViewer::setImageAtIdx(int i)
     rectNext.moveBottomRight(rectImage.bottomRight());
 }
 
+
 void CImageViewer::paintEvent(QPaintEvent * e)
 {
     QDialog::paintEvent(e);
@@ -97,7 +99,6 @@ void CImageViewer::paintEvent(QPaintEvent * e)
     p.setPen(QPen(Qt::white, 11, Qt::SolidLine, Qt::RoundCap, Qt::MiterJoin));
     p.setBrush(Qt::white);
     p.drawRect(rectImage);
-
 
     p.drawPixmap(rectImage, images[idx].pixmap.scaled(rectImage.size(), Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
     p.drawPixmap(rectClose, QPixmap(":/icons/iconClose32x32.png"));
@@ -118,6 +119,7 @@ void CImageViewer::paintEvent(QPaintEvent * e)
     }
 
 }
+
 
 void CImageViewer::mousePressEvent(QMouseEvent * e)
 {
@@ -145,4 +147,3 @@ void CImageViewer::mousePressEvent(QMouseEvent * e)
 
     e->accept();
 }
-

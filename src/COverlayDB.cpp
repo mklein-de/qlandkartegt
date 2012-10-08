@@ -40,7 +40,7 @@
 COverlayDB * COverlayDB::m_self = 0;
 
 COverlayDB::COverlayDB(QTabWidget * tb, QObject * parent)
-    : IDB(IDB::eTypeOvl, tb, parent)
+: IDB(IDB::eTypeOvl, tb, parent)
 , addOverlaysAsDuplicate(false)
 {
     m_self      = this;
@@ -324,7 +324,6 @@ void COverlayDB::loadQLB(CQlb& qlb, bool newKey)
 }
 
 
-
 void COverlayDB::saveQLB(CQlb& qlb)
 {
     IOverlay * overlay;
@@ -358,6 +357,7 @@ void COverlayDB::delOverlays(const QStringList& keys)
 
 }
 
+
 void COverlayDB::delOverlay(const QString& key, bool silent)
 {
     if(overlays.contains(key))
@@ -372,6 +372,7 @@ void COverlayDB::delOverlay(const QString& key, bool silent)
         }
     }
 }
+
 
 COverlayText * COverlayDB::addText(const QString& text, const QRect& rect, const QString& key, bool silent)
 {
@@ -482,10 +483,8 @@ void COverlayDB::copyToClipboard(bool deleteSelection)
         return;
     }
 
-
     QClipboard *clipboard = QApplication::clipboard();
     CQlb qlb(this);
-
 
     COverlayDistance * dist = qobject_cast<COverlayDistance*>(ovl);
     if(dist && dist->selectedPoints.size() > 1)
@@ -498,7 +497,6 @@ void COverlayDB::copyToClipboard(bool deleteSelection)
         {
             pts << dist->points[idx];
         }
-
 
         COverlayDistance dist2("", "", dist->speed, pts, this);
 
@@ -521,6 +519,7 @@ void COverlayDB::copyToClipboard(bool deleteSelection)
 
 }
 
+
 void COverlayDB::pasteFromClipboard()
 {
     QClipboard *clipboard = QApplication::clipboard();
@@ -539,6 +538,7 @@ void COverlayDB::pasteFromClipboard()
         emitSigModified();
     }
 }
+
 
 void COverlayDB::highlightOverlay(const QString& key)
 {
@@ -571,6 +571,7 @@ void COverlayDB::highlightOverlay(const QString& key)
 
 }
 
+
 IOverlay* COverlayDB::highlightedOverlay()
 {
 
@@ -584,12 +585,14 @@ IOverlay* COverlayDB::highlightedOverlay()
 
 }
 
+
 void COverlayDB::combineDistOvl()
 {
     CDlgCombineDistOvl dlg(0);
     dlg.exec();
 
 }
+
 
 QList<COverlayDB::keys_t> COverlayDB::keys()
 {
@@ -630,12 +633,12 @@ QList<COverlayDB::keys_t> COverlayDB::keys()
             k2.icon     = dist->getIcon();
         }
 
-
         k << k2;
     }
 
     return k;
 }
+
 
 void COverlayDB::slotModified()
 {

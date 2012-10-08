@@ -27,7 +27,6 @@
 #include "CMapDB.h"
 #include "IMap.h"
 
-
 CMapSelectionRaster::CMapSelectionRaster(subtype_e subtype, QObject * parent)
 : IMapSelection(eRaster, subtype, parent)
 {
@@ -41,6 +40,7 @@ CMapSelectionRaster::~CMapSelectionRaster()
 {
 
 }
+
 
 QDataStream& CMapSelectionRaster::operator>>(QDataStream& s)
 {
@@ -61,10 +61,10 @@ QDataStream& CMapSelectionRaster::operator>>(QDataStream& s)
     s1 << name;
     s1 << comment;
     s1 << description;
-    s1 << lon1;             ///< top left longitude [rad]
-    s1 << lat1;             ///< top left latitude [rad]
-    s1 << lon2;             ///< bottom right longitude [rad]
-    s1 << lat2;             ///< bottom right latitude [rad]
+    s1 << lon1;                  ///< top left longitude [rad]
+    s1 << lat1;                  ///< top left latitude [rad]
+    s1 << lon2;                  ///< bottom right longitude [rad]
+    s1 << lat2;                  ///< bottom right latitude [rad]
     s1 << subtype;
 
     entries << entryBase;
@@ -199,6 +199,7 @@ void CMapSelectionRaster::draw(QPainter& p, const QRect& rect)
     }
 }
 
+
 QString CMapSelectionRaster::getDescription() const
 {
     QString pos1, pos2, str;
@@ -215,7 +216,6 @@ QString CMapSelectionRaster::getDescription() const
     p2.v = lat1;
 
     distance(p1, p2, a1, a2) / 1000.0;
-
 
     p1.u = lon1;
     p1.v = lat1;
@@ -236,4 +236,3 @@ QString CMapSelectionRaster::getDescription() const
     return str;
 
 }
-

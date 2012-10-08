@@ -78,7 +78,6 @@ CTrackToolWidget::CTrackToolWidget(QTabWidget * parent)
     connect(toolSortAlpha, SIGNAL(clicked()), this, SLOT(slotDBChanged()));
     connect(toolSortTime, SIGNAL(clicked()), this, SLOT(slotDBChanged()));
 
-
     toolSortAlpha->setIcon(QPixmap(":/icons/iconDec16x16.png"));
     toolSortTime->setIcon(QPixmap(":/icons/iconTime16x16.png"));
 
@@ -103,7 +102,7 @@ void CTrackToolWidget::slotDBChanged()
 {
     if(originator) return;
 
-//    qDebug() << "void CTrackToolWidget::slotDBChanged()";
+    //    qDebug() << "void CTrackToolWidget::slotDBChanged()";
 
     if(toolSortAlpha->isChecked())
     {
@@ -114,14 +113,12 @@ void CTrackToolWidget::slotDBChanged()
         sortmode = eSortByTime;
     }
 
-
     QFontMetrics fm(listTracks->font());
     QPixmap icon(15,N_LINES*fm.height());
     listTracks->clear();
     listTracks->setIconSize(icon.size());
 
     QListWidgetItem * highlighted = 0;
-
 
     CTrackDB::keys_t key;
     QList<CTrackDB::keys_t> keys = CTrackDB::self().keys();
@@ -146,7 +143,6 @@ void CTrackToolWidget::slotDBChanged()
             p.drawPixmap(0,0,QPixmap(":icons/iconOk16x16"));
         }
         p.end();
-
 
         item->setText(track->getInfo());
         item->setData(Qt::UserRole, track->getKey());
@@ -185,13 +181,14 @@ void CTrackToolWidget::slotItemClicked(QListWidgetItem * item)
     originator = false;
 }
 
+
 void CTrackToolWidget::slotSelectionChanged()
 {
     if(originator)
     {
         return;
     }
-//    qDebug() << "void CTrackToolWidget::slotSelectionChanged()" << listTracks->selectedItems().isEmpty() << listTracks->hasFocus();
+    //    qDebug() << "void CTrackToolWidget::slotSelectionChanged()" << listTracks->selectedItems().isEmpty() << listTracks->hasFocus();
     if(listTracks->hasFocus() && listTracks->selectedItems().isEmpty())
     {
         CTrackDB::self().highlightTrack("");
@@ -267,6 +264,7 @@ void CTrackToolWidget::slotEdit()
         delete trackedit;
     }
 }
+
 
 void CTrackToolWidget::slotShowProfile()
 {
@@ -358,6 +356,7 @@ void CTrackToolWidget::slotToOverlay()
     CMegaMenu::self().switchByKeyWord("Overlay");
 }
 
+
 void CTrackToolWidget::slotZoomToFit()
 {
     QRectF r;
@@ -393,15 +392,18 @@ void CTrackToolWidget::slotRevert()
     CTrackDB::self().revertTrack(item->data(Qt::UserRole).toString());
 }
 
+
 void CTrackToolWidget::slotShowBullets()
 {
     CTrackDB::self().setShowBullets(!CTrackDB::self().getShowBullets());
 }
 
+
 void CTrackToolWidget::slotShowMinMax()
 {
     CTrackDB::self().setShowMinMax(!CTrackDB::self().getShowMinMax());
 }
+
 
 bool CTrackToolWidget::eventFilter(QObject *obj, QEvent *event)
 {

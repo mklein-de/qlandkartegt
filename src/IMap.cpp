@@ -83,6 +83,7 @@ GDALDataset * IMap::getDataset()
     return 0;
 }
 
+
 void IMap::resize(const QSize& s)
 {
     size = s;
@@ -327,6 +328,7 @@ void IMap::setFastDrawTimer()
     doFastDraw = true;
 }
 
+
 void IMap::slotResetFastDraw()
 {
     needsRedraw = true;
@@ -340,6 +342,7 @@ void IMap::fastDrawOn()
     doFastDraw = true;
     fastDrawWithoutTimer = true;
 }
+
 
 void IMap::fastDrawOff()
 {
@@ -377,20 +380,24 @@ void IMap::decXOffset(int i)
     QMessageBox::warning(0, tr("Error..."),tr("Changing the offset is not supported by this map."),QMessageBox::Abort,QMessageBox::Abort);
 }
 
+
 void IMap::incYOffset(int i)
 {
     QMessageBox::warning(0, tr("Error..."),tr("Changing the offset is not supported by this map."),QMessageBox::Abort,QMessageBox::Abort);
 }
+
 
 void IMap::decYOffset(int i)
 {
     QMessageBox::warning(0, tr("Error..."),tr("Changing the offset is not supported by this map."),QMessageBox::Abort,QMessageBox::Abort);
 }
 
+
 void IMap::getClosePolyline(QPoint& pt1, QPoint& pt2, qint32 threshold, QPolygon& line)
 {
     line.clear();
 }
+
 
 const QImage& IMap::getBuffer()
 {

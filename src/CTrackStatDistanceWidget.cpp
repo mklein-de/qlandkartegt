@@ -26,10 +26,9 @@
 
 #include <QtGui>
 
-
 CTrackStatDistanceWidget::CTrackStatDistanceWidget(QWidget * parent)
-    : ITrackStat(eOverTime, parent)
-    , needResetZoom(true)
+: ITrackStat(eOverTime, parent)
+, needResetZoom(true)
 {
     plot->setXLabel(tr("time [h]"));
     plot->setYLabel(tr("distance [m]"));
@@ -44,16 +43,19 @@ CTrackStatDistanceWidget::CTrackStatDistanceWidget(QWidget * parent)
 
 }
 
+
 CTrackStatDistanceWidget::~CTrackStatDistanceWidget()
 {
 
 }
+
 
 void CTrackStatDistanceWidget::slotSetTrack(CTrack* track)
 {
     needResetZoom = true;
 
 }
+
 
 void CTrackStatDistanceWidget::slotChanged()
 {

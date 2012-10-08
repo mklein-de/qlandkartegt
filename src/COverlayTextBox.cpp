@@ -105,7 +105,6 @@ QPolygonF COverlayTextBox::makePolyline(const QPoint& anchor, const QRect& r)
 
         path1 = path1.united(path2);
 
-
         poly1 = path1.toFillPolygon();
     }
 

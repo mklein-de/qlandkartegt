@@ -51,7 +51,7 @@ class CImageSelect : public QWidget, private Ui::IImageSelect
             QString filename;
         };
 
-    signals:
+        signals:
         void sigSelectImage(const CImageSelect::img_t& img);
 
     protected:
@@ -60,10 +60,7 @@ class CImageSelect : public QWidget, private Ui::IImageSelect
         void mousePressEvent(QMouseEvent * e);
         void wheelEvent(QWheelEvent * e);
 
-
         QList<img_t> images;
         CWpt * wpt;
 };
-
-#endif //CIMAGESELECT_H
-
+#endif                           //CIMAGESELECT_H

@@ -28,7 +28,6 @@
 #include <QFont>
 #include <QFontMetrics>
 
-
 class QTimer;
 class QTextDocument;
 
@@ -308,7 +307,7 @@ class CMapTDB : public IMap
 
         struct textpath_t
         {
-//            QPainterPath    path;
+            //            QPainterPath    path;
             QPolygonF       polyline;
             QString         text;
             QFont           font;

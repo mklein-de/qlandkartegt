@@ -72,7 +72,7 @@ CMapGeoTiff::CMapGeoTiff(const QString& fn, CCanvas * parent)
             return;
         }
 
-//        qDebug() << pBand->GetColorInterpretation();
+        //        qDebug() << pBand->GetColorInterpretation();
 
         if(pBand->GetColorInterpretation() ==  GCI_PaletteIndex )
         {
@@ -181,13 +181,12 @@ void CMapGeoTiff::draw(QPainter& p)
 
     draw();
 
-
     p.drawPixmap(0,0,pixBuffer);
 
     // render overlay
     if(!ovlMap.isNull() && !doFastDraw)
     {
-//        qDebug() << size << needsRedraw;
+        //        qDebug() << size << needsRedraw;
         ovlMap->draw(size, needsRedraw, p);
     }
 
@@ -203,7 +202,6 @@ void CMapGeoTiff::draw(QPainter& p)
         {
             str = tr("Zoom level x%1").arg(zoomidx);
         }
-
 
         p.setPen(Qt::white);
         p.setFont(QFont("Sans Serif",14,QFont::Black));
@@ -305,10 +303,10 @@ void CMapGeoTiff::draw()
                         unsigned int offset;
 
                         for (offset = 0; offset < sizeof(testPix) && *(((quint8 *)&testPix) + offset) != pbandColour; offset++);
-/// @todo this has to be removed with GDAL 1.8.0
+                        /// @todo this has to be removed with GDAL 1.8.0
 #ifdef WIN32
                         //offset = 3 - b;
-#endif // WIN32
+#endif   // WIN32
                         if(offset < sizeof(testPix))
                         {
                             quint8 * pTar   = img.bits() + offset;
@@ -349,6 +347,7 @@ void CMapGeoTiff::convertM2Pt(double& u, double& v)
     u = (u - x) / (xscale * zoomFactor);
     v = (v - y) / (yscale * zoomFactor);
 }
+
 
 void CMapGeoTiff::convertPt2Pixel(double& u, double& v)
 {
@@ -520,6 +519,7 @@ void CMapGeoTiff::dimensions(double& lon1, double& lat1, double& lon2, double& l
     pj_transform(pjsrc,pjtar,1,0,&lon2,&lat2,0);
 }
 
+
 void CMapGeoTiff::incXOffset(int i)
 {
     xref1 += i * xscale;
@@ -527,6 +527,7 @@ void CMapGeoTiff::incXOffset(int i)
 
     emit sigChanged();
 }
+
 
 void CMapGeoTiff::decXOffset(int i)
 {
@@ -536,6 +537,7 @@ void CMapGeoTiff::decXOffset(int i)
     emit sigChanged();
 }
 
+
 void CMapGeoTiff::incYOffset(int i)
 {
     yref1 -= i * yscale;
@@ -543,6 +545,7 @@ void CMapGeoTiff::incYOffset(int i)
 
     emit sigChanged();
 }
+
 
 void CMapGeoTiff::decYOffset(int i)
 {
@@ -552,10 +555,12 @@ void CMapGeoTiff::decYOffset(int i)
     emit sigChanged();
 }
 
+
 GDALDataset * CMapGeoTiff::getDataset()
 {
     return dataset;
 }
+
 
 void CMapGeoTiff::getArea_n_Scaling(projXY& p1, projXY& p2, float& my_xscale, float& my_yscale)
 {

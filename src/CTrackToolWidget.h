@@ -38,7 +38,7 @@ class CTrackToolWidget : public QWidget, private Ui::ITrackToolWidget
 
         enum sortmode_e
         {
-             eSortByName
+            eSortByName
             ,eSortByTime
         };
 

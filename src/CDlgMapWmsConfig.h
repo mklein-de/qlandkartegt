@@ -41,7 +41,7 @@ class CDlgMapWmsConfig : public QDialog, private Ui::IDlgMapWmsConfig
 
     private slots:
         void slotRequestFinished(QNetworkReply* reply);
-		void slotProxyAuthenticationRequired(const QNetworkProxy&, QAuthenticator*);	
+        void slotProxyAuthenticationRequired(const QNetworkProxy&, QAuthenticator*);
 
     private:
         void updateEntry(QDomDocument& dom, QTreeWidgetItem* item, QDomElement& elem, const QString& tag);
@@ -52,6 +52,4 @@ class CDlgMapWmsConfig : public QDialog, private Ui::IDlgMapWmsConfig
 
         QNetworkAccessManager * accessManager;
 };
-
-#endif //CDLGMAPWMSCONFIG_H
-
+#endif                           //CDLGMAPWMSCONFIG_H

@@ -53,9 +53,8 @@ CSearchToolWidget::CSearchToolWidget(QTabWidget * parent)
     connect(listResults,SIGNAL(customContextMenuRequested(const QPoint&)),this,SLOT(slotContextMenu(const QPoint&)));
 
     comboHost->addItem(tr("OpenRouteService"), CSearchDB::eOpenRouteService);
-//    comboHost->addItem(tr("MapQuest"), CSearchDB::eMapQuest);
+    //    comboHost->addItem(tr("MapQuest"), CSearchDB::eMapQuest);
     comboHost->addItem(tr("Google"), CSearchDB::eGoogle);
-
 
     SETTINGS;
     cfg.beginGroup("search");
@@ -76,6 +75,7 @@ CSearchToolWidget::~CSearchToolWidget()
 
 }
 
+
 void CSearchToolWidget::selSearchByKey(const QString& key)
 {
     for(int i=0; i<listResults->count(); ++i)
@@ -88,6 +88,7 @@ void CSearchToolWidget::selSearchByKey(const QString& key)
     }
 
 }
+
 
 void CSearchToolWidget::slotReturnPressed()
 {
@@ -203,6 +204,7 @@ void CSearchToolWidget::keyPressEvent(QKeyEvent * e)
         QWidget::keyPressEvent(e);
     }
 }
+
 
 void CSearchToolWidget::slotHostChanged(int idx)
 {

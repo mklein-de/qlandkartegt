@@ -61,7 +61,6 @@ class CDiaryDB : public IDB
 
         void setModified(const QStringList& keys);
 
-
     private:
         friend class CMainWindow;
         friend class CDiaryEditWidget;

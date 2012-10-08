@@ -26,7 +26,7 @@
 class CDlgConfig : public QDialog, private Ui::IDlgConfig
 {
     Q_OBJECT
-    public:
+        public:
         CDlgConfig(QWidget * parent);
         virtual ~CDlgConfig();
 

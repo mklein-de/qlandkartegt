@@ -32,6 +32,7 @@ CDlgMapTmsConfig::CDlgMapTmsConfig(CMapTms& m)
 
 }
 
+
 CDlgMapTmsConfig::CDlgMapTmsConfig()
 {
     setupUi(this);
@@ -40,10 +41,12 @@ CDlgMapTmsConfig::CDlgMapTmsConfig()
     lineCopyright->setText(map.copyright);
 }
 
+
 CDlgMapTmsConfig::~CDlgMapTmsConfig()
 {
 
 }
+
 
 void CDlgMapTmsConfig::accept()
 {
@@ -59,4 +62,3 @@ void CDlgMapTmsConfig::accept()
 
     QDialog::accept();
 }
-

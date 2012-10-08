@@ -111,10 +111,10 @@ CResources::CResources(QObject * parent)
     m_httpProxyPort     = cfg.value("network/proxy/port",m_httpProxyPort).toUInt();
 
     if(m_useHttpProxy)
-     QNetworkProxy::setApplicationProxy(QNetworkProxy(QNetworkProxy::HttpProxy,m_httpProxy,m_httpProxyPort));
+        QNetworkProxy::setApplicationProxy(QNetworkProxy(QNetworkProxy::HttpProxy,m_httpProxy,m_httpProxyPort));
 
     else
-      QNetworkProxy::setApplicationProxy(QNetworkProxy(QNetworkProxy::NoProxy));
+        QNetworkProxy::setApplicationProxy(QNetworkProxy(QNetworkProxy::NoProxy));
 
     m_devKey            = cfg.value("device/key",m_devKey).toString();
     m_devIPAddress      = cfg.value("device/ipAddr",m_devIPAddress).toString();
@@ -177,7 +177,6 @@ CResources::CResources(QObject * parent)
     QPixmap(":/webstuff/frame_bottom_left.png").save(dirWeb.filePath("frame_bottom_left.png"));
     QPixmap(":/webstuff/frame_bottom_right.png").save(dirWeb.filePath("frame_bottom_right.png"));
     QPixmap(":/webstuff/scale.png").save(dirWeb.filePath("scale.png"));
-
 
     QString cacheFolder;
 #ifndef Q_OS_WIN32
@@ -292,7 +291,6 @@ void CResources::getHttpProxyAuth(QString& user, QString& pwd)
     CDlgProxy dlg(user, pwd, theMainWindow->getCanvas());
     dlg.exec();
 }
-
 
 
 IDevice * CResources::device()

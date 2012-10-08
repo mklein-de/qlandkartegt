@@ -21,7 +21,6 @@
 #ifndef CSPLINE_H
 #define CSPLINE_H
 
-
 #include <QVector>
 #include <QPolygonF>
 
@@ -47,6 +46,4 @@ class CSpline
         QPolygonF points;
 
 };
-
-#endif //CSPLINE_H
-
+#endif                           //CSPLINE_H

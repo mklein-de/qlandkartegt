@@ -36,6 +36,4 @@ class CTrackStatDistanceWidget: public ITrackStat
     private:
         bool needResetZoom;
 };
-
-#endif //CTRACKSTATDISTANCEWIDGET_H
-
+#endif                           //CTRACKSTATDISTANCEWIDGET_H

@@ -20,7 +20,6 @@
 #ifndef CDIARY_H
 #define CDIARY_H
 
-
 #include "IItem.h"
 #include <QDataStream>
 #include <QFile>
@@ -34,7 +33,6 @@ class CTrack;
 class CRoute;
 class QTextFrame;
 class QTextTable;
-
 
 class CDiary : public IItem
 {
@@ -65,7 +63,7 @@ class CDiary : public IItem
 
         void close();
 
-    signals:
+        signals:
         void sigChanged();
 
     private slots:

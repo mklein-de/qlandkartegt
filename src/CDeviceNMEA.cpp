@@ -22,8 +22,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
 #include <proj_api.h>
 
 CDeviceNMEA::CDeviceNMEA(const QString& serialport,
-                         const QString& baudrate,
-                         QObject * parent)
+const QString& baudrate,
+QObject * parent)
 : IDevice("NMEA",parent)
 , serialport(serialport)
 , haveSeenData(false)
@@ -39,7 +39,7 @@ CDeviceNMEA::CDeviceNMEA(const QString& serialport,
     if (baudrate.compare("57600")  == 0) { eBaudrate = BAUD57600;  }
     if (baudrate.compare("115200") == 0) { eBaudrate = BAUD115200; }
 
-    tty.setBaudRate(eBaudrate);   //BaudRate
+    tty.setBaudRate(eBaudrate);  //BaudRate
     tty.setDataBits(DATA_8);     //DataBits
     tty.setParity(PAR_NONE);     //Parity
     tty.setStopBits(STOP_1);     //StopBits
@@ -64,16 +64,16 @@ CDeviceNMEA::~CDeviceNMEA()
 
 void CDeviceNMEA::setLiveLog(bool on)
 {
-//    qDebug() << "void CDeviceNMEA::setLiveLog()" << on;
+    //    qDebug() << "void CDeviceNMEA::setLiveLog()" << on;
     if(on)
     {
         //reset log
         CLiveLog fresh_log;
         log = fresh_log;
         log.error_unit = "DOP";
-        //HS: If I don't deactivate the following line, 
+        //HS: If I don't deactivate the following line,
         //then the first track point is most/all times contains trash.
-        //I don't yet know why since only valid points 
+        //I don't yet know why since only valid points
         //should go into the log ...
         //emit sigLiveLog(log);
 
@@ -88,7 +88,7 @@ void CDeviceNMEA::setLiveLog(bool on)
             {
                 log.fix = CLiveLog::eConnectionFailed;
             }
-            
+
         }
         else
         {
@@ -158,14 +158,15 @@ void CDeviceNMEA::slotNewDataReceived(const QByteArray &dataReceived)
     }
 }
 
+
 bool CDeviceNMEA::isChecksumValid()
 {
-    //the checksum is the exclusive or 
+    //the checksum is the exclusive or
     //of all characters between $ and *
     bool ret = false;
     unsigned char calc_checksum = 0;
     unsigned char nmea_checksum = 0;
-    int i = 1; 
+    int i = 1;
     int len = line.length();
 
     if ( (len > 1) && (line.at(0).toAscii() == '$') )
@@ -185,13 +186,14 @@ bool CDeviceNMEA::isChecksumValid()
                 ret = true;
             }
         }
-        else //no checksum considered as valid
+        else                     //no checksum considered as valid
         {
             ret = true;
         }
     }
     return ret;
 }
+
 
 void CDeviceNMEA::decode()
 {
@@ -206,7 +208,7 @@ void CDeviceNMEA::decode()
     //  b) Different GPS receivers may provide different sets of NMEA sentences
     //  c) Not all NMEA sentences need to be provided in the same frequency
     //  d) Different GPS receivers may emit NMEA sentences in different order for the same GPS fix
-    //  e) There are several protocol versions around. 
+    //  e) There are several protocol versions around.
     //     So some fields may be empty or (typically at the end of a sentence) not present
     //
     //Therefore a generic NMEA parser must be based on some heuristics.
@@ -225,7 +227,6 @@ void CDeviceNMEA::decode()
     //    -- collect the rest from the other sentences
     //    -- cache (i.e. do not reset) "slowly" changing data
     //  - handle position fix flags in a tolerant way, i.e. do not require a $GPGSA sentence
-
 
     QString tok;
     QStringList tokens = line.split(QRegExp("[,*]"));
@@ -280,15 +281,15 @@ void CDeviceNMEA::decode()
         {
             log.fix = CLiveLog::eEstimated;
         }
-        else if ( (!haveSeenGPGSA) 
+        else if ( (!haveSeenGPGSA)
             || (log.fix == CLiveLog::eNoFix)
             || (log.fix == CLiveLog::eOff) )
         {
             //only $GPGSA can distinguish between 2D and 3D fix
             //assume 3D fix here, if there is GPS or DGPS fix
             log.fix = (fix == 1) ? CLiveLog::e3DFix :
-                      (fix == 2) ? CLiveLog::e3DFix :
-                      CLiveLog::eNoFix;
+            (fix == 2) ? CLiveLog::e3DFix :
+            CLiveLog::eNoFix;
         }
 
         //field 7: sat used
@@ -318,14 +319,14 @@ void CDeviceNMEA::decode()
         //field 2: fix status: 1: no Fix, 2: 2D, 3: 3D
         int fix = tokens[2].toInt();
         if (fix == 2)
-        {   //let $GPGGA:estimated take precedence
+        {                        //let $GPGGA:estimated take precedence
             if (log.fix != CLiveLog::eEstimated)
             {
                 log.fix = CLiveLog::e2DFix;
             }
         }
         else if (fix == 3)
-        {   //let $GPGGA:estimated take precedence
+        {                        //let $GPGGA:estimated take precedence
             if (log.fix != CLiveLog::eEstimated)
             {
                 log.fix = CLiveLog::e3DFix;
@@ -359,7 +360,7 @@ void CDeviceNMEA::decode()
         //field 1: time, field 9: date
         //time can contain an arbitrary number of fractional digits
         //therefore, the  QDateTime/QTime::fromString() functions do not work here
-        if (tokens[1] == "") { tokens[1] = "000000"; } 
+        if (tokens[1] == "") { tokens[1] = "000000"; }
         tok = tokens[1];
         int hours=0, minutes = 0, seconds = 0, milliseconds=0;
         if (tok.length() >= 6)
@@ -381,13 +382,13 @@ void CDeviceNMEA::decode()
         //field 2: status
         tok = tokens[2];
         if (tok != "A")
-        {   //conservative approach
+        {                        //conservative approach
             log.fix = CLiveLog::eNoFix;
         }
         else if ( ((!haveSeenGPGSA) && (!haveSeenGPGGA))
-          || (log.fix == CLiveLog::eNoFix)
-          || (log.fix == CLiveLog::eOff) )
-        {   //$GPGSA and $GPGGA have more detailed fix information
+            || (log.fix == CLiveLog::eNoFix)
+            || (log.fix == CLiveLog::eOff) )
+        {                        //$GPGSA and $GPGGA have more detailed fix information
             log.fix = CLiveLog::e3DFix;
         }
 
@@ -401,16 +402,15 @@ void CDeviceNMEA::decode()
         log.lon = tok.left(3).toInt() + tok.mid(3).toDouble() / 60.0;
         log.lon = (tokens[6] == "E" ? log.lon : -log.lon);
 
-
         //field 7: velocity in knots
         if (tokens[7] != "")
-        {   //when the field is empty: hope that velocity is in $GPVTG
+        {                        //when the field is empty: hope that velocity is in $GPVTG
             log.velocity    = tokens[7].toFloat() * 0.514444;
         }
 
         //field 8: heading in degrees
         if (tokens[8] != "")
-        {   //when the field is empty: hope that heading is in $GPVTG
+        {                        //when the field is empty: hope that heading is in $GPVTG
             log.heading     = tokens[8].toFloat();
         }
 
@@ -426,13 +426,13 @@ void CDeviceNMEA::decode()
 
         //field 5: velocity in knots
         if (tokens[5] != "")
-        {   //when the field is empty: hope that velocity is in $GPRMC
+        {                        //when the field is empty: hope that velocity is in $GPRMC
             log.velocity    = tokens[5].toFloat() * 0.514444;
         }
 
         //field 1: heading in degrees
         if (tokens[1] != "")
-        {   //when the field is empty: hope that heading is in $GPRMC
+        {                        //when the field is empty: hope that heading is in $GPRMC
             log.heading     = tokens[1].toFloat();
         }
     }

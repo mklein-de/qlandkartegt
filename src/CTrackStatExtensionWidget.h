@@ -1,6 +1,6 @@
 /**********************************************************************************************
     Copyright (C) 2008 Oliver Eichler oliver.eichler@gmx.de
-	Copyright (C) 2010 Christian Treffs ctreffs@gmail.com
+    Copyright (C) 2010 Christian Treffs ctreffs@gmail.com
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -39,4 +39,4 @@ class CTrackStatExtensionWidget : public ITrackStat
         QString myName;
         bool needResetZoom;
 };
-#endif //CTRACKSTATEXTENSIONWIDGET_H
+#endif                           //CTRACKSTATEXTENSIONWIDGET_H

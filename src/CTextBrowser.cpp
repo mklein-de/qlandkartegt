@@ -17,27 +17,29 @@
 
 **********************************************************************************************/
 
-
 #include "CTextBrowser.h"
 #include "CCanvas.h"
 
 #include <QtGui>
 
 CTextBrowser::CTextBrowser(QWidget *parent)
-    : QTextBrowser(parent)
+: QTextBrowser(parent)
 {
     connect(this, SIGNAL(sigHighlightArea(QString)), this, SLOT(slotHighlightArea(QString)));
 }
+
 
 CTextBrowser::~CTextBrowser()
 {
 
 }
 
+
 void CTextBrowser::resetAreas()
 {
     areas.clear();
 }
+
 
 void CTextBrowser::addArea(const QString& key, const QRect& rect)
 {
@@ -47,6 +49,7 @@ void CTextBrowser::addArea(const QString& key, const QRect& rect)
     r.moveTop(r.top() + offset);
     areas[key] = r;
 }
+
 
 void CTextBrowser::slotHighlightArea(const QString& key)
 {
@@ -85,6 +88,7 @@ void CTextBrowser::slotHighlightArea(const QString& key)
     viewport()->update();
 }
 
+
 void CTextBrowser::paintEvent(QPaintEvent * e)
 {
     QTextBrowser::paintEvent(e);
@@ -100,6 +104,7 @@ void CTextBrowser::paintEvent(QPaintEvent * e)
 
     PAINT_ROUNDED_RECT(p, r);
 }
+
 
 void CTextBrowser::mouseMoveEvent(QMouseEvent * e)
 {

@@ -28,10 +28,9 @@
 #define MAX_IDX_ZOOM 26
 #define MIN_IDX_ZOOM 0
 
-
 CMapJnx::scale_t CMapJnx::scales[] =
 {
-     {80000,  2083334 }
+    {80000,  2083334 }
     ,{5000,   1302084 }
     ,{3000,   781250  }
     ,{2000,   520834  }
@@ -75,6 +74,7 @@ void readCString(QDataStream& stream, QByteArray& ba)
 
 }
 
+
 CMapJnx::CMapJnx(const QString& key, const QString& fn, CCanvas * parent)
 : IMap(eRaster,key,parent)
 , xscale(1.0)
@@ -96,17 +96,18 @@ CMapJnx::CMapJnx(const QString& key, const QString& fn, CCanvas * parent)
 
     info  = "<h1>" + name + "</h1>";
 
-    stream >> hdr.version;            // byte 00000000..00000003
-    stream >> hdr.devid;              // byte 00000004..00000007
-    stream >> hdr.top;              // byte 00000008..0000000B
-    stream >> hdr.right;              // byte 0000000C..0000000F
-    stream >> hdr.bottom;              // byte 00000010..00000013
-    stream >> hdr.left;              // byte 00000014..00000017
-    stream >> hdr.details;            // byte 00000018..0000001B
-    stream >> hdr.expire;             // byte 0000001C..00000023
-    stream >> hdr.crc;                // byte 00000024..00000027
-    stream >> hdr.signature;          // byte 00000028..0000002B
-    stream >> hdr.signature_offset;   // byte 0000002C..0000002F
+    stream >> hdr.version;       // byte 00000000..00000003
+    stream >> hdr.devid;         // byte 00000004..00000007
+    stream >> hdr.top;           // byte 00000008..0000000B
+    stream >> hdr.right;         // byte 0000000C..0000000F
+    stream >> hdr.bottom;        // byte 00000010..00000013
+    stream >> hdr.left;          // byte 00000014..00000017
+    stream >> hdr.details;       // byte 00000018..0000001B
+    stream >> hdr.expire;        // byte 0000001C..00000023
+    stream >> hdr.crc;           // byte 00000024..00000027
+    stream >> hdr.signature;     // byte 00000028..0000002B
+                                 // byte 0000002C..0000002F
+    stream >> hdr.signature_offset;
 
     if(hdr.version > 3)
     {
@@ -124,7 +125,6 @@ CMapJnx::CMapJnx(const QString& key, const QString& fn, CCanvas * parent)
     qDebug() << hex <<  hdr.top <<  hdr.right <<  hdr.bottom <<  hdr.left;
     qDebug() << hex << "Details:" <<  hdr.details << "Expire:" <<  hdr.expire << "CRC:" <<  hdr.crc ;
     qDebug() << hex << "Signature:" <<  hdr.signature << "Offset:" <<  hdr.signature_offset;
-
 
     QString strTopLeft, strBottomRight;
     GPS_Math_Deg_To_Str(lon1, lat1, strTopLeft);
@@ -180,8 +180,6 @@ CMapJnx::CMapJnx(const QString& key, const QString& fn, CCanvas * parent)
         qDebug() << i << hex << level.nTiles << level.offset << level.scale;
     }
 
-
-
     quint32 infoBlockVersion;
     stream >> infoBlockVersion;
     if(infoBlockVersion == 0x9)
@@ -220,7 +218,6 @@ CMapJnx::CMapJnx(const QString& key, const QString& fn, CCanvas * parent)
         }
         info += "</table></p>";
     }
-
 
     for(quint32 i = 0; i < hdr.details; i++)
     {
@@ -271,6 +268,7 @@ CMapJnx::CMapJnx(const QString& key, const QString& fn, CCanvas * parent)
     theMainWindow->getCheckBoxQuadraticZoom()->hide();
 }
 
+
 CMapJnx::~CMapJnx()
 {
     qDebug() << "CMapJnx::~CMapJnx()";
@@ -289,17 +287,20 @@ CMapJnx::~CMapJnx()
 
 }
 
+
 void CMapJnx::convertPt2M(double& u, double& v)
 {
     u = x + u * xscale * zoomFactor;
     v = y + v * yscale * zoomFactor;
 }
 
+
 void CMapJnx::convertM2Pt(double& u, double& v)
 {
     u = floor((u - x) / (xscale * zoomFactor) + 0.5);
     v = floor((v - y) / (yscale * zoomFactor) + 0.5);
 }
+
 
 void CMapJnx::move(const QPoint& old, const QPoint& next)
 {
@@ -322,6 +323,7 @@ void CMapJnx::move(const QPoint& old, const QPoint& next)
 
     setAngleNorth();
 }
+
 
 void CMapJnx::zoom(bool zoomIn, const QPoint& p0)
 {
@@ -360,6 +362,7 @@ void CMapJnx::zoom(bool zoomIn, const QPoint& p0)
     emit sigChanged();
 
 }
+
 
 void CMapJnx::zoom(double lon1, double lat1, double lon2, double lat2)
 {
@@ -407,6 +410,7 @@ void CMapJnx::zoom(double lon1, double lat1, double lon2, double lat2)
     }
 }
 
+
 void CMapJnx::zoom(qint32& level)
 {
     needsRedraw = true;
@@ -419,6 +423,7 @@ void CMapJnx::zoom(qint32& level)
     emit sigChanged();
 }
 
+
 void CMapJnx::dimensions(double& lon1, double& lat1, double& lon2, double& lat2)
 {
     lon1 = this->lon1 * DEG_TO_RAD;
@@ -427,6 +432,7 @@ void CMapJnx::dimensions(double& lon1, double& lat1, double& lon2, double& lat2)
     lat2 = this->lat1 * DEG_TO_RAD;
 
 }
+
 
 void CMapJnx::draw(QPainter& p)
 {
@@ -437,7 +443,6 @@ void CMapJnx::draw(QPainter& p)
         draw();
     }
 
-
     p.drawPixmap(0,0,pixBuffer);
 
     if(!ovlMap.isNull() && !doFastDraw)
@@ -447,6 +452,7 @@ void CMapJnx::draw(QPainter& p)
 
     needsRedraw = false;
 }
+
 
 void CMapJnx::getArea_n_Scaling(projXY& p1, projXY& p2, float& my_xscale, float& my_yscale)
 {
@@ -464,7 +470,6 @@ void CMapJnx::getArea_n_Scaling(projXY& p1, projXY& p2, float& my_xscale, float&
 
     convertPt2Rad(p2.u, p2.v);
 
-
     my_xscale   = xscale*zoomFactor;
     my_yscale   = yscale*zoomFactor;
 }
@@ -475,12 +480,12 @@ qint32 CMapJnx::zlevel2idx(quint32 zl)
     qint32 idxLvl   = -1;
     quint32 actScale = scales[zl].jnxScale;
 
-//    qDebug() << "-----------";
+    //    qDebug() << "-----------";
     for(int i = 0; i < levels.size(); i++)
     {
         level_t& level = levels[i];
 
-//        qDebug() << level.scale << actScale;
+        //        qDebug() << level.scale << actScale;
         if(actScale <= level.scale)
         {
             idxLvl = i;
@@ -491,6 +496,7 @@ qint32 CMapJnx::zlevel2idx(quint32 zl)
     return idxLvl;
 }
 
+
 void CMapJnx::draw()
 {
     if(pjsrc == 0) return IMap::draw();
@@ -499,7 +505,6 @@ void CMapJnx::draw()
     QPainter p(&pixBuffer);
 
     p.setBrush(Qt::NoBrush);
-
 
     double u1 = 0;
     double v1 = size.height();
@@ -513,7 +518,6 @@ void CMapJnx::draw()
     v1 *= RAD_TO_DEG;
     u2 *= RAD_TO_DEG;
     v2 *= RAD_TO_DEG;
-
 
     viewport.setTop(v2);
     viewport.setRight(u2);
@@ -545,7 +549,6 @@ void CMapJnx::draw()
         p.drawRect(r);
         return;
     }
-
 
     QByteArray data(1024*1024*4,0);
     //(char) typecast needed to avoid MSVC compiler warning

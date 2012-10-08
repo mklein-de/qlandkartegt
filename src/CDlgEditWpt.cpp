@@ -117,7 +117,6 @@ int CDlgEditWpt::exec()
     toolIcon->setIcon(wpt.getIcon());
     toolIcon->setObjectName(wpt.getIconString());
 
-
     lineName->setText(wpt.getName());
 
     checkSticky->setChecked(wpt.sticky);
@@ -181,14 +180,14 @@ int CDlgEditWpt::exec()
 
     if(wpt.isGeoCache())
     {
-//        checkExportBuddies->setChecked(wpt.geocache.exportBuddies);
+        //        checkExportBuddies->setChecked(wpt.geocache.exportBuddies);
 
         wpt.showBuddies(true);
 
         if(wpt.buddies.isEmpty())
         {
             listBuddies->hide();
-//            checkExportBuddies->hide();
+            //            checkExportBuddies->hide();
             pushCreateBuddies->hide();
         }
         else
@@ -201,7 +200,6 @@ int CDlgEditWpt::exec()
                 item->setToolTip(*buddy.pos.begin());
                 listBuddies->addItem(item);
 
-
                 foreach(const QString& pos, buddy.pos)
                 {
                     html.replace(pos, QString("%1 (<b><i style='color: black;'>%2</i></b>)").arg(pos).arg(buddy.name));
@@ -209,7 +207,7 @@ int CDlgEditWpt::exec()
             }
             listBuddies->sortItems();
             listBuddies->show();
-//            checkExportBuddies->show();
+            //            checkExportBuddies->show();
             pushCreateBuddies->show();
         }
 
@@ -221,7 +219,7 @@ int CDlgEditWpt::exec()
     else
     {
         listBuddies->hide();
-//        checkExportBuddies->hide();
+        //        checkExportBuddies->hide();
         pushCreateBuddies->hide();
         checkHint->hide();
 
@@ -230,9 +228,6 @@ int CDlgEditWpt::exec()
             webView->setUrl(link);
         }
     }
-
-
-
 
     QStringList caches;
     CWptDB::self().getListOfGeoCaches(caches);
@@ -318,11 +313,10 @@ void CDlgEditWpt::accept()
         float ele = CMapDB::self().getDEM().getElevation(pt2.u, pt2.v);
         if(ele != WPT_NOFLOAT) wpt2->ele = ele;
 
-
         CWptDB::self().addWpt(wpt2,false);
     }
 
-//    wpt.geocache.exportBuddies = checkExportBuddies->isChecked();
+    //    wpt.geocache.exportBuddies = checkExportBuddies->isChecked();
 
     wpt.parentWpt = comboParentWpt->currentText();
 
@@ -424,11 +418,13 @@ void CDlgEditWpt::showImage(int idx)
     }
 }
 
+
 void CDlgEditWpt::slotOpenLink(const QUrl& url)
 {
 
     QDesktopServices::openUrl(url);
 }
+
 
 void CDlgEditWpt::slotOpenLink(const QString& link)
 {
@@ -526,6 +522,7 @@ void CDlgEditWpt::slotUpdateBarcode()
 
 }
 
+
 void CDlgEditWpt::slotToggleHint(bool show)
 {
     QString html = wpt.getExtInfo(show);
@@ -549,6 +546,7 @@ void CDlgEditWpt::slotToggleHint(bool show)
     webView->setHtml(html);
 }
 
+
 void CDlgEditWpt::slotSelectImage(const CImageSelect::img_t& src)
 {
     wpt.images.clear();
@@ -567,6 +565,7 @@ void CDlgEditWpt::slotSelectImage(const CImageSelect::img_t& src)
     pushDel->setEnabled(wpt.images.count() != 0);
 }
 
+
 void CDlgEditWpt::slotCreateBuddies()
 {
     IMap& dem = CMapDB::self().getDEM();
@@ -582,6 +581,7 @@ void CDlgEditWpt::slotCreateBuddies()
 
     wpt.showBuddies(false);
 }
+
 
 void CDlgEditWpt::slotTransparent(bool ok)
 {

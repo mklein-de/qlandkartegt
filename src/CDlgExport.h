@@ -36,7 +36,6 @@ class CDlgExport : public QDialog, private Ui::IDlgExport
         int exec();
         void accept();
 
-
     private slots:
         void slotCheckAll(bool checked);
 
@@ -50,6 +49,4 @@ class CDlgExport : public QDialog, private Ui::IDlgExport
         QStringList * keysRte;
 
 };
-
-#endif //CDLGEXPORT_H
-
+#endif                           //CDLGEXPORT_H

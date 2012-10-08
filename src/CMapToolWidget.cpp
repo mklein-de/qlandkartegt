@@ -198,7 +198,6 @@ void CMapToolWidget::slotDBChanged()
     treeKnownMapsVector->sortItems(eName, Qt::AscendingOrder);
     treeKnownMapsRaster->sortItems(eName, Qt::AscendingOrder);
 
-
     if(selected)
     {
         if(selected->data(eType, Qt::UserRole) == IMap::eGarmin)
@@ -519,11 +518,13 @@ void CMapToolWidget::slotCfgMap()
     CMapDB::self().getMap().config();
 }
 
+
 void CMapToolWidget::slotAddTmsMap()
 {
     CDlgMapTmsConfig dlg;
     dlg.exec();
 }
+
 
 void CMapToolWidget::slotReload()
 {

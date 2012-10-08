@@ -17,7 +17,6 @@
 
 **********************************************************************************************/
 
-
 #include "CImageSelect.h"
 #include "CWpt.h"
 
@@ -26,10 +25,9 @@
 #define WIDTH   100.0
 #define HEIGHT  100.0
 
-
 CImageSelect::CImageSelect(QWidget * parent)
-    : QWidget(parent)
-    , wpt(0)
+: QWidget(parent)
+, wpt(0)
 {
     scrollBar = 0;
     setupUi(this);
@@ -40,10 +38,12 @@ CImageSelect::CImageSelect(QWidget * parent)
     connect(scrollBar, SIGNAL(valueChanged(int)), this, SLOT(update()));
 }
 
+
 CImageSelect::~CImageSelect()
 {
 
 }
+
 
 void CImageSelect::setTransparent(bool yes)
 {
@@ -117,12 +117,14 @@ void CImageSelect::setTransparent(bool yes)
     update();
 }
 
+
 void CImageSelect::resizeEvent(QResizeEvent * e)
 {
     QSize s = e->size();
     scrollBar->setPageStep(s.width()/WIDTH);
     scrollBar->setMaximum(images.size() - scrollBar->pageStep());
 }
+
 
 void CImageSelect::mousePressEvent(QMouseEvent * e)
 {
@@ -135,6 +137,7 @@ void CImageSelect::mousePressEvent(QMouseEvent * e)
     }
 }
 
+
 void CImageSelect::wheelEvent(QWheelEvent * e)
 {
     if(!scrollBar->rect().contains(e->pos()))
@@ -143,6 +146,7 @@ void CImageSelect::wheelEvent(QWheelEvent * e)
         scrollBar->setValue(value);
     }
 }
+
 
 void CImageSelect::paintEvent(QPaintEvent * e)
 {

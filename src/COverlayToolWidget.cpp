@@ -88,7 +88,6 @@ void COverlayToolWidget::slotDBChanged()
 
         item->setIcon(icon);
 
-
     }
 
     listOverlays->sortItems();
@@ -102,12 +101,14 @@ void COverlayToolWidget::slotItemDoubleClicked(QListWidgetItem * item)
     COverlayDB::self().makeVisible(keys);
 }
 
+
 void COverlayToolWidget::slotItemClicked(QListWidgetItem * item)
 {
     originator = true;
     COverlayDB::self().highlightOverlay(item->data(Qt::UserRole).toString());
     originator = false;
 }
+
 
 void COverlayToolWidget::slotSelectionChanged()
 {

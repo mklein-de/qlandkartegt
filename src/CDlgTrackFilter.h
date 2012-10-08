@@ -58,7 +58,7 @@ class CDlgTrackFilter : public QDialog, private Ui::IDlgTrackFilter
         void slotSplitChunks(int);
         void slotSplitPoints(int);
 
- private:
+    private:
         void modifyTimestamp(CTrack * trk);
         void reduceDataset(CTrack * trk);
         void splitTrack(CTrack * trk);

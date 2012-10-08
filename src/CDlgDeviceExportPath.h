@@ -41,6 +41,4 @@ class CDlgDeviceExportPath : public QDialog, private Ui::IDlgDeviceExportPath
         QString& subdir;
 
 };
-
-#endif //CDLGDEVICEEXPORTPATH_H
-
+#endif                           //CDLGDEVICEEXPORTPATH_H

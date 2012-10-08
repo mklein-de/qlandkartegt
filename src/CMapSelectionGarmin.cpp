@@ -20,13 +20,11 @@
 #include "CMapDB.h"
 #include "IMap.h"
 
-
 #include <QtGui>
 #include <proj_api.h>
 #ifdef __MINGW32__
 #undef LP
 #endif
-
 
 CMapSelectionGarmin::CMapSelectionGarmin(QObject * parent)
 : IMapSelection(eVector, eGarmin, parent)
@@ -41,6 +39,7 @@ CMapSelectionGarmin::~CMapSelectionGarmin()
 {
 
 }
+
 
 QDataStream& CMapSelectionGarmin::operator>>(QDataStream& s)
 {
@@ -61,10 +60,10 @@ QDataStream& CMapSelectionGarmin::operator>>(QDataStream& s)
     s1 << name;
     s1 << comment;
     s1 << description;
-    s1 << lon1;             ///< top left longitude [rad]
-    s1 << lat1;             ///< top left latitude [rad]
-    s1 << lon2;             ///< bottom right longitude [rad]
-    s1 << lat2;             ///< bottom right latitude [rad]
+    s1 << lon1;                  ///< top left longitude [rad]
+    s1 << lat1;                  ///< top left latitude [rad]
+    s1 << lon2;                  ///< bottom right longitude [rad]
+    s1 << lat2;                  ///< bottom right latitude [rad]
 
     entries << entryBase;
     //---------------------------------------
@@ -74,7 +73,6 @@ QDataStream& CMapSelectionGarmin::operator>>(QDataStream& s)
     entryGarmin.type = eHeadGarmin;
     QDataStream s2(&entryGarmin.data, QIODevice::WriteOnly);
     s2.setVersion(QDataStream::Qt_4_5);
-
 
     s2 << maps.count();
     QString key1;

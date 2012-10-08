@@ -77,9 +77,7 @@ void CDlgScreenshot::slotSave()
         filename += ".png";
     }
 
-
     image.save(filename);
-
 
     pathData = fi.absolutePath();
     cfg.setValue("path/data", pathData);

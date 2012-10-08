@@ -61,6 +61,7 @@ COverlayDistanceEditWidget::COverlayDistanceEditWidget(QWidget * parent, COverla
     slotSelectionChanged();
 }
 
+
 COverlayDistanceEditWidget::~COverlayDistanceEditWidget()
 {
     if(ovl)
@@ -75,6 +76,7 @@ bool COverlayDistanceEditWidget::isAboutToClose()
     return !ovl->isEdit;
 }
 
+
 void COverlayDistanceEditWidget::slotApply()
 {
     ovl->name = lineName->text();
@@ -84,6 +86,7 @@ void COverlayDistanceEditWidget::slotApply()
     emit ovl->sigChanged();
     COverlayDB::self().emitSigChanged();
 }
+
 
 void COverlayDistanceEditWidget::slotChanged()
 {
@@ -112,6 +115,7 @@ void COverlayDistanceEditWidget::slotChanged()
     treeWidget->header()->setResizeMode(eNo,QHeaderView::ResizeToContents);
 }
 
+
 void COverlayDistanceEditWidget::slotSelectionChanged()
 {
     QTreeWidgetItem * item = 0;
@@ -136,6 +140,7 @@ void COverlayDistanceEditWidget::slotSelectionChanged()
     }
 }
 
+
 void COverlayDistanceEditWidget::slotItemSelectionChanged()
 {
     ovl->selectedPoints.clear();
@@ -151,13 +156,14 @@ void COverlayDistanceEditWidget::slotItemSelectionChanged()
 
 }
 
+
 void COverlayDistanceEditWidget::slotContextMenu(const QPoint& pos)
 {
     int cnt = treeWidget->selectedItems().count();
     if(cnt > 0)
     {
 
-//        actSplit->setEnabled(cnt == 1);
+        //        actSplit->setEnabled(cnt == 1);
         QPoint p = treeWidget->mapToGlobal(pos);
         contextMenu->exec(p);
     }

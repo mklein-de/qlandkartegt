@@ -55,55 +55,56 @@ void IDB::gainFocus()
     }
 }
 
+
 QDateTime IDB::parseTimestamp(const QString &timetext, int& tzoffset)
 {
-     const QRegExp tzRE("[-+]\\d\\d:\\d\\d$");
-     int i;
+    const QRegExp tzRE("[-+]\\d\\d:\\d\\d$");
+    int i;
 
-     tzoffset = 0;
+    tzoffset = 0;
 
-     QString format = "yyyy-MM-dd'T'hh:mm:ss";
-     if (timetext.indexOf(".") != -1) format += ".zzz";
-     // trailing "Z" explicitly declares the timestamp to be UTC
-     if (timetext.indexOf("Z") != -1)
-     {
-          format += "'Z'";
-     }
-     else if ((i = tzRE.indexIn(timetext)) != -1)
-     {
-          // trailing timezone offset [-+]HH:MM present
-          // This does not match the original intentions of the GPX
-          // file format but appears to be found occasionally in
-          // the wild.  Try our best parsing it.
+    QString format = "yyyy-MM-dd'T'hh:mm:ss";
+    if (timetext.indexOf(".") != -1) format += ".zzz";
+    // trailing "Z" explicitly declares the timestamp to be UTC
+    if (timetext.indexOf("Z") != -1)
+    {
+        format += "'Z'";
+    }
+    else if ((i = tzRE.indexIn(timetext)) != -1)
+    {
+        // trailing timezone offset [-+]HH:MM present
+        // This does not match the original intentions of the GPX
+        // file format but appears to be found occasionally in
+        // the wild.  Try our best parsing it.
 
-          // add the literal string to the format so fromString()
-          // will succeed
-          format += "'";
-          format += timetext.right(6);
-          format += "'";
+        // add the literal string to the format so fromString()
+        // will succeed
+        format += "'";
+        format += timetext.right(6);
+        format += "'";
 
-          // calculate the offset
-          int offsetHours(timetext.mid(i + 1, 2).toUInt());
-          int offsetMinutes(timetext.mid(i + 4, 2).toUInt());
-          if (timetext[i] == '-')
-          {
-               tzoffset = -(60 * offsetHours + offsetMinutes);
-          }
-          else
-          {
-               tzoffset = 60 * offsetHours + offsetMinutes;
-          }
-          tzoffset *= 60; // seconds
-     }
+        // calculate the offset
+        int offsetHours(timetext.mid(i + 1, 2).toUInt());
+        int offsetMinutes(timetext.mid(i + 4, 2).toUInt());
+        if (timetext[i] == '-')
+        {
+            tzoffset = -(60 * offsetHours + offsetMinutes);
+        }
+        else
+        {
+            tzoffset = 60 * offsetHours + offsetMinutes;
+        }
+        tzoffset *= 60;          // seconds
+    }
 
-     QDateTime datetime = QDateTime::fromString(timetext, format);
+    QDateTime datetime = QDateTime::fromString(timetext, format);
 
-     return datetime;
+    return datetime;
 }
 
 
 static bool parseTstampInternal(const QString &timetext, quint32 &tstamp,
-                                bool do_msec, quint32 &tstamp_msec)
+bool do_msec, quint32 &tstamp_msec)
 {
 
     int tzoffset;
@@ -111,7 +112,7 @@ static bool parseTstampInternal(const QString &timetext, quint32 &tstamp,
 
     if (!datetime.isValid())
     {
-      return false;
+        return false;
     }
 
     datetime.setTimeSpec(Qt::UTC);
@@ -121,24 +122,27 @@ static bool parseTstampInternal(const QString &timetext, quint32 &tstamp,
 
     if (do_msec)
     {
-      tstamp_msec = datetime.time().msec();
+        tstamp_msec = datetime.time().msec();
     }
 
     return true;
 }
 
+
 bool IDB::parseTimestamp(const QString &time, quint32 &tstamp)
 {
-     quint32 dummy;
+    quint32 dummy;
 
-     return parseTstampInternal(time, tstamp, false, dummy);
+    return parseTstampInternal(time, tstamp, false, dummy);
 }
+
 
 bool IDB::parseTimestamp(const QString &time, quint32 &tstamp,
-                         quint32 &tstamp_msec)
+quint32 &tstamp_msec)
 {
-     return parseTstampInternal(time, tstamp, true, tstamp_msec);
+    return parseTstampInternal(time, tstamp, true, tstamp_msec);
 }
+
 
 void IDB::signalsOff()
 {
@@ -150,6 +154,7 @@ void IDB::signalsOff()
 
     signalFlags = 0;
 }
+
 
 void IDB::signalsOn()
 {

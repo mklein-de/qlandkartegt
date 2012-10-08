@@ -71,7 +71,6 @@ class CTrackFilterWidget : public QWidget, private Ui::ITrackFilterWidget
         void slotSplit3Now();
         void slotSplit4Now();
 
-
     private:
         void saveFilterList(const QString& filename);
         void loadFilterList(const QString& filename);
@@ -112,6 +111,4 @@ class CTrackFilterWidget : public QWidget, private Ui::ITrackFilterWidget
 
         QMenu * contextMenuStoredFilter;
 };
-
-#endif //CTRACKFILTERWIDGET_H
-
+#endif                           //CTRACKFILTERWIDGET_H

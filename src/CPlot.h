@@ -36,7 +36,6 @@ class CPlot : public QWidget
         CPlot(CPlotData::axis_type_e type, mode_e mode, QWidget * parent);
         virtual ~CPlot();
 
-
         void setShowScale(bool show){showScale = show;}
         void setThinLine(bool thin){thinLine = thin;}
         void setYLabel(const QString& str);
@@ -58,16 +57,15 @@ class CPlot : public QWidget
         void draw(QPainter& p);
         void draw(QPainter& p, const QSize& s);
 
-    signals:
+        signals:
         void sigActivePoint(double dist);
         void sigSetWaypoint(double dist);
         void sigClicked();
 
-    public slots:        
+    public slots:
         void slotPointOfFocus(const int idx);
         void slotHighlightSection(double x1, double x2);
         void resetZoom();
-
 
     protected slots:
         void slotTrkPt(CTrack::pt_t * pt);

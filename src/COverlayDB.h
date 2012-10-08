@@ -20,7 +20,6 @@
 #ifndef COVERLAYDB_H
 #define COVERLAYDB_H
 
-
 #include "IDB.h"
 #include "COverlayDistance.h"
 
@@ -39,7 +38,6 @@ class COverlayText;
 class COverlayTextBox;
 class COverlayDistance;
 class QMenu;
-
 
 class COverlayDB : public IDB
 {
@@ -94,7 +92,6 @@ class COverlayDB : public IDB
         */
         IOverlay * highlightedOverlay();
 
-
         void copyToClipboard(bool deleteSelection = false);
         void pasteFromClipboard();
         void combineDistOvl();
@@ -102,7 +99,6 @@ class COverlayDB : public IDB
         struct keys_t{QString key; QString name; QString comment; QPixmap icon; quint32 time;};
         /// get all keys in the database
         QList<keys_t> keys();
-
 
         void makeVisible(const QStringList& keys);
 

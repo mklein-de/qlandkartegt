@@ -72,7 +72,7 @@ void CMapSearchThread::run()
     QSize size = QSize(1024,1024) + mask->mask().size();
 
     int n,m;
-//    QImage buffer(size, QImage::Format_ARGB32);
+    //    QImage buffer(size, QImage::Format_ARGB32);
     double x1 = area.lon1;
     double y1 = area.lat1;
     double x2 = area.lon2;

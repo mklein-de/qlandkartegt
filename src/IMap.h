@@ -286,7 +286,6 @@ class IMap : public QObject
                             Every line outside that threshold will be ignored.
           @param line       reference to a line object the data is copied to. Points will be pixel coords.
 
-
         */
         virtual void getClosePolyline(QPoint& pt1, QPoint& pt2, qint32 threshold, QPolygon& line);
 
@@ -298,7 +297,6 @@ class IMap : public QObject
 
         static double midU;
         static double midV;
-
 
         signals:
         void sigChanged();
@@ -366,7 +364,6 @@ class IMap : public QObject
         QTimer * timerFastDraw;
 
         double angleNorth;
-
 
     private:
         bool fastDrawWithoutTimer;

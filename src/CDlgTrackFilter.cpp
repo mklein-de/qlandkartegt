@@ -67,7 +67,7 @@ CDlgTrackFilter::CDlgTrackFilter(CTrack &track, QWidget * parent)
         tabTimestamp->setEnabled(false);
         radioTimedelta->setEnabled(false);
         spinTimedelta->setEnabled(false);
-//        qDebug() << "Track has no timestamps that could be modified.";
+        //        qDebug() << "Track has no timestamps that could be modified.";
     }
     else
     {
@@ -136,6 +136,7 @@ void CDlgTrackFilter::accept()
     QDialog::accept();
 }
 
+
 void CDlgTrackFilter::splitTrack(CTrack * trk)
 {
 
@@ -159,7 +160,6 @@ void CDlgTrackFilter::splitTrack(CTrack * trk)
     {
         chunk = spinSplitPoints->value();
     }
-
 
     int totalCnt    = 0;
     int trkptCnt    = 0;
@@ -204,10 +204,10 @@ void CDlgTrackFilter::splitTrack(CTrack * trk)
         delete track1;
     }
 
-
     QApplication::restoreOverrideCursor();
 
 }
+
 
 void CDlgTrackFilter::modifyTimestamp(CTrack * trk)
 {
@@ -265,6 +265,7 @@ void CDlgTrackFilter::modifyTimestamp(CTrack * trk)
         CTrackDB::self().emitSigModified();
     }
 }
+
 
 void CDlgTrackFilter::reduceDataset(CTrack * trk)
 {
@@ -336,8 +337,7 @@ void CDlgTrackFilter::reduceDataset(CTrack * trk)
             while(trkpt != trkpts.end())
             {
 
-//qDebug() << "LastAzimuth: " << lastAzimuth << "   Azimuth: "<< trkpt->azimuth << " ABS(Azimuth-LastAzimuth): " << abs(trkpt->azimuth - lastAzimuth);
-
+                //qDebug() << "LastAzimuth: " << lastAzimuth << "   Azimuth: "<< trkpt->azimuth << " ABS(Azimuth-LastAzimuth): " << abs(trkpt->azimuth - lastAzimuth);
 
                 p2.u = DEG_TO_RAD * trkpt->lon;
                 p2.v = DEG_TO_RAD * trkpt->lat;
@@ -411,6 +411,7 @@ void CDlgTrackFilter::reduceDataset(CTrack * trk)
     }
 }
 
+
 void CDlgTrackFilter::slotReset1stOfMonth()
 {
     QDateTime t = datetimeStartTime->dateTime();
@@ -420,8 +421,8 @@ void CDlgTrackFilter::slotReset1stOfMonth()
     int offset = (day - 1) * 86400 + hour * 3600;
     QDateTime tn = t.addSecs(-offset);
 
-//    qDebug() << "Resetting starttime:" << t.toString("yyyy-MM-dd'T'hh:mm:ss'Z'")
-//        << "to:" << tn.toString("yyyy-MM-dd'T'hh:mm:ss'Z'");
+    //    qDebug() << "Resetting starttime:" << t.toString("yyyy-MM-dd'T'hh:mm:ss'Z'")
+    //        << "to:" << tn.toString("yyyy-MM-dd'T'hh:mm:ss'Z'");
 
     datetimeStartTime->setDateTime(tn);
 
@@ -433,8 +434,8 @@ void CDlgTrackFilter::slotResetEpoch()
 {
     QDateTime t = datetimeStartTime->dateTime();
 
-//    qDebug() << "Resetting starttime:" << t.toString("yyyy-MM-dd'T'hh:mm:ss'Z'")
-//        << "to epoch";
+    //    qDebug() << "Resetting starttime:" << t.toString("yyyy-MM-dd'T'hh:mm:ss'Z'")
+    //        << "to epoch";
 
     QDateTime tn;
     radioUTC->setChecked(true);
@@ -453,7 +454,7 @@ void CDlgTrackFilter::slotDateTimeChanged(const QDateTime &tn)
 {
     checkModifyTimestamps->setChecked(true);
 
-//    qDebug() << "Resetting starttime to:" << tn.toString("yyyy-MM-dd'T'hh:mm:ss'Z'");
+    //    qDebug() << "Resetting starttime to:" << tn.toString("yyyy-MM-dd'T'hh:mm:ss'Z'");
 }
 
 
@@ -467,10 +468,12 @@ void CDlgTrackFilter::slotRadioDistance()
     }
 }
 
+
 void CDlgTrackFilter::slotCheckMedian()
 {
     checkReduceDataset->setChecked(true);
 }
+
 
 void CDlgTrackFilter::slotSpinDistance(int i)
 {
@@ -484,6 +487,7 @@ void CDlgTrackFilter::slotSpinDistance(int i)
     }
 }
 
+
 void CDlgTrackFilter::slotCheckAzimuthDelta()
 {
     if(checkAzimuthDelta->isChecked())
@@ -496,11 +500,13 @@ void CDlgTrackFilter::slotCheckAzimuthDelta()
     }
 }
 
+
 void CDlgTrackFilter::slotSpinAzimuthDelta(int i)
 {
     checkAzimuthDelta->setChecked(true);
     spinAzimuthDelta->setEnabled(true);
 }
+
 
 void CDlgTrackFilter::slotRadioTimedelta()
 {
@@ -508,6 +514,7 @@ void CDlgTrackFilter::slotRadioTimedelta()
     spinAzimuthDelta->setEnabled(false);
     checkReduceDataset->setChecked(true);
 }
+
 
 void CDlgTrackFilter::slotSpinTimedelta(int i)
 {
@@ -517,10 +524,12 @@ void CDlgTrackFilter::slotSpinTimedelta(int i)
     checkReduceDataset->setChecked(true);
 }
 
+
 void CDlgTrackFilter::slotComboMeterFeet(const QString &text)
 {
     spinDistance->setSuffix(text);
 }
+
 
 void CDlgTrackFilter::slotRadioSplitChunks()
 {
@@ -528,11 +537,13 @@ void CDlgTrackFilter::slotRadioSplitChunks()
     checkSplitTrack->setChecked(true);
 }
 
+
 void CDlgTrackFilter::slotRadioSplitPoints()
 {
 
     checkSplitTrack->setChecked(true);
 }
+
 
 void CDlgTrackFilter::slotSplitChunks(int)
 {
@@ -541,6 +552,7 @@ void CDlgTrackFilter::slotSplitChunks(int)
 
     checkSplitTrack->setChecked(true);
 }
+
 
 void CDlgTrackFilter:: slotSplitPoints(int)
 {

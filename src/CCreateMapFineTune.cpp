@@ -49,10 +49,12 @@ CCreateMapFineTune::CCreateMapFineTune(QWidget * parent)
 
 }
 
+
 CCreateMapFineTune::~CCreateMapFineTune()
 {
 
 }
+
 
 void CCreateMapFineTune::slotOpenFile()
 {
@@ -61,7 +63,6 @@ void CCreateMapFineTune::slotOpenFile()
 
     QString filename = QFileDialog::getOpenFileName(0, tr("Open map file..."),path.path(), tr("Referenced file (*.tif *.tiff *.png *.gif)"), 0, FILE_DIALOG_FLAGS);
     if(filename.isEmpty()) return;
-
 
     CMapDB::self().openMap(filename, false, *theMainWindow->getCanvas());
 
@@ -95,11 +96,13 @@ void CCreateMapFineTune::slotOpenFile()
 
 }
 
+
 void CCreateMapFineTune::slotUp()
 {
     IMap& map = CMapDB::self().getMap();
     map.incYOffset(1);
 }
+
 
 void CCreateMapFineTune::slotDown()
 {
@@ -107,11 +110,13 @@ void CCreateMapFineTune::slotDown()
     map.decYOffset(1);
 }
 
+
 void CCreateMapFineTune::slotLeft()
 {
     IMap& map = CMapDB::self().getMap();
     map.decXOffset(1);
 }
+
 
 void CCreateMapFineTune::slotRight()
 {
@@ -124,8 +129,9 @@ int CPL_STDCALL ProgressFunc(double dfComplete, const char *pszMessage, void *pP
 {
     CCreateMapFineTune * parent = (CCreateMapFineTune*)pProgressArg;
     parent->progressBar->setValue(dfComplete * 100);
-	return TRUE;
+    return TRUE;
 }
+
 
 void CCreateMapFineTune::slotSave()
 {

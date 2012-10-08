@@ -67,5 +67,3 @@ void CMouseAddDistance::mousePressEvent(QMouseEvent * e)
 void CMouseAddDistance::mouseReleaseEvent(QMouseEvent * e)
 {
 }
-
-

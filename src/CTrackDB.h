@@ -118,7 +118,7 @@ class CTrackDB : public IDB
         // find the point with the lowest distance delta to the given position and return it's position and timestamp
         bool getClosestPoint2Position(double& lon, double& lat, quint32& timestamp, double maxDelta);
 
-    signals:
+        signals:
         void sigHighlightTrack(CTrack * track);
         /// the index into the current track
         void sigPointOfFocus(const int idx);

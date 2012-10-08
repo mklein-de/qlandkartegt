@@ -24,7 +24,6 @@
 
 #include <QtGui>
 
-
 CMouseSelMap::CMouseSelMap(CCanvas * canvas)
 : IMouse(canvas)
 , selArea(false)
@@ -41,8 +40,6 @@ CMouseSelMap::~CMouseSelMap()
 }
 
 
-
-
 void CMouseSelMap::draw(QPainter& p)
 {
     drawSelMap(p);
@@ -57,15 +54,15 @@ void CMouseSelMap::drawSelMap(QPainter& p)
         return;
     }
 
-
     p.setPen(QPen(Qt::yellow,2));
     p.setBrush(Qt::NoBrush);
-    QRect r1 = selMap->rect();//u1, v1, u2 - u1, v2 - v1);
+    QRect r1 = selMap->rect();   //u1, v1, u2 - u1, v2 - v1);
     p.drawRect(r1);
 
     rectMoveMapSel.moveTopLeft(r1.center() - QPoint(32,32));
     p.drawPixmap(rectMoveMapSel.topLeft(), QPixmap(":/icons/iconMove64x64.png"));
 }
+
 
 void CMouseSelMap::drawSelArea(QPainter& p)
 {
@@ -124,6 +121,7 @@ void CMouseSelMap::drawSelArea(QPainter& p)
     }
 }
 
+
 void CMouseSelMap::mouseMoveEvent(QMouseEvent * e)
 {
     mousePos = e->pos();
@@ -153,7 +151,6 @@ void CMouseSelMap::mouseMoveEvent(QMouseEvent * e)
     {
         moveMapSel = false;
     }
-
 
     if(selArea)
     {
@@ -195,11 +192,13 @@ void CMouseSelMap::mousePressEvent(QMouseEvent * e)
     }
 }
 
+
 void CMouseSelMap::mousePressEventMapsel(QMouseEvent * e)
 {
     startRect(e->pos());
     selArea = true;
 }
+
 
 void CMouseSelMap::mouseReleaseEvent(QMouseEvent * e)
 {
@@ -291,6 +290,7 @@ void CMouseSelMap::contextMenu(QMenu& menu)
     }
 }
 
+
 void CMouseSelMap::slotMapSelAll()
 {
     if(!selMap.isNull())
@@ -309,6 +309,7 @@ void CMouseSelMap::slotMapSelAll()
         }
     }
 }
+
 
 void CMouseSelMap::slotMapSelNone()
 {

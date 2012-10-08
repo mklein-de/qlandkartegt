@@ -35,7 +35,6 @@ class CDlgLoadOnlineMap : public QDialog, private Ui::IDlgLoadOnlineMap
         virtual ~CDlgLoadOnlineMap();
         QString selectedfile;
 
-
     public slots:
         void accept();
         void slotWebServiceResponse(const QtSoapMessage &message);
@@ -49,4 +48,3 @@ class CDlgLoadOnlineMap : public QDialog, private Ui::IDlgLoadOnlineMap
         void getMapList();
 };
 #endif
-

@@ -113,7 +113,6 @@ extern double parallel_distance(const projXY& p1, const projXY& p2);
 */
 extern projXY GPS_Math_Wpt_Projection(const projXY& pt1, double distance, double bearing);
 
-
 extern void GPS_Math_SubPolyline(const QPoint& p1, const QPoint& p2, int threshold, const QPolygon& line1, QPolygon& line2);
 
 extern bool GPS_Math_LineCrossesRect(const QPoint& p1, const QPoint& p2, const QRect& rect);
@@ -133,7 +132,6 @@ struct point3D
     @param x2 second point on the line
     @param x0 the point itself
 
-
     @return the distance between point and line.
 */
 extern double GPS_Math_distPointLine3D(point3D& x1, point3D& x2, point3D& x0);
@@ -145,5 +143,4 @@ struct pointDP : public point3D
 };
 
 extern void GPS_Math_DouglasPeucker(QVector<pointDP>& line, double d);
-
 #endif                           //GEOMATH_H

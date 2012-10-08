@@ -93,6 +93,4 @@ class IItem : public QObject
         QString key;
 
 };
-
-#endif //IITEM_H
-
+#endif                           //IITEM_H

@@ -40,6 +40,4 @@ class CDlgCombineDistOvl : public QDialog, private Ui::IDlgCombineDistOvl
         void slotItemSelectionChanged();
 
 };
-
-#endif //CDLGCOMBINEDISTOVL_H
-
+#endif                           //CDLGCOMBINEDISTOVL_H

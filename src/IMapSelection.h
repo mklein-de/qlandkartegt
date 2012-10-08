@@ -28,7 +28,6 @@
 class QPainter;
 class QRect;
 
-
 #define TILESIZE 1024
 
 class IMapSelection : public IItem
@@ -85,9 +84,7 @@ class IMapSelection : public IItem
         double lon2;             ///< bottom right longitude [rad]
         double lat2;             ///< bottom right latitude [rad]
 
-
         QRect rect();
-
 
 };
 #endif                           //IMAPSELECTION_H

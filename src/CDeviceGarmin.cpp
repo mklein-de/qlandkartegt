@@ -638,8 +638,10 @@ void CDeviceGarmin::slotTimeout()
 
         log.heading     = heading;
         log.velocity    = sqrtf( pvt.north * pvt.north + pvt.east * pvt.east );
-        log.error_horz  = pvt.eph/2.0;  //HS: moved division by 2 from CLiveLogDB.cpp
-        log.error_vert  = pvt.epv/2.0;  //HS: moved division by 2 from CLiveLogDB.cpp
+                                 //HS: moved division by 2 from CLiveLogDB.cpp
+        log.error_horz  = pvt.eph/2.0;
+                                 //HS: moved division by 2 from CLiveLogDB.cpp
+        log.error_vert  = pvt.epv/2.0;
     }
 
     emit sigLiveLog(log);
@@ -874,7 +876,6 @@ void CDeviceGarmin::downloadTracks(QList<CTrack*>& trks)
         {
             QDateTime t = QDateTime::fromTime_t(gartrkpt->time);
             t = t.addYears(20).addDays(-1);
-
 
             CTrack::pt_t trkpt;
             trkpt.lon       = gartrkpt->lon;

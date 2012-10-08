@@ -93,7 +93,6 @@ class IOverlay : public IItem
         /// the overlay type as string
         const QString type;
 
-
         void setHighlight(bool on){highlight = on;}
         bool isHighlighted(){return highlight;}
 

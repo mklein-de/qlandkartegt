@@ -31,35 +31,37 @@
 #include "WptIcons.h"
 #include "config.h"
 
-
-
 CDBus::CDBus(QObject * parent)
 : QDBusAbstractAdaptor(parent)
 {
     qDebug() << "QDBusConnection::sessionBus().registerService(\"org.qlandkarte.dbus\")";
-    if(!QDBusConnection::sessionBus().registerService("org.qlandkarte.dbus")){
+    if(!QDBusConnection::sessionBus().registerService("org.qlandkarte.dbus"))
+    {
         qWarning() << "failed;";
         return;
     }
 
-
     qDebug() << "QDBusConnection::sessionBus().registerObject(\"/dbus\", this)";
-    if(!QDBusConnection::sessionBus().registerObject("/", qApp)){
+    if(!QDBusConnection::sessionBus().registerObject("/", qApp))
+    {
         qWarning() << "failed;";
         return;
     }
 }
+
 
 CDBus::~CDBus()
 {
 
 }
 
+
 void CDBus::addGeoData(const QString& filename)
 {
     QString filter;
     theMainWindow->loadData(filename, filter);
 }
+
 
 void CDBus::loadGeoData(const QString& filename)
 {
@@ -75,10 +77,12 @@ void CDBus::loadGeoData(const QString& filename)
     theMainWindow->loadData(filename, filter);
 }
 
+
 void CDBus::zoomToRect(const double lon1, const double lat1, const double lon2, const double lat2)
 {
     CMapDB::self().getMap().zoom(lon1 * DEG_TO_RAD, lat1 * DEG_TO_RAD, lon2 * DEG_TO_RAD, lat2 * DEG_TO_RAD);
 }
+
 
 void CDBus::setWaypointIcon(const QString& name, const QByteArray& data)
 {
@@ -86,6 +90,7 @@ void CDBus::setWaypointIcon(const QString& name, const QByteArray& data)
     icon.loadFromData(data);
     setWptIconByName(name, icon);
 }
+
 
 //void CDBus::setWaypointIconFile(const QString& name, const QString& filename1)
 //{

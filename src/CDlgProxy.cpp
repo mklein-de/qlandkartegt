@@ -44,10 +44,12 @@ CDlgProxy::CDlgProxy(QString &user, QString &pwd, QWidget *parent)
 
 }
 
+
 CDlgProxy::~CDlgProxy()
 {
 
 }
+
 
 void CDlgProxy::accept()
 {

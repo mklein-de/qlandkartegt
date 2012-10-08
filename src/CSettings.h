@@ -46,8 +46,6 @@ class CSettings : public QObject
 };
 
 #define SETTINGS \
-    CSettings ccfg;\
-    QSettings& cfg = ccfg.get()
-
-#endif //CSETTINGS_H
-
+CSettings ccfg;\
+QSettings& cfg = ccfg.get()
+#endif                           //CSETTINGS_H

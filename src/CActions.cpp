@@ -45,7 +45,6 @@
 #include "COverlayDistance.h"
 #include "COverlayDistanceEditWidget.h"
 
-
 #include <QtGui>
 
 CActions::CActions(QObject *parent) :
@@ -53,7 +52,6 @@ QObject(parent), parent(parent)
 {
     actionGroup = (CMenus*) parent;
     canvas = theMainWindow->getCanvas();
-
 
     createAction(tr("F1"), ":/icons/iconMap16x16.png", tr("&Map ..."), "aSwitchToMap", tr("Manage maps."));
     createAction(tr("F2"), ":/icons/iconWaypoint16x16.png", tr("&Waypoint ..."), "aSwitchToWpt", tr("Manage waypoints."));
@@ -133,7 +131,6 @@ QObject(parent), parent(parent)
     createAction("CTRL+v", ":/icons/editpaste.png", tr("&Paste"), "aPasteFromClipboard", tr(""));
     createAction("CTRL+z", ":/icons/editundo.png", tr("&Undo"), "aUndo", tr("Undo a command."));
     createAction("SHIFT+CTRL+z", ":/icons/editredo.png", tr("&Redo"), "aRedo", tr("Redo a command."));
-
 
 }
 
@@ -298,6 +295,7 @@ void CActions::funcSwitchToOverlay()
     funcMoveArea();
 }
 
+
 void CActions::funcSwitchToOverlayDistance()
 {
     setMenuTitle(tr("&Overlay Distance"));
@@ -327,6 +325,7 @@ void CActions::funcOcm()
 {
     theMainWindow->exportToOcm();
 }
+
 
 void CActions::funcColorPicker()
 {
@@ -414,10 +413,12 @@ void CActions::funcNewWpt()
     canvas->setMouseMode(CCanvas::eMouseAddWpt);
 }
 
+
 void CActions::funcSelWpt()
 {
     canvas->setMouseMode(CCanvas::eMouseSelWpt);
 }
+
 
 void CActions::funcCloseMap3D()
 {
@@ -621,6 +622,7 @@ void CActions::funcBackToOverlay()
     funcSwitchToOverlay();
 }
 
+
 void CActions::funcText()
 {
     canvas->setMouseMode(CCanvas::eMouseAddText);
@@ -637,6 +639,7 @@ void CActions::funcDistance()
 {
     canvas->setMouseMode(CCanvas::eMouseAddDistance);
 }
+
 
 void CActions::funcCombineDistOvl()
 {

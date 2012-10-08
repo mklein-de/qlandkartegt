@@ -159,7 +159,6 @@ void CCreateMapQMAP::mapData2Item(QTreeWidgetItem *& item)
         }
         projection = map.strProj;
 
-
         if(north < map.lat1) north = map.lat1;
         if(south > map.lat2) south = map.lat2;
         if(west  < map.lon1) west  = map.lon1;

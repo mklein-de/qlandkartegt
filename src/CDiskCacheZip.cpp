@@ -48,7 +48,7 @@ void CDiskCacheZip::store(const QString& key, QImage& img)
 
 void CDiskCacheZip::restore(const QString& key, QImage& img)
 {
-//    qDebug()  << "restore img " << key;
+    //    qDebug()  << "restore img " << key;
 
     int index1 = key.indexOf("file:");
     //QString url = key.right(key.size() - 6);
@@ -57,28 +57,28 @@ void CDiskCacheZip::restore(const QString& key, QImage& img)
     int index2 = url.lastIndexOf('/');
     index1 = url.lastIndexOf('/',index2 - 1);
 
-//    qDebug()  << "restore img " << index2 << " " << index1;
+    //    qDebug()  << "restore img " << index2 << " " << index1;
     QString inZipFile = url.right(url.size() - index1 - 1);
     QString zipFile = url.left(index2) + ".zip";
 
-//    qDebug()  << "inZipFile" << inZipFile;
-//    qDebug()  << "zipFile" << zipFile;
+    //    qDebug()  << "inZipFile" << inZipFile;
+    //    qDebug()  << "zipFile" << zipFile;
 
     QLGT::QZipReader zipArchive(zipFile);
     if ( zipArchive.exists() )
     {
 
         QByteArray b = zipArchive.fileData(inZipFile);
-//        qDebug()  << "ZIP " << zipFile;
+        //        qDebug()  << "ZIP " << zipFile;
 
         if ( b.size() > 0 && img.loadFromData(b) )
         {
-//            qDebug()  << "Tile " << inZipFile << " in zip-cache " << zipFile;
+            //            qDebug()  << "Tile " << inZipFile << " in zip-cache " << zipFile;
             return;
         }
         else
         {
-//            qDebug()  << "No Tile " << inZipFile << " in zip-cache " << zipFile << " " << b.size();
+            //            qDebug()  << "No Tile " << inZipFile << " in zip-cache " << zipFile << " " << b.size();
 
         }
     }
@@ -88,7 +88,7 @@ void CDiskCacheZip::restore(const QString& key, QImage& img)
         QFile f(url);
         if ( f.open(QIODevice::ReadOnly) && img.loadFromData(f.readAll()) )
         {
-//            qDebug()  << "Tile " << url << " in local file ";
+            //            qDebug()  << "Tile " << url << " in local file ";
             return;
         }
     }

@@ -71,7 +71,6 @@ CMapEditWidget::CMapEditWidget(QWidget * parent)
     widgetFineTune  = new CCreateMapFineTune(stackedWidget);
     stackedWidget->insertWidget(eFineTune, widgetFineTune);
 
-
     connect(comboSource, SIGNAL(activated(int)), stackedWidget, SLOT(setCurrentIndex(int)));
 }
 
