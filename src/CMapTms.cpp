@@ -85,8 +85,11 @@ CMapTms::CMapTms(const QString& key, CCanvas *parent)
 
     accessManager = new QNetworkAccessManager(this);
     accessManager->setProxy(QNetworkProxy(QNetworkProxy::DefaultProxy));
-    connect(accessManager,SIGNAL(finished(QNetworkReply*)),this,SLOT(slotRequestFinished(QNetworkReply*)));
-
+ 
+	connect(accessManager,SIGNAL(finished(QNetworkReply*)),this,SLOT(slotRequestFinished(QNetworkReply*)));
+ 	connect(accessManager, SIGNAL(proxyAuthenticationRequired(const QNetworkProxy&, QAuthenticator*)), 
+			this, SLOT(slotProxyAuthenticationRequired(const QNetworkProxy&, QAuthenticator*)));
+			
     if ( layers[0].strUrl.startsWith("file") )
     {
         diskCache = new CDiskCacheZip(this);
@@ -658,6 +661,18 @@ void CMapTms::slotRequestFinished(QNetworkReply* reply)
     emit sigChanged();
 }
 
+
+void CMapTms::slotProxyAuthenticationRequired(const QNetworkProxy &prox, QAuthenticator *auth)
+{
+	QString user;
+    QString pwd;
+	
+    CResources::self().getHttpProxyAuth(user,pwd);
+	
+	auth->setUser(user);
+	auth->setPassword(pwd);
+}
+ 
 
 void CMapTms::config()
 {

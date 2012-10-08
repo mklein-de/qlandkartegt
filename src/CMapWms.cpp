@@ -156,7 +156,10 @@ CMapWms::CMapWms(const QString &key, const QString &filename, CCanvas *parent)
 
     accessManager = new QNetworkAccessManager(this);
     accessManager->setProxy(QNetworkProxy(QNetworkProxy::DefaultProxy));
-    connect(accessManager,SIGNAL(finished(QNetworkReply*)),this,SLOT(slotRequestFinished(QNetworkReply*)));
+    
+	connect(accessManager,SIGNAL(finished(QNetworkReply*)),this,SLOT(slotRequestFinished(QNetworkReply*)));
+	connect(accessManager, SIGNAL(proxyAuthenticationRequired(const QNetworkProxy&, QAuthenticator*)), 
+			this, SLOT(slotProxyAuthenticationRequired(const QNetworkProxy&, QAuthenticator*)));
 
     diskCache = new CDiskCache(false, this);
 
@@ -680,6 +683,19 @@ void CMapWms::slotRequestFinished(QNetworkReply* reply)
     emit sigChanged();
 }
 
+
+void CMapWms::slotProxyAuthenticationRequired(const QNetworkProxy &prox, QAuthenticator *auth)
+{
+	QString user;
+    QString pwd;
+	
+    CResources::self().getHttpProxyAuth(user,pwd);
+	
+	auth->setUser(user);
+	auth->setPassword(pwd);
+}
+	
+ 
 void CMapWms::config()
 {
     CDlgMapWmsConfig dlg(*this);
@@ -706,4 +722,4 @@ void CMapWms::select(IMapSelection& ms, const QRect& rect)
     sel.lat2 = rect.bottom();
     convertPt2Rad(sel.lon2, sel.lat2);
 
-}
+} 

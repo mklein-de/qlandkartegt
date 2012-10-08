@@ -20,6 +20,8 @@
 #include "CDlgMapWmsConfig.h"
 #include "CMapWms.h"
 #include "CMapDB.h"
+#include "CResources.h"
+#include "CMainWindow.h"
 
 #include <QtGui>
 #include <QtXml>
@@ -145,7 +147,10 @@ CDlgMapWmsConfig::CDlgMapWmsConfig(CMapWms &map)
 
     accessManager = new QNetworkAccessManager(this);
     accessManager->setProxy(QNetworkProxy(QNetworkProxy::DefaultProxy));
-    connect(accessManager,SIGNAL(finished(QNetworkReply*)),this,SLOT(slotRequestFinished(QNetworkReply*)));
+    
+	connect(accessManager,SIGNAL(finished(QNetworkReply*)),this,SLOT(slotRequestFinished(QNetworkReply*)));
+	connect(accessManager, SIGNAL(proxyAuthenticationRequired(const QNetworkProxy&, QAuthenticator*)), 
+			this, SLOT(slotProxyAuthenticationRequired(const QNetworkProxy&, QAuthenticator*)));
 
     QNetworkRequest request;
     QUrl url(map.urlstr);
@@ -292,4 +297,16 @@ void CDlgMapWmsConfig::slotRequestFinished(QNetworkReply* reply)
 
         textCapabilities->setPlainText(dom.toString());
     }
+}
+
+
+void CDlgMapWmsConfig::slotProxyAuthenticationRequired(const QNetworkProxy &prox, QAuthenticator *auth)
+{
+	QString user;
+    QString pwd;
+	
+    CResources::self().getHttpProxyAuth(user,pwd);
+	
+	auth->setUser(user);
+	auth->setPassword(pwd);
 }

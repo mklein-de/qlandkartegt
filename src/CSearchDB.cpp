@@ -42,7 +42,10 @@ CSearchDB::CSearchDB(QTabWidget * tb, QObject * parent)
     toolview    = new CSearchToolWidget(tb);
 
     networkAccessManager.setProxy(QNetworkProxy(QNetworkProxy::DefaultProxy));
+
     connect(&networkAccessManager,SIGNAL(finished(QNetworkReply*)),this,SLOT(slotRequestFinished(QNetworkReply*)));
+    connect(&networkAccessManager, SIGNAL(proxyAuthenticationRequired(const QNetworkProxy&, QAuthenticator*)),
+    this, SLOT(slotProxyAuthenticationRequired(const QNetworkProxy&, QAuthenticator*)));
 }
 
 
@@ -364,6 +367,18 @@ void CSearchDB::slotRequestFinishedMapQuest(QByteArray& data)
 }
 
 
+void CSearchDB::slotProxyAuthenticationRequired(const QNetworkProxy &prox, QAuthenticator *auth)
+{
+    QString user;
+    QString pwd;
+
+    CResources::self().getHttpProxyAuth(user,pwd);
+
+    auth->setUser(user);
+    auth->setPassword(pwd);
+}
+
+
 CSearch * CSearchDB::getResultByKey(const QString& key)
 {
     if(!results.contains(key)) return 0;
@@ -429,6 +444,5 @@ void CSearchDB::selSearchByKey(const QString& key)
         gainFocus();
     }
 }
-
 
 

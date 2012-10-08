@@ -626,12 +626,15 @@ CTrack::CTrack(QObject * parent)
     ref = 1;
 
     setColor(DEFAULT_COLOR);
+
     geonames = new QHttp(this);
-    geonames->setProxy(QNetworkProxy(QNetworkProxy::DefaultProxy));
+    geonames->setProxy(QNetworkProxy(QNetworkProxy::DefaultProxy));	/// connection through proxy does not work
     geonames->setHost("ws.geonames.org");
+
     connect(geonames,SIGNAL(requestStarted(int)),this,SLOT(slotRequestStarted(int)));
     connect(geonames,SIGNAL(requestFinished(int,bool)),this,SLOT(slotRequestFinished(int,bool)));
-
+    connect(geonames, SIGNAL(proxyAuthenticationRequired(const QNetworkProxy&, QAuthenticator*)),
+    this, SLOT(slotProxyAuthenticationRequired(const QNetworkProxy&, QAuthenticator*)));
     connect(&CWptDB::self(), SIGNAL(sigChanged()), this, SLOT(slotScaleWpt2Track()));
 }
 
@@ -703,10 +706,24 @@ void CTrack::replaceElevationByRemote(bool replaceOrignalData)
     }
 }
 
+
+void CTrack::slotProxyAuthenticationRequired(const QNetworkProxy &prox, QAuthenticator *auth)
+{
+    QString user;
+    QString pwd;
+
+    CResources::self().getHttpProxyAuth(user,pwd);
+
+    auth->setUser(user);
+    auth->setPassword(pwd);
+}
+
+
 void CTrack::slotRequestStarted(int id)
 {
 //    qDebug() << "void CTrack::slotRequestStarted(int id)" << id;
 }
+
 
 void CTrack::slotRequestFinished(int id, bool error)
 {
@@ -1616,5 +1633,4 @@ QDataStream& operator <<(QDataStream& s, CFlags& flag)
     s << flag.flag();
     return s;
 }
-
 

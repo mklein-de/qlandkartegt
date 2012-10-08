@@ -36,6 +36,7 @@
 #include "CMapTDB.h"
 #include "config.h"
 #include "CSettings.h"
+#include "CCanvas.h"
 
 #ifndef Q_OS_WIN32
 #include <sys/types.h>
@@ -45,6 +46,9 @@
 #endif
 
 #include <QtGui>
+
+#include "CMainWindow.h"
+#include "CDlgProxy.h"
 
 CResources * CResources::m_self = 0;
 
@@ -107,7 +111,8 @@ CResources::CResources(QObject * parent)
     m_httpProxyPort     = cfg.value("network/proxy/port",m_httpProxyPort).toUInt();
 
     if(m_useHttpProxy)
-      QNetworkProxy::setApplicationProxy(QNetworkProxy(QNetworkProxy::HttpProxy,m_httpProxy,m_httpProxyPort));
+     QNetworkProxy::setApplicationProxy(QNetworkProxy(QNetworkProxy::HttpProxy,m_httpProxy,m_httpProxyPort));
+
     else
       QNetworkProxy::setApplicationProxy(QNetworkProxy(QNetworkProxy::NoProxy));
 
@@ -199,7 +204,6 @@ CResources::CResources(QObject * parent)
     m_pathMapCache = QDir(cfg.value("network/mapcache/path", cacheFolder).toString());
     m_sizeMapCache = cfg.value("network/mapcache/size", m_sizeMapCache).toInt();
     m_expireMapCache = cfg.value("network/mapcache/expire", m_expireMapCache).toInt();
-
 }
 
 
@@ -222,7 +226,6 @@ CResources::~CResources()
     cfg.setValue("network/useProxy",m_useHttpProxy);
     cfg.setValue("network/proxy/url",m_httpProxy);
     cfg.setValue("network/proxy/port",m_httpProxyPort);
-
 
     cfg.setValue("device/key",m_devKey);
     cfg.setValue("device/ipAddr",m_devIPAddress);
@@ -279,8 +282,17 @@ bool CResources::getHttpProxy(QString& url, quint16& port)
 
     url  = m_httpProxy;
     port = m_httpProxyPort;
+
     return m_useHttpProxy;
 }
+
+
+void CResources::getHttpProxyAuth(QString& user, QString& pwd)
+{
+    CDlgProxy dlg(user, pwd, theMainWindow->getCanvas());
+    dlg.exec();
+}
+
 
 
 IDevice * CResources::device()
@@ -352,5 +364,3 @@ QString CResources::charset()
     else
         return m_devCharset;
 }
-
-

@@ -1,5 +1,5 @@
 /**********************************************************************************************
-    Copyright (C) 2009 Oliver Eichler oliver.eichler@gmx.de
+    Copyright (C) 2012 Oliver Eichler oliver.eichler@gmx.de
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -16,37 +16,26 @@
     Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
 
 **********************************************************************************************/
+#ifndef CDLGPROXY_H
+#define CDLGPROXY_H
 
-#ifndef CCREATEMAPWMS_H
-#define CCREATEMAPWMS_H
+#include <QDialog>
+#include "ui_IDlgProxy.h"
 
-#include <QWidget>
-#include <QtNetwortk>
-#include "ui_ICreateMapWMS.h"
-
-class QHttp;
-
-class CCreateMapWMS : public QWidget, private Ui::ICreateMapWMS
+class CDlgProxy : public QDialog, private Ui::ProxyDialog
 {
     Q_OBJECT;
     public:
-        CCreateMapWMS(QWidget * parent);
-        virtual ~CCreateMapWMS();
+        CDlgProxy(QString& user, QString& pwd, QWidget * parent);
+        virtual ~CDlgProxy();
 
-    private slots:
-        void slotLoadCapabilities();
-        void slotSetupLink();
-        void slotRequestStarted(int );
-        void slotRequestFinished(int , bool error);
-		void slotProxyAuthenticationRequired(const QNetworkProxy&, QAuthenticator*);	
-        void slotSave();
-        void slotSelectFile();
+    public slots:
+        void accept();
 
     private:
-        QHttp * server;
-        QString versionString;
-        QString urlOnlineResource;
-        QRectF  rectLatLonBoundingBox;
-        QString mapPath;
+        QString& user;
+        QString& pwd;
 };
-#endif                           //CCREATEMAPWMS_H
+
+#endif //CDLGPROXY_H
+

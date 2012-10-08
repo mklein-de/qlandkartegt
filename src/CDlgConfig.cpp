@@ -67,7 +67,12 @@ void CDlgConfig::exec()
     checkProxy->setChecked(resources.m_useHttpProxy);
     lineProxyURL->setText(resources.m_httpProxy);
     lineProxyPort->setText(QString("%1").arg(resources.m_httpProxyPort));
-
+	
+	/*
+    lineProxyUser->setText(resources.m_httpProxyUser);	
+	lineProxyPwd->setText(resources.m_httpProxyPwd);	
+	*/
+	
     labelFont->setFont(resources.m_mapfont);
     if(resources.unit->type == "metric")
     {
@@ -160,7 +165,12 @@ void CDlgConfig::accept()
     resources.m_useHttpProxy    = checkProxy->isChecked();
     resources.m_httpProxy       = lineProxyURL->text();
     resources.m_httpProxyPort   = lineProxyPort->text().toUInt();
-
+	
+	/*
+    resources.m_httpProxyUser   = lineProxyUser->text();	
+    resources.m_httpProxyPwd    = lineProxyPwd->text();		
+	*/
+	
     if(resources.m_useHttpProxy)
       QNetworkProxy::setApplicationProxy(QNetworkProxy(QNetworkProxy::HttpProxy,resources.m_httpProxy,resources.m_httpProxyPort));
     else

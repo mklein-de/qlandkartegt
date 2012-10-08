@@ -27,6 +27,7 @@
 #include <QSet>
 #include <QtCore>
 #include <IDiskCache.h>
+#include <QtNetwork>
 
 class QNetworkAccessManager;
 class QNetworkReply;
@@ -63,8 +64,9 @@ class CMapTms : public IMap
 
     private slots:
         void slotRequestFinished(QNetworkReply* reply);
+		void slotProxyAuthenticationRequired(const QNetworkProxy&, QAuthenticator*);	
 
-
+		
     private:
         struct layer_t
         {

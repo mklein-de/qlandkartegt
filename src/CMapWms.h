@@ -25,6 +25,7 @@
 #include <QHash>
 #include <QQueue>
 #include <QSet>
+#include <QtNetwork>
 
 class QCheckBox;
 class QNetworkAccessManager;
@@ -59,6 +60,7 @@ class CMapWms : public IMap
 
     private slots:
         void slotRequestFinished(QNetworkReply* reply);
+		void slotProxyAuthenticationRequired(const QNetworkProxy&, QAuthenticator*);	
 
     private:
         void convertPixel2M(double& u, double& v);

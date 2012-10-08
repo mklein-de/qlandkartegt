@@ -21,8 +21,10 @@
 
 #include <QWidget>
 #include <QSet>
+#include <QtNetwork>
 #include "CRoute.h"
 #include "ui_IRouteToolWidget.h"
+
 
 class CRoute;
 class QDomDocument;
@@ -68,6 +70,8 @@ class CRouteToolWidget : public QWidget, private Ui::IRouteToolWidget
 
         void slotTimeout();
         void slotServiceChanged(int);
+
+		void slotProxyAuthenticationRequired(const QNetworkProxy&, QAuthenticator*);	
 
 
     private:

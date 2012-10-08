@@ -21,7 +21,7 @@
 #define CDLGMAPWMSCONFIG_H
 
 #include <QDialog>
-
+#include <QtNetwork>
 #include "ui_IDlgMapWmsConfig.h"
 
 class CMapWms;
@@ -41,6 +41,7 @@ class CDlgMapWmsConfig : public QDialog, private Ui::IDlgMapWmsConfig
 
     private slots:
         void slotRequestFinished(QNetworkReply* reply);
+		void slotProxyAuthenticationRequired(const QNetworkProxy&, QAuthenticator*);	
 
     private:
         void updateEntry(QDomDocument& dom, QTreeWidgetItem* item, QDomElement& elem, const QString& tag);

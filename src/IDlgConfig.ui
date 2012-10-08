@@ -268,9 +268,39 @@
                <string>8080</string>
               </property>
              </widget>
-            </item>
+            </item>			
            </layout>
           </item>
+<!--		  
+          <item>
+           <layout class="QHBoxLayout">
+            <item>
+             <widget class="QLabel" name="labelProxyUser">
+              <property name="text">
+               <string>User</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLineEdit" name="lineProxyUser"/>
+            </item>
+            <item>
+             <widget class="QLabel" name="labelProxyPwd">
+              <property name="text">
+               <string>Password</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLineEdit" name="lineProxyPwd">
+			  <property name="echoMode">
+               <enum>QLineEdit::Password</enum>
+              </property>			 			 			 
+			 </widget>
+            </item>	
+           </layout>
+          </item>
+-->
          </layout>
         </widget>
        </item>

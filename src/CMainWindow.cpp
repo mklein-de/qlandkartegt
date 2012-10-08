@@ -64,6 +64,7 @@
 
 #include "config.h"
 
+
 CMainWindow * theMainWindow = 0;
 
 CMainWindow::CMainWindow()
@@ -455,7 +456,7 @@ CMainWindow::~CMainWindow()
     cfg.setValue("geodata/mostRecent", mostRecent);
     cfg.setValue("maps/quadraticZoom", quadraticZoom->isChecked());
 
-    canvas = 0;
+    canvas = 0;	
 }
 
 
@@ -1594,6 +1595,7 @@ void CMainWindow::slotToggleToolView()
         leftSplitter->hide();
     }
 }
+
 
 bool CMainWindow::isGPSBabel()
 {

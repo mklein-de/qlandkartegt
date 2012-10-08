@@ -52,6 +52,8 @@ COsmTilesHash::COsmTilesHash(QString tileUrl, QObject *parent)
     m_networkAccessManager->setProxy(QNetworkProxy(QNetworkProxy::DefaultProxy));
 
     connect(m_networkAccessManager,SIGNAL(finished(QNetworkReply*)),this,SLOT(slotRequestFinished(QNetworkReply*)));
+	connect(m_networkAccessManager, SIGNAL(proxyAuthenticationRequired(const QNetworkProxy&, QAuthenticator*)), 
+			this, SLOT(slotProxyAuthenticationRequired(const QNetworkProxy&, QAuthenticator*)));		
 }
 
 
@@ -186,3 +188,15 @@ int COsmTilesHash::lat2tile(double lat, int z)
 {
     return (int)(qRound(256*(1.0 - log( tan(lat * M_PI/180.0) + 1.0 / cos(lat * M_PI/180.0)) / M_PI) / 2.0 * pow(2.0, z)));
 }
+
+
+void COsmTilesHash::slotProxyAuthenticationRequired(const QNetworkProxy &prox, QAuthenticator *auth)
+{
+	QString user;
+    QString pwd;
+	
+    CResources::self().getHttpProxyAuth(user,pwd);
+	
+	auth->setUser(user);
+	auth->setPassword(pwd);
+}	 

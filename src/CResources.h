@@ -45,6 +45,7 @@ class CResources : public QObject
             @return The method will return true if the proxy is enabled.
         */
         bool getHttpProxy(QString& url, quint16& port);
+		void getHttpProxyAuth(QString& user, QString& pwd);
 
         /// get pointer to current device handler
         IDevice * device();
@@ -78,9 +79,10 @@ class CResources : public QObject
         int getSizeMapCache(){return m_sizeMapCache;}
         int getExpireMapCache(){return m_expireMapCache;}
 
-        signals:
+    signals:
         void sigDeviceChanged();
-
+	
+		
     private:
         friend class CMainWindow;
         friend class CDlgConfig;
@@ -95,6 +97,7 @@ class CResources : public QObject
             ,eOther = 2
         };
 
+		
         /// use proxy for http requests
         bool m_useHttpProxy;
         /// the  proxy name or address
@@ -102,6 +105,17 @@ class CResources : public QObject
         /// the proxy port
         quint16 m_httpProxyPort;
 
+		
+		/// proxy logon data
+		/**
+		Currently caching of proxy authentication data
+		is not supported. Hence each Network Access Manager 
+		requests proxy authentication data. Such data is 
+		only cached at Network Access Manager level.
+		*/
+		//QString m_httpProxyUser;  
+        //QString m_httpProxyPwd;
+		
         /// font used by the map
         QFont m_mapfont;
 

@@ -27,6 +27,7 @@
 #include <QDateTime>
 #include <QMap>
 #include <QList>
+#include <QtNetwork>
 #include <QPointer>
 #include "CWpt.h"
 #include "IItem.h"
@@ -38,6 +39,7 @@
 #define MAX_TRACK_SIZE 10000
 #define WPT_TO_TRACK_DIST 2500
 
+ 
 class QHttp;
 class QProgressDialog;
 
@@ -280,8 +282,7 @@ class CTrack : public IItem
     private slots:
         void slotRequestStarted(int );
         void slotRequestFinished(int , bool error);
-
-
+		void slotProxyAuthenticationRequired(const QNetworkProxy&, QAuthenticator*);	
 
     private:
         friend class CTrackDB;

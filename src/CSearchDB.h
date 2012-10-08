@@ -23,9 +23,9 @@
 #include "CSearch.h"
 
 #include <QMap>
+#include <QtNetwork>
 
 
-#include <QNetworkAccessManager>
 class QNetworkReply;
 
 /// search database
@@ -91,7 +91,8 @@ class CSearchDB : public IDB
         void slotRequestFinishedGoogle(QByteArray& data);
         void slotRequestFinishedOpenRouteService(QByteArray& data);
         void slotRequestFinishedMapQuest(QByteArray& data);
-
+		void slotProxyAuthenticationRequired(const QNetworkProxy&, QAuthenticator*);
+ 
     private:
         friend class CMainWindow;
 

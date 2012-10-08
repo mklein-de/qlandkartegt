@@ -31,6 +31,7 @@
 #include "CMegaMenu.h"
 #include "version.h"
 #include "CSettings.h"
+#include "CMainWindow.h"
 
 
 #include <QtGui>
@@ -63,6 +64,7 @@ CRouteToolWidget::CRouteToolWidget(QTabWidget * parent)
     {
         m_networkAccessManager->setProxy(QNetworkProxy(QNetworkProxy::DefaultProxy,url,port));
     }
+
     connect(m_networkAccessManager,SIGNAL(finished(QNetworkReply*)),this,SLOT(slotRequestFinished(QNetworkReply*)));
 
     connect(&CRouteDB::self(), SIGNAL(sigChanged()), this, SLOT(slotDBChanged()));
@@ -168,6 +170,9 @@ CRouteToolWidget::CRouteToolWidget(QTabWidget * parent)
     cfg.endGroup();
 
     m_networkAccessManager->setProxy(QNetworkProxy(QNetworkProxy::DefaultProxy));
+
+    connect(m_networkAccessManager, SIGNAL(proxyAuthenticationRequired(const QNetworkProxy&, QAuthenticator*)),
+            this, SLOT(slotProxyAuthenticationRequired(const QNetworkProxy&, QAuthenticator*)));
 
     timer = new QTimer(this);
     timer->setSingleShot(true);
@@ -556,6 +561,18 @@ void CRouteToolWidget::addOpenLSPos(QDomDocument& xml, QDomElement& Parent, CRou
 }
 
 
+void CRouteToolWidget::slotProxyAuthenticationRequired(const QNetworkProxy &prox, QAuthenticator *auth)
+{
+    QString user;
+    QString pwd;
+
+    CResources::self().getHttpProxyAuth(user,pwd);
+
+    auth->setUser(user);
+    auth->setPassword(pwd);
+}
+
+
 void CRouteToolWidget::slotRequestFinished(QNetworkReply* reply)
 {
     QString key;
@@ -930,3 +947,6 @@ void CRouteToolWidget::addMapQuestLocations(QDomDocument& xml, QDomElement& loca
         locations.appendChild(location);
     }
 }
+
+
+

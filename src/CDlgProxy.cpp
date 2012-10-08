@@ -1,5 +1,5 @@
 /**********************************************************************************************
-    Copyright (C) 2009 Oliver Eichler oliver.eichler@gmx.de
+    Copyright (C) 2012 Oliver Eichler oliver.eichler@gmx.de
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -17,36 +17,41 @@
 
 **********************************************************************************************/
 
-#ifndef CCREATEMAPWMS_H
-#define CCREATEMAPWMS_H
+#include "CDlgProxy.h"
+#include "CResources.h"
+#include "CMainWindow.h"
 
-#include <QWidget>
-#include <QtNetwortk>
-#include "ui_ICreateMapWMS.h"
+#include <QtGui>
 
-class QHttp;
-
-class CCreateMapWMS : public QWidget, private Ui::ICreateMapWMS
+CDlgProxy::CDlgProxy(QString &user, QString &pwd, QWidget *parent)
+: QDialog(parent)
+, user(user)
+, pwd(pwd)
 {
-    Q_OBJECT;
-    public:
-        CCreateMapWMS(QWidget * parent);
-        virtual ~CCreateMapWMS();
+    setupUi(this);
 
-    private slots:
-        void slotLoadCapabilities();
-        void slotSetupLink();
-        void slotRequestStarted(int );
-        void slotRequestFinished(int , bool error);
-		void slotProxyAuthenticationRequired(const QNetworkProxy&, QAuthenticator*);	
-        void slotSave();
-        void slotSelectFile();
+    QString url;
+    quint16 port;
+    CResources::self().getHttpProxy(url, port);
 
-    private:
-        QHttp * server;
-        QString versionString;
-        QString urlOnlineResource;
-        QRectF  rectLatLonBoundingBox;
-        QString mapPath;
-};
-#endif                           //CCREATEMAPWMS_H
+    iconLabel->setText(QString());
+    iconLabel->setPixmap(theMainWindow->style()->standardIcon(QStyle::SP_MessageBoxQuestion, 0, theMainWindow).pixmap(32, 32));
+
+    QString introMessage = tr("<qt>Connect to proxy \"%1\" using:</qt>");
+    introMessage = introMessage.arg(Qt::escape(url));
+    introLabel->setText(introMessage);
+    introLabel->setWordWrap(true);
+
+}
+
+CDlgProxy::~CDlgProxy()
+{
+
+}
+
+void CDlgProxy::accept()
+{
+    user    = userNameLineEdit->text();
+    pwd     = passwordLineEdit->text();
+    QDialog::accept();
+}
