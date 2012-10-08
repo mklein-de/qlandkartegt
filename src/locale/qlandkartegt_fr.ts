@@ -629,7 +629,7 @@ coordinate formats:
 • &quot;N49° 10.234 E12° 01.456&quot;
 • &quot;46.575377   12.193172&quot;
 • &quot;285000 5162000&quot;</source>
-        <translation>La prochiane étape consiste a ajouter les points de référence connu. Ajouter simplement les points sur la carte puis renseigner leur Longitude / latitude (WGS84). Ensuite deplacer les points à  leur endroit précis sur la carte.
+        <translation type="obsolete">La prochiane étape consiste a ajouter les points de référence connu. Ajouter simplement les points sur la carte puis renseigner leur Longitude / latitude (WGS84). Ensuite deplacer les points à  leur endroit précis sur la carte.
 
 Format des coordonnées:
 • &quot;N49° 10.234 E12° 01.456&quot;
@@ -705,6 +705,15 @@ Format des coordonnées:
     <message>
         <source>Grid Tool</source>
         <translation>Outil grille</translation>
+    </message>
+    <message utf8="true">
+        <source>The next stage is to add known reference points. Simply add reference points to the map and enter their latitude / longitude (WGS84) or the easting and northing [m] in the table. Next you move the point to the correct location on the map.
+
+coordinate formats:
+• &quot;N49° 10.234 E12° 01.456&quot; (dd mm.mmm)
+• &quot;46.575377   12.193172&quot;  (dd.dddddd)
+• &quot;285000 5162000&quot;</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1597,6 +1606,13 @@ Annuler par une demande utilisateur.</translation>
     </message>
 </context>
 <context>
+    <name>CDlgImportImages</name>
+    <message>
+        <source>Select path...</source>
+        <translation type="unfinished">Choisir un répertoire...</translation>
+    </message>
+</context>
+<context>
     <name>CDlgLoadOnlineMap</name>
     <message>
         <source>Target path is %1</source>
@@ -1637,6 +1653,13 @@ n&apos;est pas un systéme de coordonné valide:
     <message>
         <source>Error...</source>
         <translation>Erreur ...</translation>
+    </message>
+</context>
+<context>
+    <name>CDlgProxy</name>
+    <message>
+        <source>&lt;qt&gt;Connect to proxy &quot;%1&quot; using:&lt;/qt&gt;</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -4428,7 +4451,7 @@ distance: %1 %2</translation>
     </message>
     <message>
         <source>elevation: %1 %2</source>
-        <translation>élévation: %1 %2</translation>
+        <translation type="obsolete">élévation: %1 %2</translation>
     </message>
     <message>
         <source>
@@ -4476,14 +4499,6 @@ moving: </source>
 start: %1</source>
         <translation>
 début: %1</translation>
-    </message>
-    <message>
-        <source> | (%5%) %1:%2h %3 %4</source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>%4 %3 %1:%2h (%5%)</source>
-        <translation></translation>
     </message>
     <message>
         <source>, speed: %1 %2</source>
@@ -4543,6 +4558,42 @@ Your selection will be stored in the track&apos;s data. You can save it along wi
     </message>
     <message>
         <source> %1 :%2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%5 %4 %1:%2:%3 (%6%)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source> | (%6%) %1:%2:%3 %4 %5</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%4 %1:%2:%3 (%5%)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source> | (%5%) %1:%2:%3 %4</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%4 %1%2 (%3%)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source> | (%3%) %1%2 %4</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>elevation: %1%2</source>
+        <translation type="unfinished">élévation: %1%2</translation>
+    </message>
+    <message>
+        <source>heart rate: %1bpm</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>cadence: %1rpm</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -4903,6 +4954,10 @@ Your selection will be stored in the track&apos;s data. You can save it along wi
         <source>No additional information.</source>
         <translation>Aucune information additionnelle.</translation>
     </message>
+    <message>
+        <source>direction: %1%2</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>CWptDB</name>
@@ -4924,7 +4979,7 @@ Your selection will be stored in the track&apos;s data. You can save it along wi
     </message>
     <message>
         <source>Select path...</source>
-        <translation>Choisir un répertoire...</translation>
+        <translation type="obsolete">Choisir un répertoire...</translation>
     </message>
     <message>
         <source>Read EXIF tags from pictures.</source>
@@ -4937,6 +4992,10 @@ Your selection will be stored in the track&apos;s data. You can save it along wi
     <message>
         <source>Do you really want to delete the sticky waypoint &apos;%1&apos;</source>
         <translation>Voulez vous vraiment supprimer le point géographique collé &apos;%1&apos;</translation>
+    </message>
+    <message>
+        <source>Reference pictures by timestamp.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -6352,6 +6411,85 @@ For modern Garmin device select &quot;Garmin Mass Storage&quot; device to exchan
     </message>
 </context>
 <context>
+    <name>IDlgImportImages</name>
+    <message>
+        <source>Dialog</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Import pictures from</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>./</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>...</source>
+        <translation type="unfinished">...</translation>
+    </message>
+    <message>
+        <source>Create local copy</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>~600x400</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>~1024x700</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>just link external file</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>original size</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Reference source</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>From EXIF header</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Time reference</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Position reference</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Befor you start taking any picture take a picture of the clock on your GPS device. Select the picture from the list above and enter the timestamp manually. QLandkarte GT will derive the delta between your camera and your GPS. The offset is used to adust all timestamps befor finding a matching point in the currently loaded tracks.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select a picture from the list and enter the timestamp</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>dd.MM.yy HH:mm:ss</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Befor you start taking any picture take a picture of the position on your GPS device. Select the picture from the list above and enter the position manually. QLandkarte GT will find the closest track point to that position and derive the time delta bewteen that point and the selcted picture. The offset is used to adust all timestamps befor finding a matching point in the currently loaded tracks.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select a picture from the list and enter the position</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The position has to be in WGS84 datum. The position format is: N|Sdd mm.mmm E|Wddd mm.mmm</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>IDlgLoadOnlineMap</name>
     <message>
         <source>...</source>
@@ -7637,14 +7775,6 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Annonymous</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>To be done.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>reset filter list</source>
         <translation type="unfinished"></translation>
     </message>
@@ -7694,6 +7824,46 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Distance of a point to a straight line between neighbor points is less than</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Anonymize</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Change the track&apos;s starting time (anonymize track) to:</source>
+        <translation type="unfinished">Changer l heure de démarrage du tracé à:</translation>
+    </message>
+    <message>
+        <source>yyyy-MM-dd HH:mm:ss</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Local time</source>
+        <translation type="unfinished">Heure Locale</translation>
+    </message>
+    <message>
+        <source>UTC</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>1st of month, hour 0</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>1970-01-01 00:00 UTC</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Change time deltas:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No, leave them &quot;as is&quot;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Change to 1 s per track point</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -7756,6 +7926,29 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>Sort by time</source>
         <translation>Trier par heure</translation>
+    </message>
+</context>
+<context>
+    <name>ProxyDialog</name>
+    <message>
+        <source>Proxy Authentication</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>ICON</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Connect to proxy</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Username:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Password:</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
