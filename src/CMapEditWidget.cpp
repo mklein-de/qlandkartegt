@@ -63,6 +63,7 @@ CMapEditWidget::CMapEditWidget(QWidget * parent)
     {
         QLabel * label = new QLabel(stackedWidget);
         label->setAlignment(Qt::AlignCenter);
+        label->setWordWrap(true);
         label->setText(tr("<b style='color: red;'>Can't find the GDAL tools in your path. Make sure you have Installed GDAL and all related command line applications.</b>"));
         stackedWidget->insertWidget(eGTIFF, label);
     }
