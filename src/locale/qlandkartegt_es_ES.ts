@@ -1077,7 +1077,12 @@ coordinate formats:
 • &quot;N49° 10.234 E12° 01.456&quot; (dd mm.mmm)
 • &quot;46.575377   12.193172&quot;  (dd.dddddd)
 • &quot;285000 5162000&quot;</source>
-        <translation type="unfinished"></translation>
+        <translation>El siguiente paso es añadir puntos de referencia conocidos. Simplemente añada puntos de referencia al mapa e introduzca su latitud / longitud (WGS84) o su referencia este y norte [m] en la tabla. A continuación mueva el punto a la ubicación correcta en el mapa.
+
+formatos de coordenadas:
+• &quot;N49° 10.234 E12° 01.456&quot; (dd mm.mmm)
+• &quot;46.575377   12.193172&quot;  (dd.dddddd)
+• &quot;285000 5162000&quot;</translation>
     </message>
     <message>
         <location filename="../CCreateMapGeoTiff.cpp" line="244"/>
@@ -2666,7 +2671,7 @@ no es una definición válida de sistema de coordenadas:
     <message>
         <location filename="../CDlgProxy.cpp" line="40"/>
         <source>&lt;qt&gt;Connect to proxy &quot;%1&quot; using:&lt;/qt&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;qt&gt;Conexión al proxy &quot;%1&quot; utilizando:&lt;/qt&gt;</translation>
     </message>
 </context>
 <context>
@@ -3689,6 +3694,11 @@ Do you want to save your changes?</source>
         <translation> %1 &lt;a href=&apos;Tracks&apos;&gt;track&lt;/a&gt;, </translation>
     </message>
     <message>
+        <location filename="../CMainWindow.cpp" line="103"/>
+        <source>Profiling</source>
+        <translation type="unfinished">Elaboración de perfiles</translation>
+    </message>
+    <message>
         <location filename="../CMainWindow.cpp" line="577"/>
         <source>Save map as image ...</source>
         <translation>Guardar mapa como imagen ...</translation>
@@ -3762,11 +3772,6 @@ Do you want to save your changes?</source>
         <location filename="../CMainWindow.cpp" line="596"/>
         <source>&amp;Map</source>
         <translation>&amp;Mapa</translation>
-    </message>
-    <message>
-        <location filename="../CMainWindow.cpp" line="103"/>
-        <source>Profilig</source>
-        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../CMainWindow.cpp" line="601"/>
@@ -4033,12 +4038,12 @@ Do you want to save your changes?</source>
         <translation>Convertir un TIFF en GeoTiff georreferenciándolo.</translation>
     </message>
     <message>
-        <location filename="../CMapEditWidget.cpp" line="66"/>
+        <location filename="../CMapEditWidget.cpp" line="67"/>
         <source>&lt;b style=&apos;color: red;&apos;&gt;Can&apos;t find the GDAL tools in your path. Make sure you have Installed GDAL and all related command line applications.&lt;/b&gt;</source>
         <translation>&lt;b style=&apos;color: red;&apos;&gt;No se encontraron las herramientas GDAL en ruta de comandos. Asegúrese de tener instalada la libreria GDAL y todos los comandos relacionados..&lt;/b&gt;</translation>
     </message>
     <message>
-        <location filename="../CMapEditWidget.cpp" line="70"/>
+        <location filename="../CMapEditWidget.cpp" line="71"/>
         <source>Fine tune offset of referenced file.</source>
         <translation>Ajuste fino del desplazamiento del archivo referenciado.</translation>
     </message>
@@ -6617,47 +6622,47 @@ final: %1</translation>
     <message>
         <location filename="../CTrack.cpp" line="1285"/>
         <source>%5 %4 %1:%2:%3 (%6%)</source>
-        <translation type="unfinished">%5 %4 %1%2 (%3%) {5 %4 %1:%2:%3 ?} {6%?}</translation>
+        <translation>%5 %4 %1:%2:%3 (%6%)</translation>
     </message>
     <message>
         <location filename="../CTrack.cpp" line="1286"/>
         <source> | (%6%) %1:%2:%3 %4 %5</source>
-        <translation type="unfinished"> | (%3%) %1:%2:%3 %4 %5 {6%?}</translation>
+        <translation> | (%6%) %1:%2:%3 %4 %5</translation>
     </message>
     <message>
         <location filename="../CTrack.cpp" line="1289"/>
         <source>%4 %1:%2:%3 (%5%)</source>
-        <translation type="unfinished">%5 %4 %1%2 (%3%) {4 %1:%2:%3 ?} {5%?}</translation>
+        <translation>%4 %1:%2:%3 (%5%)</translation>
     </message>
     <message>
         <location filename="../CTrack.cpp" line="1291"/>
         <source> | (%5%) %1:%2:%3 %4</source>
-        <translation type="unfinished"> | (%3%) %1:%2:%3 %4 {5%?}</translation>
+        <translation> | (%5%) %1:%2:%3 %4</translation>
     </message>
     <message>
         <location filename="../CTrack.cpp" line="1304"/>
         <source>%4 %1%2 (%3%)</source>
-        <translation type="unfinished">%5 %4 %1%2 (%3%) {4 %1%2 ?} {3%?}</translation>
+        <translation>%4 %1%2 (%3%)</translation>
     </message>
     <message>
         <location filename="../CTrack.cpp" line="1311"/>
         <source> | (%3%) %1%2 %4</source>
-        <translation type="unfinished"> | (%3%) %1%2 %4 {3%?}</translation>
+        <translation> | (%3%) %1%2 %4</translation>
     </message>
     <message>
         <location filename="../CTrack.cpp" line="1319"/>
         <source>elevation: %1%2</source>
-        <translation type="unfinished">altura: %1%2</translation>
+        <translation>altura: %1%2</translation>
     </message>
     <message>
         <location filename="../CTrack.cpp" line="1329"/>
         <source>heart rate: %1bpm</source>
-        <translation type="unfinished"></translation>
+        <translation>pulso: %1ppm</translation>
     </message>
     <message>
         <location filename="../CTrack.cpp" line="1339"/>
         <source>cadence: %1rpm</source>
-        <translation type="unfinished"></translation>
+        <translation>cadencia: %1rpm</translation>
     </message>
     <message>
         <location filename="../CTrack.cpp" line="1374"/>
@@ -7344,7 +7349,7 @@ final: %1</translation>
     <message>
         <location filename="../CWpt.cpp" line="516"/>
         <source>direction: %1%2</source>
-        <translation type="unfinished"></translation>
+        <translation>dirección: %1%2</translation>
     </message>
     <message>
         <location filename="../CWpt.cpp" line="524"/>
@@ -7418,7 +7423,7 @@ final: %1</translation>
     <message>
         <location filename="../CWptDB.cpp" line="1361"/>
         <source>Reference pictures by timestamp.</source>
-        <translation type="unfinished"></translation>
+        <translation>Referenciar imágenes por marca de tiempo.</translation>
     </message>
 </context>
 <context>
@@ -9886,101 +9891,105 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>IDlgImportImages</name>
     <message>
-        <location filename="../IDlgImportImages.ui" line="14"/>
         <source>Dialog</source>
-        <translation type="unfinished">Diálogo</translation>
+        <translation type="obsolete">Diálogo</translation>
+    </message>
+    <message>
+        <location filename="../IDlgImportImages.ui" line="14"/>
+        <source>Import pictures</source>
+        <translation>Importar imágenes</translation>
     </message>
     <message>
         <location filename="../IDlgImportImages.ui" line="20"/>
         <source>Import pictures from</source>
-        <translation type="unfinished"></translation>
+        <translation>Importar imágenes desde</translation>
     </message>
     <message>
         <location filename="../IDlgImportImages.ui" line="29"/>
         <source>./</source>
-        <translation type="unfinished"></translation>
+        <translation>./</translation>
     </message>
     <message>
         <location filename="../IDlgImportImages.ui" line="36"/>
         <source>...</source>
-        <translation type="unfinished">...</translation>
+        <translation>...</translation>
     </message>
     <message>
         <location filename="../IDlgImportImages.ui" line="52"/>
         <source>Create local copy</source>
-        <translation type="unfinished"></translation>
+        <translation>Crear copia local</translation>
     </message>
     <message>
         <location filename="../IDlgImportImages.ui" line="58"/>
         <source>~600x400</source>
-        <translation type="unfinished"></translation>
+        <translation>~600x400</translation>
     </message>
     <message>
         <location filename="../IDlgImportImages.ui" line="65"/>
         <source>~1024x700</source>
-        <translation type="unfinished"></translation>
+        <translation>~1024x700</translation>
     </message>
     <message>
         <location filename="../IDlgImportImages.ui" line="72"/>
         <source>just link external file</source>
-        <translation type="unfinished"></translation>
+        <translation>solo enlazar archivo externo</translation>
     </message>
     <message>
         <location filename="../IDlgImportImages.ui" line="79"/>
         <source>original size</source>
-        <translation type="unfinished"></translation>
+        <translation>tamaño original</translation>
     </message>
     <message>
         <location filename="../IDlgImportImages.ui" line="89"/>
         <source>Reference source</source>
-        <translation type="unfinished"></translation>
+        <translation>Origen de la referencia</translation>
     </message>
     <message>
         <location filename="../IDlgImportImages.ui" line="95"/>
         <source>From EXIF header</source>
-        <translation type="unfinished"></translation>
+        <translation>De la cabecera EXIF</translation>
     </message>
     <message>
         <location filename="../IDlgImportImages.ui" line="102"/>
         <location filename="../IDlgImportImages.ui" line="119"/>
         <source>Time reference</source>
-        <translation type="unfinished"></translation>
+        <translation>Referencia de tiempo</translation>
     </message>
     <message>
         <location filename="../IDlgImportImages.ui" line="109"/>
         <location filename="../IDlgImportImages.ui" line="168"/>
         <source>Position reference</source>
-        <translation type="unfinished"></translation>
+        <translation>Referencia de posición</translation>
     </message>
     <message>
         <location filename="../IDlgImportImages.ui" line="125"/>
         <source>Befor you start taking any picture take a picture of the clock on your GPS device. Select the picture from the list above and enter the timestamp manually. QLandkarte GT will derive the delta between your camera and your GPS. The offset is used to adust all timestamps befor finding a matching point in the currently loaded tracks.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Antes de que empiece a hacer fotos tome una del reloj de su dispositivo GPS. Seleccione la imagen en la lista de arriba e introduzca manualmente la marca de tiempo. QLandkarte GT calculará la diferencia entre su cámara y su GPS. La compensación se utiliza para ajustar todas las marcas de tiempo antes de buscar un punto coincidente en los tracks actualmente cargados.</translation>
     </message>
     <message>
         <location filename="../IDlgImportImages.ui" line="143"/>
         <source>Select a picture from the list and enter the timestamp</source>
-        <translation type="unfinished"></translation>
+        <translation>Seleccione una imagen de la lista e introduzca la marca de tiempo</translation>
     </message>
     <message>
         <location filename="../IDlgImportImages.ui" line="153"/>
         <source>dd.MM.yy HH:mm:ss</source>
-        <translation type="unfinished"></translation>
+        <translation>dd.MM.aa HH:mm:ss</translation>
     </message>
     <message>
         <location filename="../IDlgImportImages.ui" line="174"/>
         <source>Befor you start taking any picture take a picture of the position on your GPS device. Select the picture from the list above and enter the position manually. QLandkarte GT will find the closest track point to that position and derive the time delta bewteen that point and the selcted picture. The offset is used to adust all timestamps befor finding a matching point in the currently loaded tracks.</source>
-        <translation type="unfinished"></translation>
+        <translation>Antes de que empiece a hacer fotos haga una de la posición de su dispositivo GPS. Seleccione la imagen de la lista de arriba e introduzca la posición manualmente. QLandkarte GT encontrará el punto del track más cercano a esa posición y calculará la diferencia de tiempo entre ese punto y la imagen seleccionada. La compensación se utiliza para ajustar todas las marcas de tiempo antes de buscar un punto coincidente en los tracks actualmente cargados.</translation>
     </message>
     <message>
         <location filename="../IDlgImportImages.ui" line="192"/>
         <source>Select a picture from the list and enter the position</source>
-        <translation type="unfinished"></translation>
+        <translation>Seleccione una imagen de la lista e introduzca la posición</translation>
     </message>
     <message>
         <location filename="../IDlgImportImages.ui" line="202"/>
         <source>The position has to be in WGS84 datum. The position format is: N|Sdd mm.mmm E|Wddd mm.mmm</source>
-        <translation type="unfinished"></translation>
+        <translation>La posición debe estar en datum WGS84. El formato de la posición es: N|Sdd mm.mmm E|Wddd mm.mmm</translation>
     </message>
 </context>
 <context>
@@ -11053,7 +11062,7 @@ DEM: %2</translation>
 <context>
     <name>IMapSearchWidget</name>
     <message>
-        <location filename="../IMapSearchWidget.ui" line="26"/>
+        <location filename="../IMapSearchWidget.ui" line="32"/>
         <source>Form</source>
         <translation>Formulario</translation>
     </message>
@@ -11082,45 +11091,45 @@ DEM: %2</translation>
         <translation type="obsolete">Crear Índice</translation>
     </message>
     <message>
-        <location filename="../IMapSearchWidget.ui" line="36"/>
+        <location filename="../IMapSearchWidget.ui" line="48"/>
         <source>Symbols</source>
         <translation>Símbolos</translation>
     </message>
     <message>
-        <location filename="../IMapSearchWidget.ui" line="65"/>
-        <location filename="../IMapSearchWidget.ui" line="72"/>
-        <location filename="../IMapSearchWidget.ui" line="82"/>
-        <location filename="../IMapSearchWidget.ui" line="173"/>
+        <location filename="../IMapSearchWidget.ui" line="77"/>
+        <location filename="../IMapSearchWidget.ui" line="84"/>
+        <location filename="../IMapSearchWidget.ui" line="94"/>
+        <location filename="../IMapSearchWidget.ui" line="185"/>
         <source>...</source>
         <translation>...</translation>
     </message>
     <message>
-        <location filename="../IMapSearchWidget.ui" line="100"/>
+        <location filename="../IMapSearchWidget.ui" line="112"/>
         <source>No mask selected</source>
         <translation>Máscara no seleccionada</translation>
     </message>
     <message>
-        <location filename="../IMapSearchWidget.ui" line="122"/>
+        <location filename="../IMapSearchWidget.ui" line="134"/>
         <source>Gray Threshold</source>
         <translation>Umbral de gris</translation>
     </message>
     <message>
-        <location filename="../IMapSearchWidget.ui" line="166"/>
+        <location filename="../IMapSearchWidget.ui" line="178"/>
         <source>Area:</source>
         <translation>Área:</translation>
     </message>
     <message>
-        <location filename="../IMapSearchWidget.ui" line="188"/>
+        <location filename="../IMapSearchWidget.ui" line="200"/>
         <source>No area selected.</source>
         <translation>No se seleccionó área.</translation>
     </message>
     <message>
-        <location filename="../IMapSearchWidget.ui" line="213"/>
+        <location filename="../IMapSearchWidget.ui" line="231"/>
         <source>Search...</source>
         <translation>Buscar...</translation>
     </message>
     <message>
-        <location filename="../IMapSearchWidget.ui" line="223"/>
+        <location filename="../IMapSearchWidget.ui" line="247"/>
         <source>Cancel</source>
         <translation>Cancelar</translation>
     </message>
@@ -11991,56 +12000,56 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../ITrackFilterWidget.ui" line="1116"/>
         <source>Anonymize</source>
-        <translation type="unfinished"></translation>
+        <translation>Anonimizar</translation>
     </message>
     <message>
         <location filename="../ITrackFilterWidget.ui" line="1137"/>
         <location filename="../ITrackFilterWidget.ui" line="1225"/>
         <location filename="../ITrackFilterWidget.ui" line="1314"/>
         <source>Change the track&apos;s starting time (anonymize track) to:</source>
-        <translation type="unfinished">Cambiar la hora de inicio del track (anonimizar track) a:</translation>
+        <translation>Cambiar la hora de inicio del track (anonimizar track) a:</translation>
     </message>
     <message>
         <location filename="../ITrackFilterWidget.ui" line="1185"/>
         <source>yyyy-MM-dd HH:mm:ss</source>
-        <translation type="unfinished"></translation>
+        <translation>aaaa-MM-dd HH:mm:ss</translation>
     </message>
     <message>
         <location filename="../ITrackFilterWidget.ui" line="1192"/>
         <location filename="../ITrackFilterWidget.ui" line="1281"/>
         <source>Local time</source>
-        <translation type="unfinished">Hora local</translation>
+        <translation>Hora local</translation>
     </message>
     <message>
         <location filename="../ITrackFilterWidget.ui" line="1202"/>
         <location filename="../ITrackFilterWidget.ui" line="1291"/>
         <source>UTC</source>
-        <translation type="unfinished">UTC</translation>
+        <translation>UTC</translation>
     </message>
     <message>
         <location filename="../ITrackFilterWidget.ui" line="1274"/>
         <source>1st of month, hour 0</source>
-        <translation type="unfinished"></translation>
+        <translation>Primer día del mes, hora 0</translation>
     </message>
     <message>
         <location filename="../ITrackFilterWidget.ui" line="1360"/>
         <source>1970-01-01 00:00 UTC</source>
-        <translation type="unfinished"></translation>
+        <translation>1970-01-01 00:00 UTC</translation>
     </message>
     <message>
         <location filename="../ITrackFilterWidget.ui" line="1383"/>
         <source>Change time deltas:</source>
-        <translation type="unfinished"></translation>
+        <translation>Cambiar las diferencias de tiempos:</translation>
     </message>
     <message>
         <location filename="../ITrackFilterWidget.ui" line="1411"/>
         <source>No, leave them &quot;as is&quot;</source>
-        <translation type="unfinished"></translation>
+        <translation>No, dejarlas como están</translation>
     </message>
     <message>
         <location filename="../ITrackFilterWidget.ui" line="1421"/>
         <source>Change to 1 s per track point</source>
-        <translation type="unfinished"></translation>
+        <translation>Cambiar a 1 segundo por cada punto del track</translation>
     </message>
     <message>
         <location filename="../ITrackFilterWidget.ui" line="385"/>
@@ -12211,7 +12220,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../IDlgProxy.ui" line="13"/>
         <source>Proxy Authentication</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Autenticación del Proxy</translation>
     </message>
     <message>
         <location filename="../IDlgProxy.ui" line="19"/>
@@ -12221,17 +12230,17 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../IDlgProxy.ui" line="26"/>
         <source>Connect to proxy</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Conectar al proxy</translation>
     </message>
     <message>
         <location filename="../IDlgProxy.ui" line="36"/>
         <source>Username:</source>
-        <translation type="unfinished">Nombre de usuario:</translation>
+        <translation>Nombre de usuario:</translation>
     </message>
     <message>
         <location filename="../IDlgProxy.ui" line="46"/>
         <source>Password:</source>
-        <translation type="unfinished"></translation>
+        <translation>Contraseña:</translation>
     </message>
 </context>
 <context>

@@ -685,8 +685,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>449</width>
-            <height>274</height>
+            <width>776</width>
+            <height>424</height>
            </rect>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_5">
@@ -1126,8 +1126,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>760</width>
-            <height>438</height>
+            <width>776</width>
+            <height>451</height>
            </rect>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_9">
@@ -1143,7 +1143,7 @@
                  <string>...</string>
                 </property>
                 <property name="icon">
-                 <iconset>
+                 <iconset resource="resources.qrc">
                   <normaloff>:/icons/toolswizard.png</normaloff>:/icons/toolswizard.png</iconset>
                 </property>
                </widget>
@@ -1154,7 +1154,7 @@
                  <string>...</string>
                 </property>
                 <property name="icon">
-                 <iconset>
+                 <iconset resource="resources.qrc">
                   <normaloff>:/icons/iconAdd16x16.png</normaloff>:/icons/iconAdd16x16.png</iconset>
                 </property>
                </widget>
@@ -1231,7 +1231,7 @@
                  <string>...</string>
                 </property>
                 <property name="icon">
-                 <iconset>
+                 <iconset resource="resources.qrc">
                   <normaloff>:/icons/toolswizard.png</normaloff>:/icons/toolswizard.png</iconset>
                 </property>
                </widget>
@@ -1242,7 +1242,7 @@
                  <string>...</string>
                 </property>
                 <property name="icon">
-                 <iconset>
+                 <iconset resource="resources.qrc">
                   <normaloff>:/icons/iconAdd16x16.png</normaloff>:/icons/iconAdd16x16.png</iconset>
                 </property>
                </widget>
@@ -1320,7 +1320,7 @@
                  <string>...</string>
                 </property>
                 <property name="icon">
-                 <iconset>
+                 <iconset resource="resources.qrc">
                   <normaloff>:/icons/toolswizard.png</normaloff>:/icons/toolswizard.png</iconset>
                 </property>
                </widget>
@@ -1331,7 +1331,7 @@
                  <string>...</string>
                 </property>
                 <property name="icon">
-                 <iconset>
+                 <iconset resource="resources.qrc">
                   <normaloff>:/icons/iconAdd16x16.png</normaloff>:/icons/iconAdd16x16.png</iconset>
                 </property>
                </widget>
@@ -1389,7 +1389,7 @@
                  <string>...</string>
                 </property>
                 <property name="icon">
-                 <iconset>
+                 <iconset resource="resources.qrc">
                   <normaloff>:/icons/toolswizard.png</normaloff>:/icons/toolswizard.png</iconset>
                 </property>
                </widget>
@@ -1400,7 +1400,7 @@
                  <string>...</string>
                 </property>
                 <property name="icon">
-                 <iconset>
+                 <iconset resource="resources.qrc">
                   <normaloff>:/icons/iconAdd16x16.png</normaloff>:/icons/iconAdd16x16.png</iconset>
                 </property>
                </widget>

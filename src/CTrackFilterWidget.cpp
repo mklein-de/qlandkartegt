@@ -146,6 +146,8 @@ CTrackFilterWidget::CTrackFilterWidget(QWidget *parent)
     contextMenuStoredFilter->addAction(QIcon(":/icons/iconEdit16x16.png"), tr("Edit name..."), this, SLOT(slotStoredFilterEdit()));
     contextMenuStoredFilter->addAction(QIcon(":/icons/iconClear16x16.png"), tr("Delete"), this, SLOT(slotStoredFilterDelete()));
 
+    // remove later
+    scrollArea_4->setEnabled(false);
 }
 
 

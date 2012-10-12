@@ -100,7 +100,7 @@ CMainWindow::CMainWindow()
 #ifdef DO_PROFILING
     Q_INIT_RESOURCE(Conan);
     conanWidget = new conan::ConanWidget(this);
-    canvasTab->addTab(conanWidget,tr("Profilig"));
+    canvasTab->addTab(conanWidget,tr("Profiling"));
 #endif
 
     canvas = new CCanvas(this);
