@@ -628,7 +628,6 @@ CTrack::CTrack(QObject * parent)
 , firstTime(true)
 , m_hide(false)
 , doScaleWpt2Track(Qt::PartiallyChecked )
-, geonames(0)
 , visiblePointCount(0)
 , cntMedianFilterApplied(0)
 , replaceOrigData(true)
@@ -637,15 +636,11 @@ CTrack::CTrack(QObject * parent)
 
     setColor(DEFAULT_COLOR);
 
-    geonames = new QHttp(this);
-                                 /// connection through proxy does not work
-    geonames->setProxy(QNetworkProxy(QNetworkProxy::DefaultProxy));
-    geonames->setHost("ws.geonames.org");
+    networkAccessManager = new QNetworkAccessManager(this);
+    networkAccessManager->setProxy(QNetworkProxy(QNetworkProxy::DefaultProxy));
+    connect(networkAccessManager, SIGNAL(proxyAuthenticationRequired(const QNetworkProxy&, QAuthenticator*)),this, SLOT(slotProxyAuthenticationRequired(const QNetworkProxy&, QAuthenticator*)));
+    connect(networkAccessManager,SIGNAL(finished(QNetworkReply*)),this,SLOT(slotRequestFinished(QNetworkReply*)));
 
-    connect(geonames,SIGNAL(requestStarted(int)),this,SLOT(slotRequestStarted(int)));
-    connect(geonames,SIGNAL(requestFinished(int,bool)),this,SLOT(slotRequestFinished(int,bool)));
-    connect(geonames, SIGNAL(proxyAuthenticationRequired(const QNetworkProxy&, QAuthenticator*)),
-        this, SLOT(slotProxyAuthenticationRequired(const QNetworkProxy&, QAuthenticator*)));
     connect(&CWptDB::self(), SIGNAL(sigChanged()), this, SLOT(slotScaleWpt2Track()));
 }
 
@@ -691,10 +686,10 @@ void CTrack::replaceElevationByRemote(bool replaceOrignalData)
 
     replaceOrigData = replaceOrignalData;
 
-    int idx = 0, id;
+    int idx = 0;
     const int size = track.size();
 
-    id2idx.clear();
+    reply2idx.clear();
 
     while(idx < size)
     {
@@ -707,14 +702,17 @@ void CTrack::replaceElevationByRemote(bool replaceOrignalData)
             lngs << QString::number(track[idx + i].lon,'f', 8);
         }
 
-        QUrl url;
+        QUrl url("http://ws.geonames.org");
         url.setPath("/srtm3");
         url.addQueryItem("lats",lats.join(","));
         url.addQueryItem("lngs",lngs.join(","));
         url.addQueryItem("username",username);
-        id = geonames->get(url.toEncoded( ));
 
-        id2idx[id] = idx;
+        QNetworkRequest request;
+        request.setUrl(url);
+        QNetworkReply * reply = networkAccessManager->get(request);
+
+        reply2idx[reply] = idx;
 
         idx += s;
     }
@@ -733,25 +731,15 @@ void CTrack::slotProxyAuthenticationRequired(const QNetworkProxy &prox, QAuthent
 }
 
 
-void CTrack::slotRequestStarted(int id)
+void CTrack::slotRequestFinished(QNetworkReply * reply)
 {
-    //    qDebug() << "void CTrack::slotRequestStarted(int id)" << id;
-}
-
-
-void CTrack::slotRequestFinished(int id, bool error)
-{
-    //    qDebug() << "void CTrack::slotRequestFinished(int id, bool error)" << id << error;
-
-    if(error)
+    if(reply->error() != QNetworkReply::NoError)
     {
-        //        qDebug() << geonames->errorString();
         return;
     }
 
-    QString asw = geonames->readAll().simplified();
-
-    //    qDebug() << asw;
+    QString asw = reply->readAll();
+    reply->deleteLater();
 
     if(asw.isEmpty())
     {
@@ -759,11 +747,12 @@ void CTrack::slotRequestFinished(int id, bool error)
     }
 
     QString val;
-    QStringList vals = asw.split(" ", QString::SkipEmptyParts);
+    QStringList vals = asw.split("\n", QString::SkipEmptyParts);
 
-    if(id2idx.contains(id))
+    if(reply2idx.contains(reply))
     {
-        int idx = id2idx[id];
+
+        int idx = reply2idx[reply];
         foreach(val, vals)
         {
             if(idx < track.size())
@@ -777,14 +766,19 @@ void CTrack::slotRequestFinished(int id, bool error)
             }
         }
 
-        id2idx.remove(id);
-        if(id2idx.isEmpty())
+        reply2idx.remove(reply);
+        if(reply2idx.isEmpty())
         {
             rebuild(false);
             emit sigChanged();
         }
     }
+    else
+    {
+        qDebug() << "failed to recognize reply";
+    }
 }
+
 
 
 QRectF CTrack::getBoundingRectF()

@@ -278,8 +278,7 @@ class CTrack : public IItem
         void slotScaleWpt2Track();
 
     private slots:
-        void slotRequestStarted(int );
-        void slotRequestFinished(int , bool error);
+        void slotRequestFinished(QNetworkReply * reply);
         void slotProxyAuthenticationRequired(const QNetworkProxy&, QAuthenticator*);
 
     private:
@@ -333,9 +332,8 @@ class CTrack : public IItem
 
         quint32 doScaleWpt2Track;
 
-        QHttp * geonames;
-
-        QMap<int,int> id2idx;
+        QNetworkAccessManager * networkAccessManager;
+        QMap<QNetworkReply*,int> reply2idx;
 
         quint32 visiblePointCount;
 
