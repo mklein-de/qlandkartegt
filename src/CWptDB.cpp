@@ -18,6 +18,7 @@
 
 **********************************************************************************************/
 
+#include "Platform.h"
 #include "CWptDB.h"
 #include "CWptToolWidget.h"
 #include "CDlgEditWpt.h"

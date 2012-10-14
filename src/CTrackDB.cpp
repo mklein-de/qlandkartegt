@@ -18,6 +18,7 @@
 
 **********************************************************************************************/
 #include <stdio.h>
+#include <limits>
 
 #include "CTrackDB.h"
 #include "CTrack.h"
@@ -1493,7 +1494,7 @@ bool CTrackDB::getClosestPoint2Position(double &lon, double &lat, quint32& times
 
 bool CTrackDB::getClosestPoint2Timestamp(quint32 timestamp, quint32 maxDelta, double& lon, double& lat)
 {
-    quint32 delta = 0xFFFFFFFF;
+    quint32 delta = std::numeric_limits<quint32>::max();
     const CTrack::pt_t * selTrkPt = 0;
 
     foreach(CTrack * track, tracks)
@@ -1502,9 +1503,10 @@ bool CTrackDB::getClosestPoint2Timestamp(quint32 timestamp, quint32 maxDelta, do
 
         foreach(const CTrack::pt_t& trkpt, trkpts)
         {
-            if(abs(timestamp - trkpt.timestamp) < delta)
+            quint32 delta_trkpt = (timestamp > trkpt.timestamp)?(timestamp - trkpt.timestamp):(trkpt.timestamp - timestamp);
+            if(delta_trkpt < delta)
             {
-                delta = abs(timestamp - trkpt.timestamp);
+                delta = delta_trkpt;
                 if(delta < maxDelta)
                 {
                     selTrkPt = &trkpt;
