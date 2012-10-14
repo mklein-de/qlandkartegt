@@ -1,3 +1,28 @@
+--- 2012.10.14 ---
+
+Bug     #403:
+Fixing extension and format when storing QR Code for waypoints
+
+Bug     #404:
+Fix: Bad Position in EXIF header causes crash.
+
+Request #405:
+Emhance import for georeferenced images
+
+Request #406:
+Read and display direction from georeferenced images
+
+Request #407:
+Reference pictures by timestamp and track
+
+Request #408:
+Reference pictures by position and track
+
+Request #409:
+Add poxy authentication
+
+
+
 --- 2012.08.27 ---
 
 Bug     #395:
@@ -1603,6 +1628,7 @@ Fixed bad calculation of proximity circle size
 
 Request #1:
 Initial release
+
 
 
 
