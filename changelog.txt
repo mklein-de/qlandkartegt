@@ -1,3 +1,10 @@
+--- 2012.10.15 ---
+
+Bug     #410:
+Missing sign of lon and lat when importing pictures via exif header.
+
+
+
 --- 2012.10.14 ---
 
 Bug     #403:
@@ -1628,6 +1635,7 @@ Fixed bad calculation of proximity circle size
 
 Request #1:
 Initial release
+
 
 
 
