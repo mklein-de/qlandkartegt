@@ -1397,8 +1397,8 @@ void CWptDB::createWaypointsFromImages(const QStringList& files, exifMode_e mode
 void CWptDB::addWptFromExif(const exifGPS_t& exif, exifMode_e mode, const QString& filename)
 {
     CWpt * wpt      = new CWpt(this);
-    wpt->lon        = exif.lon;
-    wpt->lat        = exif.lat;
+    wpt->lon        = exif.lon * exif.lon_sign;
+    wpt->lat        = exif.lat * exif.lat_sign;
     wpt->timestamp  = exif.timestamp;
     wpt->ele        = exif.ele;
     wpt->dir        = exif.dir;
