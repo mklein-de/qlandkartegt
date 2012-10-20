@@ -179,13 +179,19 @@ void CGpx::save(const QString& filename)
 
     if(!file.open(QIODevice::WriteOnly))
     {
-        throw tr("Failed to open: ") + filename;
+        QMessageBox::warning(0,tr("Error..."), tr("Failed to create %1").arg(filename), QMessageBox::Abort, QMessageBox::Abort);
+        return;
     }
     QTextStream out(&file);
     out.setCodec("UTF-8");
     out << "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\" ?>" << endl;;
     out << toString();
     file.close();
+    if(file.error() != QFile::NoError)
+    {
+        QMessageBox::warning(0,tr("Error..."), tr("Failed to write %1").arg(filename), QMessageBox::Abort, QMessageBox::Abort);
+        return;
+    }
 }
 
 
