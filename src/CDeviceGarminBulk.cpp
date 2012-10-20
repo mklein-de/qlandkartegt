@@ -260,7 +260,7 @@ void CDeviceGarminBulk::uploadWpts(const QList<CWpt*>& wpts)
     }
     catch(const QString& msg)
     {
-        QMessageBox:: critical(this,tr("Error"), msg, QMessageBox::Cancel, QMessageBox::Cancel);
+        QMessageBox::critical(0,tr("Error"), msg, QMessageBox::Cancel, QMessageBox::Cancel);
     }
 
     dir.cd(pathRoot);
@@ -391,7 +391,7 @@ void CDeviceGarminBulk::uploadTracks(const QList<CTrack*>& trks)
     }
     catch(const QString& msg)
     {
-        QMessageBox:: critical(this,tr("Error"), msg, QMessageBox::Cancel, QMessageBox::Cancel);
+        QMessageBox:: critical(0,tr("Error"), msg, QMessageBox::Cancel, QMessageBox::Cancel);
     }
     dir.cd(pathRoot);
     theMainWindow->getCanvas()->setFadingMessage(tr("Upload tracks finished!"));
@@ -458,7 +458,7 @@ void CDeviceGarminBulk::uploadRoutes(const QList<CRoute*>& rtes)
     }
     catch(const QString& msg)
     {
-        QMessageBox:: critical(this,tr("Error"), msg, QMessageBox::Cancel, QMessageBox::Cancel);
+        QMessageBox:: critical(0,tr("Error"), msg, QMessageBox::Cancel, QMessageBox::Cancel);
     }
     dir.cd(pathRoot);
     theMainWindow->getCanvas()->setFadingMessage(tr("Upload routes finished!"));
