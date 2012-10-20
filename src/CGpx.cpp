@@ -179,8 +179,7 @@ void CGpx::save(const QString& filename)
 
     if(!file.open(QIODevice::WriteOnly))
     {
-        QMessageBox::warning(0,tr("Error..."), tr("Failed to create %1").arg(filename), QMessageBox::Abort, QMessageBox::Abort);
-        return;
+        throw tr("Failed to create %1").arg(filename);
     }
     QTextStream out(&file);
     out.setCodec("UTF-8");
@@ -189,7 +188,7 @@ void CGpx::save(const QString& filename)
     file.close();
     if(file.error() != QFile::NoError)
     {
-        QMessageBox::warning(0,tr("Error..."), tr("Failed to write %1").arg(filename), QMessageBox::Abort, QMessageBox::Abort);
+        throw tr("Failed to write %1").arg(filename);
         return;
     }
 }

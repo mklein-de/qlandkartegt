@@ -254,7 +254,14 @@ void CDeviceGarminBulk::uploadWpts(const QList<CWpt*>& wpts)
     dir.cd(pathDay);
     CGpx gpx(this, CGpx::eCleanExport);
     CWptDB::self().saveGPX(gpx, keys);
-    gpx.save(dir.absoluteFilePath("MyWaypoints.gpx"));
+    try
+    {
+        gpx.save(dir.absoluteFilePath("MyWaypoints.gpx"));
+    }
+    catch(const QString& msg)
+    {
+        QMessageBox:: critical(this,tr("Error"), msg, QMessageBox::Cancel, QMessageBox::Cancel);
+    }
 
     dir.cd(pathRoot);
     theMainWindow->getCanvas()->setFadingMessage(tr("Upload waypoints finished!"));
@@ -378,8 +385,14 @@ void CDeviceGarminBulk::uploadTracks(const QList<CTrack*>& trks)
 
     CGpx gpx(this, CGpx::eCleanExport);
     CTrackDB::self().saveGPX(gpx, keys);
-    gpx.save(dir.absoluteFilePath("MyTracks.gpx"));
-
+    try
+    {
+        gpx.save(dir.absoluteFilePath("MyTracks.gpx"));
+    }
+    catch(const QString& msg)
+    {
+        QMessageBox:: critical(this,tr("Error"), msg, QMessageBox::Cancel, QMessageBox::Cancel);
+    }
     dir.cd(pathRoot);
     theMainWindow->getCanvas()->setFadingMessage(tr("Upload tracks finished!"));
 }
@@ -439,8 +452,14 @@ void CDeviceGarminBulk::uploadRoutes(const QList<CRoute*>& rtes)
 
     CGpx gpx(this, CGpx::eCleanExport);
     CRouteDB::self().saveGPX(gpx, keys);
-    gpx.save(dir.absoluteFilePath("MyRoutes.gpx"));
-
+    try
+    {
+        gpx.save(dir.absoluteFilePath("MyRoutes.gpx"));
+    }
+    catch(const QString& msg)
+    {
+        QMessageBox:: critical(this,tr("Error"), msg, QMessageBox::Cancel, QMessageBox::Cancel);
+    }
     dir.cd(pathRoot);
     theMainWindow->getCanvas()->setFadingMessage(tr("Upload routes finished!"));
 }
