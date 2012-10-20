@@ -48,6 +48,10 @@ CMapNoMap::~CMapNoMap()
     cfg.setValue("map/nomap/xscale", xscale);
     cfg.setValue("map/nomap/yscale", yscale);
 
+    midU = rect.center().x();
+    midV = rect.center().y();
+    convertPt2Rad(midU, midV);
+
     if(pjsrc) pj_free(pjsrc);
 }
 

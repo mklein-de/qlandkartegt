@@ -177,6 +177,11 @@ CMapWms::CMapWms(const QString &key, const QString &filename, CCanvas *parent)
 
 CMapWms::~CMapWms()
 {
+
+    midU = rect.center().x();
+    midV = rect.center().y();
+    convertPt2Rad(midU, midV);
+
     if(pjsrc) pj_free(pjsrc);
 
     delete status;

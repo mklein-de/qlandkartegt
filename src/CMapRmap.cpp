@@ -324,6 +324,11 @@ CMapRmap::CMapRmap(const QString &key, const QString &fn, CCanvas *parent)
 
 CMapRmap::~CMapRmap()
 {
+
+    midU = rect.center().x();
+    midV = rect.center().y();
+    convertPt2Rad(midU, midV);
+
     if(pjsrc) pj_free(pjsrc);
 
     SETTINGS;

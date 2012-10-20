@@ -66,6 +66,7 @@ IMap::IMap(maptype_e type, const QString& key, CCanvas * parent)
 IMap::~IMap()
 {
     qDebug() << "IMap::~IMap()";
+
     if(pjtar) pj_free(pjtar);
 
     if(ovlMap)

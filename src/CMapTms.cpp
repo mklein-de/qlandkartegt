@@ -122,6 +122,10 @@ CMapTms::~CMapTms()
     cfg.setValue("tms/lat", y * RAD_TO_DEG);
     cfg.setValue("tms/zoomidx",zoomidx);
 
+    midU = rect.center().x();
+    midV = rect.center().y();
+    convertPt2Rad(midU, midV);
+
     if(pjsrc) pj_free(pjsrc);
 
     delete status;

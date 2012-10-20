@@ -272,6 +272,11 @@ CMapJnx::CMapJnx(const QString& key, const QString& fn, CCanvas * parent)
 CMapJnx::~CMapJnx()
 {
     qDebug() << "CMapJnx::~CMapJnx()";
+
+    midU = rect.center().x();
+    midV = rect.center().y();
+    convertPt2Rad(midU, midV);
+
     if(pjsrc) pj_free(pjsrc);
 
     SETTINGS;
