@@ -291,7 +291,15 @@ void CDeviceGarminBulk::downloadWpts(QList<CWpt*>& /*wpts*/)
         foreach(const QString& filename, files)
         {
             CGpx gpx(this, CGpx::eCleanExport);
-            gpx.load(dir.absoluteFilePath(filename));
+            try
+            {
+                gpx.load(dir.absoluteFilePath(filename));
+            }
+            catch(const QString& msg)
+            {
+                QMessageBox::critical(0,tr("Error"), msg, QMessageBox::Ok, QMessageBox::Ok);
+                continue;
+            }
             CWptDB::self().loadGPX(gpx);
         }
 
@@ -420,7 +428,16 @@ void CDeviceGarminBulk::downloadTracks(QList<CTrack*>& /*trks*/)
         foreach(const QString& filename, files)
         {
             CGpx gpx(this, CGpx::eCleanExport);
-            gpx.load(dir.absoluteFilePath(filename));
+            try
+            {
+                gpx.load(dir.absoluteFilePath(filename));
+            }
+            catch(const QString& msg)
+            {
+                QMessageBox::critical(0,tr("Error"), msg, QMessageBox::Ok, QMessageBox::Ok);
+                continue;
+            }
+
             CTrackDB::self().loadGPX(gpx);
         }
 
@@ -488,7 +505,16 @@ void CDeviceGarminBulk::downloadRoutes(QList<CRoute*>& /*rtes*/)
         foreach(const QString& filename, files)
         {
             CGpx gpx(this, CGpx::eCleanExport);
-            gpx.load(dir.absoluteFilePath(filename));
+            try
+            {
+                gpx.load(dir.absoluteFilePath(filename));
+            }
+            catch(const QString& msg)
+            {
+                QMessageBox::critical(0,tr("Error"), msg, QMessageBox::Ok, QMessageBox::Ok);
+                continue;
+            }
+
             CRouteDB::self().loadGPX(gpx);
         }
 
