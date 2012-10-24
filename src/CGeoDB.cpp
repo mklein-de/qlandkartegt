@@ -203,6 +203,8 @@ CGeoDB::CGeoDB(QTabWidget * tb, QWidget * parent)
     actDelDir           = contextMenuFolder->addAction(QPixmap(":/icons/iconDelete16x16.png"),tr("Delete"),this,SLOT(slotDelFolder()));
     actCopyDir          = contextMenuFolder->addAction(QPixmap(":/icons/editcopy.png"), tr("Copy"), this, SLOT(slotCopyFolder()));
     actMoveDir          = contextMenuFolder->addAction(QPixmap(":/icons/iconWptMove16x16.png"), tr("Move"), this, SLOT(slotMoveFolder()));
+    actArchiveDir       = contextMenuFolder->addAction(QPixmap(":/icons/iconArchive16x16.png"), tr("Archive"), this, SLOT(slotArchiveFolder(bool)));
+    actArchiveDir->setCheckable(true);
 
     contextMenuItem     = new QMenu(this);
     actCopyItem         = contextMenuItem->addAction(QPixmap(":/icons/editcopy.png"), tr("Copy"), this, SLOT(slotCopyItems()));
@@ -294,7 +296,8 @@ void CGeoDB::initDB()
         "date           DATETIME DEFAULT CURRENT_TIMESTAMP,"
         "icon           TEXT NOT NULL,"
         "name           TEXT NOT NULL,"
-        "comment        TEXT"
+        "comment        TEXT,"
+        "archived       BOOLEAN DEFAULT FALSE"
         ")"))
     {
         qDebug() << query.lastQuery();
@@ -655,8 +658,26 @@ void CGeoDB::migrateDB(int version)
                 }
 
                 PROGRESS(1, return);
+                break;
             }
 
+            case 9:
+            {
+                QFSFileEngine fse(CResources::self().pathGeoDB().absoluteFilePath("qlgt.db"));
+                fse.copy(CResources::self().pathGeoDB().absoluteFilePath("qlgt_save_v8.db"));
+
+                PROGRESS_SETUP(tr("Migrating database from version 8 to 9."), 1);
+
+                if(!query.exec("ALTER TABLE folders ADD COLUMN archived BOOLEAN DEFAULT FALSE"))
+                {
+                    qDebug() << query.lastQuery();
+                    qDebug() << query.lastError();
+                    return;
+                }
+
+                PROGRESS(1, return);
+                break;
+            }
         }
     }
     query.prepare( "UPDATE versioninfo set version=:version");
@@ -944,7 +965,7 @@ void CGeoDB::queryChildrenFromDB(QTreeWidgetItem * parent, int levels)
 
         // get child folder's properties
         QSqlQuery query2(db);
-        query2.prepare("SELECT icon, name, comment, type FROM folders WHERE id = :id ORDER BY name");
+        query2.prepare("SELECT icon, name, comment, type, archived FROM folders WHERE id = :id ORDER BY name");
         query2.bindValue(":id", childId);
         if(!query2.exec())
         {
@@ -958,7 +979,16 @@ void CGeoDB::queryChildrenFromDB(QTreeWidgetItem * parent, int levels)
         QTreeWidgetItem * item = new QTreeWidgetItem(parent);
         item->setData(eCoName, eUrType, query2.value(3).toInt());
         item->setData(eCoName, eUrDBKey, childId);
-        item->setIcon(eCoName, QIcon(query2.value(0).toString()));
+
+        if(query2.value(4).toBool())
+        {
+            item->setIcon(eCoName, QIcon(":/icons/iconFolderBlueArchive16x16.png"));
+        }
+        else
+        {
+            item->setIcon(eCoName, QIcon(query2.value(0).toString()));
+        }
+
 
         if(query2.value(3).toInt() == eFolder2)
         {
@@ -1233,7 +1263,7 @@ void CGeoDB::updateFolderById(quint64 id)
     QList<QTreeWidgetItem*> items = treeDatabase->findItems("*", Qt::MatchWildcard|Qt::MatchRecursive, eCoName);
 
     QSqlQuery query(db);
-    query.prepare("SELECT icon, name, comment, type FROM folders WHERE id=:id");
+    query.prepare("SELECT icon, name, comment, type, archived FROM folders WHERE id=:id");
     query.bindValue(":id", id);
     QUERY_EXEC(;);
     query.next();
@@ -1249,9 +1279,18 @@ void CGeoDB::updateFolderById(quint64 id)
         if(item->data(eCoName, eUrDBKey).toULongLong() == id)
         {
             item->setToolTip(eCoName, query.value(2).toString());
-            item->setIcon(eCoName, QIcon(query.value(0).toString()));
             item->setText(eCoName, query.value(1).toString());
             item->setData(eCoName, eUrType, query.value(3).toInt());
+
+            if(query.value(4).toBool())
+            {
+                item->setIcon(eCoName, QIcon(":/icons/iconFolderBlueArchive16x16.png"));
+            }
+            else
+            {
+                item->setIcon(eCoName, QIcon(query.value(0).toString()));
+            }
+
         }
     }
 }
@@ -2263,6 +2302,11 @@ void CGeoDB::slotItemDoubleClickedWks(QTreeWidgetItem * item, int column)
 
 void CGeoDB::slotItemDoubleClickedDb(QTreeWidgetItem * item, int column)
 {
+    if(item == 0)
+    {
+        return;
+    }
+
     if(item->data(eCoName, eUrType).toUInt() < eFolder0)
     {
         if(item->checkState(eCoState) == Qt::Checked)
@@ -2423,6 +2467,7 @@ void CGeoDB::slotContextMenuDatabase(const QPoint& pos)
             actShowDiary->setVisible(false);
             actDelDiary->setVisible(false);
             actExportProject->setVisible(false);
+            actArchiveDir->setVisible(false);
 
             if(item == itemDatabase)
             {
@@ -2436,6 +2481,22 @@ void CGeoDB::slotContextMenuDatabase(const QPoint& pos)
                 actDelDir->setVisible(true);
                 actEditDir->setVisible(true);
                 actExportProject->setVisible(true);
+
+                // operate archive flags only for blue top level folders
+                if((item->data(eCoName, eUrType).toInt() == eFolder1) && (item->parent() == itemDatabase))
+                {
+
+                    QSqlQuery query(db);
+                    query.prepare("SELECT archived FROM folders WHERE id=:id");
+                    query.bindValue(":id", item->data(eCoName, eUrDBKey));
+                    QUERY_EXEC();
+
+                    if(query.next())
+                    {
+                        actArchiveDir->setVisible(true);
+                        actArchiveDir->setChecked(query.value(0).toBool());
+                    }
+                }
 
                 if(item->data(eCoName, eUrType).toInt() == eFolder2)
                 {
@@ -3561,6 +3622,22 @@ bool CGeoDB::setProjectDiaryData(quint64 id, CDiary& diary)
     return true;
 }
 
+void CGeoDB::slotArchiveFolder(bool yes)
+{
+    QTreeWidgetItem * item = treeDatabase->currentItem();
+    if(item == 0) return;
+
+    quint64 itemId = item->data(eCoName, eUrDBKey).toULongLong();
+
+    QSqlQuery query(db);
+    query.prepare("UPDATE folders SET archived=:archived WHERE id=:id");
+    query.bindValue(":archived", yes);
+    query.bindValue(":id", itemId);
+
+    QUERY_EXEC(return);
+
+    updateFolderById(itemId);
+}
 
 void CGeoDB::slotExportProject()
 {

@@ -554,5 +554,7 @@
         <file>icons/iconClose32x32.png</file>
         <file>icons/iconLeft32x32.png</file>
         <file>icons/iconRight32x32.png</file>
+        <file>icons/iconArchive16x16.png</file>
+        <file>icons/iconFolderBlueArchive16x16.png</file>
     </qresource>
 </RCC>

@@ -550,7 +550,7 @@ IF(NOT QTSOAP_FOUND)
 ENDIF()
 
 
-add_definitions(-DDB_VERSION=8)
+add_definitions(-DDB_VERSION=9)
 SET(qlandkarte_HDRS ${qlandkarte_HDRS}  CGeoDB.h CDlgSelGeoDBFolder.h CDlgEditFolder.h)
 SET(qlandkarte_SRCS ${qlandkarte_SRCS}  CGeoDB.cpp CDlgSelGeoDBFolder.cpp CDlgEditFolder.cpp)
 SET(qlandkarte_UIS ${qlandkarte_UIS} IGeoToolWidget.ui IDlgSelGeoDBFolder.ui IDlgEditFolder.ui)
