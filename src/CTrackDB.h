@@ -123,6 +123,9 @@ class CTrackDB : public IDB
         /// the index into the current track
         void sigPointOfFocus(const int idx);
 
+    private slots:
+        void slotMapChanged();
+
     private:
 
         friend class CMainWindow;

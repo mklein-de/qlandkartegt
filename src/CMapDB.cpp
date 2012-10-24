@@ -433,7 +433,7 @@ void CMapDB::openMap(const QString& filename, bool asRaster, CCanvas& canvas)
     connect(theMap, SIGNAL(sigChanged()),  theMainWindow->getCanvas(), SLOT(update()));
 
     QString fileDEM = cfg.value(QString("map/dem/%1").arg(theMap->getKey()),"").toString();
-    if(!fileDEM.isEmpty()) openDEM(fileDEM);
+    openDEM(fileDEM);
 
     emitSigChanged();
 
@@ -500,7 +500,7 @@ void CMapDB::openMap(const QString& key)
     cfg.setValue("maps/visibleMaps",filename);
 
     QString fileDEM = cfg.value(QString("map/dem/%1").arg(theMap->getKey()),"").toString();
-    if(!fileDEM.isEmpty()) openDEM(fileDEM);
+    openDEM(fileDEM);
 
     double lon1, lon2, lat1, lat2;
     theMap->dimensions(lon1, lat1, lon2, lat2);
@@ -551,6 +551,12 @@ void CMapDB::openDEM(const QString& filename)
     if(!demMap.isNull())
     {
         demMap->deleteLater();
+        demMap = 0;
+    }
+
+    if(filename.isEmpty())
+    {
+        return;
     }
 
     try

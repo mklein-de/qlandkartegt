@@ -135,6 +135,7 @@ bool CMapDEM::loaded()
 
 CMapDEM::~CMapDEM()
 {
+    qDebug() << "CMapDEM::~CMapDEM()";
     if(pjsrc) pj_free(pjsrc);
     if(dataset) delete dataset;
     if(status) delete status;

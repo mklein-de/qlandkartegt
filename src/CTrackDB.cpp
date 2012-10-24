@@ -77,6 +77,8 @@ CTrackDB::CTrackDB(QTabWidget * tb, QObject * parent)
     toolview    = new CTrackToolWidget(tb);
     undoStack   = CUndoStackModel::getInstance();
 
+
+    connect(&CMapDB::self(), SIGNAL(sigChanged()), this, SLOT(slotMapChanged()));
 }
 
 
@@ -1523,4 +1525,13 @@ bool CTrackDB::getClosestPoint2Timestamp(quint32 timestamp, quint32 maxDelta, do
     }
 
     return false;
+}
+
+
+void CTrackDB::slotMapChanged()
+{
+    foreach(CTrack * track, tracks)
+    {
+        track->rebuild(false);
+    }
 }
