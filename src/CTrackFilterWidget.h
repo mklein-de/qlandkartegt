@@ -54,6 +54,7 @@ class CTrackFilterWidget : public QWidget, private Ui::ITrackFilterWidget
         void slotAddFilterReset();
         void slotAddFilterDelete();
         void slotAddReplaceElevation();
+        void slotAddOffsetElevation();
 
         void slotDoubleClickStoredFilter(QListWidgetItem * item);
         void slotContextMenuStoredFilter( const QPoint & pos);
@@ -66,6 +67,7 @@ class CTrackFilterWidget : public QWidget, private Ui::ITrackFilterWidget
         void slotDeleteNow();
         void slotSmoothProfile1Now();
         void slotReplaceEleNow();
+        void slotOffsetEleNow();
         void slotSplit1Now();
         void slotSplit2Now();
         void slotSplit3Now();
@@ -89,6 +91,7 @@ class CTrackFilterWidget : public QWidget, private Ui::ITrackFilterWidget
         bool filterReset(QDataStream &args, QList<CTrack *> &tracks);
         bool filterDelete(QDataStream &args, QList<CTrack *> &tracks);
         bool filterReplaceElevation(QDataStream &args, QList<CTrack *> &tracks);
+        bool filterOffsetElevation(QDataStream &args, QList<CTrack *> &tracks);
 
         void readGuiReset(QByteArray& args);
         void readGuiHidePoints1(QByteArray& args, double &d, double &a);
@@ -96,6 +99,7 @@ class CTrackFilterWidget : public QWidget, private Ui::ITrackFilterWidget
         void readGuiDelete(QByteArray& args);
         void readGuiSmoothProfile1(QByteArray& args, quint32& tabs);
         void readGuiReplaceEle(QByteArray& args, quint32& type);
+        void readGuiOffsetEle(QByteArray& args, double& val, QString& unit);
         void readGuiSplit1(QByteArray& args, double &val);
         void readGuiSplit2(QByteArray& args, double &val);
         void readGuiSplit3(QByteArray& args, double &val);
@@ -103,7 +107,7 @@ class CTrackFilterWidget : public QWidget, private Ui::ITrackFilterWidget
 
         void postProcessTrack();
 
-        enum filterType_e {eHidePoints1, eSmoothProfile1, eSplit1, eSplit2, eSplit3, eSplit4, eReset, eDelete, eReplaceElevation, eHidePoints2};
+        enum filterType_e {eHidePoints1, eSmoothProfile1, eSplit1, eSplit2, eSplit3, eSplit4, eReset, eDelete, eReplaceElevation, eHidePoints2, eOffsetElevation};
         enum replaceEleType_e {eLocal, eRemote};
 
         QPointer<CTrackEditWidget> trackEditWidget;

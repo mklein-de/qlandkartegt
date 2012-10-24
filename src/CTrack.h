@@ -271,6 +271,8 @@ class CTrack : public IItem
 
         quint32 getMedianFilterCount() const {return cntMedianFilterApplied;}
 
+        void offsetElevation(double offset);
+
         signals:
         void sigChanged();
 

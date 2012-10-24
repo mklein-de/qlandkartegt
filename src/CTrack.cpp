@@ -1607,6 +1607,21 @@ void CTrack::medianFilter(quint32 len, QProgressDialog& progress)
 
 }
 
+void CTrack::offsetElevation(double offset)
+{
+
+    QList<pt_t>& trkpts                 = getTrackPoints();
+    QList<pt_t>::iterator trkpt   = trkpts.begin();
+    while(trkpt != trkpts.end())
+    {
+        if(trkpt->ele != WPT_NOFLOAT)
+        {
+            trkpt->ele += offset;
+        }
+
+        trkpt++;
+    }
+}
 
 void CTrack::reset()
 {
