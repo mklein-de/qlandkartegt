@@ -27,6 +27,7 @@
 #ifdef HAS_RMAP
 #include "CMapRmap.h"
 #endif
+#include "CMapRmp.h"
 #include "CMapWms.h"
 #include "CMapTms.h"
 #include "CMapDEM.h"
@@ -372,6 +373,26 @@ void CMapDB::openMap(const QString& filename, bool asRaster, CCanvas& canvas)
         cfg.setValue("maps/visibleMaps",filename);
     }
 #endif
+    else if(ext == "rmp")
+    {
+
+        CMapRmp * maprmp;
+
+        map.filename    = filename;
+        map.key         = filename;
+        map.type        = IMap::eRaster;
+
+        theMap = maprmp = new CMapRmp(map.key, filename, &canvas);
+
+        map.description = maprmp->getName();
+        if(map.description.isEmpty()) map.description = fi.fileName();
+
+        // add map to known maps
+        knownMaps[map.key] = map;
+
+        // store current map filename for next session
+        cfg.setValue("maps/visibleMaps",filename);
+    }
     else if(ext == "xml")
     {
         CMapWms * mapwms;
@@ -480,6 +501,10 @@ void CMapDB::openMap(const QString& key)
         theMap = new CMapRmap(key,filename,theMainWindow->getCanvas());
     }
 #endif
+    else if(ext == "rmp")
+    {
+        theMap = new CMapRmp(key,filename,theMainWindow->getCanvas());
+    }
     else if(ext == "xml")
     {
         theMap = new CMapWms(key,filename,theMainWindow->getCanvas());

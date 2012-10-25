@@ -693,9 +693,9 @@ void CMainWindow::slotLoadMapSet()
     QString filename = QFileDialog::getOpenFileName( 0, tr("Select map...")
         ,CResources::self().pathMaps
     #ifdef HAS_RMAP
-        ,"All (*.*);;Map Collection (*.qmap);;Garmin (*.tdb);;BirdsEye (*.jnx);;TwoNav (*.rmap)"
+        ,"All (*.*);;Map Collection (*.qmap);;Garmin (*.tdb);;BirdsEye (*.jnx);;TwoNav (*.rmap);;Magellan (*.rmp)"
     #else
-        ,"All (*.*);;Map Collection (*.qmap);;Garmin (*.tdb);;BirdsEye (*.jnx)"
+        ,"All (*.*);;Map Collection (*.qmap);;Garmin (*.tdb);;BirdsEye (*.jnx);;Magellan (*.rmp)"
     #endif
         , &filter
         , FILE_DIALOG_FLAGS

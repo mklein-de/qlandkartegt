@@ -245,6 +245,7 @@ set(qlandkarte_SRCS
     CDiskCacheZip.cpp
     CTextBrowser.cpp
     CImageViewer.cpp
+    CMapRmp.cpp
 )
 
 if (WIN32)
@@ -418,6 +419,7 @@ set(qlandkarte_HDRS
     CSettings.h
     CTextBrowser.h
     CImageViewer.h
+    CMapRmp.h
 )
 
 
