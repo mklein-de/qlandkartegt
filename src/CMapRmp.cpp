@@ -133,19 +133,60 @@ CMapRmp::CMapRmp(const QString &key, const QString &fn, CCanvas *parent)
     qSort(keys);
     foreach(const QString& key, keys)
     {
+        double tileLeft, tileTop, tileRight, tileBottom;
+        quint32 firstBlockOffset;
         level_t& level = levels[key];
         file.seek(level.tlm.offset);
         stream >> tmp32 >> level.tlm.tileCount >> level.tlm.tileXSize >> level.tlm.tileYSize;
-        stream >> tmp32 >> level.tlm.tileHeigth >> level.tlm.tileWidth >> level.tlm.tileLeft >> level.tlm.tileTop >> level.tlm.tileRight >> level.tlm.tileBottom;
+        stream >> tmp32 >> level.tlm.tileHeight >> level.tlm.tileWidth >> tileLeft >> tileTop >> tileRight >> tileBottom;
 
-        if(level.tlm.tileLeft   < xref1) xref1  = level.tlm.tileLeft;
-        if(level.tlm.tileTop    > yref1) yref1  = level.tlm.tileTop;
-        if(level.tlm.tileRight  > xref2) xref2  = level.tlm.tileLeft;
-        if(level.tlm.tileBottom < yref2) yref2  = level.tlm.tileTop;
+        tileTop     = -tileTop;
+        tileBottom  = -tileBottom;
 
+        if(tileLeft   < xref1) xref1  = tileLeft;
+        if(tileTop    > yref1) yref1  = tileTop;
+        if(tileRight  > xref2) xref2  = tileRight;
+        if(tileBottom < yref2) yref2  = tileBottom;
+
+        level.tlm.bbox = QRectF(QPointF(tileLeft, tileTop), QPointF(tileRight, tileBottom));
+
+        qDebug() << "--------------";
         qDebug() << level.tlm.name;
         qDebug() << level.tlm.tileCount << level.tlm.tileXSize << level.tlm.tileYSize;
-        qDebug() << level.tlm.tileHeigth << level.tlm.tileWidth << level.tlm.tileLeft << level.tlm.tileTop << level.tlm.tileRight << level.tlm.tileBottom;;
+        qDebug() << level.tlm.tileHeight << level.tlm.tileWidth << level.tlm.bbox.topLeft() << level.tlm.bbox.bottomRight();
+
+
+        //start 1st node
+        file.seek(level.tlm.offset + 256);
+        stream >> tmp32 >> tmp32 >> firstBlockOffset; //(tlm.offset + 256 + firstBlockOffset)
+        file.seek(level.tlm.offset + 256 + firstBlockOffset);
+
+        readTLMNode(stream, level.tlm);
+
+        QList<quint32> otherNodes;
+
+        stream >> tmp32;
+        if(tmp32)
+        {
+            qDebug() << "prev:" << hex << tmp32;
+            otherNodes << (level.tlm.offset + 256 + tmp32);
+        }
+
+        for(i = 0; i<99; i++)
+        {
+            stream >> tmp32;
+            if(tmp32)
+            {
+                qDebug() << "next:" << hex << tmp32;
+                otherNodes << (level.tlm.offset + 256 + tmp32);
+            }
+        }
+
+        foreach(quint32 offset, otherNodes)
+        {
+            file.seek(offset);
+            readTLMNode(stream, level.tlm);
+        }
     }
 
     pjsrc = pj_init_plus("+proj=merc +ellps=WGS84 +datum=WGS84 +units=m +no_defs +towgs84=0,0,0");
@@ -153,6 +194,9 @@ CMapRmp::CMapRmp(const QString &key, const QString &fn, CCanvas *parent)
 
     convertRad2M(xref1, yref1);
     convertRad2M(xref2, yref2);
+
+    qDebug() << "xref1:" << xref1 << "yref1:" << yref1;
+    qDebug() << "xref2:" << xref2 << "yref2:" << yref2;
 
     SETTINGS;
     cfg.beginGroup("magellan/maps");
@@ -190,6 +234,51 @@ CMapRmp::~CMapRmp()
     theMainWindow->getCheckBoxQuadraticZoom()->show();
 
 }
+
+void CMapRmp::readTLMNode(QDataStream& stream, tlm_t& tlm)
+{
+    int i;
+    node_t node;
+    float tileLeft, tileTop, tileRight, tileBottom;
+    quint32 tmp32, tilesSubtree;
+    quint16 lastNode;
+
+
+    qDebug() << "read tiles from:" << hex << quint32(stream.device()->pos());
+    stream >> tilesSubtree >> node.nTiles >> lastNode;
+
+    qDebug() << "tiles sub:" << tilesSubtree << "tiles node:" << node.nTiles << "is last node" << lastNode;
+
+    tileLeft    =  180.0;
+    tileTop     = -90.0;
+    tileRight   = -180.0;
+    tileBottom  =  90.0;
+
+    for(i=0; i < 99; i++)
+    {
+        tile_t& tile = node.tiles[i];
+        float lon, lat;
+        qint32 x,y;
+        stream >> x >> y >> tmp32 >> tile.offset;
+
+        lon =   x * tlm.tileWidth - 180.0;
+        lat = -(y * tlm.tileHeight - 90.0);
+
+        tile.bbox = QRectF(lon, lat, tlm.tileWidth, -tlm.tileHeight);
+
+        if(i < node.nTiles)
+        {
+            if(tile.bbox.left()   < tileLeft)   tileLeft   = tile.bbox.left();
+            if(tile.bbox.top()    > tileTop)    tileTop    = tile.bbox.top();
+            if(tile.bbox.right()  > tileRight)  tileRight  = tile.bbox.right();
+            if(tile.bbox.bottom() < tileBottom) tileBottom = tile.bbox.bottom();
+        }
+        //qDebug() << tile.bbox.topLeft() << tile.bbox.bottomRight() << tile.offset;
+    }
+    node.bbox = QRectF(QPointF(tileLeft, tileTop), QPointF(tileRight, tileBottom));
+    tlm.nodes << node;
+}
+
 
 void CMapRmp::convertPt2M(double& u, double& v)
 {
@@ -356,5 +445,60 @@ void CMapRmp::getArea_n_Scaling(projXY& p1, projXY& p2, float& my_xscale, float&
 void CMapRmp::draw(QPainter& p)
 {
 
-}
+    double u1 = xref1 * DEG_TO_RAD;
+    double v1 = yref1 * DEG_TO_RAD;
+    double u2 = xref2 * DEG_TO_RAD;
+    double v2 = yref2 * DEG_TO_RAD;
 
+    convertRad2Pt(u1,v1);
+    convertRad2Pt(u2,v2);
+
+    p.setPen(Qt::black);
+    p.drawRect(u1,v1, u2-u1, v2-v1);
+
+    p.setPen(Qt::red);
+    foreach(const node_t& node, levels["magella0"].tlm.nodes)
+    {
+        u1 = node.bbox.left() * DEG_TO_RAD;
+        v1 = node.bbox.top() * DEG_TO_RAD;
+        u2 = node.bbox.right() * DEG_TO_RAD;
+        v2 = node.bbox.bottom() * DEG_TO_RAD;
+
+        convertRad2Pt(u1,v1);
+        convertRad2Pt(u2,v2);
+
+        p.drawRect(u1,v1, u2-u1, v2-v1);
+
+    }
+
+    p.setPen(Qt::green);
+    foreach(const node_t& node, levels["magella1"].tlm.nodes)
+    {
+        u1 = node.bbox.left() * DEG_TO_RAD;
+        v1 = node.bbox.top() * DEG_TO_RAD;
+        u2 = node.bbox.right() * DEG_TO_RAD;
+        v2 = node.bbox.bottom() * DEG_TO_RAD;
+
+        convertRad2Pt(u1,v1);
+        convertRad2Pt(u2,v2);
+
+        p.drawRect(u1,v1, u2-u1, v2-v1);
+
+    }
+
+    p.setPen(Qt::blue);
+    foreach(const node_t& node, levels["magella2"].tlm.nodes)
+    {
+        u1 = node.bbox.left() * DEG_TO_RAD;
+        v1 = node.bbox.top() * DEG_TO_RAD;
+        u2 = node.bbox.right() * DEG_TO_RAD;
+        v2 = node.bbox.bottom() * DEG_TO_RAD;
+
+        convertRad2Pt(u1,v1);
+        convertRad2Pt(u2,v2);
+
+        p.drawRect(u1,v1, u2-u1, v2-v1);
+
+    }
+
+}

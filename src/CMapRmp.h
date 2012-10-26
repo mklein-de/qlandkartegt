@@ -61,19 +61,23 @@ class CMapRmp : public IMap
 
         };
 
+        struct tile_t
+        {
+            QRectF bbox;
+            quint32 offset;
+        };
+
+        struct node_t
+        {
+            node_t() : nTiles(0), tiles(100) {}
+
+            QRectF bbox;
+            quint16 nTiles;
+            QVector<tile_t> tiles;
+        };
+
         struct tlm_t : public dir_entry_t
         {
-
-            quint32 tileCount;
-            quint16 tileXSize;
-            quint16 tileYSize;
-
-            double tileHeigth;
-            double tileWidth;
-            double tileLeft;
-            double tileTop;
-            double tileRight;
-            double tileBottom;
 
             tlm_t& operator=(dir_entry_t& entry)
             {
@@ -84,6 +88,16 @@ class CMapRmp : public IMap
 
                 return *this;
             }
+
+            quint32 tileCount;
+            quint16 tileXSize;
+            quint16 tileYSize;
+
+            double tileHeight;
+            double tileWidth;
+            QRectF bbox;
+
+            QList<node_t> nodes;
         };
 
         struct a00_t : public dir_entry_t
@@ -105,6 +119,8 @@ class CMapRmp : public IMap
             tlm_t tlm;
             a00_t a00;
         };
+
+        void readTLMNode(QDataStream& stream, tlm_t& tlm);
 
         QList<dir_entry_t> directory;
 
