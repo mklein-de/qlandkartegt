@@ -121,6 +121,7 @@ class CMapRmp : public IMap
         };
 
         void readTLMNode(QDataStream& stream, tlm_t& tlm);
+        const QString zlevel2idx(quint32 zl);
 
         QList<dir_entry_t> directory;
 
@@ -130,8 +131,8 @@ class CMapRmp : public IMap
         struct scale_t
         {
             /// scale factor
-            double  qlgtScale;
-            quint32 jnxScale;
+            double qlgtScale;
+            double tileYScale;
         };
 
         static scale_t scales[];

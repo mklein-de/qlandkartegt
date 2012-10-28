@@ -27,33 +27,33 @@
 
 CMapRmp::scale_t CMapRmp::scales[] =
 {
-    {80000,  2083334 }
-    ,{5000,   1302084 }
-    ,{3000,   781250  }
-    ,{2000,   520834  }
-    ,{1200,   312500  }
-    ,{800,    208334  }
-    ,{500,    130209  }
-    ,{300,    78125   }
-    ,{200,    52084   }
-    ,{120,    31250   }
-    ,{80.0,   20834   }
-    ,{50.0,   13021   }
-    ,{30.0,   7813    }
-    ,{20.0,   5209    }
-    ,{12.0,   3125    }
-    ,{8.00,   2084    }
-    ,{5.00,   1303    }
-    ,{3.00,   782     }
-    ,{2.00,   521     }
-    ,{1.20,   313     }
-    ,{0.80,   209     }
-    ,{0.50,   131     }
-    ,{0.30,   79      }
-    ,{0.20,   52      }
-    ,{0.12,   32      }
-    ,{0.08,   21      }
-    ,{0.05,   14      }
+{80000, 2.2400e+02 }
+,{5000,  1.4000e+01 }
+,{3000,  8.4000e+00 }
+,{2000,  5.6000e+00 }
+,{1200,  3.3600e+00 }
+,{800,   2.2400e+00 }
+,{500,   1.4000e+00 }
+,{300,   8.4000e-01 }
+,{200,   5.6000e-01 }
+,{120,   3.3600e-01 }
+,{80.0,  2.2400e-01 }
+,{50.0,  1.4000e-01 }
+,{30.0,  8.4000e-02 }
+,{20.0,  5.6000e-02 }
+,{12.0,  3.3600e-02 }
+,{8.00,  2.2400e-02 }
+,{5.00,  1.4000e-02 }
+,{3.00,  8.4000e-03 }
+,{2.00,  5.6000e-03 }
+,{1.20,  3.3600e-03 }
+,{0.80,  2.2400e-03 }
+,{0.50,  1.4000e-03 }
+,{0.30,  8.4000e-04 }
+,{0.20,  5.6000e-04 }
+,{0.12,  3.3600e-04 }
+,{0.08,  2.2400e-04 }
+,{0.05,  1.4000e-04 }
 };
 
 
@@ -68,6 +68,12 @@ CMapRmp::CMapRmp(const QString &key, const QString &fn, CCanvas *parent)
 
 {
     int i;
+
+    for(i = 0; i <= MAX_IDX_ZOOM; i++)
+    {
+        scales[i].tileYScale = scales[i].qlgtScale * 0.0014/1.2;
+    }
+
     qint32 tmp32;
     quint64 offset;
     QByteArray buffer(30,0);
@@ -168,7 +174,7 @@ CMapRmp::CMapRmp(const QString &key, const QString &fn, CCanvas *parent)
         stream >> tmp32;
         if(tmp32)
         {
-            qDebug() << "prev:" << hex << tmp32;
+//            qDebug() << "prev:" << hex << tmp32;
             otherNodes << (level.tlm.offset + 256 + tmp32);
         }
 
@@ -177,7 +183,7 @@ CMapRmp::CMapRmp(const QString &key, const QString &fn, CCanvas *parent)
             stream >> tmp32;
             if(tmp32)
             {
-                qDebug() << "next:" << hex << tmp32;
+//                qDebug() << "next:" << hex << tmp32;
                 otherNodes << (level.tlm.offset + 256 + tmp32);
             }
         }
@@ -191,6 +197,11 @@ CMapRmp::CMapRmp(const QString &key, const QString &fn, CCanvas *parent)
 
     pjsrc = pj_init_plus("+proj=merc +ellps=WGS84 +datum=WGS84 +units=m +no_defs +towgs84=0,0,0");
     oSRS.importFromProj4(getProjection());
+
+    xref1 *= DEG_TO_RAD;
+    yref1 *= DEG_TO_RAD;
+    xref2 *= DEG_TO_RAD;
+    yref2 *= DEG_TO_RAD;
 
     convertRad2M(xref1, yref1);
     convertRad2M(xref2, yref2);
@@ -244,10 +255,10 @@ void CMapRmp::readTLMNode(QDataStream& stream, tlm_t& tlm)
     quint16 lastNode;
 
 
-    qDebug() << "read tiles from:" << hex << quint32(stream.device()->pos());
+//    qDebug() << "read tiles from:" << hex << quint32(stream.device()->pos());
     stream >> tilesSubtree >> node.nTiles >> lastNode;
 
-    qDebug() << "tiles sub:" << tilesSubtree << "tiles node:" << node.nTiles << "is last node" << lastNode;
+//    qDebug() << "tiles sub:" << tilesSubtree << "tiles node:" << node.nTiles << "is last node" << lastNode;
 
     tileLeft    =  180.0;
     tileTop     = -90.0;
@@ -405,6 +416,8 @@ void CMapRmp::zoom(qint32& level)
     if(zoomidx > MAX_IDX_ZOOM) zoomidx = MAX_IDX_ZOOM;
     zoomFactor = scales[zoomidx].qlgtScale;
 
+    qDebug() << "zoom:" << zoomFactor << level;
+
     emit sigChanged();
 }
 
@@ -442,63 +455,87 @@ void CMapRmp::getArea_n_Scaling(projXY& p1, projXY& p2, float& my_xscale, float&
     my_yscale   = yscale*zoomFactor;
 }
 
+
+const QString CMapRmp::zlevel2idx(quint32 zl)
+{
+    QString keyLevel;
+    double actScale = scales[zl].tileYScale;
+
+//    qDebug() << "-----------" << zl;
+    QStringList keys = levels.keys();
+    qSort(keys);
+    foreach(const QString& key, keys)
+    {
+        level_t& level = levels[key];
+
+//        qDebug() << level.tlm.tileHeight << actScale;
+        if(actScale <= level.tlm.tileHeight)
+        {
+            keyLevel = key;
+        }
+
+    }
+
+//    qDebug() << keyLevel;
+    return keyLevel;
+}
+
 void CMapRmp::draw(QPainter& p)
 {
+    QImage img;
+    QRectF viewport;
+    double u1, v1, u2, v2;
 
-    double u1 = xref1 * DEG_TO_RAD;
-    double v1 = yref1 * DEG_TO_RAD;
-    double u2 = xref2 * DEG_TO_RAD;
-    double v2 = yref2 * DEG_TO_RAD;
+    u1 = 0;
+    v1 = size.height();
+    u2 = size.width();
+    v2 = 0;
 
-    convertRad2Pt(u1,v1);
-    convertRad2Pt(u2,v2);
+    convertPt2Rad(u1,v1);
+    convertPt2Rad(u2,v2);
 
-    p.setPen(Qt::black);
-    p.drawRect(u1,v1, u2-u1, v2-v1);
+    u1 *= RAD_TO_DEG;
+    v1 *= RAD_TO_DEG;
+    u2 *= RAD_TO_DEG;
+    v2 *= RAD_TO_DEG;
 
-    p.setPen(Qt::red);
-    foreach(const node_t& node, levels["magella0"].tlm.nodes)
+    viewport.setTop(v2);
+    viewport.setRight(u2);
+    viewport.setBottom(v1);
+    viewport.setLeft(u1);
+
+    level_t& level = levels[zlevel2idx(zoomidx)];
+
+    QFile file(filename);
+    file.open(QIODevice::ReadOnly);
+    foreach(const node_t& node, level.tlm.nodes)
     {
-        u1 = node.bbox.left() * DEG_TO_RAD;
-        v1 = node.bbox.top() * DEG_TO_RAD;
-        u2 = node.bbox.right() * DEG_TO_RAD;
-        v2 = node.bbox.bottom() * DEG_TO_RAD;
+        foreach(const tile_t& tile, node.tiles)
+        {
+            if(!viewport.intersects(tile.bbox))
+            {
+                continue;
+            }
 
-        convertRad2Pt(u1,v1);
-        convertRad2Pt(u2,v2);
+            u1 = tile.bbox.left()   * DEG_TO_RAD;
+            v1 = tile.bbox.top()    * DEG_TO_RAD;
+            u2 = tile.bbox.right()  * DEG_TO_RAD;
+            v2 = tile.bbox.bottom() * DEG_TO_RAD;
 
-        p.drawRect(u1,v1, u2-u1, v2-v1);
+            convertRad2Pt(u1,v1);
+            convertRad2Pt(u2,v2);
 
+            file.seek(level.a00.offset + tile.offset + 4);
+
+            img.load(&file,"JPG");
+            if(img.isNull())
+            {
+                continue;
+            }
+
+            p.drawImage(u1 + 0.5,v1 + 0.5,img.scaled(u2 - u1  + 0.5, v2 - v1 + 0.5,Qt::IgnoreAspectRatio,Qt::SmoothTransformation));
+        }
     }
-
-    p.setPen(Qt::green);
-    foreach(const node_t& node, levels["magella1"].tlm.nodes)
-    {
-        u1 = node.bbox.left() * DEG_TO_RAD;
-        v1 = node.bbox.top() * DEG_TO_RAD;
-        u2 = node.bbox.right() * DEG_TO_RAD;
-        v2 = node.bbox.bottom() * DEG_TO_RAD;
-
-        convertRad2Pt(u1,v1);
-        convertRad2Pt(u2,v2);
-
-        p.drawRect(u1,v1, u2-u1, v2-v1);
-
-    }
-
-    p.setPen(Qt::blue);
-    foreach(const node_t& node, levels["magella2"].tlm.nodes)
-    {
-        u1 = node.bbox.left() * DEG_TO_RAD;
-        v1 = node.bbox.top() * DEG_TO_RAD;
-        u2 = node.bbox.right() * DEG_TO_RAD;
-        v2 = node.bbox.bottom() * DEG_TO_RAD;
-
-        convertRad2Pt(u1,v1);
-        convertRad2Pt(u2,v2);
-
-        p.drawRect(u1,v1, u2-u1, v2-v1);
-
-    }
+    file.close();
 
 }
