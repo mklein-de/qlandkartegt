@@ -74,126 +74,11 @@ CMapRmp::CMapRmp(const QString &key, const QString &fn, CCanvas *parent)
         scales[i].tileYScale = scales[i].qlgtScale * 0.0014/1.2;
     }
 
-    qint32 tmp32;
-    quint64 offset;
-    QByteArray buffer(30,0);
+    // open main rmp file
     filename = fn;
-
     QFileInfo fi(fn);
     name = fi.baseName();
-
-    QFile file(filename);
-    file.open(QIODevice::ReadOnly);
-
-    QDataStream stream(&file);
-    stream.setByteOrder(QDataStream::LittleEndian);
-
-    stream >> tmp32;
-    offset = tmp32 * 24 + 10;
-
-    file.seek(offset);
-    stream.readRawData(buffer.data(), 29);
-
-    if("MAGELLAN" != QString(buffer))
-    {
-        QMessageBox::warning(0, tr("Error..."), tr("This is not a Magellan RMP file."), QMessageBox::Abort, QMessageBox::Abort);
-        return;
-    }
-
-    // read the directory section
-    file.seek(8);
-    for(i = 0; i < tmp32; i++)
-    {
-        dir_entry_t entry;
-
-        buffer.fill(0);
-        stream.readRawData(buffer.data(), 9);
-        entry.name = buffer;
-        buffer.fill(0);
-        stream.readRawData(buffer.data(), 7);
-        entry.extension = buffer;
-        stream >> entry.offset >> entry.length;
-        directory << entry;
-
-        if(entry.extension == "tlm")
-        {
-            level_t& level = levels[entry.name];
-            level.tlm = entry;
-        }
-
-        if(entry.extension == "a00")
-        {
-            level_t& level = levels[entry.name];
-            level.a00 = entry;
-        }
-    }
-
-    foreach(const dir_entry_t& entry, directory)
-    {
-        qDebug() << entry.name << "." << entry.extension << hex << entry.offset << entry.length;
-    }
-
-
-    // read all information about the levels
-    QStringList keys = levels.keys();
-    qSort(keys);
-    foreach(const QString& key, keys)
-    {
-        double tileLeft, tileTop, tileRight, tileBottom;
-        quint32 firstBlockOffset;
-        level_t& level = levels[key];
-        file.seek(level.tlm.offset);
-        stream >> tmp32 >> level.tlm.tileCount >> level.tlm.tileXSize >> level.tlm.tileYSize;
-        stream >> tmp32 >> level.tlm.tileHeight >> level.tlm.tileWidth >> tileLeft >> tileTop >> tileRight >> tileBottom;
-
-        tileTop     = -tileTop;
-        tileBottom  = -tileBottom;
-
-        if(tileLeft   < xref1) xref1  = tileLeft;
-        if(tileTop    > yref1) yref1  = tileTop;
-        if(tileRight  > xref2) xref2  = tileRight;
-        if(tileBottom < yref2) yref2  = tileBottom;
-
-        level.tlm.bbox = QRectF(QPointF(tileLeft, tileTop), QPointF(tileRight, tileBottom));
-
-        qDebug() << "--------------";
-        qDebug() << level.tlm.name;
-        qDebug() << level.tlm.tileCount << level.tlm.tileXSize << level.tlm.tileYSize;
-        qDebug() << level.tlm.tileHeight << level.tlm.tileWidth << level.tlm.bbox.topLeft() << level.tlm.bbox.bottomRight();
-
-
-        //start 1st node
-        file.seek(level.tlm.offset + 256);
-        stream >> tmp32 >> tmp32 >> firstBlockOffset; //(tlm.offset + 256 + firstBlockOffset)
-        file.seek(level.tlm.offset + 256 + firstBlockOffset);
-
-        readTLMNode(stream, level.tlm);
-
-        QList<quint32> otherNodes;
-
-        stream >> tmp32;
-        if(tmp32)
-        {
-//            qDebug() << "prev:" << hex << tmp32;
-            otherNodes << (level.tlm.offset + 256 + tmp32);
-        }
-
-        for(i = 0; i<99; i++)
-        {
-            stream >> tmp32;
-            if(tmp32)
-            {
-//                qDebug() << "next:" << hex << tmp32;
-                otherNodes << (level.tlm.offset + 256 + tmp32);
-            }
-        }
-
-        foreach(quint32 offset, otherNodes)
-        {
-            file.seek(offset);
-            readTLMNode(stream, level.tlm);
-        }
-    }
+    readFile(filename);
 
     pjsrc = pj_init_plus("+proj=merc +ellps=WGS84 +datum=WGS84 +units=m +no_defs +towgs84=0,0,0");
     oSRS.importFromProj4(getProjection());
@@ -244,6 +129,152 @@ CMapRmp::~CMapRmp()
 
     theMainWindow->getCheckBoxQuadraticZoom()->show();
 
+}
+
+void CMapRmp::readFile(const QString& filename)
+{
+    qint32 tmp32;
+    quint64 offset;
+    QByteArray buffer(30,0);
+
+    QFile file(filename);
+    if(!file.open(QIODevice::ReadOnly))
+    {
+        QMessageBox::warning(0, tr("Error..."), tr("Failed to open: %1.").arg(filename), QMessageBox::Abort, QMessageBox::Abort);
+        return;
+    }
+
+    QDataStream stream(&file);
+    stream.setByteOrder(QDataStream::LittleEndian);
+
+    // test for magellan rmp file
+    stream >> tmp32;
+    offset = tmp32 * 24 + 10;
+
+    file.seek(offset);
+    stream.readRawData(buffer.data(), 29);
+
+    if("MAGELLAN" != QString(buffer))
+    {
+        file.close();
+        QMessageBox::warning(0, tr("Error..."), tr("This is not a Magellan RMP file: %1").arg(filename), QMessageBox::Abort, QMessageBox::Abort);
+        return;
+    }
+
+    files.append(file_t());
+    file_t& mapFile = files.first();
+
+    mapFile.filename = filename;
+    readDirectory(stream, mapFile);
+
+    // read all information about the levels
+    QStringList keys = mapFile.levels.keys();
+    qSort(keys);
+    foreach(const QString& key, keys)
+    {
+        readLevel(stream, mapFile.levels[key]);
+    }
+
+    file.close();
+}
+
+void CMapRmp::readDirectory(QDataStream& stream, file_t& file)
+{
+    int i;
+    qint32 tmp32;
+    QByteArray buffer(30,0);
+    // read the directory section
+    stream.device()->seek(4);
+    stream >> tmp32;
+    for(i = 0; i < tmp32; i++)
+    {
+        dir_entry_t entry;
+
+        buffer.fill(0);
+        stream.readRawData(buffer.data(), 9);
+        entry.name = buffer;
+        buffer.fill(0);
+        stream.readRawData(buffer.data(), 7);
+        entry.extension = buffer;
+        stream >> entry.offset >> entry.length;
+        file.directory << entry;
+
+        if(entry.extension == "tlm")
+        {
+            level_t& level = file.levels[entry.name];
+            level.tlm = entry;
+        }
+
+        if(entry.extension == "a00")
+        {
+            level_t& level = file.levels[entry.name];
+            level.a00 = entry;
+        }
+    }
+
+    foreach(const dir_entry_t& entry, file.directory)
+    {
+        qDebug() << entry.name << "." << entry.extension << hex << entry.offset << entry.length;
+    }
+
+}
+
+void CMapRmp::readLevel(QDataStream& stream, level_t& level)
+{
+    int i;
+    qint32 tmp32;
+    double tileLeft, tileTop, tileRight, tileBottom;
+    quint32 firstBlockOffset;
+
+    stream.device()->seek(level.tlm.offset);
+    stream >> tmp32 >> level.tlm.tileCount >> level.tlm.tileXSize >> level.tlm.tileYSize;
+    stream >> tmp32 >> level.tlm.tileHeight >> level.tlm.tileWidth >> tileLeft >> tileTop >> tileRight >> tileBottom;
+
+    tileTop     = -tileTop;
+    tileBottom  = -tileBottom;
+
+    if(tileLeft   < xref1) xref1  = tileLeft;
+    if(tileTop    > yref1) yref1  = tileTop;
+    if(tileRight  > xref2) xref2  = tileRight;
+    if(tileBottom < yref2) yref2  = tileBottom;
+
+    level.tlm.bbox = QRectF(QPointF(tileLeft, tileTop), QPointF(tileRight, tileBottom));
+
+    qDebug() << "--------------";
+    qDebug() << level.tlm.name;
+    qDebug() << level.tlm.tileCount << level.tlm.tileXSize << level.tlm.tileYSize;
+    qDebug() << level.tlm.tileHeight << level.tlm.tileWidth << level.tlm.bbox.topLeft() << level.tlm.bbox.bottomRight();
+
+
+    //start 1st node
+    stream.device()->seek(level.tlm.offset + 256);
+    stream >> tmp32 >> tmp32 >> firstBlockOffset; //(tlm.offset + 256 + firstBlockOffset)
+    stream.device()->seek(level.tlm.offset + 256 + firstBlockOffset);
+
+    readTLMNode(stream, level.tlm);
+
+    QList<quint32> otherNodes;
+
+    stream >> tmp32;
+    if(tmp32)
+    {
+        otherNodes << (level.tlm.offset + 256 + tmp32);
+    }
+
+    for(i = 0; i<99; i++)
+    {
+        stream >> tmp32;
+        if(tmp32)
+        {
+            otherNodes << (level.tlm.offset + 256 + tmp32);
+        }
+    }
+
+    foreach(quint32 offset, otherNodes)
+    {
+        stream.device()->seek(offset);
+        readTLMNode(stream, level.tlm);
+    }
 }
 
 void CMapRmp::readTLMNode(QDataStream& stream, tlm_t& tlm)
@@ -456,17 +487,17 @@ void CMapRmp::getArea_n_Scaling(projXY& p1, projXY& p2, float& my_xscale, float&
 }
 
 
-const QString CMapRmp::zlevel2idx(quint32 zl)
+const QString CMapRmp::zlevel2idx(quint32 zl, const file_t& file)
 {
     QString keyLevel;
     double actScale = scales[zl].tileYScale;
 
 //    qDebug() << "-----------" << zl;
-    QStringList keys = levels.keys();
+    QStringList keys = file.levels.keys();
     qSort(keys);
     foreach(const QString& key, keys)
     {
-        level_t& level = levels[key];
+        const level_t& level = file.levels[key];
 
 //        qDebug() << level.tlm.tileHeight << actScale;
         if(actScale <= level.tlm.tileHeight)
@@ -504,38 +535,66 @@ void CMapRmp::draw(QPainter& p)
     viewport.setBottom(v1);
     viewport.setLeft(u1);
 
-    level_t& level = levels[zlevel2idx(zoomidx)];
 
-    QFile file(filename);
-    file.open(QIODevice::ReadOnly);
-    foreach(const node_t& node, level.tlm.nodes)
+    foreach(const file_t& mapFile, files)
     {
-        foreach(const tile_t& tile, node.tiles)
+        QString key = zlevel2idx(zoomidx, mapFile);
+
+        if(key.isEmpty())
         {
-            if(!viewport.intersects(tile.bbox))
-            {
-                continue;
-            }
+            double u1 = xref1;
+            double u2 = xref2;
+            double v2 = yref1;
+            double v1 = yref2;
 
-            u1 = tile.bbox.left()   * DEG_TO_RAD;
-            v1 = tile.bbox.top()    * DEG_TO_RAD;
-            u2 = tile.bbox.right()  * DEG_TO_RAD;
-            v2 = tile.bbox.bottom() * DEG_TO_RAD;
+            convertM2Pt(u1,v1);
+            convertM2Pt(u2,v2);
 
-            convertRad2Pt(u1,v1);
-            convertRad2Pt(u2,v2);
+            QRectF r;
+            r.setLeft(u1);
+            r.setRight(u2);
+            r.setTop(v2);
+            r.setBottom(v1);
 
-            file.seek(level.a00.offset + tile.offset + 4);
+            p.setPen(QPen(Qt::darkBlue,2));
+            p.setBrush(QBrush(QColor(230,230,255,100) ));
+            p.drawRect(r);
 
-            img.load(&file,"JPG");
-            if(img.isNull())
-            {
-                continue;
-            }
-
-            p.drawImage(u1 + 0.5,v1 + 0.5,img.scaled(u2 - u1  + 0.5, v2 - v1 + 0.5,Qt::IgnoreAspectRatio,Qt::SmoothTransformation));
+            return;
         }
-    }
-    file.close();
 
+        const level_t& level = mapFile.levels[key];
+
+        QFile file(mapFile.filename);
+        file.open(QIODevice::ReadOnly);
+        foreach(const node_t& node, level.tlm.nodes)
+        {
+            foreach(const tile_t& tile, node.tiles)
+            {
+                if(!viewport.intersects(tile.bbox))
+                {
+                    continue;
+                }
+
+                u1 = tile.bbox.left()   * DEG_TO_RAD;
+                v1 = tile.bbox.top()    * DEG_TO_RAD;
+                u2 = tile.bbox.right()  * DEG_TO_RAD;
+                v2 = tile.bbox.bottom() * DEG_TO_RAD;
+
+                convertRad2Pt(u1,v1);
+                convertRad2Pt(u2,v2);
+
+                file.seek(level.a00.offset + tile.offset + 4);
+
+                img.load(&file,"JPG");
+                if(img.isNull())
+                {
+                    continue;
+                }
+
+                p.drawImage(u1 + 0.5,v1 + 0.5,img.scaled(u2 - u1  + 0.5, v2 - v1 + 0.5,Qt::IgnoreAspectRatio,Qt::SmoothTransformation));
+            }
+        }
+        file.close();
+    }
 }

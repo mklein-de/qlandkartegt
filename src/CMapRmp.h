@@ -120,12 +120,20 @@ class CMapRmp : public IMap
             a00_t a00;
         };
 
+        struct file_t
+        {
+            QString filename;
+            QList<dir_entry_t> directory;
+            QMap<QString,level_t> levels;
+        };
+
+        QList<file_t> files;
+
+        void readFile(const QString& filename);
+        void readDirectory(QDataStream& stream, file_t& file);
+        void readLevel(QDataStream& stream, level_t& level);
         void readTLMNode(QDataStream& stream, tlm_t& tlm);
-        const QString zlevel2idx(quint32 zl);
-
-        QList<dir_entry_t> directory;
-
-        QMap<QString,level_t> levels;
+        const QString zlevel2idx(quint32 zl, const file_t &file);
 
         /// scale entry
         struct scale_t
