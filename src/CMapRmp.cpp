@@ -27,7 +27,7 @@
 
 CMapRmp::scale_t CMapRmp::scales[] =
 {
-{80000, 2.2400e+02 }
+{80000,  2.2400e+02 }
 ,{5000,  1.4000e+01 }
 ,{3000,  8.4000e+00 }
 ,{2000,  5.6000e+00 }
@@ -78,11 +78,23 @@ CMapRmp::CMapRmp(const QString &key, const QString &fn, CCanvas *parent)
     filename = fn;
     QFileInfo fi(fn);
     name = fi.baseName();
-    readFile(filename);
+    readFile(filename, "", "");
 
+    // find submaps in same directory
+    QDir dir(fi.absoluteDir());
+    QStringList subMaps = dir.entryList(QStringList("*.rmp"), QDir::Files);
+
+    qDebug() << "laod maps with:" << files.first().provider << files.first().product;
+    foreach(const QString& subMap, subMaps)
+    {
+        readFile(dir.absoluteFilePath(subMap), files.first().provider, files.first().product);
+    }
+
+    // setup projection
     pjsrc = pj_init_plus("+proj=merc +ellps=WGS84 +datum=WGS84 +units=m +no_defs +towgs84=0,0,0");
     oSRS.importFromProj4(getProjection());
 
+    // setip total boundaries
     xref1 *= DEG_TO_RAD;
     yref1 *= DEG_TO_RAD;
     xref2 *= DEG_TO_RAD;
@@ -131,7 +143,7 @@ CMapRmp::~CMapRmp()
 
 }
 
-void CMapRmp::readFile(const QString& filename)
+void CMapRmp::readFile(const QString& filename, const QString &provider, const QString &product)
 {
     qint32 tmp32;
     quint64 offset;
@@ -162,10 +174,26 @@ void CMapRmp::readFile(const QString& filename)
     }
 
     files.append(file_t());
-    file_t& mapFile = files.first();
+    file_t& mapFile = files.last();
 
     mapFile.filename = filename;
     readDirectory(stream, mapFile);
+    readCVGMap(stream, mapFile);
+
+    // test for secondary maps
+    if(files.size() > 1)
+    {
+        if(mapFile.provider != provider)
+        {
+            files.pop_back();
+            return;
+        }
+        if(mapFile.product != product)
+        {
+            files.pop_back();
+            return;
+        }
+    }
 
     // read all information about the levels
     QStringList keys = mapFile.levels.keys();
@@ -217,6 +245,41 @@ void CMapRmp::readDirectory(QDataStream& stream, file_t& file)
         qDebug() << entry.name << "." << entry.extension << hex << entry.offset << entry.length;
     }
 
+}
+
+void CMapRmp::readCVGMap(QDataStream& stream, file_t& file)
+{
+    foreach(const dir_entry_t& entry, file.directory)
+    {
+        if(entry.name == "cvg_map" && entry.extension == "msf")
+        {
+            QByteArray buffer(entry.length, 0);
+
+            stream.device()->seek(entry.offset);
+            stream.readRawData(buffer.data(), buffer.size());
+            QStringList tokens = QString(buffer).split("\015\012");
+            QRegExp re("(.*)\\s*=\\s*(.*)");
+
+            foreach(const QString& token, tokens)
+            {
+                if(re.exactMatch(token))
+                {
+                    QString tok = re.cap(1).simplified();
+                    QString val = re.cap(2).simplified();
+
+                    if(tok == "PRODUCT")
+                    {
+                        file.product = val;
+                    }
+                    else if(tok == "PROVIDER")
+                    {
+                        file.provider = val;
+                    }
+                }
+            }
+            return;
+        }
+    }
 }
 
 void CMapRmp::readLevel(QDataStream& stream, level_t& level)
@@ -560,7 +623,7 @@ void CMapRmp::draw(QPainter& p)
             p.setBrush(QBrush(QColor(230,230,255,100) ));
             p.drawRect(r);
 
-            return;
+            continue;
         }
 
         const level_t& level = mapFile.levels[key];
