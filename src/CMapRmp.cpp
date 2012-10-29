@@ -195,7 +195,7 @@ void CMapRmp::readFile(const QString& filename, const QString &provider, const Q
         if(mapFile.provider != provider)
         {
             qDebug() << "------- do not load";
-            files.pop_back();            
+            files.pop_back();
             return;
         }
         if(mapFile.product != product)
@@ -600,6 +600,8 @@ void CMapRmp::draw(QPainter& p)
 
 void CMapRmp::draw()
 {
+    if(pjsrc == 0) return IMap::draw();
+
     QImage img;
     QRectF viewport;
     double u1, v1, u2, v2;
@@ -632,7 +634,6 @@ void CMapRmp::draw()
         {
             continue;
         }
-
 
         QString key = zlevel2idx(zoomidx, mapFile);
 
@@ -684,6 +685,12 @@ void CMapRmp::draw()
 
                 convertRad2Pt(u1,v1);
                 convertRad2Pt(u2,v2);
+
+                if(((u2 - u1) > 3000) || ((v2 - v1) > 3000))
+                {
+                    continue;
+                }
+
 
                 file.seek(level.a00.offset + tile.offset + 4);
 
