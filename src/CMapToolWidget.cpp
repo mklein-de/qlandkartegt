@@ -138,6 +138,11 @@ void CMapToolWidget::slotDBChanged()
                     icon = QIcon(":/icons/iconRMAP22x22.png");
                     item->setToolTip(eType, tr("TwoNav/RMAP"));
                 }
+                else if(map->filename.toLower().endsWith("rmp"))
+                {
+                    icon = QIcon(":/icons/iconRMP22x22.png");
+                    item->setToolTip(eType, tr("Magellan/RMP"));
+                }
                 else
                 {
                     icon = QIcon(":/icons/iconQMAP22x22.png");

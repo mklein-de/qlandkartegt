@@ -124,7 +124,7 @@ CMapDB::CMapDB(QTabWidget * tb, QObject * parent)
             mapdef.setIniCodec(QTextCodec::codecForName("UTF-8"));
             m.description = mapdef.value("description/comment","").toString();
         }
-        if(m.description.isEmpty()) m.description = QFileInfo(map).fileName();
+        if(m.description.isEmpty()) m.description = QFileInfo(map).baseName();
         m.key            = map;
         m.type           = ext == "qmap" ? IMap::eRaster : ext == "tdb" ? IMap::eGarmin : ext == "xml" ? IMap::eWMS : ext == "tms" ? IMap::eTMS : IMap::eRaster;
         knownMaps[m.key] = m;
