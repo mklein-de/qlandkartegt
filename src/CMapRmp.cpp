@@ -585,6 +585,26 @@ const QString CMapRmp::zlevel2idx(quint32 zl, const file_t& file)
 
 void CMapRmp::draw(QPainter& p)
 {
+    if(pjsrc == 0) return IMap::draw(p);
+
+    if(needsRedraw)
+    {
+        draw();
+    }
+
+    p.drawPixmap(0,0,pixBuffer);
+
+    if(!ovlMap.isNull() && !doFastDraw)
+    {
+        ovlMap->draw(size, needsRedraw, p);
+    }
+
+    needsRedraw = false;
+}
+
+
+void CMapRmp::draw()
+{
     QImage img;
     QRectF viewport;
     double u1, v1, u2, v2;
@@ -607,6 +627,9 @@ void CMapRmp::draw(QPainter& p)
     viewport.setBottom(v1);
     viewport.setLeft(u1);
 
+
+    pixBuffer.fill(Qt::white);
+    QPainter p(&pixBuffer);
 
     foreach(const file_t& mapFile, files)
     {

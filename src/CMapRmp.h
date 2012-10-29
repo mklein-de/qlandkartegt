@@ -139,6 +139,7 @@ class CMapRmp : public IMap
 
         QList<file_t> files;
 
+        void draw();
         void readFile(const QString& filename, const QString& provider, const QString& product);
         void readDirectory(QDataStream& stream, file_t& file);
         void readCVGMap(QDataStream& stream, file_t &file);
