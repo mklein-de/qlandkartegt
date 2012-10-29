@@ -122,6 +122,14 @@ class CMapRmp : public IMap
 
         struct file_t
         {
+            file_t() : lon1(180.0), lat1(-90.0), lon2(-180.0), lat2(90.0){}
+
+            double lon1;
+            double lat1;
+            double lon2;
+            double lat2;
+            QRectF bbox;
+
             QString filename;
             QString product;
             QString provider;
@@ -134,7 +142,7 @@ class CMapRmp : public IMap
         void readFile(const QString& filename, const QString& provider, const QString& product);
         void readDirectory(QDataStream& stream, file_t& file);
         void readCVGMap(QDataStream& stream, file_t &file);
-        void readLevel(QDataStream& stream, level_t& level);
+        void readLevel(QDataStream& stream, level_t& level, double &lon1, double &lat1, double &lon2, double &lat2);
         void readTLMNode(QDataStream& stream, tlm_t& tlm);
         const QString zlevel2idx(quint32 zl, const file_t &file);
 
