@@ -461,18 +461,12 @@ void CMapJnx::draw(QPainter& p)
 
 void CMapJnx::getArea_n_Scaling(projXY& p1, projXY& p2, float& my_xscale, float& my_yscale)
 {
+    p1.u = 0;
+    p1.v = 0;
+    convertPt2Rad(p1.u, p1.v);
 
-    p1.u = x;
-    p1.v = y;
-    convertM2Rad(p1.u, p1.v);
-
-    p2.u = x;
-    p2.v = y;
-    convertM2Pt(p2.u, p2.v);
-
-    p2.u += size.width();
-    p2.v += size.height();
-
+    p2.u = size.width();
+    p2.v = size.height();
     convertPt2Rad(p2.u, p2.v);
 
     my_xscale   = xscale*zoomFactor;
