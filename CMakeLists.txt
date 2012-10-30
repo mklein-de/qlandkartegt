@@ -6,8 +6,8 @@ cmake_minimum_required(VERSION 2.6.0)
 set(APPLICATION_NAME ${PROJECT_NAME})
 
 set(APPLICATION_VERSION_MAJOR "1")
-set(APPLICATION_VERSION_MINOR "5")
-set(APPLICATION_VERSION_PATCH "3.post")
+set(APPLICATION_VERSION_MINOR "6")
+set(APPLICATION_VERSION_PATCH "0.pre")
 
 add_definitions(-DVER_MAJOR=${APPLICATION_VERSION_MAJOR} -DVER_MINOR=${APPLICATION_VERSION_MINOR} -DVER_STEP=${APPLICATION_VERSION_PATCH})
 
@@ -70,6 +70,7 @@ add_subdirectory(3rdparty/QTextHtmlExporter)
 add_subdirectory(3rdparty/getopt)
 add_subdirectory(3rdparty/map2gcm)
 add_subdirectory(3rdparty/map2rmap)
+add_subdirectory(3rdparty/map2rmp)
 add_subdirectory(3rdparty/cache2gtiff)
 find_package(QtSoap)
 if (NOT QTSOAP_FOUND)
