@@ -26,11 +26,88 @@
 #include <QtCore>
 
 #define TILE_SIZE       256
-#define TILE_SIZE       256
+
 #define N_TILES_X       9
 #define N_TILES_Y       9
 #define N_BIG_TILES_X   9
 #define N_BIG_TILES_Y   9
+
+#define INDEX_BMP2BIT   0
+#define INDEX_BMP4BIT   1
+#define INDEX_CVGMAP    2
+#define INDEX_RMPINI    3
+
+#define OFFSET_1ST_DIR  4
+#define OFFSET_2ND_DIR  5
+
+static const char bmp2bit[] =
+{
+    73, 99, 111, 110, 32, 102, 105, 108, 101, 32, 118, 101,
+    114, 115, 105, 111, 110, 32, 49, 46, 48, 46, 48, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 0,
+    0, 1, 0, 0, 60, 0, 0, 0, -16, -1, -1, 127, -40, 0, 0, 0, -15, -1, -1, 127, 116, 1, 0,
+    0, 0, 1, 0, 0, -1, -1, -1, -1, 88, 0, 0, 0, -104, 0, 0, 0, 0, 0, 0, 0, 16, 0, 16, 0, 4,
+    2, 0, 0, 0, 0, 0, 0, 63, -1, -1, -4, 48, 0, 0, 12, 48, 0, 0, 12, 48, 0, 0, 12, 48, 0,
+    0, 12, 48, 0, 0, 12, 48, 0, 0, 12, 48, 0, 0, 12, 48, 0, 0, 12, 48, 0, 0, 12, 48, 0, 0,
+    12, 48, 0, 0, 12, 48, 0, 0, 12, 63, -1, -1, -4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 3, -1, -1, -64, 3, -1, -1, -64, 3, -1, -1, -64, 3, -1, -1, -64, 3, -1, -1,
+    -64, 3, -1, -1, -64, 3, -1, -1, -64, 3, -1, -1, -64, 3, -1, -1, -64, 3, -1, -1, -64, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -16, -1, -1, 127, -1, -1, -1, -1, -12, 0, 0, 0, 52, 1,
+    0, 0, 0, 0, 0, 0, 1, 0, 64, 0, 4, 8, 0, 0, 81, -3, -40, -70, -124, 24, -99, -19, 46,
+    -36, -3, -21, -128, 98, 96, -75, 82, -99, 78, 108, -79, 18, -9, -36, -20, -88, -41, 84,
+    -99, 88, 98, 40, 74, 93, 118, -31, -73, -62, -98, -43, -41, 12, -75, 60, 69, 54, -54,
+    -40, 51, -73, -18, 36, 83, 86, -8, 80, -2, 105, -61, -122, 37, 114, 7, -7, 0, -1, -1,
+    -1, -1, -1, -1, 0, -1, -1, -1, -1, -1, -1, 0, -1, -1, -1, -1, -1, -1, 0, -1, -1, -1,
+    -1, -1, -1, 0, -1, -1, -1, -1, -1, -1, 0, -1, -1, -1, -1, -1, -1, 0, -1, -1, -1, -1,
+    -1, -1, 0, -1, -1, -1, -1, -1, -1, 0, -1, -1, -1, -1, -1, -1, 0, -15, -1, -1, 127, -1,
+    -1, -1, -1, -112, 1, 0, 0, -88, 1, 0, 0, 0, 0, 0, 0, 1, 0, 24, 0, 4, 8, 0, 0, 49, 50,
+    51, 52, 53, 54, 55, 56, 57, 48, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107,
+    108, 109, 110, 0, -1, -1, -1, -1, -1, -1, 0, -1, -1, -1, -1, -1, -1, 0, -1, -1, -1, -1,
+    -1, -1, 0, -1, -1
+};
+
+static const char bmp4bit[] =
+{
+    73, 99, 111, 110, 32, 102, 105, 108, 101, 32, 118, 101,
+    114, 115, 105, 111, 110, 32, 49, 46, 48, 46, 48, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 0,
+    0, 1, 0, 0, 60, 0, 0, 0, -16, -1, -1, 127, 88, 1, 0, 0, -15, -1, -1, 127, -12, 1, 0, 0,
+    0, 1, 0, 0, -1, -1, -1, -1, 88, 0, 0, 0, -40, 0, 0, 0, 0, 0, 0, 0, 16, 0, 16, 0, 4, 4,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 51, 51, 51, 51, 51, 51, 48, 3, 0, 0, 0, 0, 0, 0, 48,
+    3, 0, 0, 0, 0, 0, 0, 48, 3, 0, 0, 0, 0, 0, 0, 48, 3, 0, 0, 0, 0, 0, 0, 48, 3, 0, 0, 0,
+    0, 0, 0, 48, 3, 0, 0, 0, 0, 0, 0, 48, 3, 0, 0, 0, 0, 0, 0, 48, 3, 0, 0, 0, 0, 0, 0, 48,
+    3, 0, 0, 0, 0, 0, 0, 48, 3, 0, 0, 0, 0, 0, 0, 48, 3, 0, 0, 0, 0, 0, 0, 48, 3, 0, 0, 0,
+    0, 0, 0, 48, 3, 51, 51, 51, 51, 51, 51, 48, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 15, -1, -1, -1, -1, -16, 0, 0,
+    15, -1, -1, -1, -1, -16, 0, 0, 15, -1, -1, -1, -1, -16, 0, 0, 15, -1, -1, -1, -1, -16,
+    0, 0, 15, -1, -1, -1, -1, -16, 0, 0, 15, -1, -1, -1, -1, -16, 0, 0, 15, -1, -1, -1, -1,
+    -16, 0, 0, 15, -1, -1, -1, -1, -16, 0, 0, 15, -1, -1, -1, -1, -16, 0, 0, 15, -1, -1,
+    -1, -1, -16, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    -16, -1, -1, 127, -1, -1, -1, -1, 116, 1, 0, 0, -76, 1, 0, 0, 0, 0, 0, 0, 1, 0, 64, 0,
+    4, 8, 0, 0, 81, -3, -40, -70, -124, 24, -99, -19, 46, -36, -3, -21, -128, 98, 96, -75,
+    82, -99, 78, 108, -79, 18, -9, -36, -20, -88, -41, 84, -99, 88, 98, 40, 74, 93, 118,
+    -31, -73, -62, -98, -43, -41, 12, -75, 60, 69, 54, -54, -40, 51, -73, -18, 36, 83, 86,
+    -8, 80, -2, 105, -61, -122, 37, 114, 7, -7, 0, -1, -1, -1, -1, -1, -1, 0, -1, -1, -1,
+    -1, -1, -1, 0, -1, -1, -1, -1, -1, -1, 0, -1, -1, -1, -1, -1, -1, 0, -1, -1, -1, -1,
+    -1, -1, 0, -1, -1, -1, -1, -1, -1, 0, -1, -1, -1, -1, -1, -1, 0, -1, -1, -1, -1, -1,
+    -1, 0, -1, -1, -1, -1, -1, -1, 0, -15, -1, -1, 127, -1, -1, -1, -1, 16, 2, 0, 0, 40, 2,
+    0, 0, 0, 0, 0, 0, 1, 0, 24, 0, 4, 8, 0, 0, 49, 50, 51, 52, 53, 54, 55, 56, 57, 48, 97,
+    98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 0, -1, -1, -1, -1, -1,
+    -1, 0, -1, -1, -1, -1, -1, -1, 0, -1, -1, -1, -1, -1, -1, 0, -1, -1
+};
+
+static const char * cvgmap =
+";Map Support File : Contains Meta Data Information about the Image\n"
+"IMG_NAME = %name%\n"
+"PRODUCT = %product%\n"
+"PROVIDER = %provider%\n"
+"IMG_DATE = %date%\n"
+"IMG_VERSION = 31\n"
+"Version = 31\n"
+"BUILD =\n"
+"VENDOR_ID = -1\n"
+"REGION_ID = -1\n"
+"MAP_TYPE = TNDB_RASTER_MAP\n"
+"ADDITIONAL_COMMENTS = Created with map2rmp\n"
+;
 
 bool qSortInFiles(CFileGenerator::file_t& f1, CFileGenerator::file_t& f2)
 {
@@ -67,6 +144,9 @@ CFileGenerator::~CFileGenerator()
 int CFileGenerator::start()
 {
     fprintf(stdout,"analyze input files:\n");
+
+    QList<file_t> infiles;
+    QVector<rmp_file_t> outfiles;
 
     OGRSpatialReference oSRS_EPSG4326;
     oSRS_EPSG4326.importFromProj4("+init=epsg:4326");
@@ -109,6 +189,13 @@ int CFileGenerator::start()
         file.xtiles = ceil(float(file.xsize)/TILE_SIZE);
         file.ytiles = ceil(float(file.ysize)/TILE_SIZE);
 
+        if(file.xsize < TILE_SIZE || file.ysize < TILE_SIZE)
+        {
+            fprintf(stderr,"\nfile %s too small. Minimum size is %ix%i pixel.\n", filename.toLocal8Bit().data(),TILE_SIZE,TILE_SIZE);
+            exit(-1);
+
+        }
+
         infiles << file;
     }
 
@@ -145,9 +232,35 @@ int CFileGenerator::start()
             rmp.index = index;
 
             setupOutFile(x, y, infiles, rmp);
+
+            rmp.directory.resize(4 + rmp.levels.size() * 2);
+            sprintf(rmp.directory[INDEX_BMP2BIT].name, "bmp2bit");
+            sprintf(rmp.directory[INDEX_BMP2BIT].ext, "ics");
+            sprintf(rmp.directory[INDEX_BMP4BIT].name, "bmp4bit");
+            sprintf(rmp.directory[INDEX_BMP4BIT].ext, "ics");
+            sprintf(rmp.directory[INDEX_RMPINI].name, "rmp");
+            sprintf(rmp.directory[INDEX_RMPINI].ext, "ini");
+            sprintf(rmp.directory[INDEX_CVGMAP].name, "cvg_map");
+            sprintf(rmp.directory[INDEX_CVGMAP].ext, "msf");
+
+            QFileInfo fi(rmp.name);
+            QString name = fi.baseName().left(7);
+            for(int i = 0; i < rmp.levels.size(); i++)
+            {
+                sprintf(rmp.directory[OFFSET_1ST_DIR + i * 2].name, "%s%i", name.toLocal8Bit().data(), i);
+                sprintf(rmp.directory[OFFSET_1ST_DIR + i * 2].ext, "a00");
+                sprintf(rmp.directory[OFFSET_2ND_DIR + i * 2].name, "%s%i", name.toLocal8Bit().data(), i);
+                sprintf(rmp.directory[OFFSET_2ND_DIR + i * 2].ext, "tlm");
+            }
+
         }
     }
 
+    for(int i = 0; i < outfiles.size(); i++)
+    {
+        rmp_file_t& rmp = outfiles[i];
+        writeRmp(rmp);
+    }
 
     return 0;
 }
@@ -207,16 +320,29 @@ void CFileGenerator::setupOutFile(int x, int y, QList<file_t>& infiles, rmp_file
         level.x2 = int(u2 + 0.5);
         level.y2 = int(v2 + 0.5);
 
-        level.src->convertPx2Deg(u1,v1);
-        level.src->convertPx2Deg(u2,v2);
+        int w = level.x2 - level.x1;
+        int h = level.y2 - level.y1;
 
-        level.lon1 = u1;
-        level.lat1 = v1;
-        level.lon2 = u2;
-        level.lat2 = v2;
+        if(w < TILE_SIZE)
+        {
+            level.x1 = level.x1 - (TILE_SIZE - w);
+        }
+
+        if(h < TILE_SIZE)
+        {
+            level.y1 = level.y1 - (TILE_SIZE - h);
+        }
+
+        level.lon1 = level.x1;
+        level.lat1 = level.y1;
+        level.lon2 = level.x2;
+        level.lat2 = level.y2;
+
+        level.src->convertPx2Deg(level.lon1,level.lat1);
+        level.src->convertPx2Deg(level.lon2,level.lat2);
 
         printf("level[%i] area (px):  %i,%i (%ix%i)\n", i, level.x1, int(level.y1), int(level.x2 - level.x1), int(level.y2 - level.y1));
-        printf("level[%i] area (deg): %f,%f to %f,%f)\n", i, level.lon1, level.lat1, level.lon2, level.lat2);
+//        printf("level[%i] area (deg): %f,%f to %f,%f)\n", i, level.lon1, level.lat1, level.lon2, level.lat2);
 
         int nBigTilesX = ceil(float(level.x2 - level.x1)/ (N_TILES_X * TILE_SIZE));
         int nBigTilesY = ceil(float(level.y2 - level.y1)/ (N_TILES_Y * TILE_SIZE));
@@ -247,6 +373,19 @@ void CFileGenerator::setupBigTile(int x, int y, rmp_level_t& level, rmp_big_tile
     if(bigTile.x2 > level.x2) bigTile.x2 = level.x2;
     if(bigTile.y2 > level.y2) bigTile.y2 = level.y2;
 
+    int w = bigTile.x2 - bigTile.x1;
+    int h = bigTile.y2 - bigTile.y1;
+
+    if(w < TILE_SIZE)
+    {
+        bigTile.x1 = bigTile.x1 - (TILE_SIZE - w);
+    }
+
+    if(h < TILE_SIZE)
+    {
+        bigTile.y1 = bigTile.y1 - (TILE_SIZE - h);
+    }
+
     bigTile.lat1 = bigTile.x1;
     bigTile.lon1 = bigTile.y1;
     bigTile.lat2 = bigTile.x2;
@@ -260,7 +399,6 @@ void CFileGenerator::setupBigTile(int x, int y, rmp_level_t& level, rmp_big_tile
 
     int nTilesX = ceil(float(bigTile.x2 - bigTile.x1)/TILE_SIZE);
     int nTilesY = ceil(float(bigTile.y2 - bigTile.y1)/TILE_SIZE);
-
     bigTile.tiles.resize(nTilesX * nTilesY);
     for(int m = 0; m < nTilesY; m++)
     {
@@ -285,6 +423,19 @@ void CFileGenerator::setupTile(int x, int y, rmp_big_tile_t &bigTile, rmp_tile_t
     if(tile.x2 > bigTile.x2) tile.x2 = bigTile.x2;
     if(tile.y2 > bigTile.y2) tile.y2 = bigTile.y2;
 
+    int w = tile.x2 - tile.x1;
+    int h = tile.y2 - tile.y1;
+
+    if(w < TILE_SIZE)
+    {
+        tile.x1 = tile.x1 - (TILE_SIZE - w);
+    }
+
+    if(h < TILE_SIZE)
+    {
+        tile.y1 = tile.y1 - (TILE_SIZE - h);
+    }
+
     tile.lat1 = tile.x1;
     tile.lon1 = tile.y1;
     tile.lat2 = tile.x2;
@@ -296,4 +447,98 @@ void CFileGenerator::setupTile(int x, int y, rmp_big_tile_t &bigTile, rmp_tile_t
 //    printf("      tile area (px):  %i,%i (%ix%i)\n", tile.x1, int(tile.y1), int(tile.x2 - tile.x1), int(tile.y2 - tile.y1));
 //    printf("      tile area (deg): %f,%f to %f,%f)\n", tile.lon1, tile.lat1, tile.lon2, tile.lat2);
 
+}
+
+quint16 CFileGenerator::crc16(QDataStream& stream, qint32 length)
+{
+    bool evenByte   = true;
+    quint16 crc     = 0;
+    quint8 tmp8;
+
+    for(int i = 0; i < length; i++)
+    {
+        stream >> tmp8;
+        if(evenByte)
+        {
+            crc ^= tmp8 << 8;
+        }
+        else
+        {
+            crc ^= tmp8;
+        }
+        evenByte = !evenByte;
+    }
+
+    return crc;
+}
+
+void CFileGenerator::writeRmp(rmp_file_t& rmp)
+{
+    QFile file(rmp.name);
+    if(!file.open(QIODevice::ReadWrite))
+    {
+        fprintf(stderr,"\nFailed to open %s\n", rmp.name.toLocal8Bit().data());
+        exit(-1);
+    }
+
+    QDataStream stream(&file);
+    stream.setByteOrder(QDataStream::LittleEndian);
+    // 1st run as place holder
+    writeDirectory(stream, rmp);
+    writeBmp2Bit(stream, rmp);
+    writeBmp4Bit(stream, rmp);
+    writeCVGMap(stream,rmp);
+
+    // 2nd run to write real directory
+    stream.device()->seek(0);
+    writeDirectory(stream, rmp);
+}
+
+void CFileGenerator::writeDirectory(QDataStream& stream, rmp_file_t& rmp)
+{
+    char magic[30] = "MAGELLAN";
+
+    stream.device()->seek(0);
+    stream << quint32(rmp.directory.size()) << quint32(rmp.directory.size());
+    foreach(const rmp_dir_entry_t& entry, rmp.directory)
+    {
+        stream.writeRawData(entry.name,sizeof(entry.name));
+        stream.writeRawData(entry.ext,sizeof(entry.ext));
+        stream << entry.offset << entry.length;
+    }
+
+    qint32 length   = stream.device()->pos();
+    stream.device()->seek(0);
+    quint16 crc     = crc16(stream, length);
+
+    stream << crc;
+    stream.writeRawData(magic, sizeof(magic));
+}
+
+void CFileGenerator::writeBmp2Bit(QDataStream& stream, rmp_file_t& rmp)
+{
+    rmp.directory[INDEX_BMP2BIT].offset = stream.device()->pos();
+    rmp.directory[INDEX_BMP2BIT].length = sizeof(bmp2bit);
+    stream.writeRawData(bmp2bit, sizeof(bmp2bit));
+}
+
+void CFileGenerator::writeBmp4Bit(QDataStream& stream, rmp_file_t& rmp)
+{
+    rmp.directory[INDEX_BMP4BIT].offset = stream.device()->pos();
+    rmp.directory[INDEX_BMP4BIT].length = sizeof(bmp4bit);
+    stream.writeRawData(bmp4bit, sizeof(bmp4bit));
+}
+
+void CFileGenerator::writeCVGMap(QDataStream& stream, rmp_file_t& rmp)
+{
+    QString cvg(cvgmap);
+    cvg.replace("%name%",QFileInfo(rmp.name).baseName());
+    cvg.replace("%product%","aaa");
+    cvg.replace("%provider%","bbb");
+    cvg.replace("%date%", QDateTime::currentDateTime().toString("dd.MM.yyyy hh:mm:ss"));
+    cvg.replace("\n", "\015\012");
+
+    rmp.directory[INDEX_CVGMAP].offset = stream.device()->pos();
+    rmp.directory[INDEX_CVGMAP].length = cvg.size();
+    stream.writeRawData(cvg.toLocal8Bit(), cvg.size());
 }

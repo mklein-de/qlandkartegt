@@ -109,12 +109,24 @@ class CFileGenerator
             QVector<rmp_big_tile_t> bigTiles;
         };
 
+        struct rmp_dir_entry_t
+        {
+            rmp_dir_entry_t(){memset(this, 0, sizeof(rmp_dir_entry_t));}
+
+            char name[9];
+            char ext[7];
+            quint32 offset;
+            quint32 length;
+        };
+
         struct rmp_file_t
         {
             int index;
             QString name;
             QString product;
             QString provider;
+
+            QVector<rmp_dir_entry_t> directory;
 
             QVector<rmp_level_t> levels;
         };
@@ -127,13 +139,19 @@ class CFileGenerator
         int quality;
         int subsampling;
 
-        QList<file_t> infiles;
-        QVector<rmp_file_t> outfiles;
 
         friend bool qSortInFiles(CFileGenerator::file_t& f1, CFileGenerator::file_t& f2);
         void setupOutFile(int x, int y, QList<file_t>& infiles, rmp_file_t &rmp);
         void setupBigTile(int x, int y, rmp_level_t &level, rmp_big_tile_t &bigTile);
         void setupTile(int x, int y, rmp_big_tile_t &bigTile, rmp_tile_t &tile);
+
+        quint16 crc16(QDataStream& stream, qint32 length);
+
+        void writeRmp(rmp_file_t& rmp);
+        void writeDirectory(QDataStream& stream, rmp_file_t& rmp);
+        void writeBmp2Bit(QDataStream& stream, rmp_file_t& rmp);
+        void writeBmp4Bit(QDataStream& stream, rmp_file_t& rmp);
+        void writeCVGMap(QDataStream& stream, rmp_file_t& rmp);
 };
 
 #endif //CFILEGENERATOR_H
