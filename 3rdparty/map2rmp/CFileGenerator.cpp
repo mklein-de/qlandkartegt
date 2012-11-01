@@ -483,11 +483,13 @@ void CFileGenerator::writeRmp(rmp_file_t& rmp)
 
     QDataStream stream(&file);
     stream.setByteOrder(QDataStream::LittleEndian);
-    // 1st run as place holder
+    // 1st run for directory as place holder
     writeDirectory(stream, rmp);
+    // write all data listed in directory
     writeBmp2Bit(stream, rmp);
     writeBmp4Bit(stream, rmp);
-    writeCVGMap(stream,rmp);
+    writeCvgMap(stream,rmp);
+    writeRmpIni(stream,rmp);
 
     // 2nd run to write real directory
     stream.device()->seek(0);
@@ -529,7 +531,7 @@ void CFileGenerator::writeBmp4Bit(QDataStream& stream, rmp_file_t& rmp)
     stream.writeRawData(bmp4bit, sizeof(bmp4bit));
 }
 
-void CFileGenerator::writeCVGMap(QDataStream& stream, rmp_file_t& rmp)
+void CFileGenerator::writeCvgMap(QDataStream& stream, rmp_file_t& rmp)
 {
     QString cvg(cvgmap);
     cvg.replace("%name%",QFileInfo(rmp.name).baseName());
@@ -541,4 +543,18 @@ void CFileGenerator::writeCVGMap(QDataStream& stream, rmp_file_t& rmp)
     rmp.directory[INDEX_CVGMAP].offset = stream.device()->pos();
     rmp.directory[INDEX_CVGMAP].length = cvg.size();
     stream.writeRawData(cvg.toLocal8Bit(), cvg.size());
+}
+
+void CFileGenerator::writeRmpIni(QDataStream& stream, rmp_file_t& rmp)
+{
+    QString ini("[T_Layers]\n");
+    for(int i = 0; i < rmp.levels.size(); i++)
+    {
+        ini += QString("%1=%2\n").arg(i).arg(rmp.directory[OFFSET_1ST_DIR + i * 2].name);
+    }
+    ini.replace("\n", "\015\012");
+
+    rmp.directory[INDEX_RMPINI].offset = stream.device()->pos();
+    rmp.directory[INDEX_RMPINI].length = ini.size();
+    stream.writeRawData(ini.toLocal8Bit(), ini.size());
 }

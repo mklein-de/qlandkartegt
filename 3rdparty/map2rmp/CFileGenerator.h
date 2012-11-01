@@ -151,7 +151,8 @@ class CFileGenerator
         void writeDirectory(QDataStream& stream, rmp_file_t& rmp);
         void writeBmp2Bit(QDataStream& stream, rmp_file_t& rmp);
         void writeBmp4Bit(QDataStream& stream, rmp_file_t& rmp);
-        void writeCVGMap(QDataStream& stream, rmp_file_t& rmp);
+        void writeCvgMap(QDataStream& stream, rmp_file_t& rmp);
+        void writeRmpIni(QDataStream& stream, rmp_file_t& rmp);
 };
 
 #endif //CFILEGENERATOR_H
