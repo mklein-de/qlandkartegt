@@ -23,6 +23,11 @@
 #include <gdal_priv.h>
 #include <ogr_spatialref.h>
 
+extern "C"
+{
+    #include <jpeglib.h>
+}
+
 #include <QtCore>
 
 #define TILE_SIZE       256
@@ -37,8 +42,10 @@
 #define INDEX_CVGMAP    2
 #define INDEX_RMPINI    3
 
-#define OFFSET_1ST_DIR  4
-#define OFFSET_2ND_DIR  5
+#define INDEX_OFFSET_A00  4
+#define INDEX_OFFSET_TLM  5
+
+static std::vector<JOCTET> jpgbuf;
 
 static const char bmp2bit[] =
 {
@@ -109,6 +116,51 @@ static const char * cvgmap =
 "ADDITIONAL_COMMENTS = Created with map2rmp\n"
 ;
 
+/// this code is from the GDAL project
+void printProgress(int current, int total)
+{
+    double dfComplete = double(current)/double(total);
+
+    static int nLastTick = -1;
+    int nThisTick = (int) (dfComplete * 40.0);
+
+    nThisTick = MIN(40,MAX(0,nThisTick));
+
+    // Have we started a new progress run?
+    if( nThisTick < nLastTick && nLastTick >= 39 )
+    {
+        nLastTick = -1;
+    }
+
+    if( nThisTick <= nLastTick )
+    {
+        return;
+    }
+
+    while( nThisTick > nLastTick )
+    {
+        nLastTick++;
+        if( nLastTick % 4 == 0 )
+        {
+            fprintf( stdout, "%d", (nLastTick / 4) * 10 );
+        }
+        else
+        {
+            fprintf( stdout, "." );
+        }
+    }
+
+    if( nThisTick == 40 )
+    {
+        fprintf( stdout, " - done.\n" );
+    }
+    else
+    {
+        fflush( stdout );
+    }
+
+}
+
 bool qSortInFiles(CFileGenerator::file_t& f1, CFileGenerator::file_t& f2)
 {
     return f1.xscale < f2.xscale;
@@ -132,6 +184,10 @@ CFileGenerator::CFileGenerator(const QStringList& input, const QString& output, 
     , output(output)
     , quality(quality)
     , subsampling(subsampling)
+    , tileBuf08Bit(TILE_SIZE * TILE_SIZE,0)
+    , tileBuf24Bit(TILE_SIZE * TILE_SIZE * 3,0)
+    , nTilesTotal(0)
+    , nTilesProcessed(0)
 {
     epsg4326 = pj_init_plus("+init=epsg:4326");
 }
@@ -176,6 +232,44 @@ int CFileGenerator::start()
         {
             fprintf(stderr,"\nBad projection of file %s. The file must have EPSG:4326.\n", filename.toLocal8Bit().data());
             exit(-1);
+        }
+
+        qint32 rasterBandCount = file.dataset->GetRasterCount();
+        if(rasterBandCount == 1)
+        {
+            GDALRasterBand * pBand;
+            pBand = file.dataset->GetRasterBand(1);
+
+
+            if(pBand->GetColorInterpretation() ==  GCI_PaletteIndex )
+            {
+                GDALColorTable * pct = pBand->GetColorTable();
+                for(int i=0; i < pct->GetColorEntryCount(); ++i)
+                {
+                    const GDALColorEntry& e = *pct->GetColorEntry(i);
+                    file.colortable[i] = ((e.c4 & 0x0ff) << 24) | ((e.c3 & 0x0ff) << 16) | ((e.c2 & 0x0ff) << 8) | (e.c1 & 0x0ff);
+                }
+            }
+            else if(pBand->GetColorInterpretation() ==  GCI_GrayIndex )
+            {
+                for(int i=0; i < 256; ++i)
+                {
+                    file.colortable[i] << i | (i << 8) | (i << 16) | 0xFF000000;
+                }
+            }
+            else
+            {
+                fprintf(stderr,"\nFile must be 8 bit palette or gray indexed. %s\n", filename.toLocal8Bit().data());
+                exit(-1);
+            }
+
+            int success = 0;
+            int idx = pBand->GetNoDataValue(&success);
+
+            if(success)
+            {
+                file.colortable[idx] &= 0x00FFFFFF;
+            }
         }
 
         file.dataset->GetGeoTransform( adfGeoTransform );
@@ -247,10 +341,10 @@ int CFileGenerator::start()
             QString name = fi.baseName().left(7);
             for(int i = 0; i < rmp.levels.size(); i++)
             {
-                sprintf(rmp.directory[OFFSET_1ST_DIR + i * 2].name, "%s%i", name.toLocal8Bit().data(), i);
-                sprintf(rmp.directory[OFFSET_1ST_DIR + i * 2].ext, "a00");
-                sprintf(rmp.directory[OFFSET_2ND_DIR + i * 2].name, "%s%i", name.toLocal8Bit().data(), i);
-                sprintf(rmp.directory[OFFSET_2ND_DIR + i * 2].ext, "tlm");
+                sprintf(rmp.directory[INDEX_OFFSET_A00 + i * 2].name, "%s%i", name.toLocal8Bit().data(), i);
+                sprintf(rmp.directory[INDEX_OFFSET_A00 + i * 2].ext, "a00");
+                sprintf(rmp.directory[INDEX_OFFSET_TLM + i * 2].name, "%s%i", name.toLocal8Bit().data(), i);
+                sprintf(rmp.directory[INDEX_OFFSET_TLM + i * 2].ext, "tlm");
             }
 
         }
@@ -294,8 +388,9 @@ void CFileGenerator::setupOutFile(int x, int y, QList<file_t>& infiles, rmp_file
 
     for(int i = 0; i < infiles.size(); i++)
     {
-        rmp_level_t& level = rmp.levels[i];
-        level.src = &infiles[i];
+        rmp_level_t& level  = rmp.levels[i];
+        level.src           = &infiles[i];
+        level.nTiles        = 0;
 
         double u1 = lon1;
         double v1 = lat1;
@@ -341,8 +436,6 @@ void CFileGenerator::setupOutFile(int x, int y, QList<file_t>& infiles, rmp_file
         level.src->convertPx2Deg(level.lon1,level.lat1);
         level.src->convertPx2Deg(level.lon2,level.lat2);
 
-        printf("level[%i] area (px):  %i,%i (%ix%i)\n", i, level.x1, int(level.y1), int(level.x2 - level.x1), int(level.y2 - level.y1));
-//        printf("level[%i] area (deg): %f,%f to %f,%f)\n", i, level.lon1, level.lat1, level.lon2, level.lat2);
 
         int nBigTilesX = ceil(float(level.x2 - level.x1)/ (N_TILES_X * TILE_SIZE));
         int nBigTilesY = ceil(float(level.y2 - level.y1)/ (N_TILES_Y * TILE_SIZE));
@@ -358,6 +451,12 @@ void CFileGenerator::setupOutFile(int x, int y, QList<file_t>& infiles, rmp_file
                 setupBigTile(n, m, level, bigTile);
             }
         }
+
+        nTilesTotal += level.nTiles;
+
+        printf("level[%i] area (px):  %i,%i (%ix%i)\tnTiles:  %i\n", i, level.x1, int(level.y1), int(level.x2 - level.x1), int(level.y2 - level.y1), level.nTiles);
+        printf("level[%i] area (deg): %f,%f to %f,%f)\n", i, level.lon1, level.lat1, level.lon2, level.lat2);
+
     }
 
 }
@@ -386,16 +485,16 @@ void CFileGenerator::setupBigTile(int x, int y, rmp_level_t& level, rmp_big_tile
         bigTile.y1 = bigTile.y1 - (TILE_SIZE - h);
     }
 
-    bigTile.lat1 = bigTile.x1;
-    bigTile.lon1 = bigTile.y1;
-    bigTile.lat2 = bigTile.x2;
-    bigTile.lon2 = bigTile.y2;
+    bigTile.lon1 = bigTile.x1;
+    bigTile.lat1 = bigTile.y1;
+    bigTile.lon2 = bigTile.x2;
+    bigTile.lat2 = bigTile.y2;
 
     bigTile.src->convertPx2Deg(bigTile.lon1, bigTile.lat1);
     bigTile.src->convertPx2Deg(bigTile.lon2, bigTile.lat2);
 
-//    printf("    big tile area (px):  %i,%i (%ix%i)\n", bigTile.x1, int(bigTile.y1), int(bigTile.x2 - bigTile.x1), int(bigTile.y2 - bigTile.y1));
-//    printf("    big tile area (deg): %f,%f to %f,%f)\n", bigTile.lon1, bigTile.lat1, bigTile.lon2, bigTile.lat2);
+    printf("    big tile area (px):  %i,%i (%ix%i)\n", bigTile.x1, int(bigTile.y1), int(bigTile.x2 - bigTile.x1), int(bigTile.y2 - bigTile.y1));
+    printf("    big tile area (deg): %f,%f to %f,%f)\n", bigTile.lon1, bigTile.lat1, bigTile.lon2, bigTile.lat2);
 
     int nTilesX = ceil(float(bigTile.x2 - bigTile.x1)/TILE_SIZE);
     int nTilesY = ceil(float(bigTile.y2 - bigTile.y1)/TILE_SIZE);
@@ -406,8 +505,9 @@ void CFileGenerator::setupBigTile(int x, int y, rmp_level_t& level, rmp_big_tile
         {
             const int index = n + m * nTilesX;
             rmp_tile_t& tile  = bigTile.tiles[index];
-            tile.src        = bigTile.src;
             setupTile(n, m, bigTile, tile);
+
+            level.nTiles++;
         }
     }
 }
@@ -436,16 +536,16 @@ void CFileGenerator::setupTile(int x, int y, rmp_big_tile_t &bigTile, rmp_tile_t
         tile.y1 = tile.y1 - (TILE_SIZE - h);
     }
 
-    tile.lat1 = tile.x1;
-    tile.lon1 = tile.y1;
-    tile.lat2 = tile.x2;
-    tile.lon2 = tile.y2;
+    tile.lon1 = tile.x1;
+    tile.lat1 = tile.y1;
+    tile.lon2 = tile.x2;
+    tile.lat2 = tile.y2;
 
     bigTile.src->convertPx2Deg(tile.lon1, tile.lat1);
     bigTile.src->convertPx2Deg(tile.lon2, tile.lat2);
 
-//    printf("      tile area (px):  %i,%i (%ix%i)\n", tile.x1, int(tile.y1), int(tile.x2 - tile.x1), int(tile.y2 - tile.y1));
-//    printf("      tile area (deg): %f,%f to %f,%f)\n", tile.lon1, tile.lat1, tile.lon2, tile.lat2);
+    printf("      tile area (px):  %i,%i (%ix%i)\n", tile.x1, int(tile.y1), int(tile.x2 - tile.x1), int(tile.y2 - tile.y1));
+    printf("      tile area (deg): %f,%f to %f,%f)\n", tile.lon1, tile.lat1, tile.lon2, tile.lat2);
 
 }
 
@@ -474,6 +574,10 @@ quint16 CFileGenerator::crc16(QDataStream& stream, qint32 length)
 
 void CFileGenerator::writeRmp(rmp_file_t& rmp)
 {
+    char magic[30] = "MAGELLAN";
+    quint64 pos1, pos2;
+    quint16 crc;
+
     QFile file(rmp.name);
     if(!file.open(QIODevice::ReadWrite))
     {
@@ -485,11 +589,26 @@ void CFileGenerator::writeRmp(rmp_file_t& rmp)
     stream.setByteOrder(QDataStream::LittleEndian);
     // 1st run for directory as place holder
     writeDirectory(stream, rmp);
+    pos1 = stream.device()->pos();
     // write all data listed in directory
+    stream.writeRawData(magic, sizeof(magic));
     writeBmp2Bit(stream, rmp);
     writeBmp4Bit(stream, rmp);
     writeCvgMap(stream,rmp);
     writeRmpIni(stream,rmp);
+
+    for(int i = 0; i < rmp.levels.size(); i++)
+    {
+        writeA00(stream,rmp, i);
+        writeTLM(stream,rmp, i);
+    }
+
+    stream.writeRawData(magic, 9);
+    // calc crc
+    pos2 = stream.device()->pos();
+    stream.device()->seek(pos1);
+    crc = crc16(stream, pos2 - pos1);
+    stream << crc;
 
     // 2nd run to write real directory
     stream.device()->seek(0);
@@ -498,7 +617,7 @@ void CFileGenerator::writeRmp(rmp_file_t& rmp)
 
 void CFileGenerator::writeDirectory(QDataStream& stream, rmp_file_t& rmp)
 {
-    char magic[30] = "MAGELLAN";
+
 
     stream.device()->seek(0);
     stream << quint32(rmp.directory.size()) << quint32(rmp.directory.size());
@@ -514,7 +633,7 @@ void CFileGenerator::writeDirectory(QDataStream& stream, rmp_file_t& rmp)
     quint16 crc     = crc16(stream, length);
 
     stream << crc;
-    stream.writeRawData(magic, sizeof(magic));
+
 }
 
 void CFileGenerator::writeBmp2Bit(QDataStream& stream, rmp_file_t& rmp)
@@ -550,11 +669,303 @@ void CFileGenerator::writeRmpIni(QDataStream& stream, rmp_file_t& rmp)
     QString ini("[T_Layers]\n");
     for(int i = 0; i < rmp.levels.size(); i++)
     {
-        ini += QString("%1=%2\n").arg(i).arg(rmp.directory[OFFSET_1ST_DIR + i * 2].name);
+        ini += QString("%1=%2\n").arg(i).arg(rmp.directory[INDEX_OFFSET_A00 + i * 2].name);
     }
     ini.replace("\n", "\015\012");
 
     rmp.directory[INDEX_RMPINI].offset = stream.device()->pos();
     rmp.directory[INDEX_RMPINI].length = ini.size();
     stream.writeRawData(ini.toLocal8Bit(), ini.size());
+}
+
+void CFileGenerator::writeA00(QDataStream& stream, rmp_file_t& rmp, int i)
+{
+    quint32 tileBuf32Bit[256*256] = {0};
+    rmp_level_t& level  = rmp.levels[i];
+    quint64 pos1        = stream.device()->pos();
+
+    stream << level.nTiles;
+
+    for(int m = 0; m < level.bigTiles.size(); m++)
+    {
+        rmp_big_tile_t& bigTile = level.bigTiles[m];
+        for(int t = 0; t < bigTile.tiles.size(); t++)
+        {
+            rmp_tile_t& tile = bigTile.tiles[t];
+            if(readTile(*level.src, tile.x1, tile.y1, TILE_SIZE, TILE_SIZE, tileBuf32Bit))
+            {
+                quint32 size = writeTile(TILE_SIZE, TILE_SIZE, tileBuf32Bit, quality, subsampling);
+
+                tile.offset = stream.device()->pos() - pos1;
+
+                stream << size;
+                stream.writeRawData((const char*)&jpgbuf[0], size);
+
+                nTilesProcessed++;
+                printProgress(nTilesProcessed, nTilesTotal);
+            }
+            else
+            {
+                fprintf(stderr, "\nFailed to read tile from source\n");
+                exit(-1);
+            }
+        }
+    }
+
+    quint64 pos2 = stream.device()->pos();
+    rmp.directory[INDEX_OFFSET_A00 + i * 2].offset = pos1;
+    rmp.directory[INDEX_OFFSET_A00 + i * 2].length = pos2 - pos1;
+
+}
+
+void CFileGenerator::writeTLM(QDataStream& stream, rmp_file_t& rmp, int i)
+{
+    char dummy[4000]    = {0};
+    rmp_level_t& level  = rmp.levels[i];
+    quint64 pos1        = stream.device()->pos();
+    double tileWidth    =   level.src->xscale * TILE_SIZE;
+    double tileHeight   = - level.src->yscale * TILE_SIZE;
+
+    stream << quint32(1);
+    stream << quint32(level.nTiles);
+    stream << quint16(TILE_SIZE) << quint16(TILE_SIZE);
+    stream << quint32(1);
+    stream << tileHeight;
+    stream << tileWidth;
+    stream << level.lon1 << -level.lat1 << level.lon2 << -level.lat2;
+    stream.writeRawData(dummy,88);
+    stream << quint32(TILE_SIZE); //???
+
+    quint32 size = 256 + 1940 + 2 * 1992 + level.bigTiles.size() * 1992;
+    stream << size;
+
+    stream.writeRawData(dummy,96);
+    // --- end of first 256 bytes ---
+    stream << quint32(1);
+    stream << quint32(99);
+    stream << quint32(1940); //firstBlockOffset
+    stream.writeRawData(dummy, 1940 - 12);
+    // --- start of 1st bigTile table ---
+    rmp_big_tile_t& bigTile = level.bigTiles[0];
+
+    quint64 pos = stream.device()->pos();
+    stream.writeRawData(dummy, 4 + 2 + 2 + 99*(4 + 4 + 4 + 4));
+    stream.device()->seek(pos);
+
+    stream << quint32(level.nTiles) << quint16(bigTile.tiles.size()) << quint16(level.bigTiles.size() == 1 ? 1 : 0);
+    foreach(const rmp_tile_t& tile, bigTile.tiles)
+    {
+        qint32 x, y;
+        //lon =   x * tlm.tileWidth - 180.0;
+        x = (tile.lon1 + 180.0) / tileWidth + 0.5;
+        //lat = -(y * tlm.tileHeight - 90.0);
+        y = (-tile.lat1 + 90.0) / tileHeight + 0.5;
+
+        stream << x << y << quint32(0) << tile.offset;
+    }
+
+    stream.device()->seek(pos + 4 + 2 + 2 + 99*(4 + 4 + 4 + 4));
+
+    if(level.bigTiles.size() != 1)
+    {
+        quint64 pos = stream.device()->pos();
+        stream.writeRawData(dummy, 400);
+        stream.device()->seek(pos);
+
+        for(int i = 1; i < level.bigTiles.size(); i++)
+        {
+            stream << quint32(1940 + 1992 + (i - 1) * 1992);
+        }
+
+
+
+        for(int i = 1; i < level.bigTiles.size(); i++)
+        {
+            rmp_big_tile_t& bigTile = level.bigTiles[i];
+            stream.device()->seek(pos1 + 256 + 1940 + 1992 + (i - 1) * 1992);
+            stream << quint32(bigTile.tiles.size()) << quint16(bigTile.tiles.size()) << quint16(1);
+
+            foreach(const rmp_tile_t& tile, bigTile.tiles)
+            {
+                qint32 x, y;
+                //lon =   x * tlm.tileWidth - 180.0;
+                x = (tile.lon1 + 180.0) / tileWidth;
+                //lat = -(y * tlm.tileHeight - 90.0);
+                y = (-tile.lat1 + 90.0) / tileHeight;
+
+                stream << x << y << quint32(0) << tile.offset;
+            }
+
+        }
+
+    }
+
+
+    // --- add two empty blocks ---
+    stream.writeRawData(dummy, 1992 * 2);
+    quint64 pos2 = stream.device()->pos();
+    rmp.directory[INDEX_OFFSET_TLM + i * 2].offset = pos1;
+    rmp.directory[INDEX_OFFSET_TLM + i * 2].length = pos2 - pos1;
+}
+
+
+bool CFileGenerator::readTile(file_t& file, const qint32 xoff, const qint32 yoff, const qint32 w1, const qint32 h1, quint32 *output)
+{
+    qint32 rasterBandCount = file.dataset->GetRasterCount();
+
+    memset(output,-1, sizeof(quint32) * w1 * h1);
+
+    if(rasterBandCount == 1)
+    {
+        GDALRasterBand * pBand;
+        pBand = file.dataset->GetRasterBand(1);
+        if(pBand->RasterIO(GF_Read, (int)xoff, (int)yoff, w1, h1, tileBuf08Bit.data(), w1, h1, GDT_Byte,0,0) == CE_Failure)
+        {
+            return false;
+        }
+
+        for(unsigned int i = 0; i < (w1 * h1); i++)
+        {
+            output[i] = file.colortable[(unsigned char)tileBuf08Bit[i]];
+        }
+    }
+    else
+    {
+        for(int b = 1; b <= rasterBandCount; ++b)
+        {
+            GDALRasterBand * pBand;
+            pBand = file.dataset->GetRasterBand(b);
+
+            quint32 mask = ~(0x000000FF << (8*(b-1)));
+
+            if(pBand->RasterIO(GF_Read,(int)xoff,(int)yoff, w1, h1, tileBuf08Bit.data(),w1,h1,GDT_Byte,0,0) == CE_Failure)
+            {
+                return false;
+            }
+
+            for(unsigned int i = 0; i < (w1 * h1); i++)
+            {
+                quint32 pixel = output[i];
+
+                pixel &= mask;
+                pixel |= tileBuf08Bit[i] << (8*(b-1));
+                output[i] = pixel;
+            }
+        }
+    }
+
+    return true;
+}
+
+#define JPG_BLOCK_SIZE (TILE_SIZE*TILE_SIZE)
+
+static void init_destination (j_compress_ptr cinfo)
+{
+    jpgbuf.resize(JPG_BLOCK_SIZE);
+    cinfo->dest->next_output_byte   = &jpgbuf[0];
+    cinfo->dest->free_in_buffer     = jpgbuf.size();
+}
+
+static boolean empty_output_buffer (j_compress_ptr cinfo)
+{
+    size_t oldsize = jpgbuf.size();
+    jpgbuf.resize(oldsize + JPG_BLOCK_SIZE);
+    cinfo->dest->next_output_byte   = &jpgbuf[oldsize];
+    cinfo->dest->free_in_buffer     = jpgbuf.size() - oldsize;
+    return true;
+}
+static void term_destination (j_compress_ptr cinfo)
+{
+    jpgbuf.resize(jpgbuf.size() - cinfo->dest->free_in_buffer);
+}
+
+quint32 CFileGenerator::writeTile(quint32 xsize, quint32 ysize, quint32 * raw_image, int quality, int subsampling)
+{
+    struct jpeg_compress_struct cinfo;
+    struct jpeg_error_mgr jerr;
+    JSAMPROW row_pointer[1];
+
+    jpeg_destination_mgr destmgr    = {0};
+    destmgr.init_destination        = init_destination;
+    destmgr.empty_output_buffer     = empty_output_buffer;
+    destmgr.term_destination        = term_destination;
+
+    // convert from RGBA to RGB
+    for(quint32 r = 0; r < ysize; r++)
+    {
+        for(quint32 c = 0; c < xsize; c++)
+        {
+            quint32 pixel = raw_image[r * xsize + c];
+
+            tileBuf24Bit[r * xsize * 3 + c * 3]     =  pixel        & 0x0FF;
+            tileBuf24Bit[r * xsize * 3 + c * 3 + 1] = (pixel >>  8) & 0x0FF;
+            tileBuf24Bit[r * xsize * 3 + c * 3 + 2] = (pixel >> 16) & 0x0FF;
+        }
+    }
+
+    cinfo.err = jpeg_std_error( &jerr );
+    jpeg_create_compress(&cinfo);
+
+    cinfo.dest              = &destmgr;
+    cinfo.image_width       = xsize;
+    cinfo.image_height      = ysize;
+    cinfo.input_components  = 3;
+    cinfo.in_color_space    = JCS_RGB;
+
+    jpeg_set_defaults( &cinfo );
+
+    if (subsampling != -1)
+    {
+        switch (subsampling)
+        {
+        case 422:  // 2x1, 1x1, 1x1 (4:2:2) : Medium
+            {
+                cinfo.comp_info[0].h_samp_factor = 2;
+                cinfo.comp_info[0].v_samp_factor = 1;
+                cinfo.comp_info[1].h_samp_factor = 1;
+                cinfo.comp_info[1].v_samp_factor = 1;
+                cinfo.comp_info[2].h_samp_factor = 1;
+                cinfo.comp_info[2].v_samp_factor = 1;
+                break;
+            }
+        case 411:  // 2x2, 1x1, 1x1 (4:1:1) : High
+            {
+                cinfo.comp_info[0].h_samp_factor = 2;
+                cinfo.comp_info[0].v_samp_factor = 2;
+                cinfo.comp_info[1].h_samp_factor = 1;
+                cinfo.comp_info[1].v_samp_factor = 1;
+                cinfo.comp_info[2].h_samp_factor = 1;
+                cinfo.comp_info[2].v_samp_factor = 1;
+                break;
+            }
+        case 444:  // 1x1 1x1 1x1 (4:4:4) : None
+            {
+                cinfo.comp_info[0].h_samp_factor = 1;
+                cinfo.comp_info[0].v_samp_factor = 1;
+                cinfo.comp_info[1].h_samp_factor = 1;
+                cinfo.comp_info[1].v_samp_factor = 1;
+                cinfo.comp_info[2].h_samp_factor = 1;
+                cinfo.comp_info[2].v_samp_factor = 1;
+                break;
+            }
+        }
+    }
+
+    if (quality != -1)
+    {
+        jpeg_set_quality( &cinfo, quality, TRUE );
+    }
+
+    jpeg_start_compress( &cinfo, TRUE );
+
+    while( cinfo.next_scanline < cinfo.image_height )
+    {
+        row_pointer[0] = (JSAMPLE*)&tileBuf24Bit.data()[ cinfo.next_scanline * cinfo.image_width *  cinfo.input_components];
+        jpeg_write_scanlines( &cinfo, row_pointer, 1 );
+    }
+    /* similar to read file, clean up after we're done compressing */
+    jpeg_finish_compress( &cinfo );
+    jpeg_destroy_compress( &cinfo );
+
+    return jpgbuf.size();
 }

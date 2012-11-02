@@ -44,6 +44,7 @@ class CFileGenerator
 
             QString name;
             GDALDataset * dataset;
+            quint32 colortable[256];
 
             int xsize;
             int ysize;
@@ -58,8 +59,6 @@ class CFileGenerator
 
         struct rmp_tile_t
         {
-            file_t * src;
-
             int x1;
             int y1;
             int x2;
@@ -106,6 +105,8 @@ class CFileGenerator
             double lon2;
             double lat2;
 
+            quint32 nTiles;
+
             QVector<rmp_big_tile_t> bigTiles;
         };
 
@@ -139,6 +140,13 @@ class CFileGenerator
         int quality;
         int subsampling;
 
+        QByteArray tileBuf08Bit;
+        QByteArray tileBuf24Bit;
+
+        quint32 nTilesTotal;
+        quint32 nTilesProcessed;
+
+
 
         friend bool qSortInFiles(CFileGenerator::file_t& f1, CFileGenerator::file_t& f2);
         void setupOutFile(int x, int y, QList<file_t>& infiles, rmp_file_t &rmp);
@@ -153,6 +161,12 @@ class CFileGenerator
         void writeBmp4Bit(QDataStream& stream, rmp_file_t& rmp);
         void writeCvgMap(QDataStream& stream, rmp_file_t& rmp);
         void writeRmpIni(QDataStream& stream, rmp_file_t& rmp);
+        void writeA00(QDataStream& stream, rmp_file_t& rmp, int i);
+        void writeTLM(QDataStream& stream, rmp_file_t& rmp, int i);
+
+
+        bool readTile(file_t& file, const qint32 xoff, const qint32 yoff, const qint32 w1, const qint32 h1, quint32 *output);
+        quint32 writeTile(quint32 xsize, quint32 ysize, quint32 * raw_image, int quality, int subsampling);
 };
 
 #endif //CFILEGENERATOR_H

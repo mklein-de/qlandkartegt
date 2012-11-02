@@ -367,6 +367,7 @@ void CMapRmp::readTLMNode(QDataStream& stream, tlm_t& tlm)
     quint16 lastNode;
 
     stream >> tilesSubtree >> node.nTiles >> lastNode;
+    //qDebug() << tilesSubtree << node.nTiles << lastNode;
 
     tileLeft    =  180.0;
     tileTop     = -90.0;
@@ -382,6 +383,8 @@ void CMapRmp::readTLMNode(QDataStream& stream, tlm_t& tlm)
 
         lon =   x * tlm.tileWidth - 180.0;
         lat = -(y * tlm.tileHeight - 90.0);
+
+        qDebug() << lon << lat;
 
         tile.bbox = QRectF(lon, lat, tlm.tileWidth, -tlm.tileHeight);
 
