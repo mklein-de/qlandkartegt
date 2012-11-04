@@ -29,6 +29,7 @@ extern "C"
 }
 
 #include <QtCore>
+#include <QImage>
 
 #define TILE_SIZE       256
 
@@ -178,23 +179,64 @@ void CFileGenerator::file_t::convertDeg2Px(double& u, double& v)
     v = (v - lat1) / yscale;
 }
 
+void CFileGenerator::file_t::roundDeg2Tile(double& u, double& v)
+{
+    u = round(u / (TILE_SIZE * level.xscale)) * TILE_SIZE * level.xscale;
+    v = round(v / (TILE_SIZE * level.yscale)) * TILE_SIZE * level.yscale;
+}
+
+void CFileGenerator::file_t::roundPx2Tile(double& u, double& v)
+{
+    convertPx2Deg(u,v);
+    roundDeg2Tile(u,v);
+    convertDeg2Px(u,v);
+}
+
 
 CFileGenerator::CFileGenerator(const QStringList& input, const QString& output, int quality, int subsampling)
     : input(input)
     , output(output)
     , quality(quality)
     , subsampling(subsampling)
-    , tileBuf08Bit(TILE_SIZE * TILE_SIZE,0)
-    , tileBuf24Bit(TILE_SIZE * TILE_SIZE * 3,0)
+    , tileBuf08Bit(2*TILE_SIZE * TILE_SIZE,0)
+    , tileBuf24Bit(2*TILE_SIZE * TILE_SIZE * 3,0)
     , nTilesTotal(0)
     , nTilesProcessed(0)
 {
     epsg4326 = pj_init_plus("+init=epsg:4326");
+
+    for(int i = 0; i < MAX_ZOOM_LEVEL; i++)
+    {
+        scales[i].xscale =  360.0 / pow(2,i) / TILE_SIZE;
+        scales[i].yscale = -180.0 / pow(2,i) / TILE_SIZE;
+
+//        qDebug() << (scales[i].xscale* TILE_SIZE) << (scales[i].yscale * TILE_SIZE);
+    }
 }
 
 CFileGenerator::~CFileGenerator()
 {
     if(epsg4326) pj_free(epsg4326);
+}
+
+void CFileGenerator::findBestLevelScale(file_level_t &scale)
+{
+    int idx = 0;
+    double delta = 100000.0;
+
+    for(int i = 0; i < MAX_ZOOM_LEVEL; i++)
+    {
+        double tmpDelta = fabs(scales[i].xscale - scale.xscale);
+        if(tmpDelta < delta)
+        {
+            delta   = tmpDelta;
+            idx     = i;
+        }
+    }
+
+//    qDebug() << "z" << idx;
+    scale.xscale = scales[idx].xscale;
+    scale.yscale = scales[idx].yscale;
 }
 
 int CFileGenerator::start()
@@ -279,13 +321,19 @@ int CFileGenerator::start()
         file.yscale = adfGeoTransform[5];
         file.lon1   = adfGeoTransform[0];
         file.lat1   = adfGeoTransform[3];
+        file.lon2   = file.lon1 + file.xscale * file.xsize;
+        file.lat2   = file.lat1 + file.yscale * file.ysize;
+        file.level.xscale = file.xscale;
+        file.level.yscale = file.yscale;
 
-        file.xtiles = ceil(float(file.xsize)/TILE_SIZE);
-        file.ytiles = ceil(float(file.ysize)/TILE_SIZE);
+        findBestLevelScale(file.level);
 
-        if(file.xsize < TILE_SIZE || file.ysize < TILE_SIZE)
+        file.level.xsize = round(file.xsize * file.xscale / file.level.xscale);
+        file.level.ysize = round(file.ysize * file.yscale / file.level.yscale);
+
+        if(file.level.xsize < 2*TILE_SIZE || file.level.ysize < 2*TILE_SIZE)
         {
-            fprintf(stderr,"\nfile %s too small. Minimum size is %ix%i pixel.\n", filename.toLocal8Bit().data(),TILE_SIZE,TILE_SIZE);
+            fprintf(stderr,"\nfile %s too small. Minimum size is %ix%i pixel.\n", filename.toLocal8Bit().data(),2*TILE_SIZE,2*TILE_SIZE);
             exit(-1);
 
         }
@@ -297,35 +345,70 @@ int CFileGenerator::start()
     foreach(const file_t& file, infiles)
     {
         fprintf(stdout, "\n%s\n", file.name.toLocal8Bit().data());
-        fprintf(stdout, "lon/lat:   %1.6f %1.6f\n", file.lon1, file.lat1);
-        fprintf(stdout, "x/y scale: %1.6f %1.6f\n", file.xscale, file.yscale);
-        fprintf(stdout, "x/y pixel: %i %i\n", file.xsize, file.ysize);
-        fprintf(stdout, "x/y tiles: %i %i\n", file.xtiles, file.ytiles);
+        fprintf(stdout, "p1 lon/lat:        %1.8f %1.8f\n", file.lon1, file.lat1);
+        fprintf(stdout, "p2 lon/lat:        %1.8f %1.8f\n", file.lon2, file.lat2);
+        fprintf(stdout, "x/y scale (file):  %1.8f %1.8f\n", file.xscale, file.yscale);
+        fprintf(stdout, "x/y pixel (file):  %i %i\n", file.xsize, file.ysize);
+
+        fprintf(stdout, "x/y scale (level): %1.6f %1.6f\n", file.level.xscale, file.level.yscale);
+        fprintf(stdout, "x/y pixel (level): %i %i\n", file.level.xsize, file.level.ysize);
     }
 
     fprintf(stdout, "\n");
-
     file_t& file = infiles.first();
 
-    int nBigTilesX  = ceil(float(file.xtiles)/N_TILES_X);
-    int nBigTilesY  = ceil(float(file.ytiles)/N_TILES_Y);
-    int nSectX      = ceil(float(nBigTilesX)/N_BIG_TILES_X);
-    int nSectY      = ceil(float(nBigTilesY)/N_BIG_TILES_Y);
+    // calculate the basic map area
+    double lon1 = 0;
+    double lat1 = 0;
+    double lon2 = file.xsize;
+    double lat2 = file.ysize;
 
-    fprintf(stdout, "x/y sect: %i %i\n", nSectX, nSectY);
-    fprintf(stdout, "files: %i \n", nSectX * nSectY);
+    file.convertPx2Deg(lon1, lat1);
+    file.convertPx2Deg(lon2, lat2);
 
-    outfiles.resize(nSectX * nSectY);
+    file.roundDeg2Tile(lon1, lat1);
+    file.roundDeg2Tile(lon2, lat2);
 
-    for(int y = 0; y < nSectY; y++)
+    double u1 = lon1;
+    double v1 = lat1;
+    double u2 = lon2;
+    double v2 = lat2;
+
+    file.convertDeg2Px(u1, v1);
+    file.convertDeg2Px(u2, v2);
+
+//    qDebug() << lon1 << lat1 << lon2 << lat2;
+//    qDebug() << round(u1) << round(v1) << round(u2) << round(v2);
+//    qDebug() << (lon2 - lon1)/(TILE_SIZE * file.level.xscale) << (lat2 - lat1)/(TILE_SIZE * file.level.yscale);
+
+    int nTilesX     = (lon2 - lon1)/(TILE_SIZE * file.level.xscale);
+    int nTilesY     = (lat2 - lat1)/(TILE_SIZE * file.level.yscale);
+    int nBigTilesX  = ceil(double(nTilesX) / N_TILES_X);
+    int nBigTilesY  = ceil(double(nTilesY) / N_TILES_Y);
+    int nPartX      = ceil(double(nBigTilesX) / N_BIG_TILES_X);
+    int nPartY      = ceil(double(nBigTilesY) / N_BIG_TILES_Y);
+
+    fprintf(stdout, "x/y sect: %i %i\n", nPartX, nPartY);
+    fprintf(stdout, "files: %i \n", nPartX * nPartY);
+
+    outfiles.resize(nPartX * nPartY);
+
+    double lon0 = lon1;
+    double lat0 = lat1;
+    for(int y = 0; y < nPartY; y++)
     {
-        for(int x = 0; x < nSectX; x++)
+        for(int x = 0; x < nPartX; x++)
         {
-            const int index = x + y * nSectX;
+            const int index = x + y * nPartX;
             rmp_file_t& rmp = outfiles[index];
             rmp.index = index;
 
-            setupOutFile(x, y, infiles, rmp);
+            double lon1 = lon0 + x * file.level.xscale * TILE_SIZE * N_TILES_X * N_BIG_TILES_X;
+            double lat1 = lat0 + y * file.level.yscale * TILE_SIZE * N_TILES_Y * N_BIG_TILES_Y;
+            double lon2 = lon1 + file.level.xscale * TILE_SIZE * N_TILES_X * N_BIG_TILES_X;
+            double lat2 = lat1 + file.level.yscale * TILE_SIZE * N_TILES_Y * N_BIG_TILES_Y;
+
+            setupOutFile(lon1, lat1, lon2, lat2, infiles, rmp);
 
             rmp.directory.resize(4 + rmp.levels.size() * 2);
             sprintf(rmp.directory[INDEX_BMP2BIT].name, "bmp2bit");
@@ -346,7 +429,6 @@ int CFileGenerator::start()
                 sprintf(rmp.directory[INDEX_OFFSET_TLM + i * 2].name, "%s%i", name.toLocal8Bit().data(), i);
                 sprintf(rmp.directory[INDEX_OFFSET_TLM + i * 2].ext, "tlm");
             }
-
         }
     }
 
@@ -357,9 +439,11 @@ int CFileGenerator::start()
     }
 
     return 0;
+
 }
 
-void CFileGenerator::setupOutFile(int x, int y, QList<file_t>& infiles, rmp_file_t& rmp)
+
+void CFileGenerator::setupOutFile(double lon1, double lat1, double lon2, double lat2, QList<file_t> &infiles, rmp_file_t &rmp)
 {
     QFileInfo fi(output);
     QDir dir(fi.absolutePath());
@@ -368,77 +452,42 @@ void CFileGenerator::setupOutFile(int x, int y, QList<file_t>& infiles, rmp_file
     rmp.levels.resize(infiles.size());
 
     printf("\nsetup file: %s\n", rmp.name.toLocal8Bit().data());
-
-    file_t& base = infiles[0];
-    // 1 tile       256x256 px
-    // 1 big tile   9x9 tiles
-    // 1 level      9x9 big tiles
-    double lon1 =  x        * N_BIG_TILES_X * N_TILES_X * TILE_SIZE;
-    double lat1 =  y        * N_BIG_TILES_Y * N_TILES_Y * TILE_SIZE;
-    double lon2 = (x + 1)   * N_BIG_TILES_X * N_TILES_X * TILE_SIZE;
-    double lat2 = (y + 1)   * N_BIG_TILES_Y * N_TILES_Y * TILE_SIZE;
-
-    if(lon2 > base.xsize) lon2 = base.xsize;
-    if(lat2 > base.ysize) lat2 = base.ysize;
-
-    //printf("base file area (px):  %i,%i (%ix%i)\n", int(lon1), int(lat1), int(lon2 - lon1), int(lat2 - lat1));
-    base.convertPx2Deg(lon1, lat1);
-    base.convertPx2Deg(lon2, lat2);
-    //printf("base file area (deg): %f,%f to %f,%f)\n", lon1, lat1, lon2, lat2);
-
     for(int i = 0; i < infiles.size(); i++)
     {
         rmp_level_t& level  = rmp.levels[i];
         level.src           = &infiles[i];
         level.nTiles        = 0;
 
-        double u1 = lon1;
-        double v1 = lat1;
-        double u2 = lon2;
-        double v2 = lat2;
+        file_t& file        = *level.src;
 
-        level.src->convertDeg2Px(u1,v1);
-        level.src->convertDeg2Px(u2,v2);
+        file.roundDeg2Tile(lon1, lat1);
 
-        if(u1 < 0) u1 = 0;
-        if(u2 < 0) u2 = 0;
-        if(v1 < 0) v1 = 0;
-        if(v2 < 0) v2 = 0;
-
-        if(u1 > level.src->xsize) u1 = level.src->xsize;
-        if(u2 > level.src->xsize) u2 = level.src->xsize;
-        if(v1 > level.src->ysize) v1 = level.src->ysize;
-        if(v2 > level.src->ysize) v2 = level.src->ysize;
-
-        level.x1 = int(u1 + 0.5);
-        level.y1 = int(v1 + 0.5);
-        level.x2 = int(u2 + 0.5);
-        level.y2 = int(v2 + 0.5);
-
-        int w = level.x2 - level.x1;
-        int h = level.y2 - level.y1;
-
-        if(w < TILE_SIZE)
+        if(lon2 > file.lon2)
         {
-            level.x1 = level.x1 - (TILE_SIZE - w);
+            lon2 = file.lon2;
         }
-
-        if(h < TILE_SIZE)
+        if(lat2 < file.lat2)
         {
-            level.y1 = level.y1 - (TILE_SIZE - h);
+            lat2 = file.lat2;
         }
-
-        level.lon1 = level.x1;
-        level.lat1 = level.y1;
-        level.lon2 = level.x2;
-        level.lat2 = level.y2;
-
-        level.src->convertPx2Deg(level.lon1,level.lat1);
-        level.src->convertPx2Deg(level.lon2,level.lat2);
+        file.roundDeg2Tile(lon2, lat2);
 
 
-        int nBigTilesX = ceil(float(level.x2 - level.x1)/ (N_TILES_X * TILE_SIZE));
-        int nBigTilesY = ceil(float(level.y2 - level.y1)/ (N_TILES_Y * TILE_SIZE));
+        double u1 = level.lon1 = lon1;
+        double v1 = level.lat1 = lat1;
+        double u2 = level.lon2 = lon2;
+        double v2 = level.lat2 = lat2;
+
+        file.convertDeg2Px(u1, v1);
+        file.convertDeg2Px(u2, v2);
+
+        level.x1 = round(u1);
+        level.y1 = round(v1);
+        level.x2 = round(u2);
+        level.y2 = round(v2);
+
+        int nBigTilesX = ceil((level.lon2 - level.lon1)/(file.level.xscale * N_TILES_X * TILE_SIZE));
+        int nBigTilesY = ceil((level.lat2 - level.lat1)/(file.level.yscale * N_TILES_Y * TILE_SIZE));
 
         level.bigTiles.resize(nBigTilesX * nBigTilesY);
         for(int m = 0; m < nBigTilesY; m++)
@@ -463,41 +512,42 @@ void CFileGenerator::setupOutFile(int x, int y, QList<file_t>& infiles, rmp_file
 
 void CFileGenerator::setupBigTile(int x, int y, rmp_level_t& level, rmp_big_tile_t& bigTile)
 {
-    bigTile.x1 = level.x1 + x * N_TILES_X * TILE_SIZE;
-    bigTile.y1 = level.y1 + y * N_TILES_Y * TILE_SIZE;
+    file_t& file = *level.src;
 
-    bigTile.x2 = level.x1 + (x + 1) * N_TILES_X * TILE_SIZE;
-    bigTile.y2 = level.y1 + (y + 1) * N_TILES_Y * TILE_SIZE;
 
-    if(bigTile.x2 > level.x2) bigTile.x2 = level.x2;
-    if(bigTile.y2 > level.y2) bigTile.y2 = level.y2;
+    bigTile.lon1 = level.lon1 + x * file.level.xscale * N_TILES_X * TILE_SIZE;
+    bigTile.lat1 = level.lat1 + y * file.level.yscale * N_TILES_Y * TILE_SIZE;
+    bigTile.lon2 = bigTile.lon1 + file.level.xscale * N_TILES_X * TILE_SIZE;
+    bigTile.lat2 = bigTile.lat1 + file.level.yscale * N_TILES_Y * TILE_SIZE;
 
-    int w = bigTile.x2 - bigTile.x1;
-    int h = bigTile.y2 - bigTile.y1;
-
-    if(w < TILE_SIZE)
+    if(bigTile.lon2 > level.lon2)
     {
-        bigTile.x1 = bigTile.x1 - (TILE_SIZE - w);
+        bigTile.lon2 = level.lon2;
+    }
+    if(bigTile.lat2 < level.lat2)
+    {
+        bigTile.lat2 = level.lat2;
     }
 
-    if(h < TILE_SIZE)
-    {
-        bigTile.y1 = bigTile.y1 - (TILE_SIZE - h);
-    }
+    double u1 = bigTile.lon1;
+    double v1 = bigTile.lat1;
+    double u2 = bigTile.lon2;
+    double v2 = bigTile.lat2;
 
-    bigTile.lon1 = bigTile.x1;
-    bigTile.lat1 = bigTile.y1;
-    bigTile.lon2 = bigTile.x2;
-    bigTile.lat2 = bigTile.y2;
+    file.convertDeg2Px(u1, v1);
+    file.convertDeg2Px(u2, v2);
 
-    bigTile.src->convertPx2Deg(bigTile.lon1, bigTile.lat1);
-    bigTile.src->convertPx2Deg(bigTile.lon2, bigTile.lat2);
+    bigTile.x1 = round(u1);
+    bigTile.y1 = round(v1);
+    bigTile.x2 = round(u2);
+    bigTile.y2 = round(v2);
 
-    printf("    big tile area (px):  %i,%i (%ix%i)\n", bigTile.x1, int(bigTile.y1), int(bigTile.x2 - bigTile.x1), int(bigTile.y2 - bigTile.y1));
-    printf("    big tile area (deg): %f,%f to %f,%f)\n", bigTile.lon1, bigTile.lat1, bigTile.lon2, bigTile.lat2);
+//    printf("    big tile area (px):  %i,%i (%ix%i)\n", bigTile.x1, int(bigTile.y1), int(bigTile.x2 - bigTile.x1), int(bigTile.y2 - bigTile.y1));
+//    printf("    big tile area (deg): %f,%f to %f,%f)\n", bigTile.lon1, bigTile.lat1, bigTile.lon2, bigTile.lat2);
 
-    int nTilesX = ceil(float(bigTile.x2 - bigTile.x1)/TILE_SIZE);
-    int nTilesY = ceil(float(bigTile.y2 - bigTile.y1)/TILE_SIZE);
+    int nTilesX = ceil((bigTile.lon2 - bigTile.lon1)/(file.level.xscale * TILE_SIZE));
+    int nTilesY = ceil((bigTile.lat2 - bigTile.lat1)/(file.level.yscale * TILE_SIZE));
+
     bigTile.tiles.resize(nTilesX * nTilesY);
     for(int m = 0; m < nTilesY; m++)
     {
@@ -510,44 +560,32 @@ void CFileGenerator::setupBigTile(int x, int y, rmp_level_t& level, rmp_big_tile
             level.nTiles++;
         }
     }
+
 }
+
 
 void CFileGenerator::setupTile(int x, int y, rmp_big_tile_t &bigTile, rmp_tile_t &tile)
 {
-    tile.x1 = bigTile.x1 + x * TILE_SIZE;
-    tile.y1 = bigTile.y1 + y * TILE_SIZE;
+    file_t& file = *bigTile.src;
 
-    tile.x2 = bigTile.x1 + (x + 1) * TILE_SIZE;
-    tile.y2 = bigTile.y1 + (y + 1) * TILE_SIZE;
+    double u1 = tile.lon1 = bigTile.lon1 + x * file.level.xscale * TILE_SIZE;
+    double v1 = tile.lat1 = bigTile.lat1 + y * file.level.yscale * TILE_SIZE;
+    double u2 = tile.lon2 = tile.lon1 + file.level.xscale * TILE_SIZE;
+    double v2 = tile.lat2 = tile.lat1 + file.level.yscale * TILE_SIZE;
 
-    if(tile.x2 > bigTile.x2) tile.x2 = bigTile.x2;
-    if(tile.y2 > bigTile.y2) tile.y2 = bigTile.y2;
+    file.convertDeg2Px(u1, v1);
+    file.convertDeg2Px(u2, v2);
 
-    int w = tile.x2 - tile.x1;
-    int h = tile.y2 - tile.y1;
+    tile.x1 = round(u1);
+    tile.y1 = round(v1);
+    tile.x2 = round(u2);
+    tile.y2 = round(v2);
 
-    if(w < TILE_SIZE)
-    {
-        tile.x1 = tile.x1 - (TILE_SIZE - w);
-    }
-
-    if(h < TILE_SIZE)
-    {
-        tile.y1 = tile.y1 - (TILE_SIZE - h);
-    }
-
-    tile.lon1 = tile.x1;
-    tile.lat1 = tile.y1;
-    tile.lon2 = tile.x2;
-    tile.lat2 = tile.y2;
-
-    bigTile.src->convertPx2Deg(tile.lon1, tile.lat1);
-    bigTile.src->convertPx2Deg(tile.lon2, tile.lat2);
-
-    printf("      tile area (px):  %i,%i (%ix%i)\n", tile.x1, int(tile.y1), int(tile.x2 - tile.x1), int(tile.y2 - tile.y1));
-    printf("      tile area (deg): %f,%f to %f,%f)\n", tile.lon1, tile.lat1, tile.lon2, tile.lat2);
+//    printf("      tile area (px):  %i,%i (%ix%i)\n", tile.x1, int(tile.y1), int(tile.x2 - tile.x1), int(tile.y2 - tile.y1));
+//    printf("      tile area (deg): %f,%f to %f,%f)\n", tile.lon1, tile.lat1, tile.lon2, tile.lat2);
 
 }
+
 
 quint16 CFileGenerator::crc16(QDataStream& stream, qint32 length)
 {
@@ -680,7 +718,6 @@ void CFileGenerator::writeRmpIni(QDataStream& stream, rmp_file_t& rmp)
 
 void CFileGenerator::writeA00(QDataStream& stream, rmp_file_t& rmp, int i)
 {
-    quint32 tileBuf32Bit[256*256] = {0};
     rmp_level_t& level  = rmp.levels[i];
     quint64 pos1        = stream.device()->pos();
 
@@ -692,23 +729,28 @@ void CFileGenerator::writeA00(QDataStream& stream, rmp_file_t& rmp, int i)
         for(int t = 0; t < bigTile.tiles.size(); t++)
         {
             rmp_tile_t& tile = bigTile.tiles[t];
-            if(readTile(*level.src, tile.x1, tile.y1, TILE_SIZE, TILE_SIZE, tileBuf32Bit))
+
+            int w = tile.x2 - tile.x1;
+            int h = tile.y2 - tile.y1;
+            QImage img(w,h,QImage::Format_ARGB32);
+            img.fill(Qt::white);
+
+            if(tile.x1 >= 0 && tile.y1 >= 0 && tile.x2 < level.src->xsize && tile.y2 < level.src->ysize)
             {
-                quint32 size = writeTile(TILE_SIZE, TILE_SIZE, tileBuf32Bit, quality, subsampling);
-
-                tile.offset = stream.device()->pos() - pos1;
-
-                stream << size;
-                stream.writeRawData((const char*)&jpgbuf[0], size);
-
-                nTilesProcessed++;
-                printProgress(nTilesProcessed, nTilesTotal);
+                readTile(*level.src, tile.x1, tile.y1, tile.x2 - tile.x1, tile.y2 - tile.y1, (quint32*)img.bits());
             }
-            else
-            {
-                fprintf(stderr, "\nFailed to read tile from source\n");
-                exit(-1);
-            }
+
+            img = img.scaled(TILE_SIZE,TILE_SIZE,Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
+
+            quint32 size = writeTile(TILE_SIZE, TILE_SIZE, (quint32*)img.bits(), quality, subsampling);
+
+            tile.offset = stream.device()->pos() - pos1;
+
+            stream << size;
+            stream.writeRawData((const char*)&jpgbuf[0], size);
+
+            nTilesProcessed++;
+            printProgress(nTilesProcessed, nTilesTotal);
         }
     }
 
@@ -723,8 +765,8 @@ void CFileGenerator::writeTLM(QDataStream& stream, rmp_file_t& rmp, int i)
     char dummy[4000]    = {0};
     rmp_level_t& level  = rmp.levels[i];
     quint64 pos1        = stream.device()->pos();
-    double tileWidth    =   level.src->xscale * TILE_SIZE;
-    double tileHeight   = - level.src->yscale * TILE_SIZE;
+    double tileWidth    =   level.src->level.xscale * TILE_SIZE;
+    double tileHeight   = - level.src->level.yscale * TILE_SIZE;
 
     stream << quint32(1);
     stream << quint32(level.nTiles);
@@ -757,11 +799,14 @@ void CFileGenerator::writeTLM(QDataStream& stream, rmp_file_t& rmp, int i)
     {
         qint32 x, y;
         //lon =   x * tlm.tileWidth - 180.0;
-        x = (tile.lon1 + 180.0) / tileWidth + 0.5;
+        x = round((tile.lon1 + 180.0) / tileWidth);
         //lat = -(y * tlm.tileHeight - 90.0);
-        y = (-tile.lat1 + 90.0) / tileHeight + 0.5;
+        y = round((-tile.lat1 + 90.0) / tileHeight);
 
         stream << x << y << quint32(0) << tile.offset;
+
+        qDebug() << (tile.lon1 / tileWidth);
+        qDebug() << tile.lon1 << tile.lat1 << x << y << tileWidth << tileHeight;
     }
 
     stream.device()->seek(pos + 4 + 2 + 2 + 99*(4 + 4 + 4 + 4));
@@ -789,9 +834,9 @@ void CFileGenerator::writeTLM(QDataStream& stream, rmp_file_t& rmp, int i)
             {
                 qint32 x, y;
                 //lon =   x * tlm.tileWidth - 180.0;
-                x = (tile.lon1 + 180.0) / tileWidth;
+                x = round((tile.lon1 + 180.0) / tileWidth);
                 //lat = -(y * tlm.tileHeight - 90.0);
-                y = (-tile.lat1 + 90.0) / tileHeight;
+                y = round((-tile.lat1 + 90.0) / tileHeight);
 
                 stream << x << y << quint32(0) << tile.offset;
             }

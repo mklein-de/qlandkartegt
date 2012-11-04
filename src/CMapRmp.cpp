@@ -56,6 +56,11 @@ CMapRmp::scale_t CMapRmp::scales[] =
 ,{0.05,  1.4000e-04 }
 };
 
+bool qSortLevels(CMapRmp::level_t& l1, CMapRmp::level_t& l2)
+{
+    return l1.tlm.tileHeight > l2.tlm.tileHeight;
+}
+
 
 CMapRmp::CMapRmp(const QString &key, const QString &fn, CCanvas *parent)
     : IMap(eRaster,key,parent)
@@ -207,11 +212,10 @@ void CMapRmp::readFile(const QString& filename, const QString &provider, const Q
     }
 
     // read all information about the levels
-    QStringList keys = mapFile.levels.keys();
-    qSort(keys);
-    foreach(const QString& key, keys)
+    for(int i = 0; i < mapFile.levels.count(); i++)
     {
-        readLevel(stream, mapFile.levels[key], mapFile.lon1, mapFile.lat1, mapFile.lon2, mapFile.lat2);
+
+        readLevel(stream, mapFile.levels[i], mapFile.lon1, mapFile.lat1, mapFile.lon2, mapFile.lat2);
 
         if(mapFile.lon1 < xref1) xref1  = mapFile.lon1;
         if(mapFile.lat1 > yref1) yref1  = mapFile.lat1;
@@ -219,6 +223,8 @@ void CMapRmp::readFile(const QString& filename, const QString &provider, const Q
         if(mapFile.lat2 < yref2) yref2  = mapFile.lat2;
 
     }
+
+    qSort(mapFile.levels.begin(), mapFile.levels.end(), qSortLevels);
 
     mapFile.bbox = QRectF(QPointF(mapFile.lon1, mapFile.lat1), QPointF(mapFile.lon2, mapFile.lat2));
     file.close();
@@ -247,13 +253,13 @@ void CMapRmp::readDirectory(QDataStream& stream, file_t& file)
 
         if(entry.extension == "tlm")
         {
-            level_t& level = file.levels[entry.name];
+            level_t& level = file.levelByName(entry.name);
             level.tlm = entry;
         }
 
         if(entry.extension == "a00")
         {
-            level_t& level = file.levels[entry.name];
+            level_t& level = file.levelByName(entry.name);
             level.a00 = entry;
         }
     }
@@ -384,7 +390,7 @@ void CMapRmp::readTLMNode(QDataStream& stream, tlm_t& tlm)
         lon =   x * tlm.tileWidth - 180.0;
         lat = -(y * tlm.tileHeight - 90.0);
 
-        qDebug() << lon << lat;
+        qDebug() << i << lon << lat << x << y << tlm.tileWidth << tlm.tileHeight;
 
         tile.bbox = QRectF(lon, lat, tlm.tileWidth, -tlm.tileHeight);
 
@@ -561,24 +567,25 @@ void CMapRmp::getArea_n_Scaling(projXY& p1, projXY& p2, float& my_xscale, float&
 }
 
 
-const QString CMapRmp::zlevel2idx(quint32 zl, const file_t& file)
+int CMapRmp::zlevel2idx(quint32 zl, const file_t& file)
 {
-    QString keyLevel;
+    double delta = 1000;
+    int idx = -1;
     double actScale = scales[zl].tileYScale;
 
-    QStringList keys = file.levels.keys();
-    qSort(keys);
-    foreach(const QString& key, keys)
+    for(int i = 0; i < file.levels.size(); i++)
     {
-        const level_t& level = file.levels[key];
+        const level_t& level = file.levels[i];
 
-        if(actScale <= level.tlm.tileHeight)
+        qDebug() << actScale << level.tlm.tileWidth << level.tlm.tileHeight << level.name;
+        if(fabs(actScale - level.tlm.tileHeight) < delta)
         {
-            keyLevel = key;
+            delta = fabs(actScale - level.tlm.tileHeight);
+            idx = i;
         }
 
     }
-    return keyLevel;
+    return idx;
 }
 
 void CMapRmp::draw(QPainter& p)
@@ -638,9 +645,9 @@ void CMapRmp::draw()
             continue;
         }
 
-        QString key = zlevel2idx(zoomidx, mapFile);
+        int idx = zlevel2idx(zoomidx, mapFile);
 
-        if(key.isEmpty())
+        if(idx == -1)
         {
             double u1 = mapFile.lon1 * DEG_TO_RAD;
             double v1 = mapFile.lat1 * DEG_TO_RAD;
@@ -663,7 +670,7 @@ void CMapRmp::draw()
             continue;
         }
 
-        const level_t& level = mapFile.levels[key];
+        const level_t& level = mapFile.levels[idx];
 
         QFile file(mapFile.filename);
         file.open(QIODevice::ReadOnly);
@@ -704,6 +711,8 @@ void CMapRmp::draw()
                 }
 
                 p.drawImage(u1 + 0.5,v1 + 0.5,img.scaled(u2 - u1  + 0.5, v2 - v1 + 0.5,Qt::IgnoreAspectRatio,Qt::SmoothTransformation));
+                p.setPen(QPen(Qt::black,3));
+                p.drawRect(QRectF(u1,v1,u2-u1,v2-v1));
             }
         }
         file.close();

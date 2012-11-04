@@ -48,7 +48,6 @@ class CMapRmp : public IMap
     private:
         QString name;
 
-
         struct dir_entry_t
         {
             dir_entry_t() : offset(0), length(0), name(10,0), extension(8,0){}
@@ -124,6 +123,21 @@ class CMapRmp : public IMap
         {
             file_t() : lon1(180.0), lat1(-90.0), lon2(-180.0), lat2(90.0){}
 
+            level_t& levelByName(const QString& name)
+            {
+                for(int i = 0; i < levels.size(); i++)
+                {
+                    if(levels[i].name == name)
+                    {
+                        return levels[i];
+                    }
+                }
+
+                levels.append(level_t());
+                levels.last().name = name;
+                return levels.last();
+            }
+
             double lon1;
             double lat1;
             double lon2;
@@ -134,18 +148,19 @@ class CMapRmp : public IMap
             QString product;
             QString provider;
             QList<dir_entry_t> directory;
-            QMap<QString,level_t> levels;
+            QList<level_t> levels;
         };
 
         QList<file_t> files;
 
+        friend bool qSortLevels(level_t& l1, level_t& l2);
         void draw();
         void readFile(const QString& filename, const QString& provider, const QString& product);
         void readDirectory(QDataStream& stream, file_t& file);
         void readCVGMap(QDataStream& stream, file_t &file);
         void readLevel(QDataStream& stream, level_t& level, double &lon1, double &lat1, double &lon2, double &lat2);
         void readTLMNode(QDataStream& stream, tlm_t& tlm);
-        const QString zlevel2idx(quint32 zl, const file_t &file);
+        int zlevel2idx(quint32 zl, const file_t &file);
 
         /// scale entry
         struct scale_t

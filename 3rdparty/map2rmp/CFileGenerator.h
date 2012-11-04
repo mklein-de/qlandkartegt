@@ -26,6 +26,8 @@
 
 class GDALDataset;
 
+#define MAX_ZOOM_LEVEL 18
+
 class CFileGenerator
 {
     public:
@@ -36,11 +38,28 @@ class CFileGenerator
 
     private:
 
+        struct scale_t
+        {
+            double xscale;
+            double yscale;
+        };
+
+        struct file_level_t
+        {
+            double xscale;
+            double yscale;
+            int xsize;
+            int ysize;
+        };
+
         struct file_t
         {
 
             void convertPx2Deg(double& u, double& v);
             void convertDeg2Px(double& u, double& v);
+
+            void roundDeg2Tile(double& u, double& v);
+            void roundPx2Tile(double& u, double& v);
 
             QString name;
             GDALDataset * dataset;
@@ -48,12 +67,14 @@ class CFileGenerator
 
             int xsize;
             int ysize;
-            int xtiles;
-            int ytiles;
             double xscale;
             double yscale;
             double lon1;
             double lat1;
+            double lon2;
+            double lat2;
+
+            file_level_t level;
         };
 
 
@@ -146,10 +167,13 @@ class CFileGenerator
         quint32 nTilesTotal;
         quint32 nTilesProcessed;
 
-
+        scale_t scales[MAX_ZOOM_LEVEL];
 
         friend bool qSortInFiles(CFileGenerator::file_t& f1, CFileGenerator::file_t& f2);
-        void setupOutFile(int x, int y, QList<file_t>& infiles, rmp_file_t &rmp);
+
+        void findBestLevelScale(file_level_t& scale);
+
+        void setupOutFile(double lon1, double lat1, double lon2, double lat2, QList<file_t>& infiles, rmp_file_t &rmp);
         void setupBigTile(int x, int y, rmp_level_t &level, rmp_big_tile_t &bigTile);
         void setupTile(int x, int y, rmp_big_tile_t &bigTile, rmp_tile_t &tile);
 
