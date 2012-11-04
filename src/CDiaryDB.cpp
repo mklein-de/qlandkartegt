@@ -50,6 +50,14 @@ void CDiaryDB::loadQLB(CQlb& qlb, bool newKey)
         CDiary * diary = new CDiary(this);
         stream >> *diary;
 
+        QString comment = diary->comment;
+        IItem::removeHtml(comment);
+
+        if(diary->wpts.isEmpty() && diary->trks.isEmpty() && diary->rtes.isEmpty() && diary->name.isEmpty() && diary->description.isEmpty() && comment.isEmpty())
+        {
+            continue;
+        }
+
         if(newKey)
         {
             diary->setKey(diary->getKey() + QString("%1").arg(QDateTime::currentDateTime().toTime_t()));
