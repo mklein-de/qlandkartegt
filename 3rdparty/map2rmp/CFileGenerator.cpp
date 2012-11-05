@@ -561,14 +561,14 @@ void CFileGenerator::setupBigTile(int x, int y, rmp_level_t& level, rmp_big_tile
     int nTilesY = ceil((bigTile.lat2 - bigTile.lat1)/(file.level.yscale * TILE_SIZE));
 
     bigTile.tiles.resize(nTilesX * nTilesY);
+
     for(int m = 0; m < nTilesY; m++)
     {
         for(int n = 0; n < nTilesX; n++)
         {
-            const int index = n + m * nTilesX;
+            const int index = n*nTilesY + m;
             rmp_tile_t& tile  = bigTile.tiles[index];
             setupTile(n, m, bigTile, tile);
-
             level.nTiles++;
         }
     }
@@ -813,15 +813,23 @@ void CFileGenerator::writeTLM(QDataStream& stream, rmp_file_t& rmp, int i)
     stream.writeRawData(dummy,88);
     stream << quint32(TILE_SIZE); //???
 
-    quint32 size = 256 + 1940 + 2 * 1992 + level.bigTiles.size() * 1992;
+    quint32 size = 256 + 1940 + 3 * 1992 + level.bigTiles.size() * 1992;
+    if (level.bigTiles.size() != 1)
+    {
+        size += 1992;
+    }
     stream << size;
 
     stream.writeRawData(dummy,96);
     // --- end of first 256 bytes ---
     stream << quint32(1);
     stream << quint32(99);
-    stream << quint32(1940); //firstBlockOffset
-    stream.writeRawData(dummy, 1940 - 12);
+
+    quint32 firstBlockOffset = 0x0f5c + ((level.bigTiles.size() == 1) ? 0 : 1992);
+    stream << quint32(firstBlockOffset); //firstBlockOffset
+    stream.writeRawData(dummy, 3920);
+
+
     // --- start of 1st bigTile table ---
     rmp_big_tile_t& bigTile = level.bigTiles[0];
 
@@ -839,24 +847,22 @@ void CFileGenerator::writeTLM(QDataStream& stream, rmp_file_t& rmp, int i)
         y = round((-tile.lat1 + 90.0) / tileHeight);
 
         stream << x << y << quint32(0) << tile.offset;
-
         Q_ASSERT((tile.lon1 / tileWidth) == int(tile.lon1 / tileWidth));
     }
 
     stream.device()->seek(pos + 4 + 2 + 2 + 99*(4 + 4 + 4 + 4));
 
+    quint64 pos_x = stream.device()->pos();
+    stream.writeRawData(dummy, 400);
+
     if(level.bigTiles.size() != 1)
     {
-        quint64 pos = stream.device()->pos();
-        stream.writeRawData(dummy, 400);
-        stream.device()->seek(pos);
+        stream.device()->seek(pos_x);
 
         for(int i = 1; i < level.bigTiles.size(); i++)
         {
-            stream << quint32(1940 + 1992 + (i - 1) * 1992);
+            stream << quint32(3932 + 1992 + (i - 1) * 1992);
         }
-
-
 
         for(int i = 1; i < level.bigTiles.size(); i++)
         {
@@ -874,9 +880,7 @@ void CFileGenerator::writeTLM(QDataStream& stream, rmp_file_t& rmp, int i)
 
                 stream << x << y << quint32(0) << tile.offset;
             }
-
         }
-
     }
 
     // --- add two empty blocks ---

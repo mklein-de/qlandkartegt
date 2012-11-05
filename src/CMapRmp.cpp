@@ -716,8 +716,8 @@ void CMapRmp::draw()
                 }
 
                 p.drawImage(u1 + 0.5,v1 + 0.5,img.scaled(u2 - u1  + 0.5, v2 - v1 + 0.5,Qt::IgnoreAspectRatio,Qt::SmoothTransformation));
-//                p.setPen(QPen(Qt::black,3));
-//                p.drawRect(QRectF(u1,v1,u2-u1,v2-v1));
+                p.setPen(QPen(Qt::black,3));
+                p.drawRect(QRectF(u1,v1,u2-u1,v2-v1));
             }
         }
         file.close();
