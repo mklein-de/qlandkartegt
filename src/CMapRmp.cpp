@@ -390,7 +390,7 @@ void CMapRmp::readTLMNode(QDataStream& stream, tlm_t& tlm)
         lon =   x * tlm.tileWidth - 180.0;
         lat = -(y * tlm.tileHeight - 90.0);
 
-        qDebug() << i << lon << lat << x << y << tlm.tileWidth << tlm.tileHeight;
+//        qDebug() << i << lon << lat << x << y << tlm.tileWidth << tlm.tileHeight;
 
         tile.bbox = QRectF(lon, lat, tlm.tileWidth, -tlm.tileHeight);
 
@@ -532,7 +532,7 @@ void CMapRmp::zoom(qint32& level)
     if(zoomidx > MAX_IDX_ZOOM) zoomidx = MAX_IDX_ZOOM;
     zoomFactor = scales[zoomidx].qlgtScale;
 
-    qDebug() << "zoom:" << zoomFactor << level;
+//    qDebug() << "zoom:" << zoomFactor << level;
 
     emit sigChanged();
 }
@@ -577,14 +577,19 @@ int CMapRmp::zlevel2idx(quint32 zl, const file_t& file)
     {
         const level_t& level = file.levels[i];
 
-        qDebug() << actScale << level.tlm.tileWidth << level.tlm.tileHeight << level.name;
+//        qDebug() << actScale << level.tlm.tileWidth << level.tlm.tileHeight << level.name;
         if(fabs(actScale - level.tlm.tileHeight) < delta)
         {
             delta = fabs(actScale - level.tlm.tileHeight);
             idx = i;
         }
-
     }
+
+    if(actScale > (file.levels[idx].tlm.tileHeight * 6))
+    {
+        return -1;
+    }
+
     return idx;
 }
 
@@ -711,8 +716,8 @@ void CMapRmp::draw()
                 }
 
                 p.drawImage(u1 + 0.5,v1 + 0.5,img.scaled(u2 - u1  + 0.5, v2 - v1 + 0.5,Qt::IgnoreAspectRatio,Qt::SmoothTransformation));
-                p.setPen(QPen(Qt::black,3));
-                p.drawRect(QRectF(u1,v1,u2-u1,v2-v1));
+//                p.setPen(QPen(Qt::black,3));
+//                p.drawRect(QRectF(u1,v1,u2-u1,v2-v1));
             }
         }
         file.close();

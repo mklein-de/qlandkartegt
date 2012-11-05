@@ -11,11 +11,13 @@ find_package(JPEG REQUIRED)
 include(${QT_USE_FILE})
 
 set(SRCS
+    argv.cpp
     main.cpp
     CFileGenerator.cpp
 )
 
 set(HDRS
+    argv.h
     CFileGenerator.h
 )
 

@@ -18,6 +18,7 @@
 **********************************************************************************************/
 
 #include "CFileGenerator.h"
+#include "argv.h"
 
 #include <gdal_priv.h>
 #include <stdio.h>
@@ -41,6 +42,9 @@ int main(int argc, char ** argv)
     int subsampling             = -1;
     int skip_next_arg           =  0;
 
+    QString provider;
+    QString product;
+
 
     QStringList input;
 
@@ -49,8 +53,10 @@ int main(int argc, char ** argv)
 
     if(argc < 2)
     {
-        fprintf(stderr,"\nusage: map2rpm -q <1..100> -s <411|422|444>  <file1> <file2> ... <fileN> <outputfile>\n");
+        fprintf(stderr,"\nusage: map2rpm -c <string> -n <string> -q <1..100> -s <411|422|444>  <file1> <file2> ... <fileN> <outputfile>\n");
         fprintf(stderr,"\n");
+        fprintf(stderr,"  -c    The map provider as string (mandatory)\n");
+        fprintf(stderr,"  -n    The map name as string (mandatory)\n");
         fprintf(stderr,"  -q    The JPEG quality from 1 to 100. Default is 75\n");
         fprintf(stderr,"  -s    The chroma subsampling. Default is 411\n");
         fprintf(stderr,"\n");
@@ -83,16 +89,35 @@ int main(int argc, char ** argv)
                 skip_next_arg = 1;
                 continue;
             }
+            else if (towupper(argv[i][1]) == 'C')
+            {
+                provider = get_argv(i + 1, argv);
+                skip_next_arg = 1;
+                continue;
+            }
+            else if (towupper(argv[i][1]) == 'N')
+            {
+                product = get_argv(i + 1, argv);
+                skip_next_arg = 1;
+                continue;
+            }
+
         }
 
         input << argv[i];
     }
 
-    CFileGenerator generator(input, argv[argc-1], quality, subsampling);
-    int res = generator.start();
+    if(product.isEmpty() || provider.isEmpty())
+    {
+        fprintf(stderr,"\nYou must give a provider and product name!\nCall map2rmp without arguments for help.\n\n");
+        exit(-1);
+    }
+
+    CFileGenerator generator(input, argv[argc-1], provider, product, quality, subsampling);
+    generator.start();
 
     GDALDestroyDriverManager();
     printf("\n");
 
-    return res;
+    return 0;
 }

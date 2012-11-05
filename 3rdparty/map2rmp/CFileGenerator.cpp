@@ -30,6 +30,8 @@ extern "C"
 
 #include <QtCore>
 #include <QImage>
+#include <QColor>
+#include <QPainter>
 
 #define TILE_SIZE       256
 
@@ -103,18 +105,18 @@ static const char bmp4bit[] =
 };
 
 static const char * cvgmap =
-";Map Support File : Contains Meta Data Information about the Image\n"
-"IMG_NAME = %name%\n"
-"PRODUCT = %product%\n"
-"PROVIDER = %provider%\n"
-"IMG_DATE = %date%\n"
-"IMG_VERSION = 31\n"
-"Version = 31\n"
-"BUILD =\n"
-"VENDOR_ID = -1\n"
-"REGION_ID = -1\n"
-"MAP_TYPE = TNDB_RASTER_MAP\n"
-"ADDITIONAL_COMMENTS = Created with map2rmp\n"
+";Map Support File : Contains Meta Data Information about the Image\015\012"
+"IMG_NAME = %name%\015\012"
+"PRODUCT = %product%\015\012"
+"PROVIDER = %provider%\015\012"
+"IMG_DATE = %date%\015\012"
+"IMG_VERSION = 31\015\012"
+"Version = 31\015\012"
+"BUILD =\015\012"
+"VENDOR_ID = -1\015\012"
+"REGION_ID = -1\015\012"
+"MAP_TYPE = TNDB_RASTER_MAP\015\012"
+"ADDITIONAL_COMMENTS = Created with map2rmp\015\012"
 ;
 
 /// this code is from the GDAL project
@@ -193,9 +195,11 @@ void CFileGenerator::file_t::roundPx2Tile(double& u, double& v)
 }
 
 
-CFileGenerator::CFileGenerator(const QStringList& input, const QString& output, int quality, int subsampling)
+CFileGenerator::CFileGenerator(const QStringList& input, const QString& output, const QString &provider, const QString &product, int quality, int subsampling)
     : input(input)
     , output(output)
+    , provider(provider)
+    , product(product)
     , quality(quality)
     , subsampling(subsampling)
     , tileBuf08Bit(2*TILE_SIZE * TILE_SIZE,0)
@@ -432,6 +436,7 @@ int CFileGenerator::start()
         }
     }
 
+    printf("\n\n");
     for(int i = 0; i < outfiles.size(); i++)
     {
         rmp_file_t& rmp = outfiles[i];
@@ -448,7 +453,14 @@ void CFileGenerator::setupOutFile(double lon1, double lat1, double lon2, double 
     QFileInfo fi(output);
     QDir dir(fi.absolutePath());
 
-    rmp.name = dir.absoluteFilePath(fi.baseName() + QString("_%1").arg(rmp.index) + ".rmp");
+    if(rmp.index != 0)
+    {
+        rmp.name = dir.absoluteFilePath(fi.baseName() + QString("_%1").arg(rmp.index) + ".rmp");
+    }
+    else
+    {
+        rmp.name = dir.absoluteFilePath(fi.baseName() + ".rmp");
+    }
     rmp.levels.resize(infiles.size());
 
     printf("\nsetup file: %s\n", rmp.name.toLocal8Bit().data());
@@ -616,6 +628,8 @@ void CFileGenerator::writeRmp(rmp_file_t& rmp)
     quint64 pos1, pos2;
     quint16 crc;
 
+    QFile::remove(rmp.name);
+
     QFile file(rmp.name);
     if(!file.open(QIODevice::ReadWrite))
     {
@@ -692,10 +706,9 @@ void CFileGenerator::writeCvgMap(QDataStream& stream, rmp_file_t& rmp)
 {
     QString cvg(cvgmap);
     cvg.replace("%name%",QFileInfo(rmp.name).baseName());
-    cvg.replace("%product%","aaa");
-    cvg.replace("%provider%","bbb");
+    cvg.replace("%product%",product);
+    cvg.replace("%provider%",provider);
     cvg.replace("%date%", QDateTime::currentDateTime().toString("dd.MM.yyyy hh:mm:ss"));
-    cvg.replace("\n", "\015\012");
 
     rmp.directory[INDEX_CVGMAP].offset = stream.device()->pos();
     rmp.directory[INDEX_CVGMAP].length = cvg.size();
@@ -718,8 +731,13 @@ void CFileGenerator::writeRmpIni(QDataStream& stream, rmp_file_t& rmp)
 
 void CFileGenerator::writeA00(QDataStream& stream, rmp_file_t& rmp, int i)
 {
+    int w,h, x1, x2, y1, y2;
+    quint32 size;
     rmp_level_t& level  = rmp.levels[i];
     quint64 pos1        = stream.device()->pos();
+
+    quint32 totalWidth  = level.src->xsize;
+    quint32 totalHeight = level.src->ysize;
 
     stream << level.nTiles;
 
@@ -730,19 +748,36 @@ void CFileGenerator::writeA00(QDataStream& stream, rmp_file_t& rmp, int i)
         {
             rmp_tile_t& tile = bigTile.tiles[t];
 
-            int w = tile.x2 - tile.x1;
-            int h = tile.y2 - tile.y1;
+            w = tile.x2 - tile.x1;
+            h = tile.y2 - tile.y1;
             QImage img(w,h,QImage::Format_ARGB32);
-            img.fill(Qt::white);
+            img.fill(QColor(156,168,128));
 
             if(tile.x1 >= 0 && tile.y1 >= 0 && tile.x2 < level.src->xsize && tile.y2 < level.src->ysize)
             {
-                readTile(*level.src, tile.x1, tile.y1, tile.x2 - tile.x1, tile.y2 - tile.y1, (quint32*)img.bits());
+                readTile(*level.src, tile.x1, tile.y1, w, h, (quint32*)img.bits());
+            }
+            else
+            {
+                // oh dear, let's fill the tile with what ever is left over.
+
+                x1 = (tile.x1 < 0) ? 0 : tile.x1;
+                y1 = (tile.y1 < 0) ? 0 : tile.y1;
+                x2 = (tile.x2 > totalWidth)  ? totalWidth  : tile.x2;
+                y2 = (tile.y2 > totalHeight) ? totalHeight : tile.y2;
+
+                w = x2 - x1;
+                h = y2 - y1;
+
+                QImage img1(w,h,QImage::Format_ARGB32);
+                readTile(*level.src, x1, y1, w, h, (quint32*)img1.bits());
+
+                QPainter p(&img);
+                p.drawImage(x1 - tile.x1, y1 - tile.y1, img1);
             }
 
-            img = img.scaled(TILE_SIZE,TILE_SIZE,Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
-
-            quint32 size = writeTile(TILE_SIZE, TILE_SIZE, (quint32*)img.bits(), quality, subsampling);
+            img  = img.scaled(TILE_SIZE,TILE_SIZE,Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
+            size = writeTile(TILE_SIZE, TILE_SIZE, (quint32*)img.bits(), quality, subsampling);
 
             tile.offset = stream.device()->pos() - pos1;
 
@@ -805,8 +840,7 @@ void CFileGenerator::writeTLM(QDataStream& stream, rmp_file_t& rmp, int i)
 
         stream << x << y << quint32(0) << tile.offset;
 
-        qDebug() << (tile.lon1 / tileWidth);
-        qDebug() << tile.lon1 << tile.lat1 << x << y << tileWidth << tileHeight;
+        Q_ASSERT((tile.lon1 / tileWidth) == int(tile.lon1 / tileWidth));
     }
 
     stream.device()->seek(pos + 4 + 2 + 2 + 99*(4 + 4 + 4 + 4));
@@ -844,7 +878,6 @@ void CFileGenerator::writeTLM(QDataStream& stream, rmp_file_t& rmp, int i)
         }
 
     }
-
 
     // --- add two empty blocks ---
     stream.writeRawData(dummy, 1992 * 2);

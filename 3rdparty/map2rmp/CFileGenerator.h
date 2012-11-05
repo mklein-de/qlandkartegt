@@ -31,7 +31,7 @@ class GDALDataset;
 class CFileGenerator
 {
     public:
-        CFileGenerator(const QStringList &input, const QString &output, int quality, int subsampling);
+        CFileGenerator(const QStringList &input, const QString &output, const QString& provider, const QString& product, int quality, int subsampling);
         virtual ~CFileGenerator();
 
         int start();
@@ -145,11 +145,7 @@ class CFileGenerator
         {
             int index;
             QString name;
-            QString product;
-            QString provider;
-
             QVector<rmp_dir_entry_t> directory;
-
             QVector<rmp_level_t> levels;
         };
 
@@ -158,6 +154,8 @@ class CFileGenerator
 
         QStringList input;
         QString output;
+        QString provider;
+        QString product;
         int quality;
         int subsampling;
 
