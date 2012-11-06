@@ -80,6 +80,12 @@ class CFileGenerator
 
         struct rmp_tile_t
         {
+            rmp_tile_t()
+            : x1(0), y1(0), x2(0), y2(0)
+            , lon1(0), lat1(0), lon2(0), lat2(0)
+            , offset(0)
+            {}
+
             int x1;
             int y1;
             int x2;
@@ -94,26 +100,16 @@ class CFileGenerator
 
         };
 
-        struct rmp_big_tile_t
+        struct rmp_tile_container_t
         {
-            file_t * src;
+            rmp_tile_container_t()
+            : src(0)
+            , x1(0), y1(0), x2(0), y2(0)
+            , lon1(0), lat1(0), lon2(0), lat2(0)
+            , nTiles(0)
+            , tiles(99)
+            {}
 
-            int x1;
-            int y1;
-            int x2;
-            int y2;
-
-            double lon1;
-            double lat1;
-            double lon2;
-            double lat2;
-
-            QVector<rmp_tile_t> tiles;
-        };
-
-
-        struct rmp_level_t
-        {
             file_t * src;
 
             int x1;
@@ -127,8 +123,34 @@ class CFileGenerator
             double lat2;
 
             quint32 nTiles;
+            QVector<rmp_tile_t> tiles;
+        };
 
-            QVector<rmp_big_tile_t> bigTiles;
+
+        struct rmp_level_t
+        {
+            rmp_level_t()
+            : src(0)
+            , x1(0), y1(0), x2(0), y2(0)
+            , lon1(0), lat1(0), lon2(0), lat2(0)
+            , nTiles(0)
+            , tileContainers(100)
+            {}
+
+            file_t * src;
+
+            int x1;
+            int y1;
+            int x2;
+            int y2;
+
+            double lon1;
+            double lat1;
+            double lon2;
+            double lat2;
+
+            quint32 nTiles;
+            QVector<rmp_tile_container_t> tileContainers;
         };
 
         struct rmp_dir_entry_t
@@ -172,8 +194,8 @@ class CFileGenerator
         void findBestLevelScale(file_level_t& scale);
 
         void setupOutFile(double lon1, double lat1, double lon2, double lat2, QList<file_t>& infiles, rmp_file_t &rmp);
-        void setupBigTile(int x, int y, rmp_level_t &level, rmp_big_tile_t &bigTile);
-        void setupTile(int x, int y, rmp_big_tile_t &bigTile, rmp_tile_t &tile);
+        //void setupBigTile(int x, int y, rmp_level_t &level, rmp_big_tile_t &bigTile);
+        //void setupTile(int x, int y, rmp_big_tile_t &bigTile, rmp_tile_t &tile);
 
         quint16 crc16(QDataStream& stream, qint32 length);
 
