@@ -19,6 +19,7 @@
 #include "CMapRmp.h"
 #include "CSettings.h"
 #include "CMainWindow.h"
+#include "CCanvas.h"
 
 #include <QtGui>
 
@@ -70,6 +71,7 @@ CMapRmp::CMapRmp(const QString &key, const QString &fn, CCanvas *parent)
     , yref2(90)
     , xscale(1.0)
     , yscale(-1.0)
+    , tileCnt(0)
 
 {
     int i;
@@ -338,6 +340,8 @@ void CMapRmp::readLevel(QDataStream& stream, level_t& level, double& lon1, doubl
     stream >> tmp32 >> tmp32 >> firstBlockOffset; //(tlm.offset + 256 + firstBlockOffset)
     stream.device()->seek(level.tlm.offset + 256 + firstBlockOffset);
 
+    qDebug() << "first block" << hex << quint32(stream.device()->pos());
+
     readTLMNode(stream, level.tlm);
 
     QList<quint32> otherNodes;
@@ -345,6 +349,7 @@ void CMapRmp::readLevel(QDataStream& stream, level_t& level, double& lon1, doubl
     stream >> tmp32;
     if(tmp32)
     {
+        qDebug() << "previous block" << hex << quint32(level.tlm.offset + 256 + tmp32);
         otherNodes << (level.tlm.offset + 256 + tmp32);
     }
 
@@ -353,6 +358,7 @@ void CMapRmp::readLevel(QDataStream& stream, level_t& level, double& lon1, doubl
         stream >> tmp32;
         if(tmp32)
         {
+            qDebug() << "next block" << hex << quint32(level.tlm.offset + 256 + tmp32);
             otherNodes << (level.tlm.offset + 256 + tmp32);
         }
     }
@@ -371,6 +377,9 @@ void CMapRmp::readTLMNode(QDataStream& stream, tlm_t& tlm)
     float tileLeft, tileTop, tileRight, tileBottom;
     quint32 tmp32, tilesSubtree;
     quint16 lastNode;
+
+    tileCnt = 1;
+    blockCnt++;
 
     stream >> tilesSubtree >> node.nTiles >> lastNode;
     //qDebug() << tilesSubtree << node.nTiles << lastNode;
@@ -394,8 +403,11 @@ void CMapRmp::readTLMNode(QDataStream& stream, tlm_t& tlm)
 
         tile.bbox = QRectF(lon, lat, tlm.tileWidth, -tlm.tileHeight);
 
+
         if(i < node.nTiles)
         {
+            tile.t = tileCnt++;
+            tile.b = blockCnt;
             if(tile.bbox.left()   < tileLeft)   tileLeft   = tile.bbox.left();
             if(tile.bbox.top()    > tileTop)    tileTop    = tile.bbox.top();
             if(tile.bbox.right()  > tileRight)  tileRight  = tile.bbox.right();
@@ -718,6 +730,9 @@ void CMapRmp::draw()
                 p.drawImage(u1 + 0.5,v1 + 0.5,img.scaled(u2 - u1  + 0.5, v2 - v1 + 0.5,Qt::IgnoreAspectRatio,Qt::SmoothTransformation));
                 p.setPen(QPen(Qt::black,3));
                 p.drawRect(QRectF(u1,v1,u2-u1,v2-v1));
+
+                CCanvas::drawText(QString("%1/%2").arg(tile.b).arg(tile.t),p,QPoint(u1 + (u2-u1)/2, v1 + (v2-v1)/2));
+
             }
         }
         file.close();

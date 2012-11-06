@@ -26,7 +26,7 @@
 
 class GDALDataset;
 
-#define MAX_ZOOM_LEVEL 18
+#define MAX_ZOOM_LEVEL 17
 
 class CFileGenerator
 {

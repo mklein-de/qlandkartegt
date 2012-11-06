@@ -62,6 +62,8 @@ class CMapRmp : public IMap
 
         struct tile_t
         {
+            int t;
+            int b;
             QRectF bbox;
             quint32 offset;
         };
@@ -190,7 +192,8 @@ class CMapRmp : public IMap
 
         double zoomFactor;
 
-
+        int tileCnt;
+        int blockCnt;
 
 };
 
