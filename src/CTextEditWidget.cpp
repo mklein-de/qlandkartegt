@@ -70,7 +70,7 @@
 #include "CCanvas.h"
 
 #include <QtGui>
-#include <QTextHtmlExporter.h>
+
 
 CTextEditWidget::CTextEditWidget(QWidget * parent)
 : QWidget(parent)

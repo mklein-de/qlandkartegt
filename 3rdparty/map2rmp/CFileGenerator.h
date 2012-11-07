@@ -197,12 +197,7 @@ class CFileGenerator
 
         friend bool qSortInFiles(CFileGenerator::file_t& f1, CFileGenerator::file_t& f2);
 
-        void findBestLevelScale(file_level_t& scale);
-
-        void setupOutFile(double lon1, double lat1, double lon2, double lat2, QList<file_t>& infiles, rmp_file_t &rmp);
-
-        quint16 crc16(QDataStream& stream, qint32 length);
-
+        void setupOutFile(double lon1, double lat1, double lon2, double lat2, QList<file_t>& infiles, rmp_file_t &rmp);       
         void writeRmp(rmp_file_t& rmp);
         void writeDirectory(QDataStream& stream, rmp_file_t& rmp);
         void writeBmp2Bit(QDataStream& stream, rmp_file_t& rmp);
@@ -213,6 +208,8 @@ class CFileGenerator
         void writeTLM(QDataStream& stream, rmp_file_t& rmp, int i);
 
 
+        void findBestLevelScale(file_level_t& scale);
+        quint16 crc16(QDataStream& stream, qint32 length);
         bool readTile(file_t& file, const qint32 xoff, const qint32 yoff, const qint32 w1, const qint32 h1, quint32 *output);
         quint32 writeTile(quint32 xsize, quint32 ysize, quint32 * raw_image, int quality, int subsampling);
 };

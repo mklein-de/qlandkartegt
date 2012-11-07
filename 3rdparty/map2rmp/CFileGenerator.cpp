@@ -338,8 +338,8 @@ int CFileGenerator::start()
         if(file.level.xsize < 2*TILE_SIZE || file.level.ysize < 2*TILE_SIZE)
         {
             fprintf(stderr,"\nfile %s too small. Minimum size is %ix%i pixel.\n", filename.toLocal8Bit().data(),2*TILE_SIZE,2*TILE_SIZE);
-            exit(-1);
-
+            fprintf(stderr,"File is skipped\n");
+            continue;
         }
 
         infiles << file;
@@ -852,7 +852,6 @@ void CFileGenerator::writeTLM(QDataStream& stream, rmp_file_t& rmp, int i)
         rmp_tile_container_t& container = level.tileContainers[c];
         stream.device()->seek(pos1 + 256 + container.offset);
 
-
         stream << quint32(container.nTiles) << quint16(container.nTiles) << quint16(1);
         foreach(const rmp_tile_t& tile, container.tiles)
         {
@@ -866,46 +865,7 @@ void CFileGenerator::writeTLM(QDataStream& stream, rmp_file_t& rmp, int i)
 
             Q_ASSERT((tile.lon1 / tileWidth) == int(tile.lon1 / tileWidth));
         }
-
     }
-
-//    stream.device()->seek(pos + 4 + 2 + 2 + 99*(4 + 4 + 4 + 4));
-
-//    if(level.bigTiles.size() != 1)
-//    {
-//        quint64 pos = stream.device()->pos();
-//        stream.writeRawData(dummy, 400);
-//        stream.device()->seek(pos);
-
-//        for(int i = 1; i < level.bigTiles.size(); i++)
-//        {
-//            stream << quint32(1940 + 1992 + (i - 1) * 1992);
-//        }
-
-
-
-//        for(int i = 1; i < level.bigTiles.size(); i++)
-//        {
-//            rmp_big_tile_t& bigTile = level.bigTiles[i];
-//            stream.device()->seek(pos1 + 256 + 1940 + 1992 + (i - 1) * 1992);
-//            stream << quint32(bigTile.tiles.size()) << quint16(bigTile.tiles.size()) << quint16(1);
-
-//            foreach(const rmp_tile_t& tile, bigTile.tiles)
-//            {
-//                qint32 x, y;
-//                //lon =   x * tlm.tileWidth - 180.0;
-//                x = round((tile.lon1 + 180.0) / tileWidth);
-//                //lat = -(y * tlm.tileHeight - 90.0);
-//                y = round((-tile.lat1 + 90.0) / tileHeight);
-
-//                stream << x << y << quint32(0) << tile.offset;
-
-//                Q_ASSERT((tile.lon1 / tileWidth) == int(tile.lon1 / tileWidth));
-//            }
-
-//        }
-
-//    }
 
     // --- add two empty blocks ---
     stream.writeRawData(dummy, 1992 * 2);

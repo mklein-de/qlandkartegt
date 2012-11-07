@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>589</width>
-    <height>958</height>
+    <width>641</width>
+    <height>989</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -167,6 +167,13 @@
       <widget class="QRadioButton" name="radioRMAP">
        <property name="text">
         <string>TwoNav RMAP</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QRadioButton" name="radioRMP">
+       <property name="text">
+        <string>Magellan RMP</string>
        </property>
       </widget>
      </item>
@@ -343,6 +350,35 @@
            </widget>
           </item>
          </layout>
+        </item>
+       </layout>
+      </widget>
+     </item>
+     <item>
+      <widget class="QGroupBox" name="groupMagellanRmp">
+       <property name="title">
+        <string>Magellan RMP</string>
+       </property>
+       <layout class="QGridLayout" name="gridLayout_4">
+        <item row="0" column="0">
+         <widget class="QLabel" name="label_14">
+          <property name="text">
+           <string>Provider </string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="1">
+         <widget class="QLineEdit" name="lineMagellanProvider"/>
+        </item>
+        <item row="1" column="1">
+         <widget class="QLineEdit" name="lineMagellanProduct"/>
+        </item>
+        <item row="1" column="0">
+         <widget class="QLabel" name="label_15">
+          <property name="text">
+           <string>Product</string>
+          </property>
+         </widget>
         </item>
        </layout>
       </widget>

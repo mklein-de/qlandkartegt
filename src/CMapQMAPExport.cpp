@@ -63,6 +63,7 @@ CMapQMAPExport::CMapQMAPExport(const CMapSelectionRaster& mapsel, QWidget * pare
     connect(radioJNX, SIGNAL(toggled(bool)), this, SLOT(slotBirdsEyeToggled(bool)));
     connect(radioGCM, SIGNAL(toggled(bool)), this, SLOT(slotGCMToggled(bool)));
     connect(radioRMAP, SIGNAL(toggled(bool)), this, SLOT(slotRMAPToggled(bool)));
+    connect(radioRMP, SIGNAL(toggled(bool)), this, SLOT(slotRMPToggled(bool)));
 
     connect(&cmd, SIGNAL(readyReadStandardError()), this, SLOT(slotStderr()));
     connect(&cmd, SIGNAL(readyReadStandardOutput()), this, SLOT(slotStdout()));
@@ -101,6 +102,7 @@ CMapQMAPExport::CMapQMAPExport(const CMapSelectionRaster& mapsel, QWidget * pare
     path_map2gcm        = QCoreApplication::applicationDirPath()+QDir::separator()+"map2gcm.exe";
     path_cache2gtiff    = QCoreApplication::applicationDirPath()+QDir::separator()+"cache2gtiff.exe";
     path_map2rmap       = QCoreApplication::applicationDirPath()+QDir::separator()+"map2rmap.exe";
+    path_map2rmp        = QCoreApplication::applicationDirPath()+QDir::separator()+"map2rmp.exe";
 #else
 #if defined(Q_WS_MAC)
     // MacOS X: applications are stored in the bundle folder
@@ -108,11 +110,13 @@ CMapQMAPExport::CMapQMAPExport(const CMapSelectionRaster& mapsel, QWidget * pare
     path_map2jnx        = QString("%1/Resources/map2jnx").arg(QCoreApplication::applicationDirPath().replace(QRegExp("MacOS$"), ""));
     path_cache2gtiff    = QString("%1/Resources/cache2gtiff").arg(QCoreApplication::applicationDirPath().replace(QRegExp("MacOS$"), ""));
     path_map2rmap       = QString("%1/Resources/map2rmap").arg(QCoreApplication::applicationDirPath().replace(QRegExp("MacOS$"), ""));
+    path_map2rmp        = QString("%1/Resources/map2rmp").arg(QCoreApplication::applicationDirPath().replace(QRegExp("MacOS$"), ""));
 #else
     path_map2gcm        = "map2gcm";
     path_map2jnx        = MAP2JNX;
     path_cache2gtiff    = "cache2gtiff";
     path_map2rmap       = "map2rmap";
+    path_map2rmp        = "map2rmp";
 #endif
     QProcess proc1;
     proc1.start(path_map2jnx, QStringList());
@@ -123,6 +127,7 @@ CMapQMAPExport::CMapQMAPExport(const CMapSelectionRaster& mapsel, QWidget * pare
     groupJPEG->hide();
     groupDevice->hide();
     groupRMAP->hide();
+    groupMagellanRmp->hide();
 
     spinJpegQuality->setValue(cfg.value("map/export/jnx/quality",75).toInt());
     comboJpegSubsampling->setCurrentIndex(comboJpegSubsampling->findText(cfg.value("map/export/jnx/subsampling","411").toString()));
@@ -130,9 +135,13 @@ CMapQMAPExport::CMapQMAPExport(const CMapSelectionRaster& mapsel, QWidget * pare
     lineProductName->setText(cfg.value("map/export/jnx/productname","BirdsEye").toString());
     lineCopyright->setText(cfg.value("map/export/jnx/copyright","None").toString());
 
+    lineMagellanProvider->setText(cfg.value("map/export/rmp/provider", tr("Please enter a string")).toString());
+    lineMagellanProduct->setText(cfg.value("map/export/rmp/product", tr("Please enter a string")).toString());
+
     radioQLM->setChecked(cfg.value("map/export/qlm", true).toBool());
     radioGCM->setChecked(cfg.value("map/export/gcm", false).toBool());
     radioRMAP->setChecked(cfg.value("map/export/rmap", false).toBool());
+    radioRMP->setChecked(cfg.value("map/export/rmp", false).toBool());
 
     if (has_map2jnx)
     {
@@ -202,12 +211,16 @@ CMapQMAPExport::~CMapQMAPExport()
     cfg.setValue("map/export/gcm", radioGCM->isChecked());
     cfg.setValue("map/export/jnx", radioJNX->isChecked());
     cfg.setValue("map/export/rmap", radioRMAP->isChecked());
+    cfg.setValue("map/export/rmp", radioRMP->isChecked());
 
     cfg.setValue("map/export/jnx/quality", spinJpegQuality->value());
     cfg.setValue("map/export/jnx/subsampling", comboJpegSubsampling->currentText());
     cfg.setValue("map/export/jnx/productid", spinProductId->value());
     cfg.setValue("map/export/jnx/productname",lineProductName->text());
     cfg.setValue("map/export/jnx/copyright",lineCopyright->text());
+
+    cfg.setValue("map/export/rmp/provider", lineMagellanProvider->text());
+    cfg.setValue("map/export/rmp/product", lineMagellanProduct->text());
 
     cfg.setValue("map/export/over2x",checkOverview2x->isChecked());
     cfg.setValue("map/export/over4x",checkOverview4x->isChecked());
@@ -243,6 +256,7 @@ void CMapQMAPExport::slotBirdsEyeToggled(bool checked)
     if(checked)
     {
         groupBirdsEye->show();
+        groupMagellanRmp->hide();
         groupJPEG->show();
         groupDevice->show();
         groupOptimization->hide();
@@ -251,6 +265,7 @@ void CMapQMAPExport::slotBirdsEyeToggled(bool checked)
     else
     {
         groupBirdsEye->hide();
+        groupMagellanRmp->hide();
         groupJPEG->hide();
         groupDevice->hide();
         groupOptimization->hide();
@@ -266,6 +281,7 @@ void CMapQMAPExport::slotGCMToggled(bool checked)
     if(checked)
     {
         groupJPEG->show();
+        groupMagellanRmp->hide();
         groupDevice->show();
         labelTileSelection->hide();
         groupOptimization->hide();
@@ -275,6 +291,7 @@ void CMapQMAPExport::slotGCMToggled(bool checked)
     else
     {
         groupJPEG->hide();
+        groupMagellanRmp->hide();
         groupDevice->hide();
         labelTileSelection->show();
         groupOptimization->hide();
@@ -290,6 +307,7 @@ void CMapQMAPExport::slotQLMToggled(bool checked)
     if(checked)
     {
         groupJPEG->hide();
+        groupMagellanRmp->hide();
         groupDevice->hide();
         labelTileSelection->show();
         groupOptimization->show();
@@ -299,6 +317,7 @@ void CMapQMAPExport::slotQLMToggled(bool checked)
     else
     {
         groupJPEG->hide();
+        groupMagellanRmp->hide();
         groupDevice->hide();
         labelTileSelection->show();
         groupOptimization->hide();
@@ -314,6 +333,7 @@ void CMapQMAPExport::slotRMAPToggled(bool checked)
     if(checked)
     {
         groupJPEG->show();
+        groupMagellanRmp->hide();
         groupDevice->hide();
         labelTileSelection->show();
         groupOptimization->hide();
@@ -323,6 +343,7 @@ void CMapQMAPExport::slotRMAPToggled(bool checked)
     else
     {
         groupJPEG->hide();
+        groupMagellanRmp->hide();
         groupDevice->hide();
         labelTileSelection->show();
         groupOptimization->hide();
@@ -332,6 +353,30 @@ void CMapQMAPExport::slotRMAPToggled(bool checked)
     adjustSize();
 }
 
+void CMapQMAPExport::slotRMPToggled(bool checked)
+{
+    if(checked)
+    {
+        groupJPEG->show();
+        groupMagellanRmp->show();
+        groupDevice->hide();
+        labelTileSelection->show();
+        groupOptimization->hide();
+        groupRMAP->hide();
+
+    }
+    else
+    {
+        groupJPEG->hide();
+        groupMagellanRmp->hide();
+        groupDevice->hide();
+        labelTileSelection->show();
+        groupOptimization->hide();
+        groupRMAP->hide();
+    }
+
+    adjustSize();
+}
 
 void CMapQMAPExport::slotStderr()
 {
@@ -674,6 +719,10 @@ void CMapQMAPExport::startExportCommon(QStringList& srcFiles, QDir& tarPath, con
     {
         projection = comboRmapProjection->itemData(comboRmapProjection->currentIndex()).toString();
     }
+    else if(radioRMP->isChecked())
+    {
+        projection = "+init=epsg:4326";
+    }
 
     CMapExportStateReproject * state4 = new CMapExportStateReproject(projection, this);
     foreach(const QString& srcFile, srcFiles)
@@ -795,7 +844,7 @@ void CMapQMAPExport::startExportCommon(QStringList& srcFiles, QDir& tarPath, con
         states << state5;
     }
 
-    if(radioRMAP->isChecked())
+    else if(radioRMAP->isChecked())
     {
         // *********************************************
         // 5. step: add overview levels
@@ -835,6 +884,31 @@ void CMapQMAPExport::startExportCommon(QStringList& srcFiles, QDir& tarPath, con
         states << state6;
 
     }
+    else if(radioRMP->isChecked())
+    {
+        // *********************************************
+        // 5. step: convert Geotiff to Garmin JNX Map
+        // ---------------------------------------------
+        CMapExportStateRMP * state5 = new CMapExportStateRMP(path_map2rmp, this);
+
+        CMapExportStateRMP::job_t job;
+
+        job.jpegQuality = QString::number(spinJpegQuality->value());
+        job.jpegSubSmpl = comboJpegSubsampling->currentText();
+        job.provider    = QString::number(spinProductId->value());
+        job.product     = lineProductName->text();
+
+        foreach(const CMapExportStateReproject::job_t& j, state4->getJobs())
+        {
+            job.srcFile << j.tarFile;
+
+        }
+        job.tarFile     = tarPath.filePath(QString("%1.rmp").arg(prefix));
+
+        state5->addJob(job);
+        states << state5;
+    }
+
 
 }
 
@@ -1463,6 +1537,63 @@ void CMapExportStateRMAP::nextJob(QProcess& cmd)
         QStringList args;
         args << "-q" << job.jpegQuality;
         args << "-s" << job.jpegSubSmpl;
+        args += job.srcFile;
+        args << job.tarFile;
+
+        jobIdx++;
+
+        gui->stdOut(app + " " +  args.join(" ") + "\n");
+        cmd.start(app, args);
+    }
+    else
+    {
+        gui->setNextState();
+    }
+}
+
+// --------------------------------------------------------------------------------------------
+CMapExportStateRMP::CMapExportStateRMP(const QString& app, CMapQMAPExport * parent)
+: IMapExportState(parent)
+
+, app(app)
+{
+
+}
+
+
+CMapExportStateRMP::~CMapExportStateRMP()
+{
+    qDebug() << "~CMapExportStateRMP()";
+
+    foreach(const job_t& job, jobs)
+    {
+        foreach(const QString& file, job.srcFile)
+        {
+            QFile::remove(file);
+        }
+    }
+}
+
+
+void CMapExportStateRMP::explain()
+{
+    gui->stdOut(   "*************************************");
+    gui->stdOut(tr("Create Magellan RMP Map..."), true);
+    gui->stdOut(   "-------------------------------------");
+}
+
+
+void CMapExportStateRMP::nextJob(QProcess& cmd)
+{
+    if(jobIdx < jobs.count())
+    {
+        job_t& job = jobs[jobIdx];
+
+        QStringList args;
+        args << "-q" << job.jpegQuality;
+        args << "-s" << job.jpegSubSmpl;
+        args << "-c" << job.provider;
+        args << "-n" << job.product;
         args += job.srcFile;
         args << job.tarFile;
 
