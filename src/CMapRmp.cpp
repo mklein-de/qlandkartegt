@@ -349,7 +349,7 @@ void CMapRmp::readLevel(QDataStream& stream, level_t& level, double& lon1, doubl
     stream >> tmp32;
     if(tmp32)
     {
-        qDebug() << "previous block" << hex << quint32(level.tlm.offset + 256 + tmp32);
+//        qDebug() << "previous block" << hex << quint32(level.tlm.offset + 256 + tmp32);
         otherNodes << (level.tlm.offset + 256 + tmp32);
     }
 
@@ -358,7 +358,7 @@ void CMapRmp::readLevel(QDataStream& stream, level_t& level, double& lon1, doubl
         stream >> tmp32;
         if(tmp32)
         {
-            qDebug() << "next block" << hex << quint32(level.tlm.offset + 256 + tmp32);
+//            qDebug() << "next block" << hex << quint32(level.tlm.offset + 256 + tmp32);
             otherNodes << (level.tlm.offset + 256 + tmp32);
         }
     }
@@ -728,10 +728,10 @@ void CMapRmp::draw()
                 }
 
                 p.drawImage(u1 + 0.5,v1 + 0.5,img.scaled(u2 - u1  + 0.5, v2 - v1 + 0.5,Qt::IgnoreAspectRatio,Qt::SmoothTransformation));
-                p.setPen(QPen(Qt::black,3));
-                p.drawRect(QRectF(u1,v1,u2-u1,v2-v1));
 
-                CCanvas::drawText(QString("%1/%2").arg(tile.b).arg(tile.t),p,QPoint(u1 + (u2-u1)/2, v1 + (v2-v1)/2));
+//                p.setPen(QPen(Qt::black,3));
+//                p.drawRect(QRectF(u1,v1,u2-u1,v2-v1));
+//                CCanvas::drawText(QString("%1/%2").arg(tile.b).arg(tile.t),p,QPoint(u1 + (u2-u1)/2, v1 + (v2-v1)/2));
 
             }
         }

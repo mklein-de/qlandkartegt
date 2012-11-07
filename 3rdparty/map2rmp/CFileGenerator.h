@@ -106,7 +106,8 @@ class CFileGenerator
             : src(0)
             , x1(0), y1(0), x2(0), y2(0)
             , lon1(0), lat1(0), lon2(0), lat2(0)
-            , nTiles(0)
+            , offset(0)
+            , nTiles(-1)
             , tiles(99)
             {}
 
@@ -122,6 +123,7 @@ class CFileGenerator
             double lon2;
             double lat2;
 
+            quint32 offset;
             quint32 nTiles;
             QVector<rmp_tile_t> tiles;
         };
@@ -134,8 +136,11 @@ class CFileGenerator
             , x1(0), y1(0), x2(0), y2(0)
             , lon1(0), lat1(0), lon2(0), lat2(0)
             , nTiles(0)
+            , nContainer(0)
             , tileContainers(100)
-            {}
+            {
+                tileContainers[0].nTiles = 0;
+            }
 
             file_t * src;
 
@@ -150,6 +155,7 @@ class CFileGenerator
             double lat2;
 
             quint32 nTiles;
+            quint32 nContainer;
             QVector<rmp_tile_container_t> tileContainers;
         };
 
@@ -194,8 +200,6 @@ class CFileGenerator
         void findBestLevelScale(file_level_t& scale);
 
         void setupOutFile(double lon1, double lat1, double lon2, double lat2, QList<file_t>& infiles, rmp_file_t &rmp);
-        //void setupBigTile(int x, int y, rmp_level_t &level, rmp_big_tile_t &bigTile);
-        //void setupTile(int x, int y, rmp_big_tile_t &bigTile, rmp_tile_t &tile);
 
         quint16 crc16(QDataStream& stream, qint32 length);
 
