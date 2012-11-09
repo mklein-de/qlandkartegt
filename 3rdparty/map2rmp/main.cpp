@@ -40,6 +40,7 @@ int main(int argc, char ** argv)
 {
     int quality                 = -1;
     int subsampling             = -1;
+    bool intermediateLevels     = false;
     int skip_next_arg           =  0;
 
     QString provider;
@@ -53,12 +54,13 @@ int main(int argc, char ** argv)
 
     if(argc < 2)
     {
-        fprintf(stderr,"\nusage: map2rpm -c <string> -n <string> -q <1..100> -s <411|422|444>  <file1> <file2> ... <fileN> <outputfile>\n");
+        fprintf(stderr,"\nusage: map2rpm -c <string> -n <string> -q <1..100> -s <411|422|444> -i  <file1> <file2> ... <fileN> <outputfile>\n");
         fprintf(stderr,"\n");
         fprintf(stderr,"  -c    The map provider as string (mandatory)\n");
         fprintf(stderr,"  -n    The map name as string (mandatory)\n");
         fprintf(stderr,"  -q    The JPEG quality from 1 to 100. Default is 75\n");
         fprintf(stderr,"  -s    The chroma subsampling. Default is 411\n");
+        fprintf(stderr,"  -i    Add intermediate levels (optional)\n");
         fprintf(stderr,"\n");
         fprintf(stderr,"NOTE: The projection of all input files must be EPSG4326. You can use GDAL to convert\n");
         fprintf(stderr,"      your files. Use 'gdalinfo <file>' to find out the size in pixel of your file.\n");
@@ -106,6 +108,13 @@ int main(int argc, char ** argv)
                 skip_next_arg = 1;
                 continue;
             }
+            else if (towupper(argv[i][1]) == 'I')
+            {
+                intermediateLevels = true;
+                continue;
+            }
+
+
 
         }
 
@@ -118,7 +127,7 @@ int main(int argc, char ** argv)
         exit(-1);
     }
 
-    CFileGenerator generator(input, argv[argc-1], provider, product, quality, subsampling);
+    CFileGenerator generator(input, argv[argc-1], provider, product, quality, subsampling, intermediateLevels);
     generator.start();
 
     GDALDestroyDriverManager();

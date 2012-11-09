@@ -31,7 +31,7 @@ class GDALDataset;
 class CFileGenerator
 {
     public:
-        CFileGenerator(const QStringList &input, const QString &output, const QString& provider, const QString& product, int quality, int subsampling);
+        CFileGenerator(const QStringList &input, const QString &output, const QString& provider, const QString& product, int quality, int subsampling, bool intermediateLevels);
         virtual ~CFileGenerator();
 
         int start();
@@ -46,6 +46,7 @@ class CFileGenerator
 
         struct file_level_t
         {
+            int z;
             double xscale;
             double yscale;
             int xsize;
@@ -186,6 +187,7 @@ class CFileGenerator
         QString product;
         int quality;
         int subsampling;
+        bool intermediateLevels;
 
         QByteArray tileBuf08Bit;
         QByteArray tileBuf24Bit;

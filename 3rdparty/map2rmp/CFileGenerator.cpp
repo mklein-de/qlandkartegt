@@ -195,15 +195,16 @@ void CFileGenerator::file_t::roundPx2Tile(double& u, double& v)
 }
 
 
-CFileGenerator::CFileGenerator(const QStringList& input, const QString& output, const QString &provider, const QString &product, int quality, int subsampling)
+CFileGenerator::CFileGenerator(const QStringList& input, const QString& output, const QString &provider, const QString &product, int quality, int subsampling, bool intermediateLevels)
     : input(input)
     , output(output)
     , provider(provider)
     , product(product)
     , quality(quality)
     , subsampling(subsampling)
-    , tileBuf08Bit(2*TILE_SIZE * TILE_SIZE,0)
-    , tileBuf24Bit(2*TILE_SIZE * TILE_SIZE * 3,0)
+    , intermediateLevels(intermediateLevels)
+    , tileBuf08Bit(16*TILE_SIZE * TILE_SIZE,0)
+    , tileBuf24Bit(16*TILE_SIZE * TILE_SIZE * 3,0)
     , nTilesTotal(0)
     , nTilesProcessed(0)
 {
@@ -238,7 +239,8 @@ void CFileGenerator::findBestLevelScale(file_level_t &scale)
         }
     }
 
-//    qDebug() << "z" << idx;
+    qDebug() << "z" << idx;
+    scale.z      = idx;
     scale.xscale = scales[idx].xscale;
     scale.yscale = scales[idx].yscale;
 }
@@ -248,6 +250,7 @@ int CFileGenerator::start()
     fprintf(stdout,"analyze input files:\n");
 
     QList<file_t> infiles;
+    QList<file_t> levels;
     QVector<rmp_file_t> outfiles;
 
     OGRSpatialReference oSRS_EPSG4326;
@@ -344,9 +347,59 @@ int CFileGenerator::start()
 
         infiles << file;
     }
-
     qSort(infiles.begin(), infiles.end(), qSortInFiles);
-    foreach(const file_t& file, infiles)
+
+    if(intermediateLevels)
+    {
+        for(int i = 0; i < (infiles.size() - 1); i++)
+        {
+            int idx1 = infiles[i].level.z;
+            int idx2 = infiles[i + 1].level.z;
+
+            file_t f = infiles[i];
+            for(int z = 0; z < (idx1 - idx2); z++)
+            {
+                f.level.xscale = scales[f.level.z].xscale;
+                f.level.yscale = scales[f.level.z].yscale;
+
+                f.level.xsize = round(f.xsize * f.xscale / f.level.xscale);
+                f.level.ysize = round(f.ysize * f.yscale / f.level.yscale);
+
+                if(f.level.xsize < 512 || f.level.ysize < 512)
+                {
+                    break;
+                }
+
+                levels << f;
+                f.level.z--;
+            }
+        }
+
+
+        file_t f = infiles.last();
+        for(int z = 0; z < 3; z++)
+        {
+            f.level.xscale = scales[f.level.z].xscale;
+            f.level.yscale = scales[f.level.z].yscale;
+
+            f.level.xsize = round(f.xsize * f.xscale / f.level.xscale);
+            f.level.ysize = round(f.ysize * f.yscale / f.level.yscale);
+
+            if(f.level.xsize < 512 || f.level.ysize < 512)
+            {
+                break;
+            }
+
+            levels << f;
+            f.level.z--;
+        }
+    }
+    else
+    {
+        levels = infiles;
+    }
+
+    foreach(const file_t& file, levels)
     {
         fprintf(stdout, "\n%s\n", file.name.toLocal8Bit().data());
         fprintf(stdout, "p1 lon/lat:        %1.8f %1.8f\n", file.lon1, file.lat1);
@@ -359,7 +412,7 @@ int CFileGenerator::start()
     }
 
     fprintf(stdout, "\n");
-    file_t& file = infiles.first();
+    file_t& file = levels.first();
 
     // calculate the basic map area
     double lon1 = 0;
@@ -412,7 +465,7 @@ int CFileGenerator::start()
             double lon2 = lon1 + file.level.xscale * TILE_SIZE * N_TILES_X * N_BIG_TILES_X;
             double lat2 = lat1 + file.level.yscale * TILE_SIZE * N_TILES_Y * N_BIG_TILES_Y;
 
-            setupOutFile(lon1, lat1, lon2, lat2, infiles, rmp);
+            setupOutFile(lon1, lat1, lon2, lat2, levels, rmp);
 
             rmp.directory.resize(4 + rmp.levels.size() * 2);
             sprintf(rmp.directory[INDEX_BMP2BIT].name, "bmp2bit");
