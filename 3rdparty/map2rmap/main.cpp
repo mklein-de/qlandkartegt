@@ -107,7 +107,7 @@ int main(int argc, char ** argv)
 
     if(argc < 2)
     {
-        fprintf(stderr,"\nusage: map2rpm -q <1..100> -s <411|422|444> -epsg <number> <file1> <file2> ... <fileN> <outputfile>\n");
+        fprintf(stderr,"\nusage: map2rmap -q <1..100> -s <411|422|444> -epsg <number> <file1> <file2> ... <fileN> <outputfile>\n");
         fprintf(stderr,"\n");
         fprintf(stderr,"  -q    The JPEG quality from 1 to 100. Default is 75\n");
         fprintf(stderr,"  -s    The chroma subsampling. Default is 411\n");

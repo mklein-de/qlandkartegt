@@ -60,6 +60,11 @@ int main(int argc, char ** argv)
         fprintf(stderr,"  -q    The JPEG quality from 1 to 100. Default is 75\n");
         fprintf(stderr,"  -s    The chroma subsampling. Default is 411\n");
         fprintf(stderr,"\n");
+        fprintf(stderr,"NOTE: The projection of all input files must be EPSG4326. You can use GDAL to convert\n");
+        fprintf(stderr,"      your files. Use 'gdalinfo <file>' to find out the size in pixel of your file.\n");
+        fprintf(stderr,"      Use gdalwarp to reproject your file:\n");
+        fprintf(stderr,"\n");
+        fprintf(stderr,"      gdalwarp -t_srs \"+init=epsg:4326\" -ts <width in pixel> <height in pixel> <file> <outputfile>\n");
         fprintf(stderr,"\n");
         exit(-1);
     }
