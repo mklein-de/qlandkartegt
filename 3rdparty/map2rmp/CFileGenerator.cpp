@@ -203,8 +203,8 @@ CFileGenerator::CFileGenerator(const QStringList& input, const QString& output, 
     , quality(quality)
     , subsampling(subsampling)
     , intermediateLevels(intermediateLevels)
-    , tileBuf08Bit(16*TILE_SIZE * TILE_SIZE,0)
-    , tileBuf24Bit(16*TILE_SIZE * TILE_SIZE * 3,0)
+    , tileBuf08Bit(32*TILE_SIZE * TILE_SIZE,0)
+    , tileBuf24Bit(32*TILE_SIZE * TILE_SIZE * 3,0)
     , nTilesTotal(0)
     , nTilesProcessed(0)
 {

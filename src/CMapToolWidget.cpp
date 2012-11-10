@@ -494,7 +494,7 @@ void CMapToolWidget::slotAddDEM()
     SETTINGS;
     path = QDir(cfg.value("path/DEM",path.path()).toString());
 
-    QString filename = QFileDialog::getOpenFileName(0, tr("Select DEM file..."),path.path(), tr("16bit Srtm Data (*.tif *.tiff *.hgt)"), 0, FILE_DIALOG_FLAGS);
+    QString filename = QFileDialog::getOpenFileName(0, tr("Select DEM file..."),path.path(), tr("16bit Srtm Data (*.tif *.tiff *.hgt *.blx)"), 0, FILE_DIALOG_FLAGS);
     if(filename.isEmpty()) return;
 
     QFileInfo fi(filename);

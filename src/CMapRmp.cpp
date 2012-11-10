@@ -106,6 +106,7 @@ CMapRmp::CMapRmp(const QString &key, const QString &fn, CCanvas *parent)
 
     // setup projection
     pjsrc = pj_init_plus("+proj=merc +ellps=WGS84 +datum=WGS84 +units=m +no_defs +towgs84=0,0,0");
+    //pjsrc = pj_init_plus("+init=epsg:4326");
     oSRS.importFromProj4(getProjection());
 
     // setip total boundaries

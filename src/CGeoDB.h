@@ -118,7 +118,7 @@ class CGeoDB : public QWidget, private Ui::IGeoToolWidget
 
         void slotExportProject();
         /// toggle the archive flag for folders
-        void slotArchiveFolder(bool yes);
+        void slotLockFolder(bool yes);
 
     private:
         friend class CGeoDBInternalEditLock;
@@ -254,7 +254,7 @@ class CGeoDB : public QWidget, private Ui::IGeoToolWidget
         QAction * actEditDir;
         QAction * actMoveDir;
         QAction * actCopyDir;
-        QAction * actArchiveDir;
+        QAction * actLockDir;
         QAction * actAddDiary;
         QAction * actShowDiary;
         QAction * actDelDiary;

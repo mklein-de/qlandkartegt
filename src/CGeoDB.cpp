@@ -203,8 +203,8 @@ CGeoDB::CGeoDB(QTabWidget * tb, QWidget * parent)
     actDelDir           = contextMenuFolder->addAction(QPixmap(":/icons/iconDelete16x16.png"),tr("Delete"),this,SLOT(slotDelFolder()));
     actCopyDir          = contextMenuFolder->addAction(QPixmap(":/icons/editcopy.png"), tr("Copy"), this, SLOT(slotCopyFolder()));
     actMoveDir          = contextMenuFolder->addAction(QPixmap(":/icons/iconWptMove16x16.png"), tr("Move"), this, SLOT(slotMoveFolder()));
-    actArchiveDir       = contextMenuFolder->addAction(QPixmap(":/icons/iconArchive16x16.png"), tr("Archive"), this, SLOT(slotArchiveFolder(bool)));
-    actArchiveDir->setCheckable(true);
+    actLockDir          = contextMenuFolder->addAction(QPixmap(":/icons/iconLock16x16.png"), tr("Lock"), this, SLOT(slotLockFolder(bool)));
+    actLockDir->setCheckable(true);
 
     contextMenuItem     = new QMenu(this);
     actCopyItem         = contextMenuItem->addAction(QPixmap(":/icons/editcopy.png"), tr("Copy"), this, SLOT(slotCopyItems()));
@@ -982,7 +982,7 @@ void CGeoDB::queryChildrenFromDB(QTreeWidgetItem * parent, int levels)
 
         if(query2.value(4).toBool())
         {
-            item->setIcon(eCoName, QIcon(":/icons/iconFolderBlueArchive16x16.png"));
+            item->setIcon(eCoName, QIcon(":/icons/iconFolderBlueLock16x16.png"));
         }
         else
         {
@@ -1284,7 +1284,7 @@ void CGeoDB::updateFolderById(quint64 id)
 
             if(query.value(4).toBool())
             {
-                item->setIcon(eCoName, QIcon(":/icons/iconFolderBlueArchive16x16.png"));
+                item->setIcon(eCoName, QIcon(":/icons/iconFolderBlueLock16x16.png"));
             }
             else
             {
@@ -2467,7 +2467,7 @@ void CGeoDB::slotContextMenuDatabase(const QPoint& pos)
             actShowDiary->setVisible(false);
             actDelDiary->setVisible(false);
             actExportProject->setVisible(false);
-            actArchiveDir->setVisible(false);
+            actLockDir->setVisible(false);
 
             if(item == itemDatabase)
             {
@@ -2493,8 +2493,8 @@ void CGeoDB::slotContextMenuDatabase(const QPoint& pos)
 
                     if(query.next())
                     {
-                        actArchiveDir->setVisible(true);
-                        actArchiveDir->setChecked(query.value(0).toBool());
+                        actLockDir->setVisible(true);
+                        actLockDir->setChecked(query.value(0).toBool());
                     }
                 }
 
@@ -2539,7 +2539,6 @@ void CGeoDB::slotContextMenuDatabase(const QPoint& pos)
             contextMenuItem->exec(p);
         }
     }
-
 }
 
 
@@ -3622,7 +3621,7 @@ bool CGeoDB::setProjectDiaryData(quint64 id, CDiary& diary)
     return true;
 }
 
-void CGeoDB::slotArchiveFolder(bool yes)
+void CGeoDB::slotLockFolder(bool yes)
 {
     QTreeWidgetItem * item = treeDatabase->currentItem();
     if(item == 0) return;
