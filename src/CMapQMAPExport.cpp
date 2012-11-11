@@ -72,6 +72,8 @@ CMapQMAPExport::CMapQMAPExport(const CMapSelectionRaster& mapsel, QWidget * pare
     connect(toolGeoTiffProjWizard, SIGNAL(clicked()), this, SLOT(slotSetupProj()));
     connect(toolGeoTiffFromMap, SIGNAL(clicked()), this, SLOT(slotSetupProjFromMap()));
 
+    connect(toolMagellanCopyright, SIGNAL(clicked()), this, SLOT(slotSelectCopyright()));
+
     SETTINGS;
     labelPath->setText(cfg.value("path/export","./").toString());
 
@@ -137,6 +139,8 @@ CMapQMAPExport::CMapQMAPExport(const CMapSelectionRaster& mapsel, QWidget * pare
 
     lineMagellanProvider->setText(cfg.value("map/export/rmp/provider", tr("Please enter a string")).toString());
     lineMagellanProduct->setText(cfg.value("map/export/rmp/product", tr("Please enter a string")).toString());
+    copyright = cfg.value("map/export/rmp/copyright", tr("")).toString();
+    labelMagellanCopyright->setText(QFileInfo(copyright).fileName());
 
     radioQLM->setChecked(cfg.value("map/export/qlm", true).toBool());
     radioGCM->setChecked(cfg.value("map/export/gcm", false).toBool());
@@ -193,6 +197,8 @@ CMapQMAPExport::CMapQMAPExport(const CMapSelectionRaster& mapsel, QWidget * pare
         groupStreaming->show();
     }
 
+
+
     QFont f = font();
     f.setFamily("Mono");
     textBrowser->setFont(f);
@@ -221,6 +227,7 @@ CMapQMAPExport::~CMapQMAPExport()
 
     cfg.setValue("map/export/rmp/provider", lineMagellanProvider->text());
     cfg.setValue("map/export/rmp/product", lineMagellanProduct->text());
+    cfg.setValue("map/export/rmp/copyright", copyright);
 
     cfg.setValue("map/export/over2x",checkOverview2x->isChecked());
     cfg.setValue("map/export/over4x",checkOverview4x->isChecked());
@@ -376,6 +383,19 @@ void CMapQMAPExport::slotRMPToggled(bool checked)
     }
 
     adjustSize();
+}
+
+void CMapQMAPExport::slotSelectCopyright()
+{
+    copyright = QFileDialog::getOpenFileName(0, tr("Select copyright notice..."),"./", tr("text file (*.txt)"), 0, FILE_DIALOG_FLAGS);
+    if(copyright.isEmpty())
+    {
+        labelMagellanCopyright->clear();
+        return;
+    }
+
+    labelMagellanCopyright->setText(QFileInfo(copyright).fileName());
+
 }
 
 void CMapQMAPExport::slotStderr()
@@ -895,8 +915,9 @@ void CMapQMAPExport::startExportCommon(QStringList& srcFiles, QDir& tarPath, con
 
         job.jpegQuality = QString::number(spinJpegQuality->value());
         job.jpegSubSmpl = comboJpegSubsampling->currentText();
-        job.provider    = QString::number(spinProductId->value());
-        job.product     = lineProductName->text();
+        job.provider    = lineMagellanProvider->text();
+        job.product     = lineMagellanProduct->text();
+        job.copyright   = copyright;
 
         foreach(const CMapExportStateReproject::job_t& j, state4->getJobs())
         {
@@ -1592,8 +1613,12 @@ void CMapExportStateRMP::nextJob(QProcess& cmd)
         QStringList args;
         args << "-q" << job.jpegQuality;
         args << "-s" << job.jpegSubSmpl;
-        args << "-c" << job.provider;
+        args << "-p" << job.provider;
         args << "-n" << job.product;
+        if(!job.copyright.isEmpty())
+        {
+            args << "-c" << job.copyright;
+        }
         args += job.srcFile;
         args << job.tarFile;
 

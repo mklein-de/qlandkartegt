@@ -328,6 +328,7 @@ class CMapExportStateRMP : public IMapExportState
             QString jpegSubSmpl;
             QString provider;
             QString product;
+            QString copyright;
             QStringList srcFile;
             QString tarFile;
         };
@@ -375,6 +376,8 @@ class CMapQMAPExport : public QDialog, private Ui::IMapQMAPExport
         void slotSetupProj();
         void slotSetupProjFromMap();
 
+        void slotSelectCopyright();
+
     private:
         void startExportGDAL();
         void startExportStreaming();
@@ -399,5 +402,7 @@ class CMapQMAPExport : public QDialog, private Ui::IMapQMAPExport
         QString output;
 
         int totalNumberOfStates;
+
+        QString copyright;
 };
 #endif                           //CMAPQMAPEXPORT_H

@@ -45,6 +45,7 @@ int main(int argc, char ** argv)
 
     QString provider;
     QString product;
+    QString copyright;
 
 
     QStringList input;
@@ -54,10 +55,11 @@ int main(int argc, char ** argv)
 
     if(argc < 2)
     {
-        fprintf(stderr,"\nusage: map2rpm -c <string> -n <string> -q <1..100> -s <411|422|444> -i  <file1> <file2> ... <fileN> <outputfile>\n");
+        fprintf(stderr,"\nusage: map2rpm -p <string> -n <string> -c <string> -q <1..100> -s <411|422|444> -i  <file1> <file2> ... <fileN> <outputfile>\n");
         fprintf(stderr,"\n");
-        fprintf(stderr,"  -c    The map provider as string (mandatory)\n");
+        fprintf(stderr,"  -p    The map provider as string (mandatory)\n");
         fprintf(stderr,"  -n    The map name as string (mandatory)\n");
+        fprintf(stderr,"  -c    The copyright notice (optional)\n");
         fprintf(stderr,"  -q    The JPEG quality from 1 to 100. Default is 75\n");
         fprintf(stderr,"  -s    The chroma subsampling. Default is 411\n");
         fprintf(stderr,"  -i    Add intermediate levels (optional)\n");
@@ -96,9 +98,15 @@ int main(int argc, char ** argv)
                 skip_next_arg = 1;
                 continue;
             }
-            else if (towupper(argv[i][1]) == 'C')
+            else if (towupper(argv[i][1]) == 'P')
             {
                 provider = get_argv(i + 1, argv);
+                skip_next_arg = 1;
+                continue;
+            }
+            else if (towupper(argv[i][1]) == 'C')
+            {
+                copyright = get_argv(i + 1, argv);
                 skip_next_arg = 1;
                 continue;
             }
@@ -127,7 +135,7 @@ int main(int argc, char ** argv)
         exit(-1);
     }
 
-    CFileGenerator generator(input, argv[argc-1], provider, product, quality, subsampling, intermediateLevels);
+    CFileGenerator generator(input, argv[argc-1], provider, product, copyright, quality, subsampling, intermediateLevels);
     generator.start();
 
     GDALDestroyDriverManager();

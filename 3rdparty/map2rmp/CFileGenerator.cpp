@@ -117,6 +117,7 @@ static const char * cvgmap =
 "REGION_ID = -1\015\012"
 "MAP_TYPE = TNDB_RASTER_MAP\015\012"
 "ADDITIONAL_COMMENTS = Created with map2rmp\015\012"
+"%copyright%"
 ;
 
 /// this code is from the GDAL project
@@ -195,11 +196,12 @@ void CFileGenerator::file_t::roundPx2Tile(double& u, double& v)
 }
 
 
-CFileGenerator::CFileGenerator(const QStringList& input, const QString& output, const QString &provider, const QString &product, int quality, int subsampling, bool intermediateLevels)
+CFileGenerator::CFileGenerator(const QStringList& input, const QString& output, const QString &provider, const QString &product, const QString& copyright, int quality, int subsampling, bool intermediateLevels)
     : input(input)
     , output(output)
     , provider(provider)
     , product(product)
+    , copyright(copyright)
     , quality(quality)
     , subsampling(subsampling)
     , intermediateLevels(intermediateLevels)
@@ -239,7 +241,7 @@ void CFileGenerator::findBestLevelScale(file_level_t &scale)
         }
     }
 
-    qDebug() << "z" << idx;
+//    qDebug() << "z" << idx;
     scale.z      = idx;
     scale.xscale = scales[idx].xscale;
     scale.yscale = scales[idx].yscale;
@@ -486,6 +488,14 @@ int CFileGenerator::start()
                 sprintf(rmp.directory[INDEX_OFFSET_TLM + i * 2].name, "%s%i", name.toLocal8Bit().data(), i);
                 sprintf(rmp.directory[INDEX_OFFSET_TLM + i * 2].ext, "tlm");
             }
+
+            if(!copyright.isEmpty())
+            {
+                rmp_dir_entry_t e;
+                sprintf(e.name, "cprt_txt");
+                sprintf(e.ext,"txt");
+                rmp.directory << e;
+            }
         }
     }
 
@@ -702,6 +712,11 @@ void CFileGenerator::writeRmp(rmp_file_t& rmp)
         writeTLM(stream,rmp, i);
     }
 
+    if(!copyright.isEmpty())
+    {
+        writeCopyright(stream, rmp);
+    }
+
     stream.writeRawData(magic, 9);
     // calc crc
     pos2 = stream.device()->pos();
@@ -757,9 +772,34 @@ void CFileGenerator::writeCvgMap(QDataStream& stream, rmp_file_t& rmp)
     cvg.replace("%provider%",provider);
     cvg.replace("%date%", QDateTime::currentDateTime().toString("dd.MM.yyyy hh:mm:ss"));
 
+    if(copyright.isEmpty())
+    {
+        cvg.replace("%copyright%","");
+    }
+    else
+    {
+        cvg.replace("%copyright%","COPY_RIGHT_LOCATION=cprt_txt.txt");
+    }
+
     rmp.directory[INDEX_CVGMAP].offset = stream.device()->pos();
     rmp.directory[INDEX_CVGMAP].length = cvg.size();
     stream.writeRawData(cvg.toLocal8Bit(), cvg.size());
+}
+
+void CFileGenerator::writeCopyright(QDataStream& stream, rmp_file_t& rmp)
+{
+    QFile f(copyright);
+    if(!f.open(QIODevice::ReadOnly))
+    {
+        fprintf(stderr,"Failed to open copyright notice: %s\n", copyright.toLocal8Bit().data());
+        exit(-1);
+    }
+
+    QString str = f.readAll();
+
+    rmp.directory.last().offset = stream.device()->pos();
+    rmp.directory.last().length = str.size();
+    stream.writeRawData(str.toLocal8Bit(), str.size());
 }
 
 void CFileGenerator::writeRmpIni(QDataStream& stream, rmp_file_t& rmp)

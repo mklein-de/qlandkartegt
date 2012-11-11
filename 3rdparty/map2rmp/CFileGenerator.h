@@ -31,7 +31,7 @@ class GDALDataset;
 class CFileGenerator
 {
     public:
-        CFileGenerator(const QStringList &input, const QString &output, const QString& provider, const QString& product, int quality, int subsampling, bool intermediateLevels);
+        CFileGenerator(const QStringList &input, const QString &output, const QString& provider, const QString& product, const QString& copyright, int quality, int subsampling, bool intermediateLevels);
         virtual ~CFileGenerator();
 
         int start();
@@ -185,6 +185,7 @@ class CFileGenerator
         QString output;
         QString provider;
         QString product;
+        QString copyright;
         int quality;
         int subsampling;
         bool intermediateLevels;
@@ -199,12 +200,13 @@ class CFileGenerator
 
         friend bool qSortInFiles(CFileGenerator::file_t& f1, CFileGenerator::file_t& f2);
 
-        void setupOutFile(double lon1, double lat1, double lon2, double lat2, QList<file_t>& infiles, rmp_file_t &rmp);       
+        void setupOutFile(double lon1, double lat1, double lon2, double lat2, QList<file_t>& infiles, rmp_file_t &rmp);
         void writeRmp(rmp_file_t& rmp);
         void writeDirectory(QDataStream& stream, rmp_file_t& rmp);
         void writeBmp2Bit(QDataStream& stream, rmp_file_t& rmp);
         void writeBmp4Bit(QDataStream& stream, rmp_file_t& rmp);
         void writeCvgMap(QDataStream& stream, rmp_file_t& rmp);
+        void writeCopyright(QDataStream& stream, rmp_file_t& rmp);
         void writeRmpIni(QDataStream& stream, rmp_file_t& rmp);
         void writeA00(QDataStream& stream, rmp_file_t& rmp, int i);
         void writeTLM(QDataStream& stream, rmp_file_t& rmp, int i);
