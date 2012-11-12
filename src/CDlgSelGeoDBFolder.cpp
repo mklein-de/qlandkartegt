@@ -87,7 +87,7 @@ void CDlgSelGeoDBFolder::queryChildrenFromDB(QTreeWidgetItem * parent)
         quint64 childId = query.value(0).toULongLong();
 
         QSqlQuery query2(db);
-        query2.prepare("SELECT icon, name, comment, type, archived FROM folders WHERE id = :id");
+        query2.prepare("SELECT icon, name, comment, type, locked FROM folders WHERE id = :id");
         query2.bindValue(":id", childId);
         if(!query2.exec())
         {

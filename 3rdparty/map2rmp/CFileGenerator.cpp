@@ -799,7 +799,7 @@ void CFileGenerator::writeCopyright(QDataStream& stream, rmp_file_t& rmp)
 
     rmp.directory.last().offset = stream.device()->pos();
     rmp.directory.last().length = str.size();
-    stream.writeRawData(str.toLocal8Bit(), str.size());
+    stream.writeRawData(str.toAscii(), str.size());
 }
 
 void CFileGenerator::writeRmpIni(QDataStream& stream, rmp_file_t& rmp)
