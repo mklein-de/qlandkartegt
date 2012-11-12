@@ -51,6 +51,7 @@ class CTrackFilterWidget : public QWidget, private Ui::ITrackFilterWidget
         void slotAddFilterSplit2();
         void slotAddFilterSplit3();
         void slotAddFilterSplit4();
+        void slotAddFilterSplit5();
         void slotAddFilterReset();
         void slotAddFilterDelete();
         void slotAddReplaceElevation();
@@ -72,6 +73,7 @@ class CTrackFilterWidget : public QWidget, private Ui::ITrackFilterWidget
         void slotSplit2Now();
         void slotSplit3Now();
         void slotSplit4Now();
+        void slotSplit5Now();
 
     private:
         void saveFilterList(const QString& filename);
@@ -88,6 +90,7 @@ class CTrackFilterWidget : public QWidget, private Ui::ITrackFilterWidget
         bool filterSplit3Stages(QDataStream &args, QList<CTrack *> &tracks);
         bool filterSplit4Tracks(QDataStream &args, QList<CTrack *> &tracks);
         bool filterSplit4Stages(QDataStream &args, QList<CTrack *> &tracks);
+        bool filterSplit5Tracks(QDataStream &args, QList<CTrack *> &tracks);
         bool filterReset(QDataStream &args, QList<CTrack *> &tracks);
         bool filterDelete(QDataStream &args, QList<CTrack *> &tracks);
         bool filterReplaceElevation(QDataStream &args, QList<CTrack *> &tracks);
@@ -104,10 +107,24 @@ class CTrackFilterWidget : public QWidget, private Ui::ITrackFilterWidget
         void readGuiSplit2(QByteArray& args, double &val);
         void readGuiSplit3(QByteArray& args, double &val);
         void readGuiSplit4(QByteArray& args, double &val);
+        void readGuiSplit5(QByteArray& args);
 
         void postProcessTrack();
 
-        enum filterType_e {eHidePoints1, eSmoothProfile1, eSplit1, eSplit2, eSplit3, eSplit4, eReset, eDelete, eReplaceElevation, eHidePoints2, eOffsetElevation};
+        enum filterType_e {
+            eHidePoints1
+            , eSmoothProfile1
+            , eSplit1
+            , eSplit2
+            , eSplit3
+            , eSplit4
+            , eReset
+            , eDelete
+            , eReplaceElevation
+            , eHidePoints2
+            , eOffsetElevation
+            , eSplit5};
+
         enum replaceEleType_e {eLocal, eRemote};
 
         QPointer<CTrackEditWidget> trackEditWidget;

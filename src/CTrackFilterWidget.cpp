@@ -73,6 +73,7 @@ CTrackFilterWidget::CTrackFilterWidget(QWidget *parent)
     connect(toolSplit2Now, SIGNAL(clicked()), this, SLOT(slotSplit2Now()));
     connect(toolSplit3Now, SIGNAL(clicked()), this, SLOT(slotSplit3Now()));
     connect(toolSplit4Now, SIGNAL(clicked()), this, SLOT(slotSplit4Now()));
+    connect(toolSplit5Now, SIGNAL(clicked()), this, SLOT(slotSplit5Now()));
 
     // ----------- read in GUI configuration -----------
     SETTINGS;
@@ -498,13 +499,27 @@ void CTrackFilterWidget::slotAddFilterSplit4()
     addFilter(name, ":/icons/editcut.png", args);
 }
 
-
 void CTrackFilterWidget::readGuiSplit4(QByteArray& args, double& val)
 {
     QDataStream stream(&args, QIODevice::WriteOnly);
 
     val = spinSplit4->value();
     stream << quint32(eSplit4) << val;
+}
+
+void CTrackFilterWidget::slotAddFilterSplit5()
+{
+    QByteArray args;
+
+    readGuiSplit5(args);
+    QString name = groupSplit5->title();
+    addFilter(name, ":/icons/editcut.png", args);
+}
+
+void CTrackFilterWidget::readGuiSplit5(QByteArray& args)
+{
+    QDataStream stream(&args, QIODevice::WriteOnly);
+    stream << quint32(eSplit5);
 }
 
 
@@ -864,6 +879,25 @@ void CTrackFilterWidget::slotSplit4Now()
     postProcessTrack();
 }
 
+void CTrackFilterWidget::slotSplit5Now()
+{
+    if(track.isNull()) return;
+
+    quint32 type;
+    QByteArray args;
+    readGuiSplit5(args);
+
+    QDataStream stream(&args, QIODevice::ReadOnly);
+    stream >> type;
+
+    QList<CTrack*> tracks;
+    tracks << track;
+
+    filterSplit5Tracks(stream, tracks);
+
+    postProcessTrack();
+}
+
 
 void CTrackFilterWidget::slotSaveFilter()
 {
@@ -1074,7 +1108,6 @@ bool CTrackFilterWidget::filterHidePoints1(QDataStream& args, QList<CTrack*>& tr
             {
                 p1 = p2;
                 progress.setValue(i);
-                qApp->processEvents();
                 if(deltaAzimuth >= minAzimuthDelta)
                 {
                     lastAzimuth = trkpt->azimuth;
@@ -1135,12 +1168,10 @@ bool CTrackFilterWidget::filterHidePoints2(QDataStream& args, QList<CTrack*>& tr
         pj_free(pjtar);
 
         progress.setValue(prog++);
-        qApp->processEvents();
 
         GPS_Math_DouglasPeucker(line, d);
 
         progress.setValue(prog++);
-        qApp->processEvents();
 
         // now read back the the "used" flags
         idx = 0;
@@ -1165,7 +1196,7 @@ bool CTrackFilterWidget::filterHidePoints2(QDataStream& args, QList<CTrack*>& tr
             return true;
         }
         progress.setValue(prog++);
-        qApp->processEvents();
+
     }
 
     return false;
@@ -1221,7 +1252,6 @@ bool CTrackFilterWidget::filterSplit1Stages(QDataStream &args, QList<CTrack *> &
         foreach(const CTrack::pt_t& trkpt, trkpts)
         {
             progress.setValue(totalCnt++);
-            qApp->processEvents();
 
             if(++trkptCnt >= chunk)
             {
@@ -1268,7 +1298,6 @@ bool CTrackFilterWidget::filterSplit1Tracks(QDataStream &args, QList<CTrack *> &
         foreach(const CTrack::pt_t& trkpt, trkpts)
         {
             progress.setValue(totalCnt++);
-            qApp->processEvents();
 
             *newTrack << trkpt;
             if(++trkptCnt >= chunk)
@@ -1309,14 +1338,13 @@ bool CTrackFilterWidget::filterSplit2Stages(QDataStream &args, QList<CTrack *> &
         int trkCnt      = 1;
         int chunk       = val;
 
-        QProgressDialog progress(groupSplit1->title(), tr("Abort filter"), 0, npts, this);
-        progress.setWindowTitle(groupSplit1->title());
+        QProgressDialog progress(groupSplit2->title(), tr("Abort filter"), 0, npts, this);
+        progress.setWindowTitle(groupSplit2->title());
         progress.setWindowModality(Qt::WindowModal);
 
         foreach(const CTrack::pt_t& trkpt, trkpts)
         {
             progress.setValue(totalCnt++);
-            qApp->processEvents();
 
             if(++trkptCnt >= chunk)
             {
@@ -1362,7 +1390,6 @@ bool CTrackFilterWidget::filterSplit2Tracks(QDataStream &args, QList<CTrack *> &
         foreach(const CTrack::pt_t& trkpt, trkpts)
         {
             progress.setValue(totalCnt++);
-            qApp->processEvents();
 
             *newTrack << trkpt;
             if(++trkptCnt >= chunk)
@@ -1403,14 +1430,13 @@ bool CTrackFilterWidget::filterSplit3Stages(QDataStream &args, QList<CTrack *> &
         int trkCnt      = 1;
         double offset   = 0;
 
-        QProgressDialog progress(groupSplit1->title(), tr("Abort filter"), 0, npts, this);
-        progress.setWindowTitle(groupSplit1->title());
+        QProgressDialog progress(groupSplit3->title(), tr("Abort filter"), 0, npts, this);
+        progress.setWindowTitle(groupSplit3->title());
         progress.setWindowModality(Qt::WindowModal);
 
         foreach(const CTrack::pt_t& trkpt, trkpts)
         {
             progress.setValue(totalCnt++);
-            qApp->processEvents();
 
             if((trkpt.distance - offset) >= val)
             {
@@ -1443,8 +1469,8 @@ bool CTrackFilterWidget::filterSplit3Tracks(QDataStream &args, QList<CTrack *> &
         int trkCnt      = 1;
         double offset   = 0;
 
-        QProgressDialog progress(groupSplit2->title(), tr("Abort filter"), 0, npts, this);
-        progress.setWindowTitle(groupSplit2->title());
+        QProgressDialog progress(groupSplit3->title(), tr("Abort filter"), 0, npts, this);
+        progress.setWindowTitle(groupSplit3->title());
         progress.setWindowModality(Qt::WindowModal);
 
         CTrack * newTrack = new CTrack(&CTrackDB::self());
@@ -1455,7 +1481,6 @@ bool CTrackFilterWidget::filterSplit3Tracks(QDataStream &args, QList<CTrack *> &
         foreach(const CTrack::pt_t& trkpt, trkpts)
         {
             progress.setValue(totalCnt++);
-            qApp->processEvents();
 
             *newTrack << trkpt;
             if((trkpt.distance - offset) >= val)
@@ -1497,14 +1522,13 @@ bool CTrackFilterWidget::filterSplit4Stages(QDataStream &args, QList<CTrack *> &
         int trkCnt      = 1;
         double offset   = 0;
 
-        QProgressDialog progress(groupSplit1->title(), tr("Abort filter"), 0, npts, this);
-        progress.setWindowTitle(groupSplit1->title());
+        QProgressDialog progress(groupSplit4->title(), tr("Abort filter"), 0, npts, this);
+        progress.setWindowTitle(groupSplit4->title());
         progress.setWindowModality(Qt::WindowModal);
 
         foreach(const CTrack::pt_t& trkpt, trkpts)
         {
             progress.setValue(totalCnt++);
-            qApp->processEvents();
 
             if((trkpt.ascend - offset) >= val)
             {
@@ -1537,8 +1561,8 @@ bool CTrackFilterWidget::filterSplit4Tracks(QDataStream &args, QList<CTrack *> &
         int trkCnt      = 1;
         double offset   = 0;
 
-        QProgressDialog progress(groupSplit2->title(), tr("Abort filter"), 0, npts, this);
-        progress.setWindowTitle(groupSplit2->title());
+        QProgressDialog progress(groupSplit4->title(), tr("Abort filter"), 0, npts, this);
+        progress.setWindowTitle(groupSplit4->title());
         progress.setWindowModality(Qt::WindowModal);
 
         CTrack * newTrack = new CTrack(&CTrackDB::self());
@@ -1549,7 +1573,6 @@ bool CTrackFilterWidget::filterSplit4Tracks(QDataStream &args, QList<CTrack *> &
         foreach(const CTrack::pt_t& trkpt, trkpts)
         {
             progress.setValue(totalCnt++);
-            qApp->processEvents();
 
             *newTrack << trkpt;
             if((trkpt.ascend - offset) >= val)
@@ -1576,6 +1599,64 @@ bool CTrackFilterWidget::filterSplit4Tracks(QDataStream &args, QList<CTrack *> &
     return false;
 }
 
+bool CTrackFilterWidget::filterSplit5Tracks(QDataStream &args, QList<CTrack *> &tracks)
+{
+    QList<CTrack *> newTracks;
+
+    foreach(CTrack * trk, tracks)
+    {
+        const QList<CTrack::wpt_t>& wpts = trk->getStageWaypoints();
+        if(wpts.isEmpty())
+        {
+            continue;
+        }
+
+        QList<CTrack::pt_t>& trkpts = trk->getTrackPoints();
+        int npts        = trkpts.count();
+        int totalCnt    = 0;
+        int trkCnt      = 1;
+
+        QProgressDialog progress(groupSplit5->title(), tr("Abort filter"), 0, npts, this);
+        progress.setWindowTitle(groupSplit5->title());
+        progress.setWindowModality(Qt::WindowModal);
+
+
+        CTrack * newTrack = new CTrack(&CTrackDB::self());
+        newTrack->setName(trk->getName() + QString("_%1").arg(trkCnt++));
+        newTrack->setColor(trk->getColorIdx());
+        newTracks << newTrack;
+
+        QList<CTrack::wpt_t>::const_iterator wpt = wpts.begin();
+        foreach(const CTrack::pt_t& trkpt, trkpts)
+        {
+            progress.setValue(totalCnt++);
+
+            *newTrack << trkpt;
+
+            if(trkpt == wpt->trkpt)
+            {
+                wpt++;
+
+                CTrackDB::self().addTrack(newTrack, true);
+                newTrack = new CTrack(&CTrackDB::self());
+                newTrack->setName(trk->getName() + QString("_%1").arg(trkCnt++));
+                newTrack->setColor(trk->getColorIdx());
+
+                newTracks << newTrack;
+            }
+
+            if(progress.wasCanceled())
+            {
+                return true;
+            }
+
+        }
+        CTrackDB::self().addTrack(newTrack, true);
+    }
+
+    tracks = newTracks;
+    return false;
+}
 
 bool CTrackFilterWidget::filterReset(QDataStream &args, QList<CTrack *> &tracks)
 {

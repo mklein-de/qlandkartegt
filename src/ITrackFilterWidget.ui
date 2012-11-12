@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1068</width>
-    <height>504</height>
+    <height>605</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -151,8 +151,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>784</width>
-            <height>459</height>
+            <width>778</width>
+            <height>554</height>
            </rect>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -477,8 +477,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>784</width>
-            <height>459</height>
+            <width>460</width>
+            <height>352</height>
            </rect>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_8">
@@ -763,8 +763,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>776</width>
-            <height>424</height>
+            <width>760</width>
+            <height>503</height>
            </rect>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_5">
@@ -1130,6 +1130,57 @@
             </widget>
            </item>
            <item>
+            <widget class="QGroupBox" name="groupSplit5">
+             <property name="title">
+              <string>Split at stages</string>
+             </property>
+             <layout class="QHBoxLayout" name="horizontalLayout_10">
+              <item>
+               <widget class="QToolButton" name="toolSplit5Now">
+                <property name="text">
+                 <string>...</string>
+                </property>
+                <property name="icon">
+                 <iconset resource="resources.qrc">
+                  <normaloff>:/icons/toolswizard.png</normaloff>:/icons/toolswizard.png</iconset>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QToolButton" name="toolAddSplit5">
+                <property name="text">
+                 <string>...</string>
+                </property>
+                <property name="icon">
+                 <iconset resource="resources.qrc">
+                  <normaloff>:/icons/iconAdd16x16.png</normaloff>:/icons/iconAdd16x16.png</iconset>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="label_17">
+                <property name="text">
+                 <string>Split track at stages waypoints</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <spacer name="horizontalSpacer_15">
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>40</width>
+                  <height>20</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+             </layout>
+            </widget>
+           </item>
+           <item>
             <spacer name="verticalSpacer_3">
              <property name="orientation">
               <enum>Qt::Vertical</enum>
@@ -1204,8 +1255,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>776</width>
-            <height>451</height>
+            <width>542</width>
+            <height>326</height>
            </rect>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_9">
