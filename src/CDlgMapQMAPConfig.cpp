@@ -28,23 +28,23 @@
 #endif
 
 const QString CDlgMapQMAPConfig::text =  QObject::tr(""
-"<!DOCTYPE HTML PUBLIC '-//W3C//DTD HTML 4.01 Transitional//EN'  'http://www.w3.org/TR/html4/loose.dtd'>"
-"<html>"
-"   <head>"
-"       <title></title>"
-"       <META HTTP-EQUIV='CACHE-CONTROL' CONTENT='NO-CACHE'>"
-"       <meta http-equiv='Content-Type' content='text/html; charset=utf-8'>"
-"       <style type='text/css'>"
-"           p, li { white-space: pre-wrap; }"
-"           td {padding-top: 10px;}"
-"           th {background-color: lightBlue;}"
-"       </style>"
-"   </head>"
-"   <body style=' font-family:'Sans'; font-size:9pt; font-weight:400; font-style:normal;'>"
-"       <p>${info}</p>"
-"   </body>"
-"</html>"
-"");
+                                                     "<!DOCTYPE HTML PUBLIC '-//W3C//DTD HTML 4.01 Transitional//EN'  'http://www.w3.org/TR/html4/loose.dtd'>"
+                                                     "<html>"
+                                                     "   <head>"
+                                                     "       <title></title>"
+                                                     "       <META HTTP-EQUIV='CACHE-CONTROL' CONTENT='NO-CACHE'>"
+                                                     "       <meta http-equiv='Content-Type' content='text/html; charset=utf-8'>"
+                                                     "       <style type='text/css'>"
+                                                     "           p, li { white-space: pre-wrap;}"
+                                                     "           td {padding-top: 3px;}"
+                                                     "           th {background-color: darkBlue; color: white;}"
+                                                     "       </style>"
+                                                     "   </head>"
+                                                     "   <body style=' font-family: sans-serif; font-size: 9pt; font-weight:400; font-style:normal;'>"
+                                                     "       <p>${info}</p>"
+                                                     "   </body>"
+                                                     "</html>"
+                                                     "");
 
 CDlgMapQMAPConfig::CDlgMapQMAPConfig(CMapQMAP * map)
 : map(map)

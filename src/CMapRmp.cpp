@@ -20,6 +20,7 @@
 #include "CSettings.h"
 #include "CMainWindow.h"
 #include "CCanvas.h"
+#include "CDlgMapRMPConfig.h"
 
 #include <QtGui>
 
@@ -85,6 +86,7 @@ CMapRmp::CMapRmp(const QString &key, const QString &fn, CCanvas *parent)
     filename = fn;
     QFileInfo fi(fn);
     name = fi.baseName();
+
     readFile(filename, "", "");
 
     // find submaps in same directory
@@ -163,8 +165,11 @@ void CMapRmp::readFile(const QString& filename, const QString &provider, const Q
     qint32 tmp32;
     quint64 offset;
     QByteArray buffer(30,0);
+    QString tmpInfo;
 
     qDebug() << "++++++++" << filename << "++++++++";
+
+    tmpInfo  += "<h1>" + QFileInfo(filename).baseName() + "</h1>";
 
     QFile file(filename);
     if(!file.open(QIODevice::ReadOnly))
@@ -195,7 +200,8 @@ void CMapRmp::readFile(const QString& filename, const QString &provider, const Q
 
     mapFile.filename = filename;
     readDirectory(stream, mapFile);
-    readCVGMap(stream, mapFile);
+    readCVGMap(stream, mapFile, tmpInfo);
+    readCopyright(stream, mapFile, tmpInfo);
 
     // test for secondary maps
     if(files.size() > 1)
@@ -213,6 +219,8 @@ void CMapRmp::readFile(const QString& filename, const QString &provider, const Q
             return;
         }
     }
+
+    info += tmpInfo;
 
     // read all information about the levels
     for(int i = 0; i < mapFile.levels.count(); i++)
@@ -274,7 +282,7 @@ void CMapRmp::readDirectory(QDataStream& stream, file_t& file)
 
 }
 
-void CMapRmp::readCVGMap(QDataStream& stream, file_t& file)
+void CMapRmp::readCVGMap(QDataStream& stream, file_t& file, QString& tmpInfo)
 {
     foreach(const dir_entry_t& entry, file.directory)
     {
@@ -286,6 +294,8 @@ void CMapRmp::readCVGMap(QDataStream& stream, file_t& file)
             stream.readRawData(buffer.data(), buffer.size());
             QStringList tokens = QString(buffer).split("\015\012");
             QRegExp re("(.*)\\s*=\\s*(.*)");
+
+            tmpInfo += "<p><table>";
 
             foreach(const QString& token, tokens)
             {
@@ -302,9 +312,32 @@ void CMapRmp::readCVGMap(QDataStream& stream, file_t& file)
                     {
                         file.provider = val;
                     }
+
+                    tmpInfo += "<tr>";
+                    tmpInfo += "<td>" + tok + "</td>";
+                    tmpInfo += "<td>" + val + "</td>";
+                    tmpInfo += "</tr>";
                 }
             }
+
+            tmpInfo += "</table></p>";
             return;
+        }
+    }
+}
+
+void CMapRmp::readCopyright(QDataStream& stream, file_t &file, QString &tmpInfo)
+{
+    foreach(const dir_entry_t& entry, file.directory)
+    {
+        if(entry.name == "cprt_txt" && entry.extension == "txt")
+        {
+            QByteArray buffer(entry.length, 0);
+
+            stream.device()->seek(entry.offset);
+            stream.readRawData(buffer.data(), buffer.size());
+
+            tmpInfo += "<p>" + QString(buffer) + "</p>";
         }
     }
 }
@@ -738,4 +771,12 @@ void CMapRmp::draw()
         }
         file.close();
     }
+}
+
+void CMapRmp::config()
+{
+
+    CDlgMapRMPConfig * dlg = new CDlgMapRMPConfig(this);
+    dlg->show();
+
 }

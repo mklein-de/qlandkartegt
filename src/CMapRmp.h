@@ -44,9 +44,13 @@ class CMapRmp : public IMap
 
         void draw(QPainter& p);
 
+        const QString& getMapInfo(){return info;}
+
+        void config();
 
     private:
         QString name;
+        QString info;
 
         struct dir_entry_t
         {
@@ -159,7 +163,8 @@ class CMapRmp : public IMap
         void draw();
         void readFile(const QString& filename, const QString& provider, const QString& product);
         void readDirectory(QDataStream& stream, file_t& file);
-        void readCVGMap(QDataStream& stream, file_t &file);
+        void readCVGMap(QDataStream& stream, file_t &file, QString &tmpInfo);
+        void readCopyright(QDataStream& stream, file_t &file, QString &tmpInfo);
         void readLevel(QDataStream& stream, level_t& level, double &lon1, double &lat1, double &lon2, double &lat2);
         void readTLMNode(QDataStream& stream, tlm_t& tlm);
         int zlevel2idx(quint32 zl, const file_t &file);
@@ -194,6 +199,7 @@ class CMapRmp : public IMap
 
         int tileCnt;
         int blockCnt;
+
 
 };
 

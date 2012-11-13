@@ -1,24 +1,28 @@
 /**********************************************************************************************
-    Copyright (C) 2009 Oliver Eichler oliver.eichler@gmx.de
 
-    This program is free software; you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation; either version 2 of the License, or
-    (at your option) any later version.
+  DSP Solutions GmbH & Co. KG
+  http://www.dspsolutions.de/  
 
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+  Author:      Oliver Eichler
+  Email:       oliver.eichler@dspsolutions.de
+  Phone:       +49-941-83055-1
+  Fax:         +49-941-83055-79
 
-    You should have received a copy of the GNU General Public License
-    along with this program; if not, write to the Free Software
-    Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
+  File:        CDlgMapRMPConfig.cpp
+
+  Module:      
+
+  Description:
+
+  Created:     11/13/2012
+
+  (C) 2012 DSP Solutions. All rights reserved.
+
 
 **********************************************************************************************/
 
-#include "CDlgMapJNXConfig.h"
-#include "CMapJnx.h"
+#include "CDlgMapRMPConfig.h"
+#include "CMapRmp.h"
 
 #include <QtGui>
 
@@ -27,7 +31,8 @@
 #include <pwd.h>
 #endif
 
-const QString CDlgMapJNXConfig::text =  QObject::tr(""
+
+const QString CDlgMapRMPConfig::text =  QObject::tr(""
                                                     "<!DOCTYPE HTML PUBLIC '-//W3C//DTD HTML 4.01 Transitional//EN'  'http://www.w3.org/TR/html4/loose.dtd'>"
                                                     "<html>"
                                                     "   <head>"
@@ -46,8 +51,8 @@ const QString CDlgMapJNXConfig::text =  QObject::tr(""
                                                     "</html>"
                                                     "");
 
-CDlgMapJNXConfig::CDlgMapJNXConfig(CMapJnx * map)
-: map(map)
+
+CDlgMapRMPConfig::CDlgMapRMPConfig(CMapRmp *map)
 {
     setupUi(this);
 
@@ -86,15 +91,8 @@ CDlgMapJNXConfig::CDlgMapJNXConfig(CMapJnx * map)
     connect(this, SIGNAL(rejected()), SLOT(deleteLater()));
 }
 
-
-CDlgMapJNXConfig::~CDlgMapJNXConfig()
+CDlgMapRMPConfig::~CDlgMapRMPConfig()
 {
 
 }
 
-
-void CDlgMapJNXConfig::accept()
-{
-
-    QDialog::accept();
-}
