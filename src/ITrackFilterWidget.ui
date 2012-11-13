@@ -151,8 +151,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>778</width>
-            <height>554</height>
+            <width>784</width>
+            <height>560</height>
            </rect>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -477,8 +477,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>460</width>
-            <height>352</height>
+            <width>784</width>
+            <height>560</height>
            </rect>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_8">
@@ -763,8 +763,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>760</width>
-            <height>503</height>
+            <width>776</width>
+            <height>525</height>
            </rect>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_5">
@@ -1160,7 +1160,7 @@
               <item>
                <widget class="QLabel" name="label_17">
                 <property name="text">
-                 <string>Split track at stages waypoints</string>
+                 <string>Split track at stage waypoints</string>
                 </property>
                </widget>
               </item>
@@ -1255,8 +1255,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>542</width>
-            <height>326</height>
+            <width>776</width>
+            <height>552</height>
            </rect>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_9">

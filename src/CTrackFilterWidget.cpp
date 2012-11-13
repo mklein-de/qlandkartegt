@@ -57,6 +57,7 @@ CTrackFilterWidget::CTrackFilterWidget(QWidget *parent)
     connect(toolAddSplit2, SIGNAL(clicked()), this, SLOT(slotAddFilterSplit2()));
     connect(toolAddSplit3, SIGNAL(clicked()), this, SLOT(slotAddFilterSplit3()));
     connect(toolAddSplit4, SIGNAL(clicked()), this, SLOT(slotAddFilterSplit4()));
+    connect(toolAddSplit5, SIGNAL(clicked()), this, SLOT(slotAddFilterSplit5()));
     connect(toolReset, SIGNAL(clicked()), this, SLOT(slotAddFilterReset()));
     connect(toolDelete, SIGNAL(clicked()), this, SLOT(slotAddFilterDelete()));
     connect(toolAddReplaceEle, SIGNAL(clicked()), this, SLOT(slotAddReplaceElevation()));
