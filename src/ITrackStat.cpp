@@ -75,12 +75,12 @@ void ITrackStat::slotActivePoint(double dist)
 
         if(type == eOverDistance && dist < trkpt->distance)
         {
-            track->setPointOfFocus(idx, true, true);
+            track->setPointOfFocus(idx, CTrack::e3Way, true);
             break;
         }
         if(type == eOverTime && dist < trkpt->timestamp)
         {
-            track->setPointOfFocus(idx, true, true);
+            track->setPointOfFocus(idx, CTrack::e3Way, true);
             break;
         }
         idx = trkpt->idx;

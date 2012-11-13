@@ -566,6 +566,10 @@ void CTrackEditWidget::slotUpdate()
     CFDateFormatterSetFormat(df, CFSTR("EEE MMM d HH:mm:ss yyyy"));
 #endif
 
+    treePoints->setUpdatesEnabled(false);
+    treePoints->blockSignals(true);
+    treePoints->model()->blockSignals(true);
+
     while(trkpt != trkpts.end())
     {
         CTrackTreeWidgetItem * item;
@@ -599,9 +603,9 @@ void CTrackEditWidget::slotUpdate()
         {
             //item->setFlags((item->flags() & ~Qt::ItemIsEnabled) | Qt::ItemIsTristate);
 #ifdef GPX_EXTENSIONS
-            for(i = 0; i < eMaxColumn+num_of_ext; ++i)
+            for(i = 0; i < (eMaxColumn + num_of_ext); ++i)
 #else
-                for(i = 0; i < eMaxColumn; ++i)
+            for(i = 0; i < eMaxColumn; ++i)
 #endif
             {
                 item->setForeground(i,QBrush(Qt::gray));
@@ -611,9 +615,9 @@ void CTrackEditWidget::slotUpdate()
         {
             //item->setFlags(item->flags() | Qt::ItemIsEnabled | Qt::ItemIsTristate);
 #ifdef GPX_EXTENSIONS
-            for(i = 0; i < eMaxColumn+num_of_ext; ++i)
+            for(i = 0; i < (eMaxColumn + num_of_ext); ++i)
 #else
-                for(i = 0; i < eMaxColumn; ++i)
+            for(i = 0; i < eMaxColumn; ++i)
 #endif
             {
                 item->setForeground(i,QBrush(Qt::black));
@@ -629,12 +633,16 @@ void CTrackEditWidget::slotUpdate()
         if(trkpt->flags & CTrack::pt_t::eSelected)
         {
             if ( !item->isSelected() )
+            {
                 item->setSelected(true);
+            }
         }
         else
         {
             if ( item->isSelected() )
+            {
                 item->setSelected(false);
+            }
         }
 
         // point number
@@ -744,6 +752,10 @@ void CTrackEditWidget::slotUpdate()
         ++trkpt;
     }
 
+    treePoints->model()->blockSignals(false);
+    treePoints->blockSignals(false);
+    treePoints->setUpdatesEnabled(true);
+
     // adjust column sizes to fit
     treePoints->header()->setResizeMode(0,QHeaderView::Interactive);
 
@@ -795,7 +807,7 @@ void CTrackEditWidget::slotPointSelection(QTreeWidgetItem * item)
     if(track.isNull()) return;
 
     originator = true;
-    track->setPointOfFocus(item->data(0,Qt::UserRole).toInt(), false, true);
+    track->setPointOfFocus(item->data(0,Qt::UserRole).toInt(), CTrack::eNoErase, true);
     originator = false;
 }
 

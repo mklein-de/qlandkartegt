@@ -631,6 +631,7 @@ CTrack::CTrack(QObject * parent)
 , visiblePointCount(0)
 , cntMedianFilterApplied(0)
 , replaceOrigData(true)
+, stateSelect(e1stSel)
 {
     ref = 1;
 
@@ -1049,30 +1050,95 @@ void CTrack::rebuild(bool reindex)
 }
 
 
-void CTrack::setPointOfFocus(int idx, bool eraseSelection, bool moveMap)
+void CTrack::setPointOfFocus(int idx, type_select_e typeSelect, bool moveMap)
 {
     // reset previous selections
     QList<CTrack::pt_t>& trkpts           = track;
     QList<CTrack::pt_t>::iterator trkpt   = trkpts.begin();
-    while(trkpt != trkpts.end())
+
+    if(typeSelect == e3Way)
     {
-        trkpt->flags &= ~CTrack::pt_t::eFocus;
-        if(eraseSelection)
+        switch(stateSelect)
         {
-            trkpt->flags &= ~CTrack::pt_t::eSelected;
+            case eNoSel:
+                while(trkpt != trkpts.end())
+                {
+                    trkpt->flags &= ~CTrack::pt_t::eFocus;
+                    trkpt->flags &= ~CTrack::pt_t::eSelected;
+                    ++trkpt;
+                }
+                stateSelect = e1stSel;
+                break;
+
+            case e1stSel:
+                while(trkpt != trkpts.end())
+                {
+                    trkpt->flags &= ~CTrack::pt_t::eFocus;
+                    trkpt->flags &= ~CTrack::pt_t::eSelected;
+                    ++trkpt;
+                }
+
+                if(idx < track.count())
+                {
+                    trkpts[idx].flags |= CTrack::pt_t::eFocus;
+                    trkpts[idx].flags |= CTrack::pt_t::eSelected;
+                }
+                stateSelect = e2ndSel;
+                break;
+
+            case e2ndSel:
+                while(trkpt != trkpts.end())
+                {
+                    if(trkpt->flags & CTrack::pt_t::eFocus)
+                    {
+                        break;
+                    }
+                    ++trkpt;
+                }
+
+                while(trkpt != trkpts.end())
+                {
+                    if(!(trkpt->flags & CTrack::pt_t::eDeleted))
+                    {
+                        trkpt->flags |= CTrack::pt_t::eSelected;
+                    }
+
+                    if(trkpt->idx == idx)
+                    {
+                        trkpt->flags |= CTrack::pt_t::eFocus;
+                        break;
+                    }
+                    ++trkpt;
+                }
+                stateSelect = eNoSel;
+                break;
         }
-        ++trkpt;
     }
-    if(idx < track.count())
+    else
     {
-        trkpts[idx].flags |= CTrack::pt_t::eFocus;
-        trkpts[idx].flags |= CTrack::pt_t::eSelected;
-
-        if(moveMap)
+        // erase all flags
+        while(trkpt != trkpts.end())
         {
-            theMainWindow->getCanvas()->move(trkpts[idx].lon, trkpts[idx].lat);
+            trkpt->flags &= ~CTrack::pt_t::eFocus;
+            if(typeSelect == eErase)
+            {
+                trkpt->flags &= ~CTrack::pt_t::eSelected;
+            }
+            ++trkpt;
         }
 
+        // set flags for selected point
+        if(idx < track.count())
+        {
+            trkpts[idx].flags |= CTrack::pt_t::eFocus;
+            trkpts[idx].flags |= CTrack::pt_t::eSelected;
+        }
+    }
+
+    // move map to point under focus
+    if(moveMap && idx < track.count())
+    {
+        theMainWindow->getCanvas()->move(trkpts[idx].lon, trkpts[idx].lat);
     }
     emit sigChanged();
 }

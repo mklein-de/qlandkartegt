@@ -73,6 +73,7 @@ class CTrack : public IItem
         virtual ~CTrack();
         int ref;
         enum type_e {eEnd,eBase,eTrkPts,eTrain,eTrkExt1,eTrkGpxExt,eTrkShdw, eTrkShdw2};
+        enum type_select_e{eErase, eNoErase, e3Way};
 
 #ifdef GPX_EXTENSIONS
         CGpxExtTr tr_ext;        //TODO: CGpxExtPt -> tr_ext
@@ -215,7 +216,7 @@ class CTrack : public IItem
         /// get the total time while moving around
         quint32 getTotalTimeMoving() const {return totalTimeMoving;}
         /// select tarckpoint by index
-        void setPointOfFocus(int idx, bool eraseSelection, bool moveMap);
+        void setPointOfFocus(int idx, type_select_e typeSelect, bool moveMap);
         /// set point of focus to a point with a given distance from start
         pt_t * getPointOfFocus(double dist);
         ///
@@ -344,6 +345,9 @@ class CTrack : public IItem
         QList<wpt_t> waypoints;
 
         bool replaceOrigData;
+
+        enum state_select_e {eNoSel, e1stSel, e2ndSel};
+        state_select_e stateSelect;
 
 };
 
