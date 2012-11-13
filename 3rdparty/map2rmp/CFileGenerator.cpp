@@ -23,6 +23,14 @@
 #include <gdal_priv.h>
 #include <ogr_spatialref.h>
 
+#ifndef _MKSTR_1
+#define _MKSTR_1(x)         #x
+#define _MKSTR(x)           _MKSTR_1(x)
+#endif
+
+#define VER_STR             _MKSTR(VER_MAJOR)"."_MKSTR(VER_MINOR)"."_MKSTR(VER_STEP)
+
+
 extern "C"
 {
     #include <jpeglib.h>
@@ -116,7 +124,7 @@ static const char * cvgmap =
 "VENDOR_ID = -1\015\012"
 "REGION_ID = -1\015\012"
 "MAP_TYPE = TNDB_RASTER_MAP\015\012"
-"ADDITIONAL_COMMENTS = Created with map2rmp\015\012"
+"ADDITIONAL_COMMENTS = Created with map2rmp %my_version%\015\012"
 "%copyright%"
 ;
 
@@ -771,6 +779,7 @@ void CFileGenerator::writeCvgMap(QDataStream& stream, rmp_file_t& rmp)
     cvg.replace("%product%",product);
     cvg.replace("%provider%",provider);
     cvg.replace("%date%", QDateTime::currentDateTime().toString("dd.MM.yyyy hh:mm:ss"));
+    cvg.replace("%my_version%", VER_STR);
 
     if(copyright.isEmpty())
     {

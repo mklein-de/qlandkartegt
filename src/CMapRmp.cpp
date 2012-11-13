@@ -313,10 +313,13 @@ void CMapRmp::readCVGMap(QDataStream& stream, file_t& file, QString& tmpInfo)
                         file.provider = val;
                     }
 
-                    tmpInfo += "<tr>";
-                    tmpInfo += "<td>" + tok + "</td>";
-                    tmpInfo += "<td>" + val + "</td>";
-                    tmpInfo += "</tr>";
+                    if(!val.isEmpty())
+                    {
+                        tmpInfo += "<tr>";
+                        tmpInfo += "<td>" + tok + "</td>";
+                        tmpInfo += "<td>" + val + "</td>";
+                        tmpInfo += "</tr>";
+                    }
                 }
             }
 
