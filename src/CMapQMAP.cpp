@@ -60,7 +60,6 @@ CMapQMAP::CMapQMAP(const QString& key, const QString& fn, CCanvas * parent)
     quadraticZoom = mapdef.value("main/quadraticZoom",quadraticZoom).toBool();
     info += "<p>" + tr("Quadratic zoom %1").arg(quadraticZoom ? tr("enabled") : tr("disabled")) + "</p>";
     info += QString("<p><table><tr><th>%1</th><th>%2</th><th width='100%'>%3</th></tr>").arg(tr("Map Level")).arg(tr("Zoom Level")).arg(tr("Files"));
-
     // create map level list
     CMapLevel * maplevel = 0;
     for(int n=1; n <= nLevels; ++n)
@@ -88,13 +87,13 @@ CMapQMAP::CMapQMAP(const QString& key, const QString& fn, CCanvas * parent)
     }
     info += "</table></p>";
 
-    info += QString("<p><table><tr><th>%1</th><th width='100%'>%2</th></tr>").arg(tr("Parameter")).arg(tr("Value"));
 
     QString strTopLeft      = mapdef.value("description/topleft").toString();
     QString strBottomRight  = mapdef.value("description/bottomright").toString();
 
-    info += QString("<tr><td>%1</td><td>%2</td></tr>").arg(tr("Top/Left")).arg(strTopLeft.replace("\260","&#176;"));
-    info += QString("<tr><td>%1</td><td>%2</td></tr>").arg(tr("Bottom/Right")).arg(strBottomRight.replace("\260","&#176;"));
+    info += QString("<p><table>");
+    info += QString("<tr><td style='background-color: blue; color: white;'>%1</td><td>%2</td></tr>").arg(tr("Top/Left")).arg(strTopLeft.replace("\260","&#176;"));
+    info += QString("<tr><td style='background-color: blue; color: white;'>%1</td><td>%2</td></tr>").arg(tr("Bottom/Right")).arg(strBottomRight.replace("\260","&#176;"));
 
     if(!maplevels.isEmpty())
     {
@@ -115,10 +114,10 @@ CMapQMAP::CMapQMAP(const QString& key, const QString& fn, CCanvas * parent)
         p2.v = v2 * DEG_TO_RAD;
         height  = distance(p1,p2,a1,a2)/1000;
 
-        info += QString("<tr><td>%1</td><td>%2 km&#178; (%3 km x %4 km)</td></tr>").arg(tr("Area")).arg(width*height,0,'f',1).arg(width,0,'f',1).arg(height,0,'f',1);
+        info += QString("<tr><td style='background-color: blue; color: white;'>%1</td><td>%2 km&#178; (%3 km x %4 km)</td></tr>").arg(tr("Area")).arg(width*height,0,'f',1).arg(width,0,'f',1).arg(height,0,'f',1);
         if(maplevels[0]->begin() != maplevels[0]->end())
         {
-            info += QString("<tr><td>%1</td><td>%2</td></tr>").arg(tr("Projection")).arg((*maplevels[0]->begin())->strProj);
+            info += QString("<tr><td style='background-color: blue; color: white;'>%1</td><td>%2</td></tr>").arg(tr("Projection")).arg((*maplevels[0]->begin())->strProj);
         }
     }
 

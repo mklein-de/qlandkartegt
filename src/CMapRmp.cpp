@@ -316,7 +316,7 @@ void CMapRmp::readCVGMap(QDataStream& stream, file_t& file, QString& tmpInfo)
                     if(!val.isEmpty())
                     {
                         tmpInfo += "<tr>";
-                        tmpInfo += "<td>" + tok + "</td>";
+                        tmpInfo += "<td style='background-color: blue; color: white;'>" + tok + "</td>";
                         tmpInfo += "<td>" + val + "</td>";
                         tmpInfo += "</tr>";
                     }

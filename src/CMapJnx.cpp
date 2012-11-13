@@ -227,10 +227,10 @@ void CMapJnx::readFile(const QString& fn, qint32& productId)
     GPS_Math_Deg_To_Str(mapFile.lon1, mapFile.lat1, strTopLeft);
     GPS_Math_Deg_To_Str(mapFile.lon2, mapFile.lat2, strBottomRight);
 
-    info += QString("<p><table><tr><th>%1</th><th width='100%'>%2</th></tr>").arg(tr("Parameter")).arg(tr("Value"));
-    info += QString("<tr><td>%1</td><td>%2</td></tr>").arg(tr("Product ID")).arg(hdr.productId);
-    info += QString("<tr><td>%1</td><td>%2</td></tr>").arg(tr("Top/Left")).arg(strTopLeft.replace("\260","&#176;"));
-    info += QString("<tr><td>%1</td><td>%2</td></tr>").arg(tr("Bottom/Right")).arg(strBottomRight.replace("\260","&#176;"));
+    info += QString("<p><table>");
+    info += QString("<tr><td style='background-color: blue; color: white;'>%1</td><td>%2</td></tr>").arg(tr("Product ID")).arg(hdr.productId);
+    info += QString("<tr><td style='background-color: blue; color: white;'>%1</td><td>%2</td></tr>").arg(tr("Top/Left")).arg(strTopLeft.replace("\260","&#176;"));
+    info += QString("<tr><td style='background-color: blue; color: white;'>%1</td><td>%2</td></tr>").arg(tr("Bottom/Right")).arg(strBottomRight.replace("\260","&#176;"));
 
     {
         projXY p1, p2;
@@ -250,9 +250,9 @@ void CMapJnx::readFile(const QString& fn, qint32& productId)
         p2.v = v2 * DEG_TO_RAD;
         height  = distance(p1,p2,a1,a2)/1000;
 
-        info += QString("<tr><td>%1</td><td>%2 km&#178; (%3 km x %4 km)</td></tr>").arg(tr("Area")).arg(width*height,0,'f',1).arg(width,0,'f',1).arg(height,0,'f',1);
-        info += QString("<tr><td>%1</td><td>%2</td></tr>").arg(tr("Projection")).arg("+proj=merc +lon_0=0 +k=1 +x_0=0 +y_0=0 +ellps=WGS84 +datum=WGS84 +units=m +no_defs +towgs84=0,0,0");
-        info += QString("<tr><td>%1</td><td>%2</td></tr>").arg(tr("Z-Order")).arg(hdr.zorder);
+        info += QString("<tr><td style='background-color: blue; color: white;'>%1</td><td>%2 km&#178; (%3 km x %4 km)</td></tr>").arg(tr("Area")).arg(width*height,0,'f',1).arg(width,0,'f',1).arg(height,0,'f',1);
+        info += QString("<tr><td style='background-color: blue; color: white;'>%1</td><td>%2</td></tr>").arg(tr("Projection")).arg("+proj=merc +lon_0=0 +k=1 +x_0=0 +y_0=0 +ellps=WGS84 +datum=WGS84 +units=m +no_defs +towgs84=0,0,0");
+        info += QString("<tr><td style='background-color: blue; color: white;'>%1</td><td>%2</td></tr>").arg(tr("Z-Order")).arg(hdr.zorder);
     }
 
     info += "</table></p>";
