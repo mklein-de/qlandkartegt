@@ -868,9 +868,13 @@ void CPlot::drawData(QPainter& p)
         p.setPen(Qt::NoPen);
         p.setBrush(QColor(255,0,0,150));
         p.drawPolygon(background);
+
+        p.setPen(QPen(Qt::darkRed,5));
+        p.drawPolyline(background.mid(1,line.size()));
         p.restore();
     }
 
+    if(m_pData->focus.size() < 2)
     {
         QPolygonF& marks                = m_pData->marks.points;
         QPolygonF::const_iterator point = marks.begin();
@@ -888,17 +892,14 @@ void CPlot::drawData(QPainter& p)
         }
     }
 
-    if(!m_pData->focus.isEmpty())
+    foreach(const QPointF& point, m_pData->focus)
     {
-        foreach(const QPointF& point, m_pData->focus)
-        {
-            p.setPen(QPen(Qt::red,2));
-            ptx = left   + xaxis.val2pt( point.x() );
-            pty = bottom - yaxis.val2pt( point.y() );
+        p.setPen(QPen(Qt::red,2));
+        ptx = left   + xaxis.val2pt( point.x() );
+        pty = bottom - yaxis.val2pt( point.y() );
 
-            p.drawLine(rectGraphArea.left(),pty,rectGraphArea.right(),pty);
-            p.drawLine(ptx,rectGraphArea.top(),ptx,rectGraphArea.bottom());
-        }
+        p.drawLine(rectGraphArea.left(),pty,rectGraphArea.right(),pty);
+        p.drawLine(ptx,rectGraphArea.top(),ptx,rectGraphArea.bottom());
     }
 }
 
