@@ -84,7 +84,7 @@ void CTrackStatSpeedWidget::slotChanged()
 
     QPolygonF lineSpeed;
     QPolygonF marksSpeed;
-    QPointF   focusSpeed;
+    QList<QPointF> focusSpeed;
 
     QPolygonF lineAvgSpeed;
 
@@ -116,7 +116,7 @@ void CTrackStatSpeedWidget::slotChanged()
 
         if(trkpt0->flags & CTrack::pt_t::eFocus)
         {
-            focusSpeed = QPointF(type == eOverDistance ? trkpt0->distance : (double)trkpt0->timestamp, trkpt0->speed * speedfactor);
+            focusSpeed << QPointF(type == eOverDistance ? trkpt0->distance : (double)trkpt0->timestamp, trkpt0->speed * speedfactor);
         }
 
         ++trkpt0;

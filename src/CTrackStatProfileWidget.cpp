@@ -88,7 +88,7 @@ void CTrackStatProfileWidget::slotChanged()
 
     QPolygonF lineElev;
     QPolygonF marksElev;
-    QPointF   focusElev;
+    QList<QPointF> focusElev;
 
     float basefactor = IUnit::self().basefactor;
 
@@ -125,7 +125,7 @@ void CTrackStatProfileWidget::slotChanged()
 
         if(trkpt->flags & CTrack::pt_t::eFocus)
         {
-            focusElev  = QPointF(type == eOverDistance ? trkpt->distance : (double)trkpt->timestamp, trkpt->ele * basefactor);
+            focusElev  << QPointF(type == eOverDistance ? trkpt->distance : (double)trkpt->timestamp, trkpt->ele * basefactor);
         }
 
         ++trkpt;

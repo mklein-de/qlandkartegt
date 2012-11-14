@@ -1095,6 +1095,7 @@ void CTrack::setPointOfFocus(int idx, type_select_e typeSelect, bool moveMap)
                     ++trkpt;
                 }
 
+                int inc = (trkpt->idx < idx) ? +1 : -1;
                 while(trkpt != track.end())
                 {
                     if(!(trkpt->flags & CTrack::pt_t::eDeleted))
@@ -1107,7 +1108,7 @@ void CTrack::setPointOfFocus(int idx, type_select_e typeSelect, bool moveMap)
                         trkpt->flags |= CTrack::pt_t::eFocus;
                         break;
                     }
-                    ++trkpt;
+                    trkpt += inc;
                 }
                 stateSelect = eNoSel;
                 break;

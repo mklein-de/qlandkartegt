@@ -780,7 +780,7 @@ void CDiaryEdit::getTrackProfile(CTrack * track, QImage& image)
     plot.clear();
 
     QPolygonF lineElev;
-    QPointF   focusElev;
+    QList<QPointF> focusElev;
     float basefactor = IUnit::self().basefactor;
 
     QList<CTrack::pt_t>& trkpts = track->getTrackPoints();
@@ -811,35 +811,6 @@ void CDiaryEdit::getTrackProfile(CTrack * track, QImage& image)
 }
 
 
-//static QString toPlainText(const QTextTableCell& cell)
-//{
-//    QString str;
-//    for (QTextFrame::iterator frm = cell.begin(); frm != cell.end(); ++frm)
-//    {
-//        const QTextBlock& blk = frm.currentBlock();
-//        for(QTextBlock::iterator frgm = blk.begin(); frgm != blk.end(); ++frgm)
-//        {
-//            str += frgm.fragment().text() + "\n";
-//        }
-//    }
-
-//    return str;
-//}
-
-//static QString toPlainText(const QTextFrame& frame)
-//{
-//    QString str;
-//    for (QTextFrame::iterator frm = frame.begin(); frm != frame.end(); ++frm)
-//    {
-//        const QTextBlock& blk = frm.currentBlock();
-//        for(QTextBlock::iterator frgm = blk.begin(); frgm != blk.end(); ++frgm)
-//        {
-//            str += frgm.fragment().text() + "\n";
-//        }
-//    }
-
-//    return str;
-//}
 
 void CDiaryEdit::collectData()
 {

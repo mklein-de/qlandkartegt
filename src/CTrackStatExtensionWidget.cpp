@@ -62,7 +62,7 @@ void CTrackStatExtensionWidget::slotChanged()
 
     QPolygonF lineExt;
     QPolygonF marksExt;
-    QPointF   focusExt;
+    QList<QPointF> focusExt;
     double val = 0;
 
     QList<CTrack::pt_t>& trkpts = track->getTrackPoints();
@@ -96,7 +96,7 @@ void CTrackStatExtensionWidget::slotChanged()
 
         if(trkpt->flags & CTrack::pt_t::eFocus)
         {
-            focusExt = QPointF((double)trkpt->timestamp, val);
+            focusExt << QPointF((double)trkpt->timestamp, val);
         }
 
         ++trkpt;

@@ -70,7 +70,7 @@ class CPlotData : public QObject
             QString label;
         };
 
-        point_t point1;
+        QList<QPointF> focus;
 
         /// vector of plot tags such as waypoints
         QVector<point_t> tags;

@@ -137,8 +137,7 @@ void CPlot::setLimits()
     m_pData->setLimits();
 }
 
-
-void CPlot::newLine(const QPolygonF& line, const QPointF& focus, const QString& label)
+void CPlot::newLine(const QPolygonF& line, const QList<QPointF>& focus, const QString& label)
 {
     m_pData->lines.clear();
 
@@ -153,12 +152,47 @@ void CPlot::newLine(const QPolygonF& line, const QPointF& focus, const QString& 
     l.points    = line;
     l.label     = label;
 
-    m_pData->point1.point = focus;
+    m_pData->focus = focus;
     m_pData->badData = false;
     m_pData->lines << l;
     setSizes();
     m_pData->x().setScale( rectGraphArea.width() );
     m_pData->y().setScale( rectGraphArea.height() );
+
+
+    if(m_pData->focus.size() > 0)
+    {
+        int idx = 0;
+        double x1 = m_pData->focus.first().x();
+        QPolygonF& line = m_pData->lines[0].points;
+
+        idxHighlight1 = -1;
+        idxHighlight2 = -1;
+
+        foreach(const QPointF& point, line)
+        {
+            if(idxHighlight1 < 0 && x1 <= point.x())
+            {
+                idxHighlight1 = idx;
+            }
+            idx++;
+        }
+    }
+
+    if(m_pData->focus.size() > 1)
+    {
+        int idx = 0;
+        double x2 = m_pData->focus.last().x();
+        QPolygonF& line = m_pData->lines[0].points;
+        foreach(const QPointF& point, line)
+        {
+            if(idxHighlight2 < 0 && x2 <= point.x())
+            {
+                idxHighlight2 = idx;
+            }
+            idx++;
+        }
+    }
 
     needsRedraw = true;
     update();
@@ -854,14 +888,17 @@ void CPlot::drawData(QPainter& p)
         }
     }
 
-    if(!m_pData->point1.point.isNull())
+    if(!m_pData->focus.isEmpty())
     {
-        p.setPen(QPen(Qt::red,2));
-        ptx = left   + xaxis.val2pt( m_pData->point1.point.x() );
-        pty = bottom - yaxis.val2pt( m_pData->point1.point.y() );
+        foreach(const QPointF& point, m_pData->focus)
+        {
+            p.setPen(QPen(Qt::red,2));
+            ptx = left   + xaxis.val2pt( point.x() );
+            pty = bottom - yaxis.val2pt( point.y() );
 
-        p.drawLine(rectGraphArea.left(),pty,rectGraphArea.right(),pty);
-        p.drawLine(ptx,rectGraphArea.top(),ptx,rectGraphArea.bottom());
+            p.drawLine(rectGraphArea.left(),pty,rectGraphArea.right(),pty);
+            p.drawLine(ptx,rectGraphArea.top(),ptx,rectGraphArea.bottom());
+        }
     }
 }
 
@@ -1269,11 +1306,16 @@ void CPlot::slotPointOfFocus(const int idx)
 void CPlot::slotHighlightSection(double x1, double x2)
 {
     int idx = 0;
+    // no stages if focus is active
+    if(!m_pData || !m_pData->focus.isEmpty())
+    {
+        return;
+    }
 
     idxHighlight1 = -1;
     idxHighlight2 = -1;
 
-    if(m_pData && m_pData->lines.isEmpty())
+    if(m_pData->lines.isEmpty())
     {
         return;
     }
