@@ -51,7 +51,7 @@
 
 struct garmin_icon_t
 {
-    uint16_t id;
+    int16_t id;
     const char * name;
 };
 

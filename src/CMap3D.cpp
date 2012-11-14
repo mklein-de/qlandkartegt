@@ -763,7 +763,7 @@ void CMap3D::paintEvent( QPaintEvent * e)
         glEnable(GL_LIGHTING);
         glEnable(GL_LIGHT0);
 
-        GLfloat light0_pos[] = {xLight, yLight, - (zLight + minEle), 0.0};
+        GLfloat light0_pos[] = {xLight, yLight, - GLfloat(zLight + minEle), 0.0};
 
         glLightfv(GL_LIGHT0, GL_POSITION, light0_pos);
         glMaterialf (GL_FRONT,GL_SHININESS, 10);

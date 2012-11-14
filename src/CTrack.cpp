@@ -1053,15 +1053,14 @@ void CTrack::rebuild(bool reindex)
 void CTrack::setPointOfFocus(int idx, type_select_e typeSelect, bool moveMap)
 {
     // reset previous selections
-    QList<CTrack::pt_t>& trkpts           = track;
-    QList<CTrack::pt_t>::iterator trkpt   = trkpts.begin();
+    QList<CTrack::pt_t>::iterator trkpt   = track.begin();
 
     if(typeSelect == e3Way)
     {
         switch(stateSelect)
         {
             case eNoSel:
-                while(trkpt != trkpts.end())
+                while(trkpt != track.end())
                 {
                     trkpt->flags &= ~CTrack::pt_t::eFocus;
                     trkpt->flags &= ~CTrack::pt_t::eSelected;
@@ -1071,7 +1070,7 @@ void CTrack::setPointOfFocus(int idx, type_select_e typeSelect, bool moveMap)
                 break;
 
             case e1stSel:
-                while(trkpt != trkpts.end())
+                while(trkpt != track.end())
                 {
                     trkpt->flags &= ~CTrack::pt_t::eFocus;
                     trkpt->flags &= ~CTrack::pt_t::eSelected;
@@ -1080,14 +1079,14 @@ void CTrack::setPointOfFocus(int idx, type_select_e typeSelect, bool moveMap)
 
                 if(idx < track.count())
                 {
-                    trkpts[idx].flags |= CTrack::pt_t::eFocus;
-                    trkpts[idx].flags |= CTrack::pt_t::eSelected;
+                    track[idx].flags |= CTrack::pt_t::eFocus;
+                    track[idx].flags |= CTrack::pt_t::eSelected;
                 }
                 stateSelect = e2ndSel;
                 break;
 
             case e2ndSel:
-                while(trkpt != trkpts.end())
+                while(trkpt != track.end())
                 {
                     if(trkpt->flags & CTrack::pt_t::eFocus)
                     {
@@ -1096,7 +1095,7 @@ void CTrack::setPointOfFocus(int idx, type_select_e typeSelect, bool moveMap)
                     ++trkpt;
                 }
 
-                while(trkpt != trkpts.end())
+                while(trkpt != track.end())
                 {
                     if(!(trkpt->flags & CTrack::pt_t::eDeleted))
                     {
@@ -1117,7 +1116,7 @@ void CTrack::setPointOfFocus(int idx, type_select_e typeSelect, bool moveMap)
     else
     {
         // erase all flags
-        while(trkpt != trkpts.end())
+        while(trkpt != track.end())
         {
             trkpt->flags &= ~CTrack::pt_t::eFocus;
             if(typeSelect == eErase)
@@ -1130,42 +1129,29 @@ void CTrack::setPointOfFocus(int idx, type_select_e typeSelect, bool moveMap)
         // set flags for selected point
         if(idx < track.count())
         {
-            trkpts[idx].flags |= CTrack::pt_t::eFocus;
-            trkpts[idx].flags |= CTrack::pt_t::eSelected;
+            track[idx].flags |= CTrack::pt_t::eFocus;
+            track[idx].flags |= CTrack::pt_t::eSelected;
         }
     }
 
     // move map to point under focus
     if(moveMap && idx < track.count())
     {
-        theMainWindow->getCanvas()->move(trkpts[idx].lon, trkpts[idx].lat);
+        theMainWindow->getCanvas()->move(track[idx].lon, track[idx].lat);
     }
     emit sigChanged();
 }
 
-
-CTrack::pt_t * CTrack::getPointOfFocus(double dist)
+void CTrack::getPointOfFocus(QList<CTrack::pt_t>& points)
 {
-    QList<CTrack::pt_t>::const_iterator trkpt = track.begin();
-    quint32 idx = 0;
-    while(trkpt != track.end())
+    foreach(const pt_t& trkpt, track)
     {
-        if(trkpt->flags & CTrack::pt_t::eDeleted)
+        if(trkpt.flags & pt_t::eFocus)
         {
-            ++trkpt; continue;
+            points << trkpt;
         }
-
-        if(dist < trkpt->distance)
-        {
-            return &track[idx];
-        }
-        idx = trkpt->idx;
-        ++trkpt;
     }
-
-    return 0;
 }
-
 
 QDateTime CTrack::getStartTimestamp()
 {
@@ -1624,12 +1610,12 @@ void CTrack::slotScaleWpt2Track()
 }
 
 
-void CTrack::medianFilter(quint32 len, QProgressDialog& progress)
+void CTrack::medianFilter(qint32 len, QProgressDialog& progress)
 {
     cntMedianFilterApplied = (len - 5) >> 1;
 
     QList<float> window;
-    for(quint32 i = 0; i<len; i++)
+    for(qint32 i = 0; i<len; i++)
     {
         window << 0.0;
     }
@@ -1655,7 +1641,7 @@ void CTrack::medianFilter(quint32 len, QProgressDialog& progress)
     for(int i = (len>>1); i < (ele.size()-(len>>1)); i++)
     {
         // apply median filter over all trackpoints
-        for(quint32 n = 0; n < len; n++)
+        for(qint32 n = 0; n < len; n++)
         {
             window[n] = ele[i - (len>>1) + n];
         }

@@ -513,9 +513,6 @@ void CMapWms::draw()
     convertPt2M(x2, y2);
     convertM2Pixel(x2, y2);
 
-    double xx1 = x1;
-    double yy1 = y1;
-
     // quantify to smalles multiple of blocksize
     x1 = floor(x1/(blockSizeX * zoomFactor)) * blockSizeX * zoomFactor;
     y1 = floor(y1/(blockSizeY * zoomFactor)) * blockSizeY * zoomFactor;

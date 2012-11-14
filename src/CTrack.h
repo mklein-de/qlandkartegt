@@ -218,7 +218,7 @@ class CTrack : public IItem
         /// select tarckpoint by index
         void setPointOfFocus(int idx, type_select_e typeSelect, bool moveMap);
         /// set point of focus to a point with a given distance from start
-        pt_t * getPointOfFocus(double dist);
+        void getPointOfFocus(QList<CTrack::pt_t>& points);
         ///
         QDateTime getStartTimestamp();
         ///
@@ -265,7 +265,7 @@ class CTrack : public IItem
         const QList<wpt_t>& getStageWaypoints(){return waypoints;}
 
         /// smooth profile with a median filter
-        void medianFilter(quint32 len, QProgressDialog &progress);
+        void medianFilter(qint32 len, QProgressDialog &progress);
 
         /// reset all smoothed and purged data to it's original state
         void reset();

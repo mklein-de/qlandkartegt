@@ -95,7 +95,7 @@ CMapRmp::CMapRmp(const QString &key, const QString &fn, CCanvas *parent)
 
     if(!files.isEmpty() && !files.first().provider.isEmpty() && !files.first().product.isEmpty())
     {
-        qDebug() << "load maps with:" << files.first().provider << files.first().product;
+//        qDebug() << "load maps with:" << files.first().provider << files.first().product;
         foreach(const QString& subMap, subMaps)
         {
             if(dir.absoluteFilePath(subMap) == filename)
@@ -120,8 +120,8 @@ CMapRmp::CMapRmp(const QString &key, const QString &fn, CCanvas *parent)
     convertRad2M(xref1, yref1);
     convertRad2M(xref2, yref2);
 
-    qDebug() << "xref1:" << xref1 << "yref1:" << yref1;
-    qDebug() << "xref2:" << xref2 << "yref2:" << yref2;
+//    qDebug() << "xref1:" << xref1 << "yref1:" << yref1;
+//    qDebug() << "xref2:" << xref2 << "yref2:" << yref2;
 
     SETTINGS;
     cfg.beginGroup("magellan/maps");
@@ -167,7 +167,7 @@ void CMapRmp::readFile(const QString& filename, const QString &provider, const Q
     QByteArray buffer(30,0);
     QString tmpInfo;
 
-    qDebug() << "++++++++" << filename << "++++++++";
+//    qDebug() << "++++++++" << filename << "++++++++";
 
     tmpInfo  += "<h1>" + QFileInfo(filename).baseName() + "</h1>";
 
@@ -208,13 +208,13 @@ void CMapRmp::readFile(const QString& filename, const QString &provider, const Q
     {
         if(mapFile.provider != provider)
         {
-            qDebug() << "------- do not load";
+//            qDebug() << "------- do not load";
             files.pop_back();
             return;
         }
         if(mapFile.product != product)
         {
-            qDebug() << "------- do not load";
+//            qDebug() << "------- do not load";
             files.pop_back();
             return;
         }
@@ -275,10 +275,10 @@ void CMapRmp::readDirectory(QDataStream& stream, file_t& file)
         }
     }
 
-    foreach(const dir_entry_t& entry, file.directory)
-    {
-        qDebug() << entry.name << "." << entry.extension << hex << entry.offset << entry.length;
-    }
+//    foreach(const dir_entry_t& entry, file.directory)
+//    {
+//        qDebug() << entry.name << "." << entry.extension << hex << entry.offset << entry.length;
+//    }
 
 }
 
@@ -366,10 +366,10 @@ void CMapRmp::readLevel(QDataStream& stream, level_t& level, double& lon1, doubl
 
     level.tlm.bbox = QRectF(QPointF(tileLeft, tileTop), QPointF(tileRight, tileBottom));
 
-    qDebug() << "--------------";
-    qDebug() << level.tlm.name;
-    qDebug() << level.tlm.tileCount << level.tlm.tileXSize << level.tlm.tileYSize;
-    qDebug() << level.tlm.tileHeight << level.tlm.tileWidth << level.tlm.bbox.topLeft() << level.tlm.bbox.bottomRight();
+//    qDebug() << "--------------";
+//    qDebug() << level.tlm.name;
+//    qDebug() << level.tlm.tileCount << level.tlm.tileXSize << level.tlm.tileYSize;
+//    qDebug() << level.tlm.tileHeight << level.tlm.tileWidth << level.tlm.bbox.topLeft() << level.tlm.bbox.bottomRight();
 
 
     //start 1st node
@@ -377,7 +377,7 @@ void CMapRmp::readLevel(QDataStream& stream, level_t& level, double& lon1, doubl
     stream >> tmp32 >> tmp32 >> firstBlockOffset; //(tlm.offset + 256 + firstBlockOffset)
     stream.device()->seek(level.tlm.offset + 256 + firstBlockOffset);
 
-    qDebug() << "first block" << hex << quint32(stream.device()->pos());
+//    qDebug() << "first block" << hex << quint32(stream.device()->pos());
 
     readTLMNode(stream, level.tlm);
 

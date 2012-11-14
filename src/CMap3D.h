@@ -178,11 +178,11 @@ class CMap3D : public QGLWidget
         /// set true to use elevation shading
         bool light;
         /// x pos of light source
-        double xLight;
+        GLfloat xLight;
         /// y pos of light source
-        double yLight;
+        GLfloat yLight;
         /// z pos of light source
-        double zLight;
+        GLfloat zLight;
 
         /// the difference from to true north to map's north
         double angleNorth;

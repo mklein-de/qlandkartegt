@@ -156,7 +156,7 @@ void CMapSelectionRaster::draw(QPainter& p, const QRect& rect)
     if(rect.intersects(r))
     {
 
-        quint32 gridspace = map.scalePixelGrid(1024);
+        qint32 gridspace = map.scalePixelGrid(1024);
 
         if(gridspace != 0)
         {

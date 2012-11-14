@@ -71,7 +71,7 @@ void CMouseSelMap::drawSelArea(QPainter& p)
         return;
     }
     IMap& map = CMapDB::self().getMap();
-    quint32 gridspace = selMap.isNull() ? map.scalePixelGrid(TILESIZE) : 0;
+    qint32 gridspace = selMap.isNull() ? map.scalePixelGrid(TILESIZE) : 0;
 
     p.setBrush(QColor(150,150,255,100));
     p.setPen(QPen(Qt::darkBlue,2));
@@ -220,7 +220,7 @@ void CMouseSelMap::mouseReleaseEvent(QMouseEvent * e)
 
         // snap grid if parts are too small
         IMap& map = CMapDB::self().getMap();
-        quint32 gridspace = map.scalePixelGrid(TILESIZE);
+        qint32 gridspace = map.scalePixelGrid(TILESIZE);
 
         if(selMap.isNull())
         {
