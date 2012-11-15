@@ -1485,6 +1485,43 @@ QString CTrack::getTrkPtInfo2(pt_t& trkpt)
     return str;
 }
 
+QString CTrack::getFocusInfo()
+{
+    double tmp;
+    QString str, val, unit;
+    QList<pt_t> focus;
+    getPointOfFocus(focus);
+
+    if(focus.size() < 2)
+    {
+        return str;
+    }
+
+    const pt_t& p1 = focus.first();
+    const pt_t& p2 = focus.last();
+
+    tmp = p2.distance - p1.distance;
+    IUnit::self().meter2distance(tmp, val, unit);
+    str += QString("%3 %1%2\n").arg(val).arg(unit).arg(QChar(0x21A6));
+    if(p1.timestamp != 0x00000000 && p1.timestamp != 0xFFFFFFFF)
+    {
+        quint32 t  = p2.timestamp - p1.timestamp;
+        quint32 hh = t / 3600;
+        quint32 mm = (t - hh * 3600) / 60;
+        quint32 ss = (t - hh * 3600 - mm * 60);
+
+        str += QString("%4 %1:%2:%3\n").arg(hh,2,10,QChar('0')).arg(mm,2,10,QChar('0')).arg(ss,2,10,QChar('0')).arg(QChar(0x231a));
+    }
+    tmp = p2.ascend - p1.ascend;
+    IUnit::self().meter2elevation(tmp, val, unit);
+    str += QString("%3 %1%2\n").arg(val).arg(unit).arg(QChar(0x2197));
+    tmp = p1.descend - p2.descend;
+    IUnit::self().meter2elevation(tmp, val, unit);
+    str += QString("%3 %1%2").arg(val).arg(unit).arg(QChar(0x2198));
+
+
+    return str;
+}
 
 void CTrack::setDoScaleWpt2Track(Qt::CheckState state)
 {

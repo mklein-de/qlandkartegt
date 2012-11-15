@@ -871,6 +871,8 @@ void CPlot::drawData(QPainter& p)
         p.setPen(QPen(Qt::darkRed,5));
         p.drawPolyline(background.mid(1,line.size()));
         p.restore();
+
+
     }
 
     if(m_pData->focus.size() < 2)
@@ -888,6 +890,57 @@ void CPlot::drawData(QPainter& p)
             p.drawLine(ptx,pty-2,ptx,pty+2);
 
             ++point;
+        }               
+    }
+    else if(m_pData->focus.size() > 1 && mode != eIcon)
+    {
+        CTrack * trk = CTrackDB::self().highlightedTrack();
+        if(trk != 0)
+        {
+            QString str = trk->getFocusInfo();
+            if (str != "")
+            {
+                QPointF&        focus = m_pData->focus.last();
+                QFont           f = CResources::self().getMapFont();
+                QFontMetrics    fm(f);
+                QRect           r1 = fm.boundingRect(QRect(0,0,300,0), Qt::AlignLeft|Qt::AlignTop, str);
+
+                ptx = left   + xaxis.val2pt( focus.x() );
+                pty = bottom - yaxis.val2pt( focus.y() );
+
+                if((r1.width() + 15 + ptx) > right)
+                {
+                    ptx = ptx - 15 - r1.width();
+                }
+                else
+                {
+                    ptx = ptx + 15;
+                }
+
+                if(r1.height() + pty > bottom)
+                {
+                    pty = pty - r1.height();
+                }
+
+
+                r1.moveTopLeft(QPoint(ptx, pty));
+
+                QRect r2 = r1;
+                r2.setWidth(r1.width() + 20);
+                r2.moveLeft(r1.left() - 10);
+                r2.setHeight(r1.height() + 10);
+                r2.moveTop(r1.top() - 5);
+
+                p.save();
+                p.setPen(QPen(CCanvas::penBorderBlue));
+                p.setBrush(CCanvas::brushBackWhite);
+                PAINT_ROUNDED_RECT(p,r2);
+
+                p.setFont(CResources::self().getMapFont());
+                p.setPen(Qt::darkBlue);
+                p.drawText(r1, Qt::AlignLeft|Qt::AlignTop,str);
+                p.restore();
+            }
         }
     }
 
@@ -895,9 +948,6 @@ void CPlot::drawData(QPainter& p)
     {
         p.setPen(QPen(Qt::red,2));
         ptx = left   + xaxis.val2pt( point.x() );
-//        pty = bottom - yaxis.val2pt( point.y() );
-
-//        p.drawLine(rectGraphArea.left(),pty,rectGraphArea.right(),pty);
         p.drawLine(ptx,rectGraphArea.top(),ptx,rectGraphArea.bottom());
     }
 }

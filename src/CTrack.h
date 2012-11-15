@@ -218,7 +218,7 @@ class CTrack : public IItem
         /// select tarckpoint by index
         void setPointOfFocus(int idx, type_select_e typeSelect, bool moveMap);
         /// set point of focus to a point with a given distance from start
-        void getPointOfFocus(QList<CTrack::pt_t>& points);
+        void getPointOfFocus(QList<pt_t>& points);
         ///
         QDateTime getStartTimestamp();
         ///
@@ -230,6 +230,7 @@ class CTrack : public IItem
         /// get information string for a particular trackpoint
         QString getTrkPtInfo1(pt_t& trkpt);
         QString getTrkPtInfo2(pt_t& trkpt);
+        QString getFocusInfo();
         /// get the bounding rectangular that fits the track
         QRectF getBoundingRectF();
         /// sort trackpoints by timestamp
