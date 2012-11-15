@@ -485,13 +485,24 @@ void CPlot::draw(QPainter& p)
                 p.drawText(r1, Qt::AlignLeft|Qt::AlignTop|Qt::TextWordWrap,str);
             }
 
+
+            x   = posMouse.x();
             str = track->getTrkPtInfo2(*selTrkPt);
             if(!str.isEmpty())
             {
                 QFont           f = CResources::self().getMapFont();
                 QFontMetrics    fm(f);
                 QRect           r1 = fm.boundingRect(QRect(0,0,1,1), Qt::AlignLeft|Qt::AlignTop, str);
-                r1.moveTopLeft(rectTrackInfo.topLeft());
+                r1.moveCenter(QPoint(x, size().height() - fontHeight/2));
+                if(r1.left() < left)
+                {
+                    r1.moveLeft(left);
+                }
+                if(r1.right() > right)
+                {
+                    r1.moveRight(right);
+                }
+
                 CCanvas::drawText(str, p, r1);
             }
         }
@@ -535,6 +546,7 @@ void CPlot::draw()
     }
 
     p.setFont(CResources::self().getMapFont());
+    drawTags(p);
     p.setClipping(true);
     p.setClipRect(rectGraphArea);
     drawData(p);
@@ -551,7 +563,6 @@ void CPlot::draw()
     drawYTic(p);
     p.setPen(QPen(Qt::black,2));
     p.drawRect(rectGraphArea);
-    drawTags(p);
 
     drawLegend(p);
 }
@@ -890,7 +901,7 @@ void CPlot::drawData(QPainter& p)
             p.drawLine(ptx,pty-2,ptx,pty+2);
 
             ++point;
-        }               
+        }
     }
     else if(m_pData->focus.size() > 1 && mode != eIcon)
     {

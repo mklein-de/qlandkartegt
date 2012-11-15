@@ -502,7 +502,7 @@ void CTrackEditWidget::slotSetTrack(CTrack * t)
 #ifdef GPX_EXTENSIONS
     for(int i=0; i < eMaxColumn+num_of_ext-1; ++i)
 #else
-        for(int i=0; i < eMaxColumn; ++i)
+    for(int i=0; i < eMaxColumn; ++i)
 #endif
     {
         treePoints->resizeColumnToContents(i);
@@ -520,12 +520,16 @@ void CTrackEditWidget::slotUpdate()
     int i;
 
     if (track->hasTraineeData())
+    {
         traineeGraph->setEnabled(true);
+    }
     else
     {
         traineeGraph->setEnabled(false);
         if (!trackStatTrainee.isNull())
+        {
             delete trackStatTrainee;
+        }
     }
 
 #ifdef GPX_EXTENSIONS
@@ -748,7 +752,6 @@ void CTrackEditWidget::slotUpdate()
         //--------------------------------------------------------------------------------------------------
 
         trkpt->flags.setChanged(false);
-
         ++trkpt;
     }
 
@@ -766,7 +769,6 @@ void CTrackEditWidget::slotUpdate()
         treePoints->scrollToItem(focus);
     }
     treePoints->setSelectionMode(QAbstractItemView::ExtendedSelection);
-    treePoints->setUpdatesEnabled(true);
 }
 
 
