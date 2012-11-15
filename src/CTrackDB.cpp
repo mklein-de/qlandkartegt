@@ -1390,6 +1390,8 @@ void CTrackDB::setPointOfFocusByDist(double distance)
     QList<CTrack::pt_t>& trkpts = track->getTrackPoints();
     QList<CTrack::pt_t>::iterator trkpt = trkpts.begin();
 
+    int idx  = -1;
+    double d = WPT_NOFLOAT;
     while(trkpt != trkpts.end())
     {
         if(trkpt->flags & CTrack::pt_t::eDeleted)
@@ -1397,13 +1399,14 @@ void CTrackDB::setPointOfFocusByDist(double distance)
             ++trkpt; continue;
         }
 
-        if(distance < trkpt->distance)
+        if(fabs(distance - trkpt->distance) < d)
         {
-            emit sigPointOfFocus(trkpt->idx);
-            return;
+            d   = fabs(distance - trkpt->distance);
+            idx = trkpt->idx;
         }
         ++trkpt;
     }
+    emit sigPointOfFocus(idx);
 }
 
 
@@ -1418,6 +1421,8 @@ void CTrackDB::setPointOfFocusByTime(quint32 timestamp)
     QList<CTrack::pt_t>& trkpts = track->getTrackPoints();
     QList<CTrack::pt_t>::iterator trkpt = trkpts.begin();
 
+    int idx = -1;
+    int d   = 0x7FFFFFFF;
     while(trkpt != trkpts.end())
     {
         if(trkpt->flags & CTrack::pt_t::eDeleted)
@@ -1425,13 +1430,14 @@ void CTrackDB::setPointOfFocusByTime(quint32 timestamp)
             ++trkpt; continue;
         }
 
-        if(timestamp < trkpt->timestamp)
+        if(abs(timestamp - trkpt->timestamp) < d)
         {
-            emit sigPointOfFocus(trkpt->idx);
-            return;
+            d   = abs(timestamp - trkpt->timestamp);
+            idx = trkpt->idx;
         }
         ++trkpt;
     }
+    emit sigPointOfFocus(idx);
 }
 
 

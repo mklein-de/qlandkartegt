@@ -65,27 +65,46 @@ void ITrackStat::slotActivePoint(double dist)
     if(plot == 0) return;
     QList<CTrack::pt_t>& trkpts = track->getTrackPoints();
     QList<CTrack::pt_t>::const_iterator trkpt = trkpts.begin();
-    quint32 idx = 0;
-    while(trkpt != trkpts.end())
+
+    double  d   = WPT_NOFLOAT;
+    int     idx = -1;
+
+    if(type == eOverDistance)
     {
-        if(trkpt->flags & CTrack::pt_t::eDeleted)
+        while(trkpt != trkpts.end())
         {
-            ++trkpt; continue;
-        }
+            if(trkpt->flags & CTrack::pt_t::eDeleted)
+            {
+                ++trkpt; continue;
+            }
 
-        if(type == eOverDistance && dist < trkpt->distance)
-        {
-            track->setPointOfFocus(idx, CTrack::e3Way, true);
-            break;
+            if(fabs(dist - trkpt->distance) < d)
+            {
+                d   = fabs(dist - trkpt->distance);
+                idx = trkpt->idx;
+            }
+            ++trkpt;
         }
-        if(type == eOverTime && dist < trkpt->timestamp)
-        {
-            track->setPointOfFocus(idx, CTrack::e3Way, true);
-            break;
-        }
-        idx = trkpt->idx;
+        track->setPointOfFocus(idx, CTrack::e3Way, true);
+    }
 
-        ++trkpt;
+    if(type == eOverTime)
+    {
+        while(trkpt != trkpts.end())
+        {
+            if(trkpt->flags & CTrack::pt_t::eDeleted)
+            {
+                ++trkpt; continue;
+            }
+
+            if(fabs(dist - trkpt->timestamp) < d)
+            {
+                d   = fabs(dist - trkpt->timestamp);
+                idx = trkpt->idx;
+            }
+            ++trkpt;
+        }
+        track->setPointOfFocus(idx, CTrack::e3Way, true);
     }
 }
 

@@ -159,35 +159,34 @@ void CPlot::newLine(const QPolygonF& line, const QList<QPointF>& focus, const QS
     m_pData->x().setScale( rectGraphArea.width() );
     m_pData->y().setScale( rectGraphArea.height() );
 
+    idxHighlight1 = -1;
+    idxHighlight2 = -1;
 
-    if(m_pData->focus.size() > 0)
+    if(m_pData->focus.size() > 1)
     {
-        int idx = 0;
-        double x1 = m_pData->focus.first().x();
+        int idx     = 0;
+        double d    = WPT_NOFLOAT;
+        double x    = m_pData->focus.first().x();
         QPolygonF& line = m_pData->lines[0].points;
-
-        idxHighlight1 = -1;
-        idxHighlight2 = -1;
 
         foreach(const QPointF& point, line)
         {
-            if(idxHighlight1 < 0 && x1 <= point.x())
+            if(fabs(x - point.x()) < d)
             {
+                d = fabs(x - point.x());
                 idxHighlight1 = idx;
             }
             idx++;
         }
-    }
 
-    if(m_pData->focus.size() > 1)
-    {
-        int idx = 0;
-        double x2 = m_pData->focus.last().x();
-        QPolygonF& line = m_pData->lines[0].points;
+        idx = 0;
+        d   = WPT_NOFLOAT;
+        x   = m_pData->focus.last().x();
         foreach(const QPointF& point, line)
         {
-            if(idxHighlight2 < 0 && x2 <= point.x())
+            if(fabs(x - point.x()) < d)
             {
+                d = fabs(x - point.x());
                 idxHighlight2 = idx;
             }
             idx++;
@@ -842,7 +841,7 @@ void CPlot::drawData(QPainter& p)
     if((idxHighlight1 >= 0) && (idxHighlight2 >= 0) && mode != eIcon)
     {
         QPolygonF background;
-        QPolygonF line              = lines[0].points.mid(idxHighlight1, idxHighlight2 - idxHighlight1);
+        QPolygonF line              = lines[0].points.mid(idxHighlight1, idxHighlight2 - idxHighlight1 + 1);
         QPolygonF::iterator point   = line.begin();
 
         ptx = left   + xaxis.val2pt( point->x() );
@@ -896,9 +895,9 @@ void CPlot::drawData(QPainter& p)
     {
         p.setPen(QPen(Qt::red,2));
         ptx = left   + xaxis.val2pt( point.x() );
-        pty = bottom - yaxis.val2pt( point.y() );
+//        pty = bottom - yaxis.val2pt( point.y() );
 
-        p.drawLine(rectGraphArea.left(),pty,rectGraphArea.right(),pty);
+//        p.drawLine(rectGraphArea.left(),pty,rectGraphArea.right(),pty);
         p.drawLine(ptx,rectGraphArea.top(),ptx,rectGraphArea.bottom());
     }
 }
