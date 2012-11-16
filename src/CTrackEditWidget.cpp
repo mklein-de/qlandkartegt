@@ -1223,17 +1223,15 @@ void CTrackEditWidget::slotReset()
 {
     if(track.isNull()) return;
     track->reset();
+    track->rebuild(true);
     track->slotScaleWpt2Track();
-    emit CTrackDB::self().sigModified();
-    emit CTrackDB::self().sigModified(track->getKey());
+    CTrackDB::self().emitSigModified();
 }
 
 
 void CTrackEditWidget::slotDelete()
 {
     if(track.isNull()) return;
-    originator = true;
-
     if(QMessageBox::warning(0,tr("Remove track points ...")
         ,tr("You are about to remove hidden track points permanently. If you press 'yes', all information will be lost.")
         ,QMessageBox::Yes|QMessageBox::No) == QMessageBox::No)
@@ -1241,11 +1239,13 @@ void CTrackEditWidget::slotDelete()
         return;
     }
 
-    QList<CTrack::pt_t>& trkpts           = track->getTrackPoints();
-    QList<CTrack::pt_t>::iterator trkpt   = trkpts.begin();
-    while(trkpt != trkpts.end())
-    {
+    QList<CTrack::pt_t>& trkpts = track->getTrackPoints();
+    QList<CTrack::pt_t>::iterator trkpt, end;
+    track->setupIterators(trkpt, end);
 
+    originator = true;
+    while(trkpt != end)
+    {
         if(trkpt->flags & CTrack::pt_t::eDeleted)
         {
             if ( trkpt->editItem )

@@ -651,7 +651,6 @@ CTrack::~CTrack()
 
 }
 
-
 void CTrack::setHighlight(bool yes)
 {
     highlight = yes;
@@ -1153,6 +1152,32 @@ void CTrack::getPointOfFocus(QList<CTrack::pt_t>& points)
         }
     }
 }
+
+void CTrack::setupIterators(QList<pt_t>::iterator& begin, QList<pt_t>::iterator& end)
+{
+    QList<pt_t>& trkpts     = getTrackPoints();
+    QList<pt_t>::iterator i = trkpts.begin();
+
+    begin = trkpts.begin();
+    end   = trkpts.end();
+
+    while(i != trkpts.end())
+    {
+        if(i->flags & pt_t::eFocus)
+        {
+            if(begin == track.begin())
+            {
+                begin = i;
+            }
+            else
+            {
+                end = i;
+            }
+        }
+        i++;
+    }
+}
+
 
 QDateTime CTrack::getStartTimestamp()
 {
@@ -1715,9 +1740,10 @@ void CTrack::offsetElevation(double offset)
 
 void CTrack::reset()
 {
-    QList<CTrack::pt_t>& trkpts           = getTrackPoints();
-    QList<CTrack::pt_t>::iterator trkpt   = trkpts.begin();
-    while(trkpt != trkpts.end())
+    QList<CTrack::pt_t>::iterator trkpt, end;
+    setupIterators(trkpt, end);
+
+    while(trkpt != end)
     {
         trkpt->flags &= ~CTrack::pt_t::eDeleted;
         trkpt->lon = trkpt->_lon;
@@ -1730,9 +1756,6 @@ void CTrack::reset()
     }
 
     cntMedianFilterApplied = 0;
-
-    rebuild(true);
-    slotScaleWpt2Track();
 }
 
 

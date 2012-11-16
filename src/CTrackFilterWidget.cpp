@@ -1048,16 +1048,17 @@ bool CTrackFilterWidget::filterHidePoints1(QDataStream& args, QList<CTrack*>& tr
     foreach(CTrack * trk, tracks)
     {
 
-        QList<CTrack::pt_t>& trkpts = trk->getTrackPoints();
-        int npts = trkpts.count();
+        //QList<CTrack::pt_t>& trkpts = trk->getTrackPoints();
+        //int npts = trk->getTrackPoints().count();
 
-        QProgressDialog progress(groupReducePoints1->title(), tr("Abort filter"), 0, npts, this);
+        QProgressDialog progress(groupReducePoints1->title(), tr("Abort filter"), 0, tracks.size(), this);
         progress.setWindowTitle(groupReducePoints1->title());
         progress.setWindowModality(Qt::WindowModal);
 
-        QList<CTrack::pt_t>::iterator trkpt   = trkpts.begin();
+        QList<CTrack::pt_t>::iterator trkpt, end;
+        trk->setupIterators(trkpt, end);
 
-        int i               = 1;
+        int i               = 0;
         double lastEle      = trkpt->ele;
         double lastAzimuth  = trkpt->azimuth;
         double deltaAzimuth = 0;
@@ -1067,7 +1068,7 @@ bool CTrackFilterWidget::filterHidePoints1(QDataStream& args, QList<CTrack*>& tr
         p1.v = DEG_TO_RAD * trkpt->lat;
         ++trkpt;
 
-        while(trkpt != trkpts.end())
+        while(trkpt != end)
         {
             p2.u = DEG_TO_RAD * trkpt->lon;
             p2.v = DEG_TO_RAD * trkpt->lat;
@@ -1116,14 +1117,14 @@ bool CTrackFilterWidget::filterHidePoints1(QDataStream& args, QList<CTrack*>& tr
 
                 lastEle = trkpt->ele;
             }
-            ++trkpt;
-            ++i;
+            ++trkpt;            
             if (progress.wasCanceled())
             {
                 return true;
             }
         }
         trk->rebuild(false);
+        progress.setValue(++i);
     }
 
     return false;
