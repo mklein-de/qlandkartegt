@@ -199,6 +199,20 @@ CTrackFilterWidget::~CTrackFilterWidget()
     saveFilterList(QDir::home().filePath(CONFIGDIR ".track_filter_current.filter"));
 }
 
+void CTrackFilterWidget::showFilterPartMessage(bool show)
+{
+    if(show)
+    {
+        labelFilterPartIcon->show();
+        labelFilterPartMessage->show();
+    }
+    else
+    {
+        labelFilterPartIcon->hide();
+        labelFilterPartMessage->hide();
+    }
+
+}
 
 void CTrackFilterWidget::saveFilterList(const QString& filename)
 {
@@ -263,16 +277,37 @@ void CTrackFilterWidget::setTrackEditWidget(CTrackEditWidget * w)
     trackEditWidget = w;
 }
 
+void CTrackFilterWidget::slotUpdate()
+{
+    QList<CTrack::pt_t> focus;
+    track->getPointOfFocus(focus);
+
+    bool isSubSection = focus.size() > 1;
+    showFilterPartMessage(isSubSection);
+
+    groupSplit1->setEnabled(!isSubSection);
+    groupSplit2->setEnabled(!isSubSection);
+    groupSplit3->setEnabled(!isSubSection);
+    groupSplit4->setEnabled(!isSubSection);
+    groupSplit5->setEnabled(!isSubSection);
+}
 
 void CTrackFilterWidget::slotHighlightTrack(CTrack * trk)
 {
+    if(!track.isNull())
+    {
+        disconnect(track, SIGNAL(sigChanged()), this, SLOT(slotUpdate()));
+    }
+
     track = trk;
     if(!track.isNull())
     {
         // todo add track dependend setup
+        connect(track, SIGNAL(sigChanged()), this, SLOT(slotUpdate()));
+        slotUpdate();
     }
-}
 
+}
 
 void CTrackFilterWidget::slotComboMeterFeet(const QString &text)
 {
@@ -1117,7 +1152,7 @@ bool CTrackFilterWidget::filterHidePoints1(QDataStream& args, QList<CTrack*>& tr
 
                 lastEle = trkpt->ele;
             }
-            ++trkpt;            
+            ++trkpt;
             if (progress.wasCanceled())
             {
                 return true;
@@ -1143,9 +1178,11 @@ bool CTrackFilterWidget::filterHidePoints2(QDataStream& args, QList<CTrack*>& tr
 
     foreach(CTrack * trk, tracks)
     {
+
         // convert track points into a vector of pointDP (Douglas-Peucker points)
-        QList<CTrack::pt_t>& trkpts = trk->getTrackPoints();
-        int npts    = trkpts.count();
+        QList<CTrack::pt_t>::iterator trkpt, end;
+        trk->setupIterators(trkpt, end);
+        int npts    = (end - trkpt);
         int idx     = 0;
         QVector<pointDP> line(npts);
 
@@ -1153,17 +1190,17 @@ bool CTrackFilterWidget::filterHidePoints2(QDataStream& args, QList<CTrack*>& tr
         projPJ pjsrc   = pj_init_plus("+proj=longlat +a=6378137.0000 +b=6356752.3142 +towgs84=0,0,0,0,0,0,0,0 +units=m  +no_defs");
         projPJ pjtar   = pj_init_plus("+proj=merc +a=6378137.0000 +b=6356752.3142 +towgs84=0,0,0,0,0,0,0,0 +units=m  +no_defs");
 
-        foreach(const CTrack::pt_t& pt, trkpts)
+        while(trkpt != end)
         {
             pointDP& point = line[idx];
 
-            point.x = pt.lon * DEG_TO_RAD;
-            point.y = pt.lat * DEG_TO_RAD;
-            point.z = pt.ele;
+            point.x = trkpt->lon * DEG_TO_RAD;
+            point.y = trkpt->lat * DEG_TO_RAD;
+            point.z = trkpt->ele;
 
             pj_transform(pjsrc, pjtar, 1, 0, &point.x, &point.y, 0);
 
-            idx++;
+            idx++;trkpt++;
         }
 
         pj_free(pjsrc);
@@ -1176,19 +1213,19 @@ bool CTrackFilterWidget::filterHidePoints2(QDataStream& args, QList<CTrack*>& tr
         progress.setValue(prog++);
 
         // now read back the the "used" flags
-        idx = 0;
+        trk->setupIterators(trkpt, end);
         foreach(const pointDP& pt, line)
         {
             if(pt.used)
             {
-                trkpts[idx].flags &= ~CTrack::pt_t::eDeleted;
+                trkpt->flags &= ~CTrack::pt_t::eDeleted;
             }
             else
             {
-                trkpts[idx].flags |= CTrack::pt_t::eDeleted;
+                trkpt->flags |= CTrack::pt_t::eDeleted;
             }
 
-            idx++;
+            idx++;trkpt++;
         }
 
         trk->rebuild(false);

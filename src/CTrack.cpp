@@ -663,16 +663,18 @@ void CTrack::setHighlight(bool yes)
 
 void CTrack::replaceElevationByLocal(bool replaceOrignalData)
 {
-    //    qDebug() << "CTrack::replaceElevationByLocal()";
-    IMap& map       = CMapDB::self().getDEM();
-    const int size = track.size();
-    for(int i = 0; i<size; i++)
+    IMap& map = CMapDB::self().getDEM();
+
+    QList<CTrack::pt_t>::iterator trkpt, end;
+    setupIterators(trkpt, end);
+    while(trkpt != end)
     {
-        track[i].ele    = map.getElevation(track[i].lon * DEG_TO_RAD, track[i].lat * DEG_TO_RAD);
+        trkpt->ele = map.getElevation(trkpt->lon * DEG_TO_RAD, trkpt->lat * DEG_TO_RAD);
         if(replaceOrignalData)
         {
-            track[i]._ele   = track[i].ele;
+            trkpt->_ele   = trkpt->ele;
         }
+        trkpt++;
     }
     rebuild(false);
     emit sigChanged();
@@ -686,20 +688,22 @@ void CTrack::replaceElevationByRemote(bool replaceOrignalData)
 
     replaceOrigData = replaceOrignalData;
 
-    int idx = 0;
-    const int size = track.size();
+    QList<CTrack::pt_t>::iterator trkpt, end;
+    setupIterators(trkpt, end);
 
     reply2idx.clear();
 
-    while(idx < size)
+    while(trkpt != end)
     {
-        int s = (size - idx) > 20 ? 20 : (size - idx);
+        int s = (end - trkpt) > 20 ? 20 : (end - trkpt);
+        int idx = trkpt->idx;
 
         QStringList lats, lngs;
         for(int i=0; i < s; i++)
         {
-            lats << QString::number(track[idx + i].lat,'f', 8);
-            lngs << QString::number(track[idx + i].lon,'f', 8);
+            lats << QString::number(trkpt->lat,'f', 8);
+            lngs << QString::number(trkpt->lon,'f', 8);
+            trkpt++;
         }
 
         QUrl url("http://ws.geonames.org");
@@ -1683,24 +1687,29 @@ void CTrack::medianFilter(qint32 len, QProgressDialog& progress)
         window << 0.0;
     }
 
-    QList<CTrack::pt_t>& trkpts = getTrackPoints();
+    QList<CTrack::pt_t>::iterator trkpt, end;
+    setupIterators(trkpt, end);
+
     QList<float> ele;
 
     if(cntMedianFilterApplied)
     {
-        foreach(const CTrack::pt_t& pt, trkpts)
+        while(trkpt != end)
         {
-            ele << pt.ele;
+            ele << trkpt->ele;
+            trkpt++;
         }
     }
     else
     {
-        foreach(const CTrack::pt_t& pt, trkpts)
+        while(trkpt != end)
         {
-            ele << pt._ele;
+            ele << trkpt->_ele;
+            trkpt++;
         }
     }
 
+    setupIterators(trkpt, end);
     for(int i = (len>>1); i < (ele.size()-(len>>1)); i++)
     {
         // apply median filter over all trackpoints
@@ -1710,7 +1719,7 @@ void CTrack::medianFilter(qint32 len, QProgressDialog& progress)
         }
 
         qSort(window);
-        trkpts[i].ele = window[(len>>1)];
+        trkpt[i].ele = window[(len>>1)];
 
         progress.setValue(i);
         qApp->processEvents();
@@ -1725,9 +1734,10 @@ void CTrack::medianFilter(qint32 len, QProgressDialog& progress)
 void CTrack::offsetElevation(double offset)
 {
 
-    QList<pt_t>& trkpts                 = getTrackPoints();
-    QList<pt_t>::iterator trkpt   = trkpts.begin();
-    while(trkpt != trkpts.end())
+    QList<CTrack::pt_t>::iterator trkpt, end;
+    setupIterators(trkpt, end);
+
+    while(trkpt != end)
     {
         if(trkpt->ele != WPT_NOFLOAT)
         {

@@ -75,6 +75,8 @@ class CTrackFilterWidget : public QWidget, private Ui::ITrackFilterWidget
         void slotSplit4Now();
         void slotSplit5Now();
 
+        void slotUpdate();
+
     private:
         void saveFilterList(const QString& filename);
         void loadFilterList(const QString& filename);
@@ -110,6 +112,7 @@ class CTrackFilterWidget : public QWidget, private Ui::ITrackFilterWidget
         void readGuiSplit5(QByteArray& args);
 
         void postProcessTrack();
+        void showFilterPartMessage(bool show);
 
         enum filterType_e {
             eHidePoints1

@@ -558,5 +558,6 @@
         <file>icons/iconFolderBlueArchive16x16.png</file>
         <file>icons/iconRMP22x22.png</file>
         <file>icons/iconFolderBlueLock16x16.png</file>
+        <file>icons/iconWarning16x16.png</file>
     </qresource>
 </RCC>
