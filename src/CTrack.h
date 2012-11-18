@@ -275,7 +275,10 @@ class CTrack : public IItem
 
         void offsetElevation(double offset);
 
+        void changeStartTime(QDateTime& time);
+
         void setupIterators(QList<pt_t>::iterator& begin, QList<pt_t>::iterator& end);
+
 
         signals:
         void sigChanged();

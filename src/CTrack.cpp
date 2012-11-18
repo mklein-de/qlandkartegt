@@ -1748,6 +1748,26 @@ void CTrack::offsetElevation(double offset)
     }
 }
 
+void CTrack::changeStartTime(QDateTime& time)
+{
+
+    qint32 offset = time.toUTC().toTime_t() - getStartTimestamp().toTime_t();
+
+    QList<CTrack::pt_t>::iterator trkpt, end;
+    setupIterators(trkpt, end);
+
+    while(trkpt != end)
+    {
+        if(trkpt->ele != WPT_NOFLOAT)
+        {
+            trkpt->timestamp += offset;
+        }
+
+        trkpt++;
+    }
+
+}
+
 void CTrack::reset()
 {
     QList<CTrack::pt_t>::iterator trkpt, end;

@@ -60,8 +60,9 @@ CTrackFilterWidget::CTrackFilterWidget(QWidget *parent)
     connect(toolAddSplit5, SIGNAL(clicked()), this, SLOT(slotAddFilterSplit5()));
     connect(toolReset, SIGNAL(clicked()), this, SLOT(slotAddFilterReset()));
     connect(toolDelete, SIGNAL(clicked()), this, SLOT(slotAddFilterDelete()));
-    connect(toolAddReplaceEle, SIGNAL(clicked()), this, SLOT(slotAddReplaceElevation()));
-    connect(toolAddOffsetEle, SIGNAL(clicked()), this, SLOT(slotAddOffsetElevation()));
+    connect(toolAddReplaceEle, SIGNAL(clicked()), this, SLOT(slotAddFilterReplaceElevation()));
+    connect(toolAddOffsetEle, SIGNAL(clicked()), this, SLOT(slotAddFilterOffsetElevation()));
+    connect(toolAddTime1, SIGNAL(clicked()), this, SLOT(slotAddFilterTime1()));
 
     connect(toolResetNow, SIGNAL(clicked()), this, SLOT(slotResetNow()));
     connect(toolHidePoints1Now, SIGNAL(clicked()), this, SLOT(slotHidePoints1Now()));
@@ -75,6 +76,7 @@ CTrackFilterWidget::CTrackFilterWidget(QWidget *parent)
     connect(toolSplit3Now, SIGNAL(clicked()), this, SLOT(slotSplit3Now()));
     connect(toolSplit4Now, SIGNAL(clicked()), this, SLOT(slotSplit4Now()));
     connect(toolSplit5Now, SIGNAL(clicked()), this, SLOT(slotSplit5Now()));
+    connect(toolTime1Now, SIGNAL(clicked()), this, SLOT(slotTime1Now()));
 
     // ----------- read in GUI configuration -----------
     SETTINGS;
@@ -128,6 +130,8 @@ CTrackFilterWidget::CTrackFilterWidget(QWidget *parent)
     radioEleFromRemote->setChecked(cfg.value("trackfilter/ReplaceElevation/fromRemote", radioEleFromRemote->isChecked()).toBool());
     editGeonamesOrgUsername->setText(cfg.value("geonames/username", "").toString());
 
+    // Filter: Time1
+    dateTime1->setDateTime(cfg.value("trackFilter/Time1/time", QDateTime::currentDateTime()).toDateTime());
 
     // register current track
     slotHighlightTrack(CTrackDB::self().highlightedTrack());
@@ -157,7 +161,7 @@ CTrackFilterWidget::CTrackFilterWidget(QWidget *parent)
     contextMenuStoredFilter->addAction(QIcon(":/icons/iconClear16x16.png"), tr("Delete"), this, SLOT(slotStoredFilterDelete()));
 
     // remove later
-    scrollArea_4->setEnabled(false);
+    //scrollArea_4->setEnabled(false);
 }
 
 
@@ -191,6 +195,9 @@ CTrackFilterWidget::~CTrackFilterWidget()
     cfg.setValue("trackfilter/ReplaceElevation/fromLocal", radioEleFromLocal->isChecked());
     cfg.setValue("trackfilter/ReplaceElevation/fromRemote", radioEleFromRemote->isChecked());
     cfg.setValue("geonames/username", editGeonamesOrgUsername->text());
+
+    //Filter: Time 1
+    cfg.setValue("trackFilter/Time1/time", dateTime1->dateTime());
 
     cfg.setValue("trackfilter/Split/asTrack", radioSplitTracks->isChecked());
     cfg.setValue("trackfilter/Split/asStages", radioSplitStages->isChecked());
@@ -558,6 +565,23 @@ void CTrackFilterWidget::readGuiSplit5(QByteArray& args)
     stream << quint32(eSplit5);
 }
 
+void CTrackFilterWidget::slotAddFilterTime1()
+{
+    QByteArray args;
+    QDateTime  time;
+
+    readGuiTime1(args, time);
+    QString name = groupTime1->title() + QString(" (%1)").arg(time.toString("dd.MM.yyyy HH:mm:ss"));
+    addFilter(name, ":/icons/iconTime16x16.png", args);
+}
+
+void CTrackFilterWidget::readGuiTime1(QByteArray& args, QDateTime& time)
+{
+    QDataStream stream(&args, QIODevice::WriteOnly);
+
+    time = dateTime1->dateTime();
+    stream << quint32(eTime1) << time;
+}
 
 void CTrackFilterWidget::slotAddFilterReset()
 {
@@ -593,7 +617,7 @@ void CTrackFilterWidget::readGuiDelete(QByteArray& args)
 }
 
 
-void CTrackFilterWidget::slotAddReplaceElevation()
+void CTrackFilterWidget::slotAddFilterReplaceElevation()
 {
     QByteArray args;
     quint32 type;
@@ -616,7 +640,7 @@ void CTrackFilterWidget::readGuiReplaceEle(QByteArray& args, quint32& type)
     stream << quint32(eReplaceElevation) << type << editGeonamesOrgUsername->text();
 }
 
-void CTrackFilterWidget::slotAddOffsetElevation()
+void CTrackFilterWidget::slotAddFilterOffsetElevation()
 {
     QByteArray args;
 
@@ -934,6 +958,25 @@ void CTrackFilterWidget::slotSplit5Now()
     postProcessTrack();
 }
 
+void CTrackFilterWidget::slotTime1Now()
+{
+    if(track.isNull()) return;
+
+    quint32    type;
+    QDateTime  time;
+    QByteArray args;
+    readGuiTime1(args, time);
+
+    QDataStream stream(&args, QIODevice::ReadOnly);
+    stream >> type;
+
+    QList<CTrack*> tracks;
+    tracks << track;
+
+    filterTime1(stream, tracks);
+
+    postProcessTrack();
+}
 
 void CTrackFilterWidget::slotSaveFilter()
 {
@@ -1045,6 +1088,10 @@ void CTrackFilterWidget::slotApplyFilter()
 
             case eOffsetElevation:
                 cancelled = filterOffsetElevation(args, tracks);
+                break;
+
+            case eTime1:
+                cancelled = filterTime1(args, tracks);
                 break;
 
             default:
@@ -1743,6 +1790,19 @@ bool CTrackFilterWidget::filterOffsetElevation(QDataStream &args, QList<CTrack *
     foreach(CTrack * trk, tracks)
     {
         trk->offsetElevation(offset);
+    }
+
+    return false;
+}
+
+bool CTrackFilterWidget::filterTime1(QDataStream &args, QList<CTrack *> &tracks)
+{
+    QDateTime time;
+    args >> time;
+
+    foreach(CTrack * trk, tracks)
+    {
+        trk->changeStartTime(time);
     }
 
     return false;
