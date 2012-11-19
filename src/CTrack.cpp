@@ -1836,7 +1836,7 @@ void CTrack::changeSpeed(double speed)
 {
     double deltaD;
     double t1;
-    double dT, dTsec, dTmsec;
+    double dT = 0, dTsec, dTmsec;
     double d1;
     QList<CTrack::pt_t>::iterator trkpt, end,trkpt1, trkpt2;
 
