@@ -1034,7 +1034,7 @@ void CTrack::rebuild(bool reindex)
         double dt = -1;
         if(pt1->timestamp != 0x00000000 && pt1->timestamp != 0xFFFFFFFF)
         {
-            dt = pt2->timestamp + pt2->timestamp_msec * 0.001 - pt1->timestamp - pt1->timestamp_msec * 0.001;
+            dt = pt2->timestamp + double(pt2->timestamp_msec)/1000 - pt1->timestamp - double(pt1->timestamp_msec)/1000;
         }
 
         projXY p1,p2;
@@ -1221,10 +1221,13 @@ void CTrack::setupIterators(QList<pt_t>::iterator& begin, QList<pt_t>::iterator&
     begin = trkpts.begin();
     end   = trkpts.end();
 
+    int cnt = 0;
+
     while(i != trkpts.end())
     {
         if(i->flags & pt_t::eFocus)
         {
+            cnt++;
             if(begin == track.begin())
             {
                 begin = i;
@@ -1235,6 +1238,12 @@ void CTrack::setupIterators(QList<pt_t>::iterator& begin, QList<pt_t>::iterator&
             }
         }
         i++;
+    }
+
+    if(cnt < 2)
+    {
+        begin = trkpts.begin();
+        end   = trkpts.end();
     }
 }
 

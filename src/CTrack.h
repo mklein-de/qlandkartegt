@@ -314,9 +314,9 @@ class CTrack : public IItem
         bool highlight;
 
         /// total time covered by all track points
-        quint32 totalTime;
+        double totalTime;
         /// total time moving
-        quint32 totalTimeMoving;
+        double totalTimeMoving;
         /// total distance of track [m]
         double  totalDistance;
 
