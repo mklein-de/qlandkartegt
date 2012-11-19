@@ -1243,20 +1243,11 @@ void CTrackEditWidget::slotDelete()
     QList<CTrack::pt_t>::iterator trkpt, end;
     track->setupIterators(trkpt, end);
 
-    originator = true;
-    while(trkpt != end)
+    while(trkpt != end && trkpt != trkpts.end())
     {
         if(trkpt->flags & CTrack::pt_t::eDeleted)
         {
-            if ( trkpt->editItem )
-            {
-                int idx = treePoints->indexOfTopLevelItem((CTrackTreeWidgetItem *)trkpt->editItem.data());
-                if ( idx != -1 )
-                {
-                    treePoints->takeTopLevelItem(idx);
-                }
-                delete (CTrackTreeWidgetItem *)trkpt->editItem.data();
-            }
+            delete trkpt->editItem;
             trkpt = trkpts.erase(trkpt);
         }
         else
@@ -1264,7 +1255,6 @@ void CTrackEditWidget::slotDelete()
             ++trkpt;
         }
     }
-    originator = false;
 
     track->rebuild(true);
     track->slotScaleWpt2Track();
