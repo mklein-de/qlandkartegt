@@ -1329,8 +1329,8 @@ void CTrackEditWidget::slotPointOfFocus(const int idx)
             textStages->slotHighlightArea(QString("stage%1").arg(cnt));
             if(trackStatProfileDist)
             {
-                double x = track->getTrackPoints()[idx].distance;
-                trackStatProfileDist->getPlot()->slotHighlightSection(x1,x);
+//                double x = track->getTrackPoints()[idx].distance;
+                trackStatProfileDist->getPlot()->slotHighlightSection(x1,x2);
             }
             return;
         }
@@ -1345,8 +1345,8 @@ void CTrackEditWidget::slotPointOfFocus(const int idx)
 
         if(trackStatProfileDist && track)
         {
-            double x = track->getTrackPoints()[idx].distance;
-            trackStatProfileDist->getPlot()->slotHighlightSection(x1,x);
+//            double x = track->getTrackPoints()[idx].distance;
+            trackStatProfileDist->getPlot()->slotHighlightSection(x1,track->getTrackPoints().last().distance);
         }
 
     }

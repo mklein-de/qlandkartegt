@@ -488,7 +488,7 @@ void CPlot::draw(QPainter& p)
 
             x   = posMouse.x();
             str = track->getTrkPtInfo2(*selTrkPt);
-            if(!str.isEmpty())
+            if(!str.isEmpty() && m_pData->focus.isEmpty())
             {
                 QFont           f = CResources::self().getMapFont();
                 QFontMetrics    fm(f);
