@@ -49,6 +49,7 @@ CTrackFilterWidget::CTrackFilterWidget(QWidget *parent)
     connect(comboMeterFeet2, SIGNAL(currentIndexChanged(const QString &)), this, SLOT(slotComboMeterFeet(const QString &)));
     connect(comboMeterFeet3, SIGNAL(currentIndexChanged(const QString &)), this, SLOT(slotComboMeterFeet(const QString &)));
     connect(comboMeterFeet4, SIGNAL(currentIndexChanged(const QString &)), this, SLOT(slotComboMeterFeet(const QString &)));
+    connect(comboMeterFeet5, SIGNAL(currentIndexChanged(const QString &)), this, SLOT(slotComboMeterFeet(const QString &)));
 
     connect(toolAddHidePoints1, SIGNAL(clicked()), this, SLOT(slotAddFilterHidePoints1()));
     connect(toolAddHidePoints2, SIGNAL(clicked()), this, SLOT(slotAddFilterHidePoints2()));
@@ -63,6 +64,7 @@ CTrackFilterWidget::CTrackFilterWidget(QWidget *parent)
     connect(toolAddReplaceEle, SIGNAL(clicked()), this, SLOT(slotAddFilterReplaceElevation()));
     connect(toolAddOffsetEle, SIGNAL(clicked()), this, SLOT(slotAddFilterOffsetElevation()));
     connect(toolAddTime1, SIGNAL(clicked()), this, SLOT(slotAddFilterTime1()));
+    connect(toolAddTime2, SIGNAL(clicked()), this, SLOT(slotAddFilterTime2()));
 
     connect(toolResetNow, SIGNAL(clicked()), this, SLOT(slotResetNow()));
     connect(toolHidePoints1Now, SIGNAL(clicked()), this, SLOT(slotHidePoints1Now()));
@@ -77,6 +79,7 @@ CTrackFilterWidget::CTrackFilterWidget(QWidget *parent)
     connect(toolSplit4Now, SIGNAL(clicked()), this, SLOT(slotSplit4Now()));
     connect(toolSplit5Now, SIGNAL(clicked()), this, SLOT(slotSplit5Now()));
     connect(toolTime1Now, SIGNAL(clicked()), this, SLOT(slotTime1Now()));
+    connect(toolTime2Now, SIGNAL(clicked()), this, SLOT(slotTime2Now()));
 
     // ----------- read in GUI configuration -----------
     SETTINGS;
@@ -86,10 +89,12 @@ CTrackFilterWidget::CTrackFilterWidget(QWidget *parent)
         comboMeterFeet2->setCurrentIndex((int)FEET_INDEX);
         comboMeterFeet3->setCurrentIndex((int)FEET_INDEX);
         comboMeterFeet4->setCurrentIndex((int)FEET_INDEX);
+        comboMeterFeet5->setCurrentIndex((int)FEET_INDEX);
         spinDistance1->setSuffix("ft");
         spinSplit3->setSuffix("ft");
         spinSplit4->setSuffix("ft");
         spinOffset1->setSuffix("ft");
+        spinSpeed1->setSuffix("mph");
     }
     else
     {
@@ -97,10 +102,12 @@ CTrackFilterWidget::CTrackFilterWidget(QWidget *parent)
         comboMeterFeet2->setCurrentIndex((int)METER_INDEX);
         comboMeterFeet3->setCurrentIndex((int)METER_INDEX);
         comboMeterFeet4->setCurrentIndex((int)METER_INDEX);
+        comboMeterFeet5->setCurrentIndex((int)METER_INDEX);
         spinDistance1->setSuffix("m");
         spinSplit3->setSuffix("m");
         spinSplit4->setSuffix("m");
         spinOffset1->setSuffix("m");
+        spinSpeed1->setSuffix("km/h");
     }
 
     // Filter: Hide points 1
@@ -133,6 +140,10 @@ CTrackFilterWidget::CTrackFilterWidget(QWidget *parent)
     // Filter: Time1
     dateTime1->setDateTime(cfg.value("trackFilter/Time1/time", QDateTime::currentDateTime()).toDateTime());
 
+    // Filter: Time 2
+    spinSpeed1->setValue(cfg.value("trackfilter/Time2/speed",spinSpeed1->value()).toInt());
+
+
     // register current track
     slotHighlightTrack(CTrackDB::self().highlightedTrack());
 
@@ -160,8 +171,6 @@ CTrackFilterWidget::CTrackFilterWidget(QWidget *parent)
     contextMenuStoredFilter->addAction(QIcon(":/icons/iconEdit16x16.png"), tr("Edit name..."), this, SLOT(slotStoredFilterEdit()));
     contextMenuStoredFilter->addAction(QIcon(":/icons/iconClear16x16.png"), tr("Delete"), this, SLOT(slotStoredFilterDelete()));
 
-    // remove later
-    //scrollArea_4->setEnabled(false);
 }
 
 
@@ -190,6 +199,9 @@ CTrackFilterWidget::~CTrackFilterWidget()
 
     // Filter: Split 4
     cfg.setValue("trackfilter/Split4/val",spinSplit4->value());
+
+    // Filter: Time 2
+    cfg.setValue("trackfilter/Time2/speed",spinSpeed1->value());
 
     // Filter: Replace Elevation
     cfg.setValue("trackfilter/ReplaceElevation/fromLocal", radioEleFromLocal->isChecked());
@@ -334,6 +346,10 @@ void CTrackFilterWidget::slotComboMeterFeet(const QString &text)
     {
         spinOffset1->setSuffix(text);
     }
+    else if(sender() == comboMeterFeet5)
+    {
+        spinSpeed1->setSuffix(text);
+    }
 }
 
 
@@ -424,15 +440,17 @@ void CTrackFilterWidget::readGuiHidePoints1(QByteArray& args, double& d, double&
     QDataStream stream(&args, QIODevice::WriteOnly);
 
     d =  spinDistance1->value();
+    a = spinAzimuthDelta1->value();
+
     if(spinDistance1->suffix() == "ft")
     {
-        d *= 0.3048f;
+        stream << quint32(eHidePoints1) << (d * 0.3048f) << a;
     }
-
-    a = spinAzimuthDelta1->value();
-    stream << quint32(eHidePoints1) << d << a;
+    else
+    {
+        stream << quint32(eHidePoints1) << d << a;
+    }
 }
-
 
 void CTrackFilterWidget::slotAddFilterHidePoints2()
 {
@@ -527,8 +545,15 @@ void CTrackFilterWidget::readGuiSplit3(QByteArray& args, double& val)
 {
     QDataStream stream(&args, QIODevice::WriteOnly);
 
-    val = spinSplit3->value();
-    stream << quint32(eSplit3) << val;
+    val = spinSplit3->value();    
+    if(spinSplit3->suffix() == "ft")
+    {
+        stream << quint32(eSplit3) << (val * 0.3048f);
+    }
+    else
+    {
+        stream << quint32(eSplit3) << val;
+    }
 }
 
 
@@ -546,8 +571,15 @@ void CTrackFilterWidget::readGuiSplit4(QByteArray& args, double& val)
 {
     QDataStream stream(&args, QIODevice::WriteOnly);
 
-    val = spinSplit4->value();
-    stream << quint32(eSplit4) << val;
+    val = spinSplit4->value();    
+    if(spinSplit4->suffix() == "ft")
+    {
+        stream << quint32(eSplit4) << (val * 0.3048f);
+    }
+    else
+    {
+        stream << quint32(eSplit4) << val;
+    }
 }
 
 void CTrackFilterWidget::slotAddFilterSplit5()
@@ -582,6 +614,33 @@ void CTrackFilterWidget::readGuiTime1(QByteArray& args, QDateTime& time)
     time = dateTime1->dateTime();
     stream << quint32(eTime1) << time;
 }
+
+void CTrackFilterWidget::slotAddFilterTime2()
+{
+    QByteArray args;
+    double speed;
+
+    readGuiTime2(args, speed);
+    QString name = groupTime2->title() + QString(" (%1%2)").arg(speed).arg(spinSpeed1->suffix());
+    addFilter(name, ":/icons/iconTime16x16.png", args);
+}
+
+void CTrackFilterWidget::readGuiTime2(QByteArray& args, double& speed)
+{
+    QDataStream stream(&args, QIODevice::WriteOnly);
+
+    speed = spinSpeed1->value();
+
+    if(spinSpeed1->suffix() == "mph")
+    {
+        stream << quint32(eTime2) << (speed * 1.609347);
+    }
+    else
+    {
+        stream << quint32(eTime2) << speed;
+    }
+}
+
 
 void CTrackFilterWidget::slotAddFilterReset()
 {
@@ -978,6 +1037,26 @@ void CTrackFilterWidget::slotTime1Now()
     postProcessTrack();
 }
 
+void CTrackFilterWidget::slotTime2Now()
+{
+    if(track.isNull()) return;
+
+    quint32    type;
+    double     speed;
+    QByteArray args;
+    readGuiTime2(args, speed);
+
+    QDataStream stream(&args, QIODevice::ReadOnly);
+    stream >> type;
+
+    QList<CTrack*> tracks;
+    tracks << track;
+
+    filterTime2(stream, tracks);
+
+    postProcessTrack();
+}
+
 void CTrackFilterWidget::slotSaveFilter()
 {
     QString name = QInputDialog::getText(this, tr("Filter name ..."), tr("Please enter a name for the filter list to store."));
@@ -1092,6 +1171,10 @@ void CTrackFilterWidget::slotApplyFilter()
 
             case eTime1:
                 cancelled = filterTime1(args, tracks);
+                break;
+
+            case eTime2:
+                cancelled = filterTime2(args, tracks);
                 break;
 
             default:
@@ -1803,6 +1886,19 @@ bool CTrackFilterWidget::filterTime1(QDataStream &args, QList<CTrack *> &tracks)
     foreach(CTrack * trk, tracks)
     {
         trk->changeStartTime(time);
+    }
+
+    return false;
+}
+
+bool CTrackFilterWidget::filterTime2(QDataStream &args, QList<CTrack *> &tracks)
+{
+    double speed;
+    args >> speed;
+
+    foreach(CTrack * trk, tracks)
+    {
+        trk->changeSpeed(speed/3.6);
     }
 
     return false;

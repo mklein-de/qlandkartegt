@@ -138,6 +138,37 @@ QDataStream& operator >>(QDataStream& s, CTrack& track)
                 }
                 break;
             }
+
+            case CTrack::eTrkPts2:
+            {
+                QDataStream s1(&entry->data, QIODevice::ReadOnly);
+                s1.setVersion(QDataStream::Qt_4_5);
+
+                quint32 nTrkPts1 = 0;
+
+                s1 >> nTrkPts1;
+                if(nTrkPts1 != nTrkPts)
+                {
+                    QMessageBox::warning(0, QObject::tr("Corrupt track ..."), QObject::tr("Number of trackpoints is not equal the number of training data trackpoints."), QMessageBox::Ignore,QMessageBox::Ignore);
+                    break;
+                }
+
+                QList<CTrack::pt_t>::iterator pt1 = track.track.begin();
+                while (pt1 != track.track.end())
+                {
+                    quint32 dummy;
+                    s1 >> pt1->timestamp_msec;
+                    s1 >> dummy;
+                    s1 >> dummy;
+                    s1 >> dummy;
+                    s1 >> dummy;
+                    s1 >> dummy;
+
+                    pt1++;
+                }
+                break;
+            }
+
             case CTrack::eTrain:
             {
                 QDataStream s1(&entry->data, QIODevice::ReadOnly);
@@ -345,6 +376,31 @@ QDataStream& operator <<(QDataStream& s, CTrack& track)
     }
 
     entries << entryTrkPts;
+
+    //---------------------------------------
+    // prepare trackpoint data 2
+    //---------------------------------------
+    trk_head_entry_t entryTrkPts2;
+    entryTrkPts2.type = CTrack::eTrkPts2;
+    QDataStream s8(&entryTrkPts2.data, QIODevice::WriteOnly);
+    s8.setVersion(QDataStream::Qt_4_5);
+
+    trkpt = trkpts.begin();
+
+    s8 << (quint32)trkpts.size();
+    while(trkpt != trkpts.end())
+    {
+        s8 << trkpt->timestamp_msec;
+        s8 << quint32(0);
+        s8 << quint32(0);
+        s8 << quint32(0);
+        s8 << quint32(0);
+        s8 << quint32(0);
+        ++trkpt;
+    }
+
+    entries << entryTrkPts2;
+
 
     //---------------------------------------
     // prepare trainings data
@@ -975,10 +1031,10 @@ void CTrack::rebuild(bool reindex)
 
         ++visiblePointCount;
 
-        int dt = -1;
+        double dt = -1;
         if(pt1->timestamp != 0x00000000 && pt1->timestamp != 0xFFFFFFFF)
         {
-            dt = pt2->timestamp - pt1->timestamp;
+            dt = pt2->timestamp + pt2->timestamp_msec * 0.001 - pt1->timestamp - pt1->timestamp_msec * 0.001;
         }
 
         projXY p1,p2;
@@ -1765,7 +1821,61 @@ void CTrack::changeStartTime(QDateTime& time)
 
         trkpt++;
     }
+}
 
+void CTrack::changeSpeed(double speed)
+{
+    double deltaD;
+    double t1;
+    double dT, dTsec, dTmsec;
+    double d1;
+    QList<CTrack::pt_t>::iterator trkpt, end,trkpt1, trkpt2;
+
+    trkpt   = getTrackPoints().begin();
+    end     = getTrackPoints().end();
+    setupIterators(trkpt1, trkpt2);
+
+    t1 = trkpt->timestamp + double(trkpt->timestamp_msec)/1000;
+    d1 = trkpt->distance;
+    while(trkpt != trkpt1)
+    {
+        if(!(trkpt->flags & pt_t::eDeleted))
+        {
+            t1 = trkpt->timestamp + double(trkpt->timestamp_msec)/1000;
+            d1 = trkpt->distance;
+        }
+        trkpt++;
+    }
+
+    while(trkpt != trkpt2)
+    {
+
+        if(trkpt->flags & pt_t::eDeleted)
+        {
+            trkpt++;
+            continue;
+        }
+
+        deltaD   = trkpt->distance - d1;
+
+        t1 = t1 + deltaD/speed;
+        dT = t1 - trkpt->timestamp - double(trkpt->timestamp_msec)/1000;
+
+        trkpt->timestamp        = floor(t1);
+        trkpt->timestamp_msec   = (t1 - floor(t1)) * 1000;
+
+        d1 = trkpt->distance;
+        trkpt++;
+    }
+
+    dTsec  = floor(dT);
+    dTmsec = dT - floor(dT);
+    while(trkpt != end)
+    {
+        trkpt->timestamp        += dTsec;
+        trkpt->timestamp_msec   += dTmsec;
+        trkpt++;
+    }
 }
 
 void CTrack::reset()

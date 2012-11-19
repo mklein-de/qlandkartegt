@@ -72,7 +72,7 @@ class CTrack : public IItem
 
         virtual ~CTrack();
         int ref;
-        enum type_e {eEnd,eBase,eTrkPts,eTrain,eTrkExt1,eTrkGpxExt,eTrkShdw, eTrkShdw2};
+        enum type_e {eEnd,eBase,eTrkPts,eTrain,eTrkExt1,eTrkGpxExt,eTrkShdw, eTrkShdw2, eTrkPts2};
         enum type_select_e{eErase, eNoErase, e3Way};
 
 #ifdef GPX_EXTENSIONS
@@ -276,6 +276,8 @@ class CTrack : public IItem
         void offsetElevation(double offset);
 
         void changeStartTime(QDateTime& time);
+
+        void changeSpeed(double speed);
 
         void setupIterators(QList<pt_t>::iterator& begin, QList<pt_t>::iterator& end);
 
