@@ -646,7 +646,7 @@ void CTrackFilterWidget::slotAddFilterReset()
 {
     QByteArray args;
 
-    QString name = groupReset->title();
+    QString name = tr("Reset");
     readGuiReset(args);
     addFilter(name, ":/icons/editundo.png", args);
 }
