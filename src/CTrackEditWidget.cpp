@@ -1243,6 +1243,7 @@ void CTrackEditWidget::slotDelete()
     QList<CTrack::pt_t>::iterator trkpt, end;
     track->setupIterators(trkpt, end);
 
+    originator = true;
     while(trkpt != end && trkpt != trkpts.end())
     {
         if(trkpt->flags & CTrack::pt_t::eDeleted)
@@ -1255,6 +1256,7 @@ void CTrackEditWidget::slotDelete()
             ++trkpt;
         }
     }
+    originator = false;
 
     track->rebuild(true);
     track->slotScaleWpt2Track();
