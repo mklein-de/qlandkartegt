@@ -1033,6 +1033,10 @@ Expected %1, received %2.</source>
         <source>Garmin Mass Storage: Live log is not implemented.</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Error</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>CDeviceMikrokopter</name>
@@ -2028,6 +2032,14 @@ n&apos;est pas un systéme de coordonné valide:
         <source>Do you really want to delete the diary?</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Lock</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Migrating database from version 8 to 9.</source>
+        <translation type="unfinished">Migrer la base de la version 6 vers 7. {8 ?} {9.?}</translation>
+    </message>
 </context>
 <context>
     <name>CGpx</name>
@@ -2062,6 +2074,14 @@ ligne %2, colonne %3:
     <message>
         <source>bad application</source>
         <translation>mauvaise application</translation>
+    </message>
+    <message>
+        <source>Failed to create %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Failed to write %1</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -2467,7 +2487,7 @@ Do you want to save your changes?</source>
 Voulez vous sauvegarder vos changements ?</translation>
     </message>
     <message>
-        <source>Profilig</source>
+        <source>Profiling</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2720,6 +2740,13 @@ Voulez vous sauvegarder vos changements ?</translation>
     </message>
 </context>
 <context>
+    <name>CMapExportStateRMP</name>
+    <message>
+        <source>Create Magellan RMP Map...</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>CMapExportStateReadTileCache</name>
     <message>
         <source>Create GeoTiff from map cache...</source>
@@ -2780,7 +2807,7 @@ Voulez vous sauvegarder vos changements ?</translation>
     </message>
     <message>
         <source>Value</source>
-        <translation>Valeur</translation>
+        <translation type="obsolete">Valeur</translation>
     </message>
     <message>
         <source>Projection</source>
@@ -2796,7 +2823,7 @@ Voulez vous sauvegarder vos changements ?</translation>
     </message>
     <message>
         <source>Parameter</source>
-        <translation>Paramétre</translation>
+        <translation type="obsolete">Paramétre</translation>
     </message>
     <message>
         <source>Bottom/Right</source>
@@ -2805,6 +2832,10 @@ Voulez vous sauvegarder vos changements ?</translation>
     <message>
         <source>Z-Order</source>
         <translation>Z-Order</translation>
+    </message>
+    <message>
+        <source>Product ID</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -2819,7 +2850,7 @@ Voulez vous sauvegarder vos changements ?</translation>
     </message>
     <message>
         <source>Value</source>
-        <translation>Valeur</translation>
+        <translation type="obsolete">Valeur</translation>
     </message>
     <message>
         <source>disabled</source>
@@ -2843,7 +2874,7 @@ Voulez vous sauvegarder vos changements ?</translation>
     </message>
     <message>
         <source>Parameter</source>
-        <translation>Paramétre</translation>
+        <translation type="obsolete">Paramétre</translation>
     </message>
     <message>
         <source>Quadratic zoom %1</source>
@@ -2926,6 +2957,18 @@ Annuler par l&apos;utilisateur.</translation>
 </source>
         <translation>Attention. Voir &quot;Details&quot; pour plus d&apos;information.</translation>
     </message>
+    <message>
+        <source>Please enter a string</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select copyright notice...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>text file (*.txt)</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>CMapRaster</name>
@@ -2983,6 +3026,21 @@ Annuler par l&apos;utilisateur.</translation>
     <message>
         <source>Zoom level x%1</source>
         <translation>Niveau de zoom x%1</translation>
+    </message>
+</context>
+<context>
+    <name>CMapRmp</name>
+    <message>
+        <source>Error...</source>
+        <translation type="unfinished">Erreur ...</translation>
+    </message>
+    <message>
+        <source>Failed to open: %1.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This is not a Magellan RMP file: %1</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -3727,10 +3785,6 @@ ligne %2, colonne %3:
         <translation>Vous avez besoin d&apos;avoir la suite d&apos;outils GDAL dans votre PATH.</translation>
     </message>
     <message>
-        <source>16bit Srtm Data (*.tif *.tiff *.hgt)</source>
-        <translation></translation>
-    </message>
-    <message>
         <source>selected map</source>
         <translation>carte selectionné</translation>
     </message>
@@ -3745,6 +3799,14 @@ ligne %2, colonne %3:
     <message>
         <source>Reload map...</source>
         <translation>Recharger la carte...</translation>
+    </message>
+    <message>
+        <source>Magellan/RMP</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>16bit Srtm Data (*.tif *.tiff *.hgt *.blx)</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -4466,10 +4528,6 @@ time: %1:</source>
 durée: %1:</translation>
     </message>
     <message>
-        <source> | (%3%) %1%2 %4 %5</source>
-        <translation></translation>
-    </message>
-    <message>
         <source>Warning...</source>
         <translation>Danger...</translation>
     </message>
@@ -4565,23 +4623,11 @@ Your selection will be stored in the track&apos;s data. You can save it along wi
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source> | (%6%) %1:%2:%3 %4 %5</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>%4 %1:%2:%3 (%5%)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source> | (%5%) %1:%2:%3 %4</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>%4 %1%2 (%3%)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source> | (%3%) %1%2 %4</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -4594,6 +4640,22 @@ Your selection will be stored in the track&apos;s data. You can save it along wi
     </message>
     <message>
         <source>cadence: %1rpm</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source> .. (%6%) %1:%2:%3 %4 %5</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source> .. (%5%) %1:%2:%3 %4</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source> .. (%3%) %1%2 %4 %5</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source> .. (%3%) %1%2 %4</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -4776,6 +4838,10 @@ Your selection will be stored in the track&apos;s data. You can save it along wi
     <message>
         <source> (remote)</source>
         <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Reset</source>
+        <translation type="unfinished">Reset</translation>
     </message>
 </context>
 <context>
@@ -6413,10 +6479,6 @@ For modern Garmin device select &quot;Garmin Mass Storage&quot; device to exchan
 <context>
     <name>IDlgImportImages</name>
     <message>
-        <source>Dialog</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Import pictures from</source>
         <translation type="unfinished"></translation>
     </message>
@@ -6488,6 +6550,10 @@ For modern Garmin device select &quot;Garmin Mass Storage&quot; device to exchan
         <source>The position has to be in WGS84 datum. The position format is: N|Sdd mm.mmm E|Wddd mm.mmm</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Import pictures</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>IDlgLoadOnlineMap</name>
@@ -6532,6 +6598,17 @@ For modern Garmin device select &quot;Garmin Mass Storage&quot; device to exchan
     <message>
         <source>Information...</source>
         <translation>Information...</translation>
+    </message>
+</context>
+<context>
+    <name>IDlgMapRMPConfig</name>
+    <message>
+        <source>Information...</source>
+        <translation type="unfinished">Information...</translation>
+    </message>
+    <message>
+        <source>about:blank</source>
+        <translation type="unfinished">A Propos</translation>
     </message>
 </context>
 <context>
@@ -7282,6 +7359,22 @@ DEM: %2</translation>
         <source>Make your selections and press &quot;Export&quot;</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Magellan RMP</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Provider </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Product</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Copyright</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>IMapSearchWidget</name>
@@ -7663,16 +7756,8 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Reset changes</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>...</source>
         <translation type="unfinished">...</translation>
-    </message>
-    <message>
-        <source>Restore hidden points and changes applied by filters.</source>
-        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Reduce Points</source>
@@ -7827,43 +7912,67 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Anonymize</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Change the track&apos;s starting time (anonymize track) to:</source>
-        <translation type="unfinished">Changer l heure de démarrage du tracé à:</translation>
-    </message>
-    <message>
-        <source>yyyy-MM-dd HH:mm:ss</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete">Changer l heure de démarrage du tracé à:</translation>
     </message>
     <message>
         <source>Local time</source>
-        <translation type="unfinished">Heure Locale</translation>
+        <translation type="obsolete">Heure Locale</translation>
     </message>
     <message>
-        <source>UTC</source>
+        <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Sans Serif&apos;; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600; color:#c00000;&quot;&gt;The filters will only apply to the selected part of the track.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>1st of month, hour 0</source>
+        <source>Reset all changes</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>1970-01-01 00:00 UTC</source>
+        <source>Offset elevation data</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Change time deltas:</source>
+        <source>Add offset of</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>No, leave them &quot;as is&quot;</source>
+        <source>Split at stages</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Change to 1 s per track point</source>
+        <source>Split track at stage waypoints</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Time</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Date/Time of track</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>New date/time of track</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>dd.MMMM.yyyy HH:mm:ss</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Speed of track</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Speed</source>
+        <translation type="unfinished">Vitesse</translation>
+    </message>
+    <message>
+        <source>km/h</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -8050,15 +8159,23 @@ Temp estimé pour finir: %02i:%02i:%02i [hh:mm:ss]</translation>
         <translation>Effacer la selection</translation>
     </message>
     <message>
-        <source>&lt;!DOCTYPE HTML PUBLIC &apos;-//W3C//DTD HTML 4.01 Transitional//EN&apos;  &apos;http://www.w3.org/TR/html4/loose.dtd&apos;&gt;&lt;html&gt;   &lt;head&gt;       &lt;title&gt;&lt;/title&gt;       &lt;META HTTP-EQUIV=&apos;CACHE-CONTROL&apos; CONTENT=&apos;NO-CACHE&apos;&gt;       &lt;meta http-equiv=&apos;Content-Type&apos; content=&apos;text/html; charset=utf-8&apos;&gt;       &lt;style type=&apos;text/css&apos;&gt;           p, li { white-space: pre-wrap; }           td {padding-top: 10px;}           th {background-color: lightBlue;}       &lt;/style&gt;   &lt;/head&gt;   &lt;body style=&apos; font-family:&apos;Sans&apos;; font-size:9pt; font-weight:400; font-style:normal;&apos;&gt;       &lt;p&gt;${info}&lt;/p&gt;   &lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&lt;!DOCTYPE HTML PUBLIC &apos;-//W3C//DTD HTML 4.01 Transitional//EN&apos;  &apos;http://www.w3.org/TR/html4/loose.dtd&apos;&gt;&lt;html&gt;   &lt;head&gt;       &lt;title&gt;&lt;/title&gt;       &lt;META HTTP-EQUIV=&apos;CACHE-CONTROL&apos; CONTENT=&apos;NO-CACHE&apos;&gt;       &lt;meta http-equiv=&apos;Content-Type&apos; content=&apos;text/html; charset=UTF-8&apos;&gt;       &lt;style type=&apos;text/css&apos;&gt;           p, li { white-space: pre-wrap; }           td {padding-top: 10px;}       &lt;/style&gt;   &lt;/head&gt;   &lt;body style=&apos; font-family:&apos;Sans&apos;; font-size:9pt; font-weight:400; font-style:normal;&apos;&gt;       &lt;p&gt;${copyright}&lt;/p&gt;       &lt;h1&gt;Map Levels&lt;/h1&gt;       &lt;p&gt;${maplevels}&lt;/p&gt;       &lt;h1&gt;Legend&lt;/h1&gt;       &lt;h2&gt;Lines&lt;/h2&gt;       &lt;p&gt;${legendlines}&lt;/p&gt;       &lt;h2&gt;Areas&lt;/h2&gt;       &lt;p&gt;${legendareas}&lt;/p&gt;       &lt;h2&gt;Points&lt;/h2&gt;       &lt;p&gt;${legendpoints}&lt;/p&gt;   &lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>There is a problem with your Proj4 library and localization. The key issue is that the floating point definition in your localization is different from what Proj4 uses for it&apos;s correction tables (&apos;1.2&apos; vs &apos;1,2&apos;). That might cause an offset when using raster maps. Vector maps are not affected, as they use a projection that works without a textual table. </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;!DOCTYPE HTML PUBLIC &apos;-//W3C//DTD HTML 4.01 Transitional//EN&apos;  &apos;http://www.w3.org/TR/html4/loose.dtd&apos;&gt;&lt;html&gt;   &lt;head&gt;       &lt;title&gt;&lt;/title&gt;       &lt;META HTTP-EQUIV=&apos;CACHE-CONTROL&apos; CONTENT=&apos;NO-CACHE&apos;&gt;       &lt;meta http-equiv=&apos;Content-Type&apos; content=&apos;text/html; charset=utf-8&apos;&gt;       &lt;style type=&apos;text/css&apos;&gt;           p, li { white-space: pre-wrap; }           td {padding-top: 10px;}           th {background-color: darkBlue; color: white;}       &lt;/style&gt;   &lt;/head&gt;   &lt;body style=&apos; font-family:&apos;Sans&apos;; font-size:9pt; font-weight:400; font-style:normal;&apos;&gt;       &lt;p&gt;${info}&lt;/p&gt;   &lt;/body&gt;&lt;/html&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;!DOCTYPE HTML PUBLIC &apos;-//W3C//DTD HTML 4.01 Transitional//EN&apos;  &apos;http://www.w3.org/TR/html4/loose.dtd&apos;&gt;&lt;html&gt;   &lt;head&gt;       &lt;title&gt;&lt;/title&gt;       &lt;META HTTP-EQUIV=&apos;CACHE-CONTROL&apos; CONTENT=&apos;NO-CACHE&apos;&gt;       &lt;meta http-equiv=&apos;Content-Type&apos; content=&apos;text/html; charset=utf-8&apos;&gt;       &lt;style type=&apos;text/css&apos;&gt;           p, li { white-space: pre-wrap;}           td {padding-top: 3px;}           th {background-color: darkBlue; color: white;}       &lt;/style&gt;   &lt;/head&gt;   &lt;body style=&apos; font-family: sans-serif; font-size: 9pt; font-weight:400; font-style:normal;&apos;&gt;       &lt;p&gt;${info}&lt;/p&gt;   &lt;/body&gt;&lt;/html&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;!DOCTYPE HTML PUBLIC &apos;-//W3C//DTD HTML 4.01 Transitional//EN&apos;  &apos;http://www.w3.org/TR/html4/loose.dtd&apos;&gt;&lt;html&gt;   &lt;head&gt;       &lt;title&gt;&lt;/title&gt;       &lt;META HTTP-EQUIV=&apos;CACHE-CONTROL&apos; CONTENT=&apos;NO-CACHE&apos;&gt;       &lt;meta http-equiv=&apos;Content-Type&apos; content=&apos;text/html; charset=utf-8&apos;&gt;       &lt;style type=&apos;text/css&apos;&gt;           p, li { white-space: pre-wrap;}           td {padding-top: 3px;}           h1,th {background-color: darkBlue; color: white;}       &lt;/style&gt;   &lt;/head&gt;   &lt;body style=&apos; font-family: sans-serif; font-size: 9pt; font-weight:400; font-style:normal;&apos;&gt;       &lt;p&gt;${info}&lt;/p&gt;   &lt;/body&gt;&lt;/html&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;!DOCTYPE HTML PUBLIC &apos;-//W3C//DTD HTML 4.01 Transitional//EN&apos;  &apos;http://www.w3.org/TR/html4/loose.dtd&apos;&gt;&lt;html&gt;   &lt;head&gt;       &lt;title&gt;&lt;/title&gt;       &lt;META HTTP-EQUIV=&apos;CACHE-CONTROL&apos; CONTENT=&apos;NO-CACHE&apos;&gt;       &lt;meta http-equiv=&apos;Content-Type&apos; content=&apos;text/html; charset=UTF-8&apos;&gt;       &lt;style type=&apos;text/css&apos;&gt;           p, li { white-space: pre-wrap;}           td {padding-top: 3px;}           th {background-color: darkBlue; color: white;}       &lt;/style&gt;   &lt;/head&gt;   &lt;body style=&apos; font-family: sans-serif; font-size: 9pt; font-weight:400; font-style:normal;&apos;&gt;       &lt;p&gt;${copyright}&lt;/p&gt;       &lt;h1&gt;Map Levels&lt;/h1&gt;       &lt;p&gt;${maplevels}&lt;/p&gt;       &lt;h1&gt;Legend&lt;/h1&gt;       &lt;h2&gt;Lines&lt;/h2&gt;       &lt;p&gt;${legendlines}&lt;/p&gt;       &lt;h2&gt;Areas&lt;/h2&gt;       &lt;p&gt;${legendareas}&lt;/p&gt;       &lt;h2&gt;Points&lt;/h2&gt;       &lt;p&gt;${legendpoints}&lt;/p&gt;   &lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
