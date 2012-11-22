@@ -58,6 +58,7 @@ class CTrackFilterWidget : public QWidget, private Ui::ITrackFilterWidget
         void slotAddFilterOffsetElevation();
         void slotAddFilterTime1();
         void slotAddFilterTime2();
+        void slotAddFilterTime3();
 
         void slotDoubleClickStoredFilter(QListWidgetItem * item);
         void slotContextMenuStoredFilter( const QPoint & pos);
@@ -78,6 +79,7 @@ class CTrackFilterWidget : public QWidget, private Ui::ITrackFilterWidget
         void slotSplit5Now();
         void slotTime1Now();
         void slotTime2Now();
+        void slotTime3Now();
 
         void slotUpdate();
 
@@ -103,6 +105,7 @@ class CTrackFilterWidget : public QWidget, private Ui::ITrackFilterWidget
         bool filterOffsetElevation(QDataStream &args, QList<CTrack *> &tracks);
         bool filterTime1(QDataStream &args, QList<CTrack *> &tracks);
         bool filterTime2(QDataStream &args, QList<CTrack *> &tracks);
+        bool filterTime3(QDataStream &args, QList<CTrack *> &tracks);
 
         void readGuiReset(QByteArray& args);
         void readGuiHidePoints1(QByteArray& args, double &d, double &a);
@@ -118,6 +121,7 @@ class CTrackFilterWidget : public QWidget, private Ui::ITrackFilterWidget
         void readGuiSplit5(QByteArray& args);
         void readGuiTime1(QByteArray& args, QDateTime &time);
         void readGuiTime2(QByteArray& args, double& speed);
+        void readGuiTime3(QByteArray& args, quint32& delta);
 
         void postProcessTrack();
         void showFilterPartMessage(bool show);
@@ -137,6 +141,7 @@ class CTrackFilterWidget : public QWidget, private Ui::ITrackFilterWidget
             , eSplit5
             , eTime1
             , eTime2
+            , eTime3
         };
 
         enum replaceEleType_e {eLocal, eRemote};

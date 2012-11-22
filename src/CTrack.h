@@ -279,6 +279,8 @@ class CTrack : public IItem
 
         void changeSpeed(double speed);
 
+        bool unifyTimestamps(quint32 delta);
+
         void setupIterators(QList<pt_t>::iterator& begin, QList<pt_t>::iterator& end);
 
 

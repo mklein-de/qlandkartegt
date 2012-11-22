@@ -1887,6 +1887,45 @@ void CTrack::changeSpeed(double speed)
     }
 }
 
+bool CTrack::unifyTimestamps(quint32 delta)
+{
+    QList<CTrack::pt_t>::iterator trkpt, end;
+    trkpt   = getTrackPoints().begin();
+    end     = getTrackPoints().end();
+
+    if(delta > 0)
+    {
+        quint32 timestamp = trkpt->timestamp;
+
+        if(timestamp == 0 || timestamp == 0xFFFFFFFF)
+        {
+            QMessageBox::warning(0,tr("Error..."),tr("This track has no valid start timestamp. Use the 'Date/Time' track filter to set one."), QMessageBox::Abort, QMessageBox::Abort);
+            return false;
+        }
+
+        while(trkpt != end)
+        {
+            trkpt->timestamp        = timestamp;
+            trkpt->timestamp_msec   = 0;
+
+            timestamp += delta;
+            trkpt++;
+        }
+
+    }
+    else
+    {
+        while(trkpt != end)
+        {
+            trkpt->timestamp        = 0xFFFFFFFF;
+            trkpt->timestamp_msec   = 0;
+            trkpt++;
+        }
+    }
+
+    return true;
+}
+
 void CTrack::reset()
 {
     QList<CTrack::pt_t>::iterator trkpt, end;

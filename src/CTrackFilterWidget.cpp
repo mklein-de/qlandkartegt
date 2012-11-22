@@ -65,6 +65,7 @@ CTrackFilterWidget::CTrackFilterWidget(QWidget *parent)
     connect(toolAddOffsetEle, SIGNAL(clicked()), this, SLOT(slotAddFilterOffsetElevation()));
     connect(toolAddTime1, SIGNAL(clicked()), this, SLOT(slotAddFilterTime1()));
     connect(toolAddTime2, SIGNAL(clicked()), this, SLOT(slotAddFilterTime2()));
+    connect(toolAddTime3, SIGNAL(clicked()), this, SLOT(slotAddFilterTime3()));
 
     connect(toolResetNow, SIGNAL(clicked()), this, SLOT(slotResetNow()));
     connect(toolHidePoints1Now, SIGNAL(clicked()), this, SLOT(slotHidePoints1Now()));
@@ -80,6 +81,7 @@ CTrackFilterWidget::CTrackFilterWidget(QWidget *parent)
     connect(toolSplit5Now, SIGNAL(clicked()), this, SLOT(slotSplit5Now()));
     connect(toolTime1Now, SIGNAL(clicked()), this, SLOT(slotTime1Now()));
     connect(toolTime2Now, SIGNAL(clicked()), this, SLOT(slotTime2Now()));
+    connect(toolTime3Now, SIGNAL(clicked()), this, SLOT(slotTime3Now()));
 
     // ----------- read in GUI configuration -----------
     SETTINGS;
@@ -143,6 +145,8 @@ CTrackFilterWidget::CTrackFilterWidget(QWidget *parent)
     // Filter: Time 2
     spinSpeed1->setValue(cfg.value("trackfilter/Time2/speed",spinSpeed1->value()).toInt());
 
+    // Filter: Time 3
+    spinTime1->setValue(cfg.value("trackfilter/Time3/delta",spinTime1->value()).toInt());
 
     // register current track
     slotHighlightTrack(CTrackDB::self().highlightedTrack());
@@ -200,16 +204,19 @@ CTrackFilterWidget::~CTrackFilterWidget()
     // Filter: Split 4
     cfg.setValue("trackfilter/Split4/val",spinSplit4->value());
 
-    // Filter: Time 2
-    cfg.setValue("trackfilter/Time2/speed",spinSpeed1->value());
-
     // Filter: Replace Elevation
     cfg.setValue("trackfilter/ReplaceElevation/fromLocal", radioEleFromLocal->isChecked());
     cfg.setValue("trackfilter/ReplaceElevation/fromRemote", radioEleFromRemote->isChecked());
     cfg.setValue("geonames/username", editGeonamesOrgUsername->text());
 
-    //Filter: Time 1
+    // Filter: Time 1
     cfg.setValue("trackFilter/Time1/time", dateTime1->dateTime());
+
+    // Filter: Time 2
+    cfg.setValue("trackfilter/Time2/speed",spinSpeed1->value());
+
+    // Filter: Time 3
+    cfg.setValue("trackfilter/Time3/delta",spinTime1->value());
 
     cfg.setValue("trackfilter/Split/asTrack", radioSplitTracks->isChecked());
     cfg.setValue("trackfilter/Split/asStages", radioSplitStages->isChecked());
@@ -309,6 +316,7 @@ void CTrackFilterWidget::slotUpdate()
     groupSplit3->setEnabled(!isSubSection);
     groupSplit4->setEnabled(!isSubSection);
     groupSplit5->setEnabled(!isSubSection);
+    groupTime3->setEnabled(!isSubSection);
 }
 
 void CTrackFilterWidget::slotHighlightTrack(CTrack * trk)
@@ -639,6 +647,24 @@ void CTrackFilterWidget::readGuiTime2(QByteArray& args, double& speed)
     {
         stream << quint32(eTime2) << speed;
     }
+}
+
+void CTrackFilterWidget::slotAddFilterTime3()
+{
+    QByteArray args;
+    quint32 delta;
+
+    readGuiTime3(args, delta);
+    QString name = groupTime3->title() + QString(" (%1sec)").arg(delta);
+    addFilter(name, ":/icons/iconTime16x16.png", args);
+}
+
+void CTrackFilterWidget::readGuiTime3(QByteArray& args, quint32& delta)
+{
+    QDataStream stream(&args, QIODevice::WriteOnly);
+
+    delta = spinTime1->value();
+    stream << quint32(eTime3) << delta;
 }
 
 
@@ -1057,6 +1083,26 @@ void CTrackFilterWidget::slotTime2Now()
     postProcessTrack();
 }
 
+void CTrackFilterWidget::slotTime3Now()
+{
+    if(track.isNull()) return;
+
+    quint32    type;
+    quint32    delta;
+    QByteArray args;
+    readGuiTime3(args, delta);
+
+    QDataStream stream(&args, QIODevice::ReadOnly);
+    stream >> type;
+
+    QList<CTrack*> tracks;
+    tracks << track;
+
+    filterTime3(stream, tracks);
+
+    postProcessTrack();
+}
+
 void CTrackFilterWidget::slotSaveFilter()
 {
     QString name = QInputDialog::getText(this, tr("Filter name ..."), tr("Please enter a name for the filter list to store."));
@@ -1175,6 +1221,10 @@ void CTrackFilterWidget::slotApplyFilter()
 
             case eTime2:
                 cancelled = filterTime2(args, tracks);
+                break;
+
+            case eTime3:
+                cancelled = filterTime3(args, tracks);
                 break;
 
             default:
@@ -1899,6 +1949,23 @@ bool CTrackFilterWidget::filterTime2(QDataStream &args, QList<CTrack *> &tracks)
     foreach(CTrack * trk, tracks)
     {
         trk->changeSpeed(speed/3.6);
+    }
+
+    return false;
+}
+
+bool CTrackFilterWidget::filterTime3(QDataStream &args, QList<CTrack *> &tracks)
+{
+
+    quint32 delta;
+    args >> delta;
+
+    foreach(CTrack * trk, tracks)
+    {
+        if(!trk->unifyTimestamps(delta))
+        {
+            return false;
+        }
     }
 
     return false;
