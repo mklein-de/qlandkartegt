@@ -18,6 +18,7 @@
 **********************************************************************************************/
 
 #include "CResources.h"
+#include "CDeviceMagellan.h"
 #include "CDeviceGarmin.h"
 #include "CDeviceGarminBulk.h"
 #include "CDeviceTwoNav.h"
@@ -338,6 +339,10 @@ IDevice * CResources::device()
         else if(m_devKey == "TwoNav")
         {
             m_device = new CDeviceTwoNav(this);
+        }
+        else if(m_devKey == "Magellan")
+        {
+            m_device = new CDeviceMagellan(this);
         }
 
         connect(m_device, SIGNAL(sigLiveLog(const CLiveLog&)), &CLiveLogDB::self(), SLOT(slotLiveLog(const CLiveLog&)));

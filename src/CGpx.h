@@ -49,7 +49,7 @@ class CGpx : public QObject, public QDomDocument
         {
             qlVer_foreign,       // file was not created by QLandkarteGT
             qlVer_1_0,           // file uses old, non XSD-compatible extensions
-            qlVer_1_1,           // file uses new, XSD-compatible extensions
+            qlVer_1_1            // file uses new, XSD-compatible extensions
         };
 
         enum exportMode_e
@@ -58,6 +58,7 @@ class CGpx : public QObject, public QDomDocument
             , eCleanExport
             , eOcmExport
             , eBackupExport
+            , eMagellan
         };
 
     public:

@@ -20,7 +20,7 @@
 
 #include <QtGui>
 
-CDlgDeviceExportPath::CDlgDeviceExportPath(const QString& what, QDir &dir, QString& subdir, QWidget * parent)
+CDlgDeviceExportPath::CDlgDeviceExportPath(const QString& what, QDir &dir, QString& subdir, mode_e mode, QWidget * parent)
 : QDialog(parent)
 , subdir(subdir)
 {
@@ -28,16 +28,43 @@ CDlgDeviceExportPath::CDlgDeviceExportPath(const QString& what, QDir &dir, QStri
 
     labelHead->setText(tr("Where should I place all %1?").arg(what));
 
-    QStringList dirs = dir.entryList(QStringList("*"), QDir::AllDirs|QDir::NoDotAndDotDot);
-
-    foreach(const QString& d, dirs)
+    if(mode == eDirectory)
     {
-        QListWidgetItem * item = new QListWidgetItem(listWidget);
-        item->setText(d);
-        item->setIcon(QIcon(":/icons/iconFolderBlue16x16.png"));
+        QStringList dirs = dir.entryList(QStringList("*"), QDir::AllDirs|QDir::NoDotAndDotDot);
+        foreach(const QString& d, dirs)
+        {
+            QListWidgetItem * item = new QListWidgetItem(listWidget);
+            item->setText(d);
+            item->setIcon(QIcon(":/icons/iconFolderBlue16x16.png"));
+        }
+    }
+    else
+    {
+        QSet<QString> knownPrefix;
+        qDebug() << dir;
+        QStringList files = dir.entryList(QStringList("*.gpx"), QDir::Files|QDir::NoDotAndDotDot);
+        foreach(const QString& f, files)
+        {
+            if(!f.contains('_'))
+            {
+                continue;
+            }
+
+            QString prefix = f.split('_')[0];
+            if(prefix.isEmpty() || knownPrefix.contains(prefix))
+            {
+                continue;
+            }
+            knownPrefix << prefix;
+
+            QListWidgetItem * item = new QListWidgetItem(listWidget);
+            item->setText(prefix);
+            item->setIcon(QIcon(":/icons/iconText16x16.png"));
+
+        }
     }
 
-    lineEdit->setText(QString("Data_%1").arg(QDateTime::currentDateTime().toUTC().toString("yyyy-MM-dd")));
+    lineEdit->setText(QString("Data-%1").arg(QDateTime::currentDateTime().toUTC().toString("yyyy-MM-dd")));
     lineEdit->setFocus();
     lineEdit->selectAll();
 

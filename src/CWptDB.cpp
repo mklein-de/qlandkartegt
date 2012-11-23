@@ -713,7 +713,14 @@ void CWptDB::saveGPX(CGpx& gpx, const QStringList& keys)
         }
 
         QDomElement extensions = gpx.createElement("extensions");
-        waypoint.appendChild(extensions);
+
+        // Magellan does not like extensions right infront of geocache descriptions
+        // stupid!
+        if(gpx.getExportMode() != CGpx::eMagellan)
+        {
+            waypoint.appendChild(extensions);
+        }
+
         if(!wpt->getParentWpt().isEmpty())
         {
             QDomElement gpxx_ext = gpx.createElement("gpxx:WaypointExtension");

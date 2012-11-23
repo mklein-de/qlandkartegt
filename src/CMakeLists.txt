@@ -169,6 +169,7 @@ set(qlandkarte_SRCS
     CGpx.cpp
     IDevice.cpp
     CDeviceQLandkarteM.cpp
+    CDeviceMagellan.cpp
     CDeviceGarmin.cpp
     CDeviceGarminBulk.cpp
     CDeviceNMEA.cpp
@@ -344,6 +345,7 @@ set(qlandkarte_HDRS
     CGpx.h
     IDevice.h
     CDeviceQLandkarteM.h
+    CDeviceMagellan.h
     CDeviceGarmin.h
     CDeviceGarminBulk.h
     CDeviceNMEA.h

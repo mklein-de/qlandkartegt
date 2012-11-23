@@ -108,7 +108,8 @@ void CDlgConfig::exec()
     comboDevice->addItem(tr("QLandkarte M"), "QLandkarteM");
     comboDevice->addItem(tr("Garmin"), "Garmin");
     comboDevice->addItem(tr("Garmin Mass Storage"), "Garmin Mass Storage");
-    comboDevice->addItem(tr("TwoNav"), "TwoNav");
+    comboDevice->addItem(tr("Magellan"), "Magellan");
+    comboDevice->addItem(tr("TwoNav"), "TwoNav");    
     comboDevice->addItem(tr("NMEA"), "NMEA");
 
     comboDevBaudRate->addItem("4800");

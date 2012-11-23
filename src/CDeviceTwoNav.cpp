@@ -168,7 +168,7 @@ void CDeviceTwoNav::createDayPath(const QString& what)
     QString subdir;
     dir.cd(pathData);
 
-    CDlgDeviceExportPath dlg(what, dir, subdir, 0);
+    CDlgDeviceExportPath dlg(what, dir, subdir, CDlgDeviceExportPath::eDirectory, 0);
     dlg.exec();
 
     pathDay = dir.absoluteFilePath(subdir);

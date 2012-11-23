@@ -16,31 +16,47 @@
     Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
 
 **********************************************************************************************/
+#ifndef CDEVICEMAGELLAN_H
+#define CDEVICEMAGELLAN_H
 
-#ifndef CDLGDEVICEEXPORTPATH_H
-#define CDLGDEVICEEXPORTPATH_H
+#include "IDevice.h"
 
-#include "ui_IDlgDeviceExportPath.h"
-#include <QDialog>
-
-class QDir;
-class QString;
-
-class CDlgDeviceExportPath : public QDialog, private Ui::IDlgDeviceExportPath
+class CDeviceMagellan : public IDevice
 {
     Q_OBJECT;
     public:
-        enum mode_e{eDirectory, eFilePrefix};
+        CDeviceMagellan(QObject * parent);
+        virtual ~CDeviceMagellan();
 
-        CDlgDeviceExportPath(const QString &what, QDir &dir, QString &subdir, mode_e mode, QWidget *parent);
-        virtual ~CDlgDeviceExportPath();
+        void uploadWpts(const QList<CWpt*>& wpts);
+        void downloadWpts(QList<CWpt*>& wpts);
 
-    private slots:
-        void slotItemClicked(QListWidgetItem*item);
-        void slotReturnPressed();
+        void uploadTracks(const QList<CTrack*>& trks);
+        void downloadTracks(QList<CTrack*>& trks);
+
+        void uploadRoutes(const QList<CRoute*>& rtes);
+        void downloadRoutes(QList<CRoute*>& rtes);
+
+        void uploadMap(const QList<IMapSelection*>& mss);
+
+        void setLiveLog(bool on);
+        bool liveLog(){return false;}
+
+        void downloadScreenshot(QImage& image);
 
     private:
-        QString& subdir;
+        bool aquire(QDir& dir);
+        QString createDayPrefix(QDir &root, const QString& what);
+
+        QString pathRoot;
+        QString pathTrk;
+        QString pathWpt;
+        QString pathRts;
+        QString pathGC;
+
+
 
 };
-#endif                           //CDLGDEVICEEXPORTPATH_H
+
+#endif //CDEVICEMAGELLAN_H
+
