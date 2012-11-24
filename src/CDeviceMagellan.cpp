@@ -123,7 +123,7 @@ void CDeviceMagellan::uploadWpts(const QList<CWpt*>& wpts)
     }
 
     dir.cd(pathWpt);
-    {
+    if(!keysWpt.isEmpty()){
         CGpx gpx(this, CGpx::eMagellan);
         CWptDB::self().saveGPX(gpx, keysWpt);
         try
@@ -137,7 +137,7 @@ void CDeviceMagellan::uploadWpts(const QList<CWpt*>& wpts)
     }
 
     dir.cd(pathGC);
-    {
+    if(!keysGc.isEmpty()){
         CGpx gpx(this, CGpx::eMagellan);
         CWptDB::self().saveGPX(gpx, keysGc);
         try
@@ -206,7 +206,41 @@ void CDeviceMagellan::downloadWpts(QList<CWpt*>& wpts)
 
 void CDeviceMagellan::uploadTracks(const QList<CTrack*>& trks)
 {
-    QMessageBox::information(0,tr("Error..."), tr("Magellan: Upload tracks is not implemented."),QMessageBox::Abort,QMessageBox::Abort);
+//    QMessageBox::information(0,tr("Error..."), tr("Magellan: Upload tracks is not implemented."),QMessageBox::Abort,QMessageBox::Abort);
+
+    QDir dir;
+    if(!aquire(dir))
+    {
+        return;
+    }
+
+    dir.cd(pathTrk);
+
+    QString prefix = createDayPrefix(dir, tr("tracks"));
+
+    foreach(CTrack* trk, trks)
+    {
+        QStringList keys(trk->getKey());
+
+        CGpx gpx(this, CGpx::eMagellan);
+        CTrackDB::self().saveGPX(gpx, keys);
+        try
+        {
+            QCryptographicHash md5(QCryptographicHash::Md5);
+            md5.addData(trk->getKey().toAscii());
+            QString hash = md5.result().toHex();
+
+            gpx.save(dir.absoluteFilePath(QString("%1_%2.gpx").arg(prefix).arg(hash)));
+        }
+        catch(const QString& msg)
+        {
+            QMessageBox:: critical(0,tr("Error"), msg, QMessageBox::Cancel, QMessageBox::Cancel);
+        }
+
+    }
+
+
+    theMainWindow->getCanvas()->setFadingMessage(tr("Upload tracks finished!"));
 }
 
 void CDeviceMagellan::downloadTracks(QList<CTrack*>& trks)

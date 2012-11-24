@@ -788,7 +788,7 @@ void CCanvas::mouseMoveEventCoord(QMouseEvent * e)
         GPS_Math_Deg_To_Str(x,y, str);
         info += str + " ";
                                  //add plain degrees
-        info += QString(", %1\260 %2\260 ").arg(y,0,'f',7).arg(x,0,'f',7);
+        //info += QString(", %1\260 %2\260 ").arg(y,0,'f',7).arg(x,0,'f',7);
     }
     //     qDebug() << "------" << info;
     theMainWindow->setPositionInfo(info);
