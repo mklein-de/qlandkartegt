@@ -75,7 +75,7 @@ bool CDeviceMagellan::aquire(QDir& dir)
 
             if(!dir.exists() || !dir.exists(pathTrk) || !dir.exists(pathWpt) || !dir.exists(pathRts))
             {
-                QMessageBox::information(0,tr("Error..."), tr("I need a path with 'TwoNavData/Data' as subdirectory"),QMessageBox::Retry,QMessageBox::Retry);
+                QMessageBox::information(0,tr("Error..."), tr("I need a path with 'Track', 'Waypoints', 'Routes' and 'Geocaches' as subdirectory"),QMessageBox::Retry,QMessageBox::Retry);
                 continue;
             }
 

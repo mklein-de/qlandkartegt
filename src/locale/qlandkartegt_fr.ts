@@ -1039,6 +1039,69 @@ Expected %1, received %2.</source>
     </message>
 </context>
 <context>
+    <name>CDeviceMagellan</name>
+    <message>
+        <source>Path to Magellan device...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error...</source>
+        <translation type="unfinished">Erreur ...</translation>
+    </message>
+    <message>
+        <source>waypoints</source>
+        <translation type="unfinished">points géographique</translation>
+    </message>
+    <message>
+        <source>Error</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Upload waypoints finished!</source>
+        <translation type="unfinished">Chargement des points géographiques terminé!</translation>
+    </message>
+    <message>
+        <source>Download waypoints finished!</source>
+        <translation type="unfinished">Téléchargement des points géographiques terminé!</translation>
+    </message>
+    <message>
+        <source>tracks</source>
+        <translation type="unfinished">tracés</translation>
+    </message>
+    <message>
+        <source>Upload tracks finished!</source>
+        <translation type="unfinished">Chargement des tracés terminé!</translation>
+    </message>
+    <message>
+        <source>Download tracks finished!</source>
+        <translation type="unfinished">Téléchargement des tracés terminé!</translation>
+    </message>
+    <message>
+        <source>Magellan: Upload routes is not implemented.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Magellan: Download routes is not implemented.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Magellan: Upload maps is not implemented.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Magellan: Live log is not supported.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Magellan: Screen shot is not supported.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>I need a path with &apos;Track&apos;, &apos;Waypoints&apos;, &apos;Routes&apos; and &apos;Geocaches&apos; as subdirectory</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>CDeviceMikrokopter</name>
     <message>
         <source>Error...</source>
@@ -1407,6 +1470,10 @@ Expected %1, received %2.</source>
     <message>
         <source>Open Directory</source>
         <translation>Ouvrir un dossier</translation>
+    </message>
+    <message>
+        <source>Magellan</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -2488,6 +2555,10 @@ Voulez vous sauvegarder vos changements ?</translation>
     </message>
     <message>
         <source>Profiling</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Magellan</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -4656,6 +4727,14 @@ Your selection will be stored in the track&apos;s data. You can save it along wi
     </message>
     <message>
         <source> .. (%3%) %1%2 %4</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error...</source>
+        <translation type="unfinished">Erreur ...</translation>
+    </message>
+    <message>
+        <source>This track has no valid start timestamp. Use the &apos;Date/Time&apos; track filter to set one.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -7973,6 +8052,22 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>km/h</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Unify timestamps</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Increase timestamp by</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>sec.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>0 will remove timestamps</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
