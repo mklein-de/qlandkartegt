@@ -1456,9 +1456,10 @@ void CTrackDB::setPointOfFocusByTime(quint32 timestamp)
             ++trkpt; continue;
         }
 
-        if(abs(timestamp - trkpt->timestamp) < d)
+        quint32 timestamp_diff = (timestamp > trkpt->timestamp)?(timestamp - trkpt->timestamp):(trkpt->timestamp - timestamp);
+        if(timestamp_diff < d)
         {
-            d   = abs(timestamp - trkpt->timestamp);
+            d   = timestamp_diff;
             idx = trkpt->idx;
         }
         ++trkpt;

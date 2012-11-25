@@ -31,6 +31,18 @@
 #define VER_STR             _MKSTR(VER_MAJOR)"."_MKSTR(VER_MINOR)"."_MKSTR(VER_STEP)
 
 
+#if __STDC_VERSION__ >= 199901L
+/* C99 */
+#else
+/* not C99 */
+double round(double r)
+{
+    return (r > 0.0) ? floor(r + 0.5) : ceil(r - 0.5);
+}
+#endif
+
+
+
 extern "C"
 {
     #include <jpeglib.h>
@@ -222,8 +234,8 @@ CFileGenerator::CFileGenerator(const QStringList& input, const QString& output, 
 
     for(int i = 0; i < MAX_ZOOM_LEVEL; i++)
     {
-        scales[i].xscale =  360.0 / pow(2,i) / TILE_SIZE;
-        scales[i].yscale = -180.0 / pow(2,i) / TILE_SIZE;
+        scales[i].xscale =  360.0 / (1<<i) / TILE_SIZE;
+        scales[i].yscale = -180.0 / (1<<i) / TILE_SIZE;
 
 //        qDebug() << (scales[i].xscale* TILE_SIZE) << (scales[i].yscale * TILE_SIZE);
     }

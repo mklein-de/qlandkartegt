@@ -23,6 +23,12 @@ include_directories(
   ${JPEG_INCLUDE_DIRS}
 )
 
+if(WIN32)
+    include_directories(
+        ${CMAKE_SOURCE_DIR}/Win32/
+    )
+endif(WIN32)
+
 #list all source files here
 ADD_EXECUTABLE( map2jnx ${SRCS} ${HDRS})
 
