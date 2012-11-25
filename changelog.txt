@@ -1,3 +1,46 @@
+--- 2012.11.25 ---
+
+Request #411:
+Add basic data exchange for Magellan devices
+
+Request #412:
+Add trackfilter to add offset to elevation
+
+Request #413:
+Add lock flag to database folders and remove locked folders from possible target folders
+
+Request #414:
+Update DEM elevation in tracks if DEM attached to map file changes. 
+
+Request #415:
+Add support for Magellan RMP map format.
+
+Request #416:
+Load other JNX files with same product ID as the one initially loaded
+
+Request #417:
+Add support to export raster maps to Magellan RMP format. 
+
+Request #418:
+Add track filter to split tracks at stages.
+
+Request #419:
+Add 3-click track point selection 
+
+Request #420:
+Apply track filters to slection only, if there is a selection
+
+Request #421:
+Add track filter to change start time of track
+
+Request #422:
+Add track filter to change speed of track
+
+Request #423:
+Add track filter to remove/unify timestamps
+
+
+
 --- 2012.10.15 ---
 
 Bug     #410:
@@ -1635,6 +1678,7 @@ Fixed bad calculation of proximity circle size
 
 Request #1:
 Initial release
+
 
 
 
