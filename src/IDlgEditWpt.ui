@@ -361,6 +361,13 @@ For modern Garmin device select &quot;Garmin Mass Storage&quot; device to exchan
              </widget>
             </item>
             <item>
+             <widget class="QPushButton" name="pushSpoiler">
+              <property name="text">
+               <string>Get spoilers!</string>
+              </property>
+             </widget>
+            </item>
+            <item>
              <spacer name="verticalSpacer_3">
               <property name="orientation">
                <enum>Qt::Vertical</enum>

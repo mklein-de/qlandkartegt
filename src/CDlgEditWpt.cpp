@@ -34,6 +34,7 @@
 #include "CImageViewer.h"
 
 #include <QtGui>
+#include <QtNetwork>
 
 CDlgEditWpt::CDlgEditWpt(CWpt &wpt, QWidget * parent)
 : QDialog(parent)
@@ -56,6 +57,7 @@ CDlgEditWpt::CDlgEditWpt(CWpt &wpt, QWidget * parent)
     connect(checkHint, SIGNAL(toggled(bool)), this, SLOT(slotToggleHint(bool)));
     connect(pushCreateBuddies, SIGNAL(clicked()), this, SLOT(slotCreateBuddies()));
     connect(checkTransparent, SIGNAL(toggled(bool)), this, SLOT(slotTransparent(bool)));
+    connect(pushSpoiler, SIGNAL(clicked()), this, SLOT(slotCollectSpoiler()));
 
     labelUnitElevation->setText(IUnit::self().baseunit);
     labelUnitProximity->setText(IUnit::self().baseunit);
@@ -83,17 +85,25 @@ CDlgEditWpt::CDlgEditWpt(CWpt &wpt, QWidget * parent)
     if(wpt.isGeoCache())
     {
         labelSpolerHint->show();
+        pushSpoiler->show();
         imageSelect->hide();
         checkTransparent->hide();
     }
     else
     {
         labelSpolerHint->hide();
+        pushSpoiler->hide();
         imageSelect->show();
         checkTransparent->show();
     }
 
     labelImage->installEventFilter(this);
+
+    networkAccessManager = new QNetworkAccessManager(this);
+    networkAccessManager->setProxy(QNetworkProxy(QNetworkProxy::DefaultProxy));
+    connect(networkAccessManager, SIGNAL(proxyAuthenticationRequired(const QNetworkProxy&, QAuthenticator*)),this, SLOT(slotProxyAuthenticationRequired(const QNetworkProxy&, QAuthenticator*)));
+    connect(networkAccessManager,SIGNAL(finished(QNetworkReply*)),this,SLOT(slotRequestFinished(QNetworkReply*)));
+
 }
 
 
@@ -601,4 +611,97 @@ bool CDlgEditWpt::eventFilter(QObject *obj, QEvent *event)
     }
 
     return QObject::eventFilter(obj, event);
+}
+
+void CDlgEditWpt::slotCollectSpoiler()
+{
+    if(!wpt.link.isEmpty())
+    {
+        if(!wpt.images.isEmpty())
+        {
+            if(QMessageBox::question(0, tr("Delete images..."), tr("Remove all other images first?"), QMessageBox::Yes|QMessageBox::No, QMessageBox::Yes ) == QMessageBox::Yes)
+            {
+                wpt.images.clear();
+                showImage(0);
+                pushDel->setEnabled(false);
+            }
+        }
+
+        QNetworkRequest request;
+        request.setUrl(wpt.link);
+        networkAccessManager->get(request);
+    }
+}
+
+void CDlgEditWpt::slotProxyAuthenticationRequired(const QNetworkProxy &prox, QAuthenticator *auth)
+{
+    QString user;
+    QString pwd;
+
+    CResources::self().getHttpProxyAuth(user,pwd);
+
+    auth->setUser(user);
+    auth->setPassword(pwd);
+}
+
+void CDlgEditWpt::slotRequestFinished(QNetworkReply * reply)
+{
+    if(reply->error() != QNetworkReply::NoError)
+    {
+        return;
+    }
+
+    if(pendingRequests.contains(reply))
+    {
+        CWpt::image_t img;
+        img.info = pendingRequests[reply];
+        img.pixmap.loadFromData(reply->readAll());
+        wpt.images.push_back(img);
+        showImage(wpt.images.count() - 1);
+        pushDel->setEnabled(true);
+        return;
+    }
+
+    QString asw = reply->readAll();
+    reply->deleteLater();
+
+    if(asw.isEmpty())
+    {
+        return;
+    }
+
+
+    QRegExp re1(".*alt=\"Photos\" title=\"Photos\".*");
+    QRegExp re2("(http://img.geocaching.com/cache/large/.*\\.jpg).*<span>(.*)</span>");
+    re2.setMinimal(true);
+
+
+    bool spoilerFound = false;
+    QStringList lines = asw.split("\n");
+    foreach(const QString& line, lines)
+    {
+        if(re1.exactMatch(line))
+        {
+            int pos = 0;
+            while ((pos = re2.indexIn(line, pos)) != -1)
+            {
+                spoilerFound = true;
+
+                QString url  = re2.cap(1);
+                QString text = re2.cap(2);
+
+                QNetworkRequest request;
+                request.setUrl(url);
+                pendingRequests[networkAccessManager->get(request)] = text;
+
+                pos += re2.matchedLength();
+            }
+        }
+    }
+
+    if(!spoilerFound)
+    {
+        QMessageBox::information(0,tr("No spoilers..."), tr("No spoilers found."), QMessageBox::Ok);
+    }
+
 }

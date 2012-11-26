@@ -1597,7 +1597,7 @@ Se esperaba %1, se recibió %2.</translation>
         <location filename="../CDeviceGarminBulk.cpp" line="478"/>
         <location filename="../CDeviceGarminBulk.cpp" line="514"/>
         <source>Error</source>
-        <translation type="unfinished">Error</translation>
+        <translation>Error</translation>
     </message>
     <message>
         <location filename="../CDeviceGarminBulk.cpp" line="267"/>
@@ -1667,7 +1667,7 @@ Se esperaba %1, se recibió %2.</translation>
     <message>
         <location filename="../CDeviceMagellan.cpp" line="69"/>
         <source>Path to Magellan device...</source>
-        <translation type="unfinished"></translation>
+        <translation>Ruta al dispositivo Magellan...</translation>
     </message>
     <message>
         <location filename="../CDeviceMagellan.cpp" line="78"/>
@@ -1677,17 +1677,19 @@ Se esperaba %1, se recibió %2.</translation>
         <location filename="../CDeviceMagellan.cpp" line="294"/>
         <location filename="../CDeviceMagellan.cpp" line="299"/>
         <source>Error...</source>
-        <translation type="unfinished">Error...</translation>
+        <translatorcomment>Error...</translatorcomment>
+        <translation>Error...</translation>
     </message>
     <message>
         <location filename="../CDeviceMagellan.cpp" line="78"/>
         <source>I need a path with &apos;TwoNavData/Data&apos; as subdirectory</source>
-        <translation type="unfinished">Se necesita una ruta con &apos;TwoNavData/Data&apos; como subdirectorio</translation>
+        <translation>Se necesita una ruta con &apos;TwoNavData/Data&apos; como subdirectorio</translation>
     </message>
     <message>
         <location filename="../CDeviceMagellan.cpp" line="110"/>
         <source>waypoints</source>
-        <translation type="unfinished">waypoints</translation>
+        <translatorcomment>waypoints</translatorcomment>
+        <translation>waypoints</translation>
     </message>
     <message>
         <location filename="../CDeviceMagellan.cpp" line="135"/>
@@ -1697,57 +1699,58 @@ Se esperaba %1, se recibió %2.</translation>
         <location filename="../CDeviceMagellan.cpp" line="237"/>
         <location filename="../CDeviceMagellan.cpp" line="268"/>
         <source>Error</source>
-        <translation type="unfinished">Error</translation>
+        <translatorcomment>Error</translatorcomment>
+        <translation>Error</translation>
     </message>
     <message>
         <location filename="../CDeviceMagellan.cpp" line="152"/>
         <source>Upload waypoints finished!</source>
-        <translation type="unfinished">¡La carga de waypoints terminó!</translation>
+        <translation>¡Terminó la carga de los waypoints!</translation>
     </message>
     <message>
         <location filename="../CDeviceMagellan.cpp" line="204"/>
         <source>Download waypoints finished!</source>
-        <translation type="unfinished">¡La descarga de waypoints terminó!</translation>
+        <translation>¡Terminó la descarga de los waypoints!</translation>
     </message>
     <message>
         <location filename="../CDeviceMagellan.cpp" line="219"/>
         <source>tracks</source>
-        <translation type="unfinished">tracks</translation>
+        <translation>tracks</translation>
     </message>
     <message>
         <location filename="../CDeviceMagellan.cpp" line="243"/>
         <source>Upload tracks finished!</source>
-        <translation type="unfinished">¡La carga de tracks terminó!</translation>
+        <translation>¡Terminó la carga de los tracks!</translation>
     </message>
     <message>
         <location filename="../CDeviceMagellan.cpp" line="274"/>
         <source>Download tracks finished!</source>
-        <translation type="unfinished">¡La descarga de tracks terminó!</translation>
+        <translation>¡Terminó la descarga de los tracks!</translation>
     </message>
     <message>
         <location filename="../CDeviceMagellan.cpp" line="279"/>
         <source>Magellan: Upload routes is not implemented.</source>
-        <translation type="unfinished"></translation>
+        <translation>Magellan: la carga de rutas aún no está implementada.</translation>
     </message>
     <message>
         <location filename="../CDeviceMagellan.cpp" line="284"/>
         <source>Magellan: Download routes is not implemented.</source>
-        <translation type="unfinished"></translation>
+        <translation>Magellan: la descarga de rutas aún no está implementada.</translation>
     </message>
     <message>
         <location filename="../CDeviceMagellan.cpp" line="289"/>
         <source>Magellan: Upload maps is not implemented.</source>
-        <translation type="unfinished"></translation>
+        <translation>Magellan: La carga de mapas aún no está implementada.</translation>
     </message>
     <message>
         <location filename="../CDeviceMagellan.cpp" line="294"/>
         <source>Magellan: Live log is not supported.</source>
-        <translation type="unfinished"></translation>
+        <translation>Magellan: El registro en vivo aún no está soportado.</translation>
     </message>
     <message>
         <location filename="../CDeviceMagellan.cpp" line="299"/>
         <source>Magellan: Screen shot is not supported.</source>
-        <translation type="unfinished"></translation>
+        <translation>Magellan: La captura de pantallas aún no está soportada.</translation>
     </message>
 </context>
 <context>
@@ -2391,7 +2394,7 @@ Se esperaba %1, se recibió %2.</translation>
     <message>
         <location filename="../CDlgConfig.cpp" line="111"/>
         <source>Magellan</source>
-        <translation type="unfinished"></translation>
+        <translation>Magellan</translation>
     </message>
     <message>
         <location filename="../CDlgConfig.cpp" line="112"/>
@@ -2698,7 +2701,7 @@ Cancelado a petición del usuario.
     <message>
         <location filename="../CDlgImportImages.cpp" line="143"/>
         <source>Select path...</source>
-        <translation type="unfinished">Seleccionar directorio...</translation>
+        <translation>Seleccionar directorio...</translation>
     </message>
 </context>
 <context>
@@ -3139,7 +3142,7 @@ no es una definición válida de sistema de coordenadas:
     <message>
         <location filename="../CGeoDB.cpp" line="206"/>
         <source>Lock</source>
-        <translation type="unfinished"></translation>
+        <translation>Bloquear</translation>
     </message>
     <message>
         <location filename="../CGeoDB.cpp" line="219"/>
@@ -3159,7 +3162,7 @@ no es una definición válida de sistema de coordenadas:
     <message>
         <location filename="../CGeoDB.cpp" line="669"/>
         <source>Migrating database from version 8 to 9.</source>
-        <translation type="unfinished">Migrando la base de datos de la versión 7 a la 8. {8 ?} {9.?}</translation>
+        <translation>Migrando la base de datos de la versión 8 a la 9.</translation>
     </message>
     <message>
         <location filename="../CGeoDB.cpp" line="3422"/>
@@ -3304,12 +3307,12 @@ no es una definición válida de sistema de coordenadas:
     <message>
         <location filename="../CGpx.cpp" line="182"/>
         <source>Failed to create %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Falló la creación de %1</translation>
     </message>
     <message>
         <location filename="../CGpx.cpp" line="191"/>
         <source>Failed to write %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Falló la escritura de %1</translation>
     </message>
     <message>
         <location filename="../CGpx.cpp" line="203"/>
@@ -3507,7 +3510,7 @@ Proyección actual: %1</translation>
     <message>
         <location filename="../CLiveLogDB.cpp" line="192"/>
         <source>DR (%1)</source>
-        <translation type="unfinished"></translation>
+        <translation>DR (%1)</translation>
     </message>
     <message>
         <location filename="../CLiveLogDB.cpp" line="197"/>
@@ -3790,7 +3793,7 @@ Do you want to save your changes?</source>
     <message>
         <location filename="../CMainWindow.cpp" line="1429"/>
         <source>Magellan</source>
-        <translation type="unfinished"></translation>
+        <translation>Magellan</translation>
     </message>
     <message>
         <location filename="../CMainWindow.cpp" line="1583"/>
@@ -3823,7 +3826,7 @@ Do you want to save your changes?</source>
     <message>
         <location filename="../CMainWindow.cpp" line="103"/>
         <source>Profiling</source>
-        <translation type="unfinished">Elaboración de perfiles</translation>
+        <translation type="unfinished">Profiling</translation>
     </message>
     <message>
         <location filename="../CMainWindow.cpp" line="577"/>
@@ -4257,7 +4260,7 @@ Do you want to save your changes?</source>
     <message>
         <location filename="../CMapQMAPExport.cpp" line="1602"/>
         <source>Create Magellan RMP Map...</source>
-        <translation type="unfinished"></translation>
+        <translation>Crear mapa Magellan RMP...</translation>
     </message>
 </context>
 <context>
@@ -4330,7 +4333,7 @@ Do you want to save your changes?</source>
     <message>
         <location filename="../CMapJnx.cpp" line="231"/>
         <source>Product ID</source>
-        <translation type="unfinished">ID de producto</translation>
+        <translation>ID de producto</translation>
     </message>
     <message>
         <location filename="../CMapJnx.cpp" line="232"/>
@@ -4500,17 +4503,17 @@ Cancelado a petición del usuario.
         <location filename="../CMapQMAPExport.cpp" line="140"/>
         <location filename="../CMapQMAPExport.cpp" line="141"/>
         <source>Please enter a string</source>
-        <translation type="unfinished"></translation>
+        <translation>Por favor introduzca una cadena</translation>
     </message>
     <message>
         <location filename="../CMapQMAPExport.cpp" line="390"/>
         <source>Select copyright notice...</source>
-        <translation type="unfinished"></translation>
+        <translation>Seleccione el aviso de copyright...</translation>
     </message>
     <message>
         <location filename="../CMapQMAPExport.cpp" line="390"/>
         <source>text file (*.txt)</source>
-        <translation type="unfinished"></translation>
+        <translation>fichero de texto (*.txt)</translation>
     </message>
     <message>
         <location filename="../CMapQMAPExport.cpp" line="538"/>
@@ -4680,17 +4683,17 @@ Cancelado a petición del usuario.
         <location filename="../CMapRmp.cpp" line="177"/>
         <location filename="../CMapRmp.cpp" line="194"/>
         <source>Error...</source>
-        <translation type="unfinished">Error...</translation>
+        <translation>Error...</translation>
     </message>
     <message>
         <location filename="../CMapRmp.cpp" line="177"/>
         <source>Failed to open: %1.</source>
-        <translation type="unfinished"></translation>
+        <translation>Fallo al abrir %1.</translation>
     </message>
     <message>
         <location filename="../CMapRmp.cpp" line="194"/>
         <source>This is not a Magellan RMP file: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Este no es un archivo Magellan RMP: %1</translation>
     </message>
 </context>
 <context>
@@ -5648,7 +5651,7 @@ línea %2, columna %3:
     <message>
         <location filename="../CMapToolWidget.cpp" line="76"/>
         <source>Stream</source>
-        <translation type="unfinished">Stream</translation>
+        <translation>Stream</translation>
     </message>
     <message>
         <location filename="../CMapToolWidget.cpp" line="78"/>
@@ -5673,7 +5676,7 @@ línea %2, columna %3:
     <message>
         <location filename="../CMapToolWidget.cpp" line="144"/>
         <source>Magellan/RMP</source>
-        <translation type="unfinished"></translation>
+        <translation>Magellan/RMP</translation>
     </message>
     <message>
         <location filename="../CMapToolWidget.cpp" line="149"/>
@@ -5733,7 +5736,7 @@ línea %2, columna %3:
     <message>
         <location filename="../CMapToolWidget.cpp" line="497"/>
         <source>16bit Srtm Data (*.tif *.tiff *.hgt *.blx)</source>
-        <translation type="unfinished"></translation>
+        <translation>Datos SRTM de 16 bit (*-tif *.tiff *.hgt *.blx)</translation>
     </message>
     <message>
         <source>16bit Srtm Data (*.tif *.tiff *.hgt)</source>
@@ -6807,32 +6810,32 @@ final: %1</translation>
     <message>
         <location filename="../CTrack.cpp" line="1427"/>
         <source> .. (%6%) %1:%2:%3 %4 %5</source>
-        <translation type="unfinished"></translation>
+        <translation> .. (%6%) %1:%2:%3 %4 %5</translation>
     </message>
     <message>
         <location filename="../CTrack.cpp" line="1432"/>
         <source> .. (%5%) %1:%2:%3 %4</source>
-        <translation type="unfinished"></translation>
+        <translation> .. (%5%) %1:%2:%3 %4</translation>
     </message>
     <message>
         <location filename="../CTrack.cpp" line="1449"/>
         <source> .. (%3%) %1%2 %4 %5</source>
-        <translation type="unfinished"></translation>
+        <translation> .. (%3%) %1%2 %4 %5</translation>
     </message>
     <message>
         <location filename="../CTrack.cpp" line="1452"/>
         <source> .. (%3%) %1%2 %4</source>
-        <translation type="unfinished"></translation>
+        <translation> .. (%3%) %1%2 %4</translation>
     </message>
     <message>
         <location filename="../CTrack.cpp" line="1902"/>
         <source>Error...</source>
-        <translation type="unfinished">Error...</translation>
+        <translation>Error...</translation>
     </message>
     <message>
         <location filename="../CTrack.cpp" line="1902"/>
         <source>This track has no valid start timestamp. Use the &apos;Date/Time&apos; track filter to set one.</source>
-        <translation type="unfinished"></translation>
+        <translation>Este track no tiene una fecha y hora de comienzo válidas. Utilice el filtro de tracks Fecha/Hora para establecerlas.</translation>
     </message>
     <message>
         <source> | (%6%) %1:%2:%3 %4 %5</source>
@@ -7281,7 +7284,7 @@ Asc./Desc.</translation>
     <message>
         <location filename="../CTrackFilterWidget.cpp" line="675"/>
         <source>Reset</source>
-        <translation type="unfinished">Reiniciar</translation>
+        <translation>Reiniciar</translation>
     </message>
     <message>
         <location filename="../CTrackFilterWidget.cpp" line="711"/>
@@ -10176,7 +10179,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../IDlgImportImages.ui" line="125"/>
         <source>Befor you start taking any picture take a picture of the clock on your GPS device. Select the picture from the list above and enter the timestamp manually. QLandkarte GT will derive the delta between your camera and your GPS. The offset is used to adust all timestamps befor finding a matching point in the currently loaded tracks.</source>
-        <translation type="unfinished">Antes de que empiece a hacer fotos tome una del reloj de su dispositivo GPS. Seleccione la imagen en la lista de arriba e introduzca manualmente la marca de tiempo. QLandkarte GT calculará la diferencia entre su cámara y su GPS. La compensación se utiliza para ajustar todas las marcas de tiempo antes de buscar un punto coincidente en los tracks actualmente cargados.</translation>
+        <translation>Antes de que empiece a hacer fotos tome una del reloj de su dispositivo GPS. Seleccione la imagen en la lista de arriba e introduzca manualmente la marca de tiempo. QLandkarte GT calculará la diferencia entre su cámara y su GPS. La compensación se utiliza para ajustar todas las marcas de tiempo antes de buscar un punto coincidente en los tracks actualmente cargados.</translation>
     </message>
     <message>
         <location filename="../IDlgImportImages.ui" line="143"/>
@@ -10297,12 +10300,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../IDlgMapRMPConfig.ui" line="14"/>
         <source>Information...</source>
-        <translation type="unfinished">Información...</translation>
+        <translation>Información...</translation>
     </message>
     <message>
         <location filename="../IDlgMapRMPConfig.ui" line="21"/>
         <source>about:blank</source>
-        <translation type="unfinished">about:blank</translation>
+        <translation>about:blank</translation>
     </message>
 </context>
 <context>
@@ -11125,7 +11128,7 @@ DEM: %2</translation>
         <location filename="../IMapQMAPExport.ui" line="176"/>
         <location filename="../IMapQMAPExport.ui" line="360"/>
         <source>Magellan RMP</source>
-        <translation type="unfinished"></translation>
+        <translation>Magellan RMP</translation>
     </message>
     <message>
         <location filename="../IMapQMAPExport.ui" line="198"/>
@@ -11210,7 +11213,7 @@ DEM: %2</translation>
     <message>
         <location filename="../IMapQMAPExport.ui" line="386"/>
         <source>Copyright</source>
-        <translation type="unfinished">Copyright</translation>
+        <translation>Copyright</translation>
     </message>
     <message>
         <location filename="../IMapQMAPExport.ui" line="420"/>
@@ -11906,7 +11909,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../ITrackEditWidget.ui" line="201"/>
         <source>Tracklist</source>
-        <translation type="unfinished">Lista de puntos</translation>
+        <translation>Lista de tracks</translation>
     </message>
     <message>
         <location filename="../ITrackEditWidget.ui" line="238"/>
@@ -11970,7 +11973,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../ITrackEditWidget.ui" line="296"/>
         <source>Filter</source>
-        <translation type="unfinished">Filtrado</translation>
+        <translation>Filtros</translation>
     </message>
     <message>
         <location filename="../ITrackEditWidget.ui" line="310"/>
@@ -12137,7 +12140,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../ITrackFilterWidget.ui" line="71"/>
         <source>Apply</source>
-        <translation type="unfinished">Aplicar</translation>
+        <translation>Aplicar</translation>
     </message>
     <message>
         <location filename="../ITrackFilterWidget.ui" line="122"/>
@@ -12146,7 +12149,11 @@ p, li { white-space: pre-wrap; }
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Sans Serif&apos;; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600; color:#c00000;&quot;&gt;The filters will only apply to the selected part of the track.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Sans Serif&apos;; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600; color:#c00000;&quot;&gt;Los filtros sólo se aplicarán a la parte seleccionada del track.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../ITrackFilterWidget.ui" line="137"/>
@@ -12180,7 +12187,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../ITrackFilterWidget.ui" line="165"/>
         <source>Reset all changes</source>
-        <translation type="unfinished"></translation>
+        <translation>Deshacer todos los cambios</translation>
     </message>
     <message>
         <location filename="../ITrackFilterWidget.ui" line="345"/>
@@ -12225,32 +12232,32 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../ITrackFilterWidget.ui" line="677"/>
         <source>Offset elevation data</source>
-        <translation type="unfinished"></translation>
+        <translation>Desplazar los datos de elevación</translation>
     </message>
     <message>
         <location filename="../ITrackFilterWidget.ui" line="731"/>
         <source>Add offset of</source>
-        <translation type="unfinished"></translation>
+        <translation>Añadir un desplazamiento de</translation>
     </message>
     <message>
         <location filename="../ITrackFilterWidget.ui" line="955"/>
         <source>Unify timestamps</source>
-        <translation type="unfinished"></translation>
+        <translation>Igualar la separación temporal entre puntos del track</translation>
     </message>
     <message>
         <location filename="../ITrackFilterWidget.ui" line="983"/>
         <source>Increase timestamp by</source>
-        <translation type="unfinished"></translation>
+        <translation>Espaciar puntos consecutivos del track</translation>
     </message>
     <message>
         <location filename="../ITrackFilterWidget.ui" line="990"/>
         <source>sec.</source>
-        <translation type="unfinished"></translation>
+        <translation> s.</translation>
     </message>
     <message>
         <location filename="../ITrackFilterWidget.ui" line="997"/>
         <source>0 will remove timestamps</source>
-        <translation type="unfinished"></translation>
+        <translation>0 eliminará la fecha y hora de los puntos</translation>
     </message>
     <message>
         <location filename="../ITrackFilterWidget.ui" line="1042"/>
@@ -12291,37 +12298,37 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../ITrackFilterWidget.ui" line="780"/>
         <source>Time</source>
-        <translation type="unfinished"></translation>
+        <translation>Tiempo</translation>
     </message>
     <message>
         <location filename="../ITrackFilterWidget.ui" line="807"/>
         <source>Date/Time of track</source>
-        <translation type="unfinished"></translation>
+        <translation>Fecha/Hora del track</translation>
     </message>
     <message>
         <location filename="../ITrackFilterWidget.ui" line="835"/>
         <source>New date/time of track</source>
-        <translation type="unfinished"></translation>
+        <translation>Nueva fecha/hora del track</translation>
     </message>
     <message>
         <location filename="../ITrackFilterWidget.ui" line="848"/>
         <source>dd.MMMM.yyyy HH:mm:ss</source>
-        <translation type="unfinished"></translation>
+        <translation>dd.MMMM.yyyy HH:mm:ss</translation>
     </message>
     <message>
         <location filename="../ITrackFilterWidget.ui" line="874"/>
         <source>Speed of track</source>
-        <translation type="unfinished"></translation>
+        <translation>Velocidad del track</translation>
     </message>
     <message>
         <location filename="../ITrackFilterWidget.ui" line="902"/>
         <source>Speed</source>
-        <translation type="unfinished">Velocidad</translation>
+        <translation>Velocidad</translation>
     </message>
     <message>
         <location filename="../ITrackFilterWidget.ui" line="909"/>
         <source>km/h</source>
-        <translation type="unfinished"></translation>
+        <translation>km/h</translation>
     </message>
     <message>
         <source>Anonymize</source>
@@ -12394,12 +12401,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../ITrackFilterWidget.ui" line="1430"/>
         <source>Split at stages</source>
-        <translation type="unfinished"></translation>
+        <translation>Dividir el track según las etapas</translation>
     </message>
     <message>
         <location filename="../ITrackFilterWidget.ui" line="1458"/>
         <source>Split track at stage waypoints</source>
-        <translation type="unfinished"></translation>
+        <translation>Dividir el track en los waypoints que delimitan las etapas</translation>
     </message>
     <message>
         <location filename="../ITrackFilterWidget.ui" line="1500"/>
@@ -12543,7 +12550,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../IDlgProxy.ui" line="13"/>
         <source>Proxy Authentication</source>
-        <translation type="unfinished">Autenticación del Proxy</translation>
+        <translation>Autenticación del Proxy</translation>
     </message>
     <message>
         <location filename="../IDlgProxy.ui" line="19"/>
@@ -12553,7 +12560,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../IDlgProxy.ui" line="26"/>
         <source>Connect to proxy</source>
-        <translation type="unfinished">Conectar al proxy</translation>
+        <translation>Conectar al proxy</translation>
     </message>
     <message>
         <location filename="../IDlgProxy.ui" line="36"/>
@@ -12717,23 +12724,23 @@ Finalización estimada: %02i:%02i:%02i [hh:mm:ss]</translation>
     <message>
         <location filename="../CDlgLoadOnlineMap.cpp" line="34"/>
         <source>&lt;!DOCTYPE HTML PUBLIC &apos;-//W3C//DTD HTML 4.01 Transitional//EN&apos;  &apos;http://www.w3.org/TR/html4/loose.dtd&apos;&gt;&lt;html&gt;   &lt;head&gt;       &lt;title&gt;&lt;/title&gt;       &lt;META HTTP-EQUIV=&apos;CACHE-CONTROL&apos; CONTENT=&apos;NO-CACHE&apos;&gt;       &lt;meta http-equiv=&apos;Content-Type&apos; content=&apos;text/html; charset=utf-8&apos;&gt;       &lt;style type=&apos;text/css&apos;&gt;           p, li { white-space: pre-wrap; }           td {padding-top: 10px;}           th {background-color: darkBlue; color: white;}       &lt;/style&gt;   &lt;/head&gt;   &lt;body style=&apos; font-family:&apos;Sans&apos;; font-size:9pt; font-weight:400; font-style:normal;&apos;&gt;       &lt;p&gt;${info}&lt;/p&gt;   &lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../CDlgMapJNXConfig.cpp" line="30"/>
         <location filename="../CDlgMapQMAPConfig.cpp" line="30"/>
         <source>&lt;!DOCTYPE HTML PUBLIC &apos;-//W3C//DTD HTML 4.01 Transitional//EN&apos;  &apos;http://www.w3.org/TR/html4/loose.dtd&apos;&gt;&lt;html&gt;   &lt;head&gt;       &lt;title&gt;&lt;/title&gt;       &lt;META HTTP-EQUIV=&apos;CACHE-CONTROL&apos; CONTENT=&apos;NO-CACHE&apos;&gt;       &lt;meta http-equiv=&apos;Content-Type&apos; content=&apos;text/html; charset=utf-8&apos;&gt;       &lt;style type=&apos;text/css&apos;&gt;           p, li { white-space: pre-wrap;}           td {padding-top: 3px;}           th {background-color: darkBlue; color: white;}       &lt;/style&gt;   &lt;/head&gt;   &lt;body style=&apos; font-family: sans-serif; font-size: 9pt; font-weight:400; font-style:normal;&apos;&gt;       &lt;p&gt;${info}&lt;/p&gt;   &lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../CDlgMapRMPConfig.cpp" line="30"/>
         <source>&lt;!DOCTYPE HTML PUBLIC &apos;-//W3C//DTD HTML 4.01 Transitional//EN&apos;  &apos;http://www.w3.org/TR/html4/loose.dtd&apos;&gt;&lt;html&gt;   &lt;head&gt;       &lt;title&gt;&lt;/title&gt;       &lt;META HTTP-EQUIV=&apos;CACHE-CONTROL&apos; CONTENT=&apos;NO-CACHE&apos;&gt;       &lt;meta http-equiv=&apos;Content-Type&apos; content=&apos;text/html; charset=utf-8&apos;&gt;       &lt;style type=&apos;text/css&apos;&gt;           p, li { white-space: pre-wrap;}           td {padding-top: 3px;}           h1,th {background-color: darkBlue; color: white;}       &lt;/style&gt;   &lt;/head&gt;   &lt;body style=&apos; font-family: sans-serif; font-size: 9pt; font-weight:400; font-style:normal;&apos;&gt;       &lt;p&gt;${info}&lt;/p&gt;   &lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../CDlgMapTDBConfig.cpp" line="30"/>
         <source>&lt;!DOCTYPE HTML PUBLIC &apos;-//W3C//DTD HTML 4.01 Transitional//EN&apos;  &apos;http://www.w3.org/TR/html4/loose.dtd&apos;&gt;&lt;html&gt;   &lt;head&gt;       &lt;title&gt;&lt;/title&gt;       &lt;META HTTP-EQUIV=&apos;CACHE-CONTROL&apos; CONTENT=&apos;NO-CACHE&apos;&gt;       &lt;meta http-equiv=&apos;Content-Type&apos; content=&apos;text/html; charset=UTF-8&apos;&gt;       &lt;style type=&apos;text/css&apos;&gt;           p, li { white-space: pre-wrap;}           td {padding-top: 3px;}           th {background-color: darkBlue; color: white;}       &lt;/style&gt;   &lt;/head&gt;   &lt;body style=&apos; font-family: sans-serif; font-size: 9pt; font-weight:400; font-style:normal;&apos;&gt;       &lt;p&gt;${copyright}&lt;/p&gt;       &lt;h1&gt;Map Levels&lt;/h1&gt;       &lt;p&gt;${maplevels}&lt;/p&gt;       &lt;h1&gt;Legend&lt;/h1&gt;       &lt;h2&gt;Lines&lt;/h2&gt;       &lt;p&gt;${legendlines}&lt;/p&gt;       &lt;h2&gt;Areas&lt;/h2&gt;       &lt;p&gt;${legendareas}&lt;/p&gt;       &lt;h2&gt;Points&lt;/h2&gt;       &lt;p&gt;${legendpoints}&lt;/p&gt;   &lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 </TS>

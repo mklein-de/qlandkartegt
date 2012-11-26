@@ -29,6 +29,7 @@
 #endif                           //HAS_DMTX
 
 class CWpt;
+class QNetworkAccessManager;
 
 /// dialog to edit waypoint properties
 class CDlgEditWpt : public QDialog, private Ui::IDlgEditWpt
@@ -58,6 +59,12 @@ class CDlgEditWpt : public QDialog, private Ui::IDlgEditWpt
         void slotCreateBuddies();
         void slotTransparent(bool ok);
 
+        void slotCollectSpoiler();
+        void slotRequestFinished(QNetworkReply * reply);
+        void slotProxyAuthenticationRequired(const QNetworkProxy&, QAuthenticator*);
+
+
+
     protected:
         bool eventFilter(QObject *obj, QEvent *event);
 
@@ -74,5 +81,9 @@ class CDlgEditWpt : public QDialog, private Ui::IDlgEditWpt
         DmtxEncode * enc;
 #endif
         QString name;
+
+        QNetworkAccessManager * networkAccessManager;
+
+        QMap<QNetworkReply*, QString> pendingRequests;
 };
 #endif                           //CDLGEDITWPT_H
