@@ -161,6 +161,7 @@ class CMapRmp : public IMap
 
         friend bool qSortLevels(level_t& l1, level_t& l2);
         void draw();
+        void drawTileBorder(QPainter& p, const file_t &mapFile);
         void readFile(const QString& filename, const QString& provider, const QString& product);
         void readDirectory(QDataStream& stream, file_t& file);
         void readCVGMap(QDataStream& stream, file_t &file, QString &tmpInfo);

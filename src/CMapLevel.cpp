@@ -81,6 +81,12 @@ void CMapLevel::addMapFile(const QString& filename)
 
     if(mapfile->is32BitRgb()) has32BitRgbFile = true;
 
+    //qDebug() << filename;
+    //printf("%f %f\n",(westbound * RAD_TO_DEG), (northbound * RAD_TO_DEG));
+    //printf("%f %f\n",(eastbound * RAD_TO_DEG), (southbound * RAD_TO_DEG));
+    //qDebug() << "topleft"     << (westbound * RAD_TO_DEG) << (northbound * RAD_TO_DEG);
+    //qDebug() << "bottomright" << (eastbound * RAD_TO_DEG) << (southbound * RAD_TO_DEG);
+
 }
 
 

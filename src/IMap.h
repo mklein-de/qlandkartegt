@@ -52,7 +52,7 @@ class IMap : public QObject
         IMap(maptype_e type, const QString& key, CCanvas * parent);
         virtual ~IMap();
 
-        enum overlay_e {eNone, eShading, eContour};
+        enum overlay_e {eNone, eShading, eContour, eSlope};
 
         /// draw map
         virtual void draw(QPainter& p);

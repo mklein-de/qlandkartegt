@@ -143,4 +143,9 @@ struct pointDP : public point3D
 };
 
 extern void GPS_Math_DouglasPeucker(QVector<pointDP>& line, double d);
+
+extern const char * GPS_Timezone(double lon, double lat);
+
+extern const char * tblTimezone[];
+
 #endif                           //GEOMATH_H

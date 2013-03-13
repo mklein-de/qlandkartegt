@@ -561,5 +561,8 @@
         <file>icons/iconWarning16x16.png</file>
         <file>icons/iconGear16x16.png</file>
         <file>icons/iconAdd216x16.png</file>
+        <file>pics/timezones.png</file>
+        <file>cursors/cursorMoveHorz.png</file>
+        <file>cursors/cursorMoveVert.png</file>
     </qresource>
 </RCC>

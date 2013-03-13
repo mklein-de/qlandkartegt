@@ -44,11 +44,15 @@ CStatusDEM::CStatusDEM(QWidget * parent)
         case IMap::eContour:
             radioContour->setChecked(true);
             break;
+        case IMap::eSlope:
+            radioSlope->setChecked(true);
+            break;
     }
 
     connect(radioNone, SIGNAL(clicked(bool)), this, SLOT(slotShowShading()));
     connect(radioShading, SIGNAL(clicked(bool)), this, SLOT(slotShowShading()));
     connect(radioContour, SIGNAL(clicked(bool)), this, SLOT(slotShowShading()));
+    connect(radioSlope, SIGNAL(clicked(bool)), this, SLOT(slotShowShading()));
 
 }
 
@@ -75,6 +79,10 @@ void CStatusDEM::slotShowShading()
     else if(button == "radioContour")
     {
         overlay = IMap::eContour;
+    }
+    else if(button == "radioSlope")
+    {
+        overlay = IMap::eSlope;
     }
 
     theMainWindow->getCanvas()->update();

@@ -56,7 +56,7 @@ void IItem::genKey()
 
 void IItem::removeHtml(QString &str)
 {
-    str.remove(QRegExp("<head.*[^>]*><\\/head>"));
-    str.remove(QRegExp("<[^>]*>"));
-    str = str.simplified();
+    QTextDocument html;
+    html.setHtml(str);
+    str = html.toPlainText();
 }

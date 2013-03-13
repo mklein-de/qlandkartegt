@@ -20,16 +20,18 @@
 #include "CMouseRefPoint.h"
 #include "CCanvas.h"
 #include "CMapDB.h"
+#include "CCreateMapGridTool.h"
 
 #include <QtGui>
 
 CMouseRefPoint::CMouseRefPoint(CCanvas * canvas)
 : IMouse(canvas)
-, moveMap(false)
-, moveRef(false)
 , selRefPt(0)
+, selAreaMode(eSelAreaNone)
 {
-    cursor = QCursor(QPixmap(":/cursors/cursorMoveRefPoint.png"),0,0);
+    cursor = QCursor(QPixmap(":/cursors/cursorMoveMap.png"),0,0);
+
+    state = &CMouseRefPoint::stateMove;
 }
 
 
@@ -57,58 +59,253 @@ void CMouseRefPoint::draw(QPainter& p)
 
 void CMouseRefPoint::mouseMoveEvent(QMouseEvent * e)
 {
-    IMap& map = CMapDB::self().getMap();
 
     mousePos = e->pos();
-
-    if(moveMap)
-    {
-        map.move(oldPoint, e->pos());
-        oldPoint = e->pos();
-        canvas->update();
-    }
 
     CCreateMapGeoTiff * dlg = CCreateMapGeoTiff::self();
     if(dlg == 0) return;
 
-    if(moveRef && selRefPt)
+    if((this->*state)(mousePos, *dlg))
     {
-        double x = e->pos().x();
-        double y = e->pos().y();
-        map.convertPt2M(x,y);
-        selRefPt->x = x;
-        selRefPt->y = y;
-        selRefPt->item->setText(CCreateMapGeoTiff::eX,tr("%1").arg((int)x));
-        selRefPt->item->setText(CCreateMapGeoTiff::eY,tr("%1").arg((int)y));
         canvas->update();
     }
-    else
+}
+
+
+
+bool CMouseRefPoint::stateMove(QPoint& pos, CCreateMapGeoTiff &dlg)
+{
+    IMap& map = CMapDB::self().getMap();
+    selRefPt = 0;
+
+    QMap<quint32,CCreateMapGeoTiff::refpt_t>& refpts         = dlg.getRefPoints();
+    QMap<quint32,CCreateMapGeoTiff::refpt_t>::iterator refpt = refpts.begin();
+    while(refpt != refpts.end())
     {
-        CCreateMapGeoTiff::refpt_t * oldRefPt = selRefPt; selRefPt = 0;
+        double x = refpt->x;
+        double y = refpt->y;
+        map.convertM2Pt(x,y);
 
-        QMap<quint32,CCreateMapGeoTiff::refpt_t>& refpts         = dlg->getRefPoints();
-        QMap<quint32,CCreateMapGeoTiff::refpt_t>::iterator refpt = refpts.begin();
-        while(refpt != refpts.end())
+        QPoint diff = pos - QPoint(x,y);
+        if(diff.manhattanLength() < 100)
         {
-            double x = refpt->x;
-            double y = refpt->y;
-            map.convertM2Pt(x,y);
+            selRefPt = &(*refpt);
+            cursor = QCursor(QPixmap(":/cursors/cursorMoveRefPoint.png"),0,0);
+            QApplication::setOverrideCursor(cursor);
 
-            QPoint diff = e->pos() - QPoint(x,y);
-            if(diff.manhattanLength() < 100)
-            {
-                selRefPt = &(*refpt);
-                break;
-            }
-
-            ++refpt;
+            state = &CMouseRefPoint::stateHighlightRefPoint;
+            return true;
         }
 
-        if(oldRefPt != selRefPt)
+        ++refpt;
+    }
+
+
+    if(CCreateMapGridTool::self())
+    {
+        QRect r1 = dlg.getSelArea();
+
+        double x1 = r1.left();
+        double y1 = r1.top();
+        double x2 = r1.right();
+        double y2 = r1.bottom();
+        int l1, l2;
+
+        map.convertM2Pt(x1,y1);
+        map.convertM2Pt(x2,y2);
+
+        r1 = QRect(QPoint(x1,y1), QPoint(x2,y2));
+
+        l1 = r1.top() + 10;
+        l2 = r1.top() - 10;
+
+        if(mousePos.y() > l2 && mousePos.y() < l1)
         {
-            canvas->update();
+            selAreaMode = eSelAreaTop;
+            cursor = QCursor(QPixmap(":/cursors/cursorMoveVert.png"),12,15);
+            QApplication::setOverrideCursor(cursor);
+
+            state = &CMouseRefPoint::stateHighlightSelArea;
+            return true;
+        }
+
+        l1 = r1.bottom() + 10;
+        l2 = r1.bottom() - 10;
+
+        if(mousePos.y() > l2 && mousePos.y() < l1)
+        {
+            selAreaMode = eSelAreaBottom;
+            cursor = QCursor(QPixmap(":/cursors/cursorMoveVert.png"),12,15);
+            QApplication::setOverrideCursor(cursor);
+
+            state = &CMouseRefPoint::stateHighlightSelArea;
+            return true;
+        }
+
+        l1 = r1.left() + 10;
+        l2 = r1.left() - 10;
+
+        if(mousePos.x() > l2 && mousePos.x() < l1)
+        {
+            selAreaMode = eSelAreaLeft;
+            cursor = QCursor(QPixmap(":/cursors/cursorMoveHorz.png"),13,12);
+            QApplication::setOverrideCursor(cursor);
+
+            state = &CMouseRefPoint::stateHighlightSelArea;
+            return true;
+        }
+
+        l1 = r1.right() + 10;
+        l2 = r1.right() - 10;
+
+        if(mousePos.x() > l2 && mousePos.x() < l1)
+        {
+            selAreaMode = eSelAreaRight;
+            cursor = QCursor(QPixmap(":/cursors/cursorMoveHorz.png"),13,12);
+            QApplication::setOverrideCursor(cursor);
+
+            state = &CMouseRefPoint::stateHighlightSelArea;
+            return true;
         }
     }
+
+    return false;
+
+}
+
+bool CMouseRefPoint::stateMoveMap(QPoint& pos, CCreateMapGeoTiff& dlg)
+{
+    IMap& map = CMapDB::self().getMap();
+
+    map.move(oldPoint, pos);
+    oldPoint = pos;
+    return true;
+}
+
+bool CMouseRefPoint::stateMoveRefPoint(QPoint& pos, CCreateMapGeoTiff &dlg)
+{
+    IMap& map = CMapDB::self().getMap();
+    double x = pos.x();
+    double y = pos.y();
+    map.convertPt2M(x,y);
+    selRefPt->x = x;
+    selRefPt->y = y;
+    selRefPt->item->setText(CCreateMapGeoTiff::eX,tr("%1").arg((int)x));
+    selRefPt->item->setText(CCreateMapGeoTiff::eY,tr("%1").arg((int)y));
+    dlg.selRefPointByKey(selRefPt->item->data(CCreateMapGeoTiff::eLabel,Qt::UserRole).toInt());
+    return true;
+}
+
+bool CMouseRefPoint::stateMoveSelArea(QPoint& pos, CCreateMapGeoTiff& dlg)
+{
+    IMap& map = CMapDB::self().getMap();
+    double x = pos.x();
+    double y = pos.y();
+    map.convertPt2M(x,y);
+
+    QRect& r1 = dlg.getSelArea();
+
+    switch(selAreaMode)
+    {
+    case eSelAreaTop:
+        r1.setTop(y);
+        break;
+    case eSelAreaBottom:
+        r1.setBottom(y);
+        break;
+    case eSelAreaLeft:
+        r1.setLeft(x);
+        break;
+    case eSelAreaRight:
+        r1.setRight(x);
+        break;
+    default:;
+    }
+
+    return true;
+}
+
+bool CMouseRefPoint::stateHighlightRefPoint(QPoint& pos, CCreateMapGeoTiff &dlg)
+{
+    IMap& map = CMapDB::self().getMap();
+
+    double x = selRefPt->x;
+    double y = selRefPt->y;
+    map.convertM2Pt(x,y);
+
+    QPoint diff = pos - QPoint(x,y);
+    if(diff.manhattanLength() > 100)
+    {
+        cursor = QCursor(QPixmap(":/cursors/cursorMoveMap.png"),0,0);
+        QApplication::restoreOverrideCursor();
+
+        state = &CMouseRefPoint::stateMove;
+        selRefPt = 0;
+        return true;
+    }
+
+    return false;
+}
+
+bool CMouseRefPoint::stateHighlightSelArea(QPoint& pos, CCreateMapGeoTiff &dlg)
+{
+    IMap& map = CMapDB::self().getMap();
+
+    QRect r1 = dlg.getSelArea();
+
+    double x1 = r1.left();
+    double y1 = r1.top();
+    double x2 = r1.right();
+    double y2 = r1.bottom();
+    int l1, l2;
+
+    map.convertM2Pt(x1,y1);
+    map.convertM2Pt(x2,y2);
+
+    r1 = QRect(QPoint(x1,y1), QPoint(x2,y2));
+
+    switch(selAreaMode)
+    {
+    case eSelAreaTop:
+        l1 = r1.top() + 10;
+        l2 = r1.top() - 10;
+        if(pos.y() > l2 && pos.y() < l1)
+        {
+            return false;
+        }
+        break;
+    case eSelAreaBottom:
+        l1 = r1.bottom() + 10;
+        l2 = r1.bottom() - 10;
+        if(pos.y() > l2 && pos.y() < l1)
+        {
+            return false;
+        }
+        break;
+    case eSelAreaLeft:
+        l1 = r1.left() + 10;
+        l2 = r1.left() - 10;
+        if(pos.x() > l2 && pos.x() < l1)
+        {
+            return false;
+        }
+        break;
+    case eSelAreaRight:
+        l1 = r1.right() + 10;
+        l2 = r1.right() - 10;
+        if(pos.x() > l2 && pos.x() < l1)
+        {
+            return false;
+        }
+        break;
+    default:;
+    }
+
+    cursor = QCursor(QPixmap(":/cursors/cursorMoveMap.png"),0,0);
+    QApplication::restoreOverrideCursor();
+    state = &CMouseRefPoint::stateMove;
+
+    return false;
 }
 
 
@@ -116,31 +313,24 @@ void CMouseRefPoint::mousePressEvent(QMouseEvent * e)
 {
     if(e->button() == Qt::LeftButton)
     {
-        if(selRefPt)
+        if(state == &CMouseRefPoint::stateHighlightRefPoint)
         {
-            IMap& map = CMapDB::self().getMap();
-            double x = e->pos().x();
-            double y = e->pos().y();
-            map.convertPt2M(x,y);
-            selRefPt->x = x;
-            selRefPt->y = y;
-            selRefPt->item->setText(CCreateMapGeoTiff::eX,tr("%1").arg((int)x));
-            selRefPt->item->setText(CCreateMapGeoTiff::eY,tr("%1").arg((int)y));
-
-            CCreateMapGeoTiff * dlg = CCreateMapGeoTiff::self();
-            if(dlg != 0)
-            {
-                dlg->selRefPointByKey(selRefPt->item->data(CCreateMapGeoTiff::eLabel,Qt::UserRole).toInt());
-            }
-
-            moveRef = true;
+            state = &CMouseRefPoint::stateMoveRefPoint;
+            mouseMoveEvent(e);
+        }
+        else if(state == &CMouseRefPoint::stateHighlightSelArea)
+        {
+            state = &CMouseRefPoint::stateMoveSelArea;
+            mouseMoveEvent(e);
         }
         else
         {
             cursor = QCursor(QPixmap(":/cursors/cursorMove.png"));
             QApplication::setOverrideCursor(cursor);
-            moveMap     = true;
             oldPoint    = e->pos();
+
+            state = &CMouseRefPoint::stateMoveMap;
+            mouseMoveEvent(e);
         }
     }
     else if(e->button() == Qt::RightButton)
@@ -157,27 +347,32 @@ void CMouseRefPoint::mouseReleaseEvent(QMouseEvent * e)
 {
     if(e->button() == Qt::LeftButton)
     {
-        if(moveMap)
+        if(state == &CMouseRefPoint::stateMoveMap)
         {
-            moveMap = false;
-            cursor = QCursor(QPixmap(":/cursors/cursorMoveRefPoint.png"),0,0);
+            cursor = QCursor(QPixmap(":/cursors/cursorMoveMap.png"),0,0);
             QApplication::restoreOverrideCursor();
-            canvas->update();
-        }
-        if(moveRef)
-        {
-            IMap& map = CMapDB::self().getMap();
-            double x = e->pos().x();
-            double y = e->pos().y();
-            map.convertPt2M(x,y);
-            selRefPt->x = x;
-            selRefPt->y = y;
-            selRefPt->item->setText(CCreateMapGeoTiff::eX,tr("%1").arg((int)x));
-            selRefPt->item->setText(CCreateMapGeoTiff::eY,tr("%1").arg((int)y));
-            moveRef = false;
 
+            //mouseMoveEvent(e);
+            state = &CMouseRefPoint::stateMove;
+        }
+        else if(state == &CMouseRefPoint::stateMoveRefPoint)
+        {
+            cursor = QCursor(QPixmap(":/cursors/cursorMoveMap.png"),0,0);
+            QApplication::restoreOverrideCursor();
+
+            //mouseMoveEvent(e);
             selRefPt = 0;
-            canvas->update();
+            state = &CMouseRefPoint::stateMove;
+
+        }
+        else if(state == &CMouseRefPoint::stateMoveSelArea)
+        {
+            cursor = QCursor(QPixmap(":/cursors/cursorMoveMap.png"),0,0);
+            QApplication::restoreOverrideCursor();
+
+            //mouseMoveEvent(e);
+            selAreaMode = eSelAreaNone;
+            state = &CMouseRefPoint::stateMove;
         }
     }
 }

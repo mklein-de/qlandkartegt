@@ -65,6 +65,7 @@ class CResources : public QObject
         bool showTrackProfilePreview(){return m_showTrackProfile;}
         bool showTrackProfileEleInfo(){return m_showTrackEleInfo;}
         bool showNorthIndicator(){return m_showNorth;}
+        bool showClock(){return m_showClock;}
         bool showScale(){return m_showScale;}
         bool showToolTip(){return m_showToolTip;}
         bool showZoomLevel(){return m_showZoomLevel;}
@@ -77,6 +78,16 @@ class CResources : public QObject
         QDir getPathMapCache(){return m_pathMapCache;}
         int getSizeMapCache(){return m_sizeMapCache;}
         int getExpireMapCache(){return m_expireMapCache;}
+
+        enum TimezoneMode_e{
+            eTZUtc
+            ,eTZLocal
+            ,eTZAuto
+            ,eTZSelected
+        };
+
+        TimezoneMode_e getTimezoneMode(){return m_tzMode;}
+        QString getSelectedTimezone(){return m_timezone;}
 
         signals:
         void sigDeviceChanged();
@@ -149,6 +160,7 @@ class CResources : public QObject
         bool m_showTrackProfile;
         bool m_showTrackEleInfo;
         bool m_showNorth;
+        bool m_showClock;
         bool m_showScale;
         bool m_showToolTip;
         bool m_showZoomLevel;
@@ -163,5 +175,8 @@ class CResources : public QObject
         QDir m_pathMapCache;
         int  m_sizeMapCache;
         int  m_expireMapCache;
+
+        TimezoneMode_e m_tzMode;
+        QString m_timezone;
 };
 #endif                           //CRESOURCES_H

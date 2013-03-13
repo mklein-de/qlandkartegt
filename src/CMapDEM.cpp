@@ -23,6 +23,9 @@
 #include "CWpt.h"
 #include "CStatusDEM.h"
 #include "CMainWindow.h"
+#include "GeoMath.h"
+#include "CMapDEMSlopeSetup.h"
+#include "CSettings.h"
 
 #include <gdal_priv.h>
 #include <ogr_spatialref.h>
@@ -34,11 +37,68 @@
 
 #include <QtGui>
 
+const QRgb CMapDEM::slopeColorTable[] = {
+     qRgba(0,0,0,0)
+    ,qRgba(0,128,0,100)
+    ,qRgba(0,255,0,100)
+    ,qRgba(255,255,0,100)
+    ,qRgba(255,128,0,100)
+    ,qRgba(255,0,0,100)
+};
+
+
+const double CMapDEM::grade1[6] = {
+     0.0
+    ,27.0
+    ,31.0
+    ,34.0
+    ,39.0
+    ,50.0
+};
+
+const double CMapDEM::grade2[6] = {
+     0.0
+    ,27.0
+    ,30.0
+    ,32.0
+    ,35.0
+    ,39.0
+};
+
+const double CMapDEM::grade3[6] = {
+     0.0
+    ,27.0
+    ,29.0
+    ,30.0
+    ,31.0
+    ,34.0
+};
+
+const double CMapDEM::grade4[6] = {
+     0.0
+    ,23.0
+    ,25.0
+    ,27.0
+    ,28.0
+    ,30.0
+};
+
+const double * CMapDEM::grade[5] = {
+     CMapDEM::grade1 // dummy
+    ,CMapDEM::grade1
+    ,CMapDEM::grade2
+    ,CMapDEM::grade3
+    ,CMapDEM::grade4
+};
+
+
 CMapDEM::CMapDEM(const QString& filename, CCanvas * parent)
 : IMap(eDEM, "",parent)
+, canvas(parent)
 , old_my_xscale(0)
 , old_my_yscale(0)
 , old_overlay(IMap::eNone)
+, idxGrade(1)
 {
 #ifdef WIN32
     dataset = (GDALDataset*)GDALOpen(filename.toLocal8Bit(),GA_ReadOnly);
@@ -112,17 +172,26 @@ CMapDEM::CMapDEM(const QString& filename, CCanvas * parent)
 
     for(i = 0; i < 128; ++i)
     {
-        graytable1 << qRgba(0,0,0,(128 - i)/* << 1*/);
+        graytable1 << qRgba(0,0,0,(128 - i));
     }
 
     for(i = 128; i < 255; ++i)
     {
-        //graytable1 << qRgba(255,255,255,(i - 128)/* << 1*/);
         graytable1 << qRgba(255,255,255, 1);
     }
 
+    slopetable << slopeColorTable[0];
+    slopetable << slopeColorTable[1];
+    slopetable << slopeColorTable[2];
+    slopetable << slopeColorTable[3];
+    slopetable << slopeColorTable[4];
+    slopetable << slopeColorTable[5];
+
     status = new CStatusDEM(theMainWindow->getCanvas());
     theMainWindow->statusBar()->insertPermanentWidget(0,status);
+
+    SETTINGS;
+    idxGrade = cfg.value("map/overlay/grade",idxGrade).toInt();
 
 }
 
@@ -136,6 +205,12 @@ bool CMapDEM::loaded()
 CMapDEM::~CMapDEM()
 {
     qDebug() << "CMapDEM::~CMapDEM()";
+
+    CMapDEMSlopeSetup::self().registerDEMMap(0);
+
+    SETTINGS;
+    cfg.setValue("map/overlay/grade",idxGrade);
+
     if(pjsrc) pj_free(pjsrc);
     if(dataset) delete dataset;
     if(status) delete status;
@@ -382,6 +457,19 @@ void CMapDEM::draw()
 {
 
     IMap::overlay_e overlay = status->getOverlayType();
+
+    if(overlay != old_overlay)
+    {
+        if(overlay == IMap::eSlope)
+        {
+            CMapDEMSlopeSetup::self().registerDEMMap(this);
+        }
+        else
+        {
+            CMapDEMSlopeSetup::self().registerDEMMap(0);
+        }
+    }
+
     if(overlay == IMap::eNone)
     {
         old_overlay = overlay;
@@ -403,7 +491,10 @@ void CMapDEM::draw()
         && my_xscale == old_my_xscale && my_yscale == old_my_yscale
         )
     {
-        return;
+        if(!needsRedraw)
+        {
+            return;
+        }
     }
 
     old_p1          = p1;
@@ -428,8 +519,8 @@ void CMapDEM::draw()
     pj_transform(pjtar, pjsrc, 1, 0, &_p2.u, &_p2.v, 0);
 
     // determine intersection rect
-    projXY r1 = { std::max(_p1.u, xref1), std::min(_p1.v, yref1) };
-    projXY r2 = { std::min(_p2.u, xref2), std::max(_p2.v, yref2) };
+    projXY r1 = { qMax(_p1.u, xref1), qMin(_p1.v, yref1) };
+    projXY r2 = { qMin(_p2.u, xref2), qMax(_p2.v, yref2) };
 
     if (r1.u > _p2.u || r1.v < _p2.v || r2.u < _p1.u || r2.v > _p1.v)
     {
@@ -449,7 +540,7 @@ void CMapDEM::draw()
     double xoff2_f = (r2.u - xref1) / xscale;
     double yoff2_f = (r2.v - yref1) / yscale;
 
-    // 5. round up (!) floating point offset into integer offset
+    // 5. qRound up (!) floating point offset into integer offset
     int xoff2 = ceil(xoff2_f);
     int yoff2 = ceil(yoff2_f);
 
@@ -485,8 +576,7 @@ void CMapDEM::draw()
 
     GDALRasterBand * pBand;
     pBand = dataset->GetRasterBand(1);
-    CPLErr err = pBand->RasterIO(GF_Read, xoff1, yoff1, std::min(w1, xsize_px - xoff1),
-        std::min(h1, ysize_px - yoff1), data.data(), w1, h1, GDT_Int16, 0, 0);
+    CPLErr err = pBand->RasterIO(GF_Read, xoff1, yoff1, qMin(w1, xsize_px - xoff1), qMin(h1, ysize_px - yoff1), data.data(), w1, h1, GDT_Int16, 0, 0);
     if(err == CE_Failure)
     {
         return;
@@ -501,6 +591,14 @@ void CMapDEM::draw()
     else if(overlay == IMap::eContour)
     {
         contour(img,data.data(), my_xscale, my_yscale);
+    }
+    else if(overlay == IMap::eContour)
+    {
+        slope(img,data.data(), my_xscale, my_yscale);
+    }
+    else if(overlay == IMap::eSlope)
+    {
+        slope(img,data.data(), xoff1, yoff1);
     }
     else
     {
@@ -599,4 +697,125 @@ void CMapDEM::contour(QImage& img, qint16 * data, float xscl, float /*yscale*/)
         if(val < 1  ) val = 1;
         *pixel++ = val;
     }
+}
+
+void CMapDEM::slope(QImage& img, qint16 * data, int xoff, int yoff)
+{
+    int w1 = img.width();
+    int h1 = img.height();
+
+    int r,c,i;
+    int idx  = 0;
+    double h, ha, hb, a;
+    double dx, dy, a1, a2;
+
+    const int step = 1;
+
+    projXY p1;
+    projXY p2;
+
+    p1.u =  xoff * xscale + xref1;
+    p1.v =  yoff * yscale + yref1;
+
+    p2.u =  xoff * xscale + xref1;
+    p2.v = (yoff + 1) * yscale + yref1;
+
+    pj_transform(pjsrc, pjtar, 1, 0, &p1.u, &p1.v, 0);
+    pj_transform(pjsrc, pjtar, 1, 0, &p2.u, &p2.v, 0);
+
+    dy = distance(p1, p2, a1, a2);
+
+    for(r = 0; r < (h1 - step); ++r)
+    {
+        p1.u =  xoff * xscale + xref1;
+        p1.v = (yoff + r) * yscale + yref1;
+
+        p2.u = (xoff + 1) * xscale + xref1;
+        p2.v = (yoff + r) * yscale + yref1;
+
+        pj_transform(pjsrc, pjtar, 1, 0, &p1.u, &p1.v, 0);
+        pj_transform(pjsrc, pjtar, 1, 0, &p2.u, &p2.v, 0);
+
+        dx = distance(p1, p2, a1, a2);
+
+        for(c = 0; c < (w1 - step); ++c)
+        {
+            h  = data[idx];
+            ha = data[idx + step];
+            hb = data[idx + step*w1];
+
+            a = acos(1/sqrt(pow((h - ha)/(dx*step), 2.0) + pow((h - hb)/(dy*step),2.0) + 1));
+
+            data[idx++] = (a * 360.0/(2 * M_PI));
+        }
+
+        for(i = 0; i < step; i++)
+        {
+            data[idx++] = 0;
+        }
+    }
+
+    // finisch last rows
+    for(i = 0; i < step; i++)
+    {
+        for(c = 0; c < w1; ++c)
+        {
+            data[idx++] = 0;
+        }
+    }
+
+    img.setColorTable(slopetable);
+    uchar * pixel = img.bits();
+    int val;
+    const double * g = grade[idxGrade];
+
+    for(i = 0; i < (w1 * h1); ++i)
+    {
+        val = abs(qRound(data[i]));
+        if(val > g[5])
+        {
+            *pixel++ = 5;
+        }
+        else if(val > g[4])
+        {
+            *pixel++ = 4;
+        }
+        else if(val > g[3])
+        {
+            *pixel++ = 3;
+        }
+        else if(val > g[2])
+        {
+            *pixel++ = 2;
+        }
+        else if(val > g[1])
+        {
+            *pixel++ = 1;
+        }
+        else
+        {
+            *pixel++ = 0;
+        }
+    }
+}
+
+
+void CMapDEM::setGrade(int i)
+{
+    if(i < 1)
+    {
+        idxGrade = 1;
+    }
+    else if(i > 4)
+    {
+        idxGrade = 4;
+    }
+    else
+    {
+        idxGrade = i;
+    }
+
+    needsRedraw = true;
+
+    canvas->update();
 }

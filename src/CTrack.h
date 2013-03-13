@@ -233,6 +233,9 @@ class CTrack : public IItem
         QString getFocusInfo();
         /// get the bounding rectangular that fits the track
         QRectF getBoundingRectF();
+
+        const QString& getTimezone(){return timezone;}
+
         /// sort trackpoints by timestamp
         void sortByTimestamp();
         /// combine tracks
@@ -358,6 +361,8 @@ class CTrack : public IItem
 
         enum state_select_e {eNoSel, e1stSel, e2ndSel};
         state_select_e stateSelect;
+
+        QString timezone;
 
 };
 

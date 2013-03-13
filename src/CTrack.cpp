@@ -32,6 +32,8 @@
 #include <QtNetwork/QHttp>
 #include <QtNetwork/QNetworkProxy>
 
+#include <tzdata.h>
+
 #ifndef _MKSTR_1
 #define _MKSTR_1(x)    #x
 #define _MKSTR(x)      _MKSTR_1(x)
@@ -944,6 +946,7 @@ void CTrack::hide(bool ok)
 
 void CTrack::rebuild(bool reindex)
 {
+    bool haveTimezone  = false;
     double slope    = 0;
     IMap& dem = CMapDB::self().getDEM();
     quint32 t1 = 0, t2 = 0;
@@ -994,6 +997,7 @@ void CTrack::rebuild(bool reindex)
         emit sigChanged();
         return;
     }
+
     // reset first valid point
     pt1->azimuth    = 0;
     pt1->delta      = 0;
@@ -1031,6 +1035,12 @@ void CTrack::rebuild(bool reindex)
 
         ++visiblePointCount;
 
+        if(!haveTimezone)
+        {
+            timezone        = GPS_Timezone(pt1->lon, pt1->lat);
+            haveTimezone    = timezone != "UTC";
+        }
+
         double dt = -1;
         if(pt1->timestamp != 0x00000000 && pt1->timestamp != 0xFFFFFFFF)
         {
@@ -1055,7 +1065,7 @@ void CTrack::rebuild(bool reindex)
             slope = 0.;
         }
 
-        pt2->slope    = qRound(slope / pt2->delta * 10000)/100.0;
+        pt2->slope    = atan(slope / pt2->delta) * 360 / (2*M_PI);
         if (qAbs(pt2->slope )>100)
         {
             pt2->slope = pt1->slope;
@@ -1259,7 +1269,13 @@ QDateTime CTrack::getStartTimestamp()
             ++trkpt;
             continue;
         }
-        return QDateTime::fromTime_t(trkpt->timestamp);
+
+        QDateTime time = QDateTime::fromTime_t(trkpt->timestamp);
+        if(!timezone.isEmpty())
+        {
+            time = TimeStamp(trkpt->timestamp).toZone(timezone).toDateTime();
+        }
+        return time;
     }
     return QDateTime();
 }
@@ -1276,7 +1292,12 @@ QDateTime CTrack::getEndTimestamp()
             --trkpt;
             continue;
         }
-        return QDateTime::fromTime_t(trkpt->timestamp);
+        QDateTime time = QDateTime::fromTime_t(trkpt->timestamp);
+        if(!timezone.isEmpty())
+        {
+            time = TimeStamp(trkpt->timestamp).toZone(timezone).toDateTime();
+        }
+        return time;
     }
     return QDateTime();
 }
@@ -1395,7 +1416,11 @@ QString CTrack::getTrkPtInfo1(pt_t& trkpt)
     if(trkpt.timestamp != 0x00000000 && trkpt.timestamp != 0xFFFFFFFF)
     {
         QDateTime time = QDateTime::fromTime_t(trkpt.timestamp);
-        time.setTimeSpec(Qt::LocalTime);
+        if(!timezone.isEmpty())
+        {
+            time = TimeStamp(trkpt.timestamp).toZone(timezone).toDateTime();
+        }
+
         str = time.toString();
 
     }
@@ -1482,8 +1507,8 @@ QString CTrack::getTrkPtInfo1(pt_t& trkpt)
 
     //-----------------------------------------------------------------------------------------------------------
     //TODO: HOVERTEXT FOR EXTENSIONS
-#ifdef GPX_EXTENSIONS
-    if (!trkpt.gpx_exts.values.empty())
+//#ifdef GPX_EXTENSIONS
+    if (!trkpt.gpx_exts.values.isEmpty())
     {
         QList<QString> ext_list = trkpt.gpx_exts.values.keys();
         QString ex_name, ex_val;
@@ -1498,7 +1523,7 @@ QString CTrack::getTrkPtInfo1(pt_t& trkpt)
         }
 
     }
-#endif
+//#endif
 
     return str;
 }
@@ -1581,7 +1606,7 @@ QString CTrack::getTrkPtInfo2(pt_t& trkpt)
 
 QString CTrack::getFocusInfo()
 {
-    double tmp;
+    double tmp, d;
     QString str, val, unit;
     QList<pt_t> focus;
     getPointOfFocus(focus);
@@ -1594,7 +1619,7 @@ QString CTrack::getFocusInfo()
     const pt_t& p1 = focus.first();
     const pt_t& p2 = focus.last();
 
-    tmp = p2.distance - p1.distance;
+    d = tmp = p2.distance - p1.distance;
     IUnit::self().meter2distance(tmp, val, unit);
     str += QString("%3 %1%2\n").arg(val).arg(unit).arg(QChar(0x21A6));
     if(p1.timestamp != 0x00000000 && p1.timestamp != 0xFFFFFFFF)
@@ -1608,10 +1633,11 @@ QString CTrack::getFocusInfo()
     }
     tmp = p2.ascend - p1.ascend;
     IUnit::self().meter2elevation(tmp, val, unit);
-    str += QString("%3 %1%2\n").arg(val).arg(unit).arg(QChar(0x2197));
+    str += QString("%3 %1%2 (%4\260)\n").arg(val).arg(unit).arg(QChar(0x2197)).arg(qRound(atan(tmp/d) * 360 / (2*M_PI)));
     tmp = p1.descend - p2.descend;
     IUnit::self().meter2elevation(tmp, val, unit);
-    str += QString("%3 %1%2").arg(val).arg(unit).arg(QChar(0x2198));
+    str += QString("%3 %1%2 (%4\260)").arg(val).arg(unit).arg(QChar(0x2198)).arg(qRound(atan(tmp/d) * 360 / (2*M_PI)));
+
 
 
     return str;

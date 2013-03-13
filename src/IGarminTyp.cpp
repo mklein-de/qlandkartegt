@@ -242,6 +242,24 @@ bool IGarminTyp::parsePolygon(QDataStream& in, QMap<quint32, polygon_property>& 
 
         switch(ctyp)
         {
+            case 0x01:
+            {
+
+                // day & night single color
+                in >> b >> g >> r;
+                property.brushDay      = QBrush(qRgb(r,g,b));
+                in >> b >> g >> r;
+                property.brushNight    = QBrush(qRgb(r,g,b));
+
+                // night and day color for line?
+                in >> b >> g >> r;
+                property.pen           = QPen(QBrush(qRgb(r,g,b)),2);
+                in >> b >> g >> r;
+                property.known         = true;
+
+                break;
+            }
+
             case 0x06:
             {
                 // day & night single color

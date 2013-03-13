@@ -199,7 +199,7 @@ bool CGetOpt::parse( bool untilFirstSwitchOnly )
     enum { StartState, ExpectingState, OptionalState } state = StartState;
     Option currOpt;
     enum TokenType { LongOpt, ShortOpt, Arg, End } t, currType = End;
-    bool extraLoop = true; // we'll do an extra round. fake an End argument
+    bool extraLoop = true; // we'll do an extra qRound. fake an End argument
     while ( !stack.isEmpty() || extraLoop ) {
 	QString a;
 	QString origA;

@@ -73,6 +73,7 @@ CResources::CResources(QObject * parent)
 , m_showTrackProfile(true)
 , m_showTrackEleInfo(true)
 , m_showNorth(true)
+, m_showClock(true)
 , m_showScale(true)
 , m_showToolTip(true)
 , m_showZoomLevel(true)
@@ -82,6 +83,8 @@ CResources::CResources(QObject * parent)
 , m_pathMapCache(QDir::temp().filePath("qlandkartegt/cache"))
 , m_sizeMapCache(100)
 , m_expireMapCache(8)
+, m_tzMode(eTZAuto)
+, m_timezone("UTC")
 {
     m_self = this;
 
@@ -157,6 +160,7 @@ CResources::CResources(QObject * parent)
     m_showTrackProfile = cfg.value("environment/showTrackProfile",m_showTrackProfile).toBool();
     m_showTrackEleInfo = cfg.value("environment/showTrackEleInfo",m_showTrackEleInfo).toBool();
     m_showNorth        = cfg.value("environment/showNorth",m_showNorth).toBool();
+    m_showClock        = cfg.value("environment/showClock",m_showClock).toBool();
     m_showScale        = cfg.value("environment/showScale",m_showScale).toBool();
     m_showToolTip      = cfg.value("environment/showToolTip",m_showToolTip).toBool();
     m_showZoomLevel    = cfg.value("environment/showZoomLevel",m_showZoomLevel).toBool();
@@ -204,6 +208,10 @@ CResources::CResources(QObject * parent)
     m_pathMapCache = QDir(cfg.value("network/mapcache/path", cacheFolder).toString());
     m_sizeMapCache = cfg.value("network/mapcache/size", m_sizeMapCache).toInt();
     m_expireMapCache = cfg.value("network/mapcache/expire", m_expireMapCache).toInt();
+
+    m_tzMode = (TimezoneMode_e)cfg.value("timezone/mode", m_tzMode).toInt();
+    m_timezone = cfg.value("timezone/zone", m_timezone).toString();
+
 }
 
 
@@ -247,6 +255,7 @@ CResources::~CResources()
     cfg.setValue("environment/showTrackProfile",m_showTrackProfile);
     cfg.setValue("environment/showTrackEleInfo",m_showTrackEleInfo);
     cfg.setValue("environment/showNorth",m_showNorth);
+    cfg.setValue("environment/showClock",m_showClock);
     cfg.setValue("environment/showScale",m_showScale);
     cfg.setValue("environment/showToolTip",m_showToolTip);
     cfg.setValue("environment/showZoomLevel",m_showZoomLevel);
@@ -258,6 +267,9 @@ CResources::~CResources()
     cfg.setValue("network/mapcache/path", m_pathMapCache.absolutePath());
     cfg.setValue("network/mapcache/size", m_sizeMapCache);
     cfg.setValue("network/mapcache/expire", m_expireMapCache);
+
+    cfg.setValue("timezone/mode", m_tzMode);
+    cfg.setValue("timezone/zone", m_timezone);
 }
 
 

@@ -623,7 +623,7 @@ int main(int argc, char ** argv)
     if(zip.status() != QLGT::QZipWriter::NoError)
     {
 
-        fprintf(stderr, "\nERROR! Failed to create %s.\n\n", argv[argc-1]);
+        fprintf(stderr, "\nERROR! Failed to create '%s'. Is the traget path writeable?\n\n", argv[argc-1]);
         exit(-1);
     }
 
@@ -718,7 +718,7 @@ int main(int argc, char ** argv)
                     zip.addFile(str, buffer);
                     if(zip.status() != QLGT::QZipWriter::NoError)
                     {
-                        fprintf(stderr,"\nFailed to add file %s'' to KMZ\n", str);
+                        fprintf(stderr,"\nFailed to add file '%s' to KMZ. Is the traget path writeable?\n", str);
                         exit(-1);
                     }
 
@@ -739,7 +739,7 @@ int main(int argc, char ** argv)
     zip.addFile(KMLFILE, doc);
     if(zip.status() != QLGT::QZipWriter::NoError)
     {
-        fprintf(stderr,"\nFailed to add file %s'' to KMZ\n", KMLFILE);
+        fprintf(stderr,"\nFailed to add file '%s' to KMZ. Is the traget path writeable?\n", KMLFILE);
         exit(-1);
     }
 

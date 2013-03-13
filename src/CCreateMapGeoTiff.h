@@ -74,6 +74,8 @@ class CCreateMapGeoTiff : public QWidget, private Ui::ICreateMapGeoTiff
 
         bool eventFilter(QObject * watched, QEvent * event);
 
+        QRect& getSelArea(){return rectSelArea;}
+
     protected:
         void keyPressEvent(QKeyEvent * e);
 
@@ -117,8 +119,6 @@ class CCreateMapGeoTiff : public QWidget, private Ui::ICreateMapGeoTiff
 
         void addRef(double x, double y, double u, double v);
 
-        QSize sizeOfInputFile;
-
         QMap<quint32,refpt_t> refpts;
         quint32 refcnt;
 
@@ -132,5 +132,8 @@ class CCreateMapGeoTiff : public QWidget, private Ui::ICreateMapGeoTiff
 
         QDir path;
         bool closemap;
+
+        QSize sizeMap;
+        QRect rectSelArea;
 };
 #endif                           //CCREATEMAPGEOTIFF_H

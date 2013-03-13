@@ -553,7 +553,7 @@ void CTrackFilterWidget::readGuiSplit3(QByteArray& args, double& val)
 {
     QDataStream stream(&args, QIODevice::WriteOnly);
 
-    val = spinSplit3->value();    
+    val = spinSplit3->value();
     if(spinSplit3->suffix() == "ft")
     {
         stream << quint32(eSplit3) << (val * 0.3048f);
@@ -579,7 +579,7 @@ void CTrackFilterWidget::readGuiSplit4(QByteArray& args, double& val)
 {
     QDataStream stream(&args, QIODevice::WriteOnly);
 
-    val = spinSplit4->value();    
+    val = spinSplit4->value();
     if(spinSplit4->suffix() == "ft")
     {
         stream << quint32(eSplit4) << (val * 0.3048f);
@@ -1131,6 +1131,8 @@ void CTrackFilterWidget::slotApplyFilter()
 
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
 
+    CTrackDB::self().setPointOfFocusByIdx(-1);
+
     const int N = listFilters->count();
     for(int i = 0; i < N; i++)
     {
@@ -1249,7 +1251,9 @@ void CTrackFilterWidget::postProcessTrack()
     track->rebuild(true);
     track->slotScaleWpt2Track();
 
+    QString key = track->getKey();
     CTrackDB::self().emitSigModified();
+    CTrackDB::self().highlightTrack(key);
 
     trackEditWidget->slotResetAllZoom();
 }

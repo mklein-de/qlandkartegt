@@ -58,6 +58,7 @@ class CDlgEditWpt : public QDialog, private Ui::IDlgEditWpt
         void slotSelectImage(const CImageSelect::img_t& img);
         void slotCreateBuddies();
         void slotTransparent(bool ok);
+        void slotEditInfo();
 
         void slotCollectSpoiler();
         void slotRequestFinished(QNetworkReply * reply);

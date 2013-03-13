@@ -397,6 +397,10 @@ void IMap::decYOffset(int i)
 void IMap::getClosePolyline(QPoint& pt1, QPoint& pt2, qint32 threshold, QPolygon& line)
 {
     line.clear();
+    if(!ovlMap.isNull())
+    {
+        ovlMap->getClosePolyline(pt1, pt2, threshold, line);
+    }
 }
 
 

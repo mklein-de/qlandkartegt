@@ -31,6 +31,8 @@ class CCreateMapGridTool : public QWidget, private Ui::ICreateMapGridTool
         CCreateMapGridTool(CCreateMapGeoTiff * geotifftool, QWidget * parent);
         virtual ~CCreateMapGridTool();
 
+        static CCreateMapGridTool * self(){return m_self;}
+
     private slots:
         void slotOk();
         void slotCheck();
@@ -39,5 +41,8 @@ class CCreateMapGridTool : public QWidget, private Ui::ICreateMapGridTool
     private:
         void place4GCPs();
         CCreateMapGeoTiff * geotifftool;
+
+        static CCreateMapGridTool * m_self;
+
 };
 #endif                           //CCREATEMAPGRIDTOOL_H

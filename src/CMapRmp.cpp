@@ -661,6 +661,29 @@ void CMapRmp::draw(QPainter& p)
     needsRedraw = false;
 }
 
+void CMapRmp::drawTileBorder(QPainter& p, const file_t& mapFile)
+{
+    double u1 = mapFile.lon1 * DEG_TO_RAD;
+    double v1 = mapFile.lat1 * DEG_TO_RAD;
+    double u2 = mapFile.lon2 * DEG_TO_RAD;
+    double v2 = mapFile.lat2 * DEG_TO_RAD;
+
+    convertRad2Pt(u1,v1);
+    convertRad2Pt(u2,v2);
+
+    QRectF r;
+    r.setLeft(u1);
+    r.setRight(u2);
+    r.setTop(v2);
+    r.setBottom(v1);
+
+    p.setPen(QPen(Qt::darkBlue,2));
+    p.setBrush(QBrush(QColor(230,230,255,100) ));
+    p.drawRect(r);
+
+    CCanvas::drawText(QFileInfo(mapFile.filename).fileName(),p,r.center().toPoint());
+
+}
 
 void CMapRmp::draw()
 {
@@ -703,24 +726,7 @@ void CMapRmp::draw()
 
         if(idx == -1)
         {
-            double u1 = mapFile.lon1 * DEG_TO_RAD;
-            double v1 = mapFile.lat1 * DEG_TO_RAD;
-            double u2 = mapFile.lon2 * DEG_TO_RAD;
-            double v2 = mapFile.lat2 * DEG_TO_RAD;
-
-            convertRad2Pt(u1,v1);
-            convertRad2Pt(u2,v2);
-
-            QRectF r;
-            r.setLeft(u1);
-            r.setRight(u2);
-            r.setTop(v2);
-            r.setBottom(v1);
-
-            p.setPen(QPen(Qt::darkBlue,2));
-            p.setBrush(QBrush(QColor(230,230,255,100) ));
-            p.drawRect(r);
-
+            drawTileBorder(p, mapFile);
             continue;
         }
 
@@ -770,8 +776,9 @@ void CMapRmp::draw()
 //                p.drawRect(QRectF(u1,v1,u2-u1,v2-v1));
 //                CCanvas::drawText(QString("%1/%2").arg(tile.b).arg(tile.t),p,QPoint(u1 + (u2-u1)/2, v1 + (v2-v1)/2));
 
-            }
+            }            
         }
+        //drawTileBorder(p, mapFile);
         file.close();
     }
 }

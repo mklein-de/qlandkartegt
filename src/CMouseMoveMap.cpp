@@ -245,7 +245,7 @@ void CMouseMoveMap::contextMenu(QMenu& menu)
     }
     else
     {
-        QString posMeter = tr("Grid: N %1m E %2m").arg(u, 0,'f',0).arg(v,0,'f',0);
+        QString posMeter = tr("Grid: N %1m E %2m").arg(v, 0,'f',0).arg(u,0,'f',0);
         menu.addAction(QIcon(":/icons/iconClipboard16x16.png"), posMeter, this, SLOT(slotCopyPosGrid()));
     }
 
@@ -256,7 +256,7 @@ void CMouseMoveMap::contextMenu(QMenu& menu)
     map.convertPt2M(u,v);
     if(!map.isLonLat())
     {
-        QString posMeter = tr("Map: N %1m E %2m").arg(u, 0,'f',0).arg(v,0,'f',0);
+        QString posMeter = tr("Map: N %1m E %2m").arg(v, 0,'f',0).arg(u,0,'f',0);
         menu.addAction(QIcon(":/icons/iconClipboard16x16.png"), posMeter, this, SLOT(slotCopyPosMeter()));
     }
 

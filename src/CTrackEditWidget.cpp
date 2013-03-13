@@ -41,6 +41,8 @@
 
 #include <QtGui>
 
+#include <tzdata.h>
+
 #ifdef Q_WS_MAC
 #include <CoreFoundation/CoreFoundation.h>
 
@@ -574,6 +576,8 @@ void CTrackEditWidget::slotUpdate()
     treePoints->blockSignals(true);
     treePoints->model()->blockSignals(true);
 
+    QString timezone = track->getTimezone();
+
     while(trkpt != trkpts.end())
     {
         CTrackTreeWidgetItem * item;
@@ -654,9 +658,13 @@ void CTrackEditWidget::slotUpdate()
 
         // timestamp
         if(trkpt->timestamp != 0x00000000 && trkpt->timestamp != 0xFFFFFFFF)
-        {
+        {            
             QDateTime time = QDateTime::fromTime_t(trkpt->timestamp);
-            time.setTimeSpec(Qt::LocalTime);
+            if(!timezone.isEmpty())
+            {
+                time = TimeStamp(trkpt->timestamp).toZone(timezone).toDateTime();
+            }
+
 #ifdef Q_WS_MAC
             CFType<CFDateRef> cfdate(CFDateCreate(NULL, time.toTime_t() - kCFAbsoluteTimeIntervalSince1970));
             CFType<CFStringRef> cfstr(CFDateFormatterCreateStringWithDate(NULL, df, cfdate));

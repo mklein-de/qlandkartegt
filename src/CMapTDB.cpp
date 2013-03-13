@@ -51,8 +51,8 @@
 #define CMAPTDB_MIN(x,y) _cpp_min(x,y)
 #define CMAPTDB_MAX(x,y) _cpp_max(x,y)
 #else                            //WIN32
-#define CMAPTDB_MIN(x,y) std::min(x,y)
-#define CMAPTDB_MAX(x,y) std::max(x,y)
+#define CMAPTDB_MIN(x,y) qMin(x,y)
+#define CMAPTDB_MAX(x,y) qMax(x,y)
 #include <pwd.h>
 #endif                           //WIN32
 

@@ -248,6 +248,7 @@ set(qlandkarte_SRCS
     CTextBrowser.cpp
     CImageViewer.cpp
     CMapRmp.cpp
+    CMapDEMSlopeSetup.cpp
 )
 
 if (WIN32)
@@ -424,6 +425,7 @@ set(qlandkarte_HDRS
     CTextBrowser.h
     CImageViewer.h
     CMapRmp.h
+    CMapDEMSlopeSetup.h
 )
 
 
@@ -483,6 +485,7 @@ SET(qlandkarte_UIS
     IDiaryEdit.ui
     IImageSelect.ui
     IImageViewer.ui
+    IMapDEMSlopeSetup.ui
 )
 
 SET(qlandkarte_RCS
@@ -649,6 +652,7 @@ include_directories(
   ${CMAKE_SOURCE_DIR}/3rdparty/QTextHtmlExporter
   ${CMAKE_SOURCE_DIR}/3rdparty/getopt
   ${CMAKE_SOURCE_DIR}/3rdparty/conan/include
+  ${CMAKE_SOURCE_DIR}/3rdparty/tzone/include
   ${QTSOAP_INCLUDE_DIRS}
   ${EXIF_INCLUDE_DIRS}
   ${DMTX_INCLUDE_DIRS}
@@ -725,6 +729,7 @@ target_link_libraries(
       getopt
       ${QTSOAP_LIBRARIES}
       ${PROFILING_LIBRARIES}
+      tzone
   )
 
 install(

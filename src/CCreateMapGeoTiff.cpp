@@ -256,10 +256,12 @@ void CCreateMapGeoTiff::slotOpenFile()
 
     theMainWindow->getCanvas()->move(CCanvas::eMoveCenter);
 
+
     GDALDataset * dataset = (GDALDataset*)GDALOpen(filename.toLocal8Bit(),GA_ReadOnly);
     if(dataset == 0) return;
 
-    sizeOfInputFile = QSize(dataset->GetRasterXSize(), dataset->GetRasterYSize());
+    sizeMap = QSize(dataset->GetRasterXSize(), dataset->GetRasterYSize());
+    rectSelArea = QRect(QPoint(0,0),sizeMap);
 
     QString proj = dataset->GetGCPProjection();
     if(!proj.isEmpty())
@@ -306,7 +308,7 @@ void CCreateMapGeoTiff::slotReload()
     GDALDataset * dataset = (GDALDataset*)GDALOpen(filename.toLocal8Bit(),GA_ReadOnly);
     if(dataset == 0) return;
 
-    sizeOfInputFile = QSize(dataset->GetRasterXSize(), dataset->GetRasterYSize());
+    rectSelArea     = QRect(0,0,dataset->GetRasterXSize(), dataset->GetRasterYSize());
 
     QString proj = dataset->GetGCPProjection();
     if(!proj.isEmpty())
@@ -688,9 +690,10 @@ void CCreateMapGeoTiff::saveTAB(const QString& filename)
 
 
 void CCreateMapGeoTiff::slotGridTool()
-{
+{    
+    rectSelArea = QRect(QPoint(0,0),sizeMap);
     CCreateMapGridTool * tool = new CCreateMapGridTool(this, parentWidget());
-    theMainWindow->setTempWidget(tool, tr("Grid Tool"));
+    theMainWindow->setTempWidget(tool, tr("Grid Tool"));    
 }
 
 

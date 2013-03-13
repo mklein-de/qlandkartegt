@@ -151,9 +151,8 @@ void CLiveLogDB::slotLiveLog(const CLiveLog& log)
         w->lblSatUsed->setText("-");
     }
 
-    //HS: disable the stand-still filter
-    //Or better move it down after update of the text fields?
-    //if(m_log.lat == log.lat && m_log.lon == log.lon && m_log.fix == log.fix) return;
+    //mark standstill
+    bool standstill = m_log.lat == log.lat && m_log.lon == log.lon && m_log.fix == log.fix;
 
     //2.) always update m_log which is used to draw the position symbolin the map
     m_log = log;
@@ -178,19 +177,24 @@ void CLiveLogDB::slotLiveLog(const CLiveLog& log)
     GPS_Math_Deg_To_Str(log.lon, log.lat, pos);
 
     //3.) only if the position is considered valid
-    if(log.fix == CLiveLog::e2DFix ||
-        log.fix == CLiveLog::e3DFix ||
-        log.fix == CLiveLog::eEstimated)
+    if(log.fix == CLiveLog::e2DFix || log.fix == CLiveLog::e3DFix ||  log.fix == CLiveLog::eEstimated)
     {
         //3.1) update the other text fields
         QString val, unit;
         if (log.fix == CLiveLog::e2DFix)
+        {
             w->lblStatus->setText((log.count_fix==0)?"2D":tr("2D (%1)").arg(log.count_fix));
-        if (log.fix == CLiveLog::e3DFix)
+        }
+        else if (log.fix == CLiveLog::e3DFix)
+        {
             w->lblStatus->setText((log.count_fix==0)?"3D":tr("3D (%1)").arg(log.count_fix));
-        if (log.fix == CLiveLog::eEstimated)
+        }
+        else if (log.fix == CLiveLog::eEstimated)
+        {
             w->lblStatus->setText((log.count_fix==0)?"DR":tr("DR (%1)").arg(log.count_fix));
+        }
         w->lblPosition->setText(pos);
+
         if (log.ele != WPT_NOFLOAT)
         {
             IUnit::self().meter2elevation(log.ele, val,unit);
@@ -200,6 +204,7 @@ void CLiveLogDB::slotLiveLog(const CLiveLog& log)
         {
             w->lblAltitude->setText("-");
         }
+
         if (log.error_horz != WPT_NOFLOAT)
         {
             //HS: removed division by 2: error estimates should be done by device
@@ -209,6 +214,7 @@ void CLiveLogDB::slotLiveLog(const CLiveLog& log)
         {
             w->lblErrorHoriz->setText("-");
         }
+
         if (log.error_vert != WPT_NOFLOAT)
         {
             //HS: removed division by 2: error estimates should be done by device
@@ -218,6 +224,7 @@ void CLiveLogDB::slotLiveLog(const CLiveLog& log)
         {
             w->lblErrorVert->setText("-");
         }
+
         if (log.velocity != WPT_NOFLOAT)
         {
             IUnit::self().meter2speed(log.velocity, val,unit);
@@ -227,6 +234,7 @@ void CLiveLogDB::slotLiveLog(const CLiveLog& log)
         {
             w->lblSpeed->setText("-");
         }
+
         if(log.heading != WPT_NOFLOAT)
         {
             //HS: removed stand-still filtering for displayed values
@@ -237,34 +245,38 @@ void CLiveLogDB::slotLiveLog(const CLiveLog& log)
             w->lblHeading->setText("-");
         }
 
-        //3.2) att point to "backup" which is used to generate a track afterwards
-        *backup << log;
-
-        //3.3) add point to "track" which is needed to re-draw polyline when map is changed
-        simplelog_t slog;
-        slog.timestamp  = log.timestamp;
-        slog.lon        = log.lon;
-        slog.lat        = log.lat;
-        slog.ele        = log.ele;
-        track << slog;
-
-        //3.4) add point to current polyline
-        IMap& map = CMapDB::self().getMap();
-        double u = slog.lon * DEG_TO_RAD;
-        double v = slog.lat * DEG_TO_RAD;
-        map.convertRad2Pt(u,v);
-        polyline << QPoint(u,v);
-
-        //3.5) move map center if necessary
-        if(m_lockToCenter)
+        //3.2) no saving and mapcentering at standstill
+        if (!standstill)
         {
-            QSize size  = map.getSize();
-            int   dx    = size.width()  / 6;
-            int   dy    = size.height() / 6;
-            QRect area  = QRect(2*dx, 2*dy, 2*dx, 2*dy);
-            if(!area.contains(u,v))
+            //3.3) att point to "backup" which is used to generate a track afterwards
+            *backup << log;
+
+            //3.4) add point to "track" which is needed to re-draw polyline when map is changed
+            simplelog_t slog;
+            slog.timestamp  = log.timestamp;
+            slog.lon        = log.lon;
+            slog.lat        = log.lat;
+            slog.ele        = log.ele;
+            track << slog;
+
+            //3.5) add point to current polyline
+            IMap& map = CMapDB::self().getMap();
+            double u = slog.lon * DEG_TO_RAD;
+            double v = slog.lat * DEG_TO_RAD;
+            map.convertRad2Pt(u,v);
+            polyline << QPoint(u,v);
+
+            //3.6) move map center if necessary
+            if(m_lockToCenter)
             {
-                map.move(QPoint(u,v), area.center());
+                QSize size  = map.getSize();
+                int   dx    = size.width()  / 6;
+                int   dy    = size.height() / 6;
+                QRect area  = QRect(2*dx, 2*dy, 2*dx, 2*dy);
+                if(!area.contains(u,v))
+                {
+                    map.move(QPoint(u,v), area.center());
+                }
             }
         }
     }

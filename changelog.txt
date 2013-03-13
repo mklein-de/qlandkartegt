@@ -1,3 +1,40 @@
+--- 2013.03.10 ---
+
+Bug     #424:
+Single track arrows not on track line
+
+Request #425:
+Add slope overlay to DEM overlays
+
+Request #426:
+Uncheck and disable sticky waypoints in export dialog
+
+Request #427:
+Add spoiler download for geocaches 
+
+Request #428:
+Read number of satellites from gpsd
+
+Request #429:
+Add filter to detect position hold for live log
+
+Request #430:
+Move last opened file to top of most recent list
+
+Request #431:
+Add position based timezone to timestamp conversion for tracks and waypoints
+
+Request #432:
+Add timezone clock to canvas
+
+Request #433:
+Add rectangle to limit reference points produced by grid tool
+
+Request #434:
+Add snap to line for overlay maps
+
+
+
 --- 2012.11.25 ---
 
 Request #411:
@@ -1678,6 +1715,7 @@ Fixed bad calculation of proximity circle size
 
 Request #1:
 Initial release
+
 
 
 

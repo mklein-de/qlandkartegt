@@ -50,6 +50,7 @@ class CMouseSelTrack;
 class QFont;
 class CPlot;
 class CTrack;
+class CMapDEMSlopeSetup;
 
 #define PAINT_ROUNDED_RECT(p,r) p.drawRoundedRect(r,5,5)
 #define COMPASS_H 60
@@ -144,6 +145,7 @@ class CCanvas : public QWidget
         void slotTrackChanged();
         void slotPointOfFocus(const int idx);
         void slotFadingMessage();
+        void slotTime();
 
     protected:
         void paintEvent(QPaintEvent * e);
@@ -166,6 +168,7 @@ class CCanvas : public QWidget
         void drawRefPoints(QPainter& p);
         void drawScale(QPainter& p);
         void drawCompass(QPainter& p);
+        void drawClock(QPainter& p);
         void drawFadingMessage(QPainter& p);
 
     private:
@@ -197,11 +200,15 @@ class CCanvas : public QWidget
         QPoint posMouse;
         QLabel * info;
         CPlot * profile;
+        CMapDEMSlopeSetup * slopeSetup;
 
         QTimer * timerFadingMessage;
         QString fadingMessage;
 
         // work around possible Qt/OS X bug
         bool contextMenuActive;
+
+        QString timezone;
+        QTimer * timerClock;
 };
 #endif                           //CCANVAS_H

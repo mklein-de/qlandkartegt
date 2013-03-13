@@ -85,8 +85,8 @@ void IMouse::resizeRect(const QPoint& p, bool normalize)
     if (normalize)
     {
         QPoint p0(rect.topLeft());
-        rect.setCoords(std::min(p.x(), p0.x()), std::min(p.y(), p0.y()),
-            std::max(p.x(), p0.x()), std::max(p.y(), p0.y()));
+        rect.setCoords(qMin(p.x(), p0.x()), qMin(p.y(), p0.y()),
+            qMax(p.x(), p0.x()), qMax(p.y(), p0.y()));
     }
     else
     {

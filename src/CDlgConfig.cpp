@@ -25,6 +25,7 @@
 #include "CUnitMetric.h"
 #include "CMapTDB.h"
 #include "CDlgSetupGarminIcons.h"
+#include "GeoMath.h"
 
 #include <QtGui>
 #include <QNetworkProxy>
@@ -50,6 +51,13 @@ CDlgConfig::CDlgConfig(QWidget * parent)
     connect(checkGeoDBSaveOnExit, SIGNAL(clicked(bool)), spinGeoDBMinutes, SLOT(setEnabled(bool)));
 
     connect(toolPathMapCache, SIGNAL(clicked()), this, SLOT(slotSelectPathMapCache()));
+
+    const char ** tz = tblTimezone;
+    while(*tz)
+    {
+        comboTimeZone->addItem(*tz);
+        tz++;
+    }
 
 }
 
@@ -92,6 +100,7 @@ void CDlgConfig::exec()
     checkShowProfilePreview->setChecked(resources.m_showTrackProfile);
     checkShowTrackEleInfo->setChecked(resources.m_showTrackEleInfo);
     checkShowNorth->setChecked(resources.m_showNorth);
+    checkShowClock->setChecked(resources.m_showClock);
     checkShowScale->setChecked(resources.m_showScale);
     checkTooltip->setChecked(resources.m_showToolTip);
     checkShowZoomLevel->setChecked(resources.m_showZoomLevel);
@@ -109,7 +118,7 @@ void CDlgConfig::exec()
     comboDevice->addItem(tr("Garmin"), "Garmin");
     comboDevice->addItem(tr("Garmin Mass Storage"), "Garmin Mass Storage");
     comboDevice->addItem(tr("Magellan"), "Magellan");
-    comboDevice->addItem(tr("TwoNav"), "TwoNav");    
+    comboDevice->addItem(tr("TwoNav"), "TwoNav");
     comboDevice->addItem(tr("NMEA"), "NMEA");
 
     comboDevBaudRate->addItem("4800");
@@ -153,6 +162,24 @@ void CDlgConfig::exec()
     spinSizeMapCache->setValue(resources.m_sizeMapCache);
     spinExpireMapCache->setValue(resources.m_expireMapCache);
 
+    comboTimeZone->setCurrentIndex(comboTimeZone->findText(resources.m_timezone));
+    if(resources.m_tzMode == resources.eTZUtc)
+    {
+        radioTimeUtc->setChecked(true);
+    }
+    else if(resources.m_tzMode == resources.eTZLocal)
+    {
+        radioTimeLocal->setChecked(true);
+    }
+    else if(resources.m_tzMode == resources.eTZAuto)
+    {
+        radioTimeAuto->setChecked(true);
+    }
+    else if(resources.m_tzMode == resources.eTZSelected)
+    {
+        radioTimeZone->setChecked(true);
+    }
+
     QDialog::exec();
 }
 
@@ -194,6 +221,7 @@ void CDlgConfig::accept()
     resources.m_showTrackProfile = checkShowProfilePreview->isChecked();
     resources.m_showTrackEleInfo = checkShowTrackEleInfo->isChecked();
     resources.m_showNorth       = checkShowNorth->isChecked();
+    resources.m_showClock       = checkShowClock->isChecked();
     resources.m_showScale       = checkShowScale->isChecked();
     resources.m_showToolTip     = checkTooltip->isChecked();
     resources.m_showZoomLevel   = checkShowZoomLevel->isChecked();
@@ -235,6 +263,24 @@ void CDlgConfig::accept()
     resources.m_pathMapCache    = QDir(labelPathMapCache->text());
     resources.m_sizeMapCache    = spinSizeMapCache->value();
     resources.m_expireMapCache  = spinExpireMapCache->value();
+
+    resources.m_timezone        = comboTimeZone->currentText();
+    if(radioTimeUtc->isChecked())
+    {
+        resources.m_tzMode = resources.eTZUtc;
+    }
+    else if(radioTimeLocal->isChecked())
+    {
+        resources.m_tzMode = resources.eTZLocal;
+    }
+    else if(radioTimeAuto->isChecked())
+    {
+        resources.m_tzMode = resources.eTZAuto;
+    }
+    else if(radioTimeZone->isChecked())
+    {
+        resources.m_tzMode = resources.eTZSelected;
+    }
 
     QDialog::accept();
 }

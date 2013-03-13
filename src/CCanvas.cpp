@@ -58,10 +58,12 @@
 #include "CMapUndoCommandMove.h"
 #include "CPlot.h"
 #include "CGridDB.h"
+#include "CMapDEMSlopeSetup.h"
 
 #include <QtGui>
 
 #include <stdio.h>
+#include <tzdata.h>
 
 QPen CCanvas::penBorderBlue(QColor(10,10,150,220),3);
 QPen CCanvas::penBorderBlack(QColor(0,0,0,200),3);
@@ -101,6 +103,12 @@ CCanvas::CCanvas(QWidget * parent)
     timerFadingMessage = new QTimer(this);
     timerFadingMessage->setSingleShot(true);
     connect(timerFadingMessage, SIGNAL(timeout()), this, SLOT(slotFadingMessage()));
+
+    timerClock = new QTimer(this);
+    timerClock->setSingleShot(false);
+    timerClock->start(1000);
+    connect(timerClock, SIGNAL(timeout()), this, SLOT(slotTime()));
+
 }
 
 
@@ -114,6 +122,10 @@ void CCanvas::setupDelayed()
     profile = new CPlot(CPlotData::eLinear, CPlot::eIcon, this);
     profile->resize(300,120);
     profile->hide();
+
+    slopeSetup = new CMapDEMSlopeSetup(this);
+    slopeSetup->adjustSize();
+    slopeSetup->hide();
 
     connect(&CTrackDB::self(), SIGNAL(sigPointOfFocus(int)), this, SLOT(slotPointOfFocus(int)));
 }
@@ -241,6 +253,8 @@ void CCanvas::resizeEvent(QResizeEvent * e)
     }
 
     profile->move(20, s.height() - profile->height() - 20);
+
+    slopeSetup->move(s.width() - slopeSetup->width() - 10, s.height() - slopeSetup->height() - 200);
 
     emit sigResize(e->size());
 }
@@ -423,6 +437,7 @@ void CCanvas::draw(QPainter& p)
     drawRefPoints(p);
     drawScale(p);
     drawCompass(p);
+    drawClock(p);
     drawFadingMessage(p);
 
     mouse->draw(p);
@@ -451,6 +466,25 @@ void CCanvas::drawRefPoints(QPainter& p)
         }
 
         ++refpt;
+    }
+
+    QRect r1 = dlg->getSelArea();
+
+    double x1 = r1.left();
+    double y1 = r1.top();
+    double x2 = r1.right();
+    double y2 = r1.bottom();
+
+    map.convertM2Pt(x1,y1);
+    map.convertM2Pt(x2,y2);
+
+    r1 = QRect(QPoint(x1,y1), QPoint(x2,y2));
+
+    if(rect().intersects(r1))
+    {
+        p.setBrush(Qt::NoBrush);
+        p.setPen(QPen(QColor("#FF8000"),3));
+        p.drawRect(r1);
     }
 }
 
@@ -585,6 +619,27 @@ void CCanvas::drawCompass(QPainter& p)
     p.restore();
 }
 
+void CCanvas::drawClock(QPainter& p)
+{
+    if(!CResources::self().showClock())
+    {
+        return;
+    }
+    TimeStamp tstamp = TimeStamp::now().toUTC();
+    QString strDateTime = tstamp.toZone(timezone).toDateTime().toString() + " (" + timezone + ")";
+#ifdef WIN32
+    strDateTime = " "+strDateTime+" ";
+#endif
+
+    QFontMetrics fm(CResources::self().getMapFont());
+
+    QRect r = fm.boundingRect(strDateTime);
+
+    r.moveBottomRight(QPoint(size().width() - 10, size().height() - 10));
+
+    drawText(strDateTime,p,r);
+
+}
 
 void CCanvas::drawText(const QString& str, QPainter& p, const QPoint& center, const QColor& color)
 {
@@ -759,6 +814,8 @@ void CCanvas::mouseMoveEventCoord(QMouseEvent * e)
     }
     else
     {
+        timezone = GPS_Timezone(x*RAD_TO_DEG, y*RAD_TO_DEG);
+
 
         float ele = CMapDB::self().getDEM().getElevation(x,y);
         if(ele != WPT_NOFLOAT)
@@ -778,7 +835,7 @@ void CCanvas::mouseMoveEventCoord(QMouseEvent * e)
         }
         else
         {
-            info += tr("[Grid: %1m, %2m] ").arg(x_m,0,'f',0).arg(y_m,0,'f',0);
+            info += tr("[Grid: N %1m, E %2m] ").arg(y_m,0,'f',0).arg(x_m,0,'f',0);
         }
 
         x *= RAD_TO_DEG;
@@ -905,6 +962,14 @@ void CCanvas::slotHighlightTrack(CTrack * track)
 }
 
 
+void CCanvas::slotTime()
+{
+    if(CResources::self().showClock())
+    {
+        update();
+    }
+}
+
 void CCanvas::setFadingMessage(const QString& msg)
 {
     fadingMessage = msg;
@@ -919,7 +984,6 @@ void CCanvas::slotFadingMessage()
     update();
 
 }
-
 
 void CCanvas::drawFadingMessage(QPainter& p)
 {

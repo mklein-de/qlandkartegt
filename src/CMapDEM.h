@@ -55,9 +55,18 @@ class CMapDEM : public IMap
         bool is32BitRgb(){return false;}
         bool loaded();
 
+        void setGrade(int i);
+        int getGrade(){return idxGrade;}
+
+        static const QRgb slopeColorTable[6];
+        static const double * grade[5];
+
     private:
         void shading(QImage& img, qint16 * data, float xscale, float yscale);
         void contour(QImage& img, qint16 * data, float xscale, float yscale);
+        void slope(QImage& img, qint16 * data, int xoff, int yoff);
+
+        CCanvas * canvas;
 
         /// instance of GDAL dataset
         GDALDataset * dataset;
@@ -86,6 +95,7 @@ class CMapDEM : public IMap
 
         QVector<QRgb> graytable1;
         QVector<QRgb> graytable2;
+        QVector<QRgb> slopetable;
 
         CStatusDEM * status;
 
@@ -95,6 +105,14 @@ class CMapDEM : public IMap
         float old_my_yscale;
 
         IMap::overlay_e old_overlay;
+
+        int idxGrade;
+
+        static const double grade1[];
+        static const double grade2[];
+        static const double grade3[];
+        static const double grade4[];
+
 
 };
 #endif                           //CMAPDEM_H

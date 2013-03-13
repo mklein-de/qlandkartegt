@@ -505,7 +505,7 @@ void CMainWindow::setTitleBar()
 
 void CMainWindow::clearAll()
 {
-    QMessageBox::StandardButton res = QMessageBox::question(0, tr("Clear all..."), tr("This will erase all project data like waypoints and tracks."), QMessageBox::Ok|QMessageBox::Cancel, QMessageBox::Ok);
+    QMessageBox::StandardButton res = QMessageBox::question(0, tr("Clear all..."), tr("This will erase all workspace data like waypoints and tracks."), QMessageBox::Ok|QMessageBox::Cancel, QMessageBox::Ok);
 
     if(res == QMessageBox::Ok)
     {
@@ -779,8 +779,7 @@ void CMainWindow::slotLoadData()
     QString filename;
     foreach(filename, filenames)
     {
-        loadData(filename, filter);
-        addRecent(filename);
+        if (loadData(filename, filter)) addRecent(filename);
     }
 
     IDB::signalsOn();
@@ -815,8 +814,7 @@ void CMainWindow::slotAddData()
         if(filename.isEmpty()) return;
 
         QString tmp = wksFile;
-        loadData(filename, filter);
-        addRecent(filename);
+        if (loadData(filename, filter)) addRecent(filename);
 
         wksFile = tmp;
 
@@ -829,9 +827,10 @@ void CMainWindow::slotAddData()
 }
 
 
-void CMainWindow::loadData(const QString& filename, const QString& filter)
+bool CMainWindow::loadData(const QString& filename, const QString& filter)
 {
     QTemporaryFile tmpfile;
+    bool success = false;
     bool loadGPXData = false;
     QFileInfo fileInfo(filename);
     QString ext = fileInfo.suffix().toUpper();
@@ -933,12 +932,14 @@ void CMainWindow::loadData(const QString& filename, const QString& filter)
 
         }
         wksFile = filename;
+        success = true;
     }
     catch(const QString& msg)
     {
         wksFile.clear();
         QMessageBox:: critical(this,tr("Error"), msg, QMessageBox::Cancel, QMessageBox::Cancel);
     }
+    return success;
 }
 
 
@@ -1306,7 +1307,7 @@ void CMainWindow::slotDataChanged()
 {
 
     int c;
-    QString str = tr("<div style='float: left;'><b>Project Summary (<a href='Clear'>clear</a> project):</b></div>");
+    QString str = tr("<div style='float: left;'><b>Workspace Summary (<a href='Clear'>clear</a> workspace):</b></div>");
 
     str += "<p>";
     c = CWptDB::self().count();
@@ -1471,7 +1472,7 @@ void CMainWindow::slotLoadRecent()
         CDiaryDB::self().clear();
         COverlayDB::self().clear();
 
-        loadData(filename,"");
+        if (loadData(filename,"")) addRecent(filename);
 
         wksFile = filename;
 
@@ -1483,24 +1484,28 @@ void CMainWindow::slotLoadRecent()
 
 void CMainWindow::addRecent(const QString& filename)
 {
-    QString recent;
-    foreach(recent, mostRecent)
+    int recentpos = mostRecent.indexOf(filename);
+    if (recentpos > -1)
     {
-        if(recent == filename) return;
+        if (!recentpos) return;
+        mostRecent.move(recentpos, 0);
+    }
+    else
+    {
+        mostRecent.prepend(filename);
     }
 
     if(mostRecent.count() >= 10)
     {
         mostRecent.removeLast();
     }
-    mostRecent.prepend(filename);
 
     menuMostRecent->clear();
+    QString recent;
     foreach(recent, mostRecent)
     {
         menuMostRecent->addAction(recent, this, SLOT(slotLoadRecent()));
     }
-
 }
 
 
@@ -1541,19 +1546,19 @@ void CMainWindow::slotFAQ()
 
 void CMainWindow::slotHelp()
 {
-    QDesktopServices::openUrl(QUrl("http://sourceforge.net/apps/mediawiki/qlandkartegt/index.php?title=Help_for_QLandkarte_GT"));
+    QDesktopServices::openUrl(QUrl("http://sourceforge.net/apps/mediawiki/qlandkartegt/index.php?title=QLandkarte_GT"));
 }
 
 
 void CMainWindow::slotSupport()
 {
-    QDesktopServices::openUrl(QUrl("http://www.qlandkarte.org/index.php?option=com_content&view=article&id=17&Itemid=19"));
+    QDesktopServices::openUrl(QUrl("http://www.qlandkarte.org/530747a0730821603/index.html"));
 }
 
 
 void CMainWindow::slotDownload()
 {
-    QDesktopServices::openUrl(QUrl("http://www.qlandkarte.org/index.php?option=com_content&view=article&id=17&Itemid=19"));
+    QDesktopServices::openUrl(QUrl("http://www.qlandkarte.org/530747a0720dfbb0d/index.html"));
 }
 
 

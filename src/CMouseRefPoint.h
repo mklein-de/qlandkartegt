@@ -23,6 +23,8 @@
 #include "IMouse.h"
 #include "CCreateMapGeoTiff.h"
 
+class CCreateMapGeoTiff;
+
 class CMouseRefPoint :  public IMouse
 {
     Q_OBJECT;
@@ -42,13 +44,30 @@ class CMouseRefPoint :  public IMouse
         void slotCopyPosPixelSize();
 
     private:
-        /// true if left mouse button is pressed
-        bool moveMap;
-        bool moveRef;
+        bool (CMouseRefPoint::*state)(QPoint& pos, CCreateMapGeoTiff& dlg);
+
+        bool stateMove(QPoint& pos, CCreateMapGeoTiff& dlg);
+        bool stateMoveMap(QPoint& pos, CCreateMapGeoTiff& dlg);
+        bool stateMoveRefPoint(QPoint& pos, CCreateMapGeoTiff& dlg);
+        bool stateMoveSelArea(QPoint& pos, CCreateMapGeoTiff& dlg);
+        bool stateHighlightRefPoint(QPoint& pos, CCreateMapGeoTiff& dlg);
+        bool stateHighlightSelArea(QPoint& pos, CCreateMapGeoTiff& dlg);
+
         /// the initial starting point of the transformation
         QPoint oldPoint;
 
         CCreateMapGeoTiff::refpt_t * selRefPt;
 
+        enum selAreaMode_e
+        {
+             eSelAreaNone
+            ,eSelAreaTop
+            ,eSelAreaLeft
+            ,eSelAreaBottom
+            ,eSelAreaRight
+
+        };
+
+        selAreaMode_e selAreaMode;
 };
 #endif                           //CMOUSEREFPOINT_H

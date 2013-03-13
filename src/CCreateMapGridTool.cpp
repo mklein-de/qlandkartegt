@@ -30,10 +30,13 @@
 
 #include <gdal.h>
 
+CCreateMapGridTool * CCreateMapGridTool::m_self = 0;
+
 CCreateMapGridTool::CCreateMapGridTool(CCreateMapGeoTiff * geotifftool, QWidget * parent)
 : QWidget(parent)
 , geotifftool(geotifftool)
 {
+    m_self = this;
     setupUi(this);
 
     labelExample->setPixmap(QPixmap(":/pics/grid_example.png"));
@@ -87,11 +90,13 @@ CCreateMapGridTool::CCreateMapGridTool(CCreateMapGeoTiff * geotifftool, QWidget 
 
     toolProjWizard->setIcon(QPixmap(":/icons/iconWizzard16x16.png"));
     connect(toolProjWizard, SIGNAL(clicked()), this, SLOT(slotProjWizard()));
+
 }
 
 
 CCreateMapGridTool::~CCreateMapGridTool()
 {
+    m_self = 0;
 
     SETTINGS;
     cfg.setValue("create/ref.proj",lineProjection->text());
@@ -110,6 +115,8 @@ CCreateMapGridTool::~CCreateMapGridTool()
     {
         mapedit->show();
     }
+
+    geotifftool->rectSelArea = QRect(QPoint(0,0),geotifftool->sizeMap);
 }
 
 
@@ -317,12 +324,13 @@ void CCreateMapGridTool::slotOk()
     double u1 = ((int)((adfGeoTransform1[0] + stepx) / stepx)) * stepx;
     double v1 = ((int)(adfGeoTransform1[3] / stepy)) * stepy;
 
-    QRect rect(0,0,geotifftool->sizeOfInputFile.width(),geotifftool->sizeOfInputFile.height());
+    QRect rect = geotifftool->getSelArea();
 
     double u = u1, v = v1;
     double x = 0,  y = 0;
     bool go         = true;
     bool validLine  = false;
+    int top         = rect.top();
     while(go)
     {
         GDALApplyGeoTransform(adfGeoTransform2, u, v, &x, &y);
@@ -349,9 +357,9 @@ void CCreateMapGridTool::slotOk()
         }
         else
         {
-            if(x > rect.width())
+            if(x > rect.right())
             {
-                if(!validLine) break;
+                if(!validLine && (y > top)) break;
                 validLine = false;
 
                 u  = u1;

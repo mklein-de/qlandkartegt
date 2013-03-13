@@ -388,11 +388,11 @@ static uint32_t scale2jnx(double scale)
     ratio (R):
 
       S(R) =
-        round(
+        qRound(
           76437 *
           exp(
             ln(2.000032708011) *
-            round(
+            qRound(
               ln(R * 130.2084 / 76437) /
               ln(2.000032708011)
             )
@@ -401,7 +401,7 @@ static uint32_t scale2jnx(double scale)
 
 
     where
-      round - is a function which returns the closest integer from
+      qRound - is a function which returns the closest integer from
         floating point value, [unfortunately its defined in C99 but not standard C++]
       exp - exponent,
       ln - natural logarithm.

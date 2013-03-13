@@ -75,7 +75,18 @@ int CDlgExport::exec()
             QStringList str;
             str << key.name << key.comment.left(32);
             QTreeWidgetItem * item = new QTreeWidgetItem(itemWpt, str);
-            item->setCheckState(0, Qt::Checked);
+
+            CWpt *wpt = CWptDB::self().getWptByKey(key.key);
+            if (wpt->sticky)
+            {
+                item->setCheckState(0, Qt::Unchecked);
+                item->setFlags(0);
+            }
+            else
+            {
+                item->setCheckState(0, Qt::Checked);
+            }
+
             item->setIcon(0,getWptIconByName(key.icon));
             item->setData(0, Qt::UserRole, key.key);
         }
@@ -205,7 +216,8 @@ void CDlgExport::slotCheckAll(bool checked)
     max = itemWpt->childCount();
     for(i = 0; i < max; i++)
     {
-        itemWpt->child(i)->setCheckState(0, checked ? Qt::Checked : Qt::Unchecked);
+        if ((itemWpt->child(i)->flags() & Qt::ItemIsEnabled) == Qt::ItemIsEnabled)
+            itemWpt->child(i)->setCheckState(0, checked ? Qt::Checked : Qt::Unchecked);
     }
 
     max = itemTrk->childCount();

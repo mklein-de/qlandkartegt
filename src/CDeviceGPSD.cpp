@@ -221,7 +221,7 @@ bool CGPSDThread::decodeData()
         return true;
     static const gps_mask_t interesting_mask = TIME_SET | LATLON_SET
         | ALTITUDE_SET | SPEED_SET | TRACK_SET | STATUS_SET | MODE_SET
-        | HERR_SET | VERR_SET | ONLINE_SET;
+        | HERR_SET | VERR_SET | SATELLITE_SET | ONLINE_SET;
 
     if( (gpsdata->set & interesting_mask) == 0 )
         return true;
@@ -254,6 +254,8 @@ bool CGPSDThread::decodeData()
     current_log.error_vert = gpsdata->fix.epv;
     current_log.heading = gpsdata->fix.track;
     current_log.velocity = gpsdata->fix.speed;
+
+    current_log.sat_used = gpsdata->satellites_used;
 
     changed = true;
 

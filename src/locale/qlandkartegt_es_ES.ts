@@ -893,12 +893,12 @@
         <translation type="obsolete">Copiar Posición</translation>
     </message>
     <message>
-        <location filename="../CCanvas.cpp" line="777"/>
+        <location filename="../CCanvas.cpp" line="784"/>
         <source>[Grid: %1] </source>
         <translation>[Rejilla: %1] </translation>
     </message>
     <message>
-        <location filename="../CCanvas.cpp" line="781"/>
+        <location filename="../CCanvas.cpp" line="788"/>
         <source>[Grid: %1m, %2m] </source>
         <translation>[Rejilla: %1m, %2m] </translation>
     </message>
@@ -1681,9 +1681,13 @@ Se esperaba %1, se recibió %2.</translation>
         <translation>Error...</translation>
     </message>
     <message>
-        <location filename="../CDeviceMagellan.cpp" line="78"/>
         <source>I need a path with &apos;TwoNavData/Data&apos; as subdirectory</source>
-        <translation>Se necesita una ruta con &apos;TwoNavData/Data&apos; como subdirectorio</translation>
+        <translation type="obsolete">Se necesita una ruta con &apos;TwoNavData/Data&apos; como subdirectorio</translation>
+    </message>
+    <message>
+        <location filename="../CDeviceMagellan.cpp" line="78"/>
+        <source>I need a path with &apos;Track&apos;, &apos;Waypoints&apos;, &apos;Routes&apos; and &apos;Geocaches&apos; as subdirectory</source>
+        <translation>Se necesita una ruta con &apos;Track&apos;, &apos;Waypoints&apos;, &apos;Routes&apos; y &apos;Geocaches&apos; como subdirectorio</translation>
     </message>
     <message>
         <location filename="../CDeviceMagellan.cpp" line="110"/>
@@ -2608,72 +2612,92 @@ Cancelado a petición del usuario.
 <context>
     <name>CDlgEditWpt</name>
     <message>
-        <location filename="../CDlgEditWpt.cpp" line="266"/>
-        <location filename="../CDlgEditWpt.cpp" line="271"/>
+        <location filename="../CDlgEditWpt.cpp" line="276"/>
+        <location filename="../CDlgEditWpt.cpp" line="281"/>
         <source>Error</source>
         <translation>Error</translation>
     </message>
     <message>
-        <location filename="../CDlgEditWpt.cpp" line="271"/>
+        <location filename="../CDlgEditWpt.cpp" line="281"/>
         <source>You must provide a waypoint position.</source>
         <translation>Debe proporcionar una posición de waypoint.</translation>
     </message>
     <message>
-        <location filename="../CDlgEditWpt.cpp" line="310"/>
+        <location filename="../CDlgEditWpt.cpp" line="320"/>
         <source>(proj.)</source>
         <translation>(proj.)</translation>
     </message>
     <message>
-        <location filename="../CDlgEditWpt.cpp" line="345"/>
+        <location filename="../CDlgEditWpt.cpp" line="355"/>
         <source>Select image file</source>
         <translation>Seleccionar archivo de imagen</translation>
     </message>
     <message>
-        <location filename="../CDlgEditWpt.cpp" line="353"/>
+        <location filename="../CDlgEditWpt.cpp" line="363"/>
         <source>Add comment ...</source>
         <translation>Añadir comentario ...</translation>
     </message>
     <message>
-        <location filename="../CDlgEditWpt.cpp" line="353"/>
+        <location filename="../CDlgEditWpt.cpp" line="363"/>
         <source>comment</source>
         <translation>comentario</translation>
     </message>
     <message>
-        <location filename="../CDlgEditWpt.cpp" line="416"/>
+        <location filename="../CDlgEditWpt.cpp" line="426"/>
         <source>no image</source>
         <translation>sin imagen</translation>
     </message>
     <message>
-        <location filename="../CDlgEditWpt.cpp" line="439"/>
+        <location filename="../CDlgEditWpt.cpp" line="449"/>
         <source>Edit link ...</source>
         <translation>Editar enlace ...</translation>
     </message>
     <message>
-        <location filename="../CDlgEditWpt.cpp" line="439"/>
+        <location filename="../CDlgEditWpt.cpp" line="449"/>
         <source>Link: &apos;http://...&apos;</source>
         <translation>Enlace: &apos;http://...&apos;</translation>
     </message>
     <message>
-        <location filename="../CDlgEditWpt.cpp" line="443"/>
+        <location filename="../CDlgEditWpt.cpp" line="453"/>
         <source>None</source>
         <translation>Ninguno</translation>
     </message>
     <message>
-        <location filename="../CDlgEditWpt.cpp" line="461"/>
+        <location filename="../CDlgEditWpt.cpp" line="471"/>
         <source>Select output file</source>
         <translation>Seleccionar archivo de salida</translation>
     </message>
     <message>
-        <location filename="../CDlgEditWpt.cpp" line="484"/>
-        <location filename="../CDlgEditWpt.cpp" line="485"/>
-        <location filename="../CDlgEditWpt.cpp" line="488"/>
+        <location filename="../CDlgEditWpt.cpp" line="494"/>
+        <location filename="../CDlgEditWpt.cpp" line="495"/>
+        <location filename="../CDlgEditWpt.cpp" line="498"/>
         <source>%1
 </source>
         <translation>%1
 </translation>
     </message>
     <message>
-        <location filename="../CDlgEditWpt.cpp" line="266"/>
+        <location filename="../CDlgEditWpt.cpp" line="622"/>
+        <source>Delete images...</source>
+        <translation>Borrar imágenes...</translation>
+    </message>
+    <message>
+        <location filename="../CDlgEditWpt.cpp" line="622"/>
+        <source>Remove all other images first?</source>
+        <translation>¿Eliminar el resto de imágenes primero?</translation>
+    </message>
+    <message>
+        <location filename="../CDlgEditWpt.cpp" line="704"/>
+        <source>No spoilers...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../CDlgEditWpt.cpp" line="704"/>
+        <source>No spoilers found.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../CDlgEditWpt.cpp" line="276"/>
         <source>You must provide a waypoint identifier.</source>
         <translation>Debe proporcionar un identificador de waypoint.</translation>
     </message>
@@ -3594,9 +3618,8 @@ Proyección actual: %1</translation>
         <translation>Eliminar todo...</translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="508"/>
         <source>This will erase all project data like waypoints and tracks.</source>
-        <translation>Esto eliminará todos los datos del proyecto, tales como waypoints y tracks.</translation>
+        <translation type="obsolete">Esto eliminará todos los datos del proyecto, tales como waypoints y tracks.</translation>
     </message>
     <message>
         <location filename="../CMainWindow.cpp" line="556"/>
@@ -3687,6 +3710,11 @@ Proyección actual: %1</translation>
         <translation>Seleccionar mapa...</translation>
     </message>
     <message>
+        <location filename="../CMainWindow.cpp" line="1309"/>
+        <source>&lt;div style=&apos;float: left;&apos;&gt;&lt;b&gt;Workspace Summary (&lt;a href=&apos;Clear&apos;&gt;clear&lt;/a&gt; workspace):&lt;/b&gt;&lt;/div&gt;</source>
+        <translation>&lt;div style=&apos;float: left;&apos;&gt;&lt;b&gt;Resumen del área de trabajo (&lt;a href=&apos;Clear&apos;&gt;limpiar&lt;/a&gt; área de trabajo):&lt;/b&gt;&lt;/div&gt;</translation>
+    </message>
+    <message>
         <location filename="../CMainWindow.cpp" line="1428"/>
         <source>Garmin Mass Storage</source>
         <translation>Almacenamiento Masivo de Garmin</translation>
@@ -3756,9 +3784,8 @@ Do you want to save your changes?</source>
         <translation>Imprimir Mapa</translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="1309"/>
         <source>&lt;div style=&apos;float: left;&apos;&gt;&lt;b&gt;Project Summary (&lt;a href=&apos;Clear&apos;&gt;clear&lt;/a&gt; project):&lt;/b&gt;&lt;/div&gt;</source>
-        <translation>&lt;div style=&apos;float: left;&apos;&gt;&lt;b&gt;Resumen del proyecto (&lt;a href=&apos;Clear&apos;&gt;limpiar&lt;/a&gt; el proyecto):&lt;/b&gt;&lt;/div&gt;</translation>
+        <translation type="obsolete">&lt;div style=&apos;float: left;&apos;&gt;&lt;b&gt;Resumen del proyecto (&lt;a href=&apos;Clear&apos;&gt;limpiar&lt;/a&gt; el proyecto):&lt;/b&gt;&lt;/div&gt;</translation>
     </message>
     <message>
         <location filename="../CMainWindow.cpp" line="1317"/>
@@ -3827,6 +3854,11 @@ Do you want to save your changes?</source>
         <location filename="../CMainWindow.cpp" line="103"/>
         <source>Profiling</source>
         <translation type="unfinished">Profiling</translation>
+    </message>
+    <message>
+        <location filename="../CMainWindow.cpp" line="508"/>
+        <source>This will erase all workspace data like waypoints and tracks.</source>
+        <translation>Esto eliminará todos los datos del área de trabajo, como waypoints y tracks.</translation>
     </message>
     <message>
         <location filename="../CMainWindow.cpp" line="577"/>
@@ -4142,22 +4174,30 @@ Do you want to save your changes?</source>
 <context>
     <name>CMapDEM</name>
     <message>
-        <location filename="../CMapDEM.cpp" line="50"/>
-        <location filename="../CMapDEM.cpp" line="61"/>
+        <location filename="../CMapDEM.cpp" line="110"/>
+        <location filename="../CMapDEM.cpp" line="121"/>
         <source>Error...</source>
         <translation>Error...</translation>
     </message>
     <message>
-        <location filename="../CMapDEM.cpp" line="51"/>
+        <location filename="../CMapDEM.cpp" line="111"/>
         <source>Failed to load file: %1
 
 </source>
         <translation>No se pudo cargar el archivo: %1</translation>
     </message>
     <message>
-        <location filename="../CMapDEM.cpp" line="62"/>
+        <location filename="../CMapDEM.cpp" line="122"/>
         <source>Failed to load file: %1</source>
         <translation>No se pudo cargar el archivo: %1</translation>
+    </message>
+</context>
+<context>
+    <name>CMapDEMSlopeSetup</name>
+    <message>
+        <location filename="../CMapDEMSlopeSetup.cpp" line="99"/>
+        <source>Grade %1</source>
+        <translation type="unfinished">Grado %1</translation>
     </message>
 </context>
 <context>
@@ -6072,17 +6112,17 @@ línea %2, columna %3:
         <translation>%1:</translation>
     </message>
     <message>
-        <location filename="../COverlayDistance.cpp" line="1089"/>
+        <location filename="../COverlayDistance.cpp" line="1091"/>
         <source>Revert</source>
         <translation>Revertir</translation>
     </message>
     <message>
-        <location filename="../COverlayDistance.cpp" line="1091"/>
+        <location filename="../COverlayDistance.cpp" line="1093"/>
         <source>Make Track</source>
         <translation>Crear Track</translation>
     </message>
     <message>
-        <location filename="../COverlayDistance.cpp" line="1088"/>
+        <location filename="../COverlayDistance.cpp" line="1090"/>
         <source>Edit...</source>
         <translation>Editar...</translation>
     </message>
@@ -6092,22 +6132,22 @@ línea %2, columna %3:
         <translation>Tour %1</translation>
     </message>
     <message>
-        <location filename="../COverlayDistance.cpp" line="1094"/>
+        <location filename="../COverlayDistance.cpp" line="1096"/>
         <source>Show</source>
         <translation>Mostrar</translation>
     </message>
     <message>
-        <location filename="../COverlayDistance.cpp" line="1097"/>
+        <location filename="../COverlayDistance.cpp" line="1099"/>
         <source>Show Bullets</source>
         <translation>Mostrar Puntos</translation>
     </message>
     <message>
-        <location filename="../COverlayDistance.cpp" line="1248"/>
+        <location filename="../COverlayDistance.cpp" line="1250"/>
         <source>Overlay</source>
         <translation>Superponer</translation>
     </message>
     <message>
-        <location filename="../COverlayDistance.cpp" line="1092"/>
+        <location filename="../COverlayDistance.cpp" line="1094"/>
         <source>Make Route</source>
         <translation>Crear Ruta</translation>
     </message>
@@ -6828,12 +6868,12 @@ final: %1</translation>
         <translation> .. (%3%) %1%2 %4</translation>
     </message>
     <message>
-        <location filename="../CTrack.cpp" line="1902"/>
+        <location filename="../CTrack.cpp" line="1903"/>
         <source>Error...</source>
         <translation>Error...</translation>
     </message>
     <message>
-        <location filename="../CTrack.cpp" line="1902"/>
+        <location filename="../CTrack.cpp" line="1903"/>
         <source>This track has no valid start timestamp. Use the &apos;Date/Time&apos; track filter to set one.</source>
         <translation>Este track no tiene una fecha y hora de comienzo válidas. Utilice el filtro de tracks Fecha/Hora para establecerlas.</translation>
     </message>
@@ -6940,7 +6980,7 @@ final: %1</translation>
         <translation> %1 :%2</translation>
     </message>
     <message>
-        <location filename="../CTrack.cpp" line="1650"/>
+        <location filename="../CTrack.cpp" line="1651"/>
         <source>You are trying to find waypoints along a track with %1 waypoints and a track of size %2. This can be a very time consuming operation. Go on?
 
 Your selection will be stored in the track&apos;s data. You can save it along with the data. To change the selection use the checkbox in the track edit dialog.</source>
@@ -6949,7 +6989,7 @@ Your selection will be stored in the track&apos;s data. You can save it along wi
 La selección se almacenará en los datos del track. Puede guardarla junto con los datos. Para modificar la selección utilice la casilla de verificación en el menú de edición del track.</translation>
     </message>
     <message>
-        <location filename="../CTrack.cpp" line="1657"/>
+        <location filename="../CTrack.cpp" line="1658"/>
         <source>Warning...</source>
         <translation>Atención...</translation>
     </message>
@@ -6962,32 +7002,32 @@ La selección se almacenará en los datos del track. Puede guardarla junto con l
         <translation>Track%1</translation>
     </message>
     <message>
-        <location filename="../CTrackDB.cpp" line="1166"/>
+        <location filename="../CTrackDB.cpp" line="1168"/>
         <source>Hmax=%1%2</source>
         <translation>Hmax=%1%2</translation>
     </message>
     <message>
-        <location filename="../CTrackDB.cpp" line="1171"/>
+        <location filename="../CTrackDB.cpp" line="1173"/>
         <source>Hmin=%1%2</source>
         <translation>Hmin=%1%2</translation>
     </message>
     <message>
-        <location filename="../CTrackDB.cpp" line="1176"/>
+        <location filename="../CTrackDB.cpp" line="1178"/>
         <source>Vmax=%1%2</source>
         <translation>Vmax=%1%2</translation>
     </message>
     <message>
-        <location filename="../CTrackDB.cpp" line="1197"/>
+        <location filename="../CTrackDB.cpp" line="1199"/>
         <source>Failed...</source>
         <translation>Falló...</translation>
     </message>
     <message>
-        <location filename="../CTrackDB.cpp" line="1197"/>
+        <location filename="../CTrackDB.cpp" line="1199"/>
         <source>Failed to copy track. You must select a track or track points of a track.</source>
         <translation>Fallo al copiar el track. Debe seleccionar un track o puntos de uno.</translation>
     </message>
     <message>
-        <location filename="../CTrackDB.cpp" line="1301"/>
+        <location filename="../CTrackDB.cpp" line="1303"/>
         <source>_rev</source>
         <translation></translation>
     </message>
@@ -7732,114 +7772,115 @@ final: %1</translation>
 <context>
     <name>ICopyright</name>
     <message>
-        <location filename="../ICopyright.ui" line="13"/>
+        <location filename="../ICopyright.ui" line="14"/>
         <source>Copyright...</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../ICopyright.ui" line="26"/>
+        <location filename="../ICopyright.ui" line="28"/>
         <source>Version</source>
         <translation>Versión</translation>
     </message>
     <message>
-        <location filename="../ICopyright.ui" line="34"/>
+        <location filename="../ICopyright.ui" line="36"/>
         <source>QLandkarte GT</source>
         <translation>QLandkarte GT</translation>
     </message>
     <message>
-        <location filename="../ICopyright.ui" line="41"/>
-        <location filename="../ICopyright.ui" line="55"/>
-        <location filename="../ICopyright.ui" line="69"/>
-        <location filename="../ICopyright.ui" line="83"/>
+        <location filename="../ICopyright.ui" line="43"/>
+        <location filename="../ICopyright.ui" line="57"/>
+        <location filename="../ICopyright.ui" line="71"/>
+        <location filename="../ICopyright.ui" line="85"/>
         <source>TextLabel</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../ICopyright.ui" line="48"/>
+        <location filename="../ICopyright.ui" line="50"/>
         <source>QT Library</source>
         <translation>Librería QT</translation>
     </message>
     <message>
-        <location filename="../ICopyright.ui" line="62"/>
+        <location filename="../ICopyright.ui" line="64"/>
         <source>GDAL Library</source>
         <translation>Librería GDAL</translation>
     </message>
     <message>
-        <location filename="../ICopyright.ui" line="76"/>
+        <location filename="../ICopyright.ui" line="78"/>
         <source>Proj4 Library</source>
         <translation>Librería Proj4</translation>
     </message>
     <message>
-        <location filename="../ICopyright.ui" line="126"/>
+        <location filename="../ICopyright.ui" line="128"/>
         <source>Formats</source>
         <translation>Formatos</translation>
     </message>
     <message>
-        <location filename="../ICopyright.ui" line="132"/>
+        <location filename="../ICopyright.ui" line="134"/>
         <source>Formats supported by GDAL:</source>
         <translation>Formatos soportados por GDAL:</translation>
     </message>
     <message>
-        <location filename="../ICopyright.ui" line="166"/>
+        <location filename="../ICopyright.ui" line="152"/>
         <source>GPL</source>
         <translation>GPL</translation>
     </message>
     <message>
-        <location filename="../ICopyright.ui" line="172"/>
-        <source>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+        <location filename="../ICopyright.ui" line="158"/>
+        <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;URW Gothic L&apos;; font-size:9pt; font-weight:200; font-style:normal;&quot;&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;DejaVu Sans&apos;; font-size:12pt; font-weight:400;&quot;&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;DejaVu Sans&apos;; font-size:8pt; font-weight:400;&quot;&gt;  &lt;/p&gt;
-&lt;p style=&quot; margin-top:18px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;DejaVu Sans&apos;; font-size:8pt; font-weight:600;&quot;&gt;&lt;span style=&quot; font-size:xx-large;&quot;&gt;The GNU General Public License (GPL)&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:16px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;DejaVu Sans&apos;; font-size:8pt; font-weight:600;&quot;&gt;&lt;span style=&quot; font-size:x-large;&quot;&gt;Version 2, June 1991&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;DejaVu Sans&apos;; font-size:8pt; font-weight:400;&quot;&gt; Copyright (C) 1989, 1991 Free Software Foundation, Inc.  59 Temple Place, Suite 330, Boston, MA  02111-1307  USA&lt;/p&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;DejaVu Sans&apos;; font-size:8pt; font-weight:400;&quot;&gt; Everyone is permitted to copy and distribute verbatim copies of this license document, but changing it is not allowed.&lt;/p&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;DejaVu Sans&apos;; font-size:8pt; font-weight:400;&quot;&gt;		&lt;/p&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;DejaVu Sans&apos;; font-size:8pt; font-weight:400;&quot;&gt;Preamble&lt;/p&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;DejaVu Sans&apos;; font-size:8pt; font-weight:400;&quot;&gt;The licenses for most software are designed to take away yourfreedom to share and change it.  By contrast, the GNU General PublicLicense is intended to guarantee your freedom to share and change freesoftware--to make sure the software is free for all its users.  ThisGeneral Public License applies to most of the Free SoftwareFoundation&apos;s software and to any other program whose authors commit tousing it.  (Some other Free Software Foundation software is covered bythe GNU Library General Public License instead.)  You can apply it toyour programs, too.&lt;/p&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;DejaVu Sans&apos;; font-size:8pt; font-weight:400;&quot;&gt;When we speak of free software, we are referring to freedom, notprice.  Our General Public Licenses are designed to make sure that youhave the freedom to distribute copies of free software (and charge forthis service if you wish), that you receive source code or can get itif you want it, that you can change the software or use pieces of itin new free programs; and that you know you can do these things.&lt;/p&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;DejaVu Sans&apos;; font-size:8pt; font-weight:400;&quot;&gt;  To protect your rights, we need to make restrictions that forbidanyone to deny you these rights or to ask you to surrender the rights.These restrictions translate to certain responsibilities for you if youdistribute copies of the software, or if you modify it.&lt;/p&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;DejaVu Sans&apos;; font-size:8pt; font-weight:400;&quot;&gt;For example, if you distribute copies of such a program, whethergratis or for a fee, you must give the recipients all the rights thatyou have.  You must make sure that they, too, receive or can get thesource code.  And you must show them these terms so they know theirrights.&lt;/p&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;DejaVu Sans&apos;; font-size:8pt; font-weight:400;&quot;&gt;We protect your rights with two steps: (1) copyright the software, and(2) offer you this license which gives you legal permission to copy,distribute and/or modify the software.&lt;/p&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;DejaVu Sans&apos;; font-size:8pt; font-weight:400;&quot;&gt;Also, for each author&apos;s protection and ours, we want to make certainthat everyone understands that there is no warranty for this freesoftware.  If the software is modified by someone else and passed on, wewant its recipients to know that what they have is not the original, sothat any problems introduced by others will not reflect on the originalauthors&apos; reputations.&lt;/p&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;DejaVu Sans&apos;; font-size:8pt; font-weight:400;&quot;&gt;Finally, any free program is threatened constantly by softwarepatents.  We wish to avoid the danger that redistributors of a freeprogram will individually obtain patent licenses, in effect making theprogram proprietary.  To prevent this, we have made it clear that anypatent must be licensed for everyone&apos;s free use or not licensed at all.&lt;/p&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;DejaVu Sans&apos;; font-size:8pt; font-weight:400;&quot;&gt;The precise terms and conditions for copying, distribution andmodification follow.&lt;/p&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;DejaVu Sans&apos;; font-size:8pt; font-weight:400;&quot;&gt;		    &lt;/p&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;DejaVu Sans&apos;; font-size:8pt; font-weight:400;&quot;&gt;TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION&lt;/p&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;DejaVu Sans&apos;; font-size:8pt; font-weight:400;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;0&lt;/span&gt;. This License applies to any program or other work which containsa notice placed by the copyright holder saying it may be distributedunder the terms of this General Public License.  The &quot;Program&quot;, below,refers to any such program or work, and a &quot;work based on the Program&quot;means either the Program or any derivative work under copyright law:that is to say, a work containing the Program or a portion of it,either verbatim or with modifications and/or translated into anotherlanguage.  (Hereinafter, translation is included without limitation inthe term &quot;modification&quot;.)  Each licensee is addressed as &quot;you&quot;.&lt;/p&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;DejaVu Sans&apos;; font-size:8pt; font-weight:400;&quot;&gt;Activities other than copying, distribution and modification are notcovered by this License; they are outside its scope.  The act ofrunning the Program is not restricted, and the output from the Programis covered only if its contents constitute a work based on theProgram (independent of having been made by running the Program).Whether that is true depends on what the Program does.&lt;/p&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;DejaVu Sans&apos;; font-size:8pt; font-weight:400;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;1&lt;/span&gt;. You may copy and distribute verbatim copies of the Program&apos;ssource code as you receive it, in any medium, provided that youconspicuously and appropriately publish on each copy an appropriatecopyright notice and disclaimer of warranty; keep intact all thenotices that refer to this License and to the absence of any warranty;and give any other recipients of the Program a copy of this Licensealong with the Program.&lt;/p&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;DejaVu Sans&apos;; font-size:8pt; font-weight:400;&quot;&gt;You may charge a fee for the physical act of transferring a copy, andyou may at your option offer warranty protection in exchange for a fee.&lt;/p&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;DejaVu Sans&apos;; font-size:8pt; font-weight:400;&quot;&gt;  &lt;span style=&quot; font-weight:600;&quot;&gt;2&lt;/span&gt;. You may modify your copy or copies of the Program or any portionof it, thus forming a work based on the Program, and copy anddistribute such modifications or work under the terms of Section 1above, provided that you also meet all of these conditions:&lt;/p&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:40px; margin-right:40px; -qt-block-indent:0; text-indent:0px; font-family:&apos;DejaVu Sans&apos;; font-size:8pt; font-weight:400;&quot;&gt;a) You must cause the modified files to carry prominent notices    stating that you changed the files and the date of any change.&lt;/p&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:40px; margin-right:40px; -qt-block-indent:0; text-indent:0px; font-family:&apos;DejaVu Sans&apos;; font-size:8pt; font-weight:400;&quot;&gt;b) You must cause any work that you distribute or publish, that in    whole or in part contains or is derived from the Program or any    part thereof, to be licensed as a whole at no charge to all third    parties under the terms of this License.&lt;/p&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:40px; margin-right:40px; -qt-block-indent:0; text-indent:0px; font-family:&apos;DejaVu Sans&apos;; font-size:8pt; font-weight:400;&quot;&gt;c) If the modified program normally reads commands interactively    when run, you must cause it, when started running for such    interactive use in the most ordinary way, to print or display an    announcement including an appropriate copyright notice and a    notice that there is no warranty (or else, saying that you provide    a warranty) and that users may redistribute the program under    these conditions, and telling the user how to view a copy of this    License.  (Exception: if the Program itself is interactive but    does not normally print such an announcement, your work based on    the Program is not required to print an announcement.)&lt;/p&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;DejaVu Sans&apos;; font-size:8pt; font-weight:400;&quot;&gt;These requirements apply to the modified work as a whole.  Ifidentifiable sections of that work are not derived from the Program,and can be reasonably considered independent and separate works inthemselves, then this License, and its terms, do not apply to thosesections when you distribute them as separate works.  But when youdistribute the same sections as part of a whole which is a work basedon the Program, the distribution of the whole must be on the terms ofthis License, whose permissions for other licensees extend to theentire whole, and thus to each and every part regardless of who wrote it.&lt;/p&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;DejaVu Sans&apos;; font-size:8pt; font-weight:400;&quot;&gt;Thus, it is not the intent of this section to claim rights or contestyour rights to work written entirely by you; rather, the intent is toexercise the right to control the distribution of derivative orcollective works based on the Program.&lt;/p&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;DejaVu Sans&apos;; font-size:8pt; font-weight:400;&quot;&gt;In addition, mere aggregation of another work not based on the Programwith the Program (or with a work based on the Program) on a volume ofa storage or distribution medium does not bring the other work underthe scope of this License.&lt;/p&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;DejaVu Sans&apos;; font-size:8pt; font-weight:400;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;3&lt;/span&gt;. You may copy and distribute the Program (or a work based on it,under Section 2) in object code or executable form under the terms ofSections 1 and 2 above provided that you also do one of the following:&lt;/p&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:40px; margin-right:40px; -qt-block-indent:0; text-indent:0px; font-family:&apos;DejaVu Sans&apos;; font-size:8pt; font-weight:400;&quot;&gt;a) Accompany it with the complete corresponding machine-readable    source code, which must be distributed under the terms of Sections    1 and 2 above on a medium customarily used for software interchange; or,&lt;/p&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:40px; margin-right:40px; -qt-block-indent:0; text-indent:0px; font-family:&apos;DejaVu Sans&apos;; font-size:8pt; font-weight:400;&quot;&gt; b) Accompany it with a written offer, valid for at least three    years, to give any third party, for a charge no more than your    cost of physically performing source distribution, a complete    machine-readable copy of the corresponding source code, to be    distributed under the terms of Sections 1 and 2 above on a medium    customarily used for software interchange; or,&lt;/p&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:40px; margin-right:40px; -qt-block-indent:0; text-indent:0px; font-family:&apos;DejaVu Sans&apos;; font-size:8pt; font-weight:400;&quot;&gt;c) Accompany it with the information you received as to the offer    to distribute corresponding source code.  (This alternative is    allowed only for noncommercial distribution and only if you    received the program in object code or executable form with such    an offer, in accord with Subsection b above.)&lt;/p&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;DejaVu Sans&apos;; font-size:8pt; font-weight:400;&quot;&gt;The source code for a work means the preferred form of the work formaking modifications to it.  For an executable work, complete sourcecode means all the source code for all modules it contains, plus anyassociated interface definition files, plus the scripts used tocontrol compilation and installation of the executable.  However, as aspecial exception, the source code distributed need not includeanything that is normally distributed (in either source or binaryform) with the major components (compiler, kernel, and so on) of theoperating system on which the executable runs, unless that componentitself accompanies the executable.&lt;/p&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;DejaVu Sans&apos;; font-size:8pt; font-weight:400;&quot;&gt;If distribution of executable or object code is made by offeringaccess to copy from a designated place, then offering equivalentaccess to copy the source code from the same place counts asdistribution of the source code, even though third parties are notcompelled to copy the source along with the object code.&lt;/p&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;DejaVu Sans&apos;; font-size:8pt; font-weight:400;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;4&lt;/span&gt;. You may not copy, modify, sublicense, or distribute the Programexcept as expressly provided under this License.  Any attemptotherwise to copy, modify, sublicense or distribute the Program isvoid, and will automatically terminate your rights under this License.However, parties who have received copies, or rights, from you underthis License will not have their licenses terminated so long as suchparties remain in full compliance.&lt;/p&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;DejaVu Sans&apos;; font-size:8pt; font-weight:400;&quot;&gt; &lt;span style=&quot; font-weight:600;&quot;&gt;5&lt;/span&gt;. You are not required to accept this License, since you have notsigned it.  However, nothing else grants you permission to modify ordistribute the Program or its derivative works.  These actions areprohibited by law if you do not accept this License.  Therefore, bymodifying or distributing the Program (or any work based on theProgram), you indicate your acceptance of this License to do so, andall its terms and conditions for copying, distributing or modifyingthe Program or works based on it.&lt;/p&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;DejaVu Sans&apos;; font-size:8pt; font-weight:400;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;6&lt;/span&gt;. Each time you redistribute the Program (or any work based on theProgram), the recipient automatically receives a license from theoriginal licensor to copy, distribute or modify the Program subject tothese terms and conditions.  You may not impose any furtherrestrictions on the recipients&apos; exercise of the rights granted herein.You are not responsible for enforcing compliance by third parties tothis License.&lt;/p&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;DejaVu Sans&apos;; font-size:8pt; font-weight:400;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;7&lt;/span&gt;. If, as a consequence of a court judgment or allegation of patentinfringement or for any other reason (not limited to patent issues),conditions are imposed on you (whether by court order, agreement orotherwise) that contradict the conditions of this License, they do notexcuse you from the conditions of this License.  If you cannotdistribute so as to satisfy simultaneously your obligations under thisLicense and any other pertinent obligations, then as a consequence youmay not distribute the Program at all.  For example, if a patentlicense would not permit royalty-free redistribution of the Program byall those who receive copies directly or indirectly through you, thenthe only way you could satisfy both it and this License would be torefrain entirely from distribution of the Program.&lt;/p&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;DejaVu Sans&apos;; font-size:8pt; font-weight:400;&quot;&gt;If any portion of this section is held invalid or unenforceable underany particular circumstance, the balance of the section is intended toapply and the section as a whole is intended to apply in othercircumstances.&lt;/p&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;DejaVu Sans&apos;; font-size:8pt; font-weight:400;&quot;&gt;It is not the purpose of this section to induce you to infringe anypatents or other property right claims or to contest validity of anysuch claims; this section has the sole purpose of protecting theintegrity of the free software distribution system, which isimplemented by public license practices.  Many people have madegenerous contributions to the wide range of software distributedthrough that system in reliance on consistent application of thatsystem; it is up to the author/donor to decide if he or she is willingto distribute software through any other system and a licensee cannotimpose that choice.&lt;/p&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;DejaVu Sans&apos;; font-size:8pt; font-weight:400;&quot;&gt;This section is intended to make thoroughly clear what is believed tobe a consequence of the rest of this License.&lt;/p&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;DejaVu Sans&apos;; font-size:8pt; font-weight:400;&quot;&gt;  &lt;span style=&quot; font-weight:600;&quot;&gt;8&lt;/span&gt;. If the distribution and/or use of the Program is restricted incertain countries either by patents or by copyrighted interfaces, theoriginal copyright holder who places the Program under this Licensemay add an explicit geographical distribution limitation excludingthose countries, so that distribution is permitted only in or amongcountries not thus excluded.  In such case, this License incorporatesthe limitation as if written in the body of this License.&lt;/p&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;DejaVu Sans&apos;; font-size:8pt; font-weight:400;&quot;&gt;  &lt;span style=&quot; font-weight:600;&quot;&gt;9&lt;/span&gt;. The Free Software Foundation may publish revised and/or new versionsof the General Public License from time to time.  Such new versions willbe similar in spirit to the present version, but may differ in detail toaddress new problems or concerns.&lt;/p&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;DejaVu Sans&apos;; font-size:8pt; font-weight:400;&quot;&gt;Each version is given a distinguishing version number.  If the Programspecifies a version number of this License which applies to it and &quot;anylater version&quot;, you have the option of following the terms and conditionseither of that version or of any later version published by the FreeSoftware Foundation.  If the Program does not specify a version number ofthis License, you may choose any version ever published by the Free SoftwareFoundation.&lt;/p&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;DejaVu Sans&apos;; font-size:8pt; font-weight:400;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;10&lt;/span&gt;. If you wish to incorporate parts of the Program into other freeprograms whose distribution conditions are different, write to the authorto ask for permission.  For software which is copyrighted by the FreeSoftware Foundation, write to the Free Software Foundation; we sometimesmake exceptions for this.  Our decision will be guided by the two goalsof preserving the free status of all derivatives of our free software andof promoting the sharing and reuse of software generally.&lt;/p&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;DejaVu Sans&apos;; font-size:8pt; font-weight:400;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;NO WARRANTY&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;DejaVu Sans&apos;; font-size:8pt; font-weight:400;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;11&lt;/span&gt;. BECAUSE THE PROGRAM IS LICENSED FREE OF CHARGE, THERE IS NO WARRANTYFOR THE PROGRAM, TO THE EXTENT PERMITTED BY APPLICABLE LAW.  EXCEPT WHENOTHERWISE STATED IN WRITING THE COPYRIGHT HOLDERS AND/OR OTHER PARTIESPROVIDE THE PROGRAM &quot;AS IS&quot; WITHOUT WARRANTY OF ANY KIND, EITHER EXPRESSEDOR IMPLIED, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OFMERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.  THE ENTIRE RISK ASTO THE QUALITY AND PERFORMANCE OF THE PROGRAM IS WITH YOU.  SHOULD THEPROGRAM PROVE DEFECTIVE, YOU ASSUME THE COST OF ALL NECESSARY SERVICING,REPAIR OR CORRECTION.&lt;/p&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;DejaVu Sans&apos;; font-size:8pt; font-weight:400;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;12&lt;/span&gt;. IN NO EVENT UNLESS REQUIRED BY APPLICABLE LAW OR AGREED TO IN WRITINGWILL ANY COPYRIGHT HOLDER, OR ANY OTHER PARTY WHO MAY MODIFY AND/ORREDISTRIBUTE THE PROGRAM AS PERMITTED ABOVE, BE LIABLE TO YOU FOR DAMAGES,INCLUDING ANY GENERAL, SPECIAL, INCIDENTAL OR CONSEQUENTIAL DAMAGES ARISINGOUT OF THE USE OR INABILITY TO USE THE PROGRAM (INCLUDING BUT NOT LIMITEDTO LOSS OF DATA OR DATA BEING RENDERED INACCURATE OR LOSSES SUSTAINED BYYOU OR THIRD PARTIES OR A FAILURE OF THE PROGRAM TO OPERATE WITH ANY OTHERPROGRAMS), EVEN IF SUCH HOLDER OR OTHER PARTY HAS BEEN ADVISED OF THEPOSSIBILITY OF SUCH DAMAGES.&lt;/p&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;DejaVu Sans&apos;; font-size:8pt; font-weight:400;&quot;&gt;END OF TERMS AND CONDITIONS&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation></translation>
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Sans Serif&apos;; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;DejaVu Sans&apos;; font-size:12pt;&quot;&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;; font-size:8pt;&quot;&gt;  &lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:18px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;; font-size:8pt; font-weight:600;&quot;&gt;The GNU General Public License (GPL)&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:16px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;; font-size:8pt; font-weight:600;&quot;&gt;Version 2, June 1991&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;; font-size:8pt;&quot;&gt; Copyright (C) 1989, 1991 Free Software Foundation, Inc.  59 Temple Place, Suite 330, Boston, MA  02111-1307  USA&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;; font-size:8pt;&quot;&gt; Everyone is permitted to copy and distribute verbatim copies of this license document, but changing it is not allowed.&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;; font-size:8pt;&quot;&gt;		&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;; font-size:8pt;&quot;&gt;Preamble&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;; font-size:8pt;&quot;&gt;The licenses for most software are designed to take away yourfreedom to share and change it.  By contrast, the GNU General PublicLicense is intended to guarantee your freedom to share and change freesoftware--to make sure the software is free for all its users.  ThisGeneral Public License applies to most of the Free SoftwareFoundation&apos;s software and to any other program whose authors commit tousing it.  (Some other Free Software Foundation software is covered bythe GNU Library General Public License instead.)  You can apply it toyour programs, too.&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;; font-size:8pt;&quot;&gt;When we speak of free software, we are referring to freedom, notprice.  Our General Public Licenses are designed to make sure that youhave the freedom to distribute copies of free software (and charge forthis service if you wish), that you receive source code or can get itif you want it, that you can change the software or use pieces of itin new free programs; and that you know you can do these things.&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;; font-size:8pt;&quot;&gt;  To protect your rights, we need to make restrictions that forbidanyone to deny you these rights or to ask you to surrender the rights.These restrictions translate to certain responsibilities for you if youdistribute copies of the software, or if you modify it.&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;; font-size:8pt;&quot;&gt;For example, if you distribute copies of such a program, whethergratis or for a fee, you must give the recipients all the rights thatyou have.  You must make sure that they, too, receive or can get thesource code.  And you must show them these terms so they know theirrights.&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;; font-size:8pt;&quot;&gt;We protect your rights with two steps: (1) copyright the software, and(2) offer you this license which gives you legal permission to copy,distribute and/or modify the software.&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;; font-size:8pt;&quot;&gt;Also, for each author&apos;s protection and ours, we want to make certainthat everyone understands that there is no warranty for this freesoftware.  If the software is modified by someone else and passed on, wewant its recipients to know that what they have is not the original, sothat any problems introduced by others will not reflect on the originalauthors&apos; reputations.&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;; font-size:8pt;&quot;&gt;Finally, any free program is threatened constantly by softwarepatents.  We wish to avoid the danger that redistributors of a freeprogram will individually obtain patent licenses, in effect making theprogram proprietary.  To prevent this, we have made it clear that anypatent must be licensed for everyone&apos;s free use or not licensed at all.&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;; font-size:8pt;&quot;&gt;The precise terms and conditions for copying, distribution andmodification follow.&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;; font-size:8pt;&quot;&gt;		    &lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;; font-size:8pt;&quot;&gt;TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;; font-size:8pt; font-weight:600;&quot;&gt;0&lt;/span&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;; font-size:8pt;&quot;&gt;. This License applies to any program or other work which containsa notice placed by the copyright holder saying it may be distributedunder the terms of this General Public License.  The &amp;quot;Program&amp;quot;, below,refers to any such program or work, and a &amp;quot;work based on the Program&amp;quot;means either the Program or any derivative work under copyright law:that is to say, a work containing the Program or a portion of it,either verbatim or with modifications and/or translated into anotherlanguage.  (Hereinafter, translation is included without limitation inthe term &amp;quot;modification&amp;quot;.)  Each licensee is addressed as &amp;quot;you&amp;quot;.&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;; font-size:8pt;&quot;&gt;Activities other than copying, distribution and modification are notcovered by this License; they are outside its scope.  The act ofrunning the Program is not restricted, and the output from the Programis covered only if its contents constitute a work based on theProgram (independent of having been made by running the Program).Whether that is true depends on what the Program does.&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;; font-size:8pt; font-weight:600;&quot;&gt;1&lt;/span&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;; font-size:8pt;&quot;&gt;. You may copy and distribute verbatim copies of the Program&apos;ssource code as you receive it, in any medium, provided that youconspicuously and appropriately publish on each copy an appropriatecopyright notice and disclaimer of warranty; keep intact all thenotices that refer to this License and to the absence of any warranty;and give any other recipients of the Program a copy of this Licensealong with the Program.&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;; font-size:8pt;&quot;&gt;You may charge a fee for the physical act of transferring a copy, andyou may at your option offer warranty protection in exchange for a fee.&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;; font-size:8pt;&quot;&gt;  &lt;/span&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;; font-size:8pt; font-weight:600;&quot;&gt;2&lt;/span&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;; font-size:8pt;&quot;&gt;. You may modify your copy or copies of the Program or any portionof it, thus forming a work based on the Program, and copy anddistribute such modifications or work under the terms of Section 1above, provided that you also meet all of these conditions:&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:40px; margin-right:40px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;; font-size:8pt;&quot;&gt;a) You must cause the modified files to carry prominent notices    stating that you changed the files and the date of any change.&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:40px; margin-right:40px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;; font-size:8pt;&quot;&gt;b) You must cause any work that you distribute or publish, that in    whole or in part contains or is derived from the Program or any    part thereof, to be licensed as a whole at no charge to all third    parties under the terms of this License.&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:40px; margin-right:40px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;; font-size:8pt;&quot;&gt;c) If the modified program normally reads commands interactively    when run, you must cause it, when started running for such    interactive use in the most ordinary way, to print or display an    announcement including an appropriate copyright notice and a    notice that there is no warranty (or else, saying that you provide    a warranty) and that users may redistribute the program under    these conditions, and telling the user how to view a copy of this    License.  (Exception: if the Program itself is interactive but    does not normally print such an announcement, your work based on    the Program is not required to print an announcement.)&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;; font-size:8pt;&quot;&gt;These requirements apply to the modified work as a whole.  Ifidentifiable sections of that work are not derived from the Program,and can be reasonably considered independent and separate works inthemselves, then this License, and its terms, do not apply to thosesections when you distribute them as separate works.  But when youdistribute the same sections as part of a whole which is a work basedon the Program, the distribution of the whole must be on the terms ofthis License, whose permissions for other licensees extend to theentire whole, and thus to each and every part regardless of who wrote it.&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;; font-size:8pt;&quot;&gt;Thus, it is not the intent of this section to claim rights or contestyour rights to work written entirely by you; rather, the intent is toexercise the right to control the distribution of derivative orcollective works based on the Program.&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;; font-size:8pt;&quot;&gt;In addition, mere aggregation of another work not based on the Programwith the Program (or with a work based on the Program) on a volume ofa storage or distribution medium does not bring the other work underthe scope of this License.&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;; font-size:8pt; font-weight:600;&quot;&gt;3&lt;/span&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;; font-size:8pt;&quot;&gt;. You may copy and distribute the Program (or a work based on it,under Section 2) in object code or executable form under the terms ofSections 1 and 2 above provided that you also do one of the following:&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:40px; margin-right:40px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;; font-size:8pt;&quot;&gt;a) Accompany it with the complete corresponding machine-readable    source code, which must be distributed under the terms of Sections    1 and 2 above on a medium customarily used for software interchange; or,&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:40px; margin-right:40px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;; font-size:8pt;&quot;&gt; b) Accompany it with a written offer, valid for at least three    years, to give any third party, for a charge no more than your    cost of physically performing source distribution, a complete    machine-readable copy of the corresponding source code, to be    distributed under the terms of Sections 1 and 2 above on a medium    customarily used for software interchange; or,&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:40px; margin-right:40px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;; font-size:8pt;&quot;&gt;c) Accompany it with the information you received as to the offer    to distribute corresponding source code.  (This alternative is    allowed only for noncommercial distribution and only if you    received the program in object code or executable form with such    an offer, in accord with Subsection b above.)&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;; font-size:8pt;&quot;&gt;The source code for a work means the preferred form of the work formaking modifications to it.  For an executable work, complete sourcecode means all the source code for all modules it contains, plus anyassociated interface definition files, plus the scripts used tocontrol compilation and installation of the executable.  However, as aspecial exception, the source code distributed need not includeanything that is normally distributed (in either source or binaryform) with the major components (compiler, kernel, and so on) of theoperating system on which the executable runs, unless that componentitself accompanies the executable.&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;; font-size:8pt;&quot;&gt;If distribution of executable or object code is made by offeringaccess to copy from a designated place, then offering equivalentaccess to copy the source code from the same place counts asdistribution of the source code, even though third parties are notcompelled to copy the source along with the object code.&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;; font-size:8pt; font-weight:600;&quot;&gt;4&lt;/span&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;; font-size:8pt;&quot;&gt;. You may not copy, modify, sublicense, or distribute the Programexcept as expressly provided under this License.  Any attemptotherwise to copy, modify, sublicense or distribute the Program isvoid, and will automatically terminate your rights under this License.However, parties who have received copies, or rights, from you underthis License will not have their licenses terminated so long as suchparties remain in full compliance.&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;; font-size:8pt;&quot;&gt; &lt;/span&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;; font-size:8pt; font-weight:600;&quot;&gt;5&lt;/span&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;; font-size:8pt;&quot;&gt;. You are not required to accept this License, since you have notsigned it.  However, nothing else grants you permission to modify ordistribute the Program or its derivative works.  These actions areprohibited by law if you do not accept this License.  Therefore, bymodifying or distributing the Program (or any work based on theProgram), you indicate your acceptance of this License to do so, andall its terms and conditions for copying, distributing or modifyingthe Program or works based on it.&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;; font-size:8pt; font-weight:600;&quot;&gt;6&lt;/span&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;; font-size:8pt;&quot;&gt;. Each time you redistribute the Program (or any work based on theProgram), the recipient automatically receives a license from theoriginal licensor to copy, distribute or modify the Program subject tothese terms and conditions.  You may not impose any furtherrestrictions on the recipients&apos; exercise of the rights granted herein.You are not responsible for enforcing compliance by third parties tothis License.&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;; font-size:8pt; font-weight:600;&quot;&gt;7&lt;/span&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;; font-size:8pt;&quot;&gt;. If, as a consequence of a court judgment or allegation of patentinfringement or for any other reason (not limited to patent issues),conditions are imposed on you (whether by court order, agreement orotherwise) that contradict the conditions of this License, they do notexcuse you from the conditions of this License.  If you cannotdistribute so as to satisfy simultaneously your obligations under thisLicense and any other pertinent obligations, then as a consequence youmay not distribute the Program at all.  For example, if a patentlicense would not permit royalty-free redistribution of the Program byall those who receive copies directly or indirectly through you, thenthe only way you could satisfy both it and this License would be torefrain entirely from distribution of the Program.&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;; font-size:8pt;&quot;&gt;If any portion of this section is held invalid or unenforceable underany particular circumstance, the balance of the section is intended toapply and the section as a whole is intended to apply in othercircumstances.&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;; font-size:8pt;&quot;&gt;It is not the purpose of this section to induce you to infringe anypatents or other property right claims or to contest validity of anysuch claims; this section has the sole purpose of protecting theintegrity of the free software distribution system, which isimplemented by public license practices.  Many people have madegenerous contributions to the wide range of software distributedthrough that system in reliance on consistent application of thatsystem; it is up to the author/donor to decide if he or she is willingto distribute software through any other system and a licensee cannotimpose that choice.&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;; font-size:8pt;&quot;&gt;This section is intended to make thoroughly clear what is believed tobe a consequence of the rest of this License.&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;; font-size:8pt;&quot;&gt;  &lt;/span&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;; font-size:8pt; font-weight:600;&quot;&gt;8&lt;/span&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;; font-size:8pt;&quot;&gt;. If the distribution and/or use of the Program is restricted incertain countries either by patents or by copyrighted interfaces, theoriginal copyright holder who places the Program under this Licensemay add an explicit geographical distribution limitation excludingthose countries, so that distribution is permitted only in or amongcountries not thus excluded.  In such case, this License incorporatesthe limitation as if written in the body of this License.&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;; font-size:8pt;&quot;&gt;  &lt;/span&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;; font-size:8pt; font-weight:600;&quot;&gt;9&lt;/span&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;; font-size:8pt;&quot;&gt;. The Free Software Foundation may publish revised and/or new versionsof the General Public License from time to time.  Such new versions willbe similar in spirit to the present version, but may differ in detail toaddress new problems or concerns.&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;; font-size:8pt;&quot;&gt;Each version is given a distinguishing version number.  If the Programspecifies a version number of this License which applies to it and &amp;quot;anylater version&amp;quot;, you have the option of following the terms and conditionseither of that version or of any later version published by the FreeSoftware Foundation.  If the Program does not specify a version number ofthis License, you may choose any version ever published by the Free SoftwareFoundation.&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;; font-size:8pt; font-weight:600;&quot;&gt;10&lt;/span&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;; font-size:8pt;&quot;&gt;. If you wish to incorporate parts of the Program into other freeprograms whose distribution conditions are different, write to the authorto ask for permission.  For software which is copyrighted by the FreeSoftware Foundation, write to the Free Software Foundation; we sometimesmake exceptions for this.  Our decision will be guided by the two goalsof preserving the free status of all derivatives of our free software andof promoting the sharing and reuse of software generally.&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;; font-size:8pt; font-weight:600;&quot;&gt;NO WARRANTY&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;; font-size:8pt; font-weight:600;&quot;&gt;11&lt;/span&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;; font-size:8pt;&quot;&gt;. BECAUSE THE PROGRAM IS LICENSED FREE OF CHARGE, THERE IS NO WARRANTYFOR THE PROGRAM, TO THE EXTENT PERMITTED BY APPLICABLE LAW.  EXCEPT WHENOTHERWISE STATED IN WRITING THE COPYRIGHT HOLDERS AND/OR OTHER PARTIESPROVIDE THE PROGRAM &amp;quot;AS IS&amp;quot; WITHOUT WARRANTY OF ANY KIND, EITHER EXPRESSEDOR IMPLIED, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OFMERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.  THE ENTIRE RISK ASTO THE QUALITY AND PERFORMANCE OF THE PROGRAM IS WITH YOU.  SHOULD THEPROGRAM PROVE DEFECTIVE, YOU ASSUME THE COST OF ALL NECESSARY SERVICING,REPAIR OR CORRECTION.&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;; font-size:8pt; font-weight:600;&quot;&gt;12&lt;/span&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;; font-size:8pt;&quot;&gt;. IN NO EVENT UNLESS REQUIRED BY APPLICABLE LAW OR AGREED TO IN WRITINGWILL ANY COPYRIGHT HOLDER, OR ANY OTHER PARTY WHO MAY MODIFY AND/ORREDISTRIBUTE THE PROGRAM AS PERMITTED ABOVE, BE LIABLE TO YOU FOR DAMAGES,INCLUDING ANY GENERAL, SPECIAL, INCIDENTAL OR CONSEQUENTIAL DAMAGES ARISINGOUT OF THE USE OR INABILITY TO USE THE PROGRAM (INCLUDING BUT NOT LIMITEDTO LOSS OF DATA OR DATA BEING RENDERED INACCURATE OR LOSSES SUSTAINED BYYOU OR THIRD PARTIES OR A FAILURE OF THE PROGRAM TO OPERATE WITH ANY OTHERPROGRAMS), EVEN IF SUCH HOLDER OR OTHER PARTY HAS BEEN ADVISED OF THEPOSSIBILITY OF SUCH DAMAGES.&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;DejaVu Sans&apos;; font-size:8pt;&quot;&gt;END OF TERMS AND CONDITIONS&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -10012,17 +10053,22 @@ For modern Garmin device select &quot;Garmin Mass Storage&quot; device to exchan
 En los dispositivos modernos de Garmin, seleccione &quot;Almacenamiento masivo de Garmin&quot; para intercambiar imágenes y spoilers.</translation>
     </message>
     <message>
-        <location filename="../IDlgEditWpt.ui" line="391"/>
+        <location filename="../IDlgEditWpt.ui" line="366"/>
+        <source>Get spoilers!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../IDlgEditWpt.ui" line="398"/>
         <source>Add</source>
         <translation>Añadir</translation>
     </message>
     <message>
-        <location filename="../IDlgEditWpt.ui" line="426"/>
+        <location filename="../IDlgEditWpt.ui" line="433"/>
         <source>Transparent</source>
         <translation>Transparente</translation>
     </message>
     <message>
-        <location filename="../IDlgEditWpt.ui" line="682"/>
+        <location filename="../IDlgEditWpt.ui" line="689"/>
         <source>Create Buddies</source>
         <translation>Crear Buddies</translation>
     </message>
@@ -10031,12 +10077,12 @@ En los dispositivos modernos de Garmin, seleccione &quot;Almacenamiento masivo d
         <translation type="obsolete">Siguiente</translation>
     </message>
     <message>
-        <location filename="../IDlgEditWpt.ui" line="593"/>
+        <location filename="../IDlgEditWpt.ui" line="600"/>
         <source>Barcode</source>
         <translation>Código de Barras</translation>
     </message>
     <message>
-        <location filename="../IDlgEditWpt.ui" line="620"/>
+        <location filename="../IDlgEditWpt.ui" line="627"/>
         <source>xx</source>
         <translation>xx</translation>
     </message>
@@ -10061,12 +10107,12 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">Anterior</translation>
     </message>
     <message>
-        <location filename="../IDlgEditWpt.ui" line="413"/>
+        <location filename="../IDlgEditWpt.ui" line="420"/>
         <source>Delete</source>
         <translation>Borrar</translation>
     </message>
     <message>
-        <location filename="../IDlgEditWpt.ui" line="516"/>
+        <location filename="../IDlgEditWpt.ui" line="523"/>
         <source>no image</source>
         <translation>sin imagen</translation>
     </message>
@@ -10075,12 +10121,12 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">Indice de Wpt</translation>
     </message>
     <message>
-        <location filename="../IDlgEditWpt.ui" line="639"/>
+        <location filename="../IDlgEditWpt.ui" line="646"/>
         <source>Save</source>
         <translation>Guardar</translation>
     </message>
     <message>
-        <location filename="../IDlgEditWpt.ui" line="632"/>
+        <location filename="../IDlgEditWpt.ui" line="639"/>
         <source>Update</source>
         <translation>Actualizar</translation>
     </message>
@@ -10835,18 +10881,18 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>IGarminTyp</name>
     <message>
-        <location filename="../IGarminTyp.cpp" line="398"/>
-        <location filename="../IGarminTyp.cpp" line="773"/>
+        <location filename="../IGarminTyp.cpp" line="416"/>
+        <location filename="../IGarminTyp.cpp" line="791"/>
         <source>Warning...</source>
         <translation>Atención...</translation>
     </message>
     <message>
-        <location filename="../IGarminTyp.cpp" line="398"/>
+        <location filename="../IGarminTyp.cpp" line="416"/>
         <source>This is a typ file with unknown polygon encoding. Please report!</source>
         <translation>Este es un archivo TYP con codificación de polígonos desconocida, ¡Por favor informe de ello!</translation>
     </message>
     <message>
-        <location filename="../IGarminTyp.cpp" line="773"/>
+        <location filename="../IGarminTyp.cpp" line="791"/>
         <source>This is a typ file with unknown polyline encoding. Please report!</source>
         <translation>Este es un archivo TYP con codificación de polilíneas desconocida. ¡Por favor informe de ello!</translation>
     </message>
@@ -11016,6 +11062,29 @@ DEM: %2</translation>
         <location filename="../IMap.cpp" line="393"/>
         <source>Changing the offset is not supported by this map.</source>
         <translation>Este mapa no soporta cambiar la compensación.</translation>
+    </message>
+</context>
+<context>
+    <name>IMapDEMSlopeSetup</name>
+    <message>
+        <location filename="../IMapDEMSlopeSetup.ui" line="14"/>
+        <source>Form</source>
+        <translation>Formulario</translation>
+    </message>
+    <message>
+        <location filename="../IMapDEMSlopeSetup.ui" line="47"/>
+        <location filename="../IMapDEMSlopeSetup.ui" line="54"/>
+        <location filename="../IMapDEMSlopeSetup.ui" line="61"/>
+        <location filename="../IMapDEMSlopeSetup.ui" line="68"/>
+        <location filename="../IMapDEMSlopeSetup.ui" line="75"/>
+        <location filename="../IMapDEMSlopeSetup.ui" line="82"/>
+        <location filename="../IMapDEMSlopeSetup.ui" line="89"/>
+        <location filename="../IMapDEMSlopeSetup.ui" line="96"/>
+        <location filename="../IMapDEMSlopeSetup.ui" line="103"/>
+        <location filename="../IMapDEMSlopeSetup.ui" line="110"/>
+        <location filename="../IMapDEMSlopeSetup.ui" line="125"/>
+        <source>TextLabel</source>
+        <translation>Etiqueta de texto</translation>
     </message>
 </context>
 <context>
@@ -11203,12 +11272,12 @@ DEM: %2</translation>
     <message>
         <location filename="../IMapQMAPExport.ui" line="366"/>
         <source>Provider </source>
-        <translation type="unfinished"></translation>
+        <translation>Proveedor</translation>
     </message>
     <message>
         <location filename="../IMapQMAPExport.ui" line="379"/>
         <source>Product</source>
-        <translation type="unfinished"></translation>
+        <translation>Producto</translation>
     </message>
     <message>
         <location filename="../IMapQMAPExport.ui" line="386"/>
@@ -11777,24 +11846,29 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>IStatusDEM</name>
     <message>
-        <location filename="../IStatusDEM.ui" line="13"/>
+        <location filename="../IStatusDEM.ui" line="14"/>
         <source>Form</source>
         <translation>Formulario</translation>
     </message>
     <message>
-        <location filename="../IStatusDEM.ui" line="31"/>
+        <location filename="../IStatusDEM.ui" line="23"/>
         <source>none</source>
         <translation>ninguno</translation>
     </message>
     <message>
-        <location filename="../IStatusDEM.ui" line="41"/>
+        <location filename="../IStatusDEM.ui" line="33"/>
         <source>shading</source>
         <translation>sombreado</translation>
     </message>
     <message>
-        <location filename="../IStatusDEM.ui" line="48"/>
+        <location filename="../IStatusDEM.ui" line="40"/>
         <source>contour</source>
         <translation>perfil</translation>
+    </message>
+    <message>
+        <location filename="../IStatusDEM.ui" line="47"/>
+        <source>slope</source>
+        <translation>pendiente</translation>
     </message>
 </context>
 <context>

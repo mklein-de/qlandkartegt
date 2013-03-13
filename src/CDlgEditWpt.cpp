@@ -58,6 +58,7 @@ CDlgEditWpt::CDlgEditWpt(CWpt &wpt, QWidget * parent)
     connect(pushCreateBuddies, SIGNAL(clicked()), this, SLOT(slotCreateBuddies()));
     connect(checkTransparent, SIGNAL(toggled(bool)), this, SLOT(slotTransparent(bool)));
     connect(pushSpoiler, SIGNAL(clicked()), this, SLOT(slotCollectSpoiler()));
+    connect(toolEditInfo, SIGNAL(clicked()), this, SLOT(slotEditInfo()));
 
     labelUnitElevation->setText(IUnit::self().baseunit);
     labelUnitProximity->setText(IUnit::self().baseunit);
@@ -352,13 +353,20 @@ void CDlgEditWpt::slotSelectIcon()
 
 void CDlgEditWpt::slotAddImage()
 {
+    SETTINGS;
+    QString path = cfg.value("path/images", "./").toString();
+
     QString filename = QFileDialog::getOpenFileName( 0, tr("Select image file")
-        ,"./"
+        ,path
         ,"Image (*)"
         ,0
         , FILE_DIALOG_FLAGS
         );
     if(filename.isEmpty()) return;
+
+    QFileInfo fi(filename);
+    cfg.setValue("path/images", fi.absolutePath());
+
 
     QString info =  QInputDialog::getText( this, tr("Add comment ..."), tr("comment"), QLineEdit::Normal, QFileInfo(filename).fileName());
 
@@ -598,6 +606,20 @@ void CDlgEditWpt::slotTransparent(bool ok)
     imageSelect->setTransparent(ok);
 }
 
+void CDlgEditWpt::slotEditInfo()
+{
+    CWpt::image_t& img = wpt.images[idxImg];
+
+    QString info =  QInputDialog::getText( this, tr("Add comment ..."), tr("comment"), QLineEdit::Normal, img.info);
+
+    if(info.isEmpty())
+    {
+        return;
+    }
+    img.info = info;
+    labelInfo->setText(info);
+
+}
 
 bool CDlgEditWpt::eventFilter(QObject *obj, QEvent *event)
 {

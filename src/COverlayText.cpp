@@ -137,8 +137,8 @@ void COverlayText::mouseMoveEvent(QMouseEvent * e)
     }
     else if(doSize)
     {
-        rect.setBottom(std::max(rect.top()+0+18*2, pos.y()));
-        rect.setRight(std::max(rect.left()+0+18*3, pos.x()));
+        rect.setBottom(qMax(rect.top()+0+18*2, pos.y()));
+        rect.setRight(qMax(rect.left()+0+18*3, pos.x()));
         rectMove = QRect(rect.topLeft()     + QPoint(2,2)  , QSize(16, 16));
         rectEdit = QRect(rect.topLeft()     + QPoint(20,2) , QSize(16, 16));
         rectDel  = QRect(rect.topRight()    - QPoint(18,-2), QSize(16, 16));

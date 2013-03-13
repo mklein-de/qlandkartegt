@@ -27,6 +27,8 @@
 #include <QtGui>
 #include <QtXml>
 
+#include <tzdata.h>
+
 #ifndef _MKSTR_1
 #define _MKSTR_1(x)    #x
 #define _MKSTR(x)      _MKSTR_1(x)
@@ -497,8 +499,13 @@ QString CWpt::getInfo()
     if(timestamp != 0x00000000 && timestamp != 0xFFFFFFFF)
     {
         if(str.count()) str += "\n";
+
+        QString timezone = GPS_Timezone(lon, lat);
         QDateTime time = QDateTime::fromTime_t(timestamp);
-        time.setTimeSpec(Qt::LocalTime);
+        if(!timezone.isEmpty())
+        {
+            time = TimeStamp(timestamp).toZone(timezone).toDateTime();
+        }
         str += time.toString();
     }
 

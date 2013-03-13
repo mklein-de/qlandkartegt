@@ -939,10 +939,12 @@ void CTrackDB::drawArrows(const QPolygon& line, const QRect& viewport, QPainter&
         {
             if(!viewport.contains(pt))
             {
+                pt1 = pt;
                 continue;
             }
             if((abs(pt.x() - pt1.x()) + abs(pt.y() - pt1.y())) < 7)
             {
+                pt1 = pt;
                 continue;
             }
             // keep distance
