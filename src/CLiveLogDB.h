@@ -64,6 +64,9 @@ class CLiveLogDB : public IDB
         void setLockToCenter(bool on){m_lockToCenter = on;}
         bool lockToCenter(){return m_lockToCenter;}
 
+        bool useSmallArrow(){return m_useSmallArrow;}
+        void setUseSmallArrow(bool yes){m_useSmallArrow = yes;}
+
         void addWpt();
 
         bool contains(const QString& key){return false;}
@@ -73,7 +76,6 @@ class CLiveLogDB : public IDB
         void slotMapChanged();
         void slotMapDBChanged();
     private:
-
         friend class CMainWindow;
         CLiveLogDB(QTabWidget * tb, QObject * parent);
         void saveBackupLog();
@@ -87,5 +89,7 @@ class CLiveLogDB : public IDB
         bool m_lockToCenter;
 
         QFile * backup;
+
+        bool m_useSmallArrow;
 };
 #endif                           //CLIVELOGDB_H

@@ -35,6 +35,9 @@ CLiveLogToolWidget::CLiveLogToolWidget(QTabWidget * parent)
 
     labelCenter->setPixmap(QPixmap(":/icons/iconLock16x16.png"));
     labelCenter->hide();
+
+    checkSmallArrow->setChecked(CLiveLogDB::self().useSmallArrow());
+    connect(checkSmallArrow,SIGNAL(toggled(bool)), this, SLOT(slotUseSmallArrow(bool)));
 }
 
 
@@ -46,4 +49,9 @@ CLiveLogToolWidget::~CLiveLogToolWidget()
 
 void CLiveLogToolWidget::slotChanged()
 {
+}
+
+void CLiveLogToolWidget::slotUseSmallArrow(bool on)
+{
+    CLiveLogDB::self().setUseSmallArrow(on);
 }

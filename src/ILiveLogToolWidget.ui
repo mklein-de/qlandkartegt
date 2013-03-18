@@ -1,7 +1,8 @@
-<ui version="4.0" >
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
  <class>ILiveLogToolWidget</class>
- <widget class="QWidget" name="ILiveLogToolWidget" >
-  <property name="geometry" >
+ <widget class="QWidget" name="ILiveLogToolWidget">
+  <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
@@ -9,134 +10,134 @@
     <height>300</height>
    </rect>
   </property>
-  <property name="windowTitle" >
+  <property name="windowTitle">
    <string>Form</string>
   </property>
-  <layout class="QGridLayout" >
-   <property name="margin" >
+  <layout class="QGridLayout">
+   <property name="margin">
     <number>9</number>
    </property>
-   <property name="spacing" >
+   <property name="spacing">
     <number>6</number>
    </property>
-   <item row="4" column="1" >
-    <widget class="QLabel" name="lblErrorVert" >
-     <property name="text" >
+   <item row="4" column="1">
+    <widget class="QLabel" name="lblErrorVert">
+     <property name="text">
       <string>-</string>
      </property>
     </widget>
    </item>
-   <item row="5" column="1" >
-    <widget class="QLabel" name="lblSatUsed" >
-     <property name="text" >
+   <item row="5" column="1">
+    <widget class="QLabel" name="lblSatUsed">
+     <property name="text">
       <string>-</string>
      </property>
     </widget>
-   </item>   
-   <item row="3" column="0" >
-    <widget class="QLabel" name="label_4" >
-     <property name="text" >
+   </item>
+   <item row="3" column="0">
+    <widget class="QLabel" name="label_4">
+     <property name="text">
       <string>Error horiz.:</string>
      </property>
     </widget>
    </item>
-   <item row="8" column="0" >
-    <widget class="QLabel" name="label_7" >
-     <property name="text" >
+   <item row="8" column="0">
+    <widget class="QLabel" name="label_7">
+     <property name="text">
       <string>GPS Time:</string>
      </property>
     </widget>
    </item>
-   <item row="0" column="0" >
-    <widget class="QLabel" name="labelStatus" >
-     <property name="text" >
+   <item row="0" column="0">
+    <widget class="QLabel" name="labelStatus">
+     <property name="text">
       <string>Status:</string>
      </property>
     </widget>
    </item>
-   <item row="1" column="0" >
-    <widget class="QLabel" name="label" >
-     <property name="text" >
+   <item row="1" column="0">
+    <widget class="QLabel" name="label">
+     <property name="text">
       <string>Position:</string>
      </property>
     </widget>
    </item>
-   <item row="6" column="1" >
-    <widget class="QLabel" name="lblSpeed" >
-     <property name="text" >
+   <item row="6" column="1">
+    <widget class="QLabel" name="lblSpeed">
+     <property name="text">
       <string>-</string>
      </property>
     </widget>
    </item>
-   <item row="4" column="0" >
-    <widget class="QLabel" name="label_5" >
-     <property name="text" >
+   <item row="4" column="0">
+    <widget class="QLabel" name="label_5">
+     <property name="text">
       <string>Error vert.:</string>
      </property>
     </widget>
    </item>
-   <item row="5" column="0" >
-    <widget class="QLabel" name="label_SatUsed" >
-     <property name="text" >
+   <item row="5" column="0">
+    <widget class="QLabel" name="label_SatUsed">
+     <property name="text">
       <string>Satellites:</string>
      </property>
     </widget>
-   </item>   
-   <item row="2" column="0" >
-    <widget class="QLabel" name="label_2" >
-     <property name="text" >
+   </item>
+   <item row="2" column="0">
+    <widget class="QLabel" name="label_2">
+     <property name="text">
       <string>Altitude:</string>
      </property>
     </widget>
    </item>
-   <item row="8" column="1" >
-    <widget class="QLabel" name="lblTime" >
-     <property name="text" >
+   <item row="8" column="1">
+    <widget class="QLabel" name="lblTime">
+     <property name="text">
       <string>-</string>
      </property>
     </widget>
    </item>
-   <item row="0" column="1" >
-    <widget class="QLabel" name="lblStatus" >
-     <property name="text" >
+   <item row="0" column="1">
+    <widget class="QLabel" name="lblStatus">
+     <property name="text">
       <string>GPS off</string>
      </property>
     </widget>
    </item>
-   <item row="1" column="1" >
-    <widget class="QLabel" name="lblPosition" >
-     <property name="text" >
+   <item row="1" column="1">
+    <widget class="QLabel" name="lblPosition">
+     <property name="text">
       <string>-</string>
      </property>
     </widget>
    </item>
-   <item row="6" column="0" >
-    <widget class="QLabel" name="label_3" >
-     <property name="text" >
+   <item row="6" column="0">
+    <widget class="QLabel" name="label_3">
+     <property name="text">
       <string>Speed:</string>
      </property>
     </widget>
    </item>
-   <item row="7" column="0" >
-    <widget class="QLabel" name="label_6" >
-     <property name="text" >
+   <item row="7" column="0">
+    <widget class="QLabel" name="label_6">
+     <property name="text">
       <string>Heading:</string>
      </property>
     </widget>
    </item>
-   <item row="7" column="1" >
-    <widget class="QLabel" name="lblHeading" >
-     <property name="text" >
+   <item row="7" column="1">
+    <widget class="QLabel" name="lblHeading">
+     <property name="text">
       <string>-</string>
      </property>
     </widget>
    </item>
-   <item row="10" column="1" >
+   <item row="10" column="1">
     <spacer>
-     <property name="orientation" >
+     <property name="orientation">
       <enum>Qt::Vertical</enum>
      </property>
-     <property name="sizeHint" stdset="0" >
+     <property name="sizeHint" stdset="0">
       <size>
        <width>111</width>
        <height>1</height>
@@ -144,39 +145,46 @@
      </property>
     </spacer>
    </item>
-   <item row="2" column="1" >
-    <widget class="QLabel" name="lblAltitude" >
-     <property name="text" >
+   <item row="2" column="1">
+    <widget class="QLabel" name="lblAltitude">
+     <property name="text">
       <string>-</string>
      </property>
     </widget>
    </item>
-   <item row="3" column="1" >
-    <widget class="QLabel" name="lblErrorHoriz" >
-     <property name="text" >
+   <item row="3" column="1">
+    <widget class="QLabel" name="lblErrorHoriz">
+     <property name="text">
       <string>-</string>
      </property>
     </widget>
    </item>
-   <item row="0" column="2" >
-    <widget class="QLabel" name="labelCenter" >
-     <property name="text" >
+   <item row="0" column="2">
+    <widget class="QLabel" name="labelCenter">
+     <property name="text">
       <string/>
      </property>
     </widget>
    </item>
-   <item row="10" column="2" >
+   <item row="10" column="2">
     <spacer>
-     <property name="orientation" >
+     <property name="orientation">
       <enum>Qt::Horizontal</enum>
      </property>
-     <property name="sizeHint" stdset="0" >
+     <property name="sizeHint" stdset="0">
       <size>
        <width>40</width>
        <height>1</height>
       </size>
      </property>
     </spacer>
+   </item>
+   <item row="9" column="0">
+    <widget class="QCheckBox" name="checkSmallArrow">
+     <property name="text">
+      <string>use small arrow</string>
+     </property>
+    </widget>
    </item>
   </layout>
  </widget>

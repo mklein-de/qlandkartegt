@@ -29,6 +29,7 @@
 #include "CTrackDB.h"
 #include "CTrack.h"
 #include "IUnit.h"
+#include "CSettings.h"
 
 #include <QtGui>
 
@@ -42,8 +43,13 @@ CLiveLogDB * CLiveLogDB::m_self = 0;
 CLiveLogDB::CLiveLogDB(QTabWidget * tb, QObject * parent)
 : IDB(IDB::eTypeLog,  tb, parent)
 , m_lockToCenter(false)
+, m_useSmallArrow(false)
 {
     m_self      = this;
+
+    SETTINGS;
+    m_useSmallArrow = cfg.value("livelog/useSmallArrow", m_useSmallArrow).toBool();
+
     toolview    = new CLiveLogToolWidget(tb);
 
     connect(&CMapDB::self(), SIGNAL(sigChanged()), this, SLOT(slotMapDBChanged()));
@@ -51,12 +57,14 @@ CLiveLogDB::CLiveLogDB(QTabWidget * tb, QObject * parent)
 
     saveBackupLog();
     backup = new QFile(QDir::temp().filePath("qlBackupLog"),this);
+
 }
 
 
 CLiveLogDB::~CLiveLogDB()
 {
-
+    SETTINGS;
+    cfg.setValue("livelog/useSmallArrow", m_useSmallArrow);
 }
 
 
@@ -370,11 +378,12 @@ void CLiveLogDB::draw(QPainter& p, const QRect& rect, bool& needsRedraw)
     p.setPen(QPen(Qt::black,3));
     p.drawPolyline(polyline);
 
-    IMap& map = CMapDB::self().getMap();
     if( (m_log.fix == CLiveLog::e2DFix) ||
         (m_log.fix == CLiveLog::e3DFix) ||
         (m_log.fix == CLiveLog::eEstimated) )
     {
+        IMap& map = CMapDB::self().getMap();
+
         double u = m_log.lon * DEG_TO_RAD;
         double v = m_log.lat * DEG_TO_RAD;
         map.convertRad2Pt(u,v);
@@ -385,7 +394,31 @@ void CLiveLogDB::draw(QPainter& p, const QRect& rect, bool& needsRedraw)
             p.save();
             p.translate(u,v);
             p.rotate(heading);
-            p.drawPixmap(-23,-30,QPixmap(":/cursors/cursor1.png"));
+            if(m_useSmallArrow)
+            {
+                QPolygon arrow;
+                arrow << QPoint(0,-50);
+                arrow << QPoint(5,-40);
+                arrow << QPoint(-5,-40);
+                arrow << QPoint(0,-50);
+
+                p.setPen(QPen(Qt::white,5));
+                p.setBrush(Qt::white);
+                p.drawEllipse(-4,-4,8,8);
+                p.drawLine(0,0,0,-50);
+                p.drawPolygon(arrow);
+
+                p.setPen(QPen(Qt::black,3));
+                p.setBrush(Qt::black);
+                p.drawEllipse(-4,-4,8,8);
+                p.drawLine(0,0,0,-50);
+                p.drawPolygon(arrow);
+
+            }
+            else
+            {
+                p.drawPixmap(-23,-30,QPixmap(":/cursors/cursor1.png"));
+            }
             p.restore();
         }
         else
