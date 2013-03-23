@@ -3,17 +3,22 @@
 
 #include <QHash>
 
-/*
- * The purpose of this class is to have an efficient bi-directional
- * hash map similar to QHash. Actually, the interface mimicks QHash
- * as close as possible, but all operations are efficient in both
- * directions. And storage requirements are reasonable, with each
- * object stored only once.
- *
- * A sample use case would be translating color names to QColor
- * and using the same mapping for reverse translation.
- */
+/** ********************************************************************************************
+    Copyright (c) ??????
 
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+********************************************************************************************* */
 template <typename KeyL, typename KeyR>
 class Dictionary
 {

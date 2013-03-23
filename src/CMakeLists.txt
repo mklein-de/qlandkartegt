@@ -153,7 +153,7 @@ set(qlandkarte_SRCS
     CDlgMapTmsConfig.cpp
     CDlgMapWmsConfig.cpp
     CDlgMapRMPConfig.cpp
-    CDlgNoMapConfig.cpp    
+    CDlgNoMapConfig.cpp
     CDlgScreenshot.cpp
     CDlgTrackFilter.cpp
     CDlgSetupGarminIcons.cpp
@@ -426,6 +426,8 @@ set(qlandkarte_HDRS
     CImageViewer.h
     CMapRmp.h
     CMapDEMSlopeSetup.h
+    Dictionary.h
+    QFileExt.h
 )
 
 
