@@ -364,7 +364,7 @@
     </message>
     <message>
         <source>Make elevations on the map higher as they are.</source>
-        <translation type="obsolete">Erhöhungen auf der Karte größer erscheinen lassen als sie sind.</translation>
+        <translation type="obsolete">Erhebungen auf der Karte größer erscheinen lassen als sie sind.</translation>
     </message>
     <message>
         <source>&amp;Dec. Elevation</source>
@@ -372,7 +372,7 @@
     </message>
     <message>
         <source>Make elevations on the map lower as they are.</source>
-        <translation type="obsolete">Erhöhungen auf der Karte niedriger erscheinen lassen als sie sind.</translation>
+        <translation type="obsolete">Erhebungen auf der Karte niedriger erscheinen lassen als sie sind.</translation>
     </message>
     <message>
         <source>&amp;Lighting On/Off</source>
@@ -519,7 +519,7 @@
     <message>
         <location filename="../CActions.cpp" line="86"/>
         <source>Trackmode</source>
-        <translation>Beobachterstandpunkt auf Track</translation>
+        <translation>Beobachterpunkt auf Track</translation>
     </message>
     <message>
         <location filename="../CActions.cpp" line="100"/>
@@ -585,7 +585,7 @@
     <message>
         <location filename="../CActions.cpp" line="106"/>
         <source>Move Map to &amp;Pos.</source>
-        <translation>Karte zu &amp;Position bewegen.</translation>
+        <translation>Karte zu &amp;Position bewegen</translation>
     </message>
     <message>
         <location filename="../CActions.cpp" line="106"/>
@@ -907,7 +907,7 @@
     <message>
         <location filename="../CCopyright.cpp" line="40"/>
         <source>&lt;p&gt;&amp;#169; 2007 Oliver Eichler (oliver.eichler@gmx.de)&lt;/p&gt;&lt;p&gt;Thanks for contributing to the project:&lt;/p&gt;&lt;p&gt;Andrew Vagin&lt;br/&gt;Fabrice Crohas&lt;br/&gt;Marc Feld&lt;br/&gt;Joerg Wunsch&lt;br/&gt;Albrecht Dre&amp;szlig;&lt;br&gt;Christian Ehrlicher&lt;br/&gt;Christian Treffs&lt;br/&gt;Michael Klein&lt;br/&gt;&lt;/p&gt;&lt;p&gt;Translation:&lt;br&gt;Sarah Neumann (German)&lt;br&gt;Fabrice Crohas (French)&lt;br&gt;Alessandro Briosi (Italian)&lt;br&gt;Mike Markov (Russian)&lt;br&gt;Oscar A. and Luis Llorente (Spanish)&lt;br&gt;Harrie Klomp (Dutch)&lt;br&gt;&lt;/p&gt;&lt;p&gt;Icons and eye candy are from the &lt;b&gt;KDE&lt;/b&gt; icon set, the &lt;b&gt;Nuvola&lt;/b&gt; icon set and the &lt;b&gt;Oxygen&lt;/b&gt; icon set.See &lt;b&gt;http://www.kde.org/&lt;/b&gt;,&lt;b&gt;http://www.icon-king.com/&lt;/b&gt; and &lt;b&gt;http://www.oxygen-icons.org/&lt;/b&gt;. Waypoint icons are copied from &lt;b&gt;GPSMan&lt;/b&gt;. See &lt;b&gt;http://www.ncc.up.pt/gpsman/&lt;/b&gt;. Cursor icons are from the &apos;Polar Cursor Theme&apos;. See &lt;b&gt;http://www.kde-look.org/content/show.php?content=27913&lt;/b&gt;.Geocache icons are taken from the OpenCacheManager project. See &lt;b&gt;http://opencachemanage.sourceforge.net/&lt;/b&gt;.&lt;/p&gt; &lt;p&gt;Some of the 2D polygon math is copied from &lt;b&gt;http://local.wasp.uwa.edu.au/~pbourke/geometry/&lt;/b&gt;. The geodesic distance calculation by Thaddeus Vincenty is copied from &lt;b&gt;http://www.movable-type.co.uk/scripts/LatLongVincenty.html&lt;/b&gt;&lt;/p&gt;&lt;p&gt;Typ file decoding is done with the help of the source code published at http://ati.land.cz/gps/typedit//&lt;p&gt;</source>
-        <translation></translation>
+        <translation>&lt;p&gt;&amp;#169; 2007 Oliver Eichler (oliver.eichler@gmx.de)&lt;/p&gt;&lt;p&gt;Danke für Beiträge zum Projekt:&lt;/p&gt;&lt;p&gt;Andrew Vagin&lt;br/&gt;Fabrice Crohas&lt;br/&gt;Marc Feld&lt;br/&gt;Joerg Wunsch&lt;br/&gt;Albrecht Dre&amp;szlig;&lt;br&gt;Christian Ehrlicher&lt;br/&gt;Christian Treffs&lt;br/&gt;Michael Klein&lt;br/&gt;&lt;/p&gt;&lt;p&gt;Übersetzung:&lt;br&gt;Sarah Neumann (Deutsch)&lt;br&gt;Fabrice Crohas (Französisch)&lt;br&gt;Alessandro Briosi (Italian)&lt;br&gt;Mike Markov (Russian)&lt;br&gt;Oscar A. and Luis Llorente (Spanish)&lt;br&gt;Harrie Klomp (Dutch)&lt;br&gt;&lt;/p&gt;&lt;p&gt;Symbole und Blickfänge sind aus dem &lt;b&gt;KDE&lt;/b&gt; Symbolsatz, dem &lt;b&gt;Nuvola&lt;/b&gt; Symbolsatz und dem &lt;b&gt;Oxygen&lt;/b&gt; Symbolsatz. Siehe &lt;b&gt;http://www.kde.org/&lt;/b&gt;,&lt;b&gt;http://www.icon-king.com/&lt;/b&gt; and &lt;b&gt;http://www.oxygen-icons.org/&lt;/b&gt;. Wegpunktsymbole sind von &lt;b&gt;GPSMan&lt;/b&gt;kopiert. Siehe &lt;b&gt;http://www.ncc.up.pt/gpsman/&lt;/b&gt;. Mauszeiger sind aus dem &apos;Polar Cursor Theme&apos;. Siehe &lt;b&gt;http://www.kde-look.org/content/show.php?content=27913&lt;/b&gt;.Geocache Symbole wurden dem  OpenCacheManager Projekt entnommen. Siehe &lt;b&gt;http://opencachemanage.sourceforge.net/&lt;/b&gt;.&lt;/p&gt; &lt;p&gt;Teile der 2D-Polygon-Mathematik wurden von &lt;b&gt;http://local.wasp.uwa.edu.au/~pbourke/geometry/&lt;/b&gt; kopiert. Die geodätische Entfernungsberechnung nach Thaddeus Vincenty wurde von &lt;b&gt;http://www.movable-type.co.uk/scripts/LatLongVincenty.html&lt;/b&gt; kopiert.&lt;/p&gt;&lt;p&gt;Die Typdateidekodierung wurde mit Hilfe des Quellcodes auf &lt;b&gt;http://ati.land.cz/gps/typedit/&lt;/b&gt; erstellt&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../CCopyright.cpp" line="90"/>
@@ -945,7 +945,7 @@ GDAL Environment
     <message>
         <location filename="../CCreateMapGeoTiff.cpp" line="54"/>
         <source>This dialog allows you to georeference raster map files. As pre-requisite you need a set of reference points and the projection for those points. You will get best results if the projection of the points is also the projection of the map. In most cases this is mercator. It is recommended to shift the reference point to WGS84 datum, right from the beginning.</source>
-        <translation>Dieser Dialog erlaubt es, Rasterkarten (tif-Dateien mit einer 8 Bit-Farbpalette) mit Georeferenzinformationen zu versehen. Voraussetzung dafür ist, dass ein Satz Referenzpunkte und deren Projektionen vorhanden sind. Die besten Ergebnisse erhältst man, wenn die Projektion der Punkte identisch mit der Projektion der Karte ist. In den meisten Fällen ist der Typ der Projektion Mercator. Es ist empfehlenswert, gleich von Anfang an den Referenzpunkt in das geodätische Referenzsystem WGS84 zu transformieren.
+        <translation>Dieser Dialog erlaubt es, Rasterkarten (tif-Dateien mit einer 8 Bit-Farbpalette) mit Georeferenzinformationen zu versehen. Voraussetzung dafür ist, dass ein Satz Referenzpunkte und deren Projektionen vorhanden sind. Die besten Ergebnisse erhältt man, wenn die Projektion der Punkte identisch mit der Projektion der Karte ist. In den meisten Fällen ist dis die Mercator Projektion. Es ist empfehlenswert, gleich von Anfang an den Referenzpunkt in das geodätische Referenzsystem WGS84 zu transformieren.
 
 </translation>
     </message>
@@ -1007,6 +1007,7 @@ Koordinatenformat:
     <message>
         <location filename="../CCreateMapGeoTiff.cpp" line="92"/>
         <source>thin plate (4 Ref. Pts.)</source>
+        <translatorcomment>?  Übersetzung unklar</translatorcomment>
         <translation>geringfügige Platte (4 Referenzp.)</translation>
     </message>
     <message>
@@ -1049,7 +1050,7 @@ coordinate formats:
 • &quot;N49° 10.234 E12° 01.456&quot; (dd mm.mmm)
 • &quot;46.575377   12.193172&quot;  (dd.dddddd)
 • &quot;285000 5162000&quot;</source>
-        <translation>Der nächste Schritt ist das Hinzufügen bekannter Referenzpunkte. Füge einfach Referenzpunkte auf der Karte hinzu und gib die Breiten-/Längengrad (WGS84) oder den Rechtswert und Hochwert [m] in der Tabelle an. Bewege als nächstes den Punkt zu der richtigen Position auf der Karte.
+        <translation>Der nächste Schritt ist das Hinzufügen bekannter Referenzpunkte. Füge einfach Referenzpunkte auf der Karte hinzu und trage deren Breiten-/Längengrad (WGS84) oder den Rechtswert und Hochwert [m] in der Tabelle ein. Bewege als nächstes den Punkt zu der richtigen Position auf der Karte.
 
 Koordinatenformat: 
 • &quot;N49° 10.234 E12° 01.456&quot; (dd mm.mmm)
@@ -1142,7 +1143,7 @@ Koordinatenformat:
         <source>The grid tool will place reference points with calculated longitude and latitude to the line crossings of a linear map grid. To do so you have to place the 4 initial reference points to the grid as shown in the example.
 
 Altenatively you might have chosen to use already existing reference points. In this case you simply have to define the grid step size.</source>
-        <translation>Das Gitterwerkzeug setzt Referenzpunkte, berechnet aus Breiten- und Längengrad, auf den Linienkreuzen eines linearen Kartengitters. Dazu müssen die 4 initialen Referenzpunkte auf dem Gitter so wie im Beispiel gezeigt gesetzt werden.
+        <translation>Das Gitterwerkzeug setzt Referenzpunkte, berechnet aus Breiten- und Längengrad, auf den Linienkreuzen eines linearen Kartengitters. Dazu müssen die 4 initialen Referenzpunkte auf dem Gitter gesetzt werden, so wie im Beispiel gezeigt.
 
 Wahlweise können auch bereits bestehende Referenzpunkte genutzt werden. In diesem Fall muss nur noch das Gitterschrittmaß angegeben werden.</translation>
     </message>
@@ -1154,7 +1155,7 @@ Wahlweise können auch bereits bestehende Referenzpunkte genutzt werden. In dies
     <message>
         <location filename="../CCreateMapGridTool.cpp" line="46"/>
         <source>Next you might want to add a source projection to do a grid shift to WGS84. And you have to define the longitude and the latitude of the top left reference point. And the spacing between point 1 and 2, and 1 and 4.</source>
-        <translation>Als nächstes können Sie die Projektion der Ursprungskarte hinzufügen, um eine Wandlung in das WGS84-System durchzuführen. Dafür muss der Breiten- und Längengrad des oberen linken Referenzpunktes sowie die Abstände zwischen den Punkten 1 und 2 und zwischen 1 und 4 definiert werden. </translation>
+        <translation>Als nächstes können Sie die Projektion der Quelle hinzufügen, um eine Wandlung in das WGS84-System durchzuführen. Dafür muss der Breiten- und Längengrad des oberen linken Referenzpunktes sowie die Abstände zwischen den Punkten 1 und 2 und zwischen 1 und 4 definiert werden. </translation>
     </message>
     <message>
         <location filename="../CCreateMapGridTool.cpp" line="47"/>
@@ -1261,7 +1262,7 @@ Wahlweise können auch bereits bestehende Referenzpunkte genutzt werden. In dies
         <source>You can edit or create QLandkarte GT map definition files (*.qmap). A map definition defines what files to show at a certain zoom level. The comment will be used to list the map collection as known map in the map tool view. You can choose between a linear or quadratic zoom level increment.
 Once you created a map set you can attach DEM data to it via the context menu in the lefthand map tool view.</source>
         <translation>Sie können Kartendefinitionsdateien für QLandkarte GT (*.qmap) erzeugen oder bearbeiten. Eine Kartendefinition legt fest, welche Dateien bei welcher Vergrößerungsstufe sichtbar sind. Der Kommentar wird dazu verwendet, die Kartenzusammenstellung als verfügbare Karte im Kartenwerkzeug anzuzeigen. Man kann zwischen einem linearen oder quadratischen Verhalten beim Vergrößern auswählen. 
-Sobald die Kartenzusammenstellung erzeugt ist, können DEM-Daten im Kontext-Menü links im Kartenwerkzeug hinzugefügt werden. </translation>
+Sobald die Kartenzusammenstellung erzeugt ist, können DEM-Daten im Kontext-Menü links zum Kartenwerkzeug hinzugefügt werden. </translation>
     </message>
     <message>
         <location filename="../CCreateMapQMAP.cpp" line="43"/>
@@ -1384,42 +1385,42 @@ Erwartet: %1, empfangen %2.</translation>
     <message>
         <location filename="../CDeviceGPSD.cpp" line="106"/>
         <source>GPSD: Upload waypoints is not implemented.</source>
-        <translation>GPSD: Das Hochladen von Wegpunkten auf das Gerät ist nicht implementiert.</translation>
+        <translation>GPSD: Das Hochladen von Wegpunkten ist nicht implementiert.</translation>
     </message>
     <message>
         <location filename="../CDeviceGPSD.cpp" line="112"/>
         <source>GPSD: Download waypoints is not implemented.</source>
-        <translation>GPSD: Das Herunterladen von Wegpunkten vom Gerät ist nicht implementiert.</translation>
+        <translation>GPSD: Das Herunterladen von Wegpunkten ist nicht implementiert.</translation>
     </message>
     <message>
         <location filename="../CDeviceGPSD.cpp" line="118"/>
         <source>GPSD: Upload tracks is not implemented.</source>
-        <translation>GPSD: Das Hochladen von Tracks auf das Gerät ist nicht implementiert.</translation>
+        <translation>GPSD: Das Hochladen von Tracks ist nicht implementiert.</translation>
     </message>
     <message>
         <location filename="../CDeviceGPSD.cpp" line="124"/>
         <source>GPSD: Download tracks is not implemented.</source>
-        <translation>GPSD: Das Herunterladen von Tracks vom Gerät ist nicht implementiert.</translation>
+        <translation>GPSD: Das Herunterladen von Tracks ist nicht implementiert.</translation>
     </message>
     <message>
         <location filename="../CDeviceGPSD.cpp" line="130"/>
         <source>GPSD: Upload routes is not implemented.</source>
-        <translation>GPSD: Das Hochladen von Routen auf das Gerät ist nicht implementiert.</translation>
+        <translation>GPSD: Das Hochladen von Routen ist nicht implementiert.</translation>
     </message>
     <message>
         <location filename="../CDeviceGPSD.cpp" line="136"/>
         <source>GPSD: Download routes is not implemented.</source>
-        <translation>GPSD: Das Herunterladen von Routen vom Gerät ist nicht implementiert.</translation>
+        <translation>GPSD: Das Herunterladen von Routen ist nicht implementiert.</translation>
     </message>
     <message>
         <location filename="../CDeviceGPSD.cpp" line="142"/>
         <source>GPSD: Upload maps is not implemented.</source>
-        <translation>GPSD: Das Hochladen von Karten auf das Gerät ist nicht implementiert.</translation>
+        <translation>GPSD: Das Hochladen von Karten ist nicht implementiert.</translation>
     </message>
     <message>
         <location filename="../CDeviceGPSD.cpp" line="148"/>
         <source>GPSD: Download screenshots is not implemented.</source>
-        <translation>GPSD: Das Herunterladen von Bildschirmfotos vom Gerät ist nicht implementiert.</translation>
+        <translation>GPSD: Das Herunterladen von Bildschirmfotos ist nicht implementiert.</translation>
     </message>
 </context>
 <context>
@@ -1438,7 +1439,7 @@ Erwartet: %1, empfangen %2.</translation>
     <message>
         <location filename="../CDeviceGarmin.cpp" line="553"/>
         <source>Driver version mismatch.</source>
-        <translation>Unpassende Treiberversion.</translation>
+        <translation>Falsche Treiberversion.</translation>
     </message>
     <message>
         <location filename="../CDeviceGarmin.cpp" line="555"/>
@@ -1613,7 +1614,7 @@ Erwartet: %1, empfangen %2.</translation>
     <message>
         <location filename="../CDeviceGarminBulk.cpp" line="542"/>
         <source>Garmin Mass Storage: Live log is not implemented.</source>
-        <translation>Garmin Speichermedium: Die Echtzeitaufnahme ist nicht implementiert.</translation>
+        <translation>Garmin Speichermedium: Die Echtzeitaufzeichnung ist nicht implementiert.</translation>
     </message>
 </context>
 <context>
@@ -1621,7 +1622,7 @@ Erwartet: %1, empfangen %2.</translation>
     <message>
         <location filename="../CDeviceMagellan.cpp" line="68"/>
         <source>Path to Magellan device...</source>
-        <translation>Pfad des Magellangerätes...</translation>
+        <translation>Pfad zum Magellangerätes...</translation>
     </message>
     <message>
         <location filename="../CDeviceMagellan.cpp" line="77"/>
@@ -1640,7 +1641,7 @@ Erwartet: %1, empfangen %2.</translation>
     <message>
         <location filename="../CDeviceMagellan.cpp" line="77"/>
         <source>I need a path with &apos;Track&apos;, &apos;Waypoints&apos;, &apos;Routes&apos; and &apos;Geocaches&apos; as subdirectory</source>
-        <translation>Es wird ein Pfad mit &apos;Track&apos;, &apos;Waypoints&apos;, &apos;Routes&apos; and &apos;Geocaches&apos; als Subdirectory benötigt.</translation>
+        <translation>Es wird ein Pfad mit &apos;Track&apos;, &apos;Waypoints&apos;, &apos;Routes&apos; and &apos;Geocaches&apos; als Unterverzeichnis benötigt.</translation>
     </message>
     <message>
         <location filename="../CDeviceMagellan.cpp" line="109"/>
@@ -1685,27 +1686,27 @@ Erwartet: %1, empfangen %2.</translation>
     <message>
         <location filename="../CDeviceMagellan.cpp" line="278"/>
         <source>Magellan: Upload routes is not implemented.</source>
-        <translation></translation>
+        <translation>Magellan: Das Hochladen von Routen ist nicht implementiert.</translation>
     </message>
     <message>
         <location filename="../CDeviceMagellan.cpp" line="283"/>
         <source>Magellan: Download routes is not implemented.</source>
-        <translation></translation>
+        <translation>Magellan: Das Herunterladen von Routen ist nicht implementiert.</translation>
     </message>
     <message>
         <location filename="../CDeviceMagellan.cpp" line="288"/>
         <source>Magellan: Upload maps is not implemented.</source>
-        <translation></translation>
+        <translation>Magellan: Das Hochladen von Karten ist nicht implementiert.</translation>
     </message>
     <message>
         <location filename="../CDeviceMagellan.cpp" line="293"/>
         <source>Magellan: Live log is not supported.</source>
-        <translation></translation>
+        <translation>Magellan: Echtzeitaufzeichnung wird nicht unterstützt.</translation>
     </message>
     <message>
         <location filename="../CDeviceMagellan.cpp" line="298"/>
         <source>Magellan: Screen shot is not supported.</source>
-        <translation></translation>
+        <translation>Magellan:Bildschirmfoto wird nicht unterstützt. </translation>
     </message>
 </context>
 <context>
@@ -1780,42 +1781,42 @@ Erwartet: %1, empfangen %2.</translation>
     <message>
         <location filename="../CDeviceNMEA.cpp" line="458"/>
         <source>NMEA: Upload waypoints is not implemented.</source>
-        <translation>NMEA: Das Hochladen von Wegpunkten auf das Gerät ist nicht implementiert.</translation>
+        <translation>NMEA: Das Hochladen von Wegpunkten ist nicht implementiert.</translation>
     </message>
     <message>
         <location filename="../CDeviceNMEA.cpp" line="464"/>
         <source>NMEA: Download waypoints is not implemented.</source>
-        <translation>NMEA: Das Herunterladen von Wegpunkten vom Gerät ist nicht implementiert.</translation>
+        <translation>NMEA: Das Herunterladen von Wegpunkten ist nicht implementiert.</translation>
     </message>
     <message>
         <location filename="../CDeviceNMEA.cpp" line="470"/>
         <source>NMEA: Upload tracks is not implemented.</source>
-        <translation>NMEA: Das Hochladen von Tracks auf das Gerät ist nicht implementiert.</translation>
+        <translation>NMEA: Das Hochladen von Tracks ist nicht implementiert.</translation>
     </message>
     <message>
         <location filename="../CDeviceNMEA.cpp" line="476"/>
         <source>NMEA: Download tracks is not implemented.</source>
-        <translation>NMEA: Das Herunterladen von Tracks vom Gerät ist nicht implementiert.</translation>
+        <translation>NMEA: Das Herunterladen von Tracks ist nicht implementiert.</translation>
     </message>
     <message>
         <location filename="../CDeviceNMEA.cpp" line="482"/>
         <source>NMEA: Upload routes is not implemented.</source>
-        <translation>NMEA: Das Hochladen von Routen auf das Gerät ist nicht implementiert.</translation>
+        <translation>NMEA: Das Hochladen von Routen ist nicht implementiert.</translation>
     </message>
     <message>
         <location filename="../CDeviceNMEA.cpp" line="488"/>
         <source>NMEA: Download routes is not implemented.</source>
-        <translation>NMEA: Das Herunterladen von Routen vom Gerät ist nicht implementiert.</translation>
+        <translation>NMEA: Das Herunterladen von Routen ist nicht implementiert.</translation>
     </message>
     <message>
         <location filename="../CDeviceNMEA.cpp" line="494"/>
         <source>NMEA: Upload maps is not implemented.</source>
-        <translation>NMEA: Das Hochladen von Karten auf das Gerät ist nicht implementiert.</translation>
+        <translation>NMEA: Das Hochladen von Karten ist nicht implementiert.</translation>
     </message>
     <message>
         <location filename="../CDeviceNMEA.cpp" line="500"/>
         <source>NMEA: Download screenshots is not implemented.</source>
-        <translation>NMEA: Das Herunterladen von Bildschirmfotos vom Gerät ist nicht implementiert.</translation>
+        <translation>NMEA: Das Herunterladen von Bildschirmfotos nicht implementiert.</translation>
     </message>
     <message>
         <source>NMEA: Download screenschots is not implemented.</source>
@@ -1907,12 +1908,12 @@ Erwartet: %1, empfangen %2.</translation>
     <message>
         <location filename="../CDeviceQLandkarteM.cpp" line="176"/>
         <source>Query list of waypoints from the device</source>
-        <translation>Wegpunkteliste beim Gerät abfragen</translation>
+        <translation>Wegpunkteliste vom Gerät abfragen</translation>
     </message>
     <message>
         <location filename="../CDeviceQLandkarteM.cpp" line="184"/>
         <source>QLandkarteM: Failed to query waypoints from device.</source>
-        <translation>QLandkarteM: Abfrage der Wegpunkte beim Gerät ist fehlgeschlagen.</translation>
+        <translation>QLandkarteM: Abfrage der Wegpunkte vom Gerät ist fehlgeschlagen.</translation>
     </message>
     <message>
         <location filename="../CDeviceQLandkarteM.cpp" line="211"/>
@@ -1949,22 +1950,22 @@ Erwartet: %1, empfangen %2.</translation>
     <message>
         <location filename="../CDeviceQLandkarteM.cpp" line="323"/>
         <source>Query list of tracks from the device</source>
-        <translation>Trackliste beim Gerät abfragen</translation>
+        <translation>Trackliste vom Gerät abfragen</translation>
     </message>
     <message>
         <location filename="../CDeviceQLandkarteM.cpp" line="331"/>
         <source>QLandkarteM: Failed to query tracks from device.</source>
-        <translation>QLandkarteM: Abfrage der Tracks beim Gerät ist fehlgeschlagen.</translation>
+        <translation>QLandkarteM: Abfrage der Tracks vom Gerät ist fehlgeschlagen.</translation>
     </message>
     <message>
         <location filename="../CDeviceQLandkarteM.cpp" line="358"/>
         <source>Download track: %1</source>
-        <translation>Tack %1 wird herunterladen</translation>
+        <translation>Track %1 wird herunterladen</translation>
     </message>
     <message>
         <location filename="../CDeviceQLandkarteM.cpp" line="441"/>
         <source>QLandkarteM: No device found. Is it connected to the network?</source>
-        <translation>QLandkarteM: Kein Gerät gefunden. Ist es am Netzwerk angeschlossen?</translation>
+        <translation>QLandkarteM: Kein Gerät gefunden. Ist es mit dem Netzwerk verbunden?</translation>
     </message>
 </context>
 <context>
@@ -2050,7 +2051,7 @@ Erwartet: %1, empfangen %2.</translation>
     <message>
         <location filename="../CDeviceTwoNav.cpp" line="138"/>
         <source>Path to TwoNav device...</source>
-        <translation>Pfad zum Twonavgerät...</translation>
+        <translation>Pfad zum TwoNav Gerät...</translation>
     </message>
     <message>
         <location filename="../CDeviceTwoNav.cpp" line="147"/>
@@ -2090,22 +2091,22 @@ Erwartet: %1, empfangen %2.</translation>
     <message>
         <location filename="../CDeviceTwoNav.cpp" line="438"/>
         <source>TwoNav: Upload routes is not implemented.</source>
-        <translation></translation>
+        <translation>TwoNav: Das Hochladen von Routen ist nicht implementiert.</translation>
     </message>
     <message>
         <location filename="../CDeviceTwoNav.cpp" line="444"/>
         <source>TwoNav: Download routes is not implemented.</source>
-        <translation></translation>
+        <translation>TwoNav: Das Herunterladen von Routen ist nicht implementiert.</translation>
     </message>
     <message>
         <location filename="../CDeviceTwoNav.cpp" line="450"/>
         <source>TwoNav: Upload maps is not implemented.</source>
-        <translation></translation>
+        <translation>TwoNav: Das Hochladen von Karten ist nicht implementiert.</translation>
     </message>
     <message>
         <location filename="../CDeviceTwoNav.cpp" line="456"/>
         <source>TwoNav: Download screenshots is not implemented.</source>
-        <translation></translation>
+        <translation>TwoNav: Das Herunterladen von Bildschirmfotos ist nicht implementiert.</translation>
     </message>
     <message>
         <location filename="../CDeviceTwoNav.cpp" line="657"/>
@@ -2196,7 +2197,7 @@ Erwartet: %1, empfangen %2.</translation>
     <message>
         <location filename="../CDiaryEdit.cpp" line="261"/>
         <source>Failed to save diary to database. Probably because it was not created from a database project.</source>
-        <translation>Das Speichern des Tagebuches ist fehlgeschlagen, weil es wahrscheinlich nicht von einem Projekt mit Datenbank erstellt wurde.</translation>
+        <translation>Das Speichern des Tagebuches ist fehlgeschlagen, weil es wahrscheinlich nicht mittles eines Datenbank-Projekts erstellt wurde.</translation>
     </message>
     <message>
         <location filename="../CDiaryEdit.cpp" line="308"/>
@@ -2389,7 +2390,7 @@ Erwartet: %1, empfangen %2.</translation>
     <message>
         <location filename="../CDlgConfig.cpp" line="119"/>
         <source>Magellan</source>
-        <translation></translation>
+        <translation>Magellan</translation>
     </message>
     <message>
         <location filename="../CDlgConfig.cpp" line="120"/>
@@ -2719,7 +2720,7 @@ Abbruch durch Benutzer.</translation>
     <message>
         <location filename="../CDlgLoadOnlineMap.cpp" line="204"/>
         <source>Open Directory</source>
-        <translation>Ordner öffnen</translation>
+        <translation>Verzeichnis öffnen</translation>
     </message>
 </context>
 <context>
@@ -2803,17 +2804,17 @@ ist keine gültige Koordinatensystemdefinition
     <message>
         <location filename="../CDlgSetupGarminIcons.cpp" line="75"/>
         <source>reset icon</source>
-        <translation>Ikone zurücksetzen</translation>
+        <translation>Symbol zurücksetzen</translation>
     </message>
     <message>
         <location filename="../CDlgSetupGarminIcons.cpp" line="81"/>
         <source>select icon</source>
-        <translation>Ikone auswählen</translation>
+        <translation>Symbol auswählen</translation>
     </message>
     <message>
         <location filename="../CDlgSetupGarminIcons.cpp" line="129"/>
         <source>Select icon ...</source>
-        <translation>Ikone auswählen ...</translation>
+        <translation>Symbol auswählen ...</translation>
     </message>
     <message>
         <location filename="../CDlgSetupGarminIcons.cpp" line="228"/>
@@ -2823,7 +2824,7 @@ ist keine gültige Koordinatensystemdefinition
     <message>
         <location filename="../CDlgSetupGarminIcons.cpp" line="228"/>
         <source>: Bad icon format</source>
-        <translation>: Falsches Ikonenformat</translation>
+        <translation>: Falsches Symbolformat</translation>
     </message>
     <message>
         <location filename="../CDlgSetupGarminIcons.cpp" line="260"/>
@@ -3105,7 +3106,7 @@ ist keine gültige Koordinatensystemdefinition
     <message>
         <location filename="../CGeoDB.cpp" line="145"/>
         <source>All your data grouped by folders.</source>
-        <translation>Alle Ihre Daten nach Ordnern gruppiert.</translation>
+        <translation>Alle ihre Daten nach Ordnern gruppiert.</translation>
     </message>
     <message>
         <location filename="../CGeoDB.cpp" line="196"/>
@@ -3573,7 +3574,7 @@ Akt. Proj: %1</translation>
     <message>
         <location filename="../CLiveLogDB.cpp" line="80"/>
         <source>LiveLog</source>
-        <translation>Echtzeit-Aufzeichnung</translation>
+        <translation>Echtzeitaufzeichnung</translation>
     </message>
     <message>
         <location filename="../CLiveLogDB.cpp" line="154"/>
@@ -3651,7 +3652,7 @@ Akt. Proj: %1</translation>
     <message>
         <location filename="../CLiveLogToolWidget.cpp" line="31"/>
         <source>Live Log</source>
-        <translation>Echtzeit-Aufzeichnung</translation>
+        <translation>Echtzeitaufzeichnung</translation>
     </message>
 </context>
 <context>
@@ -3779,13 +3780,13 @@ Akt. Proj: %1</translation>
     <message>
         <location filename="../CMainWindow.cpp" line="978"/>
         <source>Save geo data?</source>
-        <translation>Sollen die Geodaten gespeichert werden?</translation>
+        <translation>Geodaten speichern?</translation>
     </message>
     <message>
         <location filename="../CMainWindow.cpp" line="979"/>
         <source>The loaded data has been modified.
 Do you want to save your changes?</source>
-        <translation>Die Daten wurden verändert.
+        <translation>Die geladenen Daten wurden verändert.
 Sollen die Änderungen gespeichert werden?</translation>
     </message>
     <message>
@@ -3847,7 +3848,7 @@ Sollen die Änderungen gespeichert werden?</translation>
     <message>
         <location filename="../CMainWindow.cpp" line="1429"/>
         <source>Magellan</source>
-        <translation></translation>
+        <translation>Magellan</translation>
     </message>
     <message>
         <location filename="../CMainWindow.cpp" line="1587"/>
@@ -3880,12 +3881,12 @@ Sollen die Änderungen gespeichert werden?</translation>
     <message>
         <location filename="../CMainWindow.cpp" line="1431"/>
         <source>NMEA</source>
-        <translation></translation>
+        <translation>NMEA</translation>
     </message>
     <message>
         <location filename="../CMainWindow.cpp" line="1433"/>
         <source>Mikrokopter</source>
-        <translation></translation>
+        <translation>Mikrokopter</translation>
     </message>
     <message>
         <location filename="../CMainWindow.cpp" line="1436"/>
@@ -3900,7 +3901,7 @@ Sollen die Änderungen gespeichert werden?</translation>
     <message>
         <location filename="../CMainWindow.cpp" line="102"/>
         <source>Profiling</source>
-        <translation></translation>
+        <translation>Profiling</translation>
     </message>
     <message>
         <location filename="../CMainWindow.cpp" line="627"/>
@@ -3949,7 +3950,7 @@ Sollen die Änderungen gespeichert werden?</translation>
     <message>
         <location filename="../CMainWindow.cpp" line="507"/>
         <source>This will erase all workspace data like waypoints and tracks.</source>
-        <translation>Diese Aktion löscht alle Daten wie Wegpunkte und Tracks, im Arpeitsplatz.</translation>
+        <translation>Diese Aktion löscht alle Daten wie Wegpunkte und Tracks im Arbeitsplatz.</translation>
     </message>
     <message>
         <location filename="../CMainWindow.cpp" line="580"/>
@@ -3979,7 +3980,7 @@ Sollen die Änderungen gespeichert werden?</translation>
     <message>
         <location filename="../CMainWindow.cpp" line="615"/>
         <source>&amp;Live Log</source>
-        <translation>&amp;Echtzeit-Aufzeichnung</translation>
+        <translation>&amp;Echtzeitaufzeichnung</translation>
     </message>
     <message>
         <location filename="../CMainWindow.cpp" line="620"/>
@@ -4057,12 +4058,12 @@ Sollen die Änderungen gespeichert werden?</translation>
     <message>
         <location filename="../CMap3D.cpp" line="163"/>
         <source>POV on track</source>
-        <translation>Beobachterstandpunkt auf Track</translation>
+        <translation>Beobachterpunkt auf Track</translation>
     </message>
     <message>
         <location filename="../CMap3D.cpp" line="180"/>
         <source>Help 3d</source>
-        <translation>Hilfe 3D</translation>
+        <translation>3D Hilfe</translation>
     </message>
     <message>
         <location filename="../CMap3D.cpp" line="439"/>
@@ -4175,7 +4176,7 @@ Sollen die Änderungen gespeichert werden?</translation>
     <message>
         <location filename="../CMapDB.cpp" line="171"/>
         <source>QLandkarte GT was terminated with a crash. This is really bad. A common reason for that is a bad map. Do you really want to load the last map?</source>
-        <translation>QLandkarte GT wurde mit einem Absturz beendet. Das ist wirklich schlecht. Üblicherweise passiert das aufgrund einer fehlerhaften Karte. Wollen Sie wirklich die letzte Karte wieder laden?</translation>
+        <translation>QLandkarte GT wurde mit einem Absturz beendet. Das ist wirklich schlecht. Üblicherweise passiert das aufgrund einer fehlerhaften Karte. Wollen Sie die letzte Karte wirklich wieder laden?</translation>
     </message>
     <message>
         <location filename="../CMapDB.cpp" line="550"/>
@@ -4187,7 +4188,7 @@ Sollen die Änderungen gespeichert werden?</translation>
     <message>
         <location filename="../CMapDB.cpp" line="550"/>
         <source>Only vector maps are valid overlays.</source>
-        <translation>Nur Verktorkarten sind gültige Overlays.</translation>
+        <translation>Nur Vektorkarten sind gültige Overlays.</translation>
     </message>
     <message>
         <location filename="../CMapDB.cpp" line="980"/>
@@ -4262,12 +4263,12 @@ Sollen die Änderungen gespeichert werden?</translation>
     <message>
         <location filename="../CMapEditWidget.cpp" line="54"/>
         <source>Convert a TIFF into GeoTiff by geo referencing it.</source>
-        <translation>Ein TIFF durch eigenes Setzen der Referenzpunkte in GeoTiff  umwandeln.</translation>
+        <translation>Ein TIFF durch Setzen von Referenzpunkten in GeoTiff  umwandeln.</translation>
     </message>
     <message>
         <location filename="../CMapEditWidget.cpp" line="66"/>
         <source>&lt;b style=&apos;color: red;&apos;&gt;Can&apos;t find the GDAL tools in your path. Make sure you have Installed GDAL and all related command line applications.&lt;/b&gt;</source>
-        <translation>&lt;b style=&apos;color: red;&apos;&gt;In Deinem Weg können keine GDAL-Instrumente gefunden werden. Bitte stelle sicher, dass DU GDAL und alle damit verbundenen Kommandozeilenprogramme installiert hast.&lt;/b&gt;</translation>
+        <translation>&lt;b style=&apos;color: red;&apos;&gt;Keine GDAL-Tools gefunden. Bitte stelle sicher, dass Du GDAL und alle damit verbundenen Kommandozeilenprogramme installiert hast.&lt;/b&gt;</translation>
     </message>
     <message>
         <location filename="../CMapEditWidget.cpp" line="70"/>
@@ -4281,7 +4282,7 @@ Sollen die Änderungen gespeichert werden?</translation>
     <message>
         <location filename="../CMapEditWidget.cpp" line="50"/>
         <source>Create map collection from existing geo-referenced files.</source>
-        <translation>Erzeuge Kartensammlung aus vorliegenden GeoTiff-Dateien.</translation>
+        <translation>Erzeuge eine Kartensammlung aus vorliegenden GeoTiff-Dateien.</translation>
     </message>
 </context>
 <context>
@@ -4297,7 +4298,7 @@ Sollen die Änderungen gespeichert werden?</translation>
     <message>
         <location filename="../CMapQMAPExport.cpp" line="1180"/>
         <source>Reduce color bands to 3 (RGB)...</source>
-        <translation>Reduziere Farbbänder auf 3 (RGB)...</translation>
+        <translation>Reduziere Farbkanäle auf 3 (RGB)...</translation>
     </message>
 </context>
 <context>
@@ -4313,7 +4314,7 @@ Sollen die Änderungen gespeichert werden?</translation>
     <message>
         <location filename="../CMapQMAPExport.cpp" line="1373"/>
         <source>Create Garmin Custom Map...</source>
-        <translation>Erstelle Garmin Custom Map...</translation>
+        <translation>Erstelle eine Garmin Custom Map...</translation>
     </message>
 </context>
 <context>
@@ -4359,7 +4360,7 @@ Sollen die Änderungen gespeichert werden?</translation>
     <message>
         <location filename="../CMapQMAPExport.cpp" line="1486"/>
         <source>Create GeoTiff from map cache...</source>
-        <translation>Erstelle GeoTiff aus dem Kartencache...</translation>
+        <translation>Erstelle ein GeoTiff aus dem Kartencache...</translation>
     </message>
 </context>
 <context>
@@ -4389,12 +4390,12 @@ Sollen die Änderungen gespeichert werden?</translation>
     <message>
         <location filename="../CMapGeoTiff.cpp" line="95"/>
         <source>File must be 8 bit palette or gray indexed.</source>
-        <translation>Datei muß 8 Bit-Farbpalette haben oder grau sein.</translation>
+        <translation>Datei muß 8 Bit-Farbpalette haben oder grau indiziert sein.</translation>
     </message>
     <message>
         <location filename="../CMapGeoTiff.cpp" line="122"/>
         <source>No georeference information found.</source>
-        <translation>Keine Georeferenzrinformationen gefunden.</translation>
+        <translation>Keine Georeferenzinformation gefunden.</translation>
     </message>
     <message>
         <location filename="../CMapGeoTiff.cpp" line="198"/>
@@ -4439,7 +4440,7 @@ Sollen die Änderungen gespeichert werden?</translation>
     <message>
         <location filename="../CMapJnx.cpp" line="252"/>
         <source>Area</source>
-        <translation>Fläche</translation>
+        <translation>Gebiet</translation>
     </message>
     <message>
         <location filename="../CMapJnx.cpp" line="253"/>
@@ -4459,7 +4460,7 @@ Sollen die Änderungen gespeichert werden?</translation>
     <message>
         <location filename="../CMapJnx.cpp" line="301"/>
         <source>#Tiles</source>
-        <translation>Kachel</translation>
+        <translation>#Kachel</translation>
     </message>
     <message>
         <location filename="../CMapJnx.cpp" line="301"/>
@@ -4618,7 +4619,7 @@ Abbruch durch Benutzer.</translation>
     <message>
         <location filename="../CMapQMAPExport.cpp" line="622"/>
         <source>Failed to read %1</source>
-        <translation>Lesen gescheitert %1</translation>
+        <translation>Lesen von %1gescheitert</translation>
     </message>
     <message>
         <location filename="../CMapQMAPExport.cpp" line="944"/>
@@ -4699,7 +4700,7 @@ Abbruch durch Benutzer.</translation>
         <location filename="../CMapRaster.cpp" line="60"/>
         <location filename="../CMapRaster.cpp" line="83"/>
         <source>File must be 8 bit palette or gray indexed.</source>
-        <translation>Datei muß 8 Bit-Farbpalette haben oder grau sein.</translation>
+        <translation>Datei muß 8 Bit-Farbpalette haben oder grau indiziert sein.</translation>
     </message>
     <message>
         <location filename="../CMapRaster.cpp" line="215"/>
@@ -4752,7 +4753,7 @@ Abbruch durch Benutzer.</translation>
     <message>
         <location filename="../CMapRmap.cpp" line="236"/>
         <source>Unknown projection and datum (%1%2).</source>
-        <translation>Unbekannte Projektion und Datum (%1%2)</translation>
+        <translation>Projektion und Datum unbekannt (%1%2).</translation>
     </message>
     <message>
         <location filename="../CMapRmap.cpp" line="636"/>
@@ -4776,7 +4777,7 @@ Abbruch durch Benutzer.</translation>
     <message>
         <location filename="../CMapRmp.cpp" line="176"/>
         <source>Failed to open: %1.</source>
-        <translation>Öfenen von %1 fehlgeschlagen</translation>
+        <translation>Öffnen von %1 fehlgeschlagen</translation>
     </message>
     <message>
         <location filename="../CMapRmp.cpp" line="193"/>
@@ -4794,7 +4795,7 @@ Abbruch durch Benutzer.</translation>
     <message>
         <location filename="../CMapSearchThread.cpp" line="89"/>
         <source>Error. This only works on a *.qmap map collection.</source>
-        <translation>Fehler. Das funktioniert nur bei einer *.qmap Kartensammlung.</translation>
+        <translation>Fehler. Das funktioniert nur mit einer *.qmap Kartensammlung.</translation>
     </message>
     <message>
         <location filename="../CMapSearchThread.cpp" line="124"/>
@@ -5048,7 +5049,7 @@ Abbruch durch Benutzer.</translation>
     <message>
         <location filename="../CMapTDB.cpp" line="968"/>
         <source>Portuguese</source>
-        <translation>Portugisisch</translation>
+        <translation>Portugiesisch</translation>
     </message>
     <message>
         <location filename="../CMapTDB.cpp" line="969"/>
@@ -5108,7 +5109,7 @@ Abbruch durch Benutzer.</translation>
     <message>
         <location filename="../CMapTDB.cpp" line="980"/>
         <source>Romanian</source>
-        <translation>Romänisch</translation>
+        <translation>Rumänisch</translation>
     </message>
     <message>
         <location filename="../CMapTDB.cpp" line="981"/>
@@ -5123,7 +5124,7 @@ Abbruch durch Benutzer.</translation>
     <message>
         <location filename="../CMapTDB.cpp" line="983"/>
         <source>Lithuanian</source>
-        <translation>Lithauisch</translation>
+        <translation>Litauisch</translation>
     </message>
     <message>
         <location filename="../CMapTDB.cpp" line="984"/>
@@ -5188,7 +5189,7 @@ Abbruch durch Benutzer.</translation>
     <message>
         <location filename="../CMapTDB.cpp" line="1052"/>
         <source>Unpaved road</source>
-        <translation>Nicht asphaltierte Straße</translation>
+        <translation>Unbefestigte Straße</translation>
     </message>
     <message>
         <location filename="../CMapTDB.cpp" line="1053"/>
@@ -5198,7 +5199,7 @@ Abbruch durch Benutzer.</translation>
     <message>
         <location filename="../CMapTDB.cpp" line="1054"/>
         <source>Roundabout</source>
-        <translation>Kreisel</translation>
+        <translation>Kreisverkehr</translation>
     </message>
     <message>
         <location filename="../CMapTDB.cpp" line="1055"/>
@@ -5249,7 +5250,7 @@ Abbruch durch Benutzer.</translation>
     <message>
         <location filename="../CMapTDB.cpp" line="1065"/>
         <source>River</source>
-        <translation>Fluß</translation>
+        <translation>Fluss</translation>
     </message>
     <message>
         <location filename="../CMapTDB.cpp" line="1066"/>
@@ -5264,12 +5265,12 @@ Abbruch durch Benutzer.</translation>
     <message>
         <location filename="../CMapTDB.cpp" line="1068"/>
         <source>Major land contour</source>
-        <translation>große Höhenlinie</translation>
+        <translation>Haupthöhenlinie</translation>
     </message>
     <message>
         <location filename="../CMapTDB.cpp" line="1069"/>
         <source>Minor depth contour</source>
-        <translation>Kleine Tiefenlinie</translation>
+        <translation>kleine Tiefenlinie</translation>
     </message>
     <message>
         <location filename="../CMapTDB.cpp" line="1159"/>
@@ -5288,11 +5289,12 @@ Abbruch durch Benutzer.</translation>
     <message>
         <location filename="../CMapTDB.cpp" line="1071"/>
         <source>Major depth contour</source>
-        <translation>große Tiefenlinie</translation>
+        <translation>Haupttiefenlinie</translation>
     </message>
     <message>
         <location filename="../CMapTDB.cpp" line="1072"/>
         <source>Intermittent stream</source>
+        <translatorcomment>?</translatorcomment>
         <translation>Wadi</translation>
     </message>
     <message>
@@ -5494,12 +5496,12 @@ Abbruch durch Benutzer.</translation>
     <message>
         <location filename="../CMapTDB.cpp" line="1188"/>
         <source>Intermittent water</source>
-        <translation>Wasser</translation>
+        <translation>intermittierendes Wasser</translation>
     </message>
     <message>
         <location filename="../CMapTDB.cpp" line="1189"/>
         <source>Wetland/Swamp</source>
-        <translation>Moor/Sumpf</translation>
+        <translation>Feuchtgebiet/Sumpf</translation>
     </message>
     <message>
         <location filename="../CMapTDB.cpp" line="1190"/>
@@ -5509,12 +5511,12 @@ Abbruch durch Benutzer.</translation>
     <message>
         <location filename="../CMapTDB.cpp" line="1191"/>
         <source>Orchard/Plantation</source>
-        <translation>Garten/Plantage</translation>
+        <translation>Obstgarten/Plantage</translation>
     </message>
     <message>
         <location filename="../CMapTDB.cpp" line="1192"/>
         <source>Scrub</source>
-        <translation>Büsche</translation>
+        <translation>Buschwerk</translation>
     </message>
     <message>
         <location filename="../CMapTDB.cpp" line="1193"/>
@@ -5539,12 +5541,12 @@ Abbruch durch Benutzer.</translation>
     <message>
         <location filename="../CMapTDB.cpp" line="1467"/>
         <source>&lt;p&gt;&lt;b&gt;However ...&lt;/b&gt;&lt;/p&gt;&lt;p&gt;as I can read the basemap, and the information from the *tdb file,&lt;br&gt;I am able to let you select the map tiles for upload. To do this I&lt;br/&gt;need the unlock key (25 digits) for this map, as it has to be uploaded&lt;br/&gt;to the unit together with the map.&lt;/p&gt;</source>
-        <translation>&lt;p&gt;&lt;b&gt;Wie auch immer ...&lt;/b&gt;&lt;/p&gt;&lt;p&gt;da ich die Basiskarte und die Information der *tdb Datei lesen kann,&lt;br&gt;kann ich Dich die Kartenkacheln für das Hochladen aussuchen lassen. Dafür &lt;br&gt; bauche ich Entsperrschlüssel (25 Zeichen) für die Karte. Dieser muss mit zusammen&lt;br/&gt;mit der Karte geladen werden.&lt;/p&gt;</translation>
+        <translation>&lt;p&gt;&lt;b&gt;Wie auch immer ...&lt;/b&gt;&lt;/p&gt;&lt;p&gt;da ich die Basiskarte und die Information der *tdb Datei lesen kann,&lt;br&gt;kannst Du die Kartenkacheln für das Hochladen aussuchen. Dafür &lt;br&gt; brauche ich den Entsperrschlüssel (25 Zeichen) für die Karte. Dieser muss zusammen&lt;br/&gt;mit der Karte geladen werden.&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../CMapTDB.cpp" line="1493"/>
         <source>&lt;p&gt;Failed to load file:&lt;/p&gt;&lt;p&gt;%1&lt;/p&gt;&lt;p&gt;However, if the basemap is still old format I am able to let you select the map tiles for upload&lt;/p&gt;</source>
-        <translation>&lt;p&gt;Konnte Datei nicht laden:&lt;/p&gt;&lt;p&gt;%1&gt;&lt;/p&gt;&lt;p&gt;Allerdings, wenn die Basiskarte im alten Format ist, ist es möglich Kacheln auszuwählen, um sie auf das Gerät zu laden.&lt;/p&gt;</translation>
+        <translation>&lt;p&gt;Konnte die Datei nicht laden:&lt;/p&gt;&lt;p&gt;%1&gt;&lt;/p&gt;&lt;p&gt;,Falls die Basiskarte im alten Format ist, ist es dennoch.möglich, Kacheln auszuwählen, um sie auf das Gerät zu laden.&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../CMapTDB.cpp" line="3164"/>
@@ -5575,7 +5577,7 @@ Abbruch durch Benutzer.</translation>
     <message>
         <location filename="../CMapTDB.cpp" line="1345"/>
         <source>Select Base Map for </source>
-        <translation>Basiskarte für  auswählen</translation>
+        <translation>Basiskarte auswählen für </translation>
     </message>
     <message>
         <location filename="../CMapTDB.cpp" line="1464"/>
@@ -5767,12 +5769,12 @@ Zeile %2, Spalte %3:
     <message>
         <location filename="../CMapToolWidget.cpp" line="143"/>
         <source>Magellan/RMP</source>
-        <translation></translation>
+        <translation>Magellan/RMP</translation>
     </message>
     <message>
         <location filename="../CMapToolWidget.cpp" line="148"/>
         <source>map stack/QMAP</source>
-        <translation>map stack/QMAP</translation>
+        <translation>Kartenstack/QMAP</translation>
     </message>
     <message>
         <location filename="../CMapToolWidget.cpp" line="154"/>
@@ -5797,7 +5799,7 @@ Zeile %2, Spalte %3:
     <message>
         <location filename="../CMapToolWidget.cpp" line="180"/>
         <source>selected map</source>
-        <translation>verwendete Karte</translation>
+        <translation>gewählte Karte</translation>
     </message>
     <message>
         <location filename="../CMapToolWidget.cpp" line="186"/>
@@ -5812,12 +5814,12 @@ Zeile %2, Spalte %3:
     <message>
         <location filename="../CMapToolWidget.cpp" line="476"/>
         <source>Error export maps...</source>
-        <translation>Fehler in der zu exportierenden Karte ...</translation>
+        <translation>Fehler beim exportieren der Karte ...</translation>
     </message>
     <message>
         <location filename="../CMapToolWidget.cpp" line="476"/>
         <source>You need to have the GDAL toolchain installed in your path.</source>
-        <translation>Die GDAL-Werkzeugkette muß in Deinem Pfad installiert sein.</translation>
+        <translation>Die GDAL-Werkzeugkette muß installiert sein.</translation>
     </message>
     <message>
         <location filename="../CMapToolWidget.cpp" line="496"/>
@@ -6169,7 +6171,7 @@ Zeile %2, Spalte %3:
     </message>
     <message>
         <source>Make elevations on the map higher as they are.</source>
-        <translation type="obsolete">Erhöhungen auf der Karte größer erscheinen lassen als sie sind.</translation>
+        <translation type="obsolete">Erhebungen auf der Karte größer erscheinen lassen als sie sind.</translation>
     </message>
     <message>
         <source>Dec. Elevation</source>
@@ -6177,7 +6179,7 @@ Zeile %2, Spalte %3:
     </message>
     <message>
         <source>Make elevations on the map lower as they are.</source>
-        <translation type="obsolete">Erhöhungen auf der Karte niedriger erscheinen lassen als sie sind.</translation>
+        <translation type="obsolete">Erhebungen auf der Karte niedriger erscheinen lassen als sie sind.</translation>
     </message>
     <message>
         <source>Lighting On/Off</source>
@@ -6359,7 +6361,7 @@ Zeile %2, Spalte %3:
         <location filename="../CMouseMoveMap.cpp" line="100"/>
         <location filename="../CMouseMoveMap.cpp" line="144"/>
         <source>Move map</source>
-        <translation>Karte bewegen</translation>
+        <translation>Karte verschieben</translation>
     </message>
     <message>
         <location filename="../CMouseMoveMap.cpp" line="197"/>
@@ -6379,7 +6381,7 @@ Zeile %2, Spalte %3:
     <message>
         <location filename="../CMouseMoveMap.cpp" line="207"/>
         <source>Move Waypoint</source>
-        <translation>Wegpunkt bewegen</translation>
+        <translation>Wegpunkt verschieben</translation>
     </message>
     <message>
         <location filename="../CMouseMoveMap.cpp" line="212"/>
@@ -6635,12 +6637,12 @@ Zeile %2, Spalte %3:
     <message>
         <location filename="../CPlot.cpp" line="1074"/>
         <source>Vertical zoom</source>
-        <translation>Vertikale Vergrößerung</translation>
+        <translation>Vertikales Zoom</translation>
     </message>
     <message>
         <location filename="../CPlot.cpp" line="1078"/>
         <source>Reset zoom</source>
-        <translation>Vergrößerung zurück setzen</translation>
+        <translation>Zoom zurücksetzen</translation>
     </message>
     <message>
         <location filename="../CPlot.cpp" line="1081"/>
@@ -6668,7 +6670,7 @@ Zeile %2, Spalte %3:
     <message>
         <location filename="../CResources.cpp" line="367"/>
         <source>You have to select a device in Setup-&gt;Config-&gt;Device &amp; Xfer</source>
-        <translation>Du mußt unter &apos;Einstellungen -&gt; allgemeine Einstellungen -&gt; Gerät &amp;  Datentransfer&apos; eine Gerät auswählen</translation>
+        <translation>Du mußt unter &apos;Einstellungen -&gt; allgemeine Einstellungen -&gt; Gerät &amp;  Datentransfer&apos; ein Gerät auswählen.</translation>
     </message>
 </context>
 <context>
@@ -6709,7 +6711,7 @@ Zeit:  </translation>
     <message>
         <location filename="../CRouteDB.cpp" line="197"/>
         <source>Unnamed</source>
-        <translation>KeinName</translation>
+        <translation>Unbenannt</translation>
     </message>
 </context>
 <context>
@@ -6761,7 +6763,7 @@ Länge: %1 %2</translation>
     <message>
         <location filename="../CRouteToolWidget.cpp" line="90"/>
         <source>Bicycle route</source>
-        <translation>Fahrradtour</translation>
+        <translation>Fahrradroute</translation>
     </message>
     <message>
         <location filename="../CRouteToolWidget.cpp" line="91"/>
@@ -6842,12 +6844,12 @@ Länge: %1 %2</translation>
     <message>
         <location filename="../CRouteToolWidget.cpp" line="106"/>
         <source>Portuguese (brazil)</source>
-        <translation>Portugisisch (Brasilien)</translation>
+        <translation>Portugiesisch (Brasilien)</translation>
     </message>
     <message>
         <location filename="../CRouteToolWidget.cpp" line="107"/>
         <source>Romanian</source>
-        <translation>Romänisch</translation>
+        <translation>Rumänisch</translation>
     </message>
     <message>
         <location filename="../CRouteToolWidget.cpp" line="108"/>
@@ -6899,47 +6901,47 @@ Länge: %1 %2</translation>
     <message>
         <location filename="../CRouteToolWidget.cpp" line="117"/>
         <source>de - Rhenish</source>
-        <translation>Rheinisch</translation>
+        <translation>de - Rheinisch</translation>
     </message>
     <message>
         <location filename="../CRouteToolWidget.cpp" line="118"/>
         <source>de - Op Platt</source>
-        <translation>Plattdeutsch</translation>
+        <translation>de - Plattdeutsch</translation>
     </message>
     <message>
         <location filename="../CRouteToolWidget.cpp" line="119"/>
         <source>de - Berlin dialect</source>
-        <translation>Berlinerisch</translation>
+        <translation>de - Berlinerisch</translation>
     </message>
     <message>
         <location filename="../CRouteToolWidget.cpp" line="120"/>
         <source>de - Swabian</source>
-        <translation>Schwäbisch</translation>
+        <translation>de - Schwäbisch</translation>
     </message>
     <message>
         <location filename="../CRouteToolWidget.cpp" line="121"/>
         <source>de - Ruhrpott</source>
-        <translation>Ruhrpott</translation>
+        <translation>de - Ruhrpott</translation>
     </message>
     <message>
         <location filename="../CRouteToolWidget.cpp" line="122"/>
         <source>de - great Austrian dialect</source>
-        <translation>Österreichisch</translation>
+        <translation>de - Österreichisch</translation>
     </message>
     <message>
         <location filename="../CRouteToolWidget.cpp" line="123"/>
         <source>de - Bavarian</source>
-        <translation>Bayerisch</translation>
+        <translation>de - Bayerisch</translation>
     </message>
     <message>
         <location filename="../CRouteToolWidget.cpp" line="129"/>
         <source>Pedestrian/pub. transp.</source>
-        <translation>Füßgänger/öffent. Verkehrsmittel</translation>
+        <translation>Fußgänger/öffentliche Verkehrsmittel</translation>
     </message>
     <message>
         <location filename="../CRouteToolWidget.cpp" line="132"/>
         <source>US English</source>
-        <translation>US English</translation>
+        <translation>US Englisch</translation>
     </message>
     <message>
         <location filename="../CRouteToolWidget.cpp" line="133"/>
@@ -7006,12 +7008,12 @@ Länge: %1 %2</translation>
     <message>
         <location filename="../CRouteToolWidget.cpp" line="688"/>
         <source>created from route</source>
-        <translation>von einer Route abgeleitet</translation>
+        <translation>aus einer Route rzeugt</translation>
     </message>
     <message>
         <location filename="../CRouteToolWidget.cpp" line="832"/>
         <source>Route request timed out. Please try again later.</source>
-        <translation>Routenanfrage dauert zu lange. Bitte später nocheinmal versuchen.</translation>
+        <translation>Routenanfrage dauert zu lange. Bitte später noch einmal versuchen.</translation>
     </message>
 </context>
 <context>
@@ -7338,7 +7340,7 @@ Ende: %1</translation>
     <message>
         <location filename="../CTrack.cpp" line="1504"/>
         <source>cadence: %1rpm</source>
-        <translation>Kadenz: %1rpm </translation>
+        <translation>Trittfrequenz: %1rpm </translation>
     </message>
     <message>
         <location filename="../CTrack.cpp" line="1539"/>
@@ -7410,9 +7412,9 @@ Ende: %1</translation>
         <source>You are trying to find waypoints along a track with %1 waypoints and a track of size %2. This can be a very time consuming operation. Go on?
 
 Your selection will be stored in the track&apos;s data. You can save it along with the data. To change the selection use the checkbox in the track edit dialog.</source>
-        <translation>Sie versuchen Wegpunkte entlang eines Tracks mit %1 Wegpunkten und eines Trackgröße von %2 zu finden. Das kann sehr lange dauern. Weiter?
+        <translation>Sie versuchen Wegpunkte entlang eines Tracks mit %1 Wegpunkten und einer Trackgröße von %2 zu finden. Das kann sehr lange dauern. Weiter?
 
-Ihre Auswahlt wird mit den Trackdaten gespeichert. Sie können sie mit den Trackdaten sichern. Bitte benützen Sie die Checkbox im Dialog zum Track editieren, um die Auswahl zu ändern </translation>
+Ihre Auswahl wird mit den Trackdaten zugefügt. Sie können sie mit den Trackdaten sichern. Bitte benützen Sie die Checkbox im Dialog Track editieren, um die Auswahl zu ändern.</translation>
     </message>
     <message>
         <location filename="../CTrack.cpp" line="1682"/>
@@ -7450,7 +7452,7 @@ Ihre Auswahlt wird mit den Trackdaten gespeichert. Sie können sie mit den Track
     <message>
         <location filename="../CTrackDB.cpp" line="1198"/>
         <source>Failed to copy track. You must select a track or track points of a track.</source>
-        <translation>Konnte nichts kopieren. Du musst einen Track oder Trackpunkte vorher auswählen.</translation>
+        <translation>Konnte nichts kopieren. Du musst vorher einen Track oder Trackpunkte auswählen.</translation>
     </message>
     <message>
         <location filename="../CTrackDB.cpp" line="1302"/>
@@ -7495,13 +7497,14 @@ Ihre Auswahlt wird mit den Trackdaten gespeichert. Sie können sie mit den Track
     <message>
         <location filename="../CTrackEditWidget.cpp" line="948"/>
         <source>Trainee</source>
+        <translatorcomment>?</translatorcomment>
         <translation>Trainee</translation>
     </message>
     <message>
         <location filename="../CTrackEditWidget.cpp" line="857"/>
         <location filename="../CTrackEditWidget.cpp" line="884"/>
         <source>Speed/Dist.</source>
-        <translation>Geschw./Distanz</translation>
+        <translation>Geschw./Entf.</translation>
     </message>
     <message>
         <location filename="../CTrackEditWidget.cpp" line="176"/>
@@ -7512,13 +7515,13 @@ Ihre Auswahlt wird mit den Trackdaten gespeichert. Sie können sie mit den Track
         <location filename="../CTrackEditWidget.cpp" line="864"/>
         <location filename="../CTrackEditWidget.cpp" line="895"/>
         <source>Dist./Time</source>
-        <translation>Dist./Zeit</translation>
+        <translation>Entf./Zeit</translation>
     </message>
     <message>
         <location filename="../CTrackEditWidget.cpp" line="869"/>
         <location filename="../CTrackEditWidget.cpp" line="906"/>
         <source>Profile/Dist.</source>
-        <translation>Profil/Distanz</translation>
+        <translation>Profil/Entf.</translation>
     </message>
     <message>
         <location filename="../CTrackEditWidget.cpp" line="921"/>
@@ -7533,7 +7536,7 @@ Ihre Auswahlt wird mit den Trackdaten gespeichert. Sie können sie mit den Track
     <message>
         <location filename="../CTrackEditWidget.cpp" line="1243"/>
         <source>You are about to remove hidden track points permanently. If you press &apos;yes&apos;, all information will be lost.</source>
-        <translation>Sie sind gerade dabei Trackpunkte permanent zu entfernen. Wenn Sie &apos;Ja&apos; drücken wird diese Information verloren sein.</translation>
+        <translation>Sie sind im Begriff, Trackpunkte permanent zu entfernen. Wenn Sie &apos;Ja&apos; drücken wird diese Information verloren sein.</translation>
     </message>
     <message>
         <location filename="../CTrackEditWidget.cpp" line="1496"/>
@@ -7543,6 +7546,7 @@ Ihre Auswahlt wird mit den Trackdaten gespeichert. Sie können sie mit den Track
     <message>
         <location filename="../CTrackEditWidget.cpp" line="1497"/>
         <source>Prox.</source>
+        <translatorcomment>? Abstand</translatorcomment>
         <translation>Alarm</translation>
     </message>
     <message>
@@ -7701,7 +7705,7 @@ Auf/Ab</translation>
     <message>
         <location filename="../CTrackEditWidget.cpp" line="453"/>
         <source>no extensions elements in this file</source>
-        <translation>keine extensions Elemente in dieser Datei</translation>
+        <translation>keine Extensions Elemente in dieser Datei</translation>
     </message>
 </context>
 <context>
@@ -7875,7 +7879,7 @@ Auf/Ab</translation>
         <location filename="../CTrackStatTraineeWidget.cpp" line="31"/>
         <location filename="../CTrackStatTraineeWidget.cpp" line="64"/>
         <source>heart rate [bpm]</source>
-        <translation>Puls [bpm]</translation>
+        <translation>Herzfrequenz [bpm]</translation>
     </message>
 </context>
 <context>
@@ -7987,7 +7991,7 @@ Ende: %1</translation>
         <location filename="../CTrackToolWidget.cpp" line="274"/>
         <location filename="../CTrackToolWidget.cpp" line="387"/>
         <source>You have to select a track first.</source>
-        <translation>Zuerst muss ein Track ausgewählt werden. </translation>
+        <translation>Zuerst muss ein Track ausgewählt werden.</translation>
     </message>
     <message>
         <location filename="../CTrackToolWidget.cpp" line="258"/>
@@ -8008,7 +8012,7 @@ Ende: %1</translation>
     <message>
         <location filename="../CTrackToolWidget.cpp" line="352"/>
         <source>created from track</source>
-        <translation>Von einem Track abgeleitet.</translation>
+        <translation>aus einem Track erstellt</translation>
     </message>
 </context>
 <context>
@@ -8031,12 +8035,12 @@ Ende: %1</translation>
     <message>
         <location filename="../CWpt.cpp" line="549"/>
         <source>Parent: %1</source>
-        <translation>Vater: %1</translation>
+        <translation>Vorgänger: %1</translation>
     </message>
     <message>
         <location filename="../CWpt.cpp" line="1137"/>
         <source>No additional information.</source>
-        <translation>Keine weitere Information</translation>
+        <translation>Keine weitere Information.</translation>
     </message>
     <message>
         <location filename="../CWpt.cpp" line="1144"/>
@@ -8075,12 +8079,12 @@ Ende: %1</translation>
     <message>
         <location filename="../CWptDB.cpp" line="1298"/>
         <source>Unable to find libexif.so.</source>
-        <translation>Die Datei libexif-.so konnte nicht gefunden werden.</translation>
+        <translation>Die Datei libexif.so konnte nicht gefunden werden.</translation>
     </message>
     <message>
         <location filename="../CWptDB.cpp" line="1371"/>
         <source>Reference pictures by timestamp.</source>
-        <translation>Bilder über die Zeitmarke referenzieren.</translation>
+        <translation>Bilder mittels Zeitmarke referenzieren.</translation>
     </message>
     <message>
         <source>Select path...</source>
@@ -8118,12 +8122,13 @@ Ende: %1</translation>
     <message>
         <location filename="../CWptToolWidget.cpp" line="61"/>
         <source>Icon ...</source>
-        <translation>Ikone ...</translation>
+        <translation>Symbol ...</translation>
     </message>
     <message>
         <location filename="../CWptToolWidget.cpp" line="62"/>
         <source>Parent Waypoint ...</source>
-        <translation>Hauptwegpunkt</translation>
+        <translatorcomment>?</translatorcomment>
+        <translation>Vorgängerwegpunkt</translation>
     </message>
     <message>
         <location filename="../CWptToolWidget.cpp" line="64"/>
@@ -8168,12 +8173,12 @@ Ende: %1</translation>
     <message>
         <location filename="../CWptToolWidget.cpp" line="60"/>
         <source>Proximity ...</source>
-        <translation>Abstandswarnung ...</translation>
+        <translation>Abstand ...</translation>
     </message>
     <message>
         <location filename="../CWptToolWidget.cpp" line="412"/>
         <source>Distance [%1]</source>
-        <translation>Distanz [%1]</translation>
+        <translation>Abstand [%1]</translation>
     </message>
     <message>
         <location filename="../CWptToolWidget.cpp" line="429"/>
@@ -8385,7 +8390,7 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;The hypothetical commands `show w&apos; and `show c&apos; should show the appropriate parts of the General Public License. Of course, your program&apos;s commands might be different; for a GUI interface, you would use an “about box”. &lt;/p&gt;
 &lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;You should also get your employer (if you work as a programmer) or school, if any, to sign a “copyright disclaimer” for the program, if necessary. For more information on this, and how to apply and follow the GNU GPL, see &amp;lt;&lt;a href=&quot;http://www.gnu.org/licenses/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0057ae;&quot;&gt;http://www.gnu.org/licenses/&lt;/span&gt;&lt;/a&gt;&amp;gt;. &lt;/p&gt;
 &lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;The GNU General Public License does not permit incorporating your program into proprietary programs. If your program is a subroutine library, you may consider it more useful to permit linking proprietary applications with the library. If this is what you want to do, use the GNU Lesser General Public License instead of this License. But first, please read &amp;lt;&lt;a href=&quot;http://www.gnu.org/philosophy/why-not-lgpl.html&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0057ae;&quot;&gt;http://www.gnu.org/philosophy/why-not-lgpl.html&lt;/span&gt;&lt;/a&gt;&amp;gt;. &lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -8413,7 +8418,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../ICreateMapFineTune.ui" line="73"/>
         <source>Control</source>
-        <translation>Bewegung</translation>
+        <translation>Verschieben</translation>
     </message>
     <message>
         <location filename="../ICreateMapFineTune.ui" line="103"/>
@@ -8431,7 +8436,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../ICreateMapFineTune.ui" line="180"/>
         <source>Load a referenced file together with waypoints or tracks. You can move the map until it fits best all overlay elements. Finally you can save a copy of the file with the new offset.</source>
-        <translation>Lade zuerst eine referenzierte Date, zusammen mit Wegepunkten und Tracks. Du kannst die Karte dann so verschieben, bis sie mit allen überlagerten Elementen am besten übereinstimmt. Zum Schluß kannst Du eine Koipe mit dem neuen Versatz abspeichern.</translation>
+        <translation>Lade zuerst eine referenzierte Datei, zusammen mit Wegpunkten und Tracks. Du kannst die Karte dann so verschieben, bis sie mit allen überlagerten Elementen am besten übereinstimmt. Zum Schluß kannst Du eine Kopie mit dem neuen Versatz abspeichern.</translation>
     </message>
 </context>
 <context>
@@ -8483,7 +8488,7 @@ p, li { white-space: pre-wrap; }
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;URW Gothic L&apos;; font-size:9pt; font-weight:200; font-style:normal;&quot;&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Projection Wizard&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;p, li { white-space: pre-wrap; }&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;URW Gothic L&apos;; font-size:9pt; font-weight:200; font-style:normal;&quot;&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Projektionassistent&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+        <translation>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;p, li { white-space: pre-wrap; }&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;URW Gothic L&apos;; font-size:9pt; font-weight:200; font-style:normal;&quot;&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Projektionsassistent&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../ICreateMapGeoTiff.ui" line="164"/>
@@ -8505,7 +8510,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../ICreateMapGeoTiff.ui" line="357"/>
         <source>label</source>
-        <translation>Kennzeichnung</translation>
+        <translation>Label</translation>
     </message>
     <message>
         <location filename="../ICreateMapGeoTiff.ui" line="362"/>
@@ -8563,7 +8568,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../ICreateMapGeoTiff.ui" line="311"/>
         <source>Ref. projection</source>
-        <translation>Referenzpunkteprojektion</translation>
+        <translation>Referenzpunktprojektion</translation>
     </message>
     <message>
         <location filename="../ICreateMapGeoTiff.ui" line="191"/>
@@ -8592,7 +8597,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../ICreateMapGeoTiff.ui" line="152"/>
         <source>Projection Wizard</source>
-        <translation>Projektionsbaukasten</translation>
+        <translation>Projektionsassistent</translation>
     </message>
     <message>
         <location filename="../ICreateMapGeoTiff.ui" line="200"/>
@@ -8627,7 +8632,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../ICreateMapGeoTiff.ui" line="513"/>
         <source>Process</source>
-        <translation>Pozess</translation>
+        <translation>Prozess</translation>
     </message>
     <message>
         <location filename="../ICreateMapGeoTiff.ui" line="585"/>
@@ -8641,7 +8646,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../ICreateMapGeoTiff.ui" line="453"/>
         <source>Use the n and b key to step between reference points while fine tuning the points on the map.</source>
-        <translation>Benütze die n und b Taste um zwischen den Referenzpunkten umzuschalten, während Du Punkte auf der Karte genau positionierst.</translation>
+        <translation>Benütze die n und b Taste um zwischen den Referenzpunkten umzuschalten, während Du die Punkte auf der Karte genau positionierst.</translation>
     </message>
     <message>
         <location filename="../ICreateMapGeoTiff.ui" line="405"/>
@@ -8710,7 +8715,7 @@ Oder aber, Du hast Dich bereits dafür entschieden, existierende Referenzpunkte 
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;URW Gothic L&apos;; font-size:9pt; font-weight:200; font-style:normal;&quot;&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Projection Wizard&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;p, li { white-space: pre-wrap; }&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;URW Gothic L&apos;; font-size:9pt; font-weight:200; font-style:normal;&quot;&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Projection Wizard&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+        <translation>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;p, li { white-space: pre-wrap; }&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;URW Gothic L&apos;; font-size:9pt; font-weight:200; font-style:normal;&quot;&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Projektionsassistent&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <source>...</source>
@@ -8739,7 +8744,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../ICreateMapGridTool.ui" line="245"/>
         <source>Did you notice the orange rectangle at the border of your map? The calculated reference points will be inside this rectangle. You can move the lines with your mouse to limit the area. This comes very handy if you have maps with more than on UTM zone. You apply the grid tool to the one zone first. And in a second run to the other.</source>
-        <translation>Ist Ihnen das orange Rechteck am Rande der Karte aufgefallen? Die berechneten Referenzpunkte werden innerhalb diese Rechtecks sein. Sie können die Linien mit ihrer Maus verschieben um das Gebiet einzugrenzen. Das ist sehr praktisch bei Karten, die sich über mehrere UTM Zonen erstecken. Sie wenden das Grid Tool auf die erste Zone an. Und dann auf die Zweite.</translation>
+        <translation>Ist Ihnen das orange Rechteck am Rande der Karte aufgefallen? Die berechneten Referenzpunkte werden innerhalb diese Rechtecks sein. Sie können die Linien mit ihrer Maus verschieben um das Gebiet einzugrenzen. Das ist sehr praktisch bei Karten, die sich über mehrere UTM Zonen erstecken. Sie wenden das Gitterwerkzeug auf die erste Zone an und danach auf die andere.</translation>
     </message>
     <message>
         <source>Step 2c: Create grid</source>
@@ -8864,7 +8869,7 @@ unten/rechts</translation>
     <message>
         <location filename="../ICreateMapQMAP.ui" line="102"/>
         <source>Open existing *.qmap definition</source>
-        <translation></translation>
+        <translation>Öffne eine vorhandene *.qmap Definition</translation>
     </message>
     <message>
         <location filename="../ICreateMapQMAP.ui" line="105"/>
@@ -8879,7 +8884,7 @@ unten/rechts</translation>
     <message>
         <location filename="../ICreateMapQMAP.ui" line="112"/>
         <source>Create new *.qmap definition</source>
-        <translation>Eine neue *.qmap Kartensammlung erzeigen</translation>
+        <translation>Eine neue *.qmap Definition erzeugen</translation>
     </message>
     <message>
         <location filename="../ICreateMapQMAP.ui" line="144"/>
@@ -9011,7 +9016,7 @@ Once you created a map set you can attach DEM data to it via the context menu in
     <message>
         <location filename="../ICreateMapWMS.ui" line="69"/>
         <source>Projection</source>
-        <translation>Projektion</translation>
+        <translation>Projektion:</translation>
     </message>
     <message>
         <location filename="../ICreateMapWMS.ui" line="79"/>
@@ -9059,7 +9064,7 @@ Once you created a map set you can attach DEM data to it via the context menu in
     <message>
         <location filename="../IDevice.cpp" line="94"/>
         <source>Your device does not support live log.</source>
-        <translation>Ihr Gerät unterstützt keine Echtzeit-Aufnahme.</translation>
+        <translation>Ihr Gerät unterstützt keine Echtzeitaufzeichnung.</translation>
     </message>
 </context>
 <context>
@@ -9094,7 +9099,7 @@ Once you created a map set you can attach DEM data to it via the context menu in
     <message>
         <location filename="../IDiaryEdit.ui" line="125"/>
         <source>Reload</source>
-        <translation>Erbeut laden</translation>
+        <translation>Erneut laden</translation>
     </message>
     <message>
         <location filename="../IDiaryEdit.ui" line="135"/>
@@ -9191,7 +9196,51 @@ p, li { white-space: pre-wrap; }
 &lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;down: move light source south&lt;/span&gt;&lt;/p&gt;
 &lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;left: move light source west&lt;/span&gt;&lt;/p&gt;
 &lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;right: move light source east&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation></translation>
+        <translation>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Sans Serif&apos;; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;Steuerung der 3D-Ansicht&lt;/span&gt;&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:10pt; font-weight:600;&quot;&gt;&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Die Ansicht und der Beobachterpunkt (POV) werden durch verschiedene Tasten zusammen mit Mausbewegungen verändert. &lt;/span&gt;&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:10pt;&quot;&gt;&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;FPV/Drehen:&lt;/span&gt;&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Es gibt grundsätzlich zwei Modi: Die Ich-Perspektive (FPV) und den Rotationsmodus (Drehen). Im FPV-Modus bewegt sich der Beobachterpunkt (POV) frei auf dem Bildschirm. Im Rotationsmodus kreist der Beobachterpunkt um das Zentrum der Karte.&lt;/span&gt;&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:10pt;&quot;&gt;&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;Track Modus:&lt;/span&gt;&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Im Track-Modus ist der Beobachterpunkt (POV) an die Punkte eines ausgewählten Tracks gekoppelt. Sie können die &apos;W&apos;- und &apos;S&apos;-Tasten verwenden, um sich entlang des Tracks zu bewegen. Bewegen Sie die Maus, während Sie die linke Maustaste gedrückt halten, um sich umzusehen.&lt;/span&gt;&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:10pt;&quot;&gt;&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;Maus:&lt;/span&gt;&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Sie können Ihren Beobachterstandpunkt mit Mausbewegungen steuern. Die linke Maustaste muss dabei gedrückt gehalten werden. Bewegen der Maus nach oben und unten lässt den Beobachter nach oben bzw. unten blicken. Die Reaktion auf Bewegungen nach links bzw. rechts hängt vom Modus ab:&lt;/span&gt;&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:10pt;&quot;&gt;&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;FPV: Der Beobachterpunkt dreht sich um seine Achse. Rotationsmodus: Die gesamte Ansicht dreht sich.&lt;/span&gt;&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:10pt;&quot;&gt;&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;Mausrad:&lt;/span&gt;&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Mit dem Mausrad können Sie die gesamte Ansicht vergrößern bzw. verkleinern. Wenn Sie beim Rollen die Umschalt-Taste gedrückt halten, ändert sich nur die Höhe der 3D-Ansicht..&lt;/span&gt;&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:10pt;&quot;&gt;&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Sie können auch die Tastatur nutzen:&lt;/span&gt;&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;strg + +:Ansicht vergößern&lt;/span&gt;&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;strg + -:Ansicht verkleinern&lt;/span&gt;&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;shift + +: Erhebung vergrößern&lt;/span&gt;&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;shift + -: Erhebung verkleinern&lt;/span&gt;&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:10pt;&quot;&gt;&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;Tastaturbefehle:&lt;/span&gt;&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Sie können Ihren Beobachterpunkt in der Ansicht mit Tastaturbefehlen verändern. Dies ist unabhängig vom gewählten Modus.&lt;/span&gt;&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:10pt;&quot;&gt;&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;w: vorwärts bewegen&lt;/span&gt;&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;s: rückwärts bewegen&lt;/span&gt;&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;a: nach links bewegen&lt;/span&gt;&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;d: nach rechts bewegen&lt;/span&gt;&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;shift + w: nach oben bewegen&lt;/span&gt;&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;shift + s: nach unten bewegen&lt;/span&gt;&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:10pt;&quot;&gt;&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;Lichtquelle:&lt;/span&gt;&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Um die Lichtquelle zu bewegen, muss die &apos;L&apos;-Taste und die linke Maustaste gedrückt gehalten werden, während die Maus bewegt wird.&lt;/span&gt;&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:10pt;&quot;&gt;&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;oben: bewegt Lichtquelle nach Norden&lt;/span&gt;&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;unten: bewegt Lichtquelle nach Süden&lt;/span&gt;&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;links: bewegt Lichtquelle nach Westen&lt;/span&gt;&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;rechts: bewegt Lichtquelle nach Osten&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
@@ -9359,7 +9408,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../IDlgCombineDistOvl.ui" line="14"/>
         <source>Combine Overlays ...</source>
-        <translation>Verbinde Overlays</translation>
+        <translation>Verbinde Overlays ...</translation>
     </message>
     <message>
         <location filename="../IDlgCombineDistOvl.ui" line="36"/>
@@ -9420,7 +9469,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../IDlgCombineTracks.ui" line="38"/>
         <source>Sort by timestamp</source>
-        <translation>Nach Zeitstempel ordnen</translation>
+        <translation>Nach Zeitmarke ordnen</translation>
     </message>
     <message>
         <location filename="../IDlgCombineTracks.ui" line="54"/>
@@ -9463,7 +9512,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../IDlgCombineTracks.ui" line="146"/>
         <source>New Track Name</source>
-        <translation>Neuer Trackname</translation>
+        <translation>Neuer Name</translation>
     </message>
     <message>
         <location filename="../IDlgCombineTracks.ui" line="153"/>
@@ -9509,7 +9558,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../IDlgConfig.ui" line="49"/>
         <source>Waypoint text color</source>
-        <translation>Farbe für Wegpunkttext</translation>
+        <translation>Farbe des Wegpunkttextes</translation>
     </message>
     <message>
         <location filename="../IDlgConfig.ui" line="84"/>
@@ -9549,12 +9598,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../IDlgConfig.ui" line="182"/>
         <source>The scale bar in the bottom right corner</source>
-        <translation>Die Skala unten rechts</translation>
+        <translation>Der Maßstab unten rechts</translation>
     </message>
     <message>
         <location filename="../IDlgConfig.ui" line="185"/>
         <source>Show scale</source>
-        <translation>Zeige Skala</translation>
+        <translation>Maßstab</translation>
     </message>
     <message>
         <location filename="../IDlgConfig.ui" line="192"/>
@@ -9569,12 +9618,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../IDlgConfig.ui" line="202"/>
         <source>The profile graph for the active track in the bottom left corner</source>
-        <translation>Das Profil des aktiven Tracks in der unteren linken Ecke</translation>
+        <translation>Die Profilvoransicht des aktiven Tracks in der unteren linken Ecke</translation>
     </message>
     <message>
         <location filename="../IDlgConfig.ui" line="205"/>
         <source>Show track profile preview</source>
-        <translation>Zeige Trackprofil</translation>
+        <translation>Trackprofilvoransicht</translation>
     </message>
     <message>
         <source>Show Hmin, Hmax and Vmax on the active track</source>
@@ -9587,7 +9636,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../IDlgConfig.ui" line="212"/>
         <source>Show information as tooltip for items under cursor in vector maps.</source>
-        <translation>Zeige Informationen als Tooltip in Vektorkarten.</translation>
+        <translation>Zeige Informationen als Tooltip für Objekte unter dem Cursor in Vektorkarten.</translation>
     </message>
     <message>
         <location filename="../IDlgConfig.ui" line="215"/>
@@ -9602,7 +9651,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../IDlgConfig.ui" line="242"/>
         <source>Show zoom level</source>
-        <translation>Zeige Zoomlevel</translation>
+        <translation>Zoomlevel</translation>
     </message>
     <message>
         <location filename="../IDlgConfig.ui" line="229"/>
@@ -9617,7 +9666,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../IDlgConfig.ui" line="222"/>
         <source>Reduce POI icons (vector maps)</source>
-        <translation>Reduziere POI Ikonen (Vektorkarten)</translation>
+        <translation>Reduziere POI Symbole (Vektorkarten)</translation>
     </message>
     <message>
         <location filename="../IDlgConfig.ui" line="114"/>
@@ -9642,12 +9691,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../IDlgConfig.ui" line="249"/>
         <source>Show track elevation info</source>
-        <translation>Zeige die Höheninformation bei Tracks</translation>
+        <translation>Höheninformation der Tracks</translation>
     </message>
     <message>
         <location filename="../IDlgConfig.ui" line="256"/>
         <source>Show clock</source>
-        <translation>Zeige Uhr</translation>
+        <translation>Uhr</translation>
     </message>
     <message>
         <location filename="../IDlgConfig.ui" line="280"/>
@@ -9657,7 +9706,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../IDlgConfig.ui" line="333"/>
         <source>Streaming Map Cache</source>
-        <translation>Netzkartencache</translation>
+        <translation>Onlinekartencache</translation>
     </message>
     <message>
         <location filename="../IDlgConfig.ui" line="347"/>
@@ -9763,22 +9812,22 @@ p, li { white-space: pre-wrap; }
 &lt;td&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Alt + Pfeil rechts&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;
 &lt;td&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;	Kartenansicht nach Osten bewegen&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;	Kartenansicht nach Osten verschieben&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Alt + Pfeil links&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;
 &lt;td&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;	Kartenansicht nach Westen bewegen&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;	Kartenansicht nach Westen verschieben&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Alt + Pfeil hoch&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;
 &lt;td&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;	Kartenansicht nach Norden bewegen&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;	Kartenansicht nach Norden verschieben&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Alt + Pfeil runter&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;
 &lt;td&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;	Kartenansicht nach Süden bewegen&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;	Kartenansicht nach Süden verschieben&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;+&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;
@@ -9794,7 +9843,7 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Mausrad		Vergrößern / verkleinern&lt;/span&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Linke Maustaste	Auswählen&lt;/span&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Rechte Maustaste	Kontextmenü&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Alt+Mausbewegung	Karte bewegen&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Alt+Mausbewegung	Karte verschieben&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <source>You have to restart QLandkarte GT to make the change taking effect.</source>
@@ -9825,7 +9874,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../IDlgConfig.ui" line="608"/>
         <source>You have to restart QLandkarte GT to make the database changes taking effect.</source>
-        <translation>QLandkarte GT muss neu gestartet werden, damit Änderungen an der Datenbank wirksam werden.</translation>
+        <translation>QLandkarte GT muss neu gestartet werden, damit die Änderungen an der Datenbank wirksam werden.</translation>
     </message>
     <message>
         <location filename="../IDlgConfig.ui" line="292"/>
@@ -9880,12 +9929,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../IDlgConfig.ui" line="635"/>
         <source>Device &amp;&amp; Xfer</source>
-        <translation>Gerät &amp;&amp;  Datentransfer</translation>
+        <translation>Gerät &amp;&amp; Datentransfer</translation>
     </message>
     <message>
         <location filename="../IDlgConfig.ui" line="641"/>
         <source>Select the device you want to setup.</source>
-        <translation>Wähle ein Gerät aus</translation>
+        <translation>Wähle das zu konfigurierende Gerät aus.</translation>
     </message>
     <message>
         <location filename="../IDlgConfig.ui" line="651"/>
@@ -9900,12 +9949,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../IDlgConfig.ui" line="672"/>
         <source>If your device is accessed by TCP/IP you can give a hard coded address. Leave blank for &quot;QLandkarte M&quot; as the driver will query the device by UDP broadcast.</source>
-        <translation>Wenn dein Gerät über TCP/IP angesprochen wird, kannst Du eine Adresse angeben. Für &quot;QLandkarte M&quot; kannst Du das Feld frei lassen, weil der Treiber das Gerät über UDB Broadcast sucht.</translation>
+        <translation>Wenn dein Gerät über TCP/IP angesprochen wird, kannst Du eine Adresse angeben. Für &quot;QLandkarte M&quot; lasse das Feld frei, weil der Treiber das Gerät über UDB Broadcast sucht.</translation>
     </message>
     <message>
         <location filename="../IDlgConfig.ui" line="692"/>
         <source>Add TCP/IP port for Device. Set to 0 for &quot;QLandkarte M&quot;.</source>
-        <translation>Gebe den TCP/IP Port für dein Gerät an. Der Port für &quot;QLandkarte M&quot; is 0.</translation>
+        <translation>Gib den TCP/IP Port für dein Gerät ein. Der Port für &quot;QLandkarte M&quot; ist 0.</translation>
     </message>
     <message>
         <location filename="../IDlgConfig.ui" line="695"/>
@@ -9920,7 +9969,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../IDlgConfig.ui" line="717"/>
         <source>Pass something like &quot;/dev/ttyS0&quot; or &quot;/dev/rfcomm0&quot; for serial Garmin devices or NMEA devices. For Garmin USB devices leave blank.</source>
-        <translation>Übergebe etwas wie &quot;/devttyS0&quot; oder &quot;/dev/rfcomm0&quot; für serielle Garmin Geräte oder NMEA Geräte. Lass das Feld für Garmins USB Geräte frei.</translation>
+        <translation>Übergebe etwas wie &quot;/devttyS0&quot; oder &quot;/dev/rfcomm0&quot; für serielle Garmin Geräte oder NMEA Geräte. Lass das Feld für USB Geräte von Garmin frei.</translation>
     </message>
     <message>
         <location filename="../IDlgConfig.ui" line="727"/>
@@ -9940,7 +9989,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../IDlgConfig.ui" line="759"/>
         <source>Select your Garmin device from list. If your device is not supported use &quot;whatGarmin&quot; and download waypoints to create a protocol query.</source>
-        <translation>Wähle dein Garmin Gerät aus der Liste aus. Wenn dein Gerät nicht dabei ist, wähle &quot;whatGarmin&quot; und läde Wegpunkte um einen Auszug der verwendeten Protokolle zu erhalten.</translation>
+        <translation>Wähle dein Garmin Gerät aus der Liste aus. Wenn dein Gerät nicht dabei ist, wähle &quot;whatGarmin&quot; und lade Wegpunkte um einen Auszug der verwendeten Protokolle zu erhalten.</translation>
     </message>
     <message>
         <source>Select your Garmin device form list. If your device is not supported use &quot;whatGarmin&quot; and download waypoints to create a protocoll query.</source>
@@ -9954,12 +10003,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../IDlgConfig.ui" line="795"/>
         <source>Define custom icons for Garmin Devices.</source>
-        <translation>Definiere eigene Ikonen für Garmin Geräte.</translation>
+        <translation>Definiere eigene Symbole für Garmin Geräte.</translation>
     </message>
     <message>
         <location filename="../IDlgConfig.ui" line="798"/>
         <source>Customize Waypoint Icons...</source>
-        <translation>Benutzerspezifische Ikonen für Wegpunkte...</translation>
+        <translation>Benutzerspezifische Symbole für Wegpunkte...</translation>
     </message>
     <message>
         <location filename="../IDlgConfig.ui" line="824"/>
@@ -10032,7 +10081,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../IDlgConfig3D.ui" line="14"/>
         <source>3D View Options...</source>
-        <translation>Optionen 3D-Ansicht...</translation>
+        <translation>3D-Ansicht Optionen...</translation>
     </message>
     <message>
         <location filename="../IDlgConfig3D.ui" line="29"/>
@@ -10042,7 +10091,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../IDlgConfig3D.ui" line="39"/>
         <source>Couple Elevation/POV</source>
-        <translation>Beobachterstandpunkt mit Höhe koppeln</translation>
+        <translation>Beobachterpunkt mit Höhe koppeln</translation>
     </message>
 </context>
 <context>
@@ -10055,7 +10104,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../IDlgConvertToTrack.ui" line="29"/>
         <source>Select interval to place additional trackpoints. &quot;none&quot; will just use the available points.</source>
-        <translation>Wähle das Intervall für weitere Trackpunkte aus. Bei &quot;Keine&quot; werden nur die aktuellen Punkte benutzt.</translation>
+        <translation>Wähle das Intervall für zusätzliche Trackpunkte aus. Bei &quot;Keine&quot; werden nur die aktuellen Punkte benutzt.</translation>
     </message>
     <message>
         <location filename="../IDlgConvertToTrack.ui" line="42"/>
@@ -10075,7 +10124,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../IDlgConvertToTrack.ui" line="75"/>
         <source>Username:</source>
-        <translation>Benutzer:</translation>
+        <translation>Benutzername:</translation>
     </message>
 </context>
 <context>
@@ -10190,7 +10239,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../IDlgDeviceExportPath.ui" line="30"/>
         <source>Select a sub-directory from above or enter a new one</source>
-        <translation>Es muss ein Unterverzeichnis von oben gewählt, oder ein neues eingegeben werden.</translation>
+        <translation>Es muss oben ein Unterverzeichnis gewählt, oder ein neues eingegeben werden.</translation>
     </message>
 </context>
 <context>
@@ -10266,12 +10315,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../IDlgEditMapLevel.ui" line="109"/>
         <source>Move file up in list</source>
-        <translation>Dateien in der Liste nach oben schieben</translation>
+        <translation>Datei in der Liste nach oben schieben</translation>
     </message>
     <message>
         <location filename="../IDlgEditMapLevel.ui" line="122"/>
         <source>Move file down in list</source>
-        <translation>Dateien in der Liste nach unten schieben</translation>
+        <translation>Datei in der Liste nach unten schieben</translation>
     </message>
     <message>
         <source>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
@@ -10354,124 +10403,125 @@ p, li { white-space: pre-wrap; }
         <translation>Wegpunkt bearbeiten ...</translation>
     </message>
     <message>
-        <location filename="../IDlgEditWpt.ui" line="32"/>
+        <location filename="../IDlgEditWpt.ui" line="39"/>
         <source>Data</source>
         <translation>Daten</translation>
     </message>
     <message>
-        <location filename="../IDlgEditWpt.ui" line="40"/>
+        <location filename="../IDlgEditWpt.ui" line="47"/>
         <source>Symbol &amp; Name</source>
         <translation>Symbol &amp; Name</translation>
     </message>
     <message>
-        <location filename="../IDlgEditWpt.ui" line="52"/>
+        <location filename="../IDlgEditWpt.ui" line="59"/>
         <source>Parent waypoint. Attach this waypoint to a geocache.</source>
-        <translation>Hauptwegpunkt</translation>
+        <translatorcomment>?</translatorcomment>
+        <translation>Hauptwegpunkt. Diesen Wegpunkt einem Geocache zufügen.</translation>
     </message>
     <message>
-        <location filename="../IDlgEditWpt.ui" line="65"/>
-        <location filename="../IDlgEditWpt.ui" line="262"/>
-        <location filename="../IDlgEditWpt.ui" line="455"/>
+        <location filename="../IDlgEditWpt.ui" line="72"/>
+        <location filename="../IDlgEditWpt.ui" line="269"/>
+        <location filename="../IDlgEditWpt.ui" line="462"/>
         <source>...</source>
         <translation>...</translation>
     </message>
     <message>
-        <location filename="../IDlgEditWpt.ui" line="72"/>
+        <location filename="../IDlgEditWpt.ui" line="79"/>
         <source>sticky</source>
         <translation>dauerhaft</translation>
     </message>
     <message>
-        <location filename="../IDlgEditWpt.ui" line="81"/>
+        <location filename="../IDlgEditWpt.ui" line="88"/>
         <source>Position</source>
         <translation>Position</translation>
     </message>
     <message>
-        <location filename="../IDlgEditWpt.ui" line="100"/>
+        <location filename="../IDlgEditWpt.ui" line="107"/>
         <source>+</source>
         <translation>+</translation>
     </message>
     <message>
-        <location filename="../IDlgEditWpt.ui" line="120"/>
+        <location filename="../IDlgEditWpt.ui" line="127"/>
         <source>m,</source>
         <translation>m,</translation>
     </message>
     <message utf8="true">
-        <location filename="../IDlgEditWpt.ui" line="140"/>
+        <location filename="../IDlgEditWpt.ui" line="147"/>
         <source>°</source>
         <translation>°</translation>
     </message>
     <message>
-        <location filename="../IDlgEditWpt.ui" line="149"/>
+        <location filename="../IDlgEditWpt.ui" line="156"/>
         <source>Altitude</source>
         <translation>Höhe</translation>
     </message>
     <message>
-        <location filename="../IDlgEditWpt.ui" line="174"/>
-        <location filename="../IDlgEditWpt.ui" line="218"/>
+        <location filename="../IDlgEditWpt.ui" line="181"/>
+        <location filename="../IDlgEditWpt.ui" line="225"/>
         <source>m</source>
         <translation>m</translation>
     </message>
     <message>
-        <location filename="../IDlgEditWpt.ui" line="196"/>
+        <location filename="../IDlgEditWpt.ui" line="203"/>
         <source>Proximity Dist.</source>
-        <translation>Abstandswarnung.</translation>
+        <translation>Abstandswarnung</translation>
     </message>
     <message>
-        <location filename="../IDlgEditWpt.ui" line="240"/>
+        <location filename="../IDlgEditWpt.ui" line="247"/>
         <source>Webpage</source>
         <translation>Webseite</translation>
     </message>
     <message>
-        <location filename="../IDlgEditWpt.ui" line="255"/>
+        <location filename="../IDlgEditWpt.ui" line="262"/>
         <source>None</source>
         <translation>Keine</translation>
     </message>
     <message>
-        <location filename="../IDlgEditWpt.ui" line="281"/>
+        <location filename="../IDlgEditWpt.ui" line="288"/>
         <source>Comment</source>
         <translation>Kommentar</translation>
     </message>
     <message>
-        <location filename="../IDlgEditWpt.ui" line="307"/>
+        <location filename="../IDlgEditWpt.ui" line="314"/>
         <source>More</source>
         <translation>Sonstiges</translation>
     </message>
     <message>
-        <location filename="../IDlgEditWpt.ui" line="314"/>
+        <location filename="../IDlgEditWpt.ui" line="321"/>
         <source>about:blank</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../IDlgEditWpt.ui" line="322"/>
+        <location filename="../IDlgEditWpt.ui" line="329"/>
         <source>Show hidden information</source>
         <translation>Zeige versteckte Information</translation>
     </message>
     <message>
-        <location filename="../IDlgEditWpt.ui" line="330"/>
+        <location filename="../IDlgEditWpt.ui" line="337"/>
         <source>Images</source>
         <translation>Bilder</translation>
     </message>
     <message>
-        <location filename="../IDlgEditWpt.ui" line="344"/>
+        <location filename="../IDlgEditWpt.ui" line="351"/>
         <source>If you use the word &quot;Spoiler&quot; in the comment, the image might be treated special on your GPSr. 
 
 For modern Garmin device select &quot;Garmin Mass Storage&quot; device to exchange pictures and spoilers.</source>
         <translation>Wenn das Wort &quot;Spoiler&quot; im Kommentar steht, kann das Bild im GPS speziell behandelt werden.
 
-Für moderne Garmingeräte muss &quot;Garmin Massenspeicher&quot; ausgewählt sein um Bilder und Spoiler zu übertragen.</translation>
+Für moderne Garmingeräte muss &quot;Garmin Massenspeicher&quot; ausgewählt sein, um Bilder und Spoiler zu übertragen.</translation>
     </message>
     <message>
-        <location filename="../IDlgEditWpt.ui" line="359"/>
+        <location filename="../IDlgEditWpt.ui" line="366"/>
         <source>Get spoilers!</source>
         <translation>Spoiler-Bilder laden!</translation>
     </message>
     <message>
-        <location filename="../IDlgEditWpt.ui" line="391"/>
+        <location filename="../IDlgEditWpt.ui" line="398"/>
         <source>Add</source>
         <translation>Hinzufügen</translation>
     </message>
     <message>
-        <location filename="../IDlgEditWpt.ui" line="703"/>
+        <location filename="../IDlgEditWpt.ui" line="701"/>
         <source>Create Buddies</source>
         <translation>Erzeuge Buddies</translation>
     </message>
@@ -10480,12 +10530,12 @@ Für moderne Garmingeräte muss &quot;Garmin Massenspeicher&quot; ausgewählt se
         <translation type="obsolete">Nächstes</translation>
     </message>
     <message>
-        <location filename="../IDlgEditWpt.ui" line="605"/>
+        <location filename="../IDlgEditWpt.ui" line="612"/>
         <source>Barcode</source>
         <translation>Barcode</translation>
     </message>
     <message>
-        <location filename="../IDlgEditWpt.ui" line="632"/>
+        <location filename="../IDlgEditWpt.ui" line="639"/>
         <source>xx</source>
         <translation></translation>
     </message>
@@ -10498,17 +10548,17 @@ Für moderne Garmingeräte muss &quot;Garmin Massenspeicher&quot; ausgewählt se
         <translation type="obsolete">Vorheriges</translation>
     </message>
     <message>
-        <location filename="../IDlgEditWpt.ui" line="413"/>
+        <location filename="../IDlgEditWpt.ui" line="420"/>
         <source>Delete</source>
         <translation>Löschen</translation>
     </message>
     <message>
-        <location filename="../IDlgEditWpt.ui" line="426"/>
+        <location filename="../IDlgEditWpt.ui" line="433"/>
         <source>Transparent</source>
         <translation>Transparent</translation>
     </message>
     <message>
-        <location filename="../IDlgEditWpt.ui" line="531"/>
+        <location filename="../IDlgEditWpt.ui" line="538"/>
         <source>no image</source>
         <translation>kein Bild</translation>
     </message>
@@ -10517,17 +10567,17 @@ Für moderne Garmingeräte muss &quot;Garmin Massenspeicher&quot; ausgewählt se
         <translation type="obsolete">Zusammenfassung</translation>
     </message>
     <message>
-        <location filename="../IDlgEditWpt.ui" line="651"/>
+        <location filename="../IDlgEditWpt.ui" line="658"/>
         <source>Save</source>
         <translation>Speichern</translation>
     </message>
     <message>
-        <location filename="../IDlgEditWpt.ui" line="644"/>
+        <location filename="../IDlgEditWpt.ui" line="651"/>
         <source>Update</source>
         <translation>Aktualisieren</translation>
     </message>
     <message>
-        <location filename="../IDlgEditWpt.ui" line="271"/>
+        <location filename="../IDlgEditWpt.ui" line="278"/>
         <source>Description</source>
         <translation>Beschreibung</translation>
     </message>
@@ -10559,12 +10609,12 @@ Für moderne Garmingeräte muss &quot;Garmin Massenspeicher&quot; ausgewählt se
     <message>
         <location filename="../IDlgImportImages.ui" line="20"/>
         <source>Import pictures from</source>
-        <translation>Bilder importieren aus</translation>
+        <translation>Bilder importieren von</translation>
     </message>
     <message>
         <location filename="../IDlgImportImages.ui" line="29"/>
         <source>./</source>
-        <translation></translation>
+        <translation>./</translation>
     </message>
     <message>
         <location filename="../IDlgImportImages.ui" line="36"/>
@@ -10579,17 +10629,17 @@ Für moderne Garmingeräte muss &quot;Garmin Massenspeicher&quot; ausgewählt se
     <message>
         <location filename="../IDlgImportImages.ui" line="58"/>
         <source>~600x400</source>
-        <translation></translation>
+        <translation>~600x400</translation>
     </message>
     <message>
         <location filename="../IDlgImportImages.ui" line="65"/>
         <source>~1024x700</source>
-        <translation></translation>
+        <translation>~1024x700</translation>
     </message>
     <message>
         <location filename="../IDlgImportImages.ui" line="72"/>
         <source>just link external file</source>
-        <translation>ein Link auf die externe Datei</translation>
+        <translation>Link auf die externe Datei</translation>
     </message>
     <message>
         <location filename="../IDlgImportImages.ui" line="79"/>
@@ -10599,7 +10649,7 @@ Für moderne Garmingeräte muss &quot;Garmin Massenspeicher&quot; ausgewählt se
     <message>
         <location filename="../IDlgImportImages.ui" line="89"/>
         <source>Reference source</source>
-        <translation>Quelle für die Referenz</translation>
+        <translation>Referenzquelle</translation>
     </message>
     <message>
         <location filename="../IDlgImportImages.ui" line="95"/>
@@ -10610,7 +10660,7 @@ Für moderne Garmingeräte muss &quot;Garmin Massenspeicher&quot; ausgewählt se
         <location filename="../IDlgImportImages.ui" line="102"/>
         <location filename="../IDlgImportImages.ui" line="119"/>
         <source>Time reference</source>
-        <translation>Zeitreferenz</translation>
+        <translation>Zeit</translation>
     </message>
     <message>
         <location filename="../IDlgImportImages.ui" line="109"/>
@@ -10621,12 +10671,13 @@ Für moderne Garmingeräte muss &quot;Garmin Massenspeicher&quot; ausgewählt se
     <message>
         <location filename="../IDlgImportImages.ui" line="125"/>
         <source>Befor you start taking any picture take a picture of the clock on your GPS device. Select the picture from the list above and enter the timestamp manually. QLandkarte GT will derive the delta between your camera and your GPS. The offset is used to adust all timestamps befor finding a matching point in the currently loaded tracks.</source>
-        <translation></translation>
+        <translatorcomment>?</translatorcomment>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../IDlgImportImages.ui" line="143"/>
         <source>Select a picture from the list and enter the timestamp</source>
-        <translation>Ein Bild aus der Liste auswählen und die Zeitmarke angeben.</translation>
+        <translation>Wähle ein Bild in der Liste aus und gib die Zeitmarke ein.</translation>
     </message>
     <message>
         <location filename="../IDlgImportImages.ui" line="153"/>
@@ -10636,12 +10687,12 @@ Für moderne Garmingeräte muss &quot;Garmin Massenspeicher&quot; ausgewählt se
     <message>
         <location filename="../IDlgImportImages.ui" line="174"/>
         <source>Befor you start taking any picture take a picture of the position on your GPS device. Select the picture from the list above and enter the position manually. QLandkarte GT will find the closest track point to that position and derive the time delta bewteen that point and the selcted picture. The offset is used to adust all timestamps befor finding a matching point in the currently loaded tracks.</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../IDlgImportImages.ui" line="192"/>
         <source>Select a picture from the list and enter the position</source>
-        <translation>Ein Bild aus der Liste auswählen und die Position angeben.</translation>
+        <translation>Wähle ein Bild in der Liste aus und gib die Position ein.</translation>
     </message>
     <message>
         <location filename="../IDlgImportImages.ui" line="202"/>
@@ -10682,7 +10733,7 @@ Für moderne Garmingeräte muss &quot;Garmin Massenspeicher&quot; ausgewählt se
     <message>
         <location filename="../IDlgMapJNXConfig.ui" line="21"/>
         <source>about:blank</source>
-        <translation></translation>
+        <translation>about:blank</translation>
     </message>
 </context>
 <context>
@@ -10734,7 +10785,7 @@ Für moderne Garmingeräte muss &quot;Garmin Massenspeicher&quot; ausgewählt se
     <message>
         <location filename="../IDlgMapQMAPConfig.ui" line="21"/>
         <source>about:blank</source>
-        <translation></translation>
+        <translation>about:blank</translation>
     </message>
 </context>
 <context>
@@ -10747,7 +10798,7 @@ Für moderne Garmingeräte muss &quot;Garmin Massenspeicher&quot; ausgewählt se
     <message>
         <location filename="../IDlgMapRMPConfig.ui" line="21"/>
         <source>about:blank</source>
-        <translation></translation>
+        <translation>about:blank</translation>
     </message>
 </context>
 <context>
@@ -10760,7 +10811,7 @@ Für moderne Garmingeräte muss &quot;Garmin Massenspeicher&quot; ausgewählt se
     <message>
         <location filename="../IDlgMapTDBConfig.ui" line="21"/>
         <source>about:blank</source>
-        <translation></translation>
+        <translation>about:blank</translation>
     </message>
     <message>
         <source>use typ (if available)</source>
@@ -10794,7 +10845,7 @@ Für moderne Garmingeräte muss &quot;Garmin Massenspeicher&quot; ausgewählt se
     <message>
         <location filename="../IDlgMapTmsConfig.ui" line="41"/>
         <source>Placeholders to be used inside &quot;Path&quot; definition: %1 = zoom; %2 = x; %3 = y</source>
-        <translation>Platzhalter die im URL verwendet werden: %1 = zoom; %2 = x; %3 = y</translation>
+        <translation>Platzhalter, die im URL verwendet werden: %1 = zoom; %2 = x; %3 = y</translation>
     </message>
     <message>
         <location filename="../IDlgMapTmsConfig.ui" line="51"/>
@@ -10845,7 +10896,7 @@ Für moderne Garmingeräte muss &quot;Garmin Massenspeicher&quot; ausgewählt se
     <message>
         <location filename="../IDlgNoMapConfig.ui" line="14"/>
         <source>Map Setup...</source>
-        <translation>Karteneinstellungen</translation>
+        <translation>Karteneinstellung...</translation>
     </message>
     <message>
         <location filename="../IDlgNoMapConfig.ui" line="22"/>
@@ -10866,7 +10917,7 @@ Für moderne Garmingeräte muss &quot;Garmin Massenspeicher&quot; ausgewählt se
     <message>
         <location filename="../IDlgNoMapConfig.ui" line="45"/>
         <source>projection wizzard</source>
-        <translation>Projektionshilfe</translation>
+        <translation>Projektionsassistent</translation>
     </message>
     <message>
         <location filename="../IDlgNoMapConfig.ui" line="64"/>
@@ -10889,6 +10940,7 @@ Für moderne Garmingeräte muss &quot;Garmin Massenspeicher&quot; ausgewählt se
     <message>
         <location filename="../IDlgParentWpt.ui" line="14"/>
         <source>Select Parent Waypoint ...</source>
+        <translatorcomment>?</translatorcomment>
         <translation>Wähle Hauptwegpunkt aus...</translation>
     </message>
 </context>
@@ -10897,12 +10949,12 @@ Für moderne Garmingeräte muss &quot;Garmin Massenspeicher&quot; ausgewählt se
     <message>
         <location filename="../IDlgProjWizzard.ui" line="14"/>
         <source>Proj4 Wizzard</source>
-        <translation>Proj4 Zauberer</translation>
+        <translation>Proj4 Assistent</translation>
     </message>
     <message>
         <location filename="../IDlgProjWizzard.ui" line="138"/>
         <source>Lon/Lat</source>
-        <translation></translation>
+        <translation>Lon/Lat</translation>
     </message>
     <message>
         <location filename="../IDlgProjWizzard.ui" line="145"/>
@@ -10927,7 +10979,7 @@ Für moderne Garmingeräte muss &quot;Garmin Massenspeicher&quot; ausgewählt se
     <message>
         <location filename="../IDlgProjWizzard.ui" line="82"/>
         <source>user defined</source>
-        <translation>Benutzerdefiniert</translation>
+        <translation>benutzerdefiniert</translation>
     </message>
     <message>
         <location filename="../IDlgProjWizzard.ui" line="94"/>
@@ -10942,6 +10994,7 @@ Für moderne Garmingeräte muss &quot;Garmin Massenspeicher&quot; ausgewählt se
     <message>
         <location filename="../IDlgProjWizzard.ui" line="131"/>
         <source>World Mercator (OSM)</source>
+        <translatorcomment>?</translatorcomment>
         <translation>World Mercator (OSM)</translation>
     </message>
 </context>
@@ -10955,7 +11008,7 @@ Für moderne Garmingeräte muss &quot;Garmin Massenspeicher&quot; ausgewählt se
     <message>
         <location filename="../IDlgScreenshot.ui" line="35"/>
         <source>This will take a screen shot from your connected GPSr. Simply press &apos;Acquire&apos; to download the current screen. In addition, it will copy the image to your clipboard.</source>
-        <translation>Hier wird ein Bildschirmfoto vom angeschlossenen GPSr angefertigt. Einfach auf &quot;Aufnehmen&quot; drücken um den aktuellen Bildschirm zu laden. Zusätzlich wird das Bild in der Zwischenablage gespeichert.</translation>
+        <translation>Hier wird ein Bildschirmfoto vom angeschlossenen GPS angefertigt. Einfach auf &quot;Aufnehmen&quot; drücken um den aktuellen Bildschirm zu laden. Zusätzlich wird das Bild in die Zwischenablage kopiert.</translation>
     </message>
     <message>
         <location filename="../IDlgScreenshot.ui" line="50"/>
@@ -10985,7 +11038,7 @@ Für moderne Garmingeräte muss &quot;Garmin Massenspeicher&quot; ausgewählt se
     <message>
         <location filename="../IDlgSetupGarminIcons.ui" line="14"/>
         <source>Garmin Waypoint Icons</source>
-        <translation>Ikonen für Garmin Wegpunkte</translation>
+        <translation>Symbole für Garmin Wegpunkte</translation>
     </message>
     <message>
         <location filename="../IDlgSetupGarminIcons.ui" line="32"/>
@@ -11000,7 +11053,7 @@ Für moderne Garmingeräte muss &quot;Garmin Massenspeicher&quot; ausgewählt se
     <message>
         <location filename="../IDlgSetupGarminIcons.ui" line="55"/>
         <source>Send to device</source>
-        <translation>An das Gerät übertragen</translation>
+        <translation>Zum Gerät übertragen</translation>
     </message>
 </context>
 <context>
@@ -11008,7 +11061,7 @@ Für moderne Garmingeräte muss &quot;Garmin Massenspeicher&quot; ausgewählt se
     <message>
         <location filename="../IDlgSetupGrid.ui" line="14"/>
         <source>Setup Grid...</source>
-        <translation>Einstellungen Gitter...</translation>
+        <translation>Einstellung des Gitters ...</translation>
     </message>
     <message>
         <location filename="../IDlgSetupGrid.ui" line="22"/>
@@ -11031,12 +11084,12 @@ Für moderne Garmingeräte muss &quot;Garmin Massenspeicher&quot; ausgewählt se
     <message>
         <location filename="../IDlgSetupGrid.ui" line="45"/>
         <source>Get projection from current map.</source>
-        <translation>Die Projektion von der aktuellen Karte übernehmen.</translation>
+        <translation>Die Projektion der aktuellen Karte übernehmen.</translation>
     </message>
     <message>
         <location filename="../IDlgSetupGrid.ui" line="59"/>
         <source>projection wizzard</source>
-        <translation>Projektionshilfe</translation>
+        <translation>Projektionsassistent</translation>
     </message>
     <message>
         <location filename="../IDlgSetupGrid.ui" line="84"/>
@@ -11072,17 +11125,17 @@ Für moderne Garmingeräte muss &quot;Garmin Massenspeicher&quot; ausgewählt se
     <message>
         <location filename="../IDlgTrackFilter.ui" line="41"/>
         <source>Hide track points if:</source>
-        <translation>Track-Punkte ausblenden wenn:</translation>
+        <translation>Track-Punkte ausblenden, wenn:</translation>
     </message>
     <message>
         <location filename="../IDlgTrackFilter.ui" line="48"/>
         <source>Distance to previous point less than</source>
-        <translation>Distanz zum vorherigen Punkt weniger als</translation>
+        <translation>der Abstand zum vorherigen Punkt weniger ist als</translation>
     </message>
     <message>
         <location filename="../IDlgTrackFilter.ui" line="98"/>
         <source>Time from previous point less than</source>
-        <translation>Zeit zum vorherigen Punkt weniger als</translation>
+        <translation>die Zeit zum vorherigen Punkt weniger ist als</translation>
     </message>
     <message utf8="true">
         <location filename="../IDlgTrackFilter.ui" line="111"/>
@@ -11092,12 +11145,12 @@ Für moderne Garmingeräte muss &quot;Garmin Massenspeicher&quot; ausgewählt se
     <message>
         <location filename="../IDlgTrackFilter.ui" line="146"/>
         <source>Azimuth from previous point less than</source>
-        <translation>Azimuth ist vom letzten Punkt aus weniger als</translation>
+        <translation>der Azimut vom letzten Punkt aus weniger ist als</translation>
     </message>
     <message>
         <location filename="../IDlgTrackFilter.ui" line="156"/>
         <source>Change track point data:</source>
-        <translation></translation>
+        <translation>Trackdaten ändern:</translation>
     </message>
     <message>
         <source>Smooth profile</source>
@@ -11107,7 +11160,8 @@ Für moderne Garmingeräte muss &quot;Garmin Massenspeicher&quot; ausgewählt se
         <location filename="../IDlgTrackFilter.ui" line="51"/>
         <location filename="../IDlgTrackFilter.ui" line="101"/>
         <source>buttonGroup</source>
-        <translation></translation>
+        <translatorcomment>?</translatorcomment>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../IDlgTrackFilter.ui" line="170"/>
@@ -11118,12 +11172,12 @@ Für moderne Garmingeräte muss &quot;Garmin Massenspeicher&quot; ausgewählt se
         <location filename="../IDlgTrackFilter.ui" line="201"/>
         <location filename="../IDlgTrackFilter.ui" line="376"/>
         <source>If you select to split the track, the above will apply to the newly created fragments.</source>
-        <translation>Wenn der Track auch geteilt wird, wirken sich die Einstellungen auf die Teilstücke aus.</translation>
+        <translation>Wenn der Track geteilt wird, wirken sich die Einstellungen auch auf die Teilstücke aus.</translation>
     </message>
     <message>
         <location filename="../IDlgTrackFilter.ui" line="224"/>
         <source>Perform dataset reduction on &quot;OK&quot;</source>
-        <translation>Bei &quot;OK&quot; Datensatz reduzieren</translation>
+        <translation>&quot;OK&quot; um Datensatz zu reduzieren</translation>
     </message>
     <message>
         <location filename="../IDlgTrackFilter.ui" line="232"/>
@@ -11133,18 +11187,19 @@ Für moderne Garmingeräte muss &quot;Garmin Massenspeicher&quot; ausgewählt se
     <message>
         <location filename="../IDlgTrackFilter.ui" line="245"/>
         <source>Change the track&apos;s starting time (anonymize track) to:</source>
-        <translation>Ändere die Anfangszeit des Tracks zu (Anonymer Track):</translation>
+        <translation>Ändere die Anfangszeit des Tracks in (Track anonymisieren):</translation>
     </message>
     <message>
         <location filename="../IDlgTrackFilter.ui" line="261"/>
         <source>Local time</source>
-        <translation>Locale Zeit</translation>
+        <translation>Lokale Zeit</translation>
     </message>
     <message>
         <location filename="../IDlgTrackFilter.ui" line="267"/>
         <location filename="../IDlgTrackFilter.ui" line="280"/>
         <source>buttonGroupTZ</source>
-        <translation></translation>
+        <translatorcomment>?</translatorcomment>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../IDlgTrackFilter.ui" line="274"/>
@@ -11154,7 +11209,7 @@ Für moderne Garmingeräte muss &quot;Garmin Massenspeicher&quot; ausgewählt se
     <message>
         <location filename="../IDlgTrackFilter.ui" line="291"/>
         <source>Reset to 1st of month, hour 00</source>
-        <translation>Auf den 1. des Monats, 00:00 Uhr, zurücksetzen</translation>
+        <translation>Zurücksetzen auf den 1. des Monats, 00:00 Uhr</translation>
     </message>
     <message>
         <location filename="../IDlgTrackFilter.ui" line="311"/>
@@ -11170,17 +11225,18 @@ Für moderne Garmingeräte muss &quot;Garmin Massenspeicher&quot; ausgewählt se
         <location filename="../IDlgTrackFilter.ui" line="359"/>
         <location filename="../IDlgTrackFilter.ui" line="369"/>
         <source>buttonGroupTDelta</source>
-        <translation></translation>
+        <translatorcomment>?</translatorcomment>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../IDlgTrackFilter.ui" line="366"/>
         <source>Change time deltas to 1 second per trackpoint</source>
-        <translation>Zeitabstände zu 1 Sekunde pro Punkt ändern</translation>
+        <translation>Zeitabstände in 1 Sekunde pro Punkt ändern</translation>
     </message>
     <message>
         <location filename="../IDlgTrackFilter.ui" line="399"/>
         <source>Modify timestamps on &quot;OK&quot;</source>
-        <translation>Bei &quot;OK&quot; Zeitmarken bearbeiten</translation>
+        <translation>&quot;OK&quot; um Zeitmarken zu bearbeiten</translation>
     </message>
     <message>
         <location filename="../IDlgTrackFilter.ui" line="407"/>
@@ -11210,7 +11266,7 @@ Für moderne Garmingeräte muss &quot;Garmin Massenspeicher&quot; ausgewählt se
     <message>
         <location filename="../IDlgTrackFilter.ui" line="497"/>
         <source>Split track on &quot;Ok&quot;</source>
-        <translation>Bei &quot;Ok&quot; den Track zerteilen.</translation>
+        <translation>&quot;OK&quot; um den Track zu zerteilen.</translation>
     </message>
 </context>
 <context>
@@ -11254,7 +11310,7 @@ Für moderne Garmingeräte muss &quot;Garmin Massenspeicher&quot; ausgewählt se
     <message>
         <location filename="../IDlgWptIcon.ui" line="13"/>
         <source>Select icon ...</source>
-        <translation>Icon wählen ...</translation>
+        <translation>Symbol wählen ...</translation>
     </message>
 </context>
 <context>
@@ -11267,7 +11323,7 @@ Für moderne Garmingeräte muss &quot;Garmin Massenspeicher&quot; ausgewählt se
     <message>
         <location filename="../IGarminExport.ui" line="21"/>
         <source>Output Path:</source>
-        <translation>Outputpfad:</translation>
+        <translation>Ausgabepfad:</translation>
     </message>
     <message>
         <location filename="../IGarminExport.ui" line="37"/>
@@ -11277,7 +11333,7 @@ Für moderne Garmingeräte muss &quot;Garmin Massenspeicher&quot; ausgewählt se
     <message>
         <location filename="../IGarminExport.ui" line="46"/>
         <source>File Prefix</source>
-        <translation>Dateienprefix</translation>
+        <translation>Dateiprefix</translation>
     </message>
     <message>
         <location filename="../IGarminExport.ui" line="56"/>
@@ -11287,7 +11343,7 @@ Für moderne Garmingeräte muss &quot;Garmin Massenspeicher&quot; ausgewählt se
     <message>
         <location filename="../IGarminExport.ui" line="63"/>
         <source>Close</source>
-        <translation>Schliessen</translation>
+        <translation>Schließen</translation>
     </message>
 </context>
 <context>
@@ -11301,12 +11357,12 @@ Für moderne Garmingeräte muss &quot;Garmin Massenspeicher&quot; ausgewählt se
     <message>
         <location filename="../IGarminTyp.cpp" line="415"/>
         <source>This is a typ file with unknown polygon encoding. Please report!</source>
-        <translation>Das ist eine Typdatei mit unbekannter Art der Polygone. Bitte Bericht erstatten!</translation>
+        <translation>Das ist eine Typdatei mit unbekannter Polygon Kodierung. Bitte Bericht erstatten!</translation>
     </message>
     <message>
         <location filename="../IGarminTyp.cpp" line="790"/>
         <source>This is a typ file with unknown polyline encoding. Please report!</source>
-        <translation>Das ist eine Typdatei mit unbekannter Art der Polyline. Bitte Bericht erstatten!</translation>
+        <translation>Das ist eine Typdatei mit unbekannter Polyline Kodierung. Bitte Bericht erstatten!</translation>
     </message>
 </context>
 <context>
@@ -11393,7 +11449,7 @@ Für moderne Garmingeräte muss &quot;Garmin Massenspeicher&quot; ausgewählt se
     <message>
         <location filename="../ILiveLogToolWidget.ui" line="82"/>
         <source>Satellites:</source>
-        <translation>Satelliten</translation>
+        <translation>Satelliten:</translation>
     </message>
     <message>
         <location filename="../ILiveLogToolWidget.ui" line="89"/>
@@ -11418,7 +11474,8 @@ Für moderne Garmingeräte muss &quot;Garmin Massenspeicher&quot; ausgewählt se
     <message>
         <location filename="../ILiveLogToolWidget.ui" line="185"/>
         <source>use small arrow</source>
-        <translation type="unfinished"></translation>
+        <translatorcomment>?</translatorcomment>
+        <translation>kleinen Cursor nutzen</translation>
     </message>
 </context>
 <context>
@@ -11437,13 +11494,13 @@ Map: %1
 DEM: %2
 
 In my point of view this is bad. But if you think I am wrong just go on with &apos;Apply&apos;. Else abort operation.</source>
-        <translation>Die Projektion der DEM Daten ist nicht die selbe wie die der Basiskarte.
+        <translation>Die Projektion der DEM Daten ist nicht dieselbe wie die der Basiskarte.
 
 Karte: %1
 
 DEM: %2
 
-Aus meiner Sicht ist das nicht richtig. Aber wenn Du andere Meinung bist, dann mache weiter mit &apos;Anwenden&apos;. Andernfalls &apos;Abbrechen&apos;.</translation>
+Aus meiner Sicht ist das nicht richtig. Aber wenn Du anderer Meinung bist, dann mache weiter mit &apos;Anwenden&apos;. Andernfalls &apos;Abbrechen&apos;.</translation>
     </message>
     <message>
         <location filename="../IMap.cpp" line="249"/>
@@ -11452,7 +11509,7 @@ Aus meiner Sicht ist das nicht richtig. Aber wenn Du andere Meinung bist, dann m
 Map: %1
 
 DEM: %2</source>
-        <translation>Die Projektion der DEM Daten ist nicht die selbe wie die der Basiskarte.
+        <translation>Die Projektion der DEM Daten ist nicht dieselbe wie die der Basiskarte.
 
 Karte: %1
 
@@ -11473,7 +11530,7 @@ DEM: %2</translation>
         <location filename="../IMap.cpp" line="386"/>
         <location filename="../IMap.cpp" line="392"/>
         <source>Changing the offset is not supported by this map.</source>
-        <translation>Den Versatz zu ändern, wird von dieser Karte nicht unterstützt.</translation>
+        <translation>Ändern des Versatzes wird von dieser Karte nicht unterstützt.</translation>
     </message>
     <message>
         <source>DEM projection does not match the projection of the basemap.</source>
@@ -11540,12 +11597,12 @@ DEM: %2</translation>
     <message>
         <location filename="../IMapQMAPExport.ui" line="26"/>
         <source>You want to export a map from a streaming map server. QLandkarte GT will only export those parts of the map that are anyway in the cache. In other words, &lt;b&gt;you have to view the whole area at the selected zoom levels with QLandkarte GT before you can export it&lt;/b&gt;. Keep in mind that QLandkarte is not a ripper tool for streaming maps. &lt;b&gt;Please respect the copyrights and terms of use of the particular server.&lt;/b&gt; </source>
-        <translation>Sie wollen eine Karte von einem Onlinekartendienst exportieren. QLandkarte GT wird nur die Teile der Karte exportieren, die sowieso schon im Cache liegen. Mit anderen Worten: &lt;b&gt;Sie müssen sich mit QLandkarte GT das gesamte Gebiet auf allen Zoomleveln, die sie exportiren wollen, vorher ansehen, um die Karte flächendeckend zu exportieren.&lt;/b&gt; Bitte beachten Sie, dass QLandkarte GT kein Werkzeug ist um Onlinekarten im großen Stiel abzugreifen. &lt;b&gt; Bitte respektieren Sie das Urheberrecht und die Nutzungsbestimmungen des jeweiligen Servers.&lt;/b&gt;</translation>
+        <translation>Sie wollen eine Karte von einem Onlinekartendienst exportieren. QLandkarte GT wird nur die Teile der Karte exportieren, die schon im Cache liegen. Mit anderen Worten: &lt;b&gt;Sie müssen sich mit QLandkarte GT das gesamte Gebiet auf allen Zoomleveln, die sie exportieren wollen, vorher ansehen, um die Karte flächendeckend zu exportieren.&lt;/b&gt; Bitte beachten Sie, dass QLandkarte GT kein Werkzeug ist, um Onlinekarten in großen Stil abzugreifen. &lt;b&gt; Bitte respektieren Sie das Urheberrecht und die Nutzungsbestimmungen des jeweiligen Servers.&lt;/b&gt;</translation>
     </message>
     <message>
         <location filename="../IMapQMAPExport.ui" line="48"/>
         <source>Output path:</source>
-        <translation>Outputpfad:</translation>
+        <translation>Ausgabepfad:</translation>
     </message>
     <message>
         <location filename="../IMapQMAPExport.ui" line="57"/>
@@ -11592,12 +11649,12 @@ DEM: %2</translation>
         <location filename="../IMapQMAPExport.ui" line="176"/>
         <location filename="../IMapQMAPExport.ui" line="360"/>
         <source>Magellan RMP</source>
-        <translation></translation>
+        <translation>Magellan RMP</translation>
     </message>
     <message>
         <location filename="../IMapQMAPExport.ui" line="198"/>
         <source>Tile selection is only supported by Garmin Custom Map. All other formats will export the whole area as is.</source>
-        <translation>Die Kachelauswahl wird nur von Garmin Custom Maps unterstützt. Alle anderen Formate exportieren den gesamten ausgewählten Bereich.</translation>
+        <translation>Die Kachelauswahl wird nur von Garmin Custom Maps unterstützt. Alle anderen Formate exportieren den gesamten Bereich.</translation>
     </message>
     <message>
         <location filename="../IMapQMAPExport.ui" line="208"/>
@@ -11627,7 +11684,7 @@ DEM: %2</translation>
     <message>
         <location filename="../IMapQMAPExport.ui" line="265"/>
         <source>JPEG</source>
-        <translation></translation>
+        <translation>JPEG</translation>
     </message>
     <message>
         <location filename="../IMapQMAPExport.ui" line="273"/>
@@ -11637,7 +11694,7 @@ DEM: %2</translation>
     <message>
         <location filename="../IMapQMAPExport.ui" line="293"/>
         <source>Chroma subsampling</source>
-        <translation></translation>
+        <translation>Farbunterabtastung</translation>
     </message>
     <message>
         <location filename="../IMapQMAPExport.ui" line="301"/>
@@ -11702,12 +11759,12 @@ DEM: %2</translation>
     <message>
         <location filename="../IMapQMAPExport.ui" line="480"/>
         <source>Get projection from current map.</source>
-        <translation>Die Projektion von der aktuellen Karte übernehmen.</translation>
+        <translation>Die Projektion der aktuellen Karte übernehmen.</translation>
     </message>
     <message>
         <location filename="../IMapQMAPExport.ui" line="494"/>
         <source>Projection Wizard</source>
-        <translation>Projektionsbaukasten</translation>
+        <translation>Projektionsassistent</translation>
     </message>
     <message>
         <location filename="../IMapQMAPExport.ui" line="597"/>
@@ -11722,7 +11779,7 @@ DEM: %2</translation>
     <message>
         <location filename="../IMapQMAPExport.ui" line="617"/>
         <source>Make your selections and press &quot;Export&quot;</source>
-        <translation>Machen Sie ihre Auswahl und drücken &quot;Export&quot;</translation>
+        <translation>Treffen sie ihre Auswahl und drücken &quot;Export&quot;</translation>
     </message>
     <message>
         <source>Optimization</source>
@@ -11761,7 +11818,7 @@ DEM: %2</translation>
     <message>
         <location filename="../IMapQMAPExport.ui" line="155"/>
         <source>Garmin Custom Map</source>
-        <translation></translation>
+        <translation>Garmin Custom Map</translation>
     </message>
     <message>
         <location filename="../IMapQMAPExport.ui" line="113"/>
@@ -11776,7 +11833,7 @@ DEM: %2</translation>
     <message>
         <location filename="../IMapQMAPExport.ui" line="128"/>
         <source>Give a list of zoom levels you want to export. Like: 1 4 8 16</source>
-        <translation>Geben Sie eine Liste der Ebenen an, die Sie exportieren wollen, z.B.: 1 4 8 16</translation>
+        <translation>Geben Sie eine Liste der Zoomebenen an, die Sie exportieren wollen, z.B.: 1 4 8 16</translation>
     </message>
     <message>
         <location filename="../IMapQMAPExport.ui" line="131"/>
@@ -11787,12 +11844,12 @@ DEM: %2</translation>
         <location filename="../IMapQMAPExport.ui" line="145"/>
         <location filename="../IMapQMAPExport.ui" line="458"/>
         <source>GeoTiff</source>
-        <translation></translation>
+        <translation>GeoTiff</translation>
     </message>
     <message>
         <location filename="../IMapQMAPExport.ui" line="162"/>
         <source>Garmin BirdsEye</source>
-        <translation></translation>
+        <translation>Garmin BirdsEye</translation>
     </message>
 </context>
 <context>
@@ -11884,7 +11941,7 @@ DEM: %2</translation>
     <message>
         <location filename="../IMapToolWidget.ui" line="98"/>
         <source>Tab 1</source>
-        <translation></translation>
+        <translation>Tab 1</translation>
     </message>
     <message>
         <location filename="../IMapToolWidget.ui" line="70"/>
@@ -11896,14 +11953,15 @@ DEM: %2</translation>
     <message>
         <location filename="../IMapToolWidget.ui" line="30"/>
         <source>Page</source>
-        <translation></translation>
+        <translatorcomment>? Blatt</translatorcomment>
+        <translation>Seite</translation>
     </message>
     <message>
         <location filename="../IMapToolWidget.ui" line="73"/>
         <location filename="../IMapToolWidget.ui" line="138"/>
         <location filename="../IMapToolWidget.ui" line="203"/>
         <source>Mode - show active map and active overlays</source>
-        <translation>Modus - zeiget die aktive Karte und aktive Overlays</translation>
+        <translation>Modus - zeigt die aktive Karte und aktive Overlays</translation>
     </message>
     <message>
         <location filename="../IMapToolWidget.ui" line="78"/>
@@ -11936,7 +11994,7 @@ DEM: %2</translation>
     <message>
         <location filename="../IMapToolWidget.ui" line="163"/>
         <source>Tab 2</source>
-        <translation></translation>
+        <translation>Tab 2</translation>
     </message>
     <message>
         <location filename="../IMapToolWidget.ui" line="231"/>
@@ -12074,17 +12132,17 @@ DEM: %2</translation>
     <message>
         <location filename="../IRouteToolWidget.ui" line="166"/>
         <source>Lim. Access</source>
-        <translation>Begrenzte Zufahrt</translation>
+        <translation>begrenzte Zufahrt</translation>
     </message>
     <message>
         <location filename="../IRouteToolWidget.ui" line="180"/>
         <source>Seasonal</source>
-        <translation>Jahreszeitabhängig</translation>
+        <translation>jahreszeitabhängig</translation>
     </message>
     <message>
         <location filename="../IRouteToolWidget.ui" line="187"/>
         <source>Unpaved</source>
-        <translation>Ungeteert</translation>
+        <translation>unbefestigt</translation>
     </message>
     <message>
         <location filename="../IRouteToolWidget.ui" line="194"/>
@@ -12114,7 +12172,8 @@ p, li { white-space: pre-wrap; }
 &lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;To create a route from a distance polyline you select the line and summon the menu by a right mouse button click and select &amp;quot;Make Route&amp;quot;.&lt;/p&gt;
 &lt;p align=&quot;justify&quot; style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;
 &lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;In the &amp;quot;Setup&amp;quot; tab you can select settings for auto routing. To calculate a secondary, autorouted route to your primary route definition you  summon the menu by a right mouse button click and select &amp;quot;Calc. route&amp;quot;.&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation></translation>
+        <translatorcomment>?</translatorcomment>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Avoid highways</source>
@@ -12246,13 +12305,13 @@ p, li { white-space: pre-wrap; }
         <location filename="../ITrackEditWidget.ui" line="253"/>
         <location filename="../ITrackEditWidget.ui" line="491"/>
         <source>delta</source>
-        <translation>Distanz</translation>
+        <translation>Abstand</translation>
     </message>
     <message>
         <location filename="../ITrackEditWidget.ui" line="258"/>
         <location filename="../ITrackEditWidget.ui" line="516"/>
         <source>azimuth</source>
-        <translation>Azimuth</translation>
+        <translation>Azimut</translation>
     </message>
     <message>
         <location filename="../ITrackEditWidget.ui" line="263"/>
@@ -12295,7 +12354,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../ITrackEditWidget.ui" line="46"/>
         <source>Toggle track statistics view over distance.</source>
-        <translation>Trackgraphen über den Weg anzeigen/ausschalten.</translation>
+        <translation>Trackgraphen über die Entfernung anzeigen/ausschalten.</translation>
     </message>
     <message>
         <location filename="../ITrackEditWidget.ui" line="62"/>
@@ -12464,17 +12523,17 @@ p, li { white-space: pre-wrap; }
         <location filename="../ITrackFilterWidget.ui" line="236"/>
         <location filename="../ITrackFilterWidget.ui" line="379"/>
         <source>Hide track points if:</source>
-        <translation>Track-Punkte verstecken wenn:</translation>
+        <translation>Trackpunkte verstecken, wenn:</translation>
     </message>
     <message>
         <location filename="../ITrackFilterWidget.ui" line="243"/>
         <source>Distance to previous point less than</source>
-        <translation>Distanz zum vorherigen Punkt weniger als</translation>
+        <translation>der Abstand zum vorherigen Punkt weniger ist als</translation>
     </message>
     <message>
         <location filename="../ITrackFilterWidget.ui" line="281"/>
         <source>Azimuth from previous point less than</source>
-        <translation>Azimuth ist vom letzten Punkt aus weniger als</translation>
+        <translation>der Azimut vom letzten Punkt aus weniger ist als</translation>
     </message>
     <message utf8="true">
         <location filename="../ITrackFilterWidget.ui" line="288"/>
@@ -12510,12 +12569,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../ITrackFilterWidget.ui" line="34"/>
         <source>reset filter list</source>
-        <translation>Filterstapel zurücksetzen</translation>
+        <translation>Filterliste zurücksetzen</translation>
     </message>
     <message>
         <location filename="../ITrackFilterWidget.ui" line="48"/>
         <source>save filter list</source>
-        <translation>Filterstapel speichern</translation>
+        <translation>Filterliste speichern</translation>
     </message>
     <message>
         <location filename="../ITrackFilterWidget.ui" line="68"/>
@@ -12534,7 +12593,11 @@ p, li { white-space: pre-wrap; }
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Sans Serif&apos;; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600; color:#c00000;&quot;&gt;The filters will only apply to the selected part of the track.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation></translation>
+        <translation>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Sans Serif&apos;; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600; color:#c00000;&quot;&gt;Der Filter wirkt nur auf markierte Teile des Track.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../ITrackFilterWidget.ui" line="137"/>
@@ -12563,7 +12626,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../ITrackFilterWidget.ui" line="1234"/>
         <location filename="../ITrackFilterWidget.ui" line="1335"/>
         <source>add to list</source>
-        <translation>zum Stapel hinzufügen</translation>
+        <translation>zur Liste hinzufügen</translation>
     </message>
     <message>
         <location filename="../ITrackFilterWidget.ui" line="165"/>
@@ -12573,12 +12636,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../ITrackFilterWidget.ui" line="345"/>
         <source>Douglas-Peucker</source>
-        <translation></translation>
+        <translation>Douglas-Peucker</translation>
     </message>
     <message>
         <location filename="../ITrackFilterWidget.ui" line="392"/>
         <source>Distance of a point to a straight line between neighbor points is less than</source>
-        <translation>Die Distanz eines Punktes zu einer Linien zwischen 2 Nachbarpunkten muss mehr als </translation>
+        <translation>der Abstand eines Punktes zu einer Linie zwischen 2 Nachbarpunkten weniger ist als </translation>
     </message>
     <message>
         <location filename="../ITrackFilterWidget.ui" line="439"/>
@@ -12608,7 +12671,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../ITrackFilterWidget.ui" line="648"/>
         <source>Username:</source>
-        <translation>Benutzer:</translation>
+        <translation>Benutzername:</translation>
     </message>
     <message>
         <location filename="../ITrackFilterWidget.ui" line="677"/>
@@ -12628,7 +12691,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../ITrackFilterWidget.ui" line="983"/>
         <source>Increase timestamp by</source>
-        <translation>Zeitmarke erhöhen in Schritten von</translation>
+        <translation>Zeitmarke erhöhen um</translation>
     </message>
     <message>
         <location filename="../ITrackFilterWidget.ui" line="990"/>
@@ -12674,7 +12737,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../ITrackFilterWidget.ui" line="1228"/>
         <source>Split by distance</source>
-        <translation>Teile nach Distanz</translation>
+        <translation>Teile nach Entfernung</translation>
     </message>
     <message>
         <location filename="../ITrackFilterWidget.ui" line="780"/>
@@ -12729,7 +12792,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../ITrackFilterWidget.ui" line="1257"/>
         <location filename="../ITrackFilterWidget.ui" line="1358"/>
         <source>m</source>
-        <translation>m sein</translation>
+        <translation>m</translation>
     </message>
     <message>
         <location filename="../ITrackFilterWidget.ui" line="1290"/>
@@ -12739,7 +12802,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../ITrackFilterWidget.ui" line="1329"/>
         <source>Split by ascend</source>
-        <translation>Teile nach Aufstieg</translation>
+        <translation>Teile nach Anstieg</translation>
     </message>
     <message>
         <location filename="../ITrackFilterWidget.ui" line="1351"/>
@@ -12749,7 +12812,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../ITrackFilterWidget.ui" line="1391"/>
         <source>ascend</source>
-        <translation>Aufstieg</translation>
+        <translation>Anstieg</translation>
     </message>
     <message>
         <location filename="../ITrackFilterWidget.ui" line="1430"/>
@@ -12764,12 +12827,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../ITrackFilterWidget.ui" line="1500"/>
         <source>Split track</source>
-        <translation>Teile den Track</translation>
+        <translation>Zerteile den Track</translation>
     </message>
     <message>
         <location filename="../ITrackFilterWidget.ui" line="1510"/>
         <source>Add only waypoints for stages</source>
-        <translation>Füge nur Wegpunkte als Etappen hinzu</translation>
+        <translation>Füge nur Wegpunkte zu Etappen hinzu</translation>
     </message>
     <message>
         <source>Annonymous</source>
@@ -12841,7 +12904,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../IWptToolWidget.ui" line="60"/>
         <source>Sort by comment</source>
-        <translation>Nach dem Kommentar sortieren</translation>
+        <translation>Nach Kommentar sortieren</translation>
     </message>
     <message>
         <source>Sort waypoints by comment.</source>
@@ -12850,7 +12913,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../IWptToolWidget.ui" line="76"/>
         <source>Sort by icon</source>
-        <translation>Nach Ikonen sortieren</translation>
+        <translation>Nach Symbol sortieren</translation>
     </message>
     <message>
         <location filename="../IWptToolWidget.ui" line="95"/>
@@ -12860,7 +12923,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../IWptToolWidget.ui" line="111"/>
         <source>Add position to sort waypoints by distance to that position.</source>
-        <translation>Hier muss eine Position angegeben werden, zu der die Punkte nach ihrer Distanz zu diesem Punkt sortiert werden.</translation>
+        <translation>Hier muss eine Position angegeben werden, um die Wegpunkte nach ihrer Entfernung zu dieser Position zu sortieren.</translation>
     </message>
 </context>
 <context>
@@ -12903,22 +12966,22 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../IDlgProxy.ui" line="13"/>
         <source>Proxy Authentication</source>
-        <translation>Anmaldung am Proxy</translation>
+        <translation>Anmeldung am Proxy</translation>
     </message>
     <message>
         <location filename="../IDlgProxy.ui" line="19"/>
         <source>ICON</source>
-        <translation></translation>
+        <translation>ICON</translation>
     </message>
     <message>
         <location filename="../IDlgProxy.ui" line="26"/>
         <source>Connect to proxy</source>
-        <translation></translation>
+        <translation>Mit dem Proxy verbinden</translation>
     </message>
     <message>
         <location filename="../IDlgProxy.ui" line="36"/>
         <source>Username:</source>
-        <translation>Benutzer:</translation>
+        <translation>Benutzername:</translation>
     </message>
     <message>
         <location filename="../IDlgProxy.ui" line="46"/>
@@ -12956,7 +13019,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../GeoMath.cpp" line="553"/>
         <source>Position values out of bounds. </source>
-        <translation>Positionswerte ausserhalb der Grenzen.</translation>
+        <translation>Positionswerte außerhalb der Grenzen.</translation>
     </message>
     <message>
         <location filename="../GeoMath.cpp" line="776"/>
@@ -12970,14 +13033,14 @@ p, li { white-space: pre-wrap; }
         <location filename="../GeoMath.cpp" line="789"/>
         <source>Failed to setup projection. Bad syntax?
 %1</source>
-        <translation>Fehler Setup der Projektion. Ungültiger Syntax?
+        <translation>Fehler im Setup der Projektion. Ungültige Syntax?
 %1</translation>
     </message>
     <message>
         <location filename="../GeoMath.cpp" line="807"/>
         <source>Failed to read reference coordinate. Bad syntax?
 %1</source>
-        <translation>Fehler beim lesen der Referenzkoordinaten. Ungültiger Syntax?
+        <translation>Fehler beim Lesen der Referenzkoordinaten. Ungültige Syntax?
 %1</translation>
     </message>
     <message>
@@ -13065,7 +13128,7 @@ Geschätzes Ende: %02i:%02i:%02i[hh:mm:ss]</translation>
     <message>
         <location filename="../main.cpp" line="55"/>
         <source>There is a problem with your Proj4 library and localization. The key issue is that the floating point definition in your localization is different from what Proj4 uses for it&apos;s correction tables (&apos;1.2&apos; vs &apos;1,2&apos;). That might cause an offset when using raster maps. Vector maps are not affected, as they use a projection that works without a textual table. </source>
-        <translation></translation>
+        <translation>Es gibt ein Problem mit der Proj4 Library und der Lokalisierung dergestalt, dass sich das Dezimaltrennzeichen der Lokalisierung von dem der Proj4 Korrekturtabellen unterscheidet (&apos;1.2&apos; vs &apos;1,2&apos;). Dies kann einen Versatz in Rasterkarten verursachen. Vektorkarten sind nicht betroffen, da deren Projektion ohne eine Texttabelle arbeitet.</translation>
     </message>
     <message>
         <source>&lt;!DOCTYPE HTML PUBLIC &apos;-//W3C//DTD HTML 4.0//EN&apos; &apos;http://www.w3.org/TR/REC-html40/strict.dtd&apos;&gt;&lt;html&gt;   &lt;head&gt;       &lt;META HTTP-EQUIV=&apos;CACHE-CONTROL&apos;&apos; CONTENT=&apos;NO-CACHE&apos;&gt;       &lt;style type=&apos;text/css&apos;&gt;           p, li { white-space: pre-wrap; }           td {padding-top: 10px;}       &lt;/style&gt;   &lt;/head&gt;   &lt;body style=&apos; font-family:&apos;Sans&apos;; font-size:9pt; font-weight:400; font-style:normal;&apos;&gt;       &lt;p&gt;${copyright}&lt;/p&gt;       &lt;h1&gt;Map Levels&lt;/h1&gt;       &lt;p&gt;${maplevels}&lt;/p&gt;       &lt;h1&gt;Legend&lt;/h1&gt;       &lt;h2&gt;Lines&lt;/h2&gt;       &lt;p&gt;${legendlines}&lt;/p&gt;       &lt;h2&gt;Areas&lt;/h2&gt;       &lt;p&gt;${legendareas}&lt;/p&gt;       &lt;h2&gt;Points&lt;/h2&gt;       &lt;p&gt;${legendpoints}&lt;/p&gt;   &lt;/body&gt;&lt;/html&gt;</source>
@@ -13094,3 +13157,4 @@ Geschätzes Ende: %02i:%02i:%02i[hh:mm:ss]</translation>
     </message>
 </context>
 </TS>
+
