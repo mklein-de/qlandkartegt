@@ -289,15 +289,21 @@ void CCanvas::mouseMoveEvent(QMouseEvent * e)
 
 void CCanvas::mousePressEvent(QMouseEvent * e)
 {
-    posMouse = e->pos();
-    mouse->mousePressEvent(e);
+    if (!contextMenuActive)
+    {
+        posMouse = e->pos();
+        mouse->mousePressEvent(e);
+    }
 }
 
 
 void CCanvas::mouseReleaseEvent(QMouseEvent * e)
 {
-    posMouse = e->pos();
-    mouse->mouseReleaseEvent(e);
+    if (!contextMenuActive)
+    {
+        posMouse = e->pos();
+        mouse->mouseReleaseEvent(e);
+    }
 }
 
 
@@ -331,7 +337,10 @@ void CCanvas::leaveEvent(QEvent * )
 {
     QApplication::restoreOverrideCursor();
     setMouseTracking(false);
-    if (mouse) mouse->setSelTrackPt(0);
+    if(mouse && !contextMenuActive)
+    {
+        mouse->setSelTrackPt(0);
+    }
 }
 
 
@@ -867,12 +876,12 @@ void CCanvas::raiseContextMenu(const QPoint& pos)
     //    menu.addAction(QIcon(":/icons/iconClipboard16x16.png"),tr("Copy Position"),this,SLOT(slotCopyPosition()));
     mouse->contextMenu(menu);
 
-    QPoint p = mapToGlobal(pos);
-    setMouseTracking(false);
     contextMenuActive = true;
-    menu.exec(p);
-    contextMenuActive = false;
+    QPoint p = mapToGlobal(pos);
+    setMouseTracking(false);    
+    menu.exec(p);    
     setMouseTracking(true);
+    contextMenuActive = false;
 }
 
 
