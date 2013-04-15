@@ -49,7 +49,8 @@ CMapDEMSlopeSetup::CMapDEMSlopeSetup(QWidget *parent)
 
 CMapDEMSlopeSetup::~CMapDEMSlopeSetup()
 {
-
+    m_pSelf = 0;
+    qDebug() << "CMapDEMSlopeSetup";
 }
 
 void CMapDEMSlopeSetup::paintEvent(QPaintEvent * e)

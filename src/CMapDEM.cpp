@@ -205,7 +205,10 @@ CMapDEM::~CMapDEM()
 {
     qDebug() << "CMapDEM::~CMapDEM()";
 
-    CMapDEMSlopeSetup::self().registerDEMMap(0);
+    if(CMapDEMSlopeSetup::self())
+    {
+        CMapDEMSlopeSetup::self()->registerDEMMap(0);
+    }
 
     SETTINGS;
     cfg.setValue("map/overlay/grade",idxGrade);
@@ -457,15 +460,15 @@ void CMapDEM::draw()
 
     IMap::overlay_e overlay = status->getOverlayType();
 
-    if(overlay != old_overlay)
+    if(CMapDEMSlopeSetup::self() && (overlay != old_overlay))
     {
         if(overlay == IMap::eSlope)
         {
-            CMapDEMSlopeSetup::self().registerDEMMap(this);
+            CMapDEMSlopeSetup::self()->registerDEMMap(this);
         }
         else
         {
-            CMapDEMSlopeSetup::self().registerDEMMap(0);
+            CMapDEMSlopeSetup::self()->registerDEMMap(0);
         }
     }
 

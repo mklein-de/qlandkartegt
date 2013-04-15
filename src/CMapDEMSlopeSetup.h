@@ -31,7 +31,7 @@ class CMapDEMSlopeSetup : public QWidget, private Ui::IMapDEMSlopeSetup
     public:
         virtual ~CMapDEMSlopeSetup();
 
-        static CMapDEMSlopeSetup& self(){return *m_pSelf;}
+        static CMapDEMSlopeSetup* self(){return m_pSelf;}
 
         void registerDEMMap(CMapDEM * map);
 
