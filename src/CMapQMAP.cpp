@@ -5,12 +5,12 @@
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
-    
+
     This program is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU General Public License for more details.
-    
+
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
@@ -276,53 +276,6 @@ void CMapQMAP::draw(QPainter& p)
     }
 }
 
-
-#include "CMapDB.h"
-void CMapQMAP::__test()
-{
-    IMap& dem = CMapDB::self().getDEM();
-
-    int c = 500, r = 500;
-
-    QVector<float> ele1(c * r);
-    float * ptr = ele1.data();
-    int x, y = 0;
-    for(y = 0; y < r; ++y)
-    {
-        for(x = 0; x < c; ++x)
-        {
-            double u = x;
-            double v = y;
-            convertPt2Rad(u,v);
-            *ptr++ = dem.getElevation(u,v);
-        }
-    }
-    printf("+++\n");
-
-    projXY p1, p2;
-    p1.u = 0;
-    p1.v = 0;
-    p2.u = c - 1;
-    p2.v = r - 1;
-    convertPt2Rad(p1.u, p1.v);
-    convertPt2Rad(p2.u, p2.v);
-
-    QVector<float> ele2(c * r);
-    dem.getRegion(ele2, p1, p2, c, r);
-
-    printf("---------------------\n");
-
-    for(y = 0 ; y < (c * r); y++)
-    {
-        if(ele1[y] != ele2[y])
-        {
-            qDebug() << "missmatch at " << y;
-            break;
-        }
-    }
-}
-
-
 void CMapQMAP::draw()
 {
     if(isThread())
@@ -442,12 +395,6 @@ void CMapQMAP::draw()
                             unsigned int offset;
 
                             for (offset = 0; offset < sizeof(testPix) && *(((quint8 *)&testPix) + offset) != pbandColour; offset++);
-
-                            /// @todo this has to be removed with GDAL 1.8.0
-#ifdef WIN32
-                            //offset = 3 - b;
-                                 // WIN32
-#endif
 
                             if(offset < sizeof(testPix))
                             {

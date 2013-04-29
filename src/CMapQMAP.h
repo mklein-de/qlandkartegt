@@ -5,12 +5,12 @@
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
-    
+
     This program is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU General Public License for more details.
-    
+
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
@@ -73,7 +73,6 @@ class CMapQMAP : public IMap
     private:
         friend class CExportMapThread;
         void getArea_n_Scaling(projXY& p1, projXY& p2, float& my_xscale, float& my_yscale);
-        void __test();
 
         QString exportPath;
 
