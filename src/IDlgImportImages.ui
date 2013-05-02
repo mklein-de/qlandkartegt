@@ -122,7 +122,8 @@
       <item>
        <widget class="QLabel" name="label_2">
         <property name="text">
-         <string>Befor you start taking any picture take a picture of the clock on your GPS device. Select the picture from the list above and enter the timestamp manually. QLandkarte GT will derive the delta between your camera and your GPS. The offset is used to adust all timestamps befor finding a matching point in the currently loaded tracks.</string>
+         <string>Take a picture of the GPS time display as the first photo in the series. Double-click that picture in the above list and enter the GPS time in the text box. QLandkarte GT will derive the delta time between camera
+and GPS and adjust all image time-stamps before correlating them with loaded track points.</string>
         </property>
         <property name="wordWrap">
          <bool>true</bool>
@@ -171,7 +172,7 @@
       <item>
        <widget class="QLabel" name="label_3">
         <property name="text">
-         <string>Befor you start taking any picture take a picture of the position on your GPS device. Select the picture from the list above and enter the position manually. QLandkarte GT will find the closest track point to that position and derive the time delta bewteen that point and the selcted picture. The offset is used to adust all timestamps befor finding a matching point in the currently loaded tracks.</string>
+         <string>Take a picture of the GPS position display as the first photo in the series. Double-click that picture in the above list and enter the GPS position. QLandkarte GT will locate the closest track point and derive the delta time between camera and GPS and adjust all image time-stamps before correlating them with loaded track points.</string>
         </property>
         <property name="wordWrap">
          <bool>true</bool>
