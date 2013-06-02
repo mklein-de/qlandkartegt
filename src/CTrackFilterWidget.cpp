@@ -1855,7 +1855,7 @@ bool CTrackFilterWidget::filterSplit5Tracks(QDataStream &args, QList<CTrack *> &
 
             *newTrack << trkpt;
 
-            if(trkpt == wpt->trkpt)
+            if(wpt != wpts.end() &&  trkpt == wpt->trkpt)
             {
                 wpt++;
 
