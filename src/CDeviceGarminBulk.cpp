@@ -5,12 +5,12 @@
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
-    
+
     This program is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU General Public License for more details.
-    
+
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
@@ -92,6 +92,8 @@ void CDeviceGarminBulk::readDeviceXml(const QString& filename)
 
 bool CDeviceGarminBulk::aquire(QDir& dir)
 {
+    QMessageBox::StandardButton res;
+
     SETTINGS;
     QString path = cfg.value("device/path","").toString();
     dir.setPath(path);
@@ -139,20 +141,42 @@ bool CDeviceGarminBulk::aquire(QDir& dir)
 
             if(!dir.exists(pathGpx))
             {
-                QMessageBox::critical(0, tr("Missing..."), tr("The selected path must have a subdirectory '%1'.").arg(pathGpx), QMessageBox::Abort, QMessageBox::Abort);
-                continue;
+                res = QMessageBox::critical(0, tr("Missing..."), tr("The selected path must have a subdirectory '%1'. Should I create the path?\n\n%2").arg(pathGpx).arg(dir.absoluteFilePath(pathGpx)), QMessageBox::Abort|QMessageBox::Yes, QMessageBox::Abort);
+                if(res == QMessageBox::Yes)
+                {
+                    dir.mkpath(pathGpx);
+                }
+                else
+                {
+                    continue;
+                }
             }
 
             if(!pathPictures.isEmpty() && !dir.exists(pathPictures))
             {
-                QMessageBox::critical(0, tr("Missing..."), tr("The selected path must have a subdirectory '%1'.").arg(pathPictures), QMessageBox::Abort, QMessageBox::Abort);
-                continue;
+                res = QMessageBox::critical(0, tr("Missing..."), tr("The selected path must have a subdirectory '%1'. Should I create the path?\n\n%2").arg(pathPictures).arg(dir.absoluteFilePath(pathPictures)), QMessageBox::Abort|QMessageBox::Yes, QMessageBox::Abort);
+                if(res == QMessageBox::Yes)
+                {
+                    dir.mkpath(pathPictures);
+                }
+                else
+                {
+                    continue;
+                }
             }
 
             if(!pathSpoilers.isEmpty() && !dir.exists(pathSpoilers))
             {
-                QMessageBox::critical(0, tr("Missing..."), tr("The selected path must have a subdirectory '%1'.").arg(pathSpoilers), QMessageBox::Abort, QMessageBox::Abort);
-                continue;
+
+                res = QMessageBox::critical(0, tr("Missing..."), tr("The selected path must have a subdirectory '%1. Should I create the path?\n\n%2").arg(pathSpoilers).arg(dir.absoluteFilePath(pathSpoilers)), QMessageBox::Abort|QMessageBox::Yes, QMessageBox::Abort);
+                if(res == QMessageBox::Yes)
+                {
+                    dir.mkpath(pathSpoilers);
+                }
+                else
+                {
+                    continue;
+                }
             }
 
             break;
