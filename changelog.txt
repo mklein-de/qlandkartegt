@@ -1,3 +1,20 @@
+--- 2013.07.09 ---
+change license  to GPLV3 
+
+Fix chrash with Garmin maps using unknown codepage for labels
+
+Garmin Bulk: Ask to create missing directories.
+
+Fix crash when splitting tracks at stages
+
+Fix crash on deleting track point of focus
+
+Fix crash because of deleted slope setup
+
+Fix context menu in canvas to edit track
+
+Add optional small arrow for live log
+
 --- 2013.03.10 ---
 
 Bug     #424:
