@@ -868,12 +868,12 @@
         <translation type="obsolete">Position kopieren</translation>
     </message>
     <message>
-        <location filename="../CCanvas.cpp" line="833"/>
+        <location filename="../CCanvas.cpp" line="842"/>
         <source>[Grid: %1] </source>
         <translation>[Gitter: %1]</translation>
     </message>
     <message>
-        <location filename="../CCanvas.cpp" line="837"/>
+        <location filename="../CCanvas.cpp" line="846"/>
         <source>[Grid: N %1m, E %2m] </source>
         <translation>[Gitter: N %1m, E %2m] </translation>
     </message>
@@ -907,7 +907,7 @@
     <message>
         <location filename="../CCopyright.cpp" line="40"/>
         <source>&lt;p&gt;&amp;#169; 2007 Oliver Eichler (oliver.eichler@gmx.de)&lt;/p&gt;&lt;p&gt;Thanks for contributing to the project:&lt;/p&gt;&lt;p&gt;Andrew Vagin&lt;br/&gt;Fabrice Crohas&lt;br/&gt;Marc Feld&lt;br/&gt;Joerg Wunsch&lt;br/&gt;Albrecht Dre&amp;szlig;&lt;br&gt;Christian Ehrlicher&lt;br/&gt;Christian Treffs&lt;br/&gt;Michael Klein&lt;br/&gt;&lt;/p&gt;&lt;p&gt;Translation:&lt;br&gt;Sarah Neumann (German)&lt;br&gt;Fabrice Crohas (French)&lt;br&gt;Alessandro Briosi (Italian)&lt;br&gt;Mike Markov (Russian)&lt;br&gt;Oscar A. and Luis Llorente (Spanish)&lt;br&gt;Harrie Klomp (Dutch)&lt;br&gt;&lt;/p&gt;&lt;p&gt;Icons and eye candy are from the &lt;b&gt;KDE&lt;/b&gt; icon set, the &lt;b&gt;Nuvola&lt;/b&gt; icon set and the &lt;b&gt;Oxygen&lt;/b&gt; icon set.See &lt;b&gt;http://www.kde.org/&lt;/b&gt;,&lt;b&gt;http://www.icon-king.com/&lt;/b&gt; and &lt;b&gt;http://www.oxygen-icons.org/&lt;/b&gt;. Waypoint icons are copied from &lt;b&gt;GPSMan&lt;/b&gt;. See &lt;b&gt;http://www.ncc.up.pt/gpsman/&lt;/b&gt;. Cursor icons are from the &apos;Polar Cursor Theme&apos;. See &lt;b&gt;http://www.kde-look.org/content/show.php?content=27913&lt;/b&gt;.Geocache icons are taken from the OpenCacheManager project. See &lt;b&gt;http://opencachemanage.sourceforge.net/&lt;/b&gt;.&lt;/p&gt; &lt;p&gt;Some of the 2D polygon math is copied from &lt;b&gt;http://local.wasp.uwa.edu.au/~pbourke/geometry/&lt;/b&gt;. The geodesic distance calculation by Thaddeus Vincenty is copied from &lt;b&gt;http://www.movable-type.co.uk/scripts/LatLongVincenty.html&lt;/b&gt;&lt;/p&gt;&lt;p&gt;Typ file decoding is done with the help of the source code published at http://ati.land.cz/gps/typedit//&lt;p&gt;</source>
-        <translation>&lt;p&gt;&amp;#169; 2007 Oliver Eichler (oliver.eichler@gmx.de)&lt;/p&gt;&lt;p&gt;Danke für Beiträge zum Projekt:&lt;/p&gt;&lt;p&gt;Andrew Vagin&lt;br/&gt;Fabrice Crohas&lt;br/&gt;Marc Feld&lt;br/&gt;Joerg Wunsch&lt;br/&gt;Albrecht Dre&amp;szlig;&lt;br&gt;Christian Ehrlicher&lt;br/&gt;Christian Treffs&lt;br/&gt;Michael Klein&lt;br/&gt;&lt;/p&gt;&lt;p&gt;Übersetzung:&lt;br&gt;Sarah Neumann (Deutsch)&lt;br&gt;Fabrice Crohas (Französisch)&lt;br&gt;Alessandro Briosi (Italian)&lt;br&gt;Mike Markov (Russian)&lt;br&gt;Oscar A. and Luis Llorente (Spanish)&lt;br&gt;Harrie Klomp (Dutch)&lt;br&gt;&lt;/p&gt;&lt;p&gt;Symbole und Blickfänge sind aus dem &lt;b&gt;KDE&lt;/b&gt; Symbolsatz, dem &lt;b&gt;Nuvola&lt;/b&gt; Symbolsatz und dem &lt;b&gt;Oxygen&lt;/b&gt; Symbolsatz. Siehe &lt;b&gt;http://www.kde.org/&lt;/b&gt;,&lt;b&gt;http://www.icon-king.com/&lt;/b&gt; and &lt;b&gt;http://www.oxygen-icons.org/&lt;/b&gt;. Wegpunktsymbole sind von &lt;b&gt;GPSMan&lt;/b&gt;kopiert. Siehe &lt;b&gt;http://www.ncc.up.pt/gpsman/&lt;/b&gt;. Mauszeiger sind aus dem &apos;Polar Cursor Theme&apos;. Siehe &lt;b&gt;http://www.kde-look.org/content/show.php?content=27913&lt;/b&gt;.Geocache Symbole wurden dem  OpenCacheManager Projekt entnommen. Siehe &lt;b&gt;http://opencachemanage.sourceforge.net/&lt;/b&gt;.&lt;/p&gt; &lt;p&gt;Teile der 2D-Polygon-Mathematik wurden von &lt;b&gt;http://local.wasp.uwa.edu.au/~pbourke/geometry/&lt;/b&gt; kopiert. Die geodätische Entfernungsberechnung nach Thaddeus Vincenty wurde von &lt;b&gt;http://www.movable-type.co.uk/scripts/LatLongVincenty.html&lt;/b&gt; kopiert.&lt;/p&gt;&lt;p&gt;Die Typdateidekodierung wurde mit Hilfe des Quellcodes auf &lt;b&gt;http://ati.land.cz/gps/typedit/&lt;/b&gt; erstellt&lt;/p&gt;</translation>
+        <translation>&lt;p&gt;&amp;#169; 2007 Oliver Eichler (oliver.eichler@gmx.de)&lt;/p&gt;&lt;p&gt;Danke für Beiträge zum Projekt:&lt;/p&gt;&lt;p&gt;Andrew Vagin&lt;br/&gt;Fabrice Crohas&lt;br/&gt;Marc Feld&lt;br/&gt;Joerg Wunsch&lt;br/&gt;Albrecht Dre&amp;szlig;&lt;br&gt;Christian Ehrlicher&lt;br/&gt;Christian Treffs&lt;br/&gt;Michael Klein&lt;br/&gt;&lt;/p&gt;&lt;p&gt;Übersetzung:&lt;br&gt;Sarah Neumann, Josef Latt (Deutsch)&lt;br&gt;Fabrice Crohas (Französisch)&lt;br&gt;Alessandro Briosi (Italian)&lt;br&gt;Mike Markov (Russian)&lt;br&gt;Oscar A. and Luis Llorente (Spanish)&lt;br&gt;Harrie Klomp (Dutch)&lt;br&gt;&lt;/p&gt;&lt;p&gt;Symbole und Blickfänge sind aus dem &lt;b&gt;KDE&lt;/b&gt; Symbolsatz, dem &lt;b&gt;Nuvola&lt;/b&gt; Symbolsatz und dem &lt;b&gt;Oxygen&lt;/b&gt; Symbolsatz. Siehe &lt;b&gt;http://www.kde.org/&lt;/b&gt;,&lt;b&gt;http://www.icon-king.com/&lt;/b&gt; and &lt;b&gt;http://www.oxygen-icons.org/&lt;/b&gt;. Wegpunktsymbole sind von &lt;b&gt;GPSMan&lt;/b&gt;kopiert. Siehe &lt;b&gt;http://www.ncc.up.pt/gpsman/&lt;/b&gt;. Mauszeiger sind aus dem &apos;Polar Cursor Theme&apos;. Siehe &lt;b&gt;http://www.kde-look.org/content/show.php?content=27913&lt;/b&gt;.Geocache Symbole wurden dem  OpenCacheManager Projekt entnommen. Siehe &lt;b&gt;http://opencachemanage.sourceforge.net/&lt;/b&gt;.&lt;/p&gt; &lt;p&gt;Teile der 2D-Polygon-Mathematik wurden von &lt;b&gt;http://local.wasp.uwa.edu.au/~pbourke/geometry/&lt;/b&gt; kopiert. Die geodätische Entfernungsberechnung nach Thaddeus Vincenty wurde von &lt;b&gt;http://www.movable-type.co.uk/scripts/LatLongVincenty.html&lt;/b&gt; kopiert.&lt;/p&gt;&lt;p&gt;Die Typdateidekodierung wurde mit Hilfe des Quellcodes auf &lt;b&gt;http://ati.land.cz/gps/typedit/&lt;/b&gt; erstellt&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../CCopyright.cpp" line="90"/>
@@ -1007,8 +1007,7 @@ Koordinatenformat:
     <message>
         <location filename="../CCreateMapGeoTiff.cpp" line="92"/>
         <source>thin plate (4 Ref. Pts.)</source>
-        <translatorcomment>?  Übersetzung unklar</translatorcomment>
-        <translation>geringfügige Platte (4 Referenzp.)</translation>
+        <translation type="unfinished">Thin Plate (4 Referenzp.)</translation>
     </message>
     <message>
         <location filename="../CCreateMapGeoTiff.cpp" line="243"/>
@@ -1058,9 +1057,13 @@ Koordinatenformat:
 • &quot;285000 5162000&quot;</translation>
     </message>
     <message>
-        <location filename="../CCreateMapGeoTiff.cpp" line="243"/>
         <source>Raw bitmaps (*.tif *.tiff *.png *.gif)</source>
-        <translation>Einfache Bitmaps (*.tif *.tiff *.png *.gif)</translation>
+        <translation type="obsolete">Einfache Bitmaps (*.tif *.tiff *.png *.gif)</translation>
+    </message>
+    <message>
+        <location filename="../CCreateMapGeoTiff.cpp" line="243"/>
+        <source>Raw bitmaps (*.tif *.tiff *.png *.gif *.jpg)</source>
+        <translation>Unbearbeite Bitmaps (*.tif *.tiff *.png *.gif *.jpg)</translation>
     </message>
     <message>
         <location filename="../CCreateMapGeoTiff.cpp" line="289"/>
@@ -1513,9 +1516,9 @@ Erwartet: %1, empfangen %2.</translation>
 <context>
     <name>CDeviceGarminBulk</name>
     <message>
-        <location filename="../CDeviceGarminBulk.cpp" line="142"/>
-        <location filename="../CDeviceGarminBulk.cpp" line="148"/>
-        <location filename="../CDeviceGarminBulk.cpp" line="154"/>
+        <location filename="../CDeviceGarminBulk.cpp" line="144"/>
+        <location filename="../CDeviceGarminBulk.cpp" line="157"/>
+        <location filename="../CDeviceGarminBulk.cpp" line="171"/>
         <source>Missing...</source>
         <translation>Fehlt...</translation>
     </message>
@@ -1528,91 +1531,107 @@ Erwartet: %1, empfangen %2.</translation>
         <translation type="obsolete">Der ausgewählte Pfad muss ein Unterverzeichnis &apos;JPEG&apos; oder &apos;Pictures&apos; haben.</translation>
     </message>
     <message>
-        <location filename="../CDeviceGarminBulk.cpp" line="123"/>
+        <location filename="../CDeviceGarminBulk.cpp" line="125"/>
         <source>Path to Garmin device...</source>
         <translation>Pfad zum Garmingerät...</translation>
     </message>
     <message>
-        <location filename="../CDeviceGarminBulk.cpp" line="142"/>
-        <location filename="../CDeviceGarminBulk.cpp" line="148"/>
-        <location filename="../CDeviceGarminBulk.cpp" line="154"/>
         <source>The selected path must have a subdirectory &apos;%1&apos;.</source>
-        <translation>Der ausgewählte Pfad muss ein Unterverzeichnis &apos;%1&apos; haben.</translation>
+        <translation type="obsolete">Der ausgewählte Pfad muss ein Unterverzeichnis &apos;%1&apos; haben.</translation>
     </message>
     <message>
-        <location filename="../CDeviceGarminBulk.cpp" line="194"/>
+        <location filename="../CDeviceGarminBulk.cpp" line="144"/>
+        <location filename="../CDeviceGarminBulk.cpp" line="157"/>
+        <source>The selected path must have a subdirectory &apos;%1&apos;. Should I create the path?
+
+%2</source>
+        <translation>Der gewählte Pfad muss ein Unterverzeichnis haben &apos;%1&apos;. Soll der Pfad angelegt werden?
+
+%2</translation>
+    </message>
+    <message>
+        <location filename="../CDeviceGarminBulk.cpp" line="171"/>
+        <source>The selected path must have a subdirectory &apos;%1. Should I create the path?
+
+%2</source>
+        <translation>Der gewählte Pfad muss ein Unterverzeichnis haben &apos;%1&apos;. Soll der Pfad angelegt werden?
+
+%2</translation>
+    </message>
+    <message>
+        <location filename="../CDeviceGarminBulk.cpp" line="218"/>
         <source>waypoints</source>
         <translation>Wegpunkte</translation>
     </message>
     <message>
-        <location filename="../CDeviceGarminBulk.cpp" line="262"/>
-        <location filename="../CDeviceGarminBulk.cpp" line="299"/>
-        <location filename="../CDeviceGarminBulk.cpp" line="401"/>
-        <location filename="../CDeviceGarminBulk.cpp" line="436"/>
-        <location filename="../CDeviceGarminBulk.cpp" line="477"/>
-        <location filename="../CDeviceGarminBulk.cpp" line="513"/>
+        <location filename="../CDeviceGarminBulk.cpp" line="286"/>
+        <location filename="../CDeviceGarminBulk.cpp" line="323"/>
+        <location filename="../CDeviceGarminBulk.cpp" line="425"/>
+        <location filename="../CDeviceGarminBulk.cpp" line="460"/>
+        <location filename="../CDeviceGarminBulk.cpp" line="501"/>
+        <location filename="../CDeviceGarminBulk.cpp" line="537"/>
         <source>Error</source>
         <translation>Fehler</translation>
     </message>
     <message>
-        <location filename="../CDeviceGarminBulk.cpp" line="266"/>
+        <location filename="../CDeviceGarminBulk.cpp" line="290"/>
         <source>Upload waypoints finished!</source>
         <translation>Fertig mit dem Hochladen von Wegpunkten!</translation>
     </message>
     <message>
-        <location filename="../CDeviceGarminBulk.cpp" line="370"/>
+        <location filename="../CDeviceGarminBulk.cpp" line="394"/>
         <source>Download waypoints finished!</source>
         <translation>Fertig mit dem Herunterladen von Wegpunkten!</translation>
     </message>
     <message>
-        <location filename="../CDeviceGarminBulk.cpp" line="383"/>
+        <location filename="../CDeviceGarminBulk.cpp" line="407"/>
         <source>tracks</source>
         <translation>Tracks</translation>
     </message>
     <message>
-        <location filename="../CDeviceGarminBulk.cpp" line="404"/>
+        <location filename="../CDeviceGarminBulk.cpp" line="428"/>
         <source>Upload tracks finished!</source>
         <translation>Fertig mit dem Hochladen von Tracks!</translation>
     </message>
     <message>
-        <location filename="../CDeviceGarminBulk.cpp" line="447"/>
+        <location filename="../CDeviceGarminBulk.cpp" line="471"/>
         <source>Download tracks finished!</source>
         <translation>Fertig mit dem Herunterladen von Tracks!</translation>
     </message>
     <message>
-        <location filename="../CDeviceGarminBulk.cpp" line="459"/>
+        <location filename="../CDeviceGarminBulk.cpp" line="483"/>
         <source>routes</source>
         <translation>Routen</translation>
     </message>
     <message>
-        <location filename="../CDeviceGarminBulk.cpp" line="480"/>
+        <location filename="../CDeviceGarminBulk.cpp" line="504"/>
         <source>Upload routes finished!</source>
         <translation>Fertig mit dem Hochladen von Routen!</translation>
     </message>
     <message>
-        <location filename="../CDeviceGarminBulk.cpp" line="524"/>
+        <location filename="../CDeviceGarminBulk.cpp" line="548"/>
         <source>Download routes finished!</source>
         <translation>Fertig mit dem Herunterladen von Routen!</translation>
     </message>
     <message>
-        <location filename="../CDeviceGarminBulk.cpp" line="530"/>
-        <location filename="../CDeviceGarminBulk.cpp" line="536"/>
-        <location filename="../CDeviceGarminBulk.cpp" line="542"/>
+        <location filename="../CDeviceGarminBulk.cpp" line="554"/>
+        <location filename="../CDeviceGarminBulk.cpp" line="560"/>
+        <location filename="../CDeviceGarminBulk.cpp" line="566"/>
         <source>Error...</source>
         <translation>Fehler...</translation>
     </message>
     <message>
-        <location filename="../CDeviceGarminBulk.cpp" line="530"/>
+        <location filename="../CDeviceGarminBulk.cpp" line="554"/>
         <source>Garmin Mass Storage: Upload maps is not implemented.</source>
         <translation>Garmin Speichermedium: Karten hochladen ist nicht implementiert.</translation>
     </message>
     <message>
-        <location filename="../CDeviceGarminBulk.cpp" line="536"/>
+        <location filename="../CDeviceGarminBulk.cpp" line="560"/>
         <source>Garmin Mass Storage: Download screenshots is not implemented.</source>
         <translation>Garmin Speichermedium: Bildschirmfotos herunterladen ist nicht implementiert.</translation>
     </message>
     <message>
-        <location filename="../CDeviceGarminBulk.cpp" line="542"/>
+        <location filename="../CDeviceGarminBulk.cpp" line="566"/>
         <source>Garmin Mass Storage: Live log is not implemented.</source>
         <translation>Garmin Speichermedium: Die Echtzeitaufzeichnung ist nicht implementiert.</translation>
     </message>
@@ -4152,7 +4171,7 @@ Sollen die Änderungen gespeichert werden?</translation>
     <message>
         <location filename="../CDlgCropMap.cpp" line="419"/>
         <source>Optimize file...</source>
-        <translation>Datei optimieren..</translation>
+        <translation>Datei optimieren...</translation>
     </message>
     <message>
         <location filename="../CDlgCropMap.cpp" line="432"/>
@@ -4235,7 +4254,7 @@ Sollen die Änderungen gespeichert werden?</translation>
         <location filename="../CMapDEM.cpp" line="109"/>
         <location filename="../CMapDEM.cpp" line="120"/>
         <source>Error...</source>
-        <translation>Fehler ...</translation>
+        <translation>Fehler...</translation>
     </message>
     <message>
         <location filename="../CMapDEM.cpp" line="110"/>
@@ -4253,7 +4272,7 @@ Sollen die Änderungen gespeichert werden?</translation>
 <context>
     <name>CMapDEMSlopeSetup</name>
     <message>
-        <location filename="../CMapDEMSlopeSetup.cpp" line="98"/>
+        <location filename="../CMapDEMSlopeSetup.cpp" line="99"/>
         <source>Grade %1</source>
         <translation>Stufe %1</translation>
     </message>
@@ -5294,8 +5313,7 @@ Abbruch durch Benutzer.</translation>
     <message>
         <location filename="../CMapTDB.cpp" line="1072"/>
         <source>Intermittent stream</source>
-        <translatorcomment>?</translatorcomment>
-        <translation>Wadi</translation>
+        <translation>intermittierender Fluss</translation>
     </message>
     <message>
         <location filename="../CMapTDB.cpp" line="1073"/>
@@ -7497,8 +7515,7 @@ Ihre Auswahl wird mit den Trackdaten zugefügt. Sie können sie mit den Trackdat
     <message>
         <location filename="../CTrackEditWidget.cpp" line="948"/>
         <source>Trainee</source>
-        <translatorcomment>?</translatorcomment>
-        <translation>Trainee</translation>
+        <translation type="unfinished">Training</translation>
     </message>
     <message>
         <location filename="../CTrackEditWidget.cpp" line="857"/>
@@ -7546,8 +7563,7 @@ Ihre Auswahl wird mit den Trackdaten zugefügt. Sie können sie mit den Trackdat
     <message>
         <location filename="../CTrackEditWidget.cpp" line="1497"/>
         <source>Prox.</source>
-        <translatorcomment>? Abstand</translatorcomment>
-        <translation>Alarm</translation>
+        <translation>Abstand</translation>
     </message>
     <message>
         <location filename="../CTrackEditWidget.cpp" line="1498"/>
@@ -8127,8 +8143,7 @@ Ende: %1</translation>
     <message>
         <location filename="../CWptToolWidget.cpp" line="62"/>
         <source>Parent Waypoint ...</source>
-        <translatorcomment>?</translatorcomment>
-        <translation>Vorgängerwegpunkt</translation>
+        <translation>Hauptwegpunkt</translation>
     </message>
     <message>
         <location filename="../CWptToolWidget.cpp" line="64"/>
@@ -8178,7 +8193,7 @@ Ende: %1</translation>
     <message>
         <location filename="../CWptToolWidget.cpp" line="412"/>
         <source>Distance [%1]</source>
-        <translation>Abstand [%1]</translation>
+        <translation>Entfernung [%1]</translation>
     </message>
     <message>
         <location filename="../CWptToolWidget.cpp" line="429"/>
@@ -10403,106 +10418,105 @@ p, li { white-space: pre-wrap; }
         <translation>Wegpunkt bearbeiten ...</translation>
     </message>
     <message>
-        <location filename="../IDlgEditWpt.ui" line="39"/>
+        <location filename="../IDlgEditWpt.ui" line="32"/>
         <source>Data</source>
         <translation>Daten</translation>
     </message>
     <message>
-        <location filename="../IDlgEditWpt.ui" line="47"/>
+        <location filename="../IDlgEditWpt.ui" line="40"/>
         <source>Symbol &amp; Name</source>
         <translation>Symbol &amp; Name</translation>
     </message>
     <message>
-        <location filename="../IDlgEditWpt.ui" line="59"/>
+        <location filename="../IDlgEditWpt.ui" line="52"/>
         <source>Parent waypoint. Attach this waypoint to a geocache.</source>
-        <translatorcomment>?</translatorcomment>
         <translation>Hauptwegpunkt. Diesen Wegpunkt einem Geocache zufügen.</translation>
     </message>
     <message>
-        <location filename="../IDlgEditWpt.ui" line="72"/>
-        <location filename="../IDlgEditWpt.ui" line="269"/>
-        <location filename="../IDlgEditWpt.ui" line="462"/>
+        <location filename="../IDlgEditWpt.ui" line="65"/>
+        <location filename="../IDlgEditWpt.ui" line="262"/>
+        <location filename="../IDlgEditWpt.ui" line="455"/>
         <source>...</source>
         <translation>...</translation>
     </message>
     <message>
-        <location filename="../IDlgEditWpt.ui" line="79"/>
+        <location filename="../IDlgEditWpt.ui" line="72"/>
         <source>sticky</source>
         <translation>dauerhaft</translation>
     </message>
     <message>
-        <location filename="../IDlgEditWpt.ui" line="88"/>
+        <location filename="../IDlgEditWpt.ui" line="81"/>
         <source>Position</source>
         <translation>Position</translation>
     </message>
     <message>
-        <location filename="../IDlgEditWpt.ui" line="107"/>
+        <location filename="../IDlgEditWpt.ui" line="100"/>
         <source>+</source>
         <translation>+</translation>
     </message>
     <message>
-        <location filename="../IDlgEditWpt.ui" line="127"/>
+        <location filename="../IDlgEditWpt.ui" line="120"/>
         <source>m,</source>
         <translation>m,</translation>
     </message>
     <message utf8="true">
-        <location filename="../IDlgEditWpt.ui" line="147"/>
+        <location filename="../IDlgEditWpt.ui" line="140"/>
         <source>°</source>
         <translation>°</translation>
     </message>
     <message>
-        <location filename="../IDlgEditWpt.ui" line="156"/>
+        <location filename="../IDlgEditWpt.ui" line="149"/>
         <source>Altitude</source>
         <translation>Höhe</translation>
     </message>
     <message>
-        <location filename="../IDlgEditWpt.ui" line="181"/>
-        <location filename="../IDlgEditWpt.ui" line="225"/>
+        <location filename="../IDlgEditWpt.ui" line="174"/>
+        <location filename="../IDlgEditWpt.ui" line="218"/>
         <source>m</source>
         <translation>m</translation>
     </message>
     <message>
-        <location filename="../IDlgEditWpt.ui" line="203"/>
+        <location filename="../IDlgEditWpt.ui" line="196"/>
         <source>Proximity Dist.</source>
         <translation>Abstandswarnung</translation>
     </message>
     <message>
-        <location filename="../IDlgEditWpt.ui" line="247"/>
+        <location filename="../IDlgEditWpt.ui" line="240"/>
         <source>Webpage</source>
         <translation>Webseite</translation>
     </message>
     <message>
-        <location filename="../IDlgEditWpt.ui" line="262"/>
+        <location filename="../IDlgEditWpt.ui" line="255"/>
         <source>None</source>
         <translation>Keine</translation>
     </message>
     <message>
-        <location filename="../IDlgEditWpt.ui" line="288"/>
+        <location filename="../IDlgEditWpt.ui" line="281"/>
         <source>Comment</source>
         <translation>Kommentar</translation>
     </message>
     <message>
-        <location filename="../IDlgEditWpt.ui" line="314"/>
+        <location filename="../IDlgEditWpt.ui" line="307"/>
         <source>More</source>
         <translation>Sonstiges</translation>
     </message>
     <message>
-        <location filename="../IDlgEditWpt.ui" line="321"/>
+        <location filename="../IDlgEditWpt.ui" line="314"/>
         <source>about:blank</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../IDlgEditWpt.ui" line="329"/>
+        <location filename="../IDlgEditWpt.ui" line="322"/>
         <source>Show hidden information</source>
         <translation>Zeige versteckte Information</translation>
     </message>
     <message>
-        <location filename="../IDlgEditWpt.ui" line="337"/>
+        <location filename="../IDlgEditWpt.ui" line="330"/>
         <source>Images</source>
         <translation>Bilder</translation>
     </message>
     <message>
-        <location filename="../IDlgEditWpt.ui" line="351"/>
+        <location filename="../IDlgEditWpt.ui" line="344"/>
         <source>If you use the word &quot;Spoiler&quot; in the comment, the image might be treated special on your GPSr. 
 
 For modern Garmin device select &quot;Garmin Mass Storage&quot; device to exchange pictures and spoilers.</source>
@@ -10511,17 +10525,17 @@ For modern Garmin device select &quot;Garmin Mass Storage&quot; device to exchan
 Für moderne Garmingeräte muss &quot;Garmin Massenspeicher&quot; ausgewählt sein, um Bilder und Spoiler zu übertragen.</translation>
     </message>
     <message>
-        <location filename="../IDlgEditWpt.ui" line="366"/>
+        <location filename="../IDlgEditWpt.ui" line="359"/>
         <source>Get spoilers!</source>
         <translation>Spoiler-Bilder laden!</translation>
     </message>
     <message>
-        <location filename="../IDlgEditWpt.ui" line="398"/>
+        <location filename="../IDlgEditWpt.ui" line="391"/>
         <source>Add</source>
         <translation>Hinzufügen</translation>
     </message>
     <message>
-        <location filename="../IDlgEditWpt.ui" line="701"/>
+        <location filename="../IDlgEditWpt.ui" line="703"/>
         <source>Create Buddies</source>
         <translation>Erzeuge Buddies</translation>
     </message>
@@ -10530,12 +10544,12 @@ Für moderne Garmingeräte muss &quot;Garmin Massenspeicher&quot; ausgewählt se
         <translation type="obsolete">Nächstes</translation>
     </message>
     <message>
-        <location filename="../IDlgEditWpt.ui" line="612"/>
+        <location filename="../IDlgEditWpt.ui" line="605"/>
         <source>Barcode</source>
         <translation>Barcode</translation>
     </message>
     <message>
-        <location filename="../IDlgEditWpt.ui" line="639"/>
+        <location filename="../IDlgEditWpt.ui" line="632"/>
         <source>xx</source>
         <translation></translation>
     </message>
@@ -10548,17 +10562,17 @@ Für moderne Garmingeräte muss &quot;Garmin Massenspeicher&quot; ausgewählt se
         <translation type="obsolete">Vorheriges</translation>
     </message>
     <message>
-        <location filename="../IDlgEditWpt.ui" line="420"/>
+        <location filename="../IDlgEditWpt.ui" line="413"/>
         <source>Delete</source>
         <translation>Löschen</translation>
     </message>
     <message>
-        <location filename="../IDlgEditWpt.ui" line="433"/>
+        <location filename="../IDlgEditWpt.ui" line="426"/>
         <source>Transparent</source>
         <translation>Transparent</translation>
     </message>
     <message>
-        <location filename="../IDlgEditWpt.ui" line="538"/>
+        <location filename="../IDlgEditWpt.ui" line="531"/>
         <source>no image</source>
         <translation>kein Bild</translation>
     </message>
@@ -10567,17 +10581,17 @@ Für moderne Garmingeräte muss &quot;Garmin Massenspeicher&quot; ausgewählt se
         <translation type="obsolete">Zusammenfassung</translation>
     </message>
     <message>
-        <location filename="../IDlgEditWpt.ui" line="658"/>
+        <location filename="../IDlgEditWpt.ui" line="651"/>
         <source>Save</source>
         <translation>Speichern</translation>
     </message>
     <message>
-        <location filename="../IDlgEditWpt.ui" line="651"/>
+        <location filename="../IDlgEditWpt.ui" line="644"/>
         <source>Update</source>
         <translation>Aktualisieren</translation>
     </message>
     <message>
-        <location filename="../IDlgEditWpt.ui" line="278"/>
+        <location filename="../IDlgEditWpt.ui" line="271"/>
         <source>Description</source>
         <translation>Beschreibung</translation>
     </message>
@@ -10664,38 +10678,38 @@ Für moderne Garmingeräte muss &quot;Garmin Massenspeicher&quot; ausgewählt se
     </message>
     <message>
         <location filename="../IDlgImportImages.ui" line="109"/>
-        <location filename="../IDlgImportImages.ui" line="168"/>
+        <location filename="../IDlgImportImages.ui" line="169"/>
         <source>Position reference</source>
         <translation>Position</translation>
     </message>
     <message>
         <location filename="../IDlgImportImages.ui" line="125"/>
-        <source>Befor you start taking any picture take a picture of the clock on your GPS device. Select the picture from the list above and enter the timestamp manually. QLandkarte GT will derive the delta between your camera and your GPS. The offset is used to adust all timestamps befor finding a matching point in the currently loaded tracks.</source>
-        <translatorcomment>?</translatorcomment>
-        <translation type="unfinished"></translation>
+        <source>Take a picture of the GPS time display as the first photo in the series. Double-click that picture in the above list and enter the GPS time in the text box. QLandkarte GT will derive the delta time between camera
+and GPS and adjust all image time-stamps before correlating them with loaded track points.</source>
+        <translation>Nimm ein Bild der GPS Zeitanzeige als erstes Foto der Serie. Doppelklicke das Bild in der obigen Liste und gib die GPS-Zeit in das Textfeld ein. QLandkarte GT wird die Zeitstempel der Bilder anhand der Zeitdifferenz zwischen GPS und Kamera abgleichen und danach die Bilder den geladenen Trackpunkten zuordnen.</translation>
     </message>
     <message>
-        <location filename="../IDlgImportImages.ui" line="143"/>
+        <location filename="../IDlgImportImages.ui" line="175"/>
+        <source>Take a picture of the GPS position display as the first photo in the series. Double-click that picture in the above list and enter the GPS position. QLandkarte GT will locate the closest track point and derive the delta time between camera and GPS and adjust all image time-stamps before correlating them with loaded track points.</source>
+        <translation>Nimm ein Bild der GPS Position als erstes Foto der Serie. Doppelklicke das Bild in der obigen Liste und gib die GPS Position ein. QLandkarte GT wird den nächstliegenden Trackpunkt wählen, die Zeitstempel der Bilder anhand der Zeitdifferenz zwischen GPS und Kamera abgleichen und danach die Bilder den geladenen Trackpunkten zuordnen.</translation>
+    </message>
+    <message>
+        <location filename="../IDlgImportImages.ui" line="144"/>
         <source>Select a picture from the list and enter the timestamp</source>
         <translation>Wähle ein Bild in der Liste aus und gib die Zeitmarke ein.</translation>
     </message>
     <message>
-        <location filename="../IDlgImportImages.ui" line="153"/>
+        <location filename="../IDlgImportImages.ui" line="154"/>
         <source>dd.MM.yy HH:mm:ss</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../IDlgImportImages.ui" line="174"/>
-        <source>Befor you start taking any picture take a picture of the position on your GPS device. Select the picture from the list above and enter the position manually. QLandkarte GT will find the closest track point to that position and derive the time delta bewteen that point and the selcted picture. The offset is used to adust all timestamps befor finding a matching point in the currently loaded tracks.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../IDlgImportImages.ui" line="192"/>
+        <location filename="../IDlgImportImages.ui" line="193"/>
         <source>Select a picture from the list and enter the position</source>
         <translation>Wähle ein Bild in der Liste aus und gib die Position ein.</translation>
     </message>
     <message>
-        <location filename="../IDlgImportImages.ui" line="202"/>
+        <location filename="../IDlgImportImages.ui" line="203"/>
         <source>The position has to be in WGS84 datum. The position format is: N|Sdd mm.mmm E|Wddd mm.mmm</source>
         <translation>Die Position muss das WGS84 Datum haben. Das Format ist: N|Sdd mm.mmm E|Wddd mm.mmm</translation>
     </message>
@@ -10940,7 +10954,6 @@ Für moderne Garmingeräte muss &quot;Garmin Massenspeicher&quot; ausgewählt se
     <message>
         <location filename="../IDlgParentWpt.ui" line="14"/>
         <source>Select Parent Waypoint ...</source>
-        <translatorcomment>?</translatorcomment>
         <translation>Wähle Hauptwegpunkt aus...</translation>
     </message>
 </context>
@@ -10994,7 +11007,6 @@ Für moderne Garmingeräte muss &quot;Garmin Massenspeicher&quot; ausgewählt se
     <message>
         <location filename="../IDlgProjWizzard.ui" line="131"/>
         <source>World Mercator (OSM)</source>
-        <translatorcomment>?</translatorcomment>
         <translation>World Mercator (OSM)</translation>
     </message>
 </context>
@@ -11160,8 +11172,7 @@ Für moderne Garmingeräte muss &quot;Garmin Massenspeicher&quot; ausgewählt se
         <location filename="../IDlgTrackFilter.ui" line="51"/>
         <location filename="../IDlgTrackFilter.ui" line="101"/>
         <source>buttonGroup</source>
-        <translatorcomment>?</translatorcomment>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../IDlgTrackFilter.ui" line="170"/>
@@ -11198,8 +11209,7 @@ Für moderne Garmingeräte muss &quot;Garmin Massenspeicher&quot; ausgewählt se
         <location filename="../IDlgTrackFilter.ui" line="267"/>
         <location filename="../IDlgTrackFilter.ui" line="280"/>
         <source>buttonGroupTZ</source>
-        <translatorcomment>?</translatorcomment>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../IDlgTrackFilter.ui" line="274"/>
@@ -11225,8 +11235,7 @@ Für moderne Garmingeräte muss &quot;Garmin Massenspeicher&quot; ausgewählt se
         <location filename="../IDlgTrackFilter.ui" line="359"/>
         <location filename="../IDlgTrackFilter.ui" line="369"/>
         <source>buttonGroupTDelta</source>
-        <translatorcomment>?</translatorcomment>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../IDlgTrackFilter.ui" line="366"/>
@@ -11474,7 +11483,6 @@ Für moderne Garmingeräte muss &quot;Garmin Massenspeicher&quot; ausgewählt se
     <message>
         <location filename="../ILiveLogToolWidget.ui" line="185"/>
         <source>use small arrow</source>
-        <translatorcomment>?</translatorcomment>
         <translation>kleinen Cursor nutzen</translation>
     </message>
 </context>
@@ -11953,7 +11961,6 @@ DEM: %2</translation>
     <message>
         <location filename="../IMapToolWidget.ui" line="30"/>
         <source>Page</source>
-        <translatorcomment>? Blatt</translatorcomment>
         <translation>Seite</translation>
     </message>
     <message>
@@ -12172,8 +12179,22 @@ p, li { white-space: pre-wrap; }
 &lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;To create a route from a distance polyline you select the line and summon the menu by a right mouse button click and select &amp;quot;Make Route&amp;quot;.&lt;/p&gt;
 &lt;p align=&quot;justify&quot; style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;
 &lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;In the &amp;quot;Setup&amp;quot; tab you can select settings for auto routing. To calculate a secondary, autorouted route to your primary route definition you  summon the menu by a right mouse button click and select &amp;quot;Calc. route&amp;quot;.&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translatorcomment>?</translatorcomment>
-        <translation type="unfinished"></translation>
+        <translation>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Sans Serif&apos;; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;table border=&quot;0&quot; style=&quot;-qt-table-type: root; margin-top:4px; margin-bottom:4px; margin-left:4px; margin-right:4px;&quot;&gt;
+&lt;tr&gt;
+&lt;td style=&quot;border: none;&quot;&gt;
+&lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Eine Route erzeugen?&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Routen können aus Wegpunkten oder Entfernungslinien erzeugt werden. &lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Zur Erzeugung einer Route aus Wegpunkten müssen mindestens zwei Wegpunkte in der Wegpunkt-Werkzeugbox gewählt werden. Dann im Kontexmenü (Klick mit rechter Maustaste) &amp;quot;Route erzeugen ...&amp;quot;. wählen.&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Zur Erzeugung einer Route aus einer Entfernungs, die Entfernungslinie in der Zeichnen-Werkzeugbox auswählen. Dann im Kontexmenü (Klick mit rechter Maustaste) &amp;quot;Route erzeugen&amp;quot; wählen.&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Im Tab &amp;quot;Einstellungen&amp;quot; der Routen-Werkzeugbox können Einstellungen für das Autorouting vorgenommen werden. Zur Neuberechnung der Route im Kontexmenü (Klick mit rechter Maustaste) der Route &amp;quot;Route berechnen&amp;quot; wählen.&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <source>Avoid highways</source>
@@ -12641,7 +12662,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../ITrackFilterWidget.ui" line="392"/>
         <source>Distance of a point to a straight line between neighbor points is less than</source>
-        <translation>der Abstand eines Punktes zu einer Linie zwischen 2 Nachbarpunkten weniger ist als </translation>
+        <translation>der Abstand eines Punktes zur geraden Linie zwischen Nachbarpunkten weniger ist als </translation>
     </message>
     <message>
         <location filename="../ITrackFilterWidget.ui" line="439"/>
@@ -13157,4 +13178,3 @@ Geschätzes Ende: %02i:%02i:%02i[hh:mm:ss]</translation>
     </message>
 </context>
 </TS>
-
