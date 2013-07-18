@@ -594,10 +594,6 @@ void CMapDEM::draw()
     {
         contour(img,data.data(), my_xscale, my_yscale);
     }
-    else if(overlay == IMap::eContour)
-    {
-        slope(img,data.data(), my_xscale, my_yscale);
-    }
     else if(overlay == IMap::eSlope)
     {
         slope(img,data.data(), xoff1, yoff1);
