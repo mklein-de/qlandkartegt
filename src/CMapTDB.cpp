@@ -1898,7 +1898,7 @@ void CMapTDB::draw(QPainter& p)
 
     needsRedraw = false;
 
-    if(!infotext.isEmpty() && info)
+    if(!infotext.isEmpty() && info && CResources::self().showElementInfo())
     {
         QFont f = p.font();
         f.setBold(false);

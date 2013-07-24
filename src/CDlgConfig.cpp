@@ -5,12 +5,12 @@
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
-    
+
     This program is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU General Public License for more details.
-    
+
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
@@ -102,6 +102,7 @@ void CDlgConfig::exec()
     checkShowClock->setChecked(resources.m_showClock);
     checkShowScale->setChecked(resources.m_showScale);
     checkTooltip->setChecked(resources.m_showToolTip);
+    checkElementInfo->setChecked(resources.m_showElementInfo);
     checkShowZoomLevel->setChecked(resources.m_showZoomLevel);
     checkAntiAliasing->setChecked(resources.m_useAntiAliasing);
     checkReducePoiIcons->setChecked(resources.m_reducePoiIcons);
@@ -223,6 +224,7 @@ void CDlgConfig::accept()
     resources.m_showClock       = checkShowClock->isChecked();
     resources.m_showScale       = checkShowScale->isChecked();
     resources.m_showToolTip     = checkTooltip->isChecked();
+    resources.m_showElementInfo = checkElementInfo->isChecked();
     resources.m_showZoomLevel   = checkShowZoomLevel->isChecked();
     resources.m_playSound       = checkPlaySound->isChecked();
     resources.m_useAntiAliasing = checkAntiAliasing->isChecked();

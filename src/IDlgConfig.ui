@@ -223,16 +223,6 @@
             </property>
            </widget>
           </item>
-          <item row="3" column="3">
-           <widget class="QCheckBox" name="checkAntiAliasing">
-            <property name="toolTip">
-             <string>Rendering the map with anti-aliasing uses a lot of CPU power. Best to disable it for weak CPUs.</string>
-            </property>
-            <property name="text">
-             <string>Anti-aliasing</string>
-            </property>
-           </widget>
-          </item>
           <item row="2" column="0">
            <widget class="QCheckBox" name="checkShowZoomLevel">
             <property name="toolTip">
@@ -254,6 +244,23 @@
            <widget class="QCheckBox" name="checkShowClock">
             <property name="text">
              <string>Show clock</string>
+            </property>
+           </widget>
+          </item>
+          <item row="4" column="0">
+           <widget class="QCheckBox" name="checkAntiAliasing">
+            <property name="toolTip">
+             <string>Rendering the map with anti-aliasing uses a lot of CPU power. Best to disable it for weak CPUs.</string>
+            </property>
+            <property name="text">
+             <string>Anti-aliasing</string>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="3">
+           <widget class="QCheckBox" name="checkElementInfo">
+            <property name="text">
+             <string>Element Info (vector maps)</string>
             </property>
            </widget>
           </item>
