@@ -5,12 +5,12 @@
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
-    
+
     This program is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU General Public License for more details.
-    
+
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
@@ -2400,14 +2400,7 @@ void CMapTDB::drawPolylines(QPainter& p, polytype_t& lines)
                     borderCount++;
                     drawLine(p, lines[*it], property, metrics, font);
                 }
-                // draw foreground line 2nd
-                p.setPen(nightView ? property.penLineNight : property.penLineDay);
-
-                it = dict[type].constBegin();
-                for( ; it != dict[type].constEnd() ; ++it)
-                {
-                    drawLine(p, lines[*it]);
-                }
+                // draw foreground line in a second run for nicer borders
             }
             else
             {
@@ -2421,8 +2414,33 @@ void CMapTDB::drawPolylines(QPainter& p, polytype_t& lines)
                 }
             }
         }
-
     }
+
+    // 2nd run to draw foreground lines.
+    props = polylineProperties.begin();
+    for(;props != end; ++props)
+    {
+        const quint32 &type = props.key();
+        const IGarminTyp::polyline_property& property = props.value();
+
+        if(dict[type].count() == 0)
+        {
+            continue;
+        }
+
+        if(property.hasBorder)
+        {
+            // draw foreground line 2nd
+            p.setPen(nightView ? property.penLineNight : property.penLineDay);
+
+            QList<quint32>::const_iterator it = dict[type].constBegin();
+            for( ; it != dict[type].constEnd() ; ++it)
+            {
+                drawLine(p, lines[*it]);
+            }
+        }
+    }
+
     //    qDebug() << "pixmapCount:" << pixmapCount
     //        << "borderCount:" << borderCount
     //        << "normalCount:" << normalCount
