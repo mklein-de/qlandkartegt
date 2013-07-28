@@ -1245,6 +1245,20 @@ static void exifContentForeachEntryFuncGPS(ExifEntry * exifEntry, void *user_dat
 }
 
 
+static const char * lookOrientTbl[] =
+{
+    ""
+    ,"top, left side"
+    ,"top, right side"
+    ,"bottom, right side"
+    ,"bottom, left side"
+    ,"left side, top"
+    ,"right side, top"
+    ,"right side, bottom"
+    ,"left side, bottom"
+
+};
+
 static void exifContentForeachEntryFunc0(ExifEntry * exifEntry, void *user_data)
 {
     CWptDB::exifGPS_t& exifGPS = *(CWptDB::exifGPS_t*)user_data;
@@ -1260,6 +1274,13 @@ static void exifContentForeachEntryFunc0(ExifEntry * exifEntry, void *user_data)
             exifGPS.timestamp   = timestamp.toTime_t();
             break;
         }
+        case EXIF_TAG_ORIENTATION:
+        {
+            exifGPS.orient = exifEntry->data[0];
+            qDebug() << "Orientation" << lookOrientTbl[exifGPS.orient];
+            break;
+        }
+
         default:;
     }
 
@@ -1416,7 +1437,37 @@ void CWptDB::addWptFromExif(const exifGPS_t& exif, exifMode_e mode, const QStrin
 
     CWpt::image_t image;
 
-    QPixmap pixtmp(filename.toLocal8Bit());
+    QImage pixtmp(filename);
+
+    QTransform transform;
+    switch(exif.orient)
+    {
+        case 1:
+            break;
+        case 2:
+            pixtmp = pixtmp.mirrored(true,false);
+            break;
+        case 3:
+            pixtmp = pixtmp.transformed(transform.rotate(180));
+            break;
+        case 4:
+            pixtmp = pixtmp.mirrored(false,true);
+            break;
+        case 5:
+            pixtmp = pixtmp.transformed(transform.transposed());
+            break;
+        case 6:
+            pixtmp = pixtmp.transformed(transform.rotate(90));
+            break;
+        case 7:
+            pixtmp = pixtmp.transformed(transform.rotate(270)).mirrored(true,false);
+            break;
+        case 8:
+            pixtmp = pixtmp.transformed(transform.rotate(270));
+            break;
+    }
+
+
     int w = pixtmp.width();
     int h = pixtmp.height();
 
@@ -1432,7 +1483,7 @@ void CWptDB::addWptFromExif(const exifGPS_t& exif, exifMode_e mode, const QStrin
             h *= 600.0 / w;
             w  = 600;
         }
-        image.pixmap = pixtmp.scaled(w,h,Qt::KeepAspectRatio, Qt::SmoothTransformation);
+        image.pixmap = QPixmap::fromImage(pixtmp.scaled(w,h,Qt::KeepAspectRatio, Qt::SmoothTransformation));
     }
     else if(mode == eExifModeLarge)
     {
@@ -1446,11 +1497,11 @@ void CWptDB::addWptFromExif(const exifGPS_t& exif, exifMode_e mode, const QStrin
             h *= 1024.0 / w;
             w  = 1024;
         }
-        image.pixmap = pixtmp.scaled(w,h,Qt::KeepAspectRatio, Qt::SmoothTransformation);
+        image.pixmap = QPixmap::fromImage(pixtmp.scaled(w,h,Qt::KeepAspectRatio, Qt::SmoothTransformation));
     }
     else if(mode == eExifModeOriginal)
     {
-        image.pixmap = pixtmp;
+        image.pixmap = QPixmap::fromImage(pixtmp);
     }
     else if(mode == eExifModeLink)
     {

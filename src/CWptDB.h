@@ -112,11 +112,12 @@ class CWptDB : public IDB
 
         struct exifGPS_t
         {
-            exifGPS_t(ExifByteOrder exif_byte_order): lon(0.0), lat(0.0), ele(1e25f), lon_sign(1), lat_sign(1), byte_order(exif_byte_order) {}
+            exifGPS_t(ExifByteOrder exif_byte_order): lon(0.0), lat(0.0), ele(1e25f), dir(1e25f), orient(1), lon_sign(1), lat_sign(1), byte_order(exif_byte_order) {}
             double lon;
             double lat;
             double ele;
             double dir;
+            int    orient;
 
             int lon_sign;
             int lat_sign;
