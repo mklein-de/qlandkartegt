@@ -5,12 +5,12 @@
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
-    
+
     This program is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU General Public License for more details.
-    
+
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
@@ -391,8 +391,6 @@ COverlayText * COverlayDB::addText(const QString& text, const QRect& rect, const
 
     overlays[overlay->getKey()] = overlay;
 
-    connect(overlay, SIGNAL(sigChanged()),SIGNAL(sigChanged()));
-    connect(overlay, SIGNAL(sigChanged()),SIGNAL(sigModified()));
     connect(overlay, SIGNAL(sigChanged()),SLOT(slotModified()));
 
     if(!silent)
@@ -422,8 +420,6 @@ COverlayTextBox * COverlayDB::addTextBox(const QString& text, double lon, double
 
     overlays[overlay->getKey()] = overlay;
 
-    connect(overlay, SIGNAL(sigChanged()),SIGNAL(sigChanged()));
-    connect(overlay, SIGNAL(sigChanged()),SIGNAL(sigModified()));
     connect(overlay, SIGNAL(sigChanged()),SLOT(slotModified()));
 
     if(!silent)
@@ -453,8 +449,6 @@ COverlayDistance * COverlayDB::addDistance(const QString& name, const QString& c
 
     overlays[overlay->getKey()] = overlay;
 
-    connect(overlay, SIGNAL(sigChanged()),SIGNAL(sigChanged()));
-    connect(overlay, SIGNAL(sigChanged()),SIGNAL(sigModified()));
     connect(overlay, SIGNAL(sigChanged()),SLOT(slotModified()));
 
     if(!silent)
@@ -564,10 +558,8 @@ void COverlayDB::highlightOverlay(const QString& key)
         }
 
         ovl->setHighlight(true);
+        emit sigModified(ovl->getKey());
     }
-
-    emitSigChanged();
-
 }
 
 

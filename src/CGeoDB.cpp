@@ -5,12 +5,12 @@
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
-    
+
     This program is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU General Public License for more details.
-    
+
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
@@ -2132,8 +2132,8 @@ void CGeoDB::slotOvlDBChanged()
         item->setData(eCoName, eUrType, eOvl);
         item->setData(eCoName, eUrQLKey, ovl->getKey());
         item->setIcon(eCoName, ovl->getIcon());
-        item->setText(eCoName, ovl->getName());
-        item->setToolTip(eCoName, ovl->getInfo());
+        item->setText(eCoName, ovl->getInfo());
+        item->setToolTip(eCoName, ovl->getComment());
 
         items << item;
     }
@@ -2220,8 +2220,24 @@ void CGeoDB::slotModifiedRte(const QString& key)
 
 void CGeoDB::slotModifiedOvl(const QString& key)
 {
+    COverlayDB& ovldb = COverlayDB::self();
+
     keysOvlModified << key;
     updateModifyMarker();
+
+    IOverlay * ovl = ovldb.getOverlayByKey(key);
+    for(int i = 0; i<itemWksOvl->childCount(); i++)
+    {
+        QTreeWidgetItem * item = itemWksOvl->child(i);
+        if(item->data(eCoName,eUrQLKey).toString() == key)
+        {
+            item->setData(eCoName, eUrType, eOvl);
+            item->setIcon(eCoName, ovl->getIcon());
+            item->setText(eCoName, ovl->getInfo());
+            item->setToolTip(eCoName, ovl->getComment());
+            break;
+        }
+    }
 }
 
 
