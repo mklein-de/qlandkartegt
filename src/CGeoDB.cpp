@@ -2199,8 +2199,26 @@ void CGeoDB::slotDiaryDBChanged()
 
 void CGeoDB::slotModifiedWpt(const QString& key)
 {
+    CWptDB& wptdb = CWptDB::self();
     keysWptModified << key;
     updateModifyMarker();
+
+    CWpt * wpt = wptdb.getWptByKey(key);
+
+    for(int i = 0; i<itemWksWpt->childCount(); i++)
+    {
+        QTreeWidgetItem * item = itemWksWpt->child(i);
+        if(item->data(eCoName,eUrQLKey).toString() == key)
+        {
+            item->setData(eCoName, eUrType, eWpt);
+            item->setIcon(eCoName, wpt->getIcon());
+            item->setText(eCoName, wpt->getName());
+            item->setToolTip(eCoName, wpt->getInfo());
+
+            break;
+        }
+    }
+
 }
 
 
