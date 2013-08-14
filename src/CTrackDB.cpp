@@ -635,7 +635,7 @@ void CTrackDB::addTrack(CTrack* track, bool silent)
     delTrack(track->getKey(), silent);
     tracks[track->getKey()] = track;
 
-    connect(track,SIGNAL(sigChanged()),SIGNAL(sigChanged()));
+    connect(track,SIGNAL(sigChanged()),this, SLOT(slotModified()));
     if(!silent)
     {
         emitSigChanged();
@@ -687,13 +687,14 @@ void CTrackDB::highlightTrack(const QString& key)
     {
         tracks[key]->setHighlight(true);
         emit sigHighlightTrack(tracks[key]);
+        emit sigModified(key);
     }
     else
     {
         emit sigHighlightTrack(0);
     }
 
-    emitSigChanged();
+    //emitSigChanged();
 
 }
 
@@ -1573,3 +1574,13 @@ void CTrackDB::slotMapChanged()
         track->rebuild(false);
     }
 }
+
+void CTrackDB::slotModified()
+{
+    CTrack * trk = qobject_cast<CTrack*>(sender());
+    if(trk)
+    {
+        IDB::emitSigModified(trk->getKey());
+    }
+}
+

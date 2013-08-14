@@ -326,12 +326,8 @@ void CDlgEditWpt::accept()
         CWptDB::self().addWpt(wpt2,false);
     }
 
-    //    wpt.geocache.exportBuddies = checkExportBuddies->isChecked();
-
     wpt.parentWpt = comboParentWpt->currentText();
 
-    //emit CWptDB::self().sigChanged();
-    //emit CWptDB::self().sigModified();
     emit CWptDB::self().sigModified(wpt.getKey());
 
     if(wpt.getName() != name)

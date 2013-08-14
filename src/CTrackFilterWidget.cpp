@@ -1251,7 +1251,7 @@ void CTrackFilterWidget::postProcessTrack()
     track->slotScaleWpt2Track();
 
     QString key = track->getKey();
-    CTrackDB::self().emitSigModified();
+
     CTrackDB::self().highlightTrack(key);
 
     trackEditWidget->slotResetAllZoom();

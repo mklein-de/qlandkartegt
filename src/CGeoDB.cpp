@@ -2210,7 +2210,6 @@ void CGeoDB::slotModifiedWpt(const QString& key)
         QTreeWidgetItem * item = itemWksWpt->child(i);
         if(item->data(eCoName,eUrQLKey).toString() == key)
         {
-            item->setData(eCoName, eUrType, eWpt);
             item->setIcon(eCoName, wpt->getIcon());
             item->setText(eCoName, wpt->getName());
             item->setToolTip(eCoName, wpt->getInfo());
@@ -2218,21 +2217,52 @@ void CGeoDB::slotModifiedWpt(const QString& key)
             break;
         }
     }
-
 }
 
 
 void CGeoDB::slotModifiedTrk(const QString& key)
 {
+    CTrackDB& trkdb = CTrackDB::self();
+
     keysTrkModified << key;
     updateModifyMarker();
+
+    CTrack * trk = trkdb.getTrackByKey(key);
+    for(int i = 0; i<itemWksTrk->childCount(); i++)
+    {
+        QTreeWidgetItem * item = itemWksTrk->child(i);
+        if(item->data(eCoName,eUrQLKey).toString() == key)
+        {
+            item->setIcon(eCoName, trk->getIcon());
+            item->setText(eCoName, trk->getName());
+            item->setToolTip(eCoName, trk->getInfo());
+
+            break;
+        }
+    }
 }
 
 
 void CGeoDB::slotModifiedRte(const QString& key)
 {
+    CRouteDB& rtedb = CRouteDB::self();
+
     keysRteModified << key;
     updateModifyMarker();
+
+    CRoute * rte = rtedb.getRouteByKey(key);
+    for(int i = 0; i<itemWksRte->childCount(); i++)
+    {
+        QTreeWidgetItem * item = itemWksRte->child(i);
+        if(item->data(eCoName,eUrQLKey).toString() == key)
+        {
+            item->setIcon(eCoName, rte->getIcon());
+            item->setText(eCoName, rte->getName());
+            item->setToolTip(eCoName, rte->getInfo());
+
+            break;
+        }
+    }
 }
 
 
@@ -2249,7 +2279,6 @@ void CGeoDB::slotModifiedOvl(const QString& key)
         QTreeWidgetItem * item = itemWksOvl->child(i);
         if(item->data(eCoName,eUrQLKey).toString() == key)
         {
-            item->setData(eCoName, eUrType, eOvl);
             item->setIcon(eCoName, ovl->getIcon());
             item->setText(eCoName, ovl->getInfo());
             item->setToolTip(eCoName, ovl->getComment());

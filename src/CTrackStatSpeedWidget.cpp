@@ -5,12 +5,12 @@
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
-    
+
     This program is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU General Public License for more details.
-    
+
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
@@ -38,6 +38,7 @@ CTrackStatSpeedWidget::CTrackStatSpeedWidget(type_e type, QWidget * parent)
     }
     plot->setYLabel(tr("speed [km/h]"));
 
+    connect(&CTrackDB::self(),SIGNAL(sigModified(const QString&)),this,SLOT(slotChanged()));
     connect(&CTrackDB::self(),SIGNAL(sigChanged()),this,SLOT(slotChanged()));
     connect(&CTrackDB::self(), SIGNAL(sigHighlightTrack(CTrack*)), this, SLOT(slotSetTrack(CTrack*)));
 
@@ -56,7 +57,7 @@ CTrackStatSpeedWidget::~CTrackStatSpeedWidget()
 void CTrackStatSpeedWidget::slotSetTrack(CTrack* track)
 {
     needResetZoom = true;
-
+    slotChanged();
 }
 
 
