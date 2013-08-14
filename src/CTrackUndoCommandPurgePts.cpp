@@ -58,7 +58,6 @@ void CTrackUndoCommandPurgePts::redo()
         ++trkpt;
     }
     track->rebuild(false);
-    emit CTrackDB::self().emitSigModified();
     emit CTrackDB::self().emitSigChanged();
 }
 
@@ -86,6 +85,5 @@ void CTrackUndoCommandPurgePts::undo()
         ++trkpt;
     }
     track->rebuild(false);
-    emit CTrackDB::self().emitSigModified();
     emit CTrackDB::self().emitSigChanged();
 }

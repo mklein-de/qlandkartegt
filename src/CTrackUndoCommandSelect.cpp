@@ -66,7 +66,6 @@ void CTrackUndoCommandSelect::redo()
         }
     }
 
-    emit CTrackDB::self().emitSigModified();
     emit CTrackDB::self().emitSigChanged();
 }
 
@@ -87,6 +86,5 @@ void CTrackUndoCommandSelect::undo()
         }
     }
 
-    emit CTrackDB::self().emitSigModified();
     emit CTrackDB::self().emitSigChanged();
 }

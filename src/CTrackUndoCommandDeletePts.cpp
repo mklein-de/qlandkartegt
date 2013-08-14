@@ -50,7 +50,6 @@ void CTrackUndoCommandDeletePts::redo()
             ++trkpt;
         }
     }
-    emit CTrackDB::self().emitSigModified();
     emit CTrackDB::self().emitSigChanged();
 
 }
@@ -67,7 +66,6 @@ void CTrackUndoCommandDeletePts::undo()
         trkpts.append(tp);
     }
     track->rebuild(true);
-    emit CTrackDB::self().emitSigModified();
     emit CTrackDB::self().emitSigChanged();
 
 }

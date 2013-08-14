@@ -351,7 +351,6 @@ void COverlayDB::delOverlays(const QStringList& keys)
     if(!keys.isEmpty())
     {
         emitSigChanged();
-        emitSigModified();
     }
 
 }
@@ -367,7 +366,6 @@ void COverlayDB::delOverlay(const QString& key, bool silent)
         if(!silent)
         {
             emitSigChanged();
-            emitSigModified();
         }
     }
 }
@@ -527,8 +525,6 @@ void COverlayDB::pasteFromClipboard()
         qlb.load(&buffer);
 
         loadQLB(qlb, true);
-
-        emitSigModified();
     }
 }
 

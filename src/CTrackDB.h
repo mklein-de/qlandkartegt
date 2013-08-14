@@ -86,7 +86,6 @@ class CTrackDB : public IDB
         void pasteFromClipboard();
         CTrack *take(const QString& key, bool silent);
         void insert(const QString& key, CTrack *track, bool silent);
-        void emitSigModified();
         void setShowBullets(bool on){showBullets = on; emitSigChanged();}
         bool getShowBullets(){return showBullets;}
         void setShowMinMax(bool on){showMinMax = on; emitSigChanged();}

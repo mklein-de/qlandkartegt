@@ -129,7 +129,6 @@ void CDiaryDB::addDiary(CDiary * diary, bool silent, bool fromDB)
     if(!silent)
     {
         emitSigChanged();
-        emitSigModified();
     }
 }
 
@@ -141,7 +140,6 @@ void CDiaryDB::delDiary(const QString& key, bool silent)
     if(!silent)
     {
         emitSigChanged();
-        emitSigModified();
     }
 }
 
@@ -155,7 +153,6 @@ void CDiaryDB::delDiarys(const QStringList& keys)
     if(!keys.isEmpty())
     {
         emitSigChanged();
-        emitSigModified();
     }
 }
 
@@ -175,6 +172,7 @@ void CDiaryDB::setModified(const QStringList& keys)
         if(diarys.contains(key))
         {
             diarys[key]->setModified();
+            emitSigModified(key);
         }
     }
 }

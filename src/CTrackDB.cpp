@@ -639,7 +639,6 @@ void CTrackDB::addTrack(CTrack* track, bool silent)
     if(!silent)
     {
         emitSigChanged();
-        emitSigModified();
     }
 }
 
@@ -662,8 +661,7 @@ void CTrackDB::delTracks(const QStringList& keys)
     undoStack->endMacro();
     if(!keys.isEmpty())
     {
-        emitSigChanged();
-        emitSigModified();
+        emitSigChanged();        
     }
 }
 
@@ -777,7 +775,6 @@ void CTrackDB::download()
     }
 
     emitSigChanged();
-    emitSigModified();
 }
 
 
@@ -820,7 +817,6 @@ void CTrackDB::splitTrack(int idx)
     delTrack(theTrack->getKey(), true);
 
     emitSigChanged();
-    emitSigModified();
 }
 
 
@@ -1252,7 +1248,7 @@ void CTrackDB::pasteFromClipboard()
         qlb.load(&buffer);
         loadQLB(qlb, true);
 
-        emitSigModified();
+        emitSigChanged();
     }
 }
 
@@ -1264,7 +1260,6 @@ CTrack *CTrackDB::take(const QString& key, bool silent)
     if (!silent)
     {
         emitSigChanged();
-        emitSigModified();
     }
     return track;
 }
@@ -1276,19 +1271,10 @@ void CTrackDB::insert(const QString& key, CTrack *track, bool silent)
     if (!silent)
     {
         emitSigChanged();
-        emitSigModified();
     }
 }
 
 
-void CTrackDB::emitSigModified()
-{
-    IDB::emitSigModified();
-    if(highlightedTrack())
-    {
-        IDB::emitSigModified(highlightedTrack()->getKey());
-    }
-}
 
 
 void CTrackDB::revertTrack(const QString& key)
@@ -1580,7 +1566,7 @@ void CTrackDB::slotModified()
     CTrack * trk = qobject_cast<CTrack*>(sender());
     if(trk)
     {
-        IDB::emitSigModified(trk->getKey());
+        emitSigModified(trk->getKey());
     }
 }
 

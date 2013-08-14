@@ -86,6 +86,9 @@ class CRouteDB : public IDB
         signals:
         void sigHighlightRoute(CRoute * route);
 
+    private slots:
+        void slotModified();
+
     private:
         friend class CMainWindow;
 

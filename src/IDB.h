@@ -93,11 +93,9 @@ class IDB : public QObject
         static void signalsOn();
 
         virtual void emitSigChanged(){emit sigChanged(); signalFlags |= type;}
-        virtual void emitSigModified(){emit sigModified();}
         virtual void emitSigModified(const QString& key){emit sigModified(key);}
         signals:
         void sigChanged();
-        void sigModified();
         void sigModified(const QString&);
 
     protected:

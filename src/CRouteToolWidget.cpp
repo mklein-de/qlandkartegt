@@ -65,6 +65,7 @@ CRouteToolWidget::CRouteToolWidget(QTabWidget * parent)
 
     connect(m_networkAccessManager,SIGNAL(finished(QNetworkReply*)),this,SLOT(slotRequestFinished(QNetworkReply*)));
 
+    connect(&CRouteDB::self(), SIGNAL(sigModified(QString)), this, SLOT(slotDBChanged()));
     connect(&CRouteDB::self(), SIGNAL(sigChanged()), this, SLOT(slotDBChanged()));
 
     connect(listRoutes,SIGNAL(itemClicked(QListWidgetItem*) ),this,SLOT(slotItemClicked(QListWidgetItem*)));

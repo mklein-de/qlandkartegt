@@ -33,8 +33,7 @@ COverlayToolWidget::COverlayToolWidget(QTabWidget * parent)
     parent->addTab(this,QIcon(":/icons/iconOverlay16x16.png"),"");
     parent->setTabToolTip(parent->indexOf(this), tr("Draw"));
 
-    connect(&COverlayDB::self(), SIGNAL(sigChanged()), this, SLOT(slotDBChanged()));
-    connect(&COverlayDB::self(), SIGNAL(sigModified()), this, SLOT(slotDBChanged()));
+    connect(&COverlayDB::self(), SIGNAL(sigChanged()), this, SLOT(slotDBChanged()));    
     connect(&COverlayDB::self(), SIGNAL(sigModified(const QString&)), this, SLOT(slotDBChanged()));
     connect(listOverlays,SIGNAL(itemDoubleClicked(QListWidgetItem*) ),this,SLOT(slotItemDoubleClicked(QListWidgetItem*)));
     connect(listOverlays,SIGNAL(itemClicked(QListWidgetItem*) ),this,SLOT(slotItemClicked(QListWidgetItem*)));

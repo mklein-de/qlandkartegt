@@ -313,7 +313,6 @@ CWpt * CWptDB::newWpt(float lon, float lat, float ele, const QString& name)
     cfg.setValue("waypoint/lastSymbol",wpt->iconString);
 
     emitSigChanged();
-    emitSigModified();
 
     lastWptName = wpt->getName();
 
@@ -350,7 +349,6 @@ void CWptDB::delWpt(const QString& key, bool silent, bool saveSticky)
     if(!silent)
     {
         emitSigChanged();
-        emitSigModified();
     }
 }
 
@@ -366,7 +364,6 @@ void CWptDB::delWpt(const QStringList& keys, bool saveSticky)
     if(!keys.isEmpty())
     {
         emitSigChanged();
-        emitSigModified();
     }
 }
 
@@ -391,7 +388,6 @@ void CWptDB::addWpt(CWpt * wpt, bool silent)
     if(!silent)
     {
         emitSigChanged();
-        emitSigModified();
     }
 }
 
@@ -405,7 +401,6 @@ void CWptDB::setProxyDistance(const QStringList& keys, double dist)
         emitSigModified(key);
     }
     emitSigChanged();
-    emitSigModified();
 
 }
 
@@ -425,7 +420,6 @@ void CWptDB::setIcon(const QStringList& keys, const QString& iconName)
         }
     }
     emitSigChanged();
-    emitSigModified();
 
 }
 
@@ -445,7 +439,6 @@ void CWptDB::setParentWpt(const QStringList& keys, const QString& name)
         }
     }
     emitSigChanged();
-    emitSigModified();
 
 }
 
@@ -889,7 +882,6 @@ void CWptDB::download()
     }
 
     emitSigChanged();
-    emitSigModified();
 }
 
 
@@ -1354,7 +1346,6 @@ void CWptDB::createWaypointsFromImages(const QStringList& files, exifMode_e mode
         f_exif_data_unref(exifData);
     }
     emitSigChanged();
-    emitSigModified();
 }
 
 
@@ -1421,7 +1412,6 @@ void CWptDB::createWaypointsFromImages(const QStringList& files, exifMode_e mode
     }
 
     emitSigChanged();
-    emitSigModified();
 }
 
 

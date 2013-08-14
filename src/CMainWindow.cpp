@@ -295,12 +295,12 @@ CMainWindow::CMainWindow()
     connect(routedb, SIGNAL(sigChanged()), this, SLOT(update()));
     connect(mapdb, SIGNAL(sigChanged()), this, SLOT(update()));
 
-    connect(mapdb, SIGNAL(sigModified()), this, SLOT(slotModified()));
-    connect(wptdb, SIGNAL(sigModified()), this, SLOT(slotModified()));
-    connect(trackdb, SIGNAL(sigModified()), this, SLOT(slotModified()));
-    connect(diarydb, SIGNAL(sigModified()), this, SLOT(slotModified()));
-    connect(overlaydb, SIGNAL(sigModified()), this, SLOT(slotModified()));
-    connect(routedb, SIGNAL(sigModified()), this, SLOT(slotModified()));
+    connect(mapdb, SIGNAL(sigModified(const QString&)), this, SLOT(slotModified()));
+    connect(wptdb, SIGNAL(sigModified(const QString&)), this, SLOT(slotModified()));
+    connect(trackdb, SIGNAL(sigModified(const QString&)), this, SLOT(slotModified()));
+    connect(diarydb, SIGNAL(sigModified(const QString&)), this, SLOT(slotModified()));
+    connect(overlaydb, SIGNAL(sigModified(const QString&)), this, SLOT(slotModified()));
+    connect(routedb, SIGNAL(sigModified(const QString&)), this, SLOT(slotModified()));
 
     if(geodb)
     {

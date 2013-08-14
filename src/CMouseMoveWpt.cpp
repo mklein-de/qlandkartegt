@@ -77,8 +77,8 @@ void CMouseMoveWpt::mousePressEvent(QMouseEvent * e)
             float ele = CMapDB::self().getDEM().getElevation(selWpt->lon * DEG_TO_RAD, selWpt->lat * DEG_TO_RAD);
             if(ele != WPT_NOFLOAT) selWpt->ele = ele;
 
-            emit CWptDB::self().sigChanged();
-            emit CWptDB::self().sigModified();
+            //emit CWptDB::self().sigChanged();
+            //emit CWptDB::self().sigModified();
             emit CWptDB::self().sigModified(selWpt->getKey());
 
             moveWpt = false;

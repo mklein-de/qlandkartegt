@@ -1645,8 +1645,7 @@ QString CTrack::getFocusInfo()
 void CTrack::setDoScaleWpt2Track(Qt::CheckState state)
 {
     doScaleWpt2Track = state;
-    CTrackDB::self().emitSigModified();
-    CTrackDB::self().emitSigChanged();
+    emit sigChanged();
 }
 
 
@@ -1684,15 +1683,13 @@ void CTrack::slotScaleWpt2Track()
             if(res == QMessageBox::Abort)
             {
                 doScaleWpt2Track = Qt::Unchecked;
-                CTrackDB::self().emitSigModified();
-                CTrackDB::self().emitSigChanged();
+                emit sigChanged();
                 return ;
             }
             else
             {
                 doScaleWpt2Track = Qt::Checked;
-                CTrackDB::self().emitSigModified();
-                CTrackDB::self().emitSigChanged();
+                emit sigChanged();
             }
         }
     }

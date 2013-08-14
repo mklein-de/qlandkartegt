@@ -68,11 +68,10 @@ void CRouteDB::addRoute(CRoute * route, bool silent)
     delRoute(route->getKey(), silent);
     routes[route->getKey()] = route;
 
-    connect(route,SIGNAL(sigChanged()),SIGNAL(sigChanged()));
+    connect(route,SIGNAL(sigChanged()),this, SLOT(slotModified()));
     if(!silent)
     {
         emitSigChanged();
-        emitSigModified();
     }
 
 }
@@ -86,7 +85,6 @@ void CRouteDB::delRoute(const QString& key, bool silent)
     if(!silent)
     {
         emitSigChanged();
-        emitSigModified();
     }
 }
 
@@ -101,7 +99,6 @@ void CRouteDB::delRoutes(const QStringList& keys)
     if(!keys.isEmpty())
     {
         emitSigChanged();
-        emitSigModified();
     }
 }
 
@@ -132,10 +129,13 @@ void CRouteDB::highlightRoute(const QString& key)
     {
         routes[key]->setHighlight(true);
         emit sigHighlightRoute(routes[key]);
+        emitSigModified(key);
 
     }
-
-    emitSigChanged();
+    else
+    {
+        emit sigHighlightRoute(0);
+    }
 
 }
 
@@ -439,7 +439,6 @@ void CRouteDB::download()
     }
 
     emitSigChanged();
-    emitSigModified();
 }
 
 
@@ -744,9 +743,6 @@ void CRouteDB::loadSecondaryRoute(const QString& key, QDomDocument& xml, CRoute:
     if(routes.contains(key))
     {
         routes[key]->loadSecondaryRoute(xml, service);
-        emitSigChanged();
-        emitSigModified();
-        emitSigModified(key);
     }
 }
 
@@ -756,8 +752,15 @@ void CRouteDB::reset(const QString& key)
     if(routes.contains(key))
     {
         routes[key]->reset();
-        emitSigChanged();
-        emitSigModified();
-        emitSigModified(key);
     }
+}
+
+void CRouteDB::slotModified()
+{
+    CRoute * rte = qobject_cast<CRoute*>(sender());
+    if(rte)
+    {
+        emitSigModified(rte->getKey());
+    }
+
 }

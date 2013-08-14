@@ -183,9 +183,9 @@ CTrackEditWidget::CTrackEditWidget(QWidget * parent)
     connect(checkStages, SIGNAL(stateChanged(int)), this, SLOT(slotStagesChanged(int)));
     connect(textStages, SIGNAL(sigHighlightArea(QString)), this, SLOT(slotHighlightArea(QString)));
 
-    connect(&CTrackDB::self(), SIGNAL(sigModified()), this, SLOT(slotStagesChanged()));
+    connect(&CTrackDB::self(), SIGNAL(sigModified(const QString&)), this, SLOT(slotStagesChanged()));
     connect(&CTrackDB::self(), SIGNAL(sigPointOfFocus(int)), this, SLOT(slotPointOfFocus(int)));
-    connect(&CWptDB::self(), SIGNAL(sigModified()), this, SLOT(slotStagesChanged()));
+    connect(&CWptDB::self(), SIGNAL(sigModified(const QString&)), this, SLOT(slotStagesChanged()));
 
     CTrackFilterWidget * w = tabWidget->findChild<CTrackFilterWidget*>();
     if(w)
@@ -842,7 +842,6 @@ void CTrackEditWidget::slotPurge()
         ++item;
     }
     track->rebuild(false);
-    CTrackDB::self().emitSigModified();
 }
 
 
@@ -1182,7 +1181,6 @@ void CTrackEditWidget::slotColorChanged(int idx)
     {
         track->setColor(comboColor->currentIndex());
         track->rebuild(true);
-        CTrackDB::self().emitSigModified();
     }
 }
 
@@ -1217,7 +1215,6 @@ void CTrackEditWidget::slotNameChanged()
     {
         track->setName(name);
         track->rebuild(true);
-        CTrackDB::self().emitSigModified();
 
         palette.setColor(QPalette::Base, QColor(128, 255, 128));
     }
@@ -1232,7 +1229,6 @@ void CTrackEditWidget::slotReset()
     track->reset();
     track->rebuild(true);
     track->slotScaleWpt2Track();
-    CTrackDB::self().emitSigModified();
 }
 
 
@@ -1267,7 +1263,6 @@ void CTrackEditWidget::slotDelete()
 
     track->rebuild(true);
     track->slotScaleWpt2Track();
-    CTrackDB::self().emitSigModified();
 }
 
 
