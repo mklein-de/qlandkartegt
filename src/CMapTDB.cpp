@@ -346,7 +346,7 @@ CMapTDB::CMapTDB(const QString& key, const QString& filename, CCanvas * parent)
 
 
 CMapTDB::CMapTDB(const QString& key, const QString& filename)
-: IMap(eGarmin, key, 0)
+: IMap(eGarmin, key,theMainWindow->getCanvas())
 , filename(filename)
 , north(-90.0)
 , east(-180.0)
@@ -411,6 +411,8 @@ CMapTDB::CMapTDB(const QString& key, const QString& filename)
     toolTipTimer = new QTimer(this);
     toolTipTimer->setSingleShot(true);
     connect(toolTipTimer, SIGNAL(timeout()), this, SLOT(slotToolTip()));
+
+    parent()->installEventFilter(this);
 
     checkMdrFile();
     qDebug() << "mdrfile:" << mdrfile;
@@ -1246,6 +1248,7 @@ void CMapTDB::resize(const QSize& s)
 bool CMapTDB::eventFilter(QObject * watched, QEvent * event)
 {
 
+    qDebug() << parent() << watched;
     if(parent() == watched && event->type() == QEvent::MouseMove && !doFastDraw)
     {
         QMouseEvent * e = (QMouseEvent*)event;

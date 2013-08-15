@@ -389,7 +389,7 @@ COverlayText * COverlayDB::addText(const QString& text, const QRect& rect, const
 
     overlays[overlay->getKey()] = overlay;
 
-    connect(overlay, SIGNAL(sigChanged()),SLOT(slotModified()));
+    connect(overlay, SIGNAL(sigChanged()),this, SLOT(slotModified()));
 
     if(!silent)
     {
@@ -418,7 +418,7 @@ COverlayTextBox * COverlayDB::addTextBox(const QString& text, double lon, double
 
     overlays[overlay->getKey()] = overlay;
 
-    connect(overlay, SIGNAL(sigChanged()),SLOT(slotModified()));
+    connect(overlay, SIGNAL(sigChanged()),this, SLOT(slotModified()));
 
     if(!silent)
     {
@@ -447,7 +447,7 @@ COverlayDistance * COverlayDB::addDistance(const QString& name, const QString& c
 
     overlays[overlay->getKey()] = overlay;
 
-    connect(overlay, SIGNAL(sigChanged()),SLOT(slotModified()));
+    connect(overlay, SIGNAL(sigChanged()),this, SLOT(slotModified()));
 
     if(!silent)
     {
