@@ -113,6 +113,7 @@ class CMapTDB : public IMap
         void drawPois(QPainter& p, pointtype_t& points, QVector<QRect>& rectPois);
         void drawLabels(QPainter& p, const QVector<strlbl_t> &lbls);
         void drawText(QPainter& p);
+        void drawInfo(QPainter& p);
 
         void getInfoPoints(const QPoint& pt, QMultiMap<QString, QString>& dict);
         void getInfoPois(const QPoint& pt, QMultiMap<QString, QString>& dict);

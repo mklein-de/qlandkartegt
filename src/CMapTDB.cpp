@@ -412,6 +412,10 @@ CMapTDB::CMapTDB(const QString& key, const QString& filename)
     toolTipTimer->setSingleShot(true);
     connect(toolTipTimer, SIGNAL(timeout()), this, SLOT(slotToolTip()));
 
+    info = new QTextDocument(this);
+    info->setTextWidth(TEXTWIDTH);
+    info->setHtml(infotext);
+
     parent()->installEventFilter(this);
 
     checkMdrFile();
@@ -1248,7 +1252,6 @@ void CMapTDB::resize(const QSize& s)
 bool CMapTDB::eventFilter(QObject * watched, QEvent * event)
 {
 
-    qDebug() << parent() << watched;
     if(parent() == watched && event->type() == QEvent::MouseMove && !doFastDraw)
     {
         QMouseEvent * e = (QMouseEvent*)event;
@@ -1901,32 +1904,8 @@ void CMapTDB::draw(QPainter& p)
 
     needsRedraw = false;
 
-    if(!infotext.isEmpty() && info && CResources::self().showElementInfo())
-    {
-        QFont f = p.font();
-        f.setBold(false);
-        f.setItalic(false);
-        if(f.pointSize() < 8)
-        {
-            f.setPointSize(8);
-        }
-        info->setDefaultFont(f);
-        info->setHtml(infotext);
 
-        p.save();
-        p.translate(topLeftInfo);
-
-        QRectF rectInfo(QPointF(0,0), info->size());
-        rectInfo.adjust(0,0,4,4);
-        rectInfo.moveTopLeft(QPointF(-2,-2));
-
-        p.setPen(CCanvas::penBorderBlack);
-        p.setBrush(CCanvas::brushBackYellow);
-        PAINT_ROUNDED_RECT(p,rectInfo);
-        info->drawContents(&p);
-
-        p.restore();
-    }
+    drawInfo(p);
 
     p.drawPixmap(pointFocus - QPoint(5,5), QPixmap(":/icons/small_bullet_yellow.png"));
 
@@ -2064,6 +2043,9 @@ void CMapTDB::draw(const QSize& s, bool needsRedraw, QPainter& p)
 
     p.drawImage(0,0,imgBuffer);
 
+    topLeftInfo  = QPoint(s.width() - TEXTWIDTH - 10 , 10);
+    drawInfo(p);
+
     if(ovlMap) ovlMap->draw(s, needsRedraw, p);
 }
 
@@ -2167,6 +2149,36 @@ void CMapTDB::draw()
     }
 }
 
+
+void CMapTDB::drawInfo(QPainter& p)
+{
+    if(!infotext.isEmpty() && info && CResources::self().showElementInfo())
+    {
+        QFont f = p.font();
+        f.setBold(false);
+        f.setItalic(false);
+        if(f.pointSize() < 8)
+        {
+            f.setPointSize(8);
+        }
+        info->setDefaultFont(f);
+        info->setHtml(infotext);
+
+        p.save();
+        p.translate(topLeftInfo);
+
+        QRectF rectInfo(QPointF(0,0), info->size());
+        rectInfo.adjust(0,0,4,4);
+        rectInfo.moveTopLeft(QPointF(-2,-2));
+
+        p.setPen(CCanvas::penBorderBlack);
+        p.setBrush(CCanvas::brushBackYellow);
+        PAINT_ROUNDED_RECT(p,rectInfo);
+        info->drawContents(&p);
+
+        p.restore();
+    }
+}
 
 void CMapTDB::drawLine(QPainter& p, CGarminPolygon& l, const IGarminTyp::polyline_property& property, const QFontMetricsF& metrics, const QFont& font)
 {
