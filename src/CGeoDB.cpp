@@ -47,6 +47,15 @@
 #include <QSqlQuery>
 #include <QSqlError>
 
+#define UPDT_WPT    0x00000001
+#define UPDT_TRK    0x00000002
+#define UPDT_RTE    0x00000004
+#define UPDT_OVL    0x00000008
+#define UPDT_DRY    0x00000010
+#define UPDT_MAP    0x00000020
+
+#define UPDT_ALL    0xFFFFFFFF
+
 #define QUERY_EXEC(cmd) \
 if(!query.exec())\
 { \
@@ -800,11 +809,11 @@ void CGeoDB::loadWorkspace()
 
     CDiaryDB::self().setModified(keysDryModified);
 
-    changedWorkspace();
+    changedWorkspace(UPDT_ALL);
 }
 
 
-void CGeoDB::updateModifyMarker()
+void CGeoDB::updateModifyMarker(quint32 what)
 {
     // reset modify marker in text label
     itemWorkspace->setText(eCoName, tr("Workspace"));
@@ -813,11 +822,27 @@ void CGeoDB::updateModifyMarker()
     treeWorkspace->blockSignals(true);
     treeWorkspace->model()->blockSignals(true);
 
-    updateModifyMarker(itemWksWpt, keysWptModified, tr("Waypoints"));
-    updateModifyMarker(itemWksTrk, keysTrkModified, tr("Tracks"));
-    updateModifyMarker(itemWksRte, keysRteModified, tr("Routes"));
-    updateModifyMarker(itemWksOvl, keysOvlModified, tr("Overlays"));
-    updateModifyMarker(itemWksMap, keysMapModified, tr("Map Selection"));
+    if(what & UPDT_WPT)
+    {
+        updateModifyMarker(itemWksWpt, keysWptModified, tr("Waypoints"));
+    }
+    if(what & UPDT_TRK)
+    {
+        updateModifyMarker(itemWksTrk, keysTrkModified, tr("Tracks"));
+    }
+    if(what & UPDT_RTE)
+    {
+        updateModifyMarker(itemWksRte, keysRteModified, tr("Routes"));
+    }
+    if(what & UPDT_OVL)
+    {
+        updateModifyMarker(itemWksOvl, keysOvlModified, tr("Overlays"));
+    }
+    if(what & UPDT_MAP)
+    {
+        updateModifyMarker(itemWksMap, keysMapModified, tr("Map Selection"));
+    }
+
 
     treeWorkspace->setUpdatesEnabled(true);
     treeWorkspace->blockSignals(false);
@@ -861,17 +886,32 @@ void CGeoDB::updateModifyMarker(QTreeWidgetItem * itemWks, QSet<QString>& keys, 
 }
 
 
-void CGeoDB::updateDatabaseMarker()
+void CGeoDB::updateDatabaseMarker(quint32 what)
 {
     treeWorkspace->setUpdatesEnabled(false);
     treeWorkspace->blockSignals(true);
     treeWorkspace->model()->blockSignals(true);
 
-    updateDatabaseMarker(itemWksWpt, keysWksWpt);
-    updateDatabaseMarker(itemWksTrk, keysWksTrk);
-    updateDatabaseMarker(itemWksRte, keysWksRte);
-    updateDatabaseMarker(itemWksOvl, keysWksOvl);
-    updateDatabaseMarker(itemWksMap, keysWksMap);
+    if(what & UPDT_WPT)
+    {
+        updateDatabaseMarker(itemWksWpt, keysWksWpt);
+    }
+    if(what & UPDT_TRK)
+    {
+        updateDatabaseMarker(itemWksTrk, keysWksTrk);
+    }
+    if(what & UPDT_RTE)
+    {
+        updateDatabaseMarker(itemWksRte, keysWksRte);
+    }
+    if(what & UPDT_OVL)
+    {
+        updateDatabaseMarker(itemWksOvl, keysWksOvl);
+    }
+    if(what & UPDT_MAP)
+    {
+        updateDatabaseMarker(itemWksMap, keysWksMap);
+    }
 
     treeWorkspace->setUpdatesEnabled(true);
     treeWorkspace->blockSignals(false);
@@ -915,10 +955,10 @@ void CGeoDB::updateDatabaseMarker(QTreeWidgetItem * itemWks, QSet<quint64> &keys
 }
 
 
-void CGeoDB::changedWorkspace()
+void CGeoDB::changedWorkspace(quint32 what)
 {
-    updateDatabaseMarker();
-    updateModifyMarker();
+    updateDatabaseMarker(what);
+    updateModifyMarker(what);
     updateCheckmarks();
     updateDiaryIcon();
 
@@ -2039,7 +2079,7 @@ void CGeoDB::slotWptDBChanged()
 
     if(!isInternalEdit)
     {
-        changedWorkspace();
+        changedWorkspace(UPDT_WPT);
     }
 }
 
@@ -2075,7 +2115,7 @@ void CGeoDB::slotTrkDBChanged()
 
     if(!isInternalEdit)
     {
-        changedWorkspace();
+        changedWorkspace(UPDT_TRK);
     }
 }
 
@@ -2111,7 +2151,7 @@ void CGeoDB::slotRteDBChanged()
 
     if(!isInternalEdit)
     {
-        changedWorkspace();
+        changedWorkspace(UPDT_RTE);
     }
 }
 
@@ -2147,7 +2187,7 @@ void CGeoDB::slotOvlDBChanged()
 
     if(!isInternalEdit)
     {
-        changedWorkspace();
+        changedWorkspace(UPDT_OVL);
     }
 }
 
@@ -2182,7 +2222,7 @@ void CGeoDB::slotMapDBChanged()
 
     if(!isInternalEdit)
     {
-        changedWorkspace();
+        changedWorkspace(UPDT_MAP);
     }
 
 }
@@ -2201,7 +2241,7 @@ void CGeoDB::slotModifiedWpt(const QString& key)
 {
     CWptDB& wptdb = CWptDB::self();
     keysWptModified << key;
-    updateModifyMarker();
+    updateModifyMarker(UPDT_WPT);
 
     CWpt * wpt = wptdb.getWptByKey(key);
 
@@ -2225,7 +2265,7 @@ void CGeoDB::slotModifiedTrk(const QString& key)
     CTrackDB& trkdb = CTrackDB::self();
 
     keysTrkModified << key;
-    updateModifyMarker();
+    updateModifyMarker(UPDT_TRK);
 
     CTrack * trk = trkdb.getTrackByKey(key);
     for(int i = 0; i<itemWksTrk->childCount(); i++)
@@ -2248,7 +2288,7 @@ void CGeoDB::slotModifiedRte(const QString& key)
     CRouteDB& rtedb = CRouteDB::self();
 
     keysRteModified << key;
-    updateModifyMarker();
+    updateModifyMarker(UPDT_RTE);
 
     CRoute * rte = rtedb.getRouteByKey(key);
     for(int i = 0; i<itemWksRte->childCount(); i++)
@@ -2271,7 +2311,7 @@ void CGeoDB::slotModifiedOvl(const QString& key)
     COverlayDB& ovldb = COverlayDB::self();
 
     keysOvlModified << key;
-    updateModifyMarker();
+    updateModifyMarker(UPDT_OVL);
 
     IOverlay * ovl = ovldb.getOverlayByKey(key);
     for(int i = 0; i<itemWksOvl->childCount(); i++)
@@ -2291,7 +2331,7 @@ void CGeoDB::slotModifiedOvl(const QString& key)
 void CGeoDB::slotModifiedMap(const QString& key)
 {
     keysMapModified << key;
-    updateModifyMarker();
+    updateModifyMarker(UPDT_MAP);
 }
 
 
@@ -2399,6 +2439,8 @@ void CGeoDB::slotItemChanged(QTreeWidgetItem * item, int column)
         return;
     }
 
+    quint32 what = 0;
+
     CGeoDBInternalEditLock lock(this);
     QSqlQuery query(db);
 
@@ -2440,22 +2482,27 @@ void CGeoDB::slotItemChanged(QTreeWidgetItem * item, int column)
                         case eWpt:
                             qlb.waypoints() = query.value(0).toByteArray();
                             CWptDB::self().loadQLB(qlb, false);
+                            what |= UPDT_WPT;
                             break;
                         case eTrk:
                             qlb.tracks() = query.value(0).toByteArray();
                             CTrackDB::self().loadQLB(qlb, false);
+                            what |= UPDT_TRK;
                             break;
                         case eRte:
                             qlb.routes() = query.value(0).toByteArray();
                             CRouteDB::self().loadQLB(qlb, false);
+                            what |= UPDT_RTE;
                             break;
                         case eOvl:
                             qlb.overlays() = query.value(0).toByteArray();
                             COverlayDB::self().loadQLB(qlb, false);
+                            what |= UPDT_OVL;
                             break;
                         case eMap:
                             qlb.mapsels() = query.value(0).toByteArray();
                             CMapDB::self().loadQLB(qlb, false);
+                            what |= UPDT_MAP;
                             break;
                     }
                 }
@@ -2481,28 +2528,33 @@ void CGeoDB::slotItemChanged(QTreeWidgetItem * item, int column)
                         case eWpt:
                             CWptDB::self().delWpt(key, false);
                             keysWptModified.remove(key);
+                            what |= UPDT_WPT;
                             break;
                         case eTrk:
                             CTrackDB::self().delTrack(key, false);
                             keysTrkModified.remove(key);
+                            what |= UPDT_TRK;
                             break;
                         case eRte:
                             CRouteDB::self().delRoute(key, false);
                             keysRteModified.remove(key);
+                            what |= UPDT_RTE;
                             break;
                         case eOvl:
                             COverlayDB::self().delOverlay(key,false);
                             keysOvlModified.remove(key);
+                            what |= UPDT_OVL;
                             break;
                         case eMap:
                             CMapDB::self().delSelectedMap(key,false);
                             keysMapModified.remove(key);
+                            what |= UPDT_MAP;
                             break;
                     }
                 }
             }
         }
-        changedWorkspace();
+        changedWorkspace(what);
     }
 }
 
@@ -2676,7 +2728,7 @@ void CGeoDB::slotDelFolder()
         delFolder(item, true);
     }
 
-    changedWorkspace();
+    changedWorkspace(UPDT_ALL);
     updateLostFound();
 }
 
@@ -2850,7 +2902,7 @@ void CGeoDB::slotDelItems()
         delItemById(parentId, childId);
     }
 
-    changedWorkspace();
+    changedWorkspace(UPDT_ALL);
     updateLostFound();
 }
 
@@ -2904,7 +2956,7 @@ void CGeoDB::slotCopyItems()
         }
     }
 
-    changedWorkspace();
+    changedWorkspace(UPDT_ALL);
 }
 
 
@@ -2965,7 +3017,7 @@ void CGeoDB::slotMoveItems()
         delItemById(parentId1, childId);
     }
 
-    changedWorkspace();
+    changedWorkspace(UPDT_ALL);
 }
 
 
@@ -3012,7 +3064,7 @@ void CGeoDB::slotMoveLost()
     }
 
     updateLostFound();
-    changedWorkspace();
+    changedWorkspace(UPDT_ALL);
 }
 
 
@@ -3044,7 +3096,7 @@ void CGeoDB::slotDelLost()
     }
 
     updateLostFound();
-    changedWorkspace();
+    changedWorkspace(UPDT_ALL);
 }
 
 
@@ -3077,6 +3129,8 @@ void CGeoDB::slotAddItems()
     bool addAllOvl  = treeWorkspace->currentItem() == itemWksOvl;
     bool addAllMap  = treeWorkspace->currentItem() == itemWksMap;
 
+    quint32 what = 0;
+
     //////////// add waypoints ////////////
     size = itemWksWpt->childCount();
     for(i = 0; i < size; i++)
@@ -3090,6 +3144,7 @@ void CGeoDB::slotAddItems()
         }
 
         addItemToDB(parentId, item);
+        what |= UPDT_WPT;
     }
     //////////// add tracks ////////////
     size = itemWksTrk->childCount();
@@ -3104,6 +3159,7 @@ void CGeoDB::slotAddItems()
         }
 
         addItemToDB(parentId, item);
+        what |= UPDT_TRK;
     }
     //////////// add tracks ////////////
     size = itemWksRte->childCount();
@@ -3118,6 +3174,7 @@ void CGeoDB::slotAddItems()
         }
 
         addItemToDB(parentId, item);
+        what |= UPDT_RTE;
     }
     //////////// add overlays ////////////
     size = itemWksOvl->childCount();
@@ -3132,6 +3189,7 @@ void CGeoDB::slotAddItems()
         }
 
         addItemToDB(parentId, item);
+        what |= UPDT_OVL;
     }
 
     //////////// add map selections ////////////
@@ -3147,10 +3205,11 @@ void CGeoDB::slotAddItems()
         }
 
         addItemToDB(parentId, item);
+        what |= UPDT_MAP;
     }
 
     slotAddItems_end:
-    changedWorkspace();
+    changedWorkspace(what);
 }
 
 
@@ -3300,7 +3359,7 @@ void CGeoDB::slotSaveItems()
         updateItemById(childId);
     }
 
-    updateModifyMarker();
+    updateModifyMarker(UPDT_ALL);
 }
 
 
@@ -3685,7 +3744,7 @@ bool CGeoDB::setProjectDiaryData(quint64 id, CDiary& diary)
     CTrackDB::self().loadQLB(qlb, false);
     CRouteDB::self().loadQLB(qlb, false);
 
-    changedWorkspace();
+    changedWorkspace(UPDT_ALL);
     return true;
 }
 

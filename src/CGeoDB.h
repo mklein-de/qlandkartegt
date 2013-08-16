@@ -5,12 +5,12 @@
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
-    
+
     This program is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU General Public License for more details.
-    
+
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
@@ -135,13 +135,13 @@ class CGeoDB : public QWidget, private Ui::IGeoToolWidget
         /// move database from one version to most resent version
         void migrateDB(int version);
         /// call each time the workspace changed
-        void changedWorkspace();
+        void changedWorkspace(quint32 what);
         /// update the item text in workspace with a "*" for chnaged items
-        void updateModifyMarker();
+        void updateModifyMarker(quint32 what);
         /// update the item text in workspace with a "*" for chnaged items
         void updateModifyMarker(QTreeWidgetItem * item, QSet<QString>& keys, const QString& label);
         /// update "in database" icon
-        void updateDatabaseMarker();
+        void updateDatabaseMarker(quint32 what);
         /// update "in database" icon
         void updateDatabaseMarker(QTreeWidgetItem * itemWks, QSet<quint64> &keysWks);
         /// initialize database treewidget on startup
