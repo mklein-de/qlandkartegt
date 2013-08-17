@@ -1,3 +1,14 @@
+--- 2013.08.17 ---
+Garmin maps: Render polylines with a border a bit nicer
+
+Add option to hide/show info box for vector maps
+
+Add inforbox to vector mpas used as overlay
+
+Add tooltip to vector mpas used as overlays
+
+Database: Optimized "workspace update" for a workspace with a lot of items
+
 --- 2013.07.09 ---
 change license  to GPLV3 
 
