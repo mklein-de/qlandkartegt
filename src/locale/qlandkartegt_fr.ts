@@ -619,10 +619,6 @@ Variable d&apos;environnement GDAL</translation>
         <translation>&lt;entrer les coordonnées&gt;</translation>
     </message>
     <message>
-        <source>Raw bitmaps (*.tif *.tiff *.png *.gif)</source>
-        <translation></translation>
-    </message>
-    <message>
         <source>Ref %1</source>
         <translation>Ref %1</translation>
     </message>
@@ -717,6 +713,10 @@ coordinate formats:
 • &quot;N49° 10.234 E12° 01.456&quot; (dd mm.mmm)
 • &quot;46.575377   12.193172&quot;  (dd.dddddd)
 • &quot;285000 5162000&quot;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Raw bitmaps (*.tif *.tiff *.png *.gif *.jpg)</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -992,10 +992,6 @@ Une fois que vous avez créer un ensemble de carte, vous pouvez ajouter un fichi
         <translation>Chemin vers l appareil Garmin...</translation>
     </message>
     <message>
-        <source>The selected path must have a subdirectory &apos;%1&apos;.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Garmin Mass Storage: Upload maps is not implemented.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1009,6 +1005,18 @@ Une fois que vous avez créer un ensemble de carte, vous pouvez ajouter un fichi
     </message>
     <message>
         <source>Error</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The selected path must have a subdirectory &apos;%1&apos;. Should I create the path?
+
+%2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The selected path must have a subdirectory &apos;%1. Should I create the path?
+
+%2</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -6333,6 +6341,10 @@ p, li { white-space: pre-wrap; }
         <source>Show clock</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Element Info (vector maps)</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>IDlgConfig3D</name>
@@ -6721,19 +6733,11 @@ For modern Garmin device select &quot;Garmin Mass Storage&quot; device to exchan
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Befor you start taking any picture take a picture of the clock on your GPS device. Select the picture from the list above and enter the timestamp manually. QLandkarte GT will derive the delta between your camera and your GPS. The offset is used to adust all timestamps befor finding a matching point in the currently loaded tracks.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Select a picture from the list and enter the timestamp</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <source>dd.MM.yy HH:mm:ss</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Befor you start taking any picture take a picture of the position on your GPS device. Select the picture from the list above and enter the position manually. QLandkarte GT will find the closest track point to that position and derive the time delta bewteen that point and the selcted picture. The offset is used to adust all timestamps befor finding a matching point in the currently loaded tracks.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -6746,6 +6750,15 @@ For modern Garmin device select &quot;Garmin Mass Storage&quot; device to exchan
     </message>
     <message>
         <source>Import pictures</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Take a picture of the GPS time display as the first photo in the series. Double-click that picture in the above list and enter the GPS time in the text box. QLandkarte GT will derive the delta time between camera
+and GPS and adjust all image time-stamps before correlating them with loaded track points.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Take a picture of the GPS position display as the first photo in the series. Double-click that picture in the above list and enter the GPS position. QLandkarte GT will locate the closest track point and derive the delta time between camera and GPS and adjust all image time-stamps before correlating them with loaded track points.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

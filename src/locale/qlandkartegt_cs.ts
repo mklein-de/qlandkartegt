@@ -872,12 +872,12 @@
         <translation type="obsolete">Position kopieren</translation>
     </message>
     <message>
-        <location filename="../CCanvas.cpp" line="833"/>
+        <location filename="../CCanvas.cpp" line="842"/>
         <source>[Grid: %1] </source>
         <translation>[Mřížka: %1]</translation>
     </message>
     <message>
-        <location filename="../CCanvas.cpp" line="837"/>
+        <location filename="../CCanvas.cpp" line="846"/>
         <source>[Grid: N %1m, E %2m] </source>
         <translation type="unfinished"></translation>
     </message>
@@ -1054,9 +1054,13 @@ coordinate formats:
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CCreateMapGeoTiff.cpp" line="243"/>
         <source>Raw bitmaps (*.tif *.tiff *.png *.gif)</source>
-        <translation>Jednoduché bitmapy (*.tif *.tiff *.png *.gif)</translation>
+        <translation type="obsolete">Jednoduché bitmapy (*.tif *.tiff *.png *.gif)</translation>
+    </message>
+    <message>
+        <location filename="../CCreateMapGeoTiff.cpp" line="243"/>
+        <source>Raw bitmaps (*.tif *.tiff *.png *.gif *.jpg)</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../CCreateMapGeoTiff.cpp" line="289"/>
@@ -1509,9 +1513,9 @@ Očekáváno: %1, přijato %2.</translation>
 <context>
     <name>CDeviceGarminBulk</name>
     <message>
-        <location filename="../CDeviceGarminBulk.cpp" line="142"/>
-        <location filename="../CDeviceGarminBulk.cpp" line="148"/>
-        <location filename="../CDeviceGarminBulk.cpp" line="154"/>
+        <location filename="../CDeviceGarminBulk.cpp" line="144"/>
+        <location filename="../CDeviceGarminBulk.cpp" line="157"/>
+        <location filename="../CDeviceGarminBulk.cpp" line="171"/>
         <source>Missing...</source>
         <translation>Chybí...</translation>
     </message>
@@ -1524,91 +1528,103 @@ Očekáváno: %1, přijato %2.</translation>
         <translation type="obsolete">Der ausgewählte Pfad muss ein Unterverzeichnis &apos;JPEG&apos; oder &apos;Pictures&apos; haben.</translation>
     </message>
     <message>
-        <location filename="../CDeviceGarminBulk.cpp" line="123"/>
+        <location filename="../CDeviceGarminBulk.cpp" line="125"/>
         <source>Path to Garmin device...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CDeviceGarminBulk.cpp" line="142"/>
-        <location filename="../CDeviceGarminBulk.cpp" line="148"/>
-        <location filename="../CDeviceGarminBulk.cpp" line="154"/>
         <source>The selected path must have a subdirectory &apos;%1&apos;.</source>
-        <translation>Vybraná cesta musí mít podadresář &apos;%1&apos;.</translation>
+        <translation type="obsolete">Vybraná cesta musí mít podadresář &apos;%1&apos;.</translation>
     </message>
     <message>
-        <location filename="../CDeviceGarminBulk.cpp" line="194"/>
+        <location filename="../CDeviceGarminBulk.cpp" line="144"/>
+        <location filename="../CDeviceGarminBulk.cpp" line="157"/>
+        <source>The selected path must have a subdirectory &apos;%1&apos;. Should I create the path?
+
+%2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../CDeviceGarminBulk.cpp" line="171"/>
+        <source>The selected path must have a subdirectory &apos;%1. Should I create the path?
+
+%2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../CDeviceGarminBulk.cpp" line="218"/>
         <source>waypoints</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CDeviceGarminBulk.cpp" line="262"/>
-        <location filename="../CDeviceGarminBulk.cpp" line="299"/>
-        <location filename="../CDeviceGarminBulk.cpp" line="401"/>
-        <location filename="../CDeviceGarminBulk.cpp" line="436"/>
-        <location filename="../CDeviceGarminBulk.cpp" line="477"/>
-        <location filename="../CDeviceGarminBulk.cpp" line="513"/>
+        <location filename="../CDeviceGarminBulk.cpp" line="286"/>
+        <location filename="../CDeviceGarminBulk.cpp" line="323"/>
+        <location filename="../CDeviceGarminBulk.cpp" line="425"/>
+        <location filename="../CDeviceGarminBulk.cpp" line="460"/>
+        <location filename="../CDeviceGarminBulk.cpp" line="501"/>
+        <location filename="../CDeviceGarminBulk.cpp" line="537"/>
         <source>Error</source>
         <translation type="unfinished">Chyba</translation>
     </message>
     <message>
-        <location filename="../CDeviceGarminBulk.cpp" line="266"/>
+        <location filename="../CDeviceGarminBulk.cpp" line="290"/>
         <source>Upload waypoints finished!</source>
         <translation>Nahrání cestovních bodů dokončeno!</translation>
     </message>
     <message>
-        <location filename="../CDeviceGarminBulk.cpp" line="370"/>
+        <location filename="../CDeviceGarminBulk.cpp" line="394"/>
         <source>Download waypoints finished!</source>
         <translation>Stažení cestovních bodů dokončeno!</translation>
     </message>
     <message>
-        <location filename="../CDeviceGarminBulk.cpp" line="383"/>
+        <location filename="../CDeviceGarminBulk.cpp" line="407"/>
         <source>tracks</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CDeviceGarminBulk.cpp" line="404"/>
+        <location filename="../CDeviceGarminBulk.cpp" line="428"/>
         <source>Upload tracks finished!</source>
         <translation>Nahrání stop dokončeno!</translation>
     </message>
     <message>
-        <location filename="../CDeviceGarminBulk.cpp" line="447"/>
+        <location filename="../CDeviceGarminBulk.cpp" line="471"/>
         <source>Download tracks finished!</source>
         <translation>Stažení stop dokončeno!</translation>
     </message>
     <message>
-        <location filename="../CDeviceGarminBulk.cpp" line="459"/>
+        <location filename="../CDeviceGarminBulk.cpp" line="483"/>
         <source>routes</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CDeviceGarminBulk.cpp" line="480"/>
+        <location filename="../CDeviceGarminBulk.cpp" line="504"/>
         <source>Upload routes finished!</source>
         <translation>Nahrání cest dokončeno!</translation>
     </message>
     <message>
-        <location filename="../CDeviceGarminBulk.cpp" line="524"/>
+        <location filename="../CDeviceGarminBulk.cpp" line="548"/>
         <source>Download routes finished!</source>
         <translation>Stažení cest dokončeno!</translation>
     </message>
     <message>
-        <location filename="../CDeviceGarminBulk.cpp" line="530"/>
-        <location filename="../CDeviceGarminBulk.cpp" line="536"/>
-        <location filename="../CDeviceGarminBulk.cpp" line="542"/>
+        <location filename="../CDeviceGarminBulk.cpp" line="554"/>
+        <location filename="../CDeviceGarminBulk.cpp" line="560"/>
+        <location filename="../CDeviceGarminBulk.cpp" line="566"/>
         <source>Error...</source>
         <translation>Chyba...</translation>
     </message>
     <message>
-        <location filename="../CDeviceGarminBulk.cpp" line="530"/>
+        <location filename="../CDeviceGarminBulk.cpp" line="554"/>
         <source>Garmin Mass Storage: Upload maps is not implemented.</source>
         <translation>Úložiště Garmin: Nahrání map neprovedeno.</translation>
     </message>
     <message>
-        <location filename="../CDeviceGarminBulk.cpp" line="536"/>
+        <location filename="../CDeviceGarminBulk.cpp" line="560"/>
         <source>Garmin Mass Storage: Download screenshots is not implemented.</source>
         <translation>Úložiště Garmin: Stažení snímků obrazovky neprovedeno.</translation>
     </message>
     <message>
-        <location filename="../CDeviceGarminBulk.cpp" line="542"/>
+        <location filename="../CDeviceGarminBulk.cpp" line="566"/>
         <source>Garmin Mass Storage: Live log is not implemented.</source>
         <translation>Úložiště Garmin: Živý záznam neproveden.</translation>
     </message>
@@ -2381,47 +2397,47 @@ Očekáváno: %1, přijato %2.</translation>
 <context>
     <name>CDlgConfig</name>
     <message>
-        <location filename="../CDlgConfig.cpp" line="116"/>
+        <location filename="../CDlgConfig.cpp" line="117"/>
         <source>QLandkarte M</source>
         <translation>QLandkarte M</translation>
     </message>
     <message>
-        <location filename="../CDlgConfig.cpp" line="117"/>
+        <location filename="../CDlgConfig.cpp" line="118"/>
         <source>Garmin</source>
         <translation>Garmin</translation>
     </message>
     <message>
-        <location filename="../CDlgConfig.cpp" line="118"/>
+        <location filename="../CDlgConfig.cpp" line="119"/>
         <source>Garmin Mass Storage</source>
         <translation>Úložiště Garmin</translation>
     </message>
     <message>
-        <location filename="../CDlgConfig.cpp" line="119"/>
+        <location filename="../CDlgConfig.cpp" line="120"/>
         <source>Magellan</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CDlgConfig.cpp" line="120"/>
+        <location filename="../CDlgConfig.cpp" line="121"/>
         <source>TwoNav</source>
         <translation type="unfinished">TwoNav</translation>
     </message>
     <message>
-        <location filename="../CDlgConfig.cpp" line="121"/>
+        <location filename="../CDlgConfig.cpp" line="122"/>
         <source>NMEA</source>
         <translation>NMEA</translation>
     </message>
     <message>
-        <location filename="../CDlgConfig.cpp" line="131"/>
+        <location filename="../CDlgConfig.cpp" line="132"/>
         <source>Mikrokopter</source>
         <translation>Mikrokopter</translation>
     </message>
     <message>
-        <location filename="../CDlgConfig.cpp" line="134"/>
+        <location filename="../CDlgConfig.cpp" line="135"/>
         <source>GPSD</source>
         <translation>GPSD</translation>
     </message>
     <message>
-        <location filename="../CDlgConfig.cpp" line="146"/>
+        <location filename="../CDlgConfig.cpp" line="147"/>
         <source>Pass something like &quot;COM1:&quot; or &quot;\\.\COM13&quot; or &quot;\\.\com13&quot; for serial Garmin devices or NMEA devices. For Garmin USB devices leave blank.</source>
         <translation>Zadejte něco jako &quot;COM1:&quot; nebo &quot;\\.\COM13&quot; nebo &quot;\\.\com13&quot; pro sériová zařízení Garmin nebo NMEA. Ponechejte prázdné pro USB zařízení Garmin.</translation>
     </message>
@@ -2430,14 +2446,14 @@ Očekáváno: %1, přijato %2.</translation>
         <translation type="obsolete">Hier wird so etwas wie &quot;COM1:&quot; oder &quot;\\.\COM13&quot; für serielle Geräte von Garmin oder NMEA Geräte. Für Garmin USB Geräte wird das Feld einfach frei gelassen.</translation>
     </message>
     <message>
-        <location filename="../CDlgConfig.cpp" line="379"/>
-        <location filename="../CDlgConfig.cpp" line="383"/>
+        <location filename="../CDlgConfig.cpp" line="381"/>
+        <location filename="../CDlgConfig.cpp" line="385"/>
         <source>No plugins found. I expect them in: %1</source>
         <translation>Nenalezeny žádné přídavné moduly. Očekávány v cestě: %1</translation>
     </message>
     <message>
-        <location filename="../CDlgConfig.cpp" line="419"/>
-        <location filename="../CDlgConfig.cpp" line="445"/>
+        <location filename="../CDlgConfig.cpp" line="421"/>
+        <location filename="../CDlgConfig.cpp" line="447"/>
         <source>Open Directory</source>
         <translation>Otevřít adresář</translation>
     </message>
@@ -2626,73 +2642,73 @@ Zrušeno uživatelem.</translation>
         <translation>(proj.)</translation>
     </message>
     <message>
-        <location filename="../CDlgEditWpt.cpp" line="358"/>
+        <location filename="../CDlgEditWpt.cpp" line="354"/>
         <source>Select image file</source>
         <translation>Vybrat soubor s obrázkem</translation>
     </message>
     <message>
-        <location filename="../CDlgEditWpt.cpp" line="370"/>
-        <location filename="../CDlgEditWpt.cpp" line="612"/>
+        <location filename="../CDlgEditWpt.cpp" line="366"/>
+        <location filename="../CDlgEditWpt.cpp" line="608"/>
         <source>Add comment ...</source>
         <translation>Přidat poznámku...</translation>
     </message>
     <message>
-        <location filename="../CDlgEditWpt.cpp" line="370"/>
-        <location filename="../CDlgEditWpt.cpp" line="612"/>
+        <location filename="../CDlgEditWpt.cpp" line="366"/>
+        <location filename="../CDlgEditWpt.cpp" line="608"/>
         <source>comment</source>
         <translation>Poznámka</translation>
     </message>
     <message>
-        <location filename="../CDlgEditWpt.cpp" line="433"/>
+        <location filename="../CDlgEditWpt.cpp" line="429"/>
         <source>no image</source>
         <translation>Žádný obrázek</translation>
     </message>
     <message>
-        <location filename="../CDlgEditWpt.cpp" line="456"/>
+        <location filename="../CDlgEditWpt.cpp" line="452"/>
         <source>Edit link ...</source>
         <translation>Upravit odkaz...</translation>
     </message>
     <message>
-        <location filename="../CDlgEditWpt.cpp" line="456"/>
+        <location filename="../CDlgEditWpt.cpp" line="452"/>
         <source>Link: &apos;http://...&apos;</source>
         <translation>Odkaz: &quot;http://...&quot;</translation>
     </message>
     <message>
-        <location filename="../CDlgEditWpt.cpp" line="460"/>
+        <location filename="../CDlgEditWpt.cpp" line="456"/>
         <source>None</source>
         <translation>Žádný</translation>
     </message>
     <message>
-        <location filename="../CDlgEditWpt.cpp" line="478"/>
+        <location filename="../CDlgEditWpt.cpp" line="474"/>
         <source>Select output file</source>
         <translation>Vybrat výstupní soubor</translation>
     </message>
     <message>
+        <location filename="../CDlgEditWpt.cpp" line="497"/>
+        <location filename="../CDlgEditWpt.cpp" line="498"/>
         <location filename="../CDlgEditWpt.cpp" line="501"/>
-        <location filename="../CDlgEditWpt.cpp" line="502"/>
-        <location filename="../CDlgEditWpt.cpp" line="505"/>
         <source>%1
 </source>
         <translation>%1
 </translation>
     </message>
     <message>
-        <location filename="../CDlgEditWpt.cpp" line="643"/>
+        <location filename="../CDlgEditWpt.cpp" line="639"/>
         <source>Delete images...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CDlgEditWpt.cpp" line="643"/>
+        <location filename="../CDlgEditWpt.cpp" line="639"/>
         <source>Remove all other images first?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CDlgEditWpt.cpp" line="725"/>
+        <location filename="../CDlgEditWpt.cpp" line="721"/>
         <source>No spoilers...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CDlgEditWpt.cpp" line="725"/>
+        <location filename="../CDlgEditWpt.cpp" line="721"/>
         <source>No spoilers found.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2850,14 +2866,14 @@ není platným vymezením soustavy souřadnic
     <message>
         <location filename="../CDlgTrackFilter.cpp" line="148"/>
         <location filename="../CDlgTrackFilter.cpp" line="218"/>
-        <location filename="../CDlgTrackFilter.cpp" line="276"/>
+        <location filename="../CDlgTrackFilter.cpp" line="274"/>
         <source>Abort filter</source>
         <translation>Zrušit filtrování</translation>
     </message>
     <message>
         <location filename="../CDlgTrackFilter.cpp" line="148"/>
         <location filename="../CDlgTrackFilter.cpp" line="218"/>
-        <location filename="../CDlgTrackFilter.cpp" line="276"/>
+        <location filename="../CDlgTrackFilter.cpp" line="274"/>
         <source>Filter track...</source>
         <translation>Filtrovat stopu...</translation>
     </message>
@@ -3049,167 +3065,167 @@ není platným vymezením soustavy souřadnic
 <context>
     <name>CGeoDB</name>
     <message>
-        <location filename="../CGeoDB.cpp" line="88"/>
+        <location filename="../CGeoDB.cpp" line="97"/>
         <source>Manage your Geo Data Base</source>
         <translation>Spravovat databázi zeměpisných údajů</translation>
     </message>
     <message>
-        <location filename="../CGeoDB.cpp" line="92"/>
-        <location filename="../CGeoDB.cpp" line="810"/>
-        <location filename="../CGeoDB.cpp" line="853"/>
+        <location filename="../CGeoDB.cpp" line="101"/>
+        <location filename="../CGeoDB.cpp" line="819"/>
+        <location filename="../CGeoDB.cpp" line="878"/>
         <source>Workspace</source>
         <translation>Pracovní oblast</translation>
     </message>
     <message>
-        <location filename="../CGeoDB.cpp" line="94"/>
+        <location filename="../CGeoDB.cpp" line="103"/>
         <source>All items you see on the map.</source>
         <translation>Všechny prvky, které vidíte na mapě.</translation>
     </message>
     <message>
-        <location filename="../CGeoDB.cpp" line="99"/>
-        <location filename="../CGeoDB.cpp" line="816"/>
+        <location filename="../CGeoDB.cpp" line="108"/>
+        <location filename="../CGeoDB.cpp" line="827"/>
         <source>Waypoints</source>
         <translation>Cestovní body</translation>
     </message>
     <message>
-        <location filename="../CGeoDB.cpp" line="106"/>
-        <location filename="../CGeoDB.cpp" line="817"/>
+        <location filename="../CGeoDB.cpp" line="115"/>
+        <location filename="../CGeoDB.cpp" line="831"/>
         <source>Tracks</source>
         <translation>Stopy</translation>
     </message>
     <message>
-        <location filename="../CGeoDB.cpp" line="113"/>
-        <location filename="../CGeoDB.cpp" line="818"/>
+        <location filename="../CGeoDB.cpp" line="122"/>
+        <location filename="../CGeoDB.cpp" line="835"/>
         <source>Routes</source>
         <translation>Cesty</translation>
     </message>
     <message>
-        <location filename="../CGeoDB.cpp" line="120"/>
-        <location filename="../CGeoDB.cpp" line="819"/>
+        <location filename="../CGeoDB.cpp" line="129"/>
+        <location filename="../CGeoDB.cpp" line="839"/>
         <source>Overlays</source>
         <translation>Vrstvy</translation>
     </message>
     <message>
-        <location filename="../CGeoDB.cpp" line="127"/>
+        <location filename="../CGeoDB.cpp" line="136"/>
         <source>Map Selections</source>
         <translation>Mapové výběry</translation>
     </message>
     <message>
-        <location filename="../CGeoDB.cpp" line="134"/>
-        <location filename="../CGeoDB.cpp" line="1111"/>
+        <location filename="../CGeoDB.cpp" line="143"/>
+        <location filename="../CGeoDB.cpp" line="1151"/>
         <source>Lost &amp; Found</source>
         <translation>Ztraceno a nalezeno</translation>
     </message>
     <message>
-        <location filename="../CGeoDB.cpp" line="137"/>
+        <location filename="../CGeoDB.cpp" line="146"/>
         <source>All items that lost their parent folder as you deleted it.</source>
         <translation>Všechny prvky, které ztratily svůj nadřízený adresář, protože jste jej smazal.</translation>
     </message>
     <message>
-        <location filename="../CGeoDB.cpp" line="141"/>
+        <location filename="../CGeoDB.cpp" line="150"/>
         <source>Database</source>
         <translation>Databáze</translation>
     </message>
     <message>
-        <location filename="../CGeoDB.cpp" line="145"/>
+        <location filename="../CGeoDB.cpp" line="154"/>
         <source>All your data grouped by folders.</source>
         <translation>Všechna vaše data seskupená podle složek.</translation>
     </message>
     <message>
-        <location filename="../CGeoDB.cpp" line="196"/>
+        <location filename="../CGeoDB.cpp" line="205"/>
         <source>Edit</source>
         <translation>Upravit</translation>
     </message>
     <message>
-        <location filename="../CGeoDB.cpp" line="197"/>
+        <location filename="../CGeoDB.cpp" line="206"/>
         <source>Add diary</source>
         <translation>Přidat deník</translation>
     </message>
     <message>
-        <location filename="../CGeoDB.cpp" line="198"/>
+        <location filename="../CGeoDB.cpp" line="207"/>
         <source>Show/hide diary</source>
         <translation>Ukázat/Skrýt deník</translation>
     </message>
     <message>
-        <location filename="../CGeoDB.cpp" line="199"/>
+        <location filename="../CGeoDB.cpp" line="208"/>
         <source>Delete diary</source>
         <translation>Smazat deník</translation>
     </message>
     <message>
-        <location filename="../CGeoDB.cpp" line="200"/>
+        <location filename="../CGeoDB.cpp" line="209"/>
         <source>New</source>
         <translation>Nový</translation>
     </message>
     <message>
-        <location filename="../CGeoDB.cpp" line="201"/>
+        <location filename="../CGeoDB.cpp" line="210"/>
         <source>Export</source>
         <translation type="unfinished">Vyvést</translation>
     </message>
     <message>
-        <location filename="../CGeoDB.cpp" line="203"/>
-        <location filename="../CGeoDB.cpp" line="209"/>
+        <location filename="../CGeoDB.cpp" line="212"/>
+        <location filename="../CGeoDB.cpp" line="218"/>
         <source>Copy</source>
         <translation>Kopírovat</translation>
     </message>
     <message>
-        <location filename="../CGeoDB.cpp" line="204"/>
-        <location filename="../CGeoDB.cpp" line="210"/>
-        <location filename="../CGeoDB.cpp" line="214"/>
+        <location filename="../CGeoDB.cpp" line="213"/>
+        <location filename="../CGeoDB.cpp" line="219"/>
+        <location filename="../CGeoDB.cpp" line="223"/>
         <source>Move</source>
         <translation>Přesunout</translation>
     </message>
     <message>
-        <location filename="../CGeoDB.cpp" line="205"/>
+        <location filename="../CGeoDB.cpp" line="214"/>
         <source>Lock</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CGeoDB.cpp" line="218"/>
+        <location filename="../CGeoDB.cpp" line="227"/>
         <source>Add to database</source>
         <translation>Přidat do databáze</translation>
     </message>
     <message>
-        <location filename="../CGeoDB.cpp" line="219"/>
+        <location filename="../CGeoDB.cpp" line="228"/>
         <source>Save changes</source>
         <translation>Uložit změny</translation>
     </message>
     <message>
-        <location filename="../CGeoDB.cpp" line="470"/>
+        <location filename="../CGeoDB.cpp" line="479"/>
         <source>Migrating database from version 4 to 5.</source>
         <translation>Databáze se stěhuje z verze 4 do verze 5.</translation>
     </message>
     <message>
-        <location filename="../CGeoDB.cpp" line="521"/>
+        <location filename="../CGeoDB.cpp" line="530"/>
         <source>Migrating database from version 5 to 6.</source>
         <translation>Databáze se stěhuje z verze 5 do verze 6.</translation>
     </message>
     <message>
-        <location filename="../CGeoDB.cpp" line="578"/>
+        <location filename="../CGeoDB.cpp" line="587"/>
         <source>Migrating database from version 6 to 7.</source>
         <translation>Databáze se stěhuje z verze 6 do verze 7.</translation>
     </message>
     <message>
-        <location filename="../CGeoDB.cpp" line="643"/>
+        <location filename="../CGeoDB.cpp" line="652"/>
         <source>Migrating database from version 7 to 8.</source>
         <translation>Databáze se stěhuje z verze 7 do verze 8.</translation>
     </message>
     <message>
-        <location filename="../CGeoDB.cpp" line="668"/>
+        <location filename="../CGeoDB.cpp" line="677"/>
         <source>Migrating database from version 8 to 9.</source>
         <translation type="unfinished">Databáze se stěhuje z verze 7 do verze 8. {8 ?} {9.?}</translation>
     </message>
     <message>
-        <location filename="../CGeoDB.cpp" line="3421"/>
+        <location filename="../CGeoDB.cpp" line="3543"/>
         <source>Delete diary...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CGeoDB.cpp" line="3421"/>
+        <location filename="../CGeoDB.cpp" line="3543"/>
         <source>Do you really want to delete the diary?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CGeoDB.cpp" line="3716"/>
+        <location filename="../CGeoDB.cpp" line="3838"/>
         <source>Export data to...</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3226,60 +3242,60 @@ není platným vymezením soustavy souřadnic
         <translation type="obsolete">Aktualisiere Datenbank von Version 6 auf 7.</translation>
     </message>
     <message>
-        <location filename="../CGeoDB.cpp" line="738"/>
+        <location filename="../CGeoDB.cpp" line="747"/>
         <source>Loading workspace. Please wait.</source>
         <translation>Nahrává se pracovní oblast. Počkejte, prosím.</translation>
     </message>
     <message>
-        <location filename="../CGeoDB.cpp" line="820"/>
+        <location filename="../CGeoDB.cpp" line="843"/>
         <source>Map Selection</source>
         <translation>Mapový výběr</translation>
     </message>
     <message>
-        <location filename="../CGeoDB.cpp" line="891"/>
+        <location filename="../CGeoDB.cpp" line="931"/>
         <source>Update workspace.</source>
         <translation>Obnovit pracovní oblast.</translation>
     </message>
     <message>
-        <location filename="../CGeoDB.cpp" line="1307"/>
-        <location filename="../CGeoDB.cpp" line="3680"/>
+        <location filename="../CGeoDB.cpp" line="1347"/>
+        <location filename="../CGeoDB.cpp" line="3802"/>
         <source>Loading items from database.</source>
         <translation>Nahrávají se prvky z databáze.</translation>
     </message>
     <message>
-        <location filename="../CGeoDB.cpp" line="1871"/>
+        <location filename="../CGeoDB.cpp" line="1911"/>
         <source>Saving workspace. Please wait.</source>
         <translation>Ukládá se pracovní oblast. Počkejte, prosím.</translation>
     </message>
     <message>
-        <location filename="../CGeoDB.cpp" line="2610"/>
+        <location filename="../CGeoDB.cpp" line="2725"/>
         <source>Delete folder...</source>
         <translation>Smazat složku...</translation>
     </message>
     <message>
-        <location filename="../CGeoDB.cpp" line="2770"/>
-        <location filename="../CGeoDB.cpp" line="2966"/>
+        <location filename="../CGeoDB.cpp" line="2885"/>
+        <location filename="../CGeoDB.cpp" line="3081"/>
         <source>Delete items.</source>
         <translation>Prvky se mažou.</translation>
     </message>
     <message>
-        <location filename="../CGeoDB.cpp" line="2814"/>
+        <location filename="../CGeoDB.cpp" line="2929"/>
         <source>Copy items.</source>
         <translation>Prvky se kopírují.</translation>
     </message>
     <message>
-        <location filename="../CGeoDB.cpp" line="2869"/>
-        <location filename="../CGeoDB.cpp" line="2929"/>
+        <location filename="../CGeoDB.cpp" line="2984"/>
+        <location filename="../CGeoDB.cpp" line="3044"/>
         <source>Move items.</source>
         <translation>Prvky se přesouvají.</translation>
     </message>
     <message>
-        <location filename="../CGeoDB.cpp" line="3005"/>
+        <location filename="../CGeoDB.cpp" line="3120"/>
         <source>Add items to database.</source>
         <translation>Prvky se zapisují do databáze.</translation>
     </message>
     <message>
-        <location filename="../CGeoDB.cpp" line="3132"/>
+        <location filename="../CGeoDB.cpp" line="3254"/>
         <source>Save items.</source>
         <translation>Prvky jsou ukládány.</translation>
     </message>
@@ -3288,7 +3304,7 @@ není platným vymezením soustavy souřadnic
         <translation type="obsolete">Bearbeiten ...</translation>
     </message>
     <message>
-        <location filename="../CGeoDB.cpp" line="220"/>
+        <location filename="../CGeoDB.cpp" line="229"/>
         <source>Check-out as copy</source>
         <translation>Přeměnit na kopii</translation>
     </message>
@@ -3301,9 +3317,9 @@ není platným vymezením soustavy souřadnic
         <translation type="obsolete">Neuer Ordner</translation>
     </message>
     <message>
-        <location filename="../CGeoDB.cpp" line="202"/>
         <location filename="../CGeoDB.cpp" line="211"/>
-        <location filename="../CGeoDB.cpp" line="215"/>
+        <location filename="../CGeoDB.cpp" line="220"/>
+        <location filename="../CGeoDB.cpp" line="224"/>
         <source>Delete</source>
         <translation>Smazat</translation>
     </message>
@@ -3348,7 +3364,7 @@ není platným vymezením soustavy souřadnic
         <translation type="obsolete">Ordner löschen...</translation>
     </message>
     <message>
-        <location filename="../CGeoDB.cpp" line="2610"/>
+        <location filename="../CGeoDB.cpp" line="2725"/>
         <source>You are sure you want to delete &apos;%1&apos; and all items below?</source>
         <translation>Jste si jistý, že se má smazat &apos;%1&apos; a všechny podléhající prvky?</translation>
     </message>
@@ -3373,7 +3389,7 @@ není platným vymezením soustavy souřadnic
         <translation type="obsolete">Es gibt Elemente, die noch nicht in der Datenbank sind. Soll ich sie unter Verloren &amp; Gefunden abspeichern?</translation>
     </message>
     <message>
-        <location filename="../CGeoDB.cpp" line="1107"/>
+        <location filename="../CGeoDB.cpp" line="1147"/>
         <source>Lost &amp; Found (%1)</source>
         <translation>Ztraceno a nalezeno (%1)</translation>
     </message>
@@ -4262,7 +4278,7 @@ Chcete uložit změny?</translation>
 <context>
     <name>CMapDEMSlopeSetup</name>
     <message>
-        <location filename="../CMapDEMSlopeSetup.cpp" line="98"/>
+        <location filename="../CMapDEMSlopeSetup.cpp" line="99"/>
         <source>Grade %1</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4885,9 +4901,9 @@ Zrušeno uživatelem.</translation>
     </message>
     <message>
         <location filename="../CMapTDB.cpp" line="314"/>
-        <location filename="../CMapTDB.cpp" line="537"/>
-        <location filename="../CMapTDB.cpp" line="660"/>
-        <location filename="../CMapTDB.cpp" line="741"/>
+        <location filename="../CMapTDB.cpp" line="543"/>
+        <location filename="../CMapTDB.cpp" line="666"/>
+        <location filename="../CMapTDB.cpp" line="747"/>
         <source>Night</source>
         <translation>Noc</translation>
     </message>
@@ -4947,344 +4963,344 @@ Zrušeno uživatelem.</translation>
         <translation>Podrobnost -5</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="474"/>
+        <location filename="../CMapTDB.cpp" line="480"/>
         <source>Level: %1 Bits: %2 On basmap: %3</source>
         <translation>Úroveň: %1 Bity: %2 na základní mapě: %3</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="492"/>
+        <location filename="../CMapTDB.cpp" line="498"/>
         <source>missing</source>
         <translation>chybí</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="534"/>
-        <location filename="../CMapTDB.cpp" line="657"/>
-        <location filename="../CMapTDB.cpp" line="738"/>
+        <location filename="../CMapTDB.cpp" line="540"/>
+        <location filename="../CMapTDB.cpp" line="663"/>
+        <location filename="../CMapTDB.cpp" line="744"/>
         <source>Name</source>
         <translation>Name</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="535"/>
-        <location filename="../CMapTDB.cpp" line="658"/>
-        <location filename="../CMapTDB.cpp" line="739"/>
+        <location filename="../CMapTDB.cpp" line="541"/>
+        <location filename="../CMapTDB.cpp" line="664"/>
+        <location filename="../CMapTDB.cpp" line="745"/>
         <source>Type</source>
         <translation>Typ</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="536"/>
-        <location filename="../CMapTDB.cpp" line="659"/>
-        <location filename="../CMapTDB.cpp" line="740"/>
+        <location filename="../CMapTDB.cpp" line="542"/>
+        <location filename="../CMapTDB.cpp" line="665"/>
+        <location filename="../CMapTDB.cpp" line="746"/>
         <source>Day</source>
         <translation>Den</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="952"/>
+        <location filename="../CMapTDB.cpp" line="958"/>
         <source>Unspecified</source>
         <translation>Neurčeno</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="953"/>
+        <location filename="../CMapTDB.cpp" line="959"/>
         <source>French</source>
         <translation>Francouzský</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="954"/>
+        <location filename="../CMapTDB.cpp" line="960"/>
         <source>German</source>
         <translation>Německý</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="955"/>
+        <location filename="../CMapTDB.cpp" line="961"/>
         <source>Dutch</source>
         <translation>Holandský</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="956"/>
+        <location filename="../CMapTDB.cpp" line="962"/>
         <source>English</source>
         <translation>Anglický</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="957"/>
+        <location filename="../CMapTDB.cpp" line="963"/>
         <source>Italian</source>
         <translation>Italský</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="958"/>
+        <location filename="../CMapTDB.cpp" line="964"/>
         <source>Finnish</source>
         <translation>Finský</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="959"/>
+        <location filename="../CMapTDB.cpp" line="965"/>
         <source>Swedish</source>
         <translation>Švédský</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="960"/>
+        <location filename="../CMapTDB.cpp" line="966"/>
         <source>Spanish</source>
         <translation>Španělský</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="961"/>
+        <location filename="../CMapTDB.cpp" line="967"/>
         <source>Basque</source>
         <translation>Baskický</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="962"/>
+        <location filename="../CMapTDB.cpp" line="968"/>
         <source>Catalan</source>
         <translation>Katalánský</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="963"/>
+        <location filename="../CMapTDB.cpp" line="969"/>
         <source>Galician</source>
         <translation>Galicijský</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="964"/>
+        <location filename="../CMapTDB.cpp" line="970"/>
         <source>Welsh</source>
         <translation>Velšský</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="965"/>
+        <location filename="../CMapTDB.cpp" line="971"/>
         <source>Gaelic</source>
         <translation>Gaelský</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="966"/>
+        <location filename="../CMapTDB.cpp" line="972"/>
         <source>Danish</source>
         <translation>Dánský</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="967"/>
+        <location filename="../CMapTDB.cpp" line="973"/>
         <source>Norwegian</source>
         <translation>Norský</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="968"/>
+        <location filename="../CMapTDB.cpp" line="974"/>
         <source>Portuguese</source>
         <translation>Portugalský</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="969"/>
+        <location filename="../CMapTDB.cpp" line="975"/>
         <source>Slovak</source>
         <translation>Slovenský</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="970"/>
+        <location filename="../CMapTDB.cpp" line="976"/>
         <source>Czech</source>
         <translation>Český</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="971"/>
+        <location filename="../CMapTDB.cpp" line="977"/>
         <source>Croatian</source>
         <translation>Chorvatský</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="972"/>
+        <location filename="../CMapTDB.cpp" line="978"/>
         <source>Hungarian</source>
         <translation>Maďarský</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="973"/>
+        <location filename="../CMapTDB.cpp" line="979"/>
         <source>Polish</source>
         <translation>Polský</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="974"/>
+        <location filename="../CMapTDB.cpp" line="980"/>
         <source>Turkish</source>
         <translation>Turecký</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="975"/>
+        <location filename="../CMapTDB.cpp" line="981"/>
         <source>Greek</source>
         <translation>Řecký</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="976"/>
+        <location filename="../CMapTDB.cpp" line="982"/>
         <source>Slovenian</source>
         <translation>Slovinský</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="977"/>
+        <location filename="../CMapTDB.cpp" line="983"/>
         <source>Russian</source>
         <translation>Ruský</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="978"/>
+        <location filename="../CMapTDB.cpp" line="984"/>
         <source>Estonian</source>
         <translation>Estonský</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="979"/>
+        <location filename="../CMapTDB.cpp" line="985"/>
         <source>Latvian</source>
         <translation>Lotyšský</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="980"/>
+        <location filename="../CMapTDB.cpp" line="986"/>
         <source>Romanian</source>
         <translation>Rumunský</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="981"/>
+        <location filename="../CMapTDB.cpp" line="987"/>
         <source>Albanian</source>
         <translation>Albánský</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="982"/>
+        <location filename="../CMapTDB.cpp" line="988"/>
         <source>Bosnian</source>
         <translation>Bosenský</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="983"/>
+        <location filename="../CMapTDB.cpp" line="989"/>
         <source>Lithuanian</source>
         <translation>Litevský</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="984"/>
+        <location filename="../CMapTDB.cpp" line="990"/>
         <source>Serbian</source>
         <translation>Srbský</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="985"/>
+        <location filename="../CMapTDB.cpp" line="991"/>
         <source>Macedonian</source>
         <translation>Makedonský</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="986"/>
+        <location filename="../CMapTDB.cpp" line="992"/>
         <source>Bulgarian</source>
         <translation>Bulharský</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="1043"/>
+        <location filename="../CMapTDB.cpp" line="1049"/>
         <source>Major highway</source>
         <translation>Dálnice</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="1044"/>
+        <location filename="../CMapTDB.cpp" line="1050"/>
         <source>Principal highway</source>
         <translation>Silnice první třídy</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="1045"/>
+        <location filename="../CMapTDB.cpp" line="1051"/>
         <source>Other highway</source>
         <translation>Jiné rychlostní silnice</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="1046"/>
+        <location filename="../CMapTDB.cpp" line="1052"/>
         <source>Arterial road</source>
         <translation>Rychlostní silnice</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="1047"/>
+        <location filename="../CMapTDB.cpp" line="1053"/>
         <source>Collector road</source>
         <translation>Státní silnice</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="1048"/>
+        <location filename="../CMapTDB.cpp" line="1054"/>
         <source>Residential street</source>
         <translation>Silnice v obytné oblasti</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="1049"/>
+        <location filename="../CMapTDB.cpp" line="1055"/>
         <source>Alley/Private road</source>
         <translation>Soukromá cesta</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="1050"/>
+        <location filename="../CMapTDB.cpp" line="1056"/>
         <source>Highway ramp, low speed</source>
         <translation>Nájezd na dálnici/sjezd z dálnice</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="1051"/>
+        <location filename="../CMapTDB.cpp" line="1057"/>
         <source>Highway ramp, high speed</source>
         <translation>Nájezd na dálnici/sjezd z dálnice</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="1052"/>
+        <location filename="../CMapTDB.cpp" line="1058"/>
         <source>Unpaved road</source>
         <translation>Neasfaltovaná cesta</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="1053"/>
+        <location filename="../CMapTDB.cpp" line="1059"/>
         <source>Major highway connector</source>
         <translation>Dalniční přivaděč</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="1054"/>
+        <location filename="../CMapTDB.cpp" line="1060"/>
         <source>Roundabout</source>
         <translation>Kruhový objezd</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="1055"/>
+        <location filename="../CMapTDB.cpp" line="1061"/>
         <source>Railroad</source>
         <translation>Železnice, koleje</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="1056"/>
+        <location filename="../CMapTDB.cpp" line="1062"/>
         <source>Shoreline</source>
         <translation>Břeh</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="1057"/>
+        <location filename="../CMapTDB.cpp" line="1063"/>
         <source>Trail</source>
         <translation>Cesta</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="1058"/>
+        <location filename="../CMapTDB.cpp" line="1064"/>
         <source>Stream</source>
         <translation>Proud</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="1059"/>
+        <location filename="../CMapTDB.cpp" line="1065"/>
         <source>Time zone</source>
         <translation>Časové pásmo</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="1060"/>
-        <location filename="../CMapTDB.cpp" line="1061"/>
+        <location filename="../CMapTDB.cpp" line="1066"/>
+        <location filename="../CMapTDB.cpp" line="1067"/>
         <source>Ferry</source>
         <translation>Přívoz</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="1062"/>
+        <location filename="../CMapTDB.cpp" line="1068"/>
         <source>State/province border</source>
         <translation>Státní/Zemská hranice</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="1063"/>
+        <location filename="../CMapTDB.cpp" line="1069"/>
         <source>County/parish border</source>
         <translation>Krajská/Obecní hranice</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="1064"/>
+        <location filename="../CMapTDB.cpp" line="1070"/>
         <source>International border</source>
         <translation>Mezinárodní hranice</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="1065"/>
+        <location filename="../CMapTDB.cpp" line="1071"/>
         <source>River</source>
         <translation>Řeka</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="1066"/>
+        <location filename="../CMapTDB.cpp" line="1072"/>
         <source>Minor land contour</source>
         <translation>Malá vrstevnice</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="1067"/>
+        <location filename="../CMapTDB.cpp" line="1073"/>
         <source>Intermediate land contour</source>
         <translation>Střední vrstevnice</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="1068"/>
+        <location filename="../CMapTDB.cpp" line="1074"/>
         <source>Major land contour</source>
         <translation>Velká vrstevnice</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="1069"/>
+        <location filename="../CMapTDB.cpp" line="1075"/>
         <source>Minor depth contour</source>
         <translation>Malá hloubková čára</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="1159"/>
+        <location filename="../CMapTDB.cpp" line="1165"/>
         <source>Cemetery</source>
         <translation>Hřbitov</translation>
     </message>
@@ -5293,123 +5309,123 @@ Zrušeno uživatelem.</translation>
         <translation type="obsolete">kleine Tiefenlinie</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="1070"/>
+        <location filename="../CMapTDB.cpp" line="1076"/>
         <source>Intermediate depth contour</source>
         <translation>Střední hloubková čára</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="1071"/>
+        <location filename="../CMapTDB.cpp" line="1077"/>
         <source>Major depth contour</source>
         <translation>Velká hloubková čára</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="1072"/>
+        <location filename="../CMapTDB.cpp" line="1078"/>
         <source>Intermittent stream</source>
         <translation>Přerušovaný potok (Wadi)</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="1073"/>
-        <location filename="../CMapTDB.cpp" line="1155"/>
+        <location filename="../CMapTDB.cpp" line="1079"/>
+        <location filename="../CMapTDB.cpp" line="1161"/>
         <source>Airport runway</source>
         <translation>Přistávací dráha</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="1074"/>
+        <location filename="../CMapTDB.cpp" line="1080"/>
         <source>Pipeline</source>
         <translation>Dálkové potrubí</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="1075"/>
+        <location filename="../CMapTDB.cpp" line="1081"/>
         <source>Powerline</source>
         <translation>Elektrické vedení</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="1076"/>
+        <location filename="../CMapTDB.cpp" line="1082"/>
         <source>Marine boundary</source>
         <translation>Hranice moře</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="1077"/>
+        <location filename="../CMapTDB.cpp" line="1083"/>
         <source>Hazard boundary</source>
         <translation>Nebezpečná hranice</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="1142"/>
+        <location filename="../CMapTDB.cpp" line="1148"/>
         <source>Large urban area (&amp;gt;200K)</source>
         <translation>Velkoměstská oblast (&amp;gt;200 000)</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="1143"/>
+        <location filename="../CMapTDB.cpp" line="1149"/>
         <source>Small urban area (&amp;lt;200K)</source>
         <translation>Maloměstská oblast (&amp;gt;200 000)</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="1144"/>
+        <location filename="../CMapTDB.cpp" line="1150"/>
         <source>Rural housing area</source>
         <translation>Městská obytná oblast</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="1145"/>
+        <location filename="../CMapTDB.cpp" line="1151"/>
         <source>Military base</source>
         <translation>Vojenská základna</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="1146"/>
+        <location filename="../CMapTDB.cpp" line="1152"/>
         <source>Parking lot</source>
         <translation>Parkoviště</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="1147"/>
+        <location filename="../CMapTDB.cpp" line="1153"/>
         <source>Parking garage</source>
         <translation>Parkovací budova</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="1148"/>
+        <location filename="../CMapTDB.cpp" line="1154"/>
         <source>Airport</source>
         <translation>Letiště</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="1149"/>
+        <location filename="../CMapTDB.cpp" line="1155"/>
         <source>Shopping center</source>
         <translation>Nákupní středisko</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="1150"/>
+        <location filename="../CMapTDB.cpp" line="1156"/>
         <source>Marina</source>
         <translation>Přístav</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="1151"/>
+        <location filename="../CMapTDB.cpp" line="1157"/>
         <source>University/College</source>
         <translation>Univerzita/Vysoká škola</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="1152"/>
+        <location filename="../CMapTDB.cpp" line="1158"/>
         <source>Hospital</source>
         <translation>Nemocnice</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="1153"/>
+        <location filename="../CMapTDB.cpp" line="1159"/>
         <source>Industrial complex</source>
         <translation>Průmyslový celek</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="1154"/>
+        <location filename="../CMapTDB.cpp" line="1160"/>
         <source>Reservation</source>
         <translation>Chráněné území</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="1156"/>
+        <location filename="../CMapTDB.cpp" line="1162"/>
         <source>Man-made area</source>
         <translation>Zástavba</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="1157"/>
+        <location filename="../CMapTDB.cpp" line="1163"/>
         <source>Sports complex</source>
         <translation>Oblast pro tělesné činnosti</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="1158"/>
+        <location filename="../CMapTDB.cpp" line="1164"/>
         <source>Golf course</source>
         <translation>Golfové hřiště</translation>
     </message>
@@ -5418,153 +5434,153 @@ Zrušeno uživatelem.</translation>
         <translation type="obsolete">Friedhof</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="1160"/>
-        <location filename="../CMapTDB.cpp" line="1161"/>
-        <location filename="../CMapTDB.cpp" line="1162"/>
+        <location filename="../CMapTDB.cpp" line="1166"/>
+        <location filename="../CMapTDB.cpp" line="1167"/>
+        <location filename="../CMapTDB.cpp" line="1168"/>
         <source>National park</source>
         <translation>Národní park</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="1163"/>
+        <location filename="../CMapTDB.cpp" line="1169"/>
         <source>City park</source>
         <translation>Městské sady</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="1164"/>
-        <location filename="../CMapTDB.cpp" line="1165"/>
-        <location filename="../CMapTDB.cpp" line="1166"/>
+        <location filename="../CMapTDB.cpp" line="1170"/>
+        <location filename="../CMapTDB.cpp" line="1171"/>
+        <location filename="../CMapTDB.cpp" line="1172"/>
         <source>State park</source>
         <translation>Státní park</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="1167"/>
+        <location filename="../CMapTDB.cpp" line="1173"/>
         <source>Forest</source>
         <translation>Les</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="1168"/>
+        <location filename="../CMapTDB.cpp" line="1174"/>
         <source>Ocean</source>
         <translation>Oceán</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="1169"/>
-        <location filename="../CMapTDB.cpp" line="1171"/>
-        <location filename="../CMapTDB.cpp" line="1181"/>
+        <location filename="../CMapTDB.cpp" line="1175"/>
+        <location filename="../CMapTDB.cpp" line="1177"/>
+        <location filename="../CMapTDB.cpp" line="1187"/>
         <source>Blue (unknown)</source>
         <translation>Modrá (neznámé)</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="1170"/>
+        <location filename="../CMapTDB.cpp" line="1176"/>
         <source>Sea</source>
         <translation>Moře</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="1172"/>
-        <location filename="../CMapTDB.cpp" line="1173"/>
-        <location filename="../CMapTDB.cpp" line="1180"/>
+        <location filename="../CMapTDB.cpp" line="1178"/>
+        <location filename="../CMapTDB.cpp" line="1179"/>
+        <location filename="../CMapTDB.cpp" line="1186"/>
         <source>Large lake</source>
         <translation>Velké jezero</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="1174"/>
-        <location filename="../CMapTDB.cpp" line="1175"/>
+        <location filename="../CMapTDB.cpp" line="1180"/>
+        <location filename="../CMapTDB.cpp" line="1181"/>
         <source>Medium lake</source>
         <translation>Střední jezero</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="1176"/>
-        <location filename="../CMapTDB.cpp" line="1177"/>
+        <location filename="../CMapTDB.cpp" line="1182"/>
+        <location filename="../CMapTDB.cpp" line="1183"/>
         <source>Small lake</source>
         <translation>Malé jezero</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="1178"/>
-        <location filename="../CMapTDB.cpp" line="1179"/>
+        <location filename="../CMapTDB.cpp" line="1184"/>
+        <location filename="../CMapTDB.cpp" line="1185"/>
         <source>Major lake</source>
         <translation>Velmi velké jezero</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="1182"/>
+        <location filename="../CMapTDB.cpp" line="1188"/>
         <source>Major River</source>
         <translation>Veletok</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="1183"/>
+        <location filename="../CMapTDB.cpp" line="1189"/>
         <source>Large River</source>
         <translation>Velká řeka</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="1184"/>
+        <location filename="../CMapTDB.cpp" line="1190"/>
         <source>Medium River</source>
         <translation>Střední řeka</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="1185"/>
+        <location filename="../CMapTDB.cpp" line="1191"/>
         <source>Small River</source>
         <translation>Malá řeka</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="1188"/>
+        <location filename="../CMapTDB.cpp" line="1194"/>
         <source>Intermittent water</source>
         <translation>Přerušovaná voda</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="1189"/>
+        <location filename="../CMapTDB.cpp" line="1195"/>
         <source>Wetland/Swamp</source>
         <translation>Močál/Bažina</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="1190"/>
+        <location filename="../CMapTDB.cpp" line="1196"/>
         <source>Glacier</source>
         <translation>Ledovec</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="1191"/>
+        <location filename="../CMapTDB.cpp" line="1197"/>
         <source>Orchard/Plantation</source>
         <translation>Sad/Plantáž</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="1192"/>
+        <location filename="../CMapTDB.cpp" line="1198"/>
         <source>Scrub</source>
         <translation>Křoví</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="1193"/>
+        <location filename="../CMapTDB.cpp" line="1199"/>
         <source>Tundra</source>
         <translation>Tundra</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="1194"/>
+        <location filename="../CMapTDB.cpp" line="1200"/>
         <source>Flat</source>
         <translation>Rovina</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="1195"/>
+        <location filename="../CMapTDB.cpp" line="1201"/>
         <source>???</source>
         <translation>???</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="1214"/>
+        <location filename="../CMapTDB.cpp" line="1220"/>
         <source>No basemap projection. That shouldn&apos;t happen.</source>
         <translation>Žádné promítání základní mapy. To se nemělo stát.</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="1467"/>
+        <location filename="../CMapTDB.cpp" line="1473"/>
         <source>&lt;p&gt;&lt;b&gt;However ...&lt;/b&gt;&lt;/p&gt;&lt;p&gt;as I can read the basemap, and the information from the *tdb file,&lt;br&gt;I am able to let you select the map tiles for upload. To do this I&lt;br/&gt;need the unlock key (25 digits) for this map, as it has to be uploaded&lt;br/&gt;to the unit together with the map.&lt;/p&gt;</source>
         <translation>&lt;p&gt;&lt;b&gt;Jako také vždy...,&lt;/b&gt;&lt;/p&gt;&lt;p&gt;protože lze přečíst základní mapu a údaje ze souboru *tdb,&lt;br&gt;lze provést výběr mapových dlaždic pro nahrání. Pro toto &lt;br&gt; je potřeba dekódovací klíč (25 znaků) pro mapu. Tento klíč se musí &lt;br/&gt;nahrát společně s mapou.&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="1493"/>
+        <location filename="../CMapTDB.cpp" line="1499"/>
         <source>&lt;p&gt;Failed to load file:&lt;/p&gt;&lt;p&gt;%1&lt;/p&gt;&lt;p&gt;However, if the basemap is still old format I am able to let you select the map tiles for upload&lt;/p&gt;</source>
         <translation>&lt;p&gt;Nepodařilo se nahrát soubor:&lt;/p&gt;&lt;p&gt;%1&gt;&lt;/p&gt;&lt;p&gt;Pokud je ovšem základní mapa ve starém formátu, je možné vybrat mapové dlaždice pro nahrání do zařízení.&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="3164"/>
+        <location filename="../CMapTDB.cpp" line="3197"/>
         <source>Unknown</source>
         <translation>Neznámý</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="3428"/>
+        <location filename="../CMapTDB.cpp" line="3461"/>
         <source>none</source>
         <translation>žádné</translation>
     </message>
@@ -5585,20 +5601,20 @@ Zrušeno uživatelem.</translation>
         <translation type="obsolete">*tdb Import wurde noch nicht an die Architektur angepaßt (großer Endian).</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="1345"/>
+        <location filename="../CMapTDB.cpp" line="1351"/>
         <source>Select Base Map for </source>
         <translation>Vybrat základní mapu pro </translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="1464"/>
-        <location filename="../CMapTDB.cpp" line="1492"/>
-        <location filename="../CMapTDB.cpp" line="1507"/>
-        <location filename="../CMapTDB.cpp" line="1527"/>
+        <location filename="../CMapTDB.cpp" line="1470"/>
+        <location filename="../CMapTDB.cpp" line="1498"/>
+        <location filename="../CMapTDB.cpp" line="1513"/>
+        <location filename="../CMapTDB.cpp" line="1533"/>
         <source>Error</source>
         <translation>Chyba</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="1466"/>
+        <location filename="../CMapTDB.cpp" line="1472"/>
         <source>However ...</source>
         <translation>Nicméně...</translation>
     </message>
@@ -5615,21 +5631,21 @@ Zrušeno uživatelem.</translation>
         <translation type="obsolete">Details +%1</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="2971"/>
-        <location filename="../CMapTDB.cpp" line="2979"/>
-        <location filename="../CMapTDB.cpp" line="2983"/>
-        <location filename="../CMapTDB.cpp" line="2988"/>
+        <location filename="../CMapTDB.cpp" line="3004"/>
+        <location filename="../CMapTDB.cpp" line="3012"/>
+        <location filename="../CMapTDB.cpp" line="3016"/>
         <location filename="../CMapTDB.cpp" line="3021"/>
-        <location filename="../CMapTDB.cpp" line="3029"/>
-        <location filename="../CMapTDB.cpp" line="3033"/>
-        <location filename="../CMapTDB.cpp" line="3038"/>
+        <location filename="../CMapTDB.cpp" line="3054"/>
+        <location filename="../CMapTDB.cpp" line="3062"/>
+        <location filename="../CMapTDB.cpp" line="3066"/>
+        <location filename="../CMapTDB.cpp" line="3071"/>
         <source>Point of Interest</source>
         <translation>Podivuhodnost</translation>
     </message>
     <message>
-        <location filename="../CMapTDB.cpp" line="3323"/>
-        <location filename="../CMapTDB.cpp" line="3332"/>
-        <location filename="../CMapTDB.cpp" line="3339"/>
+        <location filename="../CMapTDB.cpp" line="3356"/>
+        <location filename="../CMapTDB.cpp" line="3365"/>
+        <location filename="../CMapTDB.cpp" line="3372"/>
         <source>Area</source>
         <translation>Oblast</translation>
     </message>
@@ -6515,17 +6531,17 @@ line %2, column %3:
 <context>
     <name>COverlayDB</name>
     <message>
-        <location filename="../COverlayDB.cpp" line="559"/>
+        <location filename="../COverlayDB.cpp" line="549"/>
         <source>Overlay</source>
         <translation>Vrstva</translation>
     </message>
     <message>
-        <location filename="../COverlayDB.cpp" line="613"/>
+        <location filename="../COverlayDB.cpp" line="601"/>
         <source>Static text</source>
         <translation>Stálý text</translation>
     </message>
     <message>
-        <location filename="../COverlayDB.cpp" line="622"/>
+        <location filename="../COverlayDB.cpp" line="610"/>
         <source>Geo ref. text</source>
         <translation>Zeměpisně určený text</translation>
     </message>
@@ -6669,12 +6685,12 @@ line %2, column %3:
 <context>
     <name>CResources</name>
     <message>
-        <location filename="../CResources.cpp" line="367"/>
+        <location filename="../CResources.cpp" line="370"/>
         <source>No device.</source>
         <translation>Žádné zařízení</translation>
     </message>
     <message>
-        <location filename="../CResources.cpp" line="367"/>
+        <location filename="../CResources.cpp" line="370"/>
         <source>You have to select a device in Setup-&gt;Config-&gt;Device &amp; Xfer</source>
         <translation>Zařízení musíte vybrat v &apos;Nastavení -&gt; Všeobecná nastavení -&gt; Zařízení a přenos&apos;</translation>
     </message>
@@ -6734,290 +6750,290 @@ length: %1 %2</source>
 Länge: %1 %2</translation>
     </message>
     <message>
-        <location filename="../CRouteToolWidget.cpp" line="84"/>
-        <location filename="../CRouteToolWidget.cpp" line="126"/>
+        <location filename="../CRouteToolWidget.cpp" line="85"/>
+        <location filename="../CRouteToolWidget.cpp" line="127"/>
         <source>Fastest</source>
         <translation>Nejrychlejší</translation>
     </message>
     <message>
-        <location filename="../CRouteToolWidget.cpp" line="85"/>
-        <location filename="../CRouteToolWidget.cpp" line="127"/>
+        <location filename="../CRouteToolWidget.cpp" line="86"/>
+        <location filename="../CRouteToolWidget.cpp" line="128"/>
         <source>Shortest</source>
         <translation>Nejkratší</translation>
     </message>
     <message>
-        <location filename="../CRouteToolWidget.cpp" line="86"/>
-        <location filename="../CRouteToolWidget.cpp" line="128"/>
+        <location filename="../CRouteToolWidget.cpp" line="87"/>
+        <location filename="../CRouteToolWidget.cpp" line="129"/>
         <source>Bicycle</source>
         <translation>Kolo</translation>
     </message>
     <message>
-        <location filename="../CRouteToolWidget.cpp" line="87"/>
+        <location filename="../CRouteToolWidget.cpp" line="88"/>
         <source>Mountain bike</source>
         <translation>Horské kolo</translation>
     </message>
     <message>
-        <location filename="../CRouteToolWidget.cpp" line="88"/>
+        <location filename="../CRouteToolWidget.cpp" line="89"/>
         <source>Bicycle racer</source>
         <translation>Závodní kolo</translation>
     </message>
     <message>
-        <location filename="../CRouteToolWidget.cpp" line="89"/>
+        <location filename="../CRouteToolWidget.cpp" line="90"/>
         <source>Bicycle safest</source>
         <translation>Jízdní kolo nejbezpečnější</translation>
     </message>
     <message>
-        <location filename="../CRouteToolWidget.cpp" line="90"/>
+        <location filename="../CRouteToolWidget.cpp" line="91"/>
         <source>Bicycle route</source>
         <translation>Jízdní kolo okružní cesta</translation>
     </message>
     <message>
-        <location filename="../CRouteToolWidget.cpp" line="91"/>
-        <location filename="../CRouteToolWidget.cpp" line="130"/>
+        <location filename="../CRouteToolWidget.cpp" line="92"/>
+        <location filename="../CRouteToolWidget.cpp" line="131"/>
         <source>Pedestrian</source>
         <translation>Chodec</translation>
     </message>
     <message>
-        <location filename="../CRouteToolWidget.cpp" line="93"/>
+        <location filename="../CRouteToolWidget.cpp" line="94"/>
         <source>English</source>
         <translation>Anglický</translation>
     </message>
     <message>
-        <location filename="../CRouteToolWidget.cpp" line="94"/>
-        <location filename="../CRouteToolWidget.cpp" line="137"/>
+        <location filename="../CRouteToolWidget.cpp" line="95"/>
+        <location filename="../CRouteToolWidget.cpp" line="138"/>
         <source>German</source>
         <translation>Německý</translation>
     </message>
     <message>
-        <location filename="../CRouteToolWidget.cpp" line="95"/>
+        <location filename="../CRouteToolWidget.cpp" line="96"/>
         <source>Bulgarian</source>
         <translation>Bulharský</translation>
     </message>
     <message>
-        <location filename="../CRouteToolWidget.cpp" line="96"/>
+        <location filename="../CRouteToolWidget.cpp" line="97"/>
         <source>Czech</source>
         <translation>Český</translation>
     </message>
     <message>
-        <location filename="../CRouteToolWidget.cpp" line="97"/>
-        <location filename="../CRouteToolWidget.cpp" line="135"/>
+        <location filename="../CRouteToolWidget.cpp" line="98"/>
+        <location filename="../CRouteToolWidget.cpp" line="136"/>
         <source>Dutch</source>
         <translation>Holandský</translation>
     </message>
     <message>
-        <location filename="../CRouteToolWidget.cpp" line="98"/>
+        <location filename="../CRouteToolWidget.cpp" line="99"/>
         <source>Croatian</source>
         <translation>Chorvatský</translation>
     </message>
     <message>
-        <location filename="../CRouteToolWidget.cpp" line="99"/>
+        <location filename="../CRouteToolWidget.cpp" line="100"/>
         <source>Hungarian</source>
         <translation>Maďarský</translation>
     </message>
     <message>
-        <location filename="../CRouteToolWidget.cpp" line="100"/>
+        <location filename="../CRouteToolWidget.cpp" line="101"/>
         <source>Dutch (belgium)</source>
         <translation>Nizozemský (Belgie)</translation>
     </message>
     <message>
-        <location filename="../CRouteToolWidget.cpp" line="101"/>
-        <location filename="../CRouteToolWidget.cpp" line="140"/>
+        <location filename="../CRouteToolWidget.cpp" line="102"/>
+        <location filename="../CRouteToolWidget.cpp" line="141"/>
         <source>Spanish</source>
         <translation>Španělský</translation>
     </message>
     <message>
-        <location filename="../CRouteToolWidget.cpp" line="102"/>
+        <location filename="../CRouteToolWidget.cpp" line="103"/>
         <source>Esperanto</source>
         <translation>Esperantský</translation>
     </message>
     <message>
-        <location filename="../CRouteToolWidget.cpp" line="103"/>
+        <location filename="../CRouteToolWidget.cpp" line="104"/>
         <source>Finnish</source>
         <translation>Finský</translation>
     </message>
     <message>
-        <location filename="../CRouteToolWidget.cpp" line="104"/>
-        <location filename="../CRouteToolWidget.cpp" line="136"/>
+        <location filename="../CRouteToolWidget.cpp" line="105"/>
+        <location filename="../CRouteToolWidget.cpp" line="137"/>
         <source>French</source>
         <translation>Francouzský</translation>
     </message>
     <message>
-        <location filename="../CRouteToolWidget.cpp" line="105"/>
-        <location filename="../CRouteToolWidget.cpp" line="138"/>
+        <location filename="../CRouteToolWidget.cpp" line="106"/>
+        <location filename="../CRouteToolWidget.cpp" line="139"/>
         <source>Italian</source>
         <translation>Italský</translation>
     </message>
     <message>
-        <location filename="../CRouteToolWidget.cpp" line="106"/>
+        <location filename="../CRouteToolWidget.cpp" line="107"/>
         <source>Portuguese (brazil)</source>
         <translation>Portugalský (Brazílie)</translation>
     </message>
     <message>
-        <location filename="../CRouteToolWidget.cpp" line="107"/>
+        <location filename="../CRouteToolWidget.cpp" line="108"/>
         <source>Romanian</source>
         <translation>Rumunský</translation>
     </message>
     <message>
-        <location filename="../CRouteToolWidget.cpp" line="108"/>
+        <location filename="../CRouteToolWidget.cpp" line="109"/>
         <source>Russian</source>
         <translation>Ruský</translation>
     </message>
     <message>
-        <location filename="../CRouteToolWidget.cpp" line="109"/>
+        <location filename="../CRouteToolWidget.cpp" line="110"/>
         <source>Svenska</source>
         <translation>Švédský</translation>
     </message>
     <message>
-        <location filename="../CRouteToolWidget.cpp" line="110"/>
-        <location filename="../CRouteToolWidget.cpp" line="134"/>
+        <location filename="../CRouteToolWidget.cpp" line="111"/>
+        <location filename="../CRouteToolWidget.cpp" line="135"/>
         <source>Danish</source>
         <translation>Dánský</translation>
     </message>
     <message>
-        <location filename="../CRouteToolWidget.cpp" line="111"/>
+        <location filename="../CRouteToolWidget.cpp" line="112"/>
         <source>Turkish</source>
         <translation>Turecký</translation>
     </message>
     <message>
-        <location filename="../CRouteToolWidget.cpp" line="112"/>
+        <location filename="../CRouteToolWidget.cpp" line="113"/>
         <source>Catalan</source>
         <translation>Katalánský</translation>
     </message>
     <message>
-        <location filename="../CRouteToolWidget.cpp" line="113"/>
+        <location filename="../CRouteToolWidget.cpp" line="114"/>
         <source>Japanese</source>
         <translation>Japonský</translation>
     </message>
     <message>
-        <location filename="../CRouteToolWidget.cpp" line="114"/>
-        <location filename="../CRouteToolWidget.cpp" line="139"/>
+        <location filename="../CRouteToolWidget.cpp" line="115"/>
+        <location filename="../CRouteToolWidget.cpp" line="140"/>
         <source>Norwegian</source>
         <translation>Norský</translation>
     </message>
     <message>
-        <location filename="../CRouteToolWidget.cpp" line="115"/>
+        <location filename="../CRouteToolWidget.cpp" line="116"/>
         <source>Vietnamese</source>
         <translation>Větnamský</translation>
     </message>
     <message>
-        <location filename="../CRouteToolWidget.cpp" line="116"/>
+        <location filename="../CRouteToolWidget.cpp" line="117"/>
         <source>Norwegian-bokmal</source>
         <translation>Norský (Bokmal)</translation>
     </message>
     <message>
-        <location filename="../CRouteToolWidget.cpp" line="117"/>
+        <location filename="../CRouteToolWidget.cpp" line="118"/>
         <source>de - Rhenish</source>
         <translation>Německý - rýnský</translation>
     </message>
     <message>
-        <location filename="../CRouteToolWidget.cpp" line="118"/>
+        <location filename="../CRouteToolWidget.cpp" line="119"/>
         <source>de - Op Platt</source>
         <translation>Německý - dolní němčina</translation>
     </message>
     <message>
-        <location filename="../CRouteToolWidget.cpp" line="119"/>
+        <location filename="../CRouteToolWidget.cpp" line="120"/>
         <source>de - Berlin dialect</source>
         <translation>Německý - berlínský</translation>
     </message>
     <message>
-        <location filename="../CRouteToolWidget.cpp" line="120"/>
+        <location filename="../CRouteToolWidget.cpp" line="121"/>
         <source>de - Swabian</source>
         <translation>Německý - Švábský</translation>
     </message>
     <message>
-        <location filename="../CRouteToolWidget.cpp" line="121"/>
+        <location filename="../CRouteToolWidget.cpp" line="122"/>
         <source>de - Ruhrpott</source>
         <translation>Německý - Porůří</translation>
     </message>
     <message>
-        <location filename="../CRouteToolWidget.cpp" line="122"/>
+        <location filename="../CRouteToolWidget.cpp" line="123"/>
         <source>de - great Austrian dialect</source>
         <translation>Německý - rakouský</translation>
     </message>
     <message>
-        <location filename="../CRouteToolWidget.cpp" line="123"/>
+        <location filename="../CRouteToolWidget.cpp" line="124"/>
         <source>de - Bavarian</source>
         <translation>Německý - bavorský</translation>
     </message>
     <message>
-        <location filename="../CRouteToolWidget.cpp" line="129"/>
+        <location filename="../CRouteToolWidget.cpp" line="130"/>
         <source>Pedestrian/pub. transp.</source>
         <translation>Chodev/Veřejný dopravní prostředek</translation>
     </message>
     <message>
-        <location filename="../CRouteToolWidget.cpp" line="132"/>
+        <location filename="../CRouteToolWidget.cpp" line="133"/>
         <source>US English</source>
         <translation>Americká angličtina</translation>
     </message>
     <message>
-        <location filename="../CRouteToolWidget.cpp" line="133"/>
+        <location filename="../CRouteToolWidget.cpp" line="134"/>
         <source>British English</source>
         <translation>Britská angličtina</translation>
     </message>
     <message>
-        <location filename="../CRouteToolWidget.cpp" line="141"/>
+        <location filename="../CRouteToolWidget.cpp" line="142"/>
         <source>Swedish</source>
         <translation>Švédský</translation>
     </message>
     <message>
-        <location filename="../CRouteToolWidget.cpp" line="318"/>
+        <location filename="../CRouteToolWidget.cpp" line="319"/>
         <source>Edit</source>
         <translation>Upravit</translation>
     </message>
     <message>
-        <location filename="../CRouteToolWidget.cpp" line="319"/>
+        <location filename="../CRouteToolWidget.cpp" line="320"/>
         <source>Calc. route</source>
         <translation>Vypočítat cestu</translation>
     </message>
     <message>
-        <location filename="../CRouteToolWidget.cpp" line="321"/>
+        <location filename="../CRouteToolWidget.cpp" line="322"/>
         <source>Make Overlay</source>
         <translation>Udělat vrstvu</translation>
     </message>
     <message>
-        <location filename="../CRouteToolWidget.cpp" line="322"/>
+        <location filename="../CRouteToolWidget.cpp" line="323"/>
         <source>Make Track</source>
         <translation>Udělat stopu</translation>
     </message>
     <message>
-        <location filename="../CRouteToolWidget.cpp" line="324"/>
+        <location filename="../CRouteToolWidget.cpp" line="325"/>
         <source>Zoom to fit</source>
         <translation>Přizpůsobit zvětšení</translation>
     </message>
     <message>
-        <location filename="../CRouteToolWidget.cpp" line="325"/>
+        <location filename="../CRouteToolWidget.cpp" line="326"/>
         <source>Reset</source>
         <translation>Nastavit znovu</translation>
     </message>
     <message>
-        <location filename="../CRouteToolWidget.cpp" line="326"/>
+        <location filename="../CRouteToolWidget.cpp" line="327"/>
         <source>Delete</source>
         <translation>Smazat</translation>
     </message>
     <message>
-        <location filename="../CRouteToolWidget.cpp" line="588"/>
-        <location filename="../CRouteToolWidget.cpp" line="616"/>
-        <location filename="../CRouteToolWidget.cpp" line="629"/>
-        <location filename="../CRouteToolWidget.cpp" line="832"/>
+        <location filename="../CRouteToolWidget.cpp" line="589"/>
+        <location filename="../CRouteToolWidget.cpp" line="617"/>
+        <location filename="../CRouteToolWidget.cpp" line="630"/>
+        <location filename="../CRouteToolWidget.cpp" line="833"/>
         <source>Failed...</source>
         <translation>Nepodařilo se...</translation>
     </message>
     <message>
-        <location filename="../CRouteToolWidget.cpp" line="588"/>
-        <location filename="../CRouteToolWidget.cpp" line="616"/>
-        <location filename="../CRouteToolWidget.cpp" line="629"/>
+        <location filename="../CRouteToolWidget.cpp" line="589"/>
+        <location filename="../CRouteToolWidget.cpp" line="617"/>
+        <location filename="../CRouteToolWidget.cpp" line="630"/>
         <source>Bad response from server:
 %1</source>
         <translation>Špatná odpověď od serveru:
 %1</translation>
     </message>
     <message>
-        <location filename="../CRouteToolWidget.cpp" line="688"/>
+        <location filename="../CRouteToolWidget.cpp" line="689"/>
         <source>created from route</source>
         <translation>Odvozeno z cesty</translation>
     </message>
     <message>
-        <location filename="../CRouteToolWidget.cpp" line="832"/>
+        <location filename="../CRouteToolWidget.cpp" line="833"/>
         <source>Route request timed out. Please try again later.</source>
         <translation>Dotaz na cestu trvá příliš dlouho. Zkuste to, prosím, později ještě jednou znovu.</translation>
     </message>
@@ -7306,12 +7322,12 @@ Konec: %1</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CTrack.cpp" line="1927"/>
+        <location filename="../CTrack.cpp" line="1924"/>
         <source>Error...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CTrack.cpp" line="1927"/>
+        <location filename="../CTrack.cpp" line="1924"/>
         <source>This track has no valid start timestamp. Use the &apos;Date/Time&apos; track filter to set one.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -7418,7 +7434,7 @@ Konec: %1</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CTrack.cpp" line="1675"/>
+        <location filename="../CTrack.cpp" line="1674"/>
         <source>You are trying to find waypoints along a track with %1 waypoints and a track of size %2. This can be a very time consuming operation. Go on?
 
 Your selection will be stored in the track&apos;s data. You can save it along with the data. To change the selection use the checkbox in the track edit dialog.</source>
@@ -7427,7 +7443,7 @@ Your selection will be stored in the track&apos;s data. You can save it along wi
 Váš výběr bude uložen v datech stopy. Můžete jej uložit s daty stopy. Pro změnu výběru použijte, prosím, zaškrtávací pole v dialogu pro úpravu stopy.</translation>
     </message>
     <message>
-        <location filename="../CTrack.cpp" line="1682"/>
+        <location filename="../CTrack.cpp" line="1681"/>
         <source>Warning...</source>
         <translation>Varování...</translation>
     </message>
@@ -7440,32 +7456,32 @@ Váš výběr bude uložen v datech stopy. Můžete jej uložit s daty stopy. Pr
         <translation>Stopa %1</translation>
     </message>
     <message>
-        <location filename="../CTrackDB.cpp" line="1167"/>
+        <location filename="../CTrackDB.cpp" line="1164"/>
         <source>Hmax=%1%2</source>
         <translation>Vodorovně max=%1%2</translation>
     </message>
     <message>
-        <location filename="../CTrackDB.cpp" line="1172"/>
+        <location filename="../CTrackDB.cpp" line="1169"/>
         <source>Hmin=%1%2</source>
         <translation>Vodorovně min=%1%2</translation>
     </message>
     <message>
-        <location filename="../CTrackDB.cpp" line="1177"/>
+        <location filename="../CTrackDB.cpp" line="1174"/>
         <source>Vmax=%1%2</source>
         <translation>Svisle max=%1%2</translation>
     </message>
     <message>
-        <location filename="../CTrackDB.cpp" line="1198"/>
+        <location filename="../CTrackDB.cpp" line="1195"/>
         <source>Failed...</source>
         <translation>Nepodařilo se...</translation>
     </message>
     <message>
-        <location filename="../CTrackDB.cpp" line="1198"/>
+        <location filename="../CTrackDB.cpp" line="1195"/>
         <source>Failed to copy track. You must select a track or track points of a track.</source>
         <translation>Nepodařilo se zkopírovat stopu. Nejprve musíte vybrat stopu nebo body stopy.</translation>
     </message>
     <message>
-        <location filename="../CTrackDB.cpp" line="1302"/>
+        <location filename="../CTrackDB.cpp" line="1289"/>
         <source>_rev</source>
         <translation>_rev</translation>
     </message>
@@ -7479,24 +7495,24 @@ Váš výběr bude uložen v datech stopy. Můžete jej uložit s daty stopy. Pr
         <location filename="../CTrackEditWidget.cpp" line="713"/>
         <location filename="../CTrackEditWidget.cpp" line="715"/>
         <location filename="../CTrackEditWidget.cpp" line="721"/>
-        <location filename="../CTrackEditWidget.cpp" line="1549"/>
-        <location filename="../CTrackEditWidget.cpp" line="1592"/>
-        <location filename="../CTrackEditWidget.cpp" line="1619"/>
+        <location filename="../CTrackEditWidget.cpp" line="1544"/>
+        <location filename="../CTrackEditWidget.cpp" line="1587"/>
+        <location filename="../CTrackEditWidget.cpp" line="1614"/>
+        <location filename="../CTrackEditWidget.cpp" line="1615"/>
         <location filename="../CTrackEditWidget.cpp" line="1620"/>
-        <location filename="../CTrackEditWidget.cpp" line="1625"/>
+        <location filename="../CTrackEditWidget.cpp" line="1623"/>
         <location filename="../CTrackEditWidget.cpp" line="1628"/>
         <location filename="../CTrackEditWidget.cpp" line="1633"/>
-        <location filename="../CTrackEditWidget.cpp" line="1638"/>
-        <location filename="../CTrackEditWidget.cpp" line="1727"/>
-        <location filename="../CTrackEditWidget.cpp" line="1731"/>
+        <location filename="../CTrackEditWidget.cpp" line="1722"/>
+        <location filename="../CTrackEditWidget.cpp" line="1726"/>
+        <location filename="../CTrackEditWidget.cpp" line="1729"/>
         <location filename="../CTrackEditWidget.cpp" line="1734"/>
         <location filename="../CTrackEditWidget.cpp" line="1739"/>
-        <location filename="../CTrackEditWidget.cpp" line="1744"/>
         <source>%1 %2</source>
         <translation>%1 %2</translation>
     </message>
     <message>
-        <location filename="../CTrackEditWidget.cpp" line="1242"/>
+        <location filename="../CTrackEditWidget.cpp" line="1238"/>
         <source>Remove track points ...</source>
         <translation>Odstranit body stopy...</translation>
     </message>
@@ -7505,13 +7521,13 @@ Váš výběr bude uložen v datech stopy. Můžete jej uložit s daty stopy. Pr
         <translation type="obsolete">Du entfernst entgültig bereinigte Trackpunkte. Wenn Du jetzt &apos;ja/yes&apos; drückst, sind alle Informationen verloren.</translation>
     </message>
     <message>
-        <location filename="../CTrackEditWidget.cpp" line="948"/>
+        <location filename="../CTrackEditWidget.cpp" line="947"/>
         <source>Trainee</source>
         <translation>Zaučující se nováček</translation>
     </message>
     <message>
-        <location filename="../CTrackEditWidget.cpp" line="857"/>
-        <location filename="../CTrackEditWidget.cpp" line="884"/>
+        <location filename="../CTrackEditWidget.cpp" line="856"/>
+        <location filename="../CTrackEditWidget.cpp" line="883"/>
         <source>Speed/Dist.</source>
         <translation>Rychlost/Vzdálenost</translation>
     </message>
@@ -7521,91 +7537,91 @@ Váš výběr bude uložen v datech stopy. Můžete jej uložit s daty stopy. Pr
         <translation>Rozdělit</translation>
     </message>
     <message>
-        <location filename="../CTrackEditWidget.cpp" line="864"/>
-        <location filename="../CTrackEditWidget.cpp" line="895"/>
+        <location filename="../CTrackEditWidget.cpp" line="863"/>
+        <location filename="../CTrackEditWidget.cpp" line="894"/>
         <source>Dist./Time</source>
         <translation>Vzdálenost/Čas</translation>
     </message>
     <message>
-        <location filename="../CTrackEditWidget.cpp" line="869"/>
-        <location filename="../CTrackEditWidget.cpp" line="906"/>
+        <location filename="../CTrackEditWidget.cpp" line="868"/>
+        <location filename="../CTrackEditWidget.cpp" line="905"/>
         <source>Profile/Dist.</source>
         <translation>Profil/Vzdálenost</translation>
     </message>
     <message>
-        <location filename="../CTrackEditWidget.cpp" line="921"/>
+        <location filename="../CTrackEditWidget.cpp" line="920"/>
         <source>Speed/Time</source>
         <translation>Rychlost/Čas</translation>
     </message>
     <message>
-        <location filename="../CTrackEditWidget.cpp" line="933"/>
+        <location filename="../CTrackEditWidget.cpp" line="932"/>
         <source>Profile/Time</source>
         <translation>Profil/Čas</translation>
     </message>
     <message>
-        <location filename="../CTrackEditWidget.cpp" line="1243"/>
+        <location filename="../CTrackEditWidget.cpp" line="1239"/>
         <source>You are about to remove hidden track points permanently. If you press &apos;yes&apos;, all information will be lost.</source>
         <translation>Chystáte se trvale odstranit skryté body stopy. Pokud stisknete Ano, tyto údaje budou ztraceny.</translation>
     </message>
     <message>
-        <location filename="../CTrackEditWidget.cpp" line="1496"/>
+        <location filename="../CTrackEditWidget.cpp" line="1491"/>
         <source>Name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CTrackEditWidget.cpp" line="1497"/>
+        <location filename="../CTrackEditWidget.cpp" line="1492"/>
         <source>Prox.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CTrackEditWidget.cpp" line="1498"/>
+        <location filename="../CTrackEditWidget.cpp" line="1493"/>
         <source>Pic.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CTrackEditWidget.cpp" line="1499"/>
+        <location filename="../CTrackEditWidget.cpp" line="1494"/>
         <source>Elevation</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CTrackEditWidget.cpp" line="1500"/>
+        <location filename="../CTrackEditWidget.cpp" line="1495"/>
         <source>To Next</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CTrackEditWidget.cpp" line="1501"/>
+        <location filename="../CTrackEditWidget.cpp" line="1496"/>
         <source>Total</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CTrackEditWidget.cpp" line="1545"/>
+        <location filename="../CTrackEditWidget.cpp" line="1540"/>
+        <location filename="../CTrackEditWidget.cpp" line="1542"/>
         <location filename="../CTrackEditWidget.cpp" line="1547"/>
-        <location filename="../CTrackEditWidget.cpp" line="1552"/>
-        <location filename="../CTrackEditWidget.cpp" line="1554"/>
-        <location filename="../CTrackEditWidget.cpp" line="1556"/>
-        <location filename="../CTrackEditWidget.cpp" line="1558"/>
-        <location filename="../CTrackEditWidget.cpp" line="1768"/>
-        <location filename="../CTrackEditWidget.cpp" line="1770"/>
-        <location filename="../CTrackEditWidget.cpp" line="1784"/>
-        <location filename="../CTrackEditWidget.cpp" line="1786"/>
-        <location filename="../CTrackEditWidget.cpp" line="1788"/>
-        <location filename="../CTrackEditWidget.cpp" line="1790"/>
+        <location filename="../CTrackEditWidget.cpp" line="1549"/>
+        <location filename="../CTrackEditWidget.cpp" line="1551"/>
+        <location filename="../CTrackEditWidget.cpp" line="1553"/>
+        <location filename="../CTrackEditWidget.cpp" line="1763"/>
+        <location filename="../CTrackEditWidget.cpp" line="1765"/>
+        <location filename="../CTrackEditWidget.cpp" line="1779"/>
+        <location filename="../CTrackEditWidget.cpp" line="1781"/>
+        <location filename="../CTrackEditWidget.cpp" line="1783"/>
+        <location filename="../CTrackEditWidget.cpp" line="1785"/>
         <source>-</source>
         <translation type="unfinished">-</translation>
     </message>
     <message>
+        <location filename="../CTrackEditWidget.cpp" line="1626"/>
         <location filename="../CTrackEditWidget.cpp" line="1631"/>
-        <location filename="../CTrackEditWidget.cpp" line="1636"/>
+        <location filename="../CTrackEditWidget.cpp" line="1732"/>
         <location filename="../CTrackEditWidget.cpp" line="1737"/>
-        <location filename="../CTrackEditWidget.cpp" line="1742"/>
         <source>%1 %2 </source>
         <translation type="unfinished">%1 %2 </translation>
     </message>
     <message>
+        <location filename="../CTrackEditWidget.cpp" line="1642"/>
         <location filename="../CTrackEditWidget.cpp" line="1647"/>
-        <location filename="../CTrackEditWidget.cpp" line="1652"/>
+        <location filename="../CTrackEditWidget.cpp" line="1748"/>
         <location filename="../CTrackEditWidget.cpp" line="1753"/>
-        <location filename="../CTrackEditWidget.cpp" line="1758"/>
         <source>%1:%2 h</source>
         <translation type="unfinished">%3 %1:%2 h {1:%2 ?}</translation>
     </message>
@@ -7640,22 +7656,22 @@ Asc./Desc.</source>
 Vzestupně/Sestupně</translation>
     </message>
     <message>
-        <location filename="../CTrackEditWidget.cpp" line="1502"/>
+        <location filename="../CTrackEditWidget.cpp" line="1497"/>
         <source>Comment</source>
         <translation>Poznámka</translation>
     </message>
     <message>
-        <location filename="../CTrackEditWidget.cpp" line="1505"/>
+        <location filename="../CTrackEditWidget.cpp" line="1500"/>
         <source>wpt</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CTrackEditWidget.cpp" line="1508"/>
+        <location filename="../CTrackEditWidget.cpp" line="1503"/>
         <source>trk</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CTrackEditWidget.cpp" line="1542"/>
+        <location filename="../CTrackEditWidget.cpp" line="1537"/>
         <source>Start</source>
         <translation>Začátek</translation>
     </message>
@@ -7664,7 +7680,7 @@ Vzestupně/Sestupně</translation>
         <translation type="obsolete">-/%1 %2</translation>
     </message>
     <message>
-        <location filename="../CTrackEditWidget.cpp" line="1560"/>
+        <location filename="../CTrackEditWidget.cpp" line="1555"/>
         <source>Start of track.</source>
         <translation>Začátek stopy</translation>
     </message>
@@ -7701,12 +7717,12 @@ Vzestupně/Sestupně</translation>
 %3</translation>
     </message>
     <message>
-        <location filename="../CTrackEditWidget.cpp" line="1765"/>
+        <location filename="../CTrackEditWidget.cpp" line="1760"/>
         <source>End</source>
         <translation>Konec</translation>
     </message>
     <message>
-        <location filename="../CTrackEditWidget.cpp" line="1801"/>
+        <location filename="../CTrackEditWidget.cpp" line="1796"/>
         <source>End of track.</source>
         <translation>Konec stopy</translation>
     </message>
@@ -7798,7 +7814,7 @@ Vzestupně/Sestupně</translation>
 <context>
     <name>CTrackStatExtensionWidget</name>
     <message>
-        <location filename="../CTrackStatExtensionWidget.cpp" line="104"/>
+        <location filename="../CTrackStatExtensionWidget.cpp" line="105"/>
         <source>time [h]</source>
         <translation>Čas [h]</translation>
     </message>
@@ -7816,18 +7832,18 @@ Vzestupně/Sestupně</translation>
         <translation>Výška [m]</translation>
     </message>
     <message>
-        <location filename="../CTrackStatProfileWidget.cpp" line="78"/>
+        <location filename="../CTrackStatProfileWidget.cpp" line="80"/>
         <source>distance [%1]</source>
         <translation>Vzdálenost [%1]</translation>
     </message>
     <message>
-        <location filename="../CTrackStatProfileWidget.cpp" line="84"/>
+        <location filename="../CTrackStatProfileWidget.cpp" line="86"/>
         <source>alt. [%1]</source>
         <translation>Výška [%1]</translation>
     </message>
     <message>
         <location filename="../CTrackStatProfileWidget.cpp" line="40"/>
-        <location filename="../CTrackStatProfileWidget.cpp" line="82"/>
+        <location filename="../CTrackStatProfileWidget.cpp" line="84"/>
         <source>time [h]</source>
         <translation>Čas [h]</translation>
     </message>
@@ -7845,28 +7861,28 @@ Vzestupně/Sestupně</translation>
         <translation>Rychlost [km/h]</translation>
     </message>
     <message>
-        <location filename="../CTrackStatSpeedWidget.cpp" line="75"/>
+        <location filename="../CTrackStatSpeedWidget.cpp" line="76"/>
         <source>distance [%1]</source>
         <translation>Vzdálenost [%1]</translation>
     </message>
     <message>
-        <location filename="../CTrackStatSpeedWidget.cpp" line="82"/>
+        <location filename="../CTrackStatSpeedWidget.cpp" line="83"/>
         <source>speed [%1]</source>
         <translation>Rychlost [%1]</translation>
     </message>
     <message>
-        <location filename="../CTrackStatSpeedWidget.cpp" line="147"/>
+        <location filename="../CTrackStatSpeedWidget.cpp" line="148"/>
         <source>speed</source>
         <translation>Rychlost</translation>
     </message>
     <message>
-        <location filename="../CTrackStatSpeedWidget.cpp" line="148"/>
+        <location filename="../CTrackStatSpeedWidget.cpp" line="149"/>
         <source>med. speed</source>
         <translation>Průměrná rychlost</translation>
     </message>
     <message>
         <location filename="../CTrackStatSpeedWidget.cpp" line="37"/>
-        <location filename="../CTrackStatSpeedWidget.cpp" line="79"/>
+        <location filename="../CTrackStatSpeedWidget.cpp" line="80"/>
         <source>time [h]</source>
         <translation>Čas [h]</translation>
     </message>
@@ -7879,13 +7895,13 @@ Vzestupně/Sestupně</translation>
         <translation>Vzdálenost [m]</translation>
     </message>
     <message>
-        <location filename="../CTrackStatTraineeWidget.cpp" line="63"/>
+        <location filename="../CTrackStatTraineeWidget.cpp" line="65"/>
         <source>distance [%1]</source>
         <translation>Vzdálenost [%1]</translation>
     </message>
     <message>
         <location filename="../CTrackStatTraineeWidget.cpp" line="31"/>
-        <location filename="../CTrackStatTraineeWidget.cpp" line="64"/>
+        <location filename="../CTrackStatTraineeWidget.cpp" line="66"/>
         <source>heart rate [bpm]</source>
         <translation>Tep [úderů za minutu]</translation>
     </message>
@@ -7898,7 +7914,7 @@ Vzestupně/Sestupně</translation>
         <translation>Stopy</translation>
     </message>
     <message>
-        <location filename="../CTrackToolWidget.cpp" line="54"/>
+        <location filename="../CTrackToolWidget.cpp" line="55"/>
         <source>Edit...</source>
         <translation>Upravit...</translation>
     </message>
@@ -7907,27 +7923,27 @@ Vzestupně/Sestupně</translation>
         <translation type="obsolete">Filtrovat...</translation>
     </message>
     <message>
-        <location filename="../CTrackToolWidget.cpp" line="55"/>
+        <location filename="../CTrackToolWidget.cpp" line="56"/>
         <source>Revert</source>
         <translation>Vrátit</translation>
     </message>
     <message>
-        <location filename="../CTrackToolWidget.cpp" line="59"/>
+        <location filename="../CTrackToolWidget.cpp" line="60"/>
         <source>Show</source>
         <translation>Ukázat</translation>
     </message>
     <message>
-        <location filename="../CTrackToolWidget.cpp" line="60"/>
+        <location filename="../CTrackToolWidget.cpp" line="61"/>
         <source>Show Bullets</source>
         <translation>Ukázat body</translation>
     </message>
     <message>
-        <location filename="../CTrackToolWidget.cpp" line="61"/>
+        <location filename="../CTrackToolWidget.cpp" line="62"/>
         <source>Show Min/Max</source>
         <translation>Ukázat min/max</translation>
     </message>
     <message>
-        <location filename="../CTrackToolWidget.cpp" line="63"/>
+        <location filename="../CTrackToolWidget.cpp" line="64"/>
         <source>Zoom to fit</source>
         <translation>Přizpůsobit zvětšení</translation>
     </message>
@@ -7936,7 +7952,7 @@ Vzestupně/Sestupně</translation>
         <translation type="obsolete">Abwählen</translation>
     </message>
     <message>
-        <location filename="../CTrackToolWidget.cpp" line="64"/>
+        <location filename="../CTrackToolWidget.cpp" line="65"/>
         <source>Delete</source>
         <translation>Smazat</translation>
     </message>
@@ -7989,36 +8005,36 @@ Ende: %1</translation>
 %1%2 %3, %4%5 %6</translation>
     </message>
     <message>
-        <location filename="../CTrackToolWidget.cpp" line="250"/>
-        <location filename="../CTrackToolWidget.cpp" line="274"/>
+        <location filename="../CTrackToolWidget.cpp" line="251"/>
+        <location filename="../CTrackToolWidget.cpp" line="275"/>
         <source>Edit track ...</source>
         <translation>Upravit stopu...</translation>
     </message>
     <message>
-        <location filename="../CTrackToolWidget.cpp" line="250"/>
-        <location filename="../CTrackToolWidget.cpp" line="274"/>
-        <location filename="../CTrackToolWidget.cpp" line="387"/>
+        <location filename="../CTrackToolWidget.cpp" line="251"/>
+        <location filename="../CTrackToolWidget.cpp" line="275"/>
+        <location filename="../CTrackToolWidget.cpp" line="388"/>
         <source>You have to select a track first.</source>
         <translation>Nejprve musíte vybrat stopu. </translation>
     </message>
     <message>
-        <location filename="../CTrackToolWidget.cpp" line="258"/>
-        <location filename="../CTrackToolWidget.cpp" line="282"/>
+        <location filename="../CTrackToolWidget.cpp" line="259"/>
+        <location filename="../CTrackToolWidget.cpp" line="283"/>
         <source>Track</source>
         <translation>Stopa</translation>
     </message>
     <message>
-        <location filename="../CTrackToolWidget.cpp" line="387"/>
+        <location filename="../CTrackToolWidget.cpp" line="388"/>
         <source>Filter</source>
         <translation>Filtr</translation>
     </message>
     <message>
-        <location filename="../CTrackToolWidget.cpp" line="57"/>
+        <location filename="../CTrackToolWidget.cpp" line="58"/>
         <source>Make Overlay</source>
         <translation>Udělat vrstvu</translation>
     </message>
     <message>
-        <location filename="../CTrackToolWidget.cpp" line="352"/>
+        <location filename="../CTrackToolWidget.cpp" line="353"/>
         <source>created from track</source>
         <translation>Odvozeno ze stopy</translation>
     </message>
@@ -8064,33 +8080,33 @@ Ende: %1</translation>
 <context>
     <name>CWptDB</name>
     <message>
-        <location filename="../CWptDB.cpp" line="342"/>
+        <location filename="../CWptDB.cpp" line="341"/>
         <source>Do you really want to delete the sticky waypoint &apos;%1&apos;</source>
         <translation>Opravdu chcete smazat stálý cestovní bod &apos;%1&apos;</translation>
     </message>
     <message>
-        <location filename="../CWptDB.cpp" line="343"/>
+        <location filename="../CWptDB.cpp" line="342"/>
         <source>Delete sticky waypoint ...</source>
         <translation>Smazat stálý cestovní bod...</translation>
     </message>
     <message>
-        <location filename="../CWptDB.cpp" line="1296"/>
-        <location filename="../CWptDB.cpp" line="1298"/>
+        <location filename="../CWptDB.cpp" line="1310"/>
+        <location filename="../CWptDB.cpp" line="1312"/>
         <source>Missing libexif</source>
         <translation>Chybějící knihovna: libexif</translation>
     </message>
     <message>
-        <location filename="../CWptDB.cpp" line="1296"/>
+        <location filename="../CWptDB.cpp" line="1310"/>
         <source>Unable to find libexif-12.dll.</source>
         <translation>Nepodařilo se najít soubor libexif-12.dll.</translation>
     </message>
     <message>
-        <location filename="../CWptDB.cpp" line="1298"/>
+        <location filename="../CWptDB.cpp" line="1312"/>
         <source>Unable to find libexif.so.</source>
         <translation>Nepodařilo se najít soubor libexif.so.</translation>
     </message>
     <message>
-        <location filename="../CWptDB.cpp" line="1371"/>
+        <location filename="../CWptDB.cpp" line="1384"/>
         <source>Reference pictures by timestamp.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -8099,13 +8115,13 @@ Ende: %1</translation>
         <translation type="obsolete">Vybrat cestu k souboru...</translation>
     </message>
     <message>
-        <location filename="../CWptDB.cpp" line="1314"/>
+        <location filename="../CWptDB.cpp" line="1328"/>
         <source>Read EXIF tags from pictures.</source>
         <translation>Vytáhnout informace EXIF z obrázků.</translation>
     </message>
     <message>
-        <location filename="../CWptDB.cpp" line="1314"/>
-        <location filename="../CWptDB.cpp" line="1371"/>
+        <location filename="../CWptDB.cpp" line="1328"/>
+        <location filename="../CWptDB.cpp" line="1384"/>
         <source>Abort</source>
         <translation>Zrušit</translation>
     </message>
@@ -8118,82 +8134,82 @@ Ende: %1</translation>
         <translation>Cestovní body</translation>
     </message>
     <message>
-        <location filename="../CWptToolWidget.cpp" line="58"/>
+        <location filename="../CWptToolWidget.cpp" line="59"/>
         <source>Copy Position</source>
         <translation>Kopírovat polohu</translation>
     </message>
     <message>
-        <location filename="../CWptToolWidget.cpp" line="57"/>
+        <location filename="../CWptToolWidget.cpp" line="58"/>
         <source>Edit...</source>
         <translation>Upravit...</translation>
     </message>
     <message>
-        <location filename="../CWptToolWidget.cpp" line="61"/>
+        <location filename="../CWptToolWidget.cpp" line="62"/>
         <source>Icon ...</source>
         <translation>Ikona...</translation>
     </message>
     <message>
-        <location filename="../CWptToolWidget.cpp" line="62"/>
+        <location filename="../CWptToolWidget.cpp" line="63"/>
         <source>Parent Waypoint ...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CWptToolWidget.cpp" line="64"/>
+        <location filename="../CWptToolWidget.cpp" line="65"/>
         <source>Reset selection</source>
         <translation>Nastavit výběr znovu</translation>
     </message>
     <message>
-        <location filename="../CWptToolWidget.cpp" line="66"/>
+        <location filename="../CWptToolWidget.cpp" line="67"/>
         <source>Show Names</source>
         <translation>Ukázat názvy</translation>
     </message>
     <message>
-        <location filename="../CWptToolWidget.cpp" line="68"/>
+        <location filename="../CWptToolWidget.cpp" line="69"/>
         <source>Zoom to fit</source>
         <translation>Přizpůsobit zvětšení</translation>
     </message>
     <message>
-        <location filename="../CWptToolWidget.cpp" line="69"/>
+        <location filename="../CWptToolWidget.cpp" line="70"/>
         <source>Delete</source>
         <translation>Smazat</translation>
     </message>
     <message>
-        <location filename="../CWptToolWidget.cpp" line="70"/>
+        <location filename="../CWptToolWidget.cpp" line="71"/>
         <source>Delete non-selected</source>
         <translation>Smazat nevybrané</translation>
     </message>
     <message>
-        <location filename="../CWptToolWidget.cpp" line="71"/>
+        <location filename="../CWptToolWidget.cpp" line="72"/>
         <source>Delete by ...</source>
         <translation>Smazat podle typu/symbolu...</translation>
     </message>
     <message>
-        <location filename="../CWptToolWidget.cpp" line="98"/>
+        <location filename="../CWptToolWidget.cpp" line="99"/>
         <source>enter valid position</source>
         <translation>Zadat platnou polohu</translation>
     </message>
     <message>
-        <location filename="../CWptToolWidget.cpp" line="210"/>
+        <location filename="../CWptToolWidget.cpp" line="211"/>
         <source> (sticky)</source>
         <translation> (stálý)</translation>
     </message>
     <message>
-        <location filename="../CWptToolWidget.cpp" line="60"/>
+        <location filename="../CWptToolWidget.cpp" line="61"/>
         <source>Proximity ...</source>
         <translation>Varování kvůli blízkosti...</translation>
     </message>
     <message>
-        <location filename="../CWptToolWidget.cpp" line="412"/>
+        <location filename="../CWptToolWidget.cpp" line="413"/>
         <source>Distance [%1]</source>
         <translation>Vzdálenost [%1]</translation>
     </message>
     <message>
-        <location filename="../CWptToolWidget.cpp" line="429"/>
+        <location filename="../CWptToolWidget.cpp" line="430"/>
         <source>Proximity distance ...</source>
         <translation>Varování kvůli blízkosti...</translation>
     </message>
     <message>
-        <location filename="../CWptToolWidget.cpp" line="63"/>
+        <location filename="../CWptToolWidget.cpp" line="64"/>
         <source>Make Route ...</source>
         <translation>Udělat cestu...</translation>
     </message>
@@ -9560,9 +9576,9 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../IDlgConfig.ui" line="56"/>
         <location filename="../IDlgConfig.ui" line="67"/>
-        <location filename="../IDlgConfig.ui" line="354"/>
-        <location filename="../IDlgConfig.ui" line="588"/>
-        <location filename="../IDlgConfig.ui" line="769"/>
+        <location filename="../IDlgConfig.ui" line="361"/>
+        <location filename="../IDlgConfig.ui" line="595"/>
+        <location filename="../IDlgConfig.ui" line="776"/>
         <source>...</source>
         <translation>...</translation>
     </message>
@@ -9655,22 +9671,22 @@ p, li { white-space: pre-wrap; }
         <translation>Nástrojové rady (vektorové mapy)</translation>
     </message>
     <message>
-        <location filename="../IDlgConfig.ui" line="239"/>
+        <location filename="../IDlgConfig.ui" line="229"/>
         <source>Show zoom level in the top left corner</source>
         <translation>Ukázat úroveň zvětšení v horním levém rohu</translation>
     </message>
     <message>
-        <location filename="../IDlgConfig.ui" line="242"/>
+        <location filename="../IDlgConfig.ui" line="232"/>
         <source>Show zoom level</source>
         <translation>Ukázat úroveň zvětšení</translation>
     </message>
     <message>
-        <location filename="../IDlgConfig.ui" line="229"/>
+        <location filename="../IDlgConfig.ui" line="253"/>
         <source>Rendering the map with anti-aliasing uses a lot of CPU power. Best to disable it for weak CPUs.</source>
         <translation>Na vykreslení mapy s vyhlazováním je potřeba hodně z výkonu procesoru. U slabých procesorů je nejlepší vyhlazování vypnout.</translation>
     </message>
     <message>
-        <location filename="../IDlgConfig.ui" line="232"/>
+        <location filename="../IDlgConfig.ui" line="256"/>
         <source>Anti-aliasing</source>
         <translation>Vyhlazování</translation>
     </message>
@@ -9700,77 +9716,82 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../IDlgConfig.ui" line="249"/>
+        <location filename="../IDlgConfig.ui" line="239"/>
         <source>Show track elevation info</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../IDlgConfig.ui" line="256"/>
+        <location filename="../IDlgConfig.ui" line="246"/>
         <source>Show clock</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../IDlgConfig.ui" line="280"/>
+        <location filename="../IDlgConfig.ui" line="263"/>
+        <source>Element Info (vector maps)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../IDlgConfig.ui" line="287"/>
         <source>Services &amp;&amp; Paths</source>
         <translation>Služby a cesty</translation>
     </message>
     <message>
-        <location filename="../IDlgConfig.ui" line="333"/>
+        <location filename="../IDlgConfig.ui" line="340"/>
         <source>Streaming Map Cache</source>
         <translation>Vyrovnávací paměť síťových map</translation>
     </message>
     <message>
-        <location filename="../IDlgConfig.ui" line="347"/>
+        <location filename="../IDlgConfig.ui" line="354"/>
         <source>Cache Path: </source>
         <translation>Cesta k vyrovnávací paměti: </translation>
     </message>
     <message>
-        <location filename="../IDlgConfig.ui" line="382"/>
+        <location filename="../IDlgConfig.ui" line="389"/>
         <source>Size</source>
         <translation>Velikost</translation>
     </message>
     <message>
-        <location filename="../IDlgConfig.ui" line="411"/>
+        <location filename="../IDlgConfig.ui" line="418"/>
         <source>MB</source>
         <translation>MB</translation>
     </message>
     <message>
-        <location filename="../IDlgConfig.ui" line="431"/>
+        <location filename="../IDlgConfig.ui" line="438"/>
         <source>Expire in</source>
         <translation>Propadne za</translation>
     </message>
     <message>
-        <location filename="../IDlgConfig.ui" line="460"/>
+        <location filename="../IDlgConfig.ui" line="467"/>
         <source>Days</source>
         <translation>dnů</translation>
     </message>
     <message>
-        <location filename="../IDlgConfig.ui" line="488"/>
+        <location filename="../IDlgConfig.ui" line="495"/>
         <source>Geo Database</source>
         <translation>Zeměpisná databáze</translation>
     </message>
     <message>
-        <location filename="../IDlgConfig.ui" line="499"/>
+        <location filename="../IDlgConfig.ui" line="506"/>
         <source>Use database</source>
         <translation>Použít databázi</translation>
     </message>
     <message>
-        <location filename="../IDlgConfig.ui" line="524"/>
+        <location filename="../IDlgConfig.ui" line="531"/>
         <source>Save workspace on exit</source>
         <translation>Uložit pracovní oblast při ukončení</translation>
     </message>
     <message>
-        <location filename="../IDlgConfig.ui" line="531"/>
+        <location filename="../IDlgConfig.ui" line="538"/>
         <source> and every </source>
         <translation> a každých </translation>
     </message>
     <message>
-        <location filename="../IDlgConfig.ui" line="548"/>
+        <location filename="../IDlgConfig.ui" line="555"/>
         <source> min</source>
         <translation> min</translation>
     </message>
     <message>
-        <location filename="../IDlgConfig.ui" line="926"/>
+        <location filename="../IDlgConfig.ui" line="933"/>
         <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
@@ -9865,7 +9886,7 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">Netzwerk</translation>
     </message>
     <message>
-        <location filename="../IDlgConfig.ui" line="286"/>
+        <location filename="../IDlgConfig.ui" line="293"/>
         <source>Proxy</source>
         <translation>Proxy</translation>
     </message>
@@ -9878,38 +9899,38 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">URL</translation>
     </message>
     <message>
-        <location filename="../IDlgConfig.ui" line="581"/>
+        <location filename="../IDlgConfig.ui" line="588"/>
         <source>Database path:</source>
         <translation>Cesta k databázi:</translation>
     </message>
     <message>
-        <location filename="../IDlgConfig.ui" line="608"/>
+        <location filename="../IDlgConfig.ui" line="615"/>
         <source>You have to restart QLandkarte GT to make the database changes taking effect.</source>
         <translation>QLandkarte GT musí být spuštěn znovu, aby se změny v databázi projevily.</translation>
     </message>
     <message>
-        <location filename="../IDlgConfig.ui" line="292"/>
+        <location filename="../IDlgConfig.ui" line="299"/>
         <source>manual configuration</source>
         <translation>Ruční nastavení</translation>
     </message>
     <message>
-        <location filename="../IDlgConfig.ui" line="301"/>
+        <location filename="../IDlgConfig.ui" line="308"/>
         <source>Host</source>
         <translation>Server</translation>
     </message>
     <message>
-        <location filename="../IDlgConfig.ui" line="311"/>
-        <location filename="../IDlgConfig.ui" line="682"/>
+        <location filename="../IDlgConfig.ui" line="318"/>
+        <location filename="../IDlgConfig.ui" line="689"/>
         <source>Port</source>
         <translation>Přípojka</translation>
     </message>
     <message>
-        <location filename="../IDlgConfig.ui" line="318"/>
+        <location filename="../IDlgConfig.ui" line="325"/>
         <source>00000; </source>
         <translation>00000; </translation>
     </message>
     <message>
-        <location filename="../IDlgConfig.ui" line="321"/>
+        <location filename="../IDlgConfig.ui" line="328"/>
         <source>8080</source>
         <translation>8080</translation>
     </message>
@@ -9938,67 +9959,67 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">%s werden durch URL ersetzt</translation>
     </message>
     <message>
-        <location filename="../IDlgConfig.ui" line="635"/>
+        <location filename="../IDlgConfig.ui" line="642"/>
         <source>Device &amp;&amp; Xfer</source>
         <translation>Zařízení a přenos</translation>
     </message>
     <message>
-        <location filename="../IDlgConfig.ui" line="641"/>
+        <location filename="../IDlgConfig.ui" line="648"/>
         <source>Select the device you want to setup.</source>
         <translation>Vyberte zařízení, jež chcete nastavit.</translation>
     </message>
     <message>
-        <location filename="../IDlgConfig.ui" line="651"/>
+        <location filename="../IDlgConfig.ui" line="658"/>
         <source>Device</source>
         <translation>Zařízení</translation>
     </message>
     <message>
-        <location filename="../IDlgConfig.ui" line="660"/>
+        <location filename="../IDlgConfig.ui" line="667"/>
         <source>IP Address</source>
         <translation>Adresa IP</translation>
     </message>
     <message>
-        <location filename="../IDlgConfig.ui" line="672"/>
+        <location filename="../IDlgConfig.ui" line="679"/>
         <source>If your device is accessed by TCP/IP you can give a hard coded address. Leave blank for &quot;QLandkarte M&quot; as the driver will query the device by UDP broadcast.</source>
         <translation>Jestliže je k vašemu zařízení přistupováno přes TCP/IP, můžete zadat adresu. Pro &quot;QLandkarte M&quot; můžete pole ponechat prázdné, protože ovladač se dotáže na zařízení přes UDB Broadcast.</translation>
     </message>
     <message>
-        <location filename="../IDlgConfig.ui" line="692"/>
+        <location filename="../IDlgConfig.ui" line="699"/>
         <source>Add TCP/IP port for Device. Set to 0 for &quot;QLandkarte M&quot;.</source>
         <translation>Zadejte přípojku TCP/IP pro vaše zařízení. Přípojka pro &quot;QLandkarte M&quot; je 0.</translation>
     </message>
     <message>
-        <location filename="../IDlgConfig.ui" line="695"/>
+        <location filename="../IDlgConfig.ui" line="702"/>
         <source>4242</source>
         <translation>4242</translation>
     </message>
     <message>
-        <location filename="../IDlgConfig.ui" line="707"/>
+        <location filename="../IDlgConfig.ui" line="714"/>
         <source>Serial Port</source>
         <translation>Sériová přípojka</translation>
     </message>
     <message>
-        <location filename="../IDlgConfig.ui" line="717"/>
+        <location filename="../IDlgConfig.ui" line="724"/>
         <source>Pass something like &quot;/dev/ttyS0&quot; or &quot;/dev/rfcomm0&quot; for serial Garmin devices or NMEA devices. For Garmin USB devices leave blank.</source>
         <translation>Předejte něco jako &quot;/devttyS0&quot; nebo &quot;/dev/rfcomm0&quot; pro sériové zařízení Garmin nebo zařízení NMEA. Pro zařízení USB Garmin pole ponechejte prázdné.</translation>
     </message>
     <message>
-        <location filename="../IDlgConfig.ui" line="727"/>
+        <location filename="../IDlgConfig.ui" line="734"/>
         <source>Baud rate</source>
         <translation>Baud rate</translation>
     </message>
     <message>
-        <location filename="../IDlgConfig.ui" line="737"/>
+        <location filename="../IDlgConfig.ui" line="744"/>
         <source>Baud rate for Serial Port</source>
         <translation>Baud rate pro sériovou přípojku</translation>
     </message>
     <message>
-        <location filename="../IDlgConfig.ui" line="747"/>
+        <location filename="../IDlgConfig.ui" line="754"/>
         <source>Type</source>
         <translation>Typ</translation>
     </message>
     <message>
-        <location filename="../IDlgConfig.ui" line="759"/>
+        <location filename="../IDlgConfig.ui" line="766"/>
         <source>Select your Garmin device from list. If your device is not supported use &quot;whatGarmin&quot; and download waypoints to create a protocol query.</source>
         <translation>Vyberte své zařízení Garmin ze seznamu. Pokud není vaše zařízení podporováno, není v seznamu, vyberte &quot;whatGarmin&quot; a stáhněte cestovní body pro obdržení výtahu použitého protokolu.</translation>
     </message>
@@ -10007,54 +10028,54 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">Wähle dein Garmin Gerät aus der Liste aus. Wenn dein Gerät nicht dabei ist, wähle &quot;whatGarmin&quot; und läde Wegpunkte um einen Auszug der verwendeten Protokolle zu erhalten.</translation>
     </message>
     <message>
-        <location filename="../IDlgConfig.ui" line="781"/>
+        <location filename="../IDlgConfig.ui" line="788"/>
         <source>Character Set</source>
         <translation>Znaková sada</translation>
     </message>
     <message>
-        <location filename="../IDlgConfig.ui" line="795"/>
+        <location filename="../IDlgConfig.ui" line="802"/>
         <source>Define custom icons for Garmin Devices.</source>
         <translation>Stanovte vlastní ikony pro zařízení Garmin.</translation>
     </message>
     <message>
-        <location filename="../IDlgConfig.ui" line="798"/>
+        <location filename="../IDlgConfig.ui" line="805"/>
         <source>Customize Waypoint Icons...</source>
         <translation>Vlastní ikony pro cestovní body...</translation>
     </message>
     <message>
-        <location filename="../IDlgConfig.ui" line="824"/>
+        <location filename="../IDlgConfig.ui" line="831"/>
         <source>Upload All</source>
         <translation>Nahrát vše</translation>
     </message>
     <message>
-        <location filename="../IDlgConfig.ui" line="830"/>
-        <location filename="../IDlgConfig.ui" line="863"/>
+        <location filename="../IDlgConfig.ui" line="837"/>
+        <location filename="../IDlgConfig.ui" line="870"/>
         <source>Waypoints</source>
         <translation>Cestovní body</translation>
     </message>
     <message>
-        <location filename="../IDlgConfig.ui" line="837"/>
-        <location filename="../IDlgConfig.ui" line="870"/>
+        <location filename="../IDlgConfig.ui" line="844"/>
+        <location filename="../IDlgConfig.ui" line="877"/>
         <source>Tracks</source>
         <translation>Stopy</translation>
     </message>
     <message>
-        <location filename="../IDlgConfig.ui" line="857"/>
+        <location filename="../IDlgConfig.ui" line="864"/>
         <source>Download All</source>
         <translation>Stáhnout vše</translation>
     </message>
     <message>
-        <location filename="../IDlgConfig.ui" line="887"/>
+        <location filename="../IDlgConfig.ui" line="894"/>
         <source>Sound after Transfer</source>
         <translation>Zvuk po přenosu</translation>
     </message>
     <message>
-        <location filename="../IDlgConfig.ui" line="893"/>
+        <location filename="../IDlgConfig.ui" line="900"/>
         <source>Play</source>
         <translation>Přehrát</translation>
     </message>
     <message>
-        <location filename="../IDlgConfig.ui" line="920"/>
+        <location filename="../IDlgConfig.ui" line="927"/>
         <source>Keys</source>
         <translation>Klávesy</translation>
     </message>
@@ -10081,8 +10102,8 @@ p, li { white-space: pre-wrap; }
 &lt;/table&gt;</translation>
     </message>
     <message>
-        <location filename="../IDlgConfig.ui" line="844"/>
-        <location filename="../IDlgConfig.ui" line="877"/>
+        <location filename="../IDlgConfig.ui" line="851"/>
+        <location filename="../IDlgConfig.ui" line="884"/>
         <source>Routes</source>
         <translation>Cesty</translation>
     </message>
@@ -10686,37 +10707,38 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../IDlgImportImages.ui" line="109"/>
-        <location filename="../IDlgImportImages.ui" line="168"/>
+        <location filename="../IDlgImportImages.ui" line="169"/>
         <source>Position reference</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../IDlgImportImages.ui" line="125"/>
-        <source>Befor you start taking any picture take a picture of the clock on your GPS device. Select the picture from the list above and enter the timestamp manually. QLandkarte GT will derive the delta between your camera and your GPS. The offset is used to adust all timestamps befor finding a matching point in the currently loaded tracks.</source>
+        <source>Take a picture of the GPS time display as the first photo in the series. Double-click that picture in the above list and enter the GPS time in the text box. QLandkarte GT will derive the delta time between camera
+and GPS and adjust all image time-stamps before correlating them with loaded track points.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../IDlgImportImages.ui" line="143"/>
+        <location filename="../IDlgImportImages.ui" line="175"/>
+        <source>Take a picture of the GPS position display as the first photo in the series. Double-click that picture in the above list and enter the GPS position. QLandkarte GT will locate the closest track point and derive the delta time between camera and GPS and adjust all image time-stamps before correlating them with loaded track points.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../IDlgImportImages.ui" line="144"/>
         <source>Select a picture from the list and enter the timestamp</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../IDlgImportImages.ui" line="153"/>
+        <location filename="../IDlgImportImages.ui" line="154"/>
         <source>dd.MM.yy HH:mm:ss</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../IDlgImportImages.ui" line="174"/>
-        <source>Befor you start taking any picture take a picture of the position on your GPS device. Select the picture from the list above and enter the position manually. QLandkarte GT will find the closest track point to that position and derive the time delta bewteen that point and the selcted picture. The offset is used to adust all timestamps befor finding a matching point in the currently loaded tracks.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../IDlgImportImages.ui" line="192"/>
+        <location filename="../IDlgImportImages.ui" line="193"/>
         <source>Select a picture from the list and enter the position</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../IDlgImportImages.ui" line="202"/>
+        <location filename="../IDlgImportImages.ui" line="203"/>
         <source>The position has to be in WGS84 datum. The position format is: N|Sdd mm.mmm E|Wddd mm.mmm</source>
         <translation type="unfinished"></translation>
     </message>
