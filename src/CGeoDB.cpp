@@ -2239,6 +2239,8 @@ void CGeoDB::slotDiaryDBChanged()
 
 void CGeoDB::slotModifiedWpt(const QString& key)
 {
+    if(isInternalEdit) return;
+
     CWptDB& wptdb = CWptDB::self();
     keysWptModified << key;
     updateModifyMarker(UPDT_WPT);
@@ -2262,6 +2264,8 @@ void CGeoDB::slotModifiedWpt(const QString& key)
 
 void CGeoDB::slotModifiedTrk(const QString& key)
 {
+    if(isInternalEdit) return;
+
     CTrackDB& trkdb = CTrackDB::self();
 
     keysTrkModified << key;
@@ -2285,6 +2289,8 @@ void CGeoDB::slotModifiedTrk(const QString& key)
 
 void CGeoDB::slotModifiedRte(const QString& key)
 {
+    if(isInternalEdit) return;
+
     CRouteDB& rtedb = CRouteDB::self();
 
     keysRteModified << key;
@@ -2308,6 +2314,8 @@ void CGeoDB::slotModifiedRte(const QString& key)
 
 void CGeoDB::slotModifiedOvl(const QString& key)
 {
+    if(isInternalEdit) return;
+
     COverlayDB& ovldb = COverlayDB::self();
 
     keysOvlModified << key;
@@ -2330,6 +2338,8 @@ void CGeoDB::slotModifiedOvl(const QString& key)
 
 void CGeoDB::slotModifiedMap(const QString& key)
 {
+    if(isInternalEdit) return;
+
     keysMapModified << key;
     updateModifyMarker(UPDT_MAP);
 }
@@ -2468,6 +2478,7 @@ void CGeoDB::slotItemChanged(QTreeWidgetItem * item, int column)
             if(item->data(eCoName, eUrType).toInt() >= eFolder0)
             {
                 addChildrenToWks(item->data(eCoName, eUrDBKey).toULongLong());
+                what = UPDT_ALL;
             }
             else
             {
@@ -2513,6 +2524,7 @@ void CGeoDB::slotItemChanged(QTreeWidgetItem * item, int column)
             if(item->data(eCoName, eUrType).toInt() >= eFolder0)
             {
                 delChildrenFromWks(item->data(eCoName, eUrDBKey).toULongLong());
+                what = UPDT_ALL;
             }
             else
             {
