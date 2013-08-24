@@ -861,6 +861,7 @@ void CGeoDB::updateModifyMarker(QTreeWidgetItem * itemWks, QSet<QString>& keys, 
     for(int i = 0; i < size; i++)
     {
         item = itemWks->child(i);
+
         if(keys.contains(item->data(eCoName, eUrQLKey).toString()) && (item->data(eCoName, eUrDBKey) != 0))
         {
             item->setText(eCoState,"*");

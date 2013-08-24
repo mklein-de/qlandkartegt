@@ -33,6 +33,7 @@ CTrackStatDistanceWidget::CTrackStatDistanceWidget(QWidget * parent)
     plot->setYLabel(tr("distance [m]"));
 
     connect(&CWptDB::self(),SIGNAL(sigChanged()),this,SLOT(slotChanged()));
+    connect(&CWptDB::self(),SIGNAL(sigModified(QString)),this,SLOT(slotChanged()));
     connect(&CTrackDB::self(),SIGNAL(sigModified(const QString&)),this,SLOT(slotChanged()));
     connect(&CTrackDB::self(),SIGNAL(sigChanged()),this,SLOT(slotChanged()));
     connect(&CTrackDB::self(), SIGNAL(sigHighlightTrack(CTrack*)), this, SLOT(slotSetTrack(CTrack*)));

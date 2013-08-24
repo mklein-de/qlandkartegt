@@ -185,7 +185,8 @@ CTrackEditWidget::CTrackEditWidget(QWidget * parent)
 
     connect(&CTrackDB::self(), SIGNAL(sigModified(const QString&)), this, SLOT(slotStagesChanged()));
     connect(&CTrackDB::self(), SIGNAL(sigPointOfFocus(int)), this, SLOT(slotPointOfFocus(int)));
-    connect(&CWptDB::self(), SIGNAL(sigModified(const QString&)), this, SLOT(slotStagesChanged()));
+    connect(&CWptDB::self(),SIGNAL(sigChanged()),this,SLOT(slotStagesChanged()));
+    connect(&CWptDB::self(),SIGNAL(sigModified(QString)),this,SLOT(slotStagesChanged()));
 
     CTrackFilterWidget * w = tabWidget->findChild<CTrackFilterWidget*>();
     if(w)

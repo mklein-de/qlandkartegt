@@ -683,17 +683,14 @@ void CTrackDB::highlightTrack(const QString& key)
 
     if(tracks.contains(key))
     {
-        tracks[key]->setHighlight(true);
-        emit sigHighlightTrack(tracks[key]);
-        emit sigModified(key);
+        CTrack * track = tracks[key];
+        track->setHighlight(true);
+        emit sigHighlightTrack(track);
     }
     else
     {
         emit sigHighlightTrack(0);
     }
-
-    //emitSigChanged();
-
 }
 
 

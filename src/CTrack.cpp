@@ -700,6 +700,7 @@ CTrack::CTrack(QObject * parent)
     connect(networkAccessManager,SIGNAL(finished(QNetworkReply*)),this,SLOT(slotRequestFinished(QNetworkReply*)));
 
     connect(&CWptDB::self(), SIGNAL(sigChanged()), this, SLOT(slotScaleWpt2Track()));
+    connect(&CWptDB::self(), SIGNAL(sigModified(QString)), this, SLOT(slotScaleWpt2Track()));
 }
 
 
@@ -1656,7 +1657,6 @@ void CTrack::slotScaleWpt2Track()
     waypoints.clear();
     if(wptdb.count() == 0 )
     {
-        CTrackDB::self().emitSigChanged();
         return ;
     }
 
@@ -1757,7 +1757,7 @@ void CTrack::slotScaleWpt2Track()
     }
 
     qSort(waypoints.begin(), waypoints.end(), qSortWptLessDistance);
-    emit sigChanged();
+
 
     QApplication::restoreOverrideCursor();
     return ;
