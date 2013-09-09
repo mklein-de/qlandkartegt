@@ -5,12 +5,12 @@
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
-    
+
     This program is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU General Public License for more details.
-    
+
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
@@ -98,7 +98,6 @@ void IMouse::resizeRect(const QPoint& p, bool normalize)
 void IMouse::drawRect(QPainter& p)
 {
     p.setBrush(QBrush( QColor(230,230,255,100) ));
-    //     p.setPen(QPen(QColor(150,150,255),3));
     p.setPen(QPen(QColor(255,255,0),3));
     p.drawRect(rect);
 }
@@ -135,13 +134,55 @@ void IMouse::drawPos1(QPainter& p)
 
 void IMouse::drawSelWpt(QPainter& p)
 {
-    IMap& map = CMapDB::self().getMap();
-    if(!selWpt.isNull())
+    if((selWpts.size() == 1) && !selWpts.first().wpt.isNull())
     {
-        double u = selWpt->lon * DEG_TO_RAD;
-        double v = selWpt->lat * DEG_TO_RAD;
-        map.convertRad2Pt(u,v);
+        wpt_t& wptInfo = selWpts.first();
+        drawSelWpt(p, wptInfo, eFeatAll);
+    }
+    else if(selWpts.size() > 1)
+    {
+        double deg = 0;
 
+        p.save();
+        p.translate(mousePos);
+
+        for(int i = 0; i < selWpts.size(); i++)
+        {
+            wpt_t& wptInfo = selWpts[i];
+            if(wptInfo.wpt.isNull())
+            {
+                continue;
+            }
+
+            wptInfo.x = cos(deg * DEG_TO_RAD) * 120;
+            wptInfo.y = sin(deg * DEG_TO_RAD) * 120;
+
+            drawSelWpt(p, wptInfo, eFeatWheel);
+
+            p.save();
+
+            p.rotate(deg);
+            p.translate(150,0);
+            CCanvas::drawText(wptInfo.wpt->getName(),p,QPoint(0,0));
+
+            p.restore();
+
+            deg += 45;
+        }
+
+        p.restore();
+    }
+}
+
+void IMouse::drawSelWpt(QPainter& p, wpt_t& wptInfo, quint32 features)
+{
+    CWpt * selWpt  = wptInfo.wpt;
+
+    double u = wptInfo.x;
+    double v = wptInfo.y;
+
+    if(features & eFeatWheel)
+    {
         QPixmap icon = selWpt->getIcon().scaled(16,16, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
 
         p.setPen(CCanvas::penBorderBlue);
@@ -179,12 +220,15 @@ void IMouse::drawSelWpt(QPainter& p)
         }
 
         p.restore();
+    }
 
-        if(doShowWptBuddies)
-        {
-            return;
-        }
+    if(doShowWptBuddies)
+    {
+        return;
+    }
 
+    if(features & eFeatInfoBox)
+    {
         QPixmap pic;
         int wPic = 0;
         int hPic = 0;
@@ -232,28 +276,27 @@ void IMouse::drawSelWpt(QPainter& p)
         }
 
         p.restore();
+    }
 
-        if(selWpt->dir != WPT_NOFLOAT)
-        {
+    if((selWpt->dir != WPT_NOFLOAT) && (features & eFeatArrow))
+    {
 #define ARROWDIR_H 15
 #define ARROWDIR_W 20
 
-            p.save();
-            p.setPen(CCanvas::penBorderBlue);
-            p.setBrush(CCanvas::brushBackWhite);
+        p.save();
+        p.setPen(CCanvas::penBorderBlue);
+        p.setBrush(CCanvas::brushBackWhite);
 
-            p.translate(u, v);
-            p.rotate(selWpt->dir);
-            p.translate(0,  - 37 - ARROWDIR_H/2);
+        p.translate(u, v);
+        p.rotate(selWpt->dir);
+        p.translate(0,  - 37 - ARROWDIR_H/2);
 
-            QPolygon arrow;
-            arrow << QPoint(0, -ARROWDIR_H/2) << QPoint(-ARROWDIR_W/2, ARROWDIR_H/2) << QPoint(0, ARROWDIR_H/3) << QPoint(ARROWDIR_W/2, ARROWDIR_H/2);
+        QPolygon arrow;
+        arrow << QPoint(0, -ARROWDIR_H/2) << QPoint(-ARROWDIR_W/2, ARROWDIR_H/2) << QPoint(0, ARROWDIR_H/3) << QPoint(ARROWDIR_W/2, ARROWDIR_H/2);
 
-            p.drawPolygon(arrow);
+        p.drawPolygon(arrow);
 
-            p.restore();
-        }
-
+        p.restore();
     }
 }
 
@@ -287,7 +330,7 @@ void IMouse::drawSelTrkPt(QPainter& p)
 {
     IMap& map       = CMapDB::self().getMap();
 
-    if(selTrkPt && !selWpt)
+    if(selTrkPt && selWpts.isEmpty())
     {
         CTrack * track = CTrackDB::self().highlightedTrack();
         if(track == 0)
@@ -360,7 +403,7 @@ void IMouse::drawSelTrkPt(QPainter& p)
 void IMouse::drawSelRtePt(QPainter& p)
 {
     IMap& map = CMapDB::self().getMap();
-    if(selRtePt && !selWpt)
+    if(selRtePt && selWpts.isEmpty())
     {
         double u = selRtePt->lon * DEG_TO_RAD;
         double v = selRtePt->lat * DEG_TO_RAD;
@@ -397,7 +440,16 @@ void IMouse::mouseMoveEventWpt(QMouseEvent * e)
 {
     QPoint pos      = e->pos();
     IMap& map       = CMapDB::self().getMap();
-    CWpt * oldWpt   = selWpt; selWpt = 0;
+    CWpt * oldWpt   = 0;
+    CWpt * selWpt   = 0;
+
+    if(selWpts.size() == 1)
+    {
+        selWpt = selWpts.first().wpt;
+        oldWpt = selWpt;
+    }
+
+    selWpts.clear();
 
     // find the waypoint close to the cursor
     QMap<QString,CWpt*>::const_iterator wpt = CWptDB::self().begin();
@@ -409,16 +461,28 @@ void IMouse::mouseMoveEventWpt(QMouseEvent * e)
 
         if(((pos.x() - u) * (pos.x() - u) + (pos.y() - v) * (pos.y() - v)) < 1225)
         {
-            selWpt = *wpt;
-            break;
+            selWpts << wpt_t();
+
+            wpt_t& wptInfo = selWpts.last();
+            wptInfo.wpt = *wpt;
+
+            double u = wptInfo.wpt->lon * DEG_TO_RAD;
+            double v = wptInfo.wpt->lat * DEG_TO_RAD;
+            map.convertRad2Pt(u,v);
+
+            wptInfo.x = u;
+            wptInfo.y = v;
+
         }
 
         ++wpt;
     }
 
     // check for cursor-over-function
-    if(selWpt)
+    if(selWpts.size() == 1)
     {
+        selWpt = selWpts.first().wpt;
+
         double u = selWpt->lon * DEG_TO_RAD;
         double v = selWpt->lat * DEG_TO_RAD;
         map.convertRad2Pt(u,v);
@@ -471,6 +535,8 @@ void IMouse::mouseMoveEventWpt(QMouseEvent * e)
             oldWpt->showBuddies(false);
             doShowWptBuddies = false;
         }
+
+        selWpt = 0;
     }
 
     // do a canvas update on a change only
@@ -549,13 +615,14 @@ void IMouse::mouseMoveEventSearch(QMouseEvent * e)
 
 void IMouse::mousePressEventWpt(QMouseEvent * e)
 {
-    if(selWpt.isNull()) return;
+    if(selWpts.isEmpty()) return;
 
-    IMap& map   = CMapDB::self().getMap();
+    wpt_t& wptInfo = selWpts.first();
+    CWpt * selWpt  = wptInfo.wpt;
+
     QPoint pos  = e->pos();
-    double u    = selWpt->lon * DEG_TO_RAD;
-    double v    = selWpt->lat * DEG_TO_RAD;
-    map.convertRad2Pt(u,v);
+    double u    = wptInfo.x;
+    double v    = wptInfo.y;
 
     QPoint pt = pos - QPoint(u - 24, v - 24);
     if(rectDelWpt.contains(pt) && !selWpt->sticky)
@@ -627,7 +694,9 @@ void IMouse::mousePressEventSearch(QMouseEvent * e)
         CWpt * wpt = CWptDB::self().newWpt(selSearch->lon * DEG_TO_RAD, selSearch->lat * DEG_TO_RAD, ele, selSearch->getName());
         if(wpt)
         {
-            selWpt = wpt;
+            selWpts << wpt_t();
+            selWpts.last().wpt = wpt;
+
             QStringList keys;
 
             keys << key;

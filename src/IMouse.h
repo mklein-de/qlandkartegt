@@ -5,12 +5,12 @@
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
-    
+
     This program is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU General Public License for more details.
-    
+
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
@@ -95,6 +95,24 @@ class IMouse : public QObject
         void slotSetPos1();
 
     protected:
+        enum features_e
+        {
+             eFeatInfoBox = 0x00000001
+            ,eFeatArrow   = 0x00000002
+            ,eFeatWheel   = 0x00000004
+            ,eFeatAll     = 0xFFFFFFFF
+        };
+
+        struct wpt_t
+        {
+            wpt_t(): x(0), y(0){}
+
+            QPointer<CWpt> wpt;
+            int x;
+            int y;
+        };
+
+
         /// for internal use to start a semi-transparent capture rectangle
         void startRect(const QPoint& p);
         /// for internal use to set the bottom right of the capture rectangle
@@ -103,6 +121,8 @@ class IMouse : public QObject
         void drawRect(QPainter& p);
         /// draw selected waypoint
         void drawSelWpt(QPainter& p);
+        void drawSelWpt(QPainter& p, wpt_t& wptInfo, quint32 features);
+
         /// draw selected track point
         void drawSelTrkPt(QPainter& p);
         /// draw selected route point
@@ -137,7 +157,8 @@ class IMouse : public QObject
         QRect rect;
 
         /// current selected waypoint
-        QPointer<CWpt> selWpt;
+        QList<wpt_t> selWpts;
+
         /// current selected trackpoint
         CTrack::pt_t * selTrkPt;
         /// current selected routepoint
@@ -162,7 +183,6 @@ class IMouse : public QObject
 
         bool doSpecialCursorWpt;
         bool doSpecialCursorSearch;
-
         bool doShowWptBuddies;
 
         QPoint lastPoint;
@@ -170,9 +190,5 @@ class IMouse : public QObject
 
         static QPointF pos1Pixel;
         static QPointF pos1LonLat;
-
-#ifdef GPX_EXTENSIONS
-        //QPointer<CTrack> track;  //TODO: noch ne def
-#endif
 };
 #endif                           //IMOUSE_H

@@ -5,12 +5,12 @@
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
-    
+
     This program is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU General Public License for more details.
-    
+
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
@@ -60,13 +60,15 @@ void CMouseMoveWpt::mousePressEvent(QMouseEvent * e)
 {
     if(e->button() == Qt::LeftButton)
     {
-        if(!moveWpt && !selWpt.isNull())
+        if(!moveWpt && (selWpts.size() == 1))
         {
             newPos = e->pos();
             moveWpt = true;
         }
-        else if(moveWpt && !selWpt.isNull() && selWpt->isMovable())
+        else if(moveWpt && (selWpts.size() == 1) && selWpts.first().wpt->isMovable())
         {
+            CWpt * selWpt = selWpts.first().wpt;
+
             IMap& map = CMapDB::self().getMap();
             double u = e->pos().x();
             double v = e->pos().y();
@@ -99,8 +101,10 @@ void CMouseMoveWpt::mouseReleaseEvent(QMouseEvent * e)
 
 void CMouseMoveWpt::draw(QPainter& p)
 {
-    if(moveWpt && !selWpt.isNull() && selWpt->isMovable())
+    if(moveWpt && (selWpts.size() == 1) && selWpts.first().wpt->isMovable())
     {
+        CWpt * selWpt = selWpts.first().wpt;
+
         double x1, y1, x2, y2;
         projXY p1, p2;
         IMap& map = CMapDB::self().getMap();

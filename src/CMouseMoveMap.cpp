@@ -5,12 +5,12 @@
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
-    
+
     This program is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU General Public License for more details.
-    
+
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
@@ -78,8 +78,9 @@ void CMouseMoveMap::mousePressEvent(QMouseEvent * e)
 
         CTrack * track = CTrackDB::self().highlightedTrack();
 
-        if(!selWpt.isNull())
+        if(selWpts.size() == 1)
         {
+            CWpt * selWpt = selWpts.first().wpt;
             CWptDB::self().selWptByKey(selWpt->getKey(), false);
             mousePressEventWpt(e);
         }
@@ -154,8 +155,9 @@ void CMouseMoveMap::keyPressEvent(QKeyEvent * e)
 
 void CMouseMoveMap::mouseDoubleClickEvent(QMouseEvent * e)
 {
-    if(!selWpt.isNull())
+    if(selWpts.size() == 1)
     {
+        CWpt * selWpt = selWpts.first().wpt;
         CWptDB::self().selWptByKey(selWpt->getKey(), true);
         canvas->update();
     }
@@ -196,8 +198,10 @@ void CMouseMoveMap::contextMenu(QMenu& menu)
 {
     menu.addAction(QPixmap(":/icons/iconReload16x16.png"),tr("Reload Map"),this,SLOT(slotReloadMap()));
     menu.addSeparator();
-    if(!selWpt.isNull())
+    if(selWpts.size() == 1)
     {
+        CWpt * selWpt = selWpts.first().wpt;
+
         menu.addSeparator();
         menu.addAction(QPixmap(":/icons/iconClipboard16x16.png"),tr("Copy Pos. Waypoint"),this,SLOT(slotCopyPositionWpt()));
         menu.addAction(QPixmap(":/icons/iconEdit16x16.png"),tr("Edit Waypoint ..."),this,SLOT(slotEditWpt()));
@@ -386,8 +390,9 @@ void CMouseMoveMap::slotCopyPosPixelSize()
 
 void CMouseMoveMap::slotEditWpt()
 {
-    if(selWpt.isNull()) return;
+    if(selWpts.isEmpty()) return;
 
+    CWpt * selWpt = selWpts.first().wpt;
     CDlgEditWpt dlg(*selWpt,canvas);
     dlg.exec();
 }
@@ -395,7 +400,9 @@ void CMouseMoveMap::slotEditWpt()
 
 void CMouseMoveMap::slotCopyPositionWpt()
 {
-    if(selWpt.isNull()) return;
+    if(selWpts.isEmpty()) return;
+
+    CWpt * selWpt = selWpts.first().wpt;
 
     QString position;
     GPS_Math_Deg_To_Str(selWpt->lon, selWpt->lat, position);
@@ -407,8 +414,9 @@ void CMouseMoveMap::slotCopyPositionWpt()
 
 void CMouseMoveMap::slotDeleteWpt()
 {
-    if(selWpt.isNull()) return;
+    if(selWpts.isEmpty()) return;
 
+    CWpt * selWpt = selWpts.first().wpt;
     QString key = selWpt->getKey();
     CWptDB::self().delWpt(key);
 }
@@ -416,8 +424,10 @@ void CMouseMoveMap::slotDeleteWpt()
 
 void CMouseMoveMap::slotMoveWpt()
 {
-    if(selWpt.isNull()) return;
+    if(selWpts.isEmpty()) return;
     canvas->setMouseMode(CCanvas::eMouseMoveWpt);
+
+    CWpt * selWpt = selWpts.first().wpt;
 
     double u = selWpt->lon * DEG_TO_RAD;
     double v = selWpt->lat * DEG_TO_RAD;
@@ -465,12 +475,6 @@ void CMouseMoveMap::slotEditTrack()
 
     CTrackToolWidget * toolview = CTrackDB::self().getToolWidget();
     if(toolview) toolview->slotEdit();
-///@todo oe investigate what this is for
-//    CTrack * track = CTrackDB::self().highlightedTrack();
-//    if(track)
-//    {
-//        track->setPointOfFocus(selTrkPt->idx, true, false);
-//    }
 }
 
 
