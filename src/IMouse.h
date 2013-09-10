@@ -111,6 +111,8 @@ class IMouse : public QObject
             QPointer<CWpt> wpt;
             int x;
             int y;
+            int xReal;
+            int yReal;
         };
 
 
@@ -171,6 +173,7 @@ class IMouse : public QObject
 
         QPointer<CSearch> selSearch;
 
+        QRect rectIcon;
         QRect rectMarkWpt;
         QRect rectDelWpt;
         QRect rectMoveWpt;

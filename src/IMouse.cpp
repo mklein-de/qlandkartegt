@@ -53,6 +53,7 @@ IMouse::IMouse(CCanvas * canvas)
 , doShowWptBuddies(false)
 , lockWptCircles(false)
 {
+    rectIcon            = QRect(-8,-8,16,16);
     rectMarkWpt         = QRect(16,-8,16,16);
     rectDelWpt          = QRect(-5, 3,16,16);
     rectMoveWpt         = QRect(37, 3,16,16);
@@ -142,14 +143,16 @@ void IMouse::drawSelWpt(QPainter& p)
     }
     else if(selWpts.size() > 1)
     {
+        int idxInfoBox = -1;
         double deg = -90;
 
-        p.save();
-        p.translate(lockWptCircles ? mousePosWptCircle : mousePos);
+        QPoint ref = lockWptCircles ? mousePosWptCircle : mousePos;
 
+        p.save();
+        p.translate(ref);
 
         // draw function circles for waypoints
-        int count = selWpts.size() < 8 ? selWpts.size() : 7;
+        int count = selWpts.size() < 9 ? selWpts.size() : 7;
         for(int i = 0; i < count; i++)
         {
             wpt_t& wptInfo = selWpts[i];
@@ -161,12 +164,23 @@ void IMouse::drawSelWpt(QPainter& p)
             wptInfo.x = cos(deg * DEG_TO_RAD) * 120;
             wptInfo.y = sin(deg * DEG_TO_RAD) * 120;
 
+            QPoint pt = mousePos - QPoint(wptInfo.x, wptInfo.y) - mousePosWptCircle;
+            if(rectIcon.contains(pt))
+            {
+                idxInfoBox = i;
+            }
+
+            p.setPen(CCanvas::penBorderBlue);
+            QPoint p0 = QPoint(wptInfo.xReal, wptInfo.yReal) - ref;
+            p.drawLine(p0, QPoint(wptInfo.x,wptInfo.y));
+
             drawSelWpt(p, wptInfo, eFeatWheel|eFeatName);
+
             deg += 45;
         }
 
         // if more than 7 waypoints display "more" message
-        if(selWpts.size() > 7)
+        if(selWpts.size() > 8)
         {
             int x = cos(deg * DEG_TO_RAD) * 120;
             int y = sin(deg * DEG_TO_RAD) * 120;
@@ -174,7 +188,7 @@ void IMouse::drawSelWpt(QPainter& p)
             p.save();
             p.translate(x, y);
 
-            QString str = tr("more...");
+            QString str = tr("too many...");
             CCanvas::drawText(str,p,QPoint(0,0));
 
             p.restore();
@@ -205,6 +219,12 @@ void IMouse::drawSelWpt(QPainter& p)
             p.restore();
         }
 
+        // display infobox for waypoint under mouse cursor, if any
+        if(idxInfoBox >= 0)
+        {
+            drawSelWpt(p, selWpts[idxInfoBox], eFeatInfoBox);
+        }
+
         p.restore(); // mousePos
     }
 }
@@ -233,7 +253,7 @@ void IMouse::drawSelWpt(QPainter& p, wpt_t& wptInfo, quint32 features)
             p.drawPixmap(rectDelWpt, QPixmap(":/icons/iconClear16x16.png"));
         }
 
-        if(selWpt->isMovable())
+        if(selWpt->isMovable() && (selWpts.size() == 1))
         {
             p.drawPixmap(rectMoveWpt, QPixmap(":/icons/iconMove16x16.png"));
         }
@@ -551,8 +571,8 @@ void IMouse::mouseMoveEventWpt(QMouseEvent * e)
                 double v = wptInfo.wpt->lat * DEG_TO_RAD;
                 map.convertRad2Pt(u,v);
 
-                wptInfo.x = u;
-                wptInfo.y = v;
+                wptInfo.x = wptInfo.xReal = u;
+                wptInfo.y = wptInfo.yReal = v;
 
             }
 
@@ -566,6 +586,12 @@ void IMouse::mouseMoveEventWpt(QMouseEvent * e)
         QPoint pt;
         wpt_t& wptInfo  = selWpts[i];
         selWpt          = wptInfo.wpt;
+
+        if(selWpt == 0)
+        {
+            continue;
+        }
+
 
         // mind the different offset values in wptInfo for single or multiple waypoints
         // @todo there must be a better way
@@ -725,6 +751,11 @@ void IMouse::mousePressEventWpt(QMouseEvent * e)
         CWpt * selWpt   = wptInfo.wpt;
         QPoint pos      = e->pos();
 
+        if(selWpt == 0)
+        {
+            continue;
+        }
+
         // mind the different offset values in wptInfo for single or multiple waypoints
         // @todo there must be a better way
         if(lockWptCircles)
@@ -738,10 +769,16 @@ void IMouse::mousePressEventWpt(QMouseEvent * e)
 
         if(rectDelWpt.contains(pt) && !selWpt->sticky)
         {
+            selWpts.removeAt(i);
+            if(selWpts.size() < 2)
+            {
+                lockWptCircles = false;
+            }
+
             CWptDB::self().delWpt(selWpt->getKey(), false, true);
             doBreak = true;
         }
-        else if(rectMoveWpt.contains(pt) && selWpt->isMovable())
+        else if(rectMoveWpt.contains(pt) && selWpt->isMovable() && (selWpts.size() == 1))
         {
             canvas->setMouseMode(CCanvas::eMouseMoveWpt);
 
