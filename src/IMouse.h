@@ -100,6 +100,7 @@ class IMouse : public QObject
              eFeatInfoBox = 0x00000001
             ,eFeatArrow   = 0x00000002
             ,eFeatWheel   = 0x00000004
+            ,eFeatName    = 0x00000008
             ,eFeatAll     = 0xFFFFFFFF
         };
 
@@ -184,9 +185,11 @@ class IMouse : public QObject
         bool doSpecialCursorWpt;
         bool doSpecialCursorSearch;
         bool doShowWptBuddies;
+        bool lockWptCircles;
 
         QPoint lastPoint;
         QPoint mousePos;
+        QPoint mousePosWptCircle;
 
         static QPointF pos1Pixel;
         static QPointF pos1LonLat;

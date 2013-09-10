@@ -78,10 +78,13 @@ void CMouseMoveMap::mousePressEvent(QMouseEvent * e)
 
         CTrack * track = CTrackDB::self().highlightedTrack();
 
-        if(selWpts.size() == 1)
+        if(!selWpts.isEmpty())
         {
-            CWpt * selWpt = selWpts.first().wpt;
-            CWptDB::self().selWptByKey(selWpt->getKey(), false);
+            if(selWpts.size() == 1)
+            {
+                CWpt * selWpt = selWpts.first().wpt;
+                CWptDB::self().selWptByKey(selWpt->getKey(), false);
+            }
             mousePressEventWpt(e);
         }
         else if(track && selTrkPt)

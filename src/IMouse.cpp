@@ -51,6 +51,7 @@ IMouse::IMouse(CCanvas * canvas)
 , doSpecialCursorWpt(false)
 , doSpecialCursorSearch(false)
 , doShowWptBuddies(false)
+, lockWptCircles(false)
 {
     rectMarkWpt         = QRect(16,-8,16,16);
     rectDelWpt          = QRect(-5, 3,16,16);
@@ -137,16 +138,19 @@ void IMouse::drawSelWpt(QPainter& p)
     if((selWpts.size() == 1) && !selWpts.first().wpt.isNull())
     {
         wpt_t& wptInfo = selWpts.first();
-        drawSelWpt(p, wptInfo, eFeatAll);
+        drawSelWpt(p, wptInfo, eFeatAll & (~eFeatName));
     }
     else if(selWpts.size() > 1)
     {
-        double deg = 0;
+        double deg = -90;
 
         p.save();
-        p.translate(mousePos);
+        p.translate(lockWptCircles ? mousePosWptCircle : mousePos);
 
-        for(int i = 0; i < selWpts.size(); i++)
+
+        // draw function circles for waypoints
+        int count = selWpts.size() < 8 ? selWpts.size() : 7;
+        for(int i = 0; i < count; i++)
         {
             wpt_t& wptInfo = selWpts[i];
             if(wptInfo.wpt.isNull())
@@ -157,20 +161,51 @@ void IMouse::drawSelWpt(QPainter& p)
             wptInfo.x = cos(deg * DEG_TO_RAD) * 120;
             wptInfo.y = sin(deg * DEG_TO_RAD) * 120;
 
-            drawSelWpt(p, wptInfo, eFeatWheel);
-
-            p.save();
-
-            p.rotate(deg);
-            p.translate(150,0);
-            CCanvas::drawText(wptInfo.wpt->getName(),p,QPoint(0,0));
-
-            p.restore();
-
+            drawSelWpt(p, wptInfo, eFeatWheel|eFeatName);
             deg += 45;
         }
 
-        p.restore();
+        // if more than 7 waypoints display "more" message
+        if(selWpts.size() > 7)
+        {
+            int x = cos(deg * DEG_TO_RAD) * 120;
+            int y = sin(deg * DEG_TO_RAD) * 120;
+
+            p.save();
+            p.translate(x, y);
+
+            QString str = tr("more...");
+            CCanvas::drawText(str,p,QPoint(0,0));
+
+            p.restore();
+        }
+
+        // display help box
+        {
+            QString str = tr("Left click to lock circles.\nThen select function from circle.\nLeft click to canvas to un-lock circles.");
+            QFont           f       = CResources::self().getMapFont();
+            QFontMetrics    fm(f);
+            QRect           rText   = fm.boundingRect(QRect(0,0,300,0), Qt::AlignCenter|Qt::TextWordWrap, str);
+            QRect           rFrame(0, 0, 1,1);
+
+            rFrame.setWidth(rText.width() + 20);
+            rFrame.setHeight(rText.height() + 20);
+            rText.moveTopLeft(QPoint(10, 10));
+
+            p.save();
+            p.translate(-rFrame.width()/2, 180);
+
+            p.setPen(CCanvas::penBorderBlue);
+            p.setBrush(CCanvas::brushBackWhite);
+            PAINT_ROUNDED_RECT(p,rFrame);
+
+            p.setFont(CResources::self().getMapFont());
+            p.setPen(Qt::darkBlue);
+            p.drawText(rText, Qt::AlignJustify|Qt::AlignCenter|Qt::TextWordWrap,str);
+            p.restore();
+        }
+
+        p.restore(); // mousePos
     }
 }
 
@@ -295,6 +330,48 @@ void IMouse::drawSelWpt(QPainter& p, wpt_t& wptInfo, quint32 features)
         arrow << QPoint(0, -ARROWDIR_H/2) << QPoint(-ARROWDIR_W/2, ARROWDIR_H/2) << QPoint(0, ARROWDIR_H/3) << QPoint(ARROWDIR_W/2, ARROWDIR_H/2);
 
         p.drawPolygon(arrow);
+
+        p.restore();
+    }
+
+    if(features & eFeatName)
+    {
+        p.save();
+        p.translate(u,v);
+
+        QPainterPath path(QPoint(0,-40));
+        path.arcTo(QRectF(-40,-40,80,80),90,-360);
+
+        QString name = selWpt->getName();
+        QFontMetricsF fm(p.font());
+
+        for ( int i = 0; i < name.size(); i++ )
+        {
+            qreal percent = path.percentAtLength((fm.width("X") + 1)*i);
+            QPointF point = path.pointAtPercent(percent);
+            qreal angle   = path.angleAtPercent(percent);
+
+            p.save();
+            p.translate(point);
+            p.rotate(-angle);
+
+
+            QString str = name.mid(i,1);
+            p.setPen(Qt::white);
+            p.drawText(-1,-1,str);
+            p.drawText( 0,-1,str);
+            p.drawText(+1,-1,str);
+            p.drawText(-1, 0,str);
+            p.drawText(+1, 0,str);
+            p.drawText(-1,+1,str);
+            p.drawText( 0,+1,str);
+            p.drawText(+1,+1,str);
+
+            p.setPen(Qt::darkBlue);
+            p.drawText( 0, 0,str);
+
+            p.restore();
+          }
 
         p.restore();
     }
@@ -438,6 +515,7 @@ void IMouse::drawSelRtePt(QPainter& p)
 
 void IMouse::mouseMoveEventWpt(QMouseEvent * e)
 {
+
     QPoint pos      = e->pos();
     IMap& map       = CMapDB::self().getMap();
     CWpt * oldWpt   = 0;
@@ -449,61 +527,55 @@ void IMouse::mouseMoveEventWpt(QMouseEvent * e)
         oldWpt = selWpt;
     }
 
-    selWpts.clear();
 
-    // find the waypoint close to the cursor
-    QMap<QString,CWpt*>::const_iterator wpt = CWptDB::self().begin();
-    while(wpt != CWptDB::self().end())
+    if(!lockWptCircles)
     {
-        double u = (*wpt)->lon * DEG_TO_RAD;
-        double v = (*wpt)->lat * DEG_TO_RAD;
-        map.convertRad2Pt(u,v);
+        selWpts.clear();
 
-        if(((pos.x() - u) * (pos.x() - u) + (pos.y() - v) * (pos.y() - v)) < 1225)
+        // find the waypoint close to the cursor
+        QMap<QString,CWpt*>::const_iterator wpt = CWptDB::self().begin();
+        while(wpt != CWptDB::self().end())
         {
-            selWpts << wpt_t();
-
-            wpt_t& wptInfo = selWpts.last();
-            wptInfo.wpt = *wpt;
-
-            double u = wptInfo.wpt->lon * DEG_TO_RAD;
-            double v = wptInfo.wpt->lat * DEG_TO_RAD;
+            double u = (*wpt)->lon * DEG_TO_RAD;
+            double v = (*wpt)->lat * DEG_TO_RAD;
             map.convertRad2Pt(u,v);
 
-            wptInfo.x = u;
-            wptInfo.y = v;
+            if(((pos.x() - u) * (pos.x() - u) + (pos.y() - v) * (pos.y() - v)) < 1225)
+            {
+                selWpts << wpt_t();
 
+                wpt_t& wptInfo = selWpts.last();
+                wptInfo.wpt = *wpt;
+
+                double u = wptInfo.wpt->lon * DEG_TO_RAD;
+                double v = wptInfo.wpt->lat * DEG_TO_RAD;
+                map.convertRad2Pt(u,v);
+
+                wptInfo.x = u;
+                wptInfo.y = v;
+
+            }
+
+            ++wpt;
         }
-
-        ++wpt;
     }
 
-    // check for cursor-over-function
-    if(selWpts.size() == 1)
+    // check for cursor-over-function @todo this has to be done over all waypoints
+    for(int i = 0; i < selWpts.size(); i++)
     {
-        selWpt = selWpts.first().wpt;
+        QPoint pt;
+        wpt_t& wptInfo  = selWpts[i];
+        selWpt          = wptInfo.wpt;
 
-        double u = selWpt->lon * DEG_TO_RAD;
-        double v = selWpt->lat * DEG_TO_RAD;
-        map.convertRad2Pt(u,v);
-
-        QPoint pt = pos - QPoint(u - 24, v - 24);
-
-        if(rectDelWpt.contains(pt) || rectCopyWpt.contains(pt) || rectMoveWpt.contains(pt) || rectEditWpt.contains(pt) || rectViewWpt.contains(pt))
+        // mind the different offset values in wptInfo for single or multiple waypoints
+        // @todo there must be a better way
+        if(lockWptCircles)
         {
-            if(!doSpecialCursorWpt)
-            {
-                QApplication::setOverrideCursor(Qt::PointingHandCursor);
-                doSpecialCursorWpt = true;
-            }
+            pt = pos - QPoint(wptInfo.x - 24, wptInfo.y - 24) - mousePosWptCircle;
         }
         else
         {
-            if(doSpecialCursorWpt)
-            {
-                QApplication::restoreOverrideCursor();
-                doSpecialCursorWpt = false;
-            }
+            pt = pos - QPoint(wptInfo.x - 24, wptInfo.y - 24);
         }
 
         if(selWpt->isGeoCache())
@@ -521,8 +593,29 @@ void IMouse::mouseMoveEventWpt(QMouseEvent * e)
                 canvas->update();
             }
         }
+
+        // this has to be the last thing in the loop to do, as we break if a waypoint matches
+        if(rectDelWpt.contains(pt) || rectCopyWpt.contains(pt) || rectMoveWpt.contains(pt) || rectEditWpt.contains(pt) || rectViewWpt.contains(pt))
+        {
+            if(!doSpecialCursorWpt)
+            {
+                QApplication::setOverrideCursor(Qt::PointingHandCursor);
+                doSpecialCursorWpt = true;
+            }
+            break;
+        }
+        else
+        {
+            if(doSpecialCursorWpt)
+            {
+                QApplication::restoreOverrideCursor();
+                doSpecialCursorWpt = false;
+            }
+        }
+
     }
-    else
+
+    if(selWpts.isEmpty())
     {
         if(doSpecialCursorWpt)
         {
@@ -617,54 +710,92 @@ void IMouse::mousePressEventWpt(QMouseEvent * e)
 {
     if(selWpts.isEmpty()) return;
 
-    wpt_t& wptInfo = selWpts.first();
-    CWpt * selWpt  = wptInfo.wpt;
-
-    QPoint pos  = e->pos();
-    double u    = wptInfo.x;
-    double v    = wptInfo.y;
-
-    QPoint pt = pos - QPoint(u - 24, v - 24);
-    if(rectDelWpt.contains(pt) && !selWpt->sticky)
+    if(selWpts.size() > 1 && !lockWptCircles)
     {
-        CWptDB::self().delWpt(selWpt->getKey(), false, true);
+        lockWptCircles = true;
+        mousePosWptCircle = e->pos();
+        return;
     }
-    else if(rectMoveWpt.contains(pt) && selWpt->isMovable())
+
+    bool doBreak = false;
+    for(int i = 0; i < selWpts.size(); i++)
     {
-        canvas->setMouseMode(CCanvas::eMouseMoveWpt);
+        QPoint pt;
+        wpt_t& wptInfo  = selWpts[i];
+        CWpt * selWpt   = wptInfo.wpt;
+        QPoint pos      = e->pos();
 
-        QMouseEvent event1(QEvent::MouseMove, QPoint(u,v), Qt::NoButton, Qt::NoButton, Qt::NoModifier);
-        QCoreApplication::sendEvent(canvas,&event1);
+        // mind the different offset values in wptInfo for single or multiple waypoints
+        // @todo there must be a better way
+        if(lockWptCircles)
+        {
+            pt = pos - QPoint(wptInfo.x - 24, wptInfo.y - 24) - mousePosWptCircle;
+        }
+        else
+        {
+            pt = pos - QPoint(wptInfo.x - 24, wptInfo.y - 24);
+        }
 
-        QMouseEvent event2(QEvent::MouseButtonPress, QPoint(u,v), Qt::LeftButton, Qt::NoButton, Qt::NoModifier);
-        QCoreApplication::sendEvent(canvas,&event2);
+        if(rectDelWpt.contains(pt) && !selWpt->sticky)
+        {
+            CWptDB::self().delWpt(selWpt->getKey(), false, true);
+            doBreak = true;
+        }
+        else if(rectMoveWpt.contains(pt) && selWpt->isMovable())
+        {
+            canvas->setMouseMode(CCanvas::eMouseMoveWpt);
+
+            QMouseEvent event1(QEvent::MouseMove, QPoint(wptInfo.x,wptInfo.y), Qt::NoButton, Qt::NoButton, Qt::NoModifier);
+            QCoreApplication::sendEvent(canvas,&event1);
+
+            QMouseEvent event2(QEvent::MouseButtonPress, QPoint(wptInfo.x,wptInfo.y), Qt::LeftButton, Qt::NoButton, Qt::NoModifier);
+            QCoreApplication::sendEvent(canvas,&event2);
+            doBreak = true;
+        }
+        else if(rectEditWpt.contains(pt))
+        {
+            CDlgEditWpt dlg(*selWpt,canvas);
+            dlg.exec();
+            doBreak = true;
+        }
+        else if(rectCopyWpt.contains(pt))
+        {
+            QString position;
+            GPS_Math_Deg_To_Str(selWpt->lon, selWpt->lat, position);
+
+            QClipboard *clipboard = QApplication::clipboard();
+            clipboard->setText(position);
+
+            selWpt = 0;
+            canvas->update();
+            doBreak = true;
+        }
+        else if(rectViewWpt.contains(pt) && !selWpt->images.isEmpty())
+        {
+            CImageViewer view(selWpt->images, 0, theMainWindow);
+            view.exec();
+            doBreak = true;
+        }
+        else if(rectMarkWpt.contains(pt))
+        {
+            CWptDB::self().selWptByKey(selWpt->getKey(), true);
+            canvas->update();
+            doBreak = true;
+        }
+
+        if(doBreak)
+        {
+            break;
+        }
     }
-    else if(rectEditWpt.contains(pt))
-    {
-        CDlgEditWpt dlg(*selWpt,canvas);
-        dlg.exec();
-    }
-    else if(rectCopyWpt.contains(pt))
-    {
-        QString position;
-        GPS_Math_Deg_To_Str(selWpt->lon, selWpt->lat, position);
 
-        QClipboard *clipboard = QApplication::clipboard();
-        clipboard->setText(position);
-
-        selWpt = 0;
+    if(lockWptCircles && !doBreak)
+    {
+        lockWptCircles = false;
+        selWpts.clear();
         canvas->update();
     }
-    else if(rectViewWpt.contains(pt) && !selWpt->images.isEmpty() /*&& !selWpt->images[0].filePath.isEmpty()*/)
-    {
-        CImageViewer view(selWpt->images, 0, theMainWindow);
-        view.exec();
-    }
-    else if(rectMarkWpt.contains(pt))
-    {
-        CWptDB::self().selWptByKey(selWpt->getKey(), true);
-        canvas->update();
-    }
+
 }
 
 
