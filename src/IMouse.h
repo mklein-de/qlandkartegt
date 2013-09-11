@@ -56,12 +56,12 @@ class IMouse : public QObject
         /// the mouse release event as defined by QWidget::mouseReleaseEvent
         virtual void mouseReleaseEvent(QMouseEvent * e) = 0;
         /// the mouse double click event as defined by QWidget::mouseDoubleClickEvent
-        virtual void mouseDoubleClickEvent(QMouseEvent * e){};
+        virtual void mouseDoubleClickEvent(QMouseEvent * e){}
 
         /// the key press event as defined by QWidget::keyPressEvent
-        virtual void keyPressEvent(QKeyEvent *) {};
+        virtual void keyPressEvent(QKeyEvent *) {}
         /// the key release event as defined by QWidget::keyPressEvent
-        virtual void keyReleaseEvent(QKeyEvent *) {};
+        virtual void keyReleaseEvent(QKeyEvent *) {}
 
         /// the current mouse cursor
         /**
@@ -91,6 +91,7 @@ class IMouse : public QObject
 #ifdef GPX_EXTENSIONS
         CGpxExtTr tr_ext;        //TODO: CGpxExtPt -> tr_ext
 #endif
+
     protected slots:
         void slotSetPos1();
 
@@ -106,15 +107,25 @@ class IMouse : public QObject
 
         struct wpt_t
         {
-            wpt_t(): x(0), y(0){}
+            wpt_t(): x(0), y(0), order(0x7FFFFFFF), dist(0x7FFFFFFF){}
+
+            bool operator<(const wpt_t& w) const
+            {
+                if(order == w.order)
+                {
+                    return dist < w.dist;
+                }
+                return order < w.order;
+            }
 
             QPointer<CWpt> wpt;
             int x;
             int y;
             int xReal;
             int yReal;
+            int order;
+            int dist;
         };
-
 
         /// for internal use to start a semi-transparent capture rectangle
         void startRect(const QPoint& p);
@@ -147,6 +158,8 @@ class IMouse : public QObject
         void mouseMoveEventSearch(QMouseEvent * e);
         ///
         void mouseMoveEventMapSel(QMouseEvent * e);
+
+        void sortSelWpts(QList<wpt_t>& list);
 
         /// trigger waypoint function
         void mousePressEventWpt(QMouseEvent * e);

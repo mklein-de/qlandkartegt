@@ -134,6 +134,70 @@ void IMouse::drawPos1(QPainter& p)
 }
 
 
+void IMouse::sortSelWpts(QList<wpt_t>& list)
+{
+    struct d_t{int a[8];};
+    struct p_t{int x; int y;};
+    const p_t pts[8]    = {{0, -119}, {85, -84}, {120, 0}, {85, 85}, {0, 120}, {-84, 85}, {-119, 0}, {-84, -84}};
+    int nWpts           = list.size() > 8 ? 8 : list.size();
+    d_t * dist          = new d_t[nWpts];
+    QPoint ref          = lockWptCircles ? mousePosWptCircle : mousePos;
+
+
+    for(int i = 0; i < nWpts; i++)
+    {
+        QPoint p0       = QPoint(list[i].xReal, list[i].yReal) - ref;
+        list[i].order   = 0x7FFFFFFF;
+        list[i].dist    = 0x7FFFFFFF;
+
+        for(int j = 0; j < 8; j++)
+        {
+            dist[i].a[j] = (pts[j].x - p0.x()) * (pts[j].x - p0.x()) + (pts[j].y - p0.y()) * (pts[j].y - p0.y());
+        }
+    }
+
+    // search for each position in the cycle best matching waypoint by distance
+    for(int j = 0; j < 8; j++)
+    {
+        int idx = -1;
+
+        // check over all waypoints
+        for(int i = 0; i < nWpts; i++)
+        {
+            wpt_t& wpt = list[i];
+
+            // waypoint is closer to this position than to any other position befor:
+            if(dist[i].a[j] < wpt.dist && wpt.order == 0x7FFFFFFF)
+            {
+                idx = i;
+            }
+        }
+
+        if(idx != -1)
+        {
+            wpt_t& wpt = list[idx];
+            // replace distance as new lowest distance
+            wpt.dist  = dist[idx].a[j];
+            // replace position as new closest position
+            wpt.order = j;
+        }
+    }
+
+
+    // convert positions to coordinates
+    for(int i = 0; i < nWpts; i++)
+    {
+        wpt_t& wpt = list[i];
+        wpt.x = pts[wpt.order].x;
+        wpt.y = pts[wpt.order].y;
+    }
+
+    qSort(list);
+
+    delete [] dist;
+}
+
+
 void IMouse::drawSelWpt(QPainter& p)
 {
     if((selWpts.size() == 1) && !selWpts.first().wpt.isNull())
@@ -144,12 +208,29 @@ void IMouse::drawSelWpt(QPainter& p)
     else if(selWpts.size() > 1)
     {
         int idxInfoBox = -1;
-        double deg = -90;
+        double deg = -45;
 
         QPoint ref = lockWptCircles ? mousePosWptCircle : mousePos;
 
         p.save();
         p.translate(ref);
+
+        // remove invalid entries
+//        QList<wpt_t>::iterator wpt = selWpts.begin();
+//        while(wpt != selWpts.end())
+//        {
+//            if(wpt->wpt.isNull())
+//            {
+//                wpt = selWpts.erase(wpt);
+//            }
+//            else
+//            {
+//                wpt++;
+//            }
+//        }
+
+        // sort list to form a nice circle
+        //sortSelWpts(selWpts);
 
         // draw function circles for waypoints
         int count = selWpts.size() < 9 ? selWpts.size() : 7;
@@ -196,7 +277,7 @@ void IMouse::drawSelWpt(QPainter& p)
 
         // display help box
         {
-            QString str = tr("Left click to lock circles.\nThen select function from circle.\nLeft click to canvas to un-lock circles.");
+            QString str = tr("Left click to lock circles.\nThen select function from circle.\nLeft click on canvas to un-lock circles.");
             QFont           f       = CResources::self().getMapFont();
             QFontMetrics    fm(f);
             QRect           rText   = fm.boundingRect(QRect(0,0,300,0), Qt::AlignCenter|Qt::TextWordWrap, str);
