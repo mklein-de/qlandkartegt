@@ -69,6 +69,7 @@ CDlgEditWpt::CDlgEditWpt(CWpt &wpt, QWidget * parent)
         toolIcon->setEnabled(false);
         lineName->setEnabled(false);
         linePosition->setEnabled(false);
+        tabWidget->setCurrentIndex(1);
     }
 
 #ifdef HAS_DMTX

@@ -138,50 +138,83 @@ void IMouse::sortSelWpts(QList<wpt_t>& list)
 {
     struct d_t{int a[8];};
     struct p_t{int x; int y;};
-    const p_t pts[8]    = {{0, -119}, {85, -84}, {120, 0}, {85, 85}, {0, 120}, {-84, 85}, {-119, 0}, {-84, -84}};
+    const p_t pts[8]    = {{85, -84}, {120, 0}, {85, 85}, {0, 120}, {-84, 85}, {-119, 0}, {-84, -84}, {0, -119}};
     int nWpts           = list.size() > 8 ? 8 : list.size();
     d_t * dist          = new d_t[nWpts];
     QPoint ref          = lockWptCircles ? mousePosWptCircle : mousePos;
+    int order[8]        = {-1,-1,-1,-1,-1,-1,-1,-1};
 
 
-    for(int i = 0; i < nWpts; i++)
+    // sort waypoints to be closest to the reference point
+    for(int i = 0; i < list.size(); i++)
     {
         QPoint p0       = QPoint(list[i].xReal, list[i].yReal) - ref;
         list[i].order   = 0x7FFFFFFF;
-        list[i].dist    = 0x7FFFFFFF;
+        list[i].dist    = p0.x()*p0.x() + p0.y()*p0.y();
+    }
+    qSort(list);
 
+    // calculate distance matrix for the first 8 waypoints
+    for(int i = 0; i < nWpts; i++)
+    {
+        QPoint p0       = QPoint(list[i].xReal, list[i].yReal) - ref;
+        list[i].dist    = 0x7FFFFFFF;
         for(int j = 0; j < 8; j++)
         {
             dist[i].a[j] = (pts[j].x - p0.x()) * (pts[j].x - p0.x()) + (pts[j].y - p0.y()) * (pts[j].y - p0.y());
         }
     }
 
-    // search for each position in the cycle best matching waypoint by distance
-    for(int j = 0; j < 8; j++)
+    // now start the sorting hell
+    for(int i = 0; i < nWpts; i++)
     {
-        int idx = -1;
-
-        // check over all waypoints
-        for(int i = 0; i < nWpts; i++)
+        // basically we try to find the position in the circle with the shortest distance to the waypoint
+        int minDist = 0x7FFFFFFF;
+        int minIdx  = -1;
+        for(int j = 0; j < 8; j++)
         {
-            wpt_t& wpt = list[i];
-
-            // waypoint is closer to this position than to any other position befor:
-            if(dist[i].a[j] < wpt.dist && wpt.order == 0x7FFFFFFF)
+            // if the distance is less than any seen sofar:
+            if(dist[i].a[j]  < minDist)
             {
-                idx = i;
+                // test if this position is occupied by any other waypoint than the current one
+                if(order[j] != -1 && order[j] != i)
+                {
+                    // position conflict! who wins?
+                    if(list[order[j]].dist > dist[i].a[j])
+                    {
+                        // the current waypoints has a shorter distance than the one right now on this position
+                        minDist = dist[i].a[j];
+                        minIdx  = j;
+
+                        // we can't actually replace the waypoints now, as this is still an
+                        // intermediate result. maybe a later position is better than this
+                        // on. In this case we wouldn't like to replace the waypoint.
+                    }
+                }
+                else
+                {
+                    // trivial: position is vacant or allready occupied by current waypoint
+                    minDist = dist[i].a[j];
+                    minIdx  = j;
+                }
             }
         }
 
-        if(idx != -1)
-        {
-            wpt_t& wpt = list[idx];
-            // replace distance as new lowest distance
-            wpt.dist  = dist[idx].a[j];
-            // replace position as new closest position
-            wpt.order = j;
-        }
+        // finally, we have a result
+        wpt_t& wpt      = list[i];
+        wpt.dist        = minDist;
+        wpt.order       = minIdx;
+
+        // now we replace the waypoint in the order list.
+        int tmp = order[minIdx];
+        order[minIdx] = i;
+
+        // repeat the search for the waypoint that has been kicked out
+        // @todo manipulating the counter is not a good idea. better to use recursive functions
+        if(tmp != -1 && tmp != i) i = tmp - 1;
+
     }
+
 
 
     // convert positions to coordinates
@@ -230,7 +263,7 @@ void IMouse::drawSelWpt(QPainter& p)
 //        }
 
         // sort list to form a nice circle
-        //sortSelWpts(selWpts);
+        sortSelWpts(selWpts);
 
         // draw function circles for waypoints
         int count = selWpts.size() < 9 ? selWpts.size() : 7;
@@ -242,8 +275,8 @@ void IMouse::drawSelWpt(QPainter& p)
                 continue;
             }
 
-            wptInfo.x = cos(deg * DEG_TO_RAD) * 120;
-            wptInfo.y = sin(deg * DEG_TO_RAD) * 120;
+//            wptInfo.x = cos(deg * DEG_TO_RAD) * 120;
+//            wptInfo.y = sin(deg * DEG_TO_RAD) * 120;
 
             QPoint pt = mousePos - QPoint(wptInfo.x, wptInfo.y) - mousePosWptCircle;
             if(rectIcon.contains(pt))
@@ -685,7 +718,7 @@ void IMouse::mouseMoveEventWpt(QMouseEvent * e)
             pt = pos - QPoint(wptInfo.x - 24, wptInfo.y - 24);
         }
 
-        if(selWpt->isGeoCache())
+        if(selWpt->isGeoCache() && (selWpts.size() == 1))
         {
             if(!doShowWptBuddies && rectMoveWpt.contains((pt)))
             {
@@ -699,6 +732,11 @@ void IMouse::mouseMoveEventWpt(QMouseEvent * e)
                 doShowWptBuddies = false;
                 canvas->update();
             }
+        }
+        else
+        {
+            selWpt->showBuddies(false);
+            doShowWptBuddies = false;
         }
 
         // this has to be the last thing in the loop to do, as we break if a waypoint matches
@@ -857,6 +895,7 @@ void IMouse::mousePressEventWpt(QMouseEvent * e)
             }
 
             CWptDB::self().delWpt(selWpt->getKey(), false, true);
+            canvas->update();
             doBreak = true;
         }
         else if(rectMoveWpt.contains(pt) && selWpt->isMovable() && (selWpts.size() == 1))
