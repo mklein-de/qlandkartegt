@@ -144,7 +144,6 @@ void IMouse::sortSelWpts(QList<wpt_t>& list)
     QPoint ref          = lockWptCircles ? mousePosWptCircle : mousePos;
     int order[8]        = {-1,-1,-1,-1,-1,-1,-1,-1};
 
-
     // sort waypoints to be closest to the reference point
     for(int i = 0; i < list.size(); i++)
     {
@@ -153,6 +152,7 @@ void IMouse::sortSelWpts(QList<wpt_t>& list)
         list[i].dist    = p0.x()*p0.x() + p0.y()*p0.y();
     }
     qSort(list);
+
 
     // calculate distance matrix for the first 8 waypoints
     for(int i = 0; i < nWpts; i++)
@@ -243,27 +243,10 @@ void IMouse::drawSelWpt(QPainter& p)
         int idxInfoBox = -1;
         double deg = -45;
 
-        QPoint ref = lockWptCircles ? mousePosWptCircle : mousePos;
+        QPointF ref = lockWptCircles ? mousePosWptCircle : mousePos;
 
         p.save();
         p.translate(ref);
-
-        // remove invalid entries
-//        QList<wpt_t>::iterator wpt = selWpts.begin();
-//        while(wpt != selWpts.end())
-//        {
-//            if(wpt->wpt.isNull())
-//            {
-//                wpt = selWpts.erase(wpt);
-//            }
-//            else
-//            {
-//                wpt++;
-//            }
-//        }
-
-        // sort list to form a nice circle
-        sortSelWpts(selWpts);
 
         // draw function circles for waypoints
         int count = selWpts.size() < 9 ? selWpts.size() : 7;
@@ -275,18 +258,23 @@ void IMouse::drawSelWpt(QPainter& p)
                 continue;
             }
 
-//            wptInfo.x = cos(deg * DEG_TO_RAD) * 120;
-//            wptInfo.y = sin(deg * DEG_TO_RAD) * 120;
-
             QPoint pt = mousePos - QPoint(wptInfo.x, wptInfo.y) - mousePosWptCircle;
-            if(rectIcon.contains(pt))
+            if(sqrt(pt.x()*pt.x() + pt.y()*pt.y()) < 35)
             {
                 idxInfoBox = i;
             }
 
             p.setPen(CCanvas::penBorderBlue);
-            QPoint p0 = QPoint(wptInfo.xReal, wptInfo.yReal) - ref;
-            p.drawLine(p0, QPoint(wptInfo.x,wptInfo.y));
+            QPointF p0 = QPointF(wptInfo.xReal, wptInfo.yReal) - ref;
+            QPointF p1 = QPointF(wptInfo.x, wptInfo.y);
+
+            double d = sqrt((p0.x() - p1.x())*(p0.x() - p1.x()) + (p0.y() - p1.y())*(p0.y() - p1.y()));
+            double r = 40 / d;
+
+            double x = r * p0.x() + (1 - r) * p1.x();
+            double y = r * p0.y() + (1 - r) * p1.y();
+
+            p.drawLine(p0, QPointF(x,y));
 
             drawSelWpt(p, wptInfo, eFeatWheel|eFeatName);
 
@@ -336,7 +324,7 @@ void IMouse::drawSelWpt(QPainter& p)
         // display infobox for waypoint under mouse cursor, if any
         if(idxInfoBox >= 0)
         {
-            drawSelWpt(p, selWpts[idxInfoBox], eFeatInfoBox);
+            drawSelWpt(p, selWpts[idxInfoBox], eFeatInfoBox|eFeatArrow);
         }
 
         p.restore(); // mousePos
@@ -470,14 +458,22 @@ void IMouse::drawSelWpt(QPainter& p, wpt_t& wptInfo, quint32 features)
 
     if(features & eFeatName)
     {
+        int off;
         p.save();
         p.translate(u,v);
 
-        QPainterPath path(QPoint(0,-40));
-        path.arcTo(QRectF(-40,-40,80,80),90,-360);
-
         QString name = selWpt->getName();
         QFontMetricsF fm(p.font());
+
+        off = 35 + 3 + floor(fm.height()/2);
+        p.setPen(QPen(CCanvas::brushBackWhite,fm.height()));
+        p.setBrush(Qt::NoBrush);
+        p.drawEllipse(-off,-off,2*off,2*off);
+
+
+        off = 35 + 4;
+        QPainterPath path(QPoint(0,-off));
+        path.arcTo(QRectF(-off,-off,off*2,off*2),90,-360);
 
         for ( int i = 0; i < name.size(); i++ )
         {
@@ -501,7 +497,7 @@ void IMouse::drawSelWpt(QPainter& p, wpt_t& wptInfo, quint32 features)
             p.drawText( 0,+1,str);
             p.drawText(+1,+1,str);
 
-            p.setPen(Qt::darkBlue);
+            p.setPen(CResources::self().wptTextColor());
             p.drawText( 0, 0,str);
 
             p.restore();
@@ -652,14 +648,7 @@ void IMouse::mouseMoveEventWpt(QMouseEvent * e)
 
     QPoint pos      = e->pos();
     IMap& map       = CMapDB::self().getMap();
-    CWpt * oldWpt   = 0;
-    CWpt * selWpt   = 0;
-
-    if(selWpts.size() == 1)
-    {
-        selWpt = selWpts.first().wpt;
-        oldWpt = selWpt;
-    }
+    int oldSize     = selWpts.size();
 
 
     if(!lockWptCircles)
@@ -692,6 +681,12 @@ void IMouse::mouseMoveEventWpt(QMouseEvent * e)
 
             ++wpt;
         }
+
+        if(selWpts.size() > 1)
+        {
+            sortSelWpts(selWpts);
+        }
+
     }
 
     // check for cursor-over-function @todo this has to be done over all waypoints
@@ -699,7 +694,7 @@ void IMouse::mouseMoveEventWpt(QMouseEvent * e)
     {
         QPoint pt;
         wpt_t& wptInfo  = selWpts[i];
-        selWpt          = wptInfo.wpt;
+        CWpt * selWpt   = wptInfo.wpt;
 
         if(selWpt == 0)
         {
@@ -767,21 +762,13 @@ void IMouse::mouseMoveEventWpt(QMouseEvent * e)
             QApplication::restoreOverrideCursor();
             doSpecialCursorWpt = false;
         }
-
-        if(oldWpt)
-        {
-            oldWpt->showBuddies(false);
-            doShowWptBuddies = false;
-        }
-
-        selWpt = 0;
     }
 
-    // do a canvas update on a change only
-    if(oldWpt != selWpt)
+    if(oldSize != selWpts.size() || selWpts.size() > 1)
     {
         canvas->update();
     }
+
 }
 
 
@@ -893,8 +880,10 @@ void IMouse::mousePressEventWpt(QMouseEvent * e)
             {
                 lockWptCircles = false;
             }
+            sortSelWpts(selWpts);
 
             CWptDB::self().delWpt(selWpt->getKey(), false, true);
+
             canvas->update();
             doBreak = true;
         }
