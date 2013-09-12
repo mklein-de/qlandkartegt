@@ -270,11 +270,10 @@ void IMouse::drawSelWpt(QPainter& p)
 
             double d = sqrt((p0.x() - p1.x())*(p0.x() - p1.x()) + (p0.y() - p1.y())*(p0.y() - p1.y()));
             double r = 40 / d;
-
             double x = r * p0.x() + (1 - r) * p1.x();
             double y = r * p0.y() + (1 - r) * p1.y();
-
             p.drawLine(p0, QPointF(x,y));
+            p.drawEllipse(p0,3,3);
 
             drawSelWpt(p, wptInfo, eFeatWheel|eFeatName);
 
