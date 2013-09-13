@@ -14,6 +14,7 @@
 
 **********************************************************************************************/
 
+#include "config.h"
 
 #ifdef _MSC_VER
 #define fseeko _fseeki64
@@ -419,14 +420,20 @@ static uint32_t scale2jnx(double scale)
 static char randChar()
 {
     char buf[2];
+#if defined(HAVE_ARC4RANDOM)
+    int r = (int)((arc4random() * 16.0) / UINT_MAX);
+#else
     int r = (int)((rand() * 16.0) / RAND_MAX);
+#endif
     sprintf(buf,"%X", r & 0x0F);
     return buf[0];
 }
 
 static void createGUID(char * guid)
 {
+#if !defined(HAVE_ARC4RANDOM)
     srand((unsigned int)time(0));
+#endif
 
     guid[0]     = randChar();
     guid[1]     = randChar();

@@ -16,6 +16,8 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 **********************************************************************************************/
+#include "config.h"
+
 #include <stdio.h>
 #include <limits>
 
@@ -173,7 +175,11 @@ void CTrackDB::loadGPX(CGpx& gpx)
         hasItems = true;
         CTrack* track = new CTrack(this);
                                  //preset a random color
+#if defined(HAVE_ARC4RANDOM)
+        track->setColor((arc4random() % 13)+1);
+#else
         track->setColor((rand() % 13)+1);
+#endif
 
         /*
          *  Global track information

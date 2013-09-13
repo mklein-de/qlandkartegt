@@ -19,6 +19,8 @@
 
 #cmakedefine HAVE_BIGENDIAN 1
 
+#cmakedefine HAVE_ARC4RANDOM 1
+
 /* build with native file dialogs */
 #define FILE_DIALOG_FLAGS ${FILEDIALOGFLAGS}
 

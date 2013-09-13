@@ -474,9 +474,12 @@ void IMouse::drawSelWpt(QPainter& p, wpt_t& wptInfo, quint32 features)
         QPainterPath path(QPoint(0,-off));
         path.arcTo(QRectF(-off,-off,off*2,off*2),90,-360);
 
+        int l = 1;
         for ( int i = 0; i < name.size(); i++ )
         {
-            qreal percent = path.percentAtLength((fm.width("X") + 1)*i);
+            QString str = name.mid(i,1);
+
+            qreal percent = path.percentAtLength(l);
             QPointF point = path.pointAtPercent(percent);
             qreal angle   = path.angleAtPercent(percent);
 
@@ -484,8 +487,6 @@ void IMouse::drawSelWpt(QPainter& p, wpt_t& wptInfo, quint32 features)
             p.translate(point);
             p.rotate(-angle);
 
-
-            QString str = name.mid(i,1);
             p.setPen(Qt::white);
             p.drawText(-1,-1,str);
             p.drawText( 0,-1,str);
@@ -500,6 +501,8 @@ void IMouse::drawSelWpt(QPainter& p, wpt_t& wptInfo, quint32 features)
             p.drawText( 0, 0,str);
 
             p.restore();
+
+            l += fm.width(str) + 2;
           }
 
         p.restore();
