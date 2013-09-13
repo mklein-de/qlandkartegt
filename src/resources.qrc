@@ -564,5 +564,6 @@
         <file>pics/timezones.png</file>
         <file>cursors/cursorMoveHorz.png</file>
         <file>cursors/cursorMoveVert.png</file>
+        <file>icons/iconMultipleImages16x16.png</file>
     </qresource>
 </RCC>

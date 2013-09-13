@@ -429,6 +429,10 @@ void IMouse::drawSelWpt(QPainter& p, wpt_t& wptInfo, quint32 features)
         if(!pic.isNull())
         {
             p.drawPixmap(10,10, pic);
+            if(selWpt->images.size() > 1)
+            {
+                p.drawPixmap(pic.width() + 10 - 16, pic.height() + 10 - 16, QPixmap("://icons/iconMultipleImages16x16.png"));
+            }
         }
 
         p.restore();
@@ -464,15 +468,15 @@ void IMouse::drawSelWpt(QPainter& p, wpt_t& wptInfo, quint32 features)
         QString name = selWpt->getName();
         QFontMetricsF fm(p.font());
 
+        off = 35 + 4;
+        QPainterPath path(QPoint(0,-off));
+        path.arcTo(QRectF(-off,-off,off*2,off*2),90,-360);
+
         off = 35 + 3 + floor(fm.height()/2);
         p.setPen(QPen(CCanvas::brushBackWhite,fm.height()));
         p.setBrush(Qt::NoBrush);
         p.drawEllipse(-off,-off,2*off,2*off);
 
-
-        off = 35 + 4;
-        QPainterPath path(QPoint(0,-off));
-        path.arcTo(QRectF(-off,-off,off*2,off*2),90,-360);
 
         int l = 1;
         for ( int i = 0; i < name.size(); i++ )
@@ -487,15 +491,15 @@ void IMouse::drawSelWpt(QPainter& p, wpt_t& wptInfo, quint32 features)
             p.translate(point);
             p.rotate(-angle);
 
-            p.setPen(Qt::white);
-            p.drawText(-1,-1,str);
-            p.drawText( 0,-1,str);
-            p.drawText(+1,-1,str);
-            p.drawText(-1, 0,str);
-            p.drawText(+1, 0,str);
-            p.drawText(-1,+1,str);
-            p.drawText( 0,+1,str);
-            p.drawText(+1,+1,str);
+//            p.setPen(Qt::white);
+//            p.drawText(-1,-1,str);
+//            p.drawText( 0,-1,str);
+//            p.drawText(+1,-1,str);
+//            p.drawText(-1, 0,str);
+//            p.drawText(+1, 0,str);
+//            p.drawText(-1,+1,str);
+//            p.drawText( 0,+1,str);
+//            p.drawText(+1,+1,str);
 
             p.setPen(CResources::self().wptTextColor());
             p.drawText( 0, 0,str);
@@ -715,7 +719,7 @@ void IMouse::mouseMoveEventWpt(QMouseEvent * e)
             pt = pos - QPoint(wptInfo.x - 24, wptInfo.y - 24);
         }
 
-        if(selWpt->isGeoCache() && (selWpts.size() == 1))
+        if(selWpt->isGeoCache() && ((selWpts.size() == 1) || lockWptCircles))
         {
             if(!doShowWptBuddies && rectMoveWpt.contains((pt)))
             {
