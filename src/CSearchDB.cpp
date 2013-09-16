@@ -5,12 +5,12 @@
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
-    
+
     This program is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU General Public License for more details.
-    
+
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
@@ -86,18 +86,19 @@ void CSearchDB::search(const QString& str, hosts_t host)
 
 void CSearchDB::startGoogle(const QString& str)
 {
-    QUrl url("http://maps.google.com");
     tmpResult.setName(str);
-    url.setPath("/maps/geo");
-    url.addQueryItem("q",str);
-    url.addQueryItem("output","csv");
-    url.addQueryItem("key",google_api_key);
+
+    QString addr = str;
+
+    QUrl url("http://maps.googleapis.com");
+    url.setPath("/maps/api/geocode/xml");
+    url.addQueryItem("address",addr.replace(" ","+"));
+    url.addQueryItem("sensor","false");
 
     QNetworkRequest request;
     request.setUrl(url);
     QNetworkReply * reply = networkAccessManager.get(request);
     pendingRequests[reply] = eGoogle;
-
 }
 
 
@@ -204,9 +205,6 @@ void CSearchDB::slotRequestFinished(QNetworkReply * reply)
         case eOpenRouteService:
             slotRequestFinishedOpenRouteService(data);
             break;
-            //        case eMapQuest:
-            //            slotRequestFinishedMapQuest(data);
-            //            break;
         case eGoogle:
             slotRequestFinishedGoogle(data);
             break;
@@ -222,64 +220,65 @@ void CSearchDB::slotRequestFinished(QNetworkReply * reply)
 
 void CSearchDB::slotRequestFinishedGoogle(QByteArray& data)
 {
+    QString stat;
+    QDomDocument xml;
+    QString status = tr("finished");
 
-    QString asw = data;
-    asw = asw.simplified();
+    xml.setContent(data);
+//    qDebug() << xml.toString();
 
-    if(asw.isEmpty())
+    QDomElement root = xml.documentElement();
+
+    if(root.tagName() != "GeocodeResponse")
     {
-        emit sigFinished();
-        return;
+        status = tr("Unknown response");
+        goto slotRequestFinishedGoogle_End;
     }
 
-    QStringList values = asw.split(",");
-
-    if(values.count() != 4)
+    stat = root.namedItem("status").toElement().text();
+    if(stat != "OK")
     {
-        emit sigStatus(tr("Bad number of return parameters"));
-    }
-    else if(values[0] == "200")
-    {
-
-        tmpResult.lat = values[2].toDouble();
-        tmpResult.lon = values[3].toDouble();
-
-        CSearch * item = new CSearch(this);
-        item->lon   = tmpResult.lon;
-        item->lat   = tmpResult.lat;
-        item->setName(tmpResult.getName());
-
-        results[item->getKey()] = item;
-
-        theMainWindow->getCanvas()->move(item->lon, item->lat);
-
-        emit sigStatus(tr("Success."));
-    }
-    else if(values[0] == "500")
-    {
-        emit sigStatus(tr("Failed. Reason unknown."));
-    }
-    else if(values[0] == "601")
-    {
-        emit sigStatus(tr("Failed. Missing query string."));
-    }
-    else if(values[0] == "602")
-    {
-        emit sigStatus(tr("Failed. No location found."));
-    }
-    else if(values[0] == "603")
-    {
-        emit sigStatus(tr("Failed. No location because of legal matters."));
-    }
-    else if(values[0] == "610")
-    {
-        emit sigStatus(tr("Failed. Bad API key."));
-    }
-    else
-    {
-        emit sigStatus(asw);
+        status  = tr("Error: ");
+        status += root.namedItem("error_message").toElement().text();
+        goto slotRequestFinishedGoogle_End;
     }
 
+    {
+        QDomNodeList entries = root.elementsByTagName("result");
+        const qint32 N = entries.size();
+        if(N)
+        {
+            for(int i = 0; i < N; i++)
+            {
+                CSearch * item = new CSearch(this);
+
+                QDomElement entry   = entries.item(i).toElement();
+                QDomElement address = entry.namedItem("formatted_address").toElement();
+                if(address.isElement())
+                {
+                    item->formatedText = address.text();
+                }
+
+                QDomNode geometry = entry.namedItem("geometry");
+                QDomNode location = geometry.namedItem("location");
+                QDomElement lng = location.namedItem("lng").toElement();
+                QDomElement lat = location.namedItem("lat").toElement();
+
+                QString strLng = lng.text();
+                QString strLat = lat.text();
+
+                item->lon   = strLng.toDouble();
+                item->lat   = strLat.toDouble();
+                item->setName(tmpResult.getName());
+                results[item->getKey()] = item;
+                theMainWindow->getCanvas()->move(item->lon, item->lat);
+
+            }
+        }
+    }
+
+slotRequestFinishedGoogle_End:
+    emit sigStatus(status);
     emit sigFinished();
     emitSigChanged();
 }
