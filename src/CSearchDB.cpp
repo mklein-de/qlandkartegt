@@ -31,7 +31,6 @@
 
 CSearchDB * CSearchDB::m_self;
 
-static const char google_api_key[] = "ABQIAAAAPztEvITCpkvDNrq-hFRvThQNZ4aRbgDVTL9C0r5u06RhgW2EtRR8yuKglxlHgpZfC5_TdLXlJvIWgA";
 
 CSearchDB::CSearchDB(QTabWidget * tb, QObject * parent)
 : IDB(IDB::eTypeSrc, tb, parent)
