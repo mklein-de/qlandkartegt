@@ -1,11 +1,20 @@
+--- 2013.09.16 ---
+Fix Google search
+
+Fix bugs due to database speed up of last release
+
+Improve function wheel for multiple waypoints with same coordinate
+
+Add icon to waypoint infobox to show if multiple images are attached.
+
 --- 2013.08.17 ---
 Garmin maps: Render polylines with a border a bit nicer
 
 Add option to hide/show info box for vector maps
 
-Add inforbox to vector mpas used as overlay
+Add infobox to vector maps used as overlay
 
-Add tooltip to vector mpas used as overlays
+Add tooltip to vector maps used as overlays
 
 Database: Optimized "workspace update" for a workspace with a lot of items
 
