@@ -133,16 +133,28 @@ void IMouse::drawPos1(QPainter& p)
     CCanvas::drawText(fi.fileName(), p, QRect(u,v, LENGTH, 20));
 }
 
-
+#define RADIUS_CIRCLES      130
+#define RADIUS_CIRCLE       35
+#define ANGLE_START         -45
 void IMouse::sortSelWpts(QList<wpt_t>& list)
 {
     struct d_t{int a[8];};
     struct p_t{int x; int y;};
-    const p_t pts[8]    = {{85, -84}, {120, 0}, {85, 85}, {0, 120}, {-84, 85}, {-119, 0}, {-84, -84}, {0, -119}};
-    int nWpts           = list.size() > 8 ? 8 : list.size();
-    d_t * dist          = new d_t[nWpts];
-    QPoint ref          = lockWptCircles ? mousePosWptCircle : mousePos;
-    int order[8]        = {-1,-1,-1,-1,-1,-1,-1,-1};
+    p_t pts[8];
+
+    int nWpts       = list.size() > 8 ? 8 : list.size();
+    d_t * dist      = new d_t[nWpts];
+    QPoint ref      = lockWptCircles ? mousePosWptCircle : mousePos;
+    int order[8]    = {-1,-1,-1,-1,-1,-1,-1,-1};
+
+    double deg = ANGLE_START;
+    for(int i = 0; i < 8; i++)
+    {
+        pts[i].x = cos(deg * DEG_TO_RAD) * RADIUS_CIRCLES;
+        pts[i].y = sin(deg * DEG_TO_RAD) * RADIUS_CIRCLES;
+        deg += 45;
+    }
+
 
     // sort waypoints to be closest to the reference point
     for(int i = 0; i < list.size(); i++)
@@ -241,7 +253,7 @@ void IMouse::drawSelWpt(QPainter& p)
     else if(selWpts.size() > 1)
     {
         int idxInfoBox = -1;
-        double deg = -45;
+        double deg = ANGLE_START;
 
         QPointF ref = lockWptCircles ? mousePosWptCircle : mousePos;
 
@@ -259,7 +271,7 @@ void IMouse::drawSelWpt(QPainter& p)
             }
 
             QPoint pt = mousePos - QPoint(wptInfo.x, wptInfo.y) - mousePosWptCircle;
-            if(sqrt(pt.x()*pt.x() + pt.y()*pt.y()) < 35)
+            if(sqrt(pt.x()*pt.x() + pt.y()*pt.y()) < RADIUS_CIRCLE)
             {
                 idxInfoBox = i;
             }
@@ -283,8 +295,8 @@ void IMouse::drawSelWpt(QPainter& p)
         // if more than 7 waypoints display "more" message
         if(selWpts.size() > 8)
         {
-            int x = cos(deg * DEG_TO_RAD) * 120;
-            int y = sin(deg * DEG_TO_RAD) * 120;
+            int x = cos(deg * DEG_TO_RAD) * RADIUS_CIRCLES;
+            int y = sin(deg * DEG_TO_RAD) * RADIUS_CIRCLES;
 
             p.save();
             p.translate(x, y);
@@ -308,7 +320,7 @@ void IMouse::drawSelWpt(QPainter& p)
             rText.moveTopLeft(QPoint(10, 10));
 
             p.save();
-            p.translate(-rFrame.width()/2, 180);
+            p.translate(-rFrame.width()/2, RADIUS_CIRCLES + RADIUS_CIRCLE + 15);
 
             p.setPen(CCanvas::penBorderBlue);
             p.setBrush(CCanvas::brushBackWhite);
@@ -343,7 +355,7 @@ void IMouse::drawSelWpt(QPainter& p, wpt_t& wptInfo, quint32 features)
 
         p.setPen(CCanvas::penBorderBlue);
         p.setBrush(CCanvas::brushBackWhite);
-        p.drawEllipse(u - 35, v - 35, 70, 70);
+        p.drawEllipse(u - RADIUS_CIRCLE, v - RADIUS_CIRCLE, RADIUS_CIRCLE*2, RADIUS_CIRCLE*2);
         p.drawPixmap(u - 8 , v - 8, icon);
 
         p.save();
@@ -367,7 +379,7 @@ void IMouse::drawSelWpt(QPainter& p, wpt_t& wptInfo, quint32 features)
         p.drawPixmap(rectCopyWpt, QPixmap(":/icons/iconClipboard16x16.png"));
         if(!selWpt->images.isEmpty() /*&& !selWpt->images[0].filePath.isEmpty()*/)
         {
-            p.drawPixmap(rectViewWpt, QPixmap(":/icons/iconRaster16x16.png"));
+            p.drawPixmap(rectViewWpt, QPixmap(":/icons/iconImage16x16.png"));
         }
 
         if(selWpt->selected)
@@ -416,7 +428,7 @@ void IMouse::drawSelWpt(QPainter& p, wpt_t& wptInfo, quint32 features)
         }
 
         p.save();
-        p.translate(u + 45, v);
+        p.translate(u + RADIUS_CIRCLE + 10, v);
 
         p.setPen(CCanvas::penBorderBlue);
         p.setBrush(CCanvas::brushBackWhite);
@@ -449,7 +461,7 @@ void IMouse::drawSelWpt(QPainter& p, wpt_t& wptInfo, quint32 features)
 
         p.translate(u, v);
         p.rotate(selWpt->dir);
-        p.translate(0,  - 37 - ARROWDIR_H/2);
+        p.translate(0,  - RADIUS_CIRCLE - 2 - ARROWDIR_H/2);
 
         QPolygon arrow;
         arrow << QPoint(0, -ARROWDIR_H/2) << QPoint(-ARROWDIR_W/2, ARROWDIR_H/2) << QPoint(0, ARROWDIR_H/3) << QPoint(ARROWDIR_W/2, ARROWDIR_H/2);
@@ -468,11 +480,11 @@ void IMouse::drawSelWpt(QPainter& p, wpt_t& wptInfo, quint32 features)
         QString name = selWpt->getName();
         QFontMetricsF fm(p.font());
 
-        off = 35 + 4;
+        off = RADIUS_CIRCLE + 4;
         QPainterPath path(QPoint(0,-off));
         path.arcTo(QRectF(-off,-off,off*2,off*2),90,-360);
 
-        off = 35 + 3 + floor(fm.height()/2);
+        off = RADIUS_CIRCLE + 3 + floor(fm.height()/2);
         p.setPen(QPen(CCanvas::brushBackWhite,fm.height()));
         p.setBrush(Qt::NoBrush);
         p.drawEllipse(-off,-off,2*off,2*off);
@@ -490,16 +502,6 @@ void IMouse::drawSelWpt(QPainter& p, wpt_t& wptInfo, quint32 features)
             p.save();
             p.translate(point);
             p.rotate(-angle);
-
-//            p.setPen(Qt::white);
-//            p.drawText(-1,-1,str);
-//            p.drawText( 0,-1,str);
-//            p.drawText(+1,-1,str);
-//            p.drawText(-1, 0,str);
-//            p.drawText(+1, 0,str);
-//            p.drawText(-1,+1,str);
-//            p.drawText( 0,+1,str);
-//            p.drawText(+1,+1,str);
 
             p.setPen(CResources::self().wptTextColor());
             p.drawText( 0, 0,str);
@@ -525,7 +527,7 @@ void IMouse::drawSelSearch(QPainter& p)
 
         p.setPen(CCanvas::penBorderBlue);
         p.setBrush(CCanvas::brushBackWhite);
-        p.drawEllipse(u - 35, v - 35, 70, 70);
+        p.drawEllipse(u - RADIUS_CIRCLE, v - RADIUS_CIRCLE, RADIUS_CIRCLE*2, RADIUS_CIRCLE*2);
         p.drawPixmap(u-8 , v-8, QPixmap(":/icons/iconBullseye16x16"));
 
         p.save();
