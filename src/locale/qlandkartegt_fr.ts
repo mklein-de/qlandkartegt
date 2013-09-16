@@ -4461,15 +4461,15 @@ distance: %1 %2</translation>
     </message>
     <message>
         <source>Failed. No location because of legal matters.</source>
-        <translation>Echec. Aucune localisation trouvé a cause de régles de légale.</translation>
+        <translation type="obsolete">Echec. Aucune localisation trouvé a cause de régles de légale.</translation>
     </message>
     <message>
         <source>Failed. No location found.</source>
-        <translation>Echec. Aucune localisation trouvé.</translation>
+        <translation type="obsolete">Echec. Aucune localisation trouvé.</translation>
     </message>
     <message>
         <source>Failed. Missing query string.</source>
-        <translation>Echec. Requete manquante.</translation>
+        <translation type="obsolete">Echec. Requete manquante.</translation>
     </message>
     <message>
         <source>no result</source>
@@ -4477,15 +4477,15 @@ distance: %1 %2</translation>
     </message>
     <message>
         <source>Failed. Bad API key.</source>
-        <translation>Echec. Mauvaise clé API.</translation>
+        <translation type="obsolete">Echec. Mauvaise clé API.</translation>
     </message>
     <message>
         <source>Failed. Reason unknown.</source>
-        <translation>Echec. Raison inconnu.</translation>
+        <translation type="obsolete">Echec. Raison inconnu.</translation>
     </message>
     <message>
         <source>Success.</source>
-        <translation>Succés.</translation>
+        <translation type="obsolete">Succés.</translation>
     </message>
     <message>
         <source>Unknown host.</source>
@@ -4493,11 +4493,19 @@ distance: %1 %2</translation>
     </message>
     <message>
         <source>Bad number of return parameters</source>
-        <translation>Mauvais nombre de paramétres en retour</translation>
+        <translation type="obsolete">Mauvais nombre de paramétres en retour</translation>
     </message>
     <message>
         <source>start searching...</source>
         <translation>Début de la recherche...</translation>
+    </message>
+    <message>
+        <source>Unknown response</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error: </source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -7686,6 +7694,19 @@ DEM: %2</translation>
     <message>
         <source>Selected Maps:</source>
         <translation>Cartes sélectionnés:</translation>
+    </message>
+</context>
+<context>
+    <name>IMouse</name>
+    <message>
+        <source>too many...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Left click to lock circles.
+Then select function from circle.
+Left click on canvas to un-lock circles.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

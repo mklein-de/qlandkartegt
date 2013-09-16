@@ -2627,94 +2627,94 @@ Cancelado a petición del usuario.
 <context>
     <name>CDlgEditWpt</name>
     <message>
-        <location filename="../CDlgEditWpt.cpp" line="276"/>
-        <location filename="../CDlgEditWpt.cpp" line="281"/>
+        <location filename="../CDlgEditWpt.cpp" line="277"/>
+        <location filename="../CDlgEditWpt.cpp" line="282"/>
         <source>Error</source>
         <translation>Error</translation>
     </message>
     <message>
-        <location filename="../CDlgEditWpt.cpp" line="281"/>
+        <location filename="../CDlgEditWpt.cpp" line="282"/>
         <source>You must provide a waypoint position.</source>
         <translation>Debe proporcionar una posición de waypoint.</translation>
     </message>
     <message>
-        <location filename="../CDlgEditWpt.cpp" line="320"/>
+        <location filename="../CDlgEditWpt.cpp" line="321"/>
         <source>(proj.)</source>
         <translation>(proj.)</translation>
     </message>
     <message>
-        <location filename="../CDlgEditWpt.cpp" line="354"/>
+        <location filename="../CDlgEditWpt.cpp" line="355"/>
         <source>Select image file</source>
         <translation>Seleccionar archivo de imagen</translation>
     </message>
     <message>
-        <location filename="../CDlgEditWpt.cpp" line="366"/>
-        <location filename="../CDlgEditWpt.cpp" line="608"/>
+        <location filename="../CDlgEditWpt.cpp" line="367"/>
+        <location filename="../CDlgEditWpt.cpp" line="609"/>
         <source>Add comment ...</source>
         <translation>Añadir comentario ...</translation>
     </message>
     <message>
-        <location filename="../CDlgEditWpt.cpp" line="366"/>
-        <location filename="../CDlgEditWpt.cpp" line="608"/>
+        <location filename="../CDlgEditWpt.cpp" line="367"/>
+        <location filename="../CDlgEditWpt.cpp" line="609"/>
         <source>comment</source>
         <translation>comentario</translation>
     </message>
     <message>
-        <location filename="../CDlgEditWpt.cpp" line="429"/>
+        <location filename="../CDlgEditWpt.cpp" line="430"/>
         <source>no image</source>
         <translation>sin imagen</translation>
     </message>
     <message>
-        <location filename="../CDlgEditWpt.cpp" line="452"/>
+        <location filename="../CDlgEditWpt.cpp" line="453"/>
         <source>Edit link ...</source>
         <translation>Editar enlace ...</translation>
     </message>
     <message>
-        <location filename="../CDlgEditWpt.cpp" line="452"/>
+        <location filename="../CDlgEditWpt.cpp" line="453"/>
         <source>Link: &apos;http://...&apos;</source>
         <translation>Enlace: &apos;http://...&apos;</translation>
     </message>
     <message>
-        <location filename="../CDlgEditWpt.cpp" line="456"/>
+        <location filename="../CDlgEditWpt.cpp" line="457"/>
         <source>None</source>
         <translation>Ninguno</translation>
     </message>
     <message>
-        <location filename="../CDlgEditWpt.cpp" line="474"/>
+        <location filename="../CDlgEditWpt.cpp" line="475"/>
         <source>Select output file</source>
         <translation>Seleccionar archivo de salida</translation>
     </message>
     <message>
-        <location filename="../CDlgEditWpt.cpp" line="497"/>
         <location filename="../CDlgEditWpt.cpp" line="498"/>
-        <location filename="../CDlgEditWpt.cpp" line="501"/>
+        <location filename="../CDlgEditWpt.cpp" line="499"/>
+        <location filename="../CDlgEditWpt.cpp" line="502"/>
         <source>%1
 </source>
         <translation>%1
 </translation>
     </message>
     <message>
-        <location filename="../CDlgEditWpt.cpp" line="639"/>
+        <location filename="../CDlgEditWpt.cpp" line="640"/>
         <source>Delete images...</source>
         <translation>Borrar imágenes...</translation>
     </message>
     <message>
-        <location filename="../CDlgEditWpt.cpp" line="639"/>
+        <location filename="../CDlgEditWpt.cpp" line="640"/>
         <source>Remove all other images first?</source>
         <translation>¿Eliminar el resto de imágenes primero?</translation>
     </message>
     <message>
-        <location filename="../CDlgEditWpt.cpp" line="721"/>
+        <location filename="../CDlgEditWpt.cpp" line="722"/>
         <source>No spoilers...</source>
         <translation>Sin spoilers...</translation>
     </message>
     <message>
-        <location filename="../CDlgEditWpt.cpp" line="721"/>
+        <location filename="../CDlgEditWpt.cpp" line="722"/>
         <source>No spoilers found.</source>
         <translation>No se encontraron spoilers.</translation>
     </message>
     <message>
-        <location filename="../CDlgEditWpt.cpp" line="276"/>
+        <location filename="../CDlgEditWpt.cpp" line="277"/>
         <source>You must provide a waypoint identifier.</source>
         <translation>Debe proporcionar un identificador de waypoint.</translation>
     </message>
@@ -5948,94 +5948,94 @@ línea %2, columna %3:
 <context>
     <name>CMouseMoveMap</name>
     <message>
-        <location filename="../CMouseMoveMap.cpp" line="100"/>
-        <location filename="../CMouseMoveMap.cpp" line="144"/>
+        <location filename="../CMouseMoveMap.cpp" line="104"/>
+        <location filename="../CMouseMoveMap.cpp" line="148"/>
         <source>Move map</source>
         <translation>Mover Mapa</translation>
     </message>
     <message>
-        <location filename="../CMouseMoveMap.cpp" line="197"/>
+        <location filename="../CMouseMoveMap.cpp" line="202"/>
         <source>Reload Map</source>
         <translation>Recargar mapa</translation>
     </message>
     <message>
-        <location filename="../CMouseMoveMap.cpp" line="202"/>
+        <location filename="../CMouseMoveMap.cpp" line="209"/>
         <source>Copy Pos. Waypoint</source>
         <translation>Copiar Pos. Waypoint</translation>
     </message>
     <message>
-        <location filename="../CMouseMoveMap.cpp" line="203"/>
+        <location filename="../CMouseMoveMap.cpp" line="210"/>
         <source>Edit Waypoint ...</source>
         <translation>Editar Waypoint...</translation>
     </message>
     <message>
-        <location filename="../CMouseMoveMap.cpp" line="207"/>
+        <location filename="../CMouseMoveMap.cpp" line="214"/>
         <source>Move Waypoint</source>
         <translation>Desplazar Waypoint</translation>
     </message>
     <message>
-        <location filename="../CMouseMoveMap.cpp" line="212"/>
+        <location filename="../CMouseMoveMap.cpp" line="219"/>
         <source>Delete Waypoint</source>
         <translation>Eliminar Waypoint</translation>
     </message>
     <message>
-        <location filename="../CMouseMoveMap.cpp" line="218"/>
+        <location filename="../CMouseMoveMap.cpp" line="225"/>
         <source>Add Waypoint ...</source>
         <translation>Añadir Waypoint ...</translation>
     </message>
     <message>
-        <location filename="../CMouseMoveMap.cpp" line="225"/>
+        <location filename="../CMouseMoveMap.cpp" line="232"/>
         <source>Open Pos. with Google Maps</source>
         <translation>Abrir Posición en Google Maps</translation>
     </message>
     <message>
-        <location filename="../CMouseMoveMap.cpp" line="226"/>
+        <location filename="../CMouseMoveMap.cpp" line="233"/>
         <source>Copy Pos. Trackpoint</source>
         <translation>Copiar Posición del punto del track</translation>
     </message>
     <message>
-        <location filename="../CMouseMoveMap.cpp" line="227"/>
+        <location filename="../CMouseMoveMap.cpp" line="234"/>
         <source>Edit Track ...</source>
         <translation>Editar track...</translation>
     </message>
     <message>
-        <location filename="../CMouseMoveMap.cpp" line="228"/>
+        <location filename="../CMouseMoveMap.cpp" line="235"/>
         <source>Split Track ...</source>
         <translation>Dividir track...</translation>
     </message>
     <message>
-        <location filename="../CMouseMoveMap.cpp" line="242"/>
+        <location filename="../CMouseMoveMap.cpp" line="249"/>
         <source>Grid: %1</source>
         <translation>Rejilla: %1</translation>
     </message>
     <message>
-        <location filename="../CMouseMoveMap.cpp" line="247"/>
+        <location filename="../CMouseMoveMap.cpp" line="254"/>
         <source>Grid: N %1m E %2m</source>
         <translation>Rejilla: N %1m E %2m</translation>
     </message>
     <message>
-        <location filename="../CMouseMoveMap.cpp" line="258"/>
+        <location filename="../CMouseMoveMap.cpp" line="265"/>
         <source>Map: N %1m E %2m</source>
         <translation>Mapa: N %1m E %2m</translation>
     </message>
     <message>
-        <location filename="../CMouseMoveMap.cpp" line="281"/>
+        <location filename="../CMouseMoveMap.cpp" line="288"/>
         <source>Crop: set pos. 1</source>
         <translation>Recortar: asignar pos. 1</translation>
     </message>
     <message>
-        <location filename="../CMouseMoveMap.cpp" line="288"/>
+        <location filename="../CMouseMoveMap.cpp" line="295"/>
         <source>Crop map: %1x%2 w:%3 h:%4</source>
         <translation>Recortar mapa: %1x%2 anchura:%3 altura:%4</translation>
     </message>
     <message>
-        <location filename="../CMouseMoveMap.cpp" line="330"/>
-        <location filename="../CMouseMoveMap.cpp" line="345"/>
+        <location filename="../CMouseMoveMap.cpp" line="337"/>
+        <location filename="../CMouseMoveMap.cpp" line="352"/>
         <source>N %1m E %2m</source>
         <translation>N %1m E %2m</translation>
     </message>
     <message>
-        <location filename="../CMouseMoveMap.cpp" line="277"/>
+        <location filename="../CMouseMoveMap.cpp" line="284"/>
         <source>Pixel %1x%2 (%3)</source>
         <translation>Píxel %1x%2 (%3)</translation>
     </message>
@@ -6607,54 +6607,58 @@ longitud: %1 %2</translation>
 <context>
     <name>CSearchDB</name>
     <message>
-        <location filename="../CSearchDB.cpp" line="80"/>
-        <location filename="../CSearchDB.cpp" line="214"/>
+        <location filename="../CSearchDB.cpp" line="79"/>
+        <location filename="../CSearchDB.cpp" line="211"/>
         <source>Unknown host.</source>
         <translation>Máquina desconocida.</translation>
     </message>
     <message>
-        <location filename="../CSearchDB.cpp" line="67"/>
+        <location filename="../CSearchDB.cpp" line="233"/>
+        <source>Unknown response</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../CSearchDB.cpp" line="240"/>
+        <source>Error: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../CSearchDB.cpp" line="66"/>
         <source>start searching...</source>
         <translation>comenzar a buscar...</translation>
     </message>
     <message>
-        <location filename="../CSearchDB.cpp" line="239"/>
         <source>Bad number of return parameters</source>
-        <translation>Número de parámetros de retorno erróneo</translation>
+        <translation type="obsolete">Número de parámetros de retorno erróneo</translation>
     </message>
     <message>
-        <location filename="../CSearchDB.cpp" line="256"/>
         <source>Success.</source>
-        <translation>Éxito.</translation>
+        <translation type="obsolete">Éxito.</translation>
     </message>
     <message>
-        <location filename="../CSearchDB.cpp" line="260"/>
         <source>Failed. Reason unknown.</source>
-        <translation>Falló. Motivo desconocido.</translation>
+        <translation type="obsolete">Falló. Motivo desconocido.</translation>
     </message>
     <message>
-        <location filename="../CSearchDB.cpp" line="264"/>
         <source>Failed. Missing query string.</source>
-        <translation>Falló. Falta la cadena de búsqueda.</translation>
+        <translation type="obsolete">Falló. Falta la cadena de búsqueda.</translation>
     </message>
     <message>
-        <location filename="../CSearchDB.cpp" line="268"/>
         <source>Failed. No location found.</source>
-        <translation>Falló. Ubicación no encontrada.</translation>
+        <translation type="obsolete">Falló. Ubicación no encontrada.</translation>
     </message>
     <message>
-        <location filename="../CSearchDB.cpp" line="272"/>
         <source>Failed. No location because of legal matters.</source>
-        <translation>Falló. Sin ubicación debido a temas legales.</translation>
+        <translation type="obsolete">Falló. Sin ubicación debido a temas legales.</translation>
     </message>
     <message>
-        <location filename="../CSearchDB.cpp" line="276"/>
         <source>Failed. Bad API key.</source>
-        <translation>Falló. Clave API incorrecta.</translation>
+        <translation type="obsolete">Falló. Clave API incorrecta.</translation>
     </message>
     <message>
-        <location filename="../CSearchDB.cpp" line="291"/>
-        <location filename="../CSearchDB.cpp" line="359"/>
+        <location filename="../CSearchDB.cpp" line="224"/>
+        <location filename="../CSearchDB.cpp" line="289"/>
+        <location filename="../CSearchDB.cpp" line="357"/>
         <source>finished</source>
         <translation>finalizado</translation>
     </message>
@@ -6673,7 +6677,7 @@ longitud: %1 %2</translation>
         <translation type="obsolete">falló</translation>
     </message>
     <message>
-        <location filename="../CSearchDB.cpp" line="346"/>
+        <location filename="../CSearchDB.cpp" line="344"/>
         <source>no result</source>
         <translation>sin resultados</translation>
     </message>
@@ -7013,37 +7017,37 @@ La selección se almacenará en los datos del track. Puede guardarla junto con l
 <context>
     <name>CTrackDB</name>
     <message>
-        <location filename="../CTrackDB.cpp" line="632"/>
+        <location filename="../CTrackDB.cpp" line="638"/>
         <source>Track%1</source>
         <translation>Track%1</translation>
     </message>
     <message>
-        <location filename="../CTrackDB.cpp" line="1161"/>
+        <location filename="../CTrackDB.cpp" line="1167"/>
         <source>Hmax=%1%2</source>
         <translation>Hmax=%1%2</translation>
     </message>
     <message>
-        <location filename="../CTrackDB.cpp" line="1166"/>
+        <location filename="../CTrackDB.cpp" line="1172"/>
         <source>Hmin=%1%2</source>
         <translation>Hmin=%1%2</translation>
     </message>
     <message>
-        <location filename="../CTrackDB.cpp" line="1171"/>
+        <location filename="../CTrackDB.cpp" line="1177"/>
         <source>Vmax=%1%2</source>
         <translation>Vmax=%1%2</translation>
     </message>
     <message>
-        <location filename="../CTrackDB.cpp" line="1192"/>
+        <location filename="../CTrackDB.cpp" line="1198"/>
         <source>Failed...</source>
         <translation>Falló...</translation>
     </message>
     <message>
-        <location filename="../CTrackDB.cpp" line="1192"/>
+        <location filename="../CTrackDB.cpp" line="1198"/>
         <source>Failed to copy track. You must select a track or track points of a track.</source>
         <translation>Fallo al copiar el track. Debe seleccionar un track o puntos de uno.</translation>
     </message>
     <message>
-        <location filename="../CTrackDB.cpp" line="1286"/>
+        <location filename="../CTrackDB.cpp" line="1292"/>
         <source>_rev</source>
         <translation></translation>
     </message>
@@ -11721,6 +11725,18 @@ DEM: %2</translation>
  %1: %2 </source>
         <translation type="obsolete">
  %1: %2 </translation>
+    </message>
+    <message>
+        <location filename="../IMouse.cpp" line="304"/>
+        <source>too many...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../IMouse.cpp" line="312"/>
+        <source>Left click to lock circles.
+Then select function from circle.
+Left click on canvas to un-lock circles.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
