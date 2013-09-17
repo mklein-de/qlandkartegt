@@ -92,6 +92,9 @@ class IMouse : public QObject
         CGpxExtTr tr_ext;        //TODO: CGpxExtPt -> tr_ext
 #endif
 
+    public slots:
+        void slotMapChanged();
+
     protected slots:
         void slotSetPos1();
 
@@ -160,6 +163,8 @@ class IMouse : public QObject
         void mouseMoveEventMapSel(QMouseEvent * e);
 
         void sortSelWpts(QList<wpt_t>& list);
+
+        void clearSelWpts();
 
         /// trigger waypoint function
         void mousePressEventWpt(QMouseEvent * e);

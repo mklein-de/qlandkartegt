@@ -133,6 +133,17 @@ void IMouse::drawPos1(QPainter& p)
     CCanvas::drawText(fi.fileName(), p, QRect(u,v, LENGTH, 20));
 }
 
+void IMouse::clearSelWpts()
+{
+    lockWptCircles = false;
+    foreach(const wpt_t& wpt, selWpts)
+    {
+        wpt.wpt->showBuddies(false);
+    }
+    doShowWptBuddies = false;
+    selWpts.clear();
+}
+
 #define RADIUS_CIRCLES      130
 #define RADIUS_CIRCLE       35
 #define ANGLE_START         -45
@@ -661,7 +672,7 @@ void IMouse::mouseMoveEventWpt(QMouseEvent * e)
 
     if(!lockWptCircles)
     {
-        selWpts.clear();
+        clearSelWpts();
 
         // find the waypoint close to the cursor
         QMap<QString,CWpt*>::const_iterator wpt = CWptDB::self().begin();
@@ -937,16 +948,18 @@ void IMouse::mousePressEventWpt(QMouseEvent * e)
             doBreak = true;
         }
 
+        // has a function been triggered? if yes we can stop polling waypoints
         if(doBreak)
         {
             break;
         }
     }
 
+    // if the click has been without triggering a function
+    // the circle for multiple waypoints is reset.
     if(lockWptCircles && !doBreak)
     {
-        lockWptCircles = false;
-        selWpts.clear();
+        clearSelWpts();
         canvas->update();
     }
 
@@ -1163,6 +1176,10 @@ void IMouse::mouseMoveEventMapSel(QMouseEvent * e)
 
 }
 
+void IMouse::slotMapChanged()
+{
+    clearSelWpts();
+}
 
 void IMouse::slotSetPos1()
 {

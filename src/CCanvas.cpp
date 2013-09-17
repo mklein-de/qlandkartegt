@@ -135,6 +135,11 @@ QColor CCanvas::getSelectedColor()
     return mouseColorPicker->getSelectedColor();
 }
 
+void CCanvas::slotMapChanged()
+{
+    mouse->slotMapChanged();
+    update();
+}
 
 void CCanvas::slotCopyPosition()
 {
