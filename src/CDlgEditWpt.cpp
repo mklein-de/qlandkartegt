@@ -645,6 +645,10 @@ void CDlgEditWpt::slotCollectSpoiler()
             }
         }
 
+        QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
+
+        pendingRequests.clear();
+
         QNetworkRequest request;
         request.setUrl(wpt.link);
         networkAccessManager->get(request);
@@ -672,11 +676,17 @@ void CDlgEditWpt::slotRequestFinished(QNetworkReply * reply)
     if(pendingRequests.contains(reply))
     {
         CWpt::image_t img;
-        img.info = pendingRequests[reply];
+        img.info = pendingRequests.take(reply);
         img.pixmap.loadFromData(reply->readAll());
         wpt.images.push_back(img);
         showImage(wpt.images.count() - 1);
         pushDel->setEnabled(true);
+
+        if(pendingRequests.isEmpty())
+        {
+            QApplication::restoreOverrideCursor();
+        }
+
         return;
     }
 
@@ -689,16 +699,33 @@ void CDlgEditWpt::slotRequestFinished(QNetworkReply * reply)
     }
 
 
-    QRegExp re1(".*alt=\"Photos\" title=\"Photos\".*");
-    QRegExp re2("(http://img.geocaching.com/cache/large/.*\\.jpg).*<span>(.*)</span>");
+    QRegExp re0(".*Object moved to <a href=\"(.*)\".*");
+    QRegExp re1(".*CachePageImages.*");
+    QRegExp re2("(http://img.geocaching.com/cache/large/.*\\.jpg).*>(.*)</a>");
+
     re2.setMinimal(true);
 
+    qDebug() << asw;
 
-    bool spoilerFound = false;
-    QStringList lines = asw.split("\n");
+    bool watchOut       = false;
+    bool spoilerFound   = false;
+    QStringList lines   = asw.split("\n");
     foreach(const QString& line, lines)
     {
-        if(re1.exactMatch(line))
+        if(re0.exactMatch(line))
+        {
+            QString url  = re0.cap(1);
+
+            QNetworkRequest request;
+            request.setUrl(url);
+            networkAccessManager->get(request);
+            return;
+        }
+        else if(!watchOut && re1.exactMatch(line))
+        {
+            watchOut = true;
+        }
+        else if(watchOut)
         {
             int pos = 0;
             while ((pos = re2.indexIn(line, pos)) != -1)
@@ -714,11 +741,14 @@ void CDlgEditWpt::slotRequestFinished(QNetworkReply * reply)
 
                 pos += re2.matchedLength();
             }
+
+            watchOut = false;
         }
     }
 
     if(!spoilerFound)
     {
+        QApplication::restoreOverrideCursor();
         QMessageBox::information(0,tr("No spoilers..."), tr("No spoilers found."), QMessageBox::Ok);
     }
 
