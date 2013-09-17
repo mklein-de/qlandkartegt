@@ -282,7 +282,7 @@ void IMouse::drawSelWpt(QPainter& p)
             }
 
             QPoint pt = mousePos - QPoint(wptInfo.x, wptInfo.y) - mousePosWptCircle;
-            if(sqrt(pt.x()*pt.x() + pt.y()*pt.y()) < RADIUS_CIRCLE)
+            if((pt.x()*pt.x() + pt.y()*pt.y()) < (RADIUS_CIRCLE*RADIUS_CIRCLE))
             {
                 idxInfoBox = i;
             }
