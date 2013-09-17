@@ -42,6 +42,7 @@ CDlgEditWpt::CDlgEditWpt(CWpt &wpt, QWidget * parent)
 #ifdef HAS_DMTX
 , enc(0)
 #endif
+, silentSpoilerQuery(false)
 {
     setupUi(this);
     connect(pushAdd, SIGNAL(clicked()), this, SLOT(slotAddImage()));
@@ -265,6 +266,12 @@ int CDlgEditWpt::exec()
     }
 
     lineName->setFocus();
+
+    if(wpt.isGeoCache() && !wpt.link.isEmpty() && wpt.images.isEmpty())
+    {
+        silentSpoilerQuery = true;
+        triggerSpoilerDownload();
+    }
 
     return QDialog::exec();
 }
@@ -644,15 +651,19 @@ void CDlgEditWpt::slotCollectSpoiler()
                 pushDel->setEnabled(false);
             }
         }
-
-        QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
-
-        pendingRequests.clear();
-
-        QNetworkRequest request;
-        request.setUrl(wpt.link);
-        networkAccessManager->get(request);
+        triggerSpoilerDownload();
     }
+}
+
+void CDlgEditWpt::triggerSpoilerDownload()
+{
+    QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
+
+    pendingRequests.clear();
+
+    QNetworkRequest request;
+    request.setUrl(wpt.link);
+    networkAccessManager->get(request);
 }
 
 void CDlgEditWpt::slotProxyAuthenticationRequired(const QNetworkProxy &prox, QAuthenticator *auth)
@@ -744,10 +755,12 @@ void CDlgEditWpt::slotRequestFinished(QNetworkReply * reply)
         }
     }
 
-    if(!spoilerFound)
+    if(!spoilerFound && !silentSpoilerQuery)
     {
         QApplication::restoreOverrideCursor();
         QMessageBox::information(0,tr("No spoilers..."), tr("No spoilers found."), QMessageBox::Ok);
     }
+
+    silentSpoilerQuery = false;
 
 }
