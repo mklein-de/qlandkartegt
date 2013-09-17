@@ -705,8 +705,6 @@ void CDlgEditWpt::slotRequestFinished(QNetworkReply * reply)
 
     re2.setMinimal(true);
 
-    qDebug() << asw;
-
     bool watchOut       = false;
     bool spoilerFound   = false;
     QStringList lines   = asw.split("\n");
