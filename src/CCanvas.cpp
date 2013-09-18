@@ -137,7 +137,10 @@ QColor CCanvas::getSelectedColor()
 
 void CCanvas::slotMapChanged()
 {
-    mouse->slotMapChanged();
+    if(mouse)
+    {
+        mouse->slotMapChanged();
+    }
     update();
 }
 

@@ -1282,7 +1282,8 @@ bool CMapTDB::eventFilter(QObject * watched, QEvent * event)
         {
             toolTipTimer->stop();
             toolTipTimer->start(1000);
-            emit sigChanged();
+            //emit sigChanged();
+            theMainWindow->getCanvas()->update();
 
             QToolTip::hideText();
         }
