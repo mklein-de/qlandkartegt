@@ -431,29 +431,56 @@ void CCanvas::print(QImage& img, const QSize& pagesize)
 }
 
 
+#define DEBUG_DRAW
+#ifdef DEBUG_DRAW
+
+#define DEBUG_TIME(label)\
+    qDebug() << label << et.restart() << "ms";
+#else
+    #define DEBUG_TIME(label)
+#endif
+
 void CCanvas::draw(QPainter& p)
 {
     IMap& map = CMapDB::self().getMap();
     bool needsRedraw = map.getNeedsRedraw();
 
     USE_ANTI_ALIASING(p,!map.getFastDrawFlag() && CResources::self().useAntiAliasing());
+#ifdef DEBUG_DRAW
+    QElapsedTimer et;
+    et.restart();
+#endif
 
     CMapDB::self().draw(p,rect(), needsRedraw);
+    DEBUG_TIME("CMapDB:     ");
     CRouteDB::self().draw(p, rect(), needsRedraw);
+    DEBUG_TIME("CRouteDB:   ");
     CTrackDB::self().draw(p, rect(), needsRedraw);
+    DEBUG_TIME("CTrackDB:   ");
     COverlayDB::self().draw(p, rect(), needsRedraw);
+    DEBUG_TIME("COverlayDB: ");
     CLiveLogDB::self().draw(p, rect(), needsRedraw);
+    DEBUG_TIME("CLiveLogDB: ");
     CWptDB::self().draw(p, rect(), needsRedraw);
+    DEBUG_TIME("CWptDB:     ");
     CSearchDB::self().draw(p, rect(), needsRedraw);
+    DEBUG_TIME("CSearchDB:  ");
     CGridDB::self().draw(p, rect(), needsRedraw);
+    DEBUG_TIME("CGridDB:    ");
 
     drawRefPoints(p);
     drawScale(p);
     drawCompass(p);
     drawClock(p);
     drawFadingMessage(p);
+    DEBUG_TIME("Other:      ");
 
     mouse->draw(p);
+    DEBUG_TIME("Mouse:      ");
+
+#ifdef DEBUG_DRAW
+    qDebug() << "-----------------------";
+#endif
 }
 
 
@@ -973,6 +1000,7 @@ void CCanvas::slotHighlightTrack(CTrack * track)
         profile->hide();
         disconnect(profile, SIGNAL(sigClicked()), CTrackDB::self().getToolWidget(), SLOT(slotShowProfile()));
     }
+    update();
 }
 
 

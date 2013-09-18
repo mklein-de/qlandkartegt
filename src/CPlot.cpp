@@ -5,12 +5,12 @@
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
-    
+
     This program is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU General Public License for more details.
-    
+
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
@@ -796,7 +796,7 @@ QColor colors[] =
 void CPlot::drawData(QPainter& p)
 {
     int penIdx = 0;
-    int ptx, pty;
+    int ptx, pty, oldPtx;
     QList<CPlotData::line_t> lines                  = m_pData->lines;
     QList<CPlotData::line_t>::const_iterator line   = lines.begin();
 
@@ -813,6 +813,7 @@ void CPlot::drawData(QPainter& p)
 
         ptx = left   + xaxis.val2pt( point->x() );
         pty = bottom - yaxis.val2pt( point->y() );
+        oldPtx = ptx;
 
         background << QPointF(left,bottom);
         background << QPointF(left,pty);
@@ -822,6 +823,13 @@ void CPlot::drawData(QPainter& p)
         {
             ptx = left   + xaxis.val2pt( point->x() );
             pty = bottom - yaxis.val2pt( point->y() );
+
+            if(oldPtx == ptx)
+            {
+                ++point;
+                continue;
+            }
+            oldPtx = ptx;
 
             if(ptx >= left && ptx <= right)
             {
