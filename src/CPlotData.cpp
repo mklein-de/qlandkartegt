@@ -25,6 +25,10 @@ CPlotData::CPlotData(axis_type_e type, QObject * parent)
 , grid(true)
 , badData(true)
 , axisType(type)
+, xmin(0)
+, xmax(0)
+, ymin(0)
+, ymax(0)
 {
     if(type == eLinear)
     {
@@ -56,10 +60,10 @@ void CPlotData::setLimits()
     if(line == lines.end()) return;
     QPolygonF::const_iterator p         = line->points.begin();
 
-    double xmin = p->x();
-    double xmax = p->x();
-    double ymin = p->y();
-    double ymax = p->y();
+    xmin = p->x();
+    xmax = p->x();
+    ymin = p->y();
+    ymax = p->y();
 
     while(line != lines.end())
     {

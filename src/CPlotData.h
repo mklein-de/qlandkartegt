@@ -78,6 +78,11 @@ class CPlotData : public QObject
 
         axis_type_e axisType;
 
+        double xmin;
+        double xmax;
+        double ymin;
+        double ymax;
+
     protected:
         CPlotAxis * xaxis;
         CPlotAxis * yaxis;

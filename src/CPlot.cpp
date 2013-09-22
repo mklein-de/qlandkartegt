@@ -639,6 +639,7 @@ void CPlot::drawXScale( QPainter &p )
 
 void CPlot::drawYScale( QPainter &p )
 {
+    QString format_single_prec;
     QRect recText;
     if ( m_pData->y().getTicType() == CPlotAxis::notic )
         return ;
@@ -651,18 +652,47 @@ void CPlot::drawYScale( QPainter &p )
     int iy;
 
     ix = left - scaleWidthY1 - deadAreaX;
+
+    double limMin, limMax, useMin, useMax;
+    m_pData->y().getLimits(limMin, limMax, useMin, useMax);
+
+    // draw min/max lables 1st;
+    QRect recTextMin;
+    QRect recTextMax;
+
+    format_single_prec = m_pData->y().fmtsgl(m_pData->ymin);
+    if(m_pData->ymin >= useMin)
+    {
+        iy = bottom - m_pData->y().val2pt( m_pData->ymin ) - fontHeight / 2;
+        recText.moveTopLeft( QPoint( ix, iy ) );
+        p.drawText( recText, Qt::AlignRight, QString().sprintf( format_single_prec.toLatin1().data(), m_pData->ymin  ));
+        recTextMin = recText;
+    }
+    format_single_prec = m_pData->y().fmtsgl(m_pData->ymax);
+    if(m_pData->ymax <= useMax)
+    {
+        iy = bottom - m_pData->y().val2pt( m_pData->ymax ) - fontHeight / 2;
+        recText.moveTopLeft( QPoint( ix, iy ) );
+        p.drawText( recText, Qt::AlignRight, QString().sprintf( format_single_prec.toLatin1().data(), m_pData->ymax  ));
+        recTextMax = recText;
+    }
+
+    // draw tic marks
     const CPlotAxis::TTic * t = m_pData->y().ticmark();
     while ( t )
     {
         iy = bottom - m_pData->y().val2pt( t->val ) - fontHeight / 2;
 
         recText.moveTopLeft( QPoint( ix, iy ) );
-        p.drawText( recText, Qt::AlignRight, t->lbl );
+
+        if(!recTextMin.intersects(recText) && !recTextMax.intersects(recText))
+        {
+            p.drawText( recText, Qt::AlignRight, t->lbl );
+        }
+
         t = m_pData->y().ticmark( t );
     }
 
-    double limMin, limMax, useMin, useMax;
-    m_pData->y().getLimits(limMin, limMax, useMin, useMax);
 
     if((limMax - limMin) <= (useMax - useMin)) return;
 
@@ -761,6 +791,23 @@ void CPlot::drawGridY( QPainter &p )
         p.drawLine( ix, iy, ix + dx, iy );
         t = m_pData->y().ticmark( t );
     }
+
+    // draw min/max lines
+    double limMin, limMax, useMin, useMax;
+    m_pData->y().getLimits(limMin, limMax, useMin, useMax);
+
+    if(m_pData->ymin > useMin)
+    {
+        iy = bottom - m_pData->y().val2pt( m_pData->ymin );
+        p.drawLine( ix, iy, ix + dx, iy );
+    }
+    if(m_pData->ymax < useMax)
+    {
+        iy = bottom - m_pData->y().val2pt( m_pData->ymax );
+        p.drawLine( ix, iy, ix + dx, iy );
+    }
+
+
     p.setPen( oldpen );
     m_pData->y().setTicType( oldtic );
 }
