@@ -823,10 +823,9 @@ void CTrackDB::splitTrack(int idx)
 }
 
 
-void CTrackDB::drawLine(const QPolygon& line, const QRect& extViewport, QPainter& p)
+void CTrackDB::splitLineToViewport(const QPolygon& line, const QRect& extViewport, QList<QPolygon>& lines)
 {
     QPolygon subline;
-    QList<QPolygon> lines;
 
     int i;
     QPoint pt, ptt, pt1;
@@ -865,6 +864,15 @@ void CTrackDB::drawLine(const QPolygon& line, const QRect& extViewport, QPainter
     {
         lines << subline;
     }
+
+}
+
+void CTrackDB::drawLine(const QPolygon& line, const QRect& extViewport, QPainter& p)
+{
+    int i;
+    QList<QPolygon> lines;
+
+    splitLineToViewport(line, extViewport, lines);
 
     for(i = 0; i < lines.count(); i++)
     {

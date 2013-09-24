@@ -130,6 +130,8 @@ class CTrack : public IItem
             int cadenceRpm;
             /// secondary data: slope in %
             float slope;
+            /// secondary data: slope in %
+            float slope2;
 
             quint32 timeSinceStart;
 

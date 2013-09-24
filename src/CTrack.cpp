@@ -953,6 +953,8 @@ void CTrack::rebuild(bool reindex)
     QList<pt_t>::iterator pt1 = track.begin();
     QList<pt_t>::iterator pt2 = track.begin();
 
+    QList<pt_t>::iterator pt1Slope;
+
     visiblePointCount = 0;
     totalTime       = 0;
     totalTimeMoving = 0;
@@ -1007,8 +1009,11 @@ void CTrack::rebuild(bool reindex)
     pt1->descend    = totalDescend;
     pt1->dem        = dem.getElevation(pt1->lon * DEG_TO_RAD, pt1->lat * DEG_TO_RAD);
     pt1->slope      = 0.0;
+    pt1->slope2     = 0.0;
     t1              = pt1->timestamp;
     t2              = t1;        //for the case that the track has only 1 point
+
+    pt1Slope = pt1;
 
     ++visiblePointCount;
 
@@ -1110,6 +1115,15 @@ void CTrack::rebuild(bool reindex)
             totalTimeMoving += dt;
 
         }
+
+        if ((pt1Slope->ele != WPT_NOFLOAT) && (pt2->ele != WPT_NOFLOAT))
+        {
+            if((pt2->distance - pt1Slope->distance) > 100)
+            {
+
+            }
+        }
+
 
         pt1 = pt2;
     }
