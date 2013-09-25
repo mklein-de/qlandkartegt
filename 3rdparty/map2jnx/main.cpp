@@ -3,12 +3,12 @@
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
-    
+
     This program is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU General Public License for more details.
-    
+
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
@@ -121,7 +121,7 @@ struct file_t
         if(pj) pj_free(pj);
     }
 
-    bool operator<(const file_t& other)
+    bool operator<(const file_t& other)  const
     {
         return (xscale > other.xscale);
     }
@@ -662,14 +662,14 @@ int main(int argc, char ** argv)
                     val = scales_buf.substr(last_pos, pos - last_pos);
                     last_pos = pos + 1;
                     pos = scales_buf.find_first_of(',', pos + 1);
-                    
+
                     //printf("val: %s : %d\n", val.c_str(), pos);
                     forced_scale_values.push_back(atol(val.c_str()));
                 }
                 val = scales_buf.substr(last_pos, pos);
                 //printf("val: %s : %d\n", val.c_str(), pos);
                 forced_scale_values.push_back(atol(val.c_str()));
-                
+
                 continue;
             }
 
@@ -846,7 +846,7 @@ int main(int argc, char ** argv)
         uint32_t size   = 256;
         level_t& level  = levels[i];
         std::list<file_t *>::iterator f;
-        double scale    = 0.0;        
+        double scale    = 0.0;
 
         while(size <= JNX_MAX_TILE_SIZE)
         {
