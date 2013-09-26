@@ -104,6 +104,14 @@ QDataStream& operator >>(QDataStream& s, CTrack& track)
                 {
                     s1 >> track.cntMedianFilterApplied;
                 }
+                if(!s1.atEnd())
+                {
+                    s1 >> track.useMultiColor;
+                }
+                if(!s1.atEnd())
+                {
+                    s1 >> track.idMultiColor;
+                }
 
                 track.setColor(track.colorIdx);
                 track.setKey(key);
@@ -351,6 +359,8 @@ QDataStream& operator <<(QDataStream& s, CTrack& track)
     s1 << track.getParentWpt();
     s1 << track.doScaleWpt2Track;
     s1 << track.cntMedianFilterApplied;
+    s1 << track.useMultiColor;
+    s1 << track.idMultiColor;
 
     entries << entryBase;
 
@@ -689,6 +699,8 @@ CTrack::CTrack(QObject * parent)
 , cntMedianFilterApplied(0)
 , replaceOrigData(true)
 , stateSelect(e1stSel)
+, useMultiColor(false)
+, idMultiColor(eMultiColorEle)
 {
     ref = 1;
 
@@ -707,6 +719,22 @@ CTrack::CTrack(QObject * parent)
 CTrack::~CTrack()
 {
 
+}
+
+void CTrack::getMultiColor(bool& on, int& id, QList<multi_color_item_t>& items)
+{
+    items << multi_color_item_t(tr(""), eMultiColorNone);
+    items << multi_color_item_t(tr("slope"), eMultiColorSlope);
+    items << multi_color_item_t(tr("elevation"), eMultiColorEle);
+
+    on = useMultiColor;
+    id = idMultiColor;
+}
+
+void CTrack::setMultiColor(bool on, int id)
+{
+     useMultiColor = on;
+     idMultiColor  = id;
 }
 
 void CTrack::setHighlight(bool yes)

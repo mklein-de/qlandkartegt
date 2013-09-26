@@ -287,6 +287,17 @@ class CTrack : public IItem
 
         void setupIterators(QList<pt_t>::iterator& begin, QList<pt_t>::iterator& end);
 
+        struct multi_color_item_t
+        {
+            multi_color_item_t(const QString& name, int id) : name(name), id(id){}
+            QString name;
+            int id;
+        };
+
+        void getMultiColor(bool& on, int& id, QList<multi_color_item_t>& items);
+        void setMultiColor(bool on, int id);
+
+
     public slots:
         void slotScaleWpt2Track();
 
@@ -360,6 +371,16 @@ class CTrack : public IItem
         state_select_e stateSelect;
 
         QString timezone;
+
+        enum multi_color_item_e
+        {
+            eMultiColorNone
+            , eMultiColorSlope
+            , eMultiColorEle
+        };
+
+        quint32 useMultiColor;
+        qint32  idMultiColor;
 
 };
 

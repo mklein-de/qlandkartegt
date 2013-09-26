@@ -131,6 +131,27 @@
       <widget class="QComboBox" name="comboColor"/>
      </item>
      <item>
+      <widget class="QCheckBox" name="checkMultiColor">
+       <property name="text">
+        <string>Multicolor</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QComboBox" name="comboMultiColor">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="Line" name="line_2">
+       <property name="orientation">
+        <enum>Qt::Vertical</enum>
+       </property>
+      </widget>
+     </item>
+     <item>
       <widget class="QLineEdit" name="lineName">
        <property name="toolTip">
         <string>Use 'return' key to change name permanently.</string>
@@ -713,8 +734,8 @@
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>100</width>
-                 <height>30</height>
+                 <width>142</width>
+                 <height>274</height>
                 </rect>
                </property>
                <layout class="QVBoxLayout" name="verticalLayout_Extensions"/>

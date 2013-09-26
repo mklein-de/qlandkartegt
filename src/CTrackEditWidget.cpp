@@ -5,12 +5,12 @@
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
-    
+
     This program is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU General Public License for more details.
-    
+
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
@@ -182,6 +182,7 @@ CTrackEditWidget::CTrackEditWidget(QWidget * parent)
     connect(tabWidget, SIGNAL(currentChanged(int)), this, SLOT(slotCurrentChanged(int)));
     connect(checkStages, SIGNAL(stateChanged(int)), this, SLOT(slotStagesChanged(int)));
     connect(textStages, SIGNAL(sigHighlightArea(QString)), this, SLOT(slotHighlightArea(QString)));
+    connect(checkMultiColor, SIGNAL(toggled(bool)), this, SLOT(slotToggleMultiColor(bool)));
 
     connect(&CTrackDB::self(), SIGNAL(sigModified(const QString&)), this, SLOT(slotStagesChanged()));
     connect(&CTrackDB::self(), SIGNAL(sigPointOfFocus(int)), this, SLOT(slotPointOfFocus(int)));
@@ -469,6 +470,19 @@ void CTrackEditWidget::slotSetTrack(CTrack * t)
 
     QApplication::setOverrideCursor(Qt::WaitCursor);
 
+    bool on;
+    int id;
+    QList<CTrack::multi_color_item_t> multiColorItems;
+    track->getMultiColor(on, id, multiColorItems);
+
+    comboMultiColor->clear();
+    foreach(const CTrack::multi_color_item_t& item, multiColorItems)
+    {
+        comboMultiColor->addItem(item.name,item.id);
+    }
+    comboMultiColor->setCurrentIndex(id);
+    checkMultiColor->setChecked(on);
+
     QList<CTrack::pt_t>& trkpts           = track->getTrackPoints();
     QList<CTrack::pt_t>::iterator trkpt   = trkpts.begin();
     while(trkpt != trkpts.end())
@@ -658,7 +672,7 @@ void CTrackEditWidget::slotUpdate()
 
         // timestamp
         if(trkpt->timestamp != 0x00000000 && trkpt->timestamp != 0xFFFFFFFF)
-        {            
+        {
             QDateTime time = QDateTime::fromTime_t(trkpt->timestamp);
             if(!timezone.isEmpty())
             {
@@ -1379,6 +1393,16 @@ void CTrackEditWidget::slotHighlightArea(const QString& key)
             trackStatProfileDist->getPlot()->slotHighlightSection(WPT_NOFLOAT, WPT_NOFLOAT);
         }
     }
+}
+
+void CTrackEditWidget::slotToggleMultiColor(bool on)
+{
+    comboColor->setEnabled(!on);
+    comboMultiColor->setEnabled(on);
+
+    if(track.isNull()) return;
+
+    track->setMultiColor(on, comboMultiColor->currentIndex());
 }
 
 
