@@ -434,7 +434,7 @@ void CCanvas::print(QImage& img, const QSize& pagesize)
 }
 
 
-#define DEBUG_DRAW
+#undef DEBUG_DRAW
 #ifdef DEBUG_DRAW
 
 #define DEBUG_TIME(label)\

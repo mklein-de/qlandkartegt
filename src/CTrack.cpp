@@ -735,6 +735,8 @@ void CTrack::setMultiColor(bool on, int id)
 {
      useMultiColor = on;
      idMultiColor  = id;
+
+     rebuild(false);
 }
 
 void CTrack::setHighlight(bool yes)
@@ -1157,7 +1159,71 @@ void CTrack::rebuild(bool reindex)
     }
 
     totalTime = t2 - t1;
+
+    rebuildColorMap();
+
     emit sigChanged();
+}
+
+
+void CTrack::rebuildColorMap()
+{
+    if(!useMultiColor)
+    {
+        return;
+    }
+    switch(idMultiColor)
+    {
+        case eMultiColorSlope:
+            rebuildColorMapSlope();
+            break;
+        case eMultiColorEle:
+            rebuildColorMapElevation();
+            break;
+        default:
+            rebuildColorMapDefault();
+    }
+}
+
+void CTrack::rebuildColorMapElevation()
+{
+    QColor colors[240];
+    for(int i = 0; i<240; i++)
+    {
+        colors[i].setHsv(240 - i, 255, 255, 255);
+    }
+
+    int min  = ptMinEle.ele;
+    int max  = ptMaxEle.ele;
+    float itvl = float(max - min) / 240;
+
+    for(int i = 0; i < track.size(); i++)
+    {
+        pt_t & pt = track[i];
+        if((pt.flags & pt_t::eDeleted) || (pt.ele == WPT_NOFLOAT))
+        {
+            continue;
+        }
+        pt.color = colors[(int)floor((pt.ele - min)/itvl)];
+    }
+}
+
+void CTrack::rebuildColorMapSlope()
+{
+
+}
+
+void CTrack::rebuildColorMapDefault()
+{
+    for(int i = 0; i < track.size(); i++)
+    {
+        pt_t & pt = track[i];
+        if((pt.flags & pt_t::eDeleted) || (pt.ele == WPT_NOFLOAT))
+        {
+            continue;
+        }
+        pt.color = color;
+    }
 }
 
 

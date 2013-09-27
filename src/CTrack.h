@@ -177,6 +177,8 @@ class CTrack : public IItem
 
             /// QTreeWidgetItem
             QPointer<QObject> editItem;
+
+            QColor color;
         };
 
         struct wpt_t
@@ -210,6 +212,8 @@ class CTrack : public IItem
         QList<pt_t>& getTrackPoints() {return track;}
         /// get polyline representation of track
         QPolygon& getPolyline() {return polyline;}
+        QVector<QColor>& getPolylineColor(){return polylineColor;}
+
         /// get the total distance of the track in [m]
         double getTotalDistance() const {return totalDistance;}
         /// get the total time covered by the track in seconds
@@ -296,6 +300,7 @@ class CTrack : public IItem
 
         void getMultiColor(bool& on, int& id, QList<multi_color_item_t>& items);
         void setMultiColor(bool on, int id);
+        bool isMultiColor(){return useMultiColor;}
 
 
     public slots:
@@ -309,6 +314,10 @@ class CTrack : public IItem
         friend class CTrackDB;
         friend QDataStream& operator >>(QDataStream& s, CTrack& track);
         friend QDataStream& operator <<(QDataStream& s, CTrack& track);
+        void rebuildColorMap();
+        void rebuildColorMapElevation();
+        void rebuildColorMapSlope();
+        void rebuildColorMapDefault();
 
         static QDir path;
 
@@ -381,6 +390,7 @@ class CTrack : public IItem
 
         quint32 useMultiColor;
         qint32  idMultiColor;
+        QVector<QColor> polylineColor;
 
 };
 

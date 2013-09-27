@@ -134,6 +134,7 @@ class CTrackDB : public IDB
         CTrackDB(QTabWidget * tb, QObject * parent);
         void splitLineToViewport(const QPolygon& line, const QRect& extViewport, QList<QPolygon>& lines);
         void drawLine(const QPolygon& line, const QRect& extViewport, QPainter& p);
+        void drawLine(const QPolygon& line, const QVector<QColor> colors, const QRect& extViewport, QPainter& p);
         void drawArrows(const QPolygon& line, const QRect& viewport, QPainter& p);
 
         quint32 cnt;

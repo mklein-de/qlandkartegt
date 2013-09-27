@@ -94,7 +94,6 @@ class CTrackEditWidget : public QWidget, private Ui::ITrackEditWidget
 
         void slotResetAllZoom();
 
-        void slotToggleMultiColor(bool on);
 
     protected slots:
         void slotContextMenu(const QPoint& pos);
@@ -102,14 +101,13 @@ class CTrackEditWidget : public QWidget, private Ui::ITrackEditWidget
         void slotColorChanged(int idx);
         void slotNameChanged();
         void slotNameChanged(const QString& name);
-
         void slotCurrentChanged(int idx);
         void slotStagesChanged();
         void slotStagesChanged(int state);
-
         void slotPointOfFocus(const int idx);
-
         void slotHighlightArea(const QString& key);
+        void slotToggleMultiColor(bool on);
+        void slotMultiColorMode(int idx);
 
     protected:
         void keyPressEvent(QKeyEvent * e);

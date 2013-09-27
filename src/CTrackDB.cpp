@@ -878,7 +878,17 @@ void CTrackDB::drawLine(const QPolygon& line, const QRect& extViewport, QPainter
     {
         p.drawPolyline(lines[i]);
     }
+}
 
+void CTrackDB::drawLine(const QPolygon& line, const QVector<QColor> colors, const QRect& extViewport, QPainter& p)
+{
+    QPen pen = p.pen();
+    for(int i = 1; i < line.size(); i++)
+    {
+        pen.setColor(colors[i-1]);
+        p.setPen(pen);
+        p.drawLine(line[i-1], line[i]);
+    }
 }
 
 
@@ -1004,8 +1014,10 @@ void CTrackDB::draw(QPainter& p, const QRect& rect, bool& needsRedraw)
             continue;
         }
 
-        QPolygon& line = (*track)->getPolyline();
+        QPolygon& line          = (*track)->getPolyline();
+        QVector<QColor>& color  = (*track)->getPolylineColor();
         line.clear();
+        color.clear();
 
         bool firstTime = (*track)->firstTime;
 
@@ -1041,7 +1053,8 @@ void CTrackDB::draw(QPainter& p, const QRect& rect, bool& needsRedraw)
                 ++trkpt; continue;
             }
 
-            line << trkpt->px;
+            line    << trkpt->px;
+            color   << trkpt->color;
             ++trkpt;
         }
 
@@ -1105,7 +1118,14 @@ void CTrackDB::draw(QPainter& p, const QRect& rect, bool& needsRedraw)
         p.setPen(pen1);
         drawLine(line, extRect, p);
         p.setPen(pen2);
-        drawLine(line, extRect, p);
+        if((*track)->isMultiColor())
+        {
+            drawLine(line, (*track)->getPolylineColor(), extRect, p);
+        }
+        else
+        {
+            drawLine(line, extRect, p);
+        }
 
         if(showBullets)
         {
