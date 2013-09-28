@@ -723,7 +723,7 @@ CTrack::~CTrack()
 
 void CTrack::getMultiColor(bool& on, int& id, QList<multi_color_item_t>& items)
 {
-    items << multi_color_item_t(tr(""), eMultiColorNone);
+    items << multi_color_item_t(tr("solid"), eMultiColorNone);
     items << multi_color_item_t(tr("slope"), eMultiColorSlope);
     items << multi_color_item_t(tr("elevation"), eMultiColorEle);
 
@@ -1160,6 +1160,63 @@ void CTrack::rebuild(bool reindex)
 
     totalTime = t2 - t1;
 
+    // calculate slope
+    for(int i = 0; i<track.size(); i++)
+    {
+        pt_t & pt = track[i];
+        if((pt.flags & pt_t::eDeleted) || (pt.ele == WPT_NOFLOAT))
+        {
+            pt.slope2 = WPT_NOFLOAT;
+            continue;
+        }
+
+        float d1 = pt.distance, e1 = pt.ele;
+        int n = i;
+        while(n>0)
+        {
+            pt_t & pt2 = track[n];
+            if((pt2.flags & pt_t::eDeleted) || (pt2.ele == WPT_NOFLOAT))
+            {
+                n--;
+                continue;
+            }
+
+            if(pt.distance - pt2.distance >= 25)
+            {
+                d1 = pt2.distance;
+                e1 = pt2.ele;
+                break;
+            }
+            n--;
+        }
+
+        float d2 = pt.distance, e2 = pt.ele;
+        n = i;
+        while(n < track.size())
+        {
+            pt_t & pt2 = track[n];
+            if((pt2.flags & pt_t::eDeleted) || (pt2.ele == WPT_NOFLOAT))
+            {
+                n++;
+                continue;
+            }
+
+            if(pt2.distance - pt.distance >= 25)
+            {
+                d2 = pt2.distance;
+                e2 = pt2.ele;
+                break;
+            }
+            n++;
+        }
+
+        float a  = atan((e2 - e1)/(d2 - d1));
+        pt.slope2 = fabs(a * 360.0/(2 * M_PI));
+        qDebug() << d1 << d2 << e1 << e2 << pt.slope2;
+
+    }
+
+
     rebuildColorMap();
 
     emit sigChanged();
@@ -1210,6 +1267,28 @@ void CTrack::rebuildColorMapElevation()
 
 void CTrack::rebuildColorMapSlope()
 {
+    QColor colors[125];
+    for(int i = 0; i<125; i++)
+    {
+        colors[i].setHsv(125 - i, 255, 255, 255);
+    }
+    for(int i = 0; i < track.size(); i++)
+    {
+        pt_t & pt = track[i];
+        if((pt.flags & pt_t::eDeleted) || (pt.slope2 == WPT_NOFLOAT))
+        {
+            continue;
+        }
+
+        if(pt.slope2 > 25)
+        {
+            pt.color = colors[124];
+        }
+        else
+        {
+            pt.color = colors[(int)floor(125.0/25.0 * pt.slope2)];
+        }
+    }
 
 }
 
@@ -1591,6 +1670,12 @@ QString CTrack::getTrkPtInfo1(pt_t& trkpt)
         if(str.count()) str += "\n";
         IUnit::self().meter2elevation(trkpt.ele, val, unit);
         str += tr("elevation: %1%2").arg(val).arg(unit);
+    }
+
+    if(trkpt.slope2 != WPT_NOFLOAT)
+    {
+        if(str.count()) str += " ";
+        str += tr("slope: %1\260").arg(trkpt.slope2,0,'f',0);
     }
 
     if((trkpt.heartReateBpm != -1) || (trkpt.cadenceRpm != -1))
