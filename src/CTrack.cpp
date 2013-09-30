@@ -40,6 +40,29 @@
 
 QDir CTrack::path(_MKSTR(MAPPATH) "/Track");
 
+QVector<CTrack::multi_color_setup_t> CTrack::setupMultiColor;
+
+CTrack::multi_color_setup_t::multi_color_setup_t(float min, float max, int minH, int maxH) : minVal(min), maxVal(max), minHue(minH), maxHue(maxH)
+{
+    if(minH > maxH)
+    {
+        colors.resize(minH - maxH + 1);
+        for(int i = 0; i<colors.size(); i++)
+        {
+            colors[i].setHsv(minH - i, 255, 255, 255);
+        }
+    }
+    else
+    {
+        colors.resize(maxH - minH + 1);
+        for(int i = 0; i<colors.size(); i++)
+        {
+            colors[i].setHsv(minH + i, 255, 255, 255);
+        }
+    }
+}
+
+
 struct trk_head_entry_t
 {
     trk_head_entry_t() : type(CTrack::eEnd), offset(0) {}
@@ -713,6 +736,14 @@ CTrack::CTrack(QObject * parent)
 
     connect(&CWptDB::self(), SIGNAL(sigChanged()), this, SLOT(slotScaleWpt2Track()));
     connect(&CWptDB::self(), SIGNAL(sigModified(QString)), this, SLOT(slotScaleWpt2Track()));
+
+    if(setupMultiColor.isEmpty())
+    {
+        setupMultiColor.resize(eMultiColorMax);
+        setupMultiColor[eMultiColorNone]    = multi_color_setup_t();
+        setupMultiColor[eMultiColorSlope]   = multi_color_setup_t(0, 25, 120, 0);
+        setupMultiColor[eMultiColorEle]     = multi_color_setup_t(0,  0, 240, 0);
+    }
 }
 
 
@@ -737,6 +768,24 @@ void CTrack::setMultiColor(bool on, int id)
      idMultiColor  = id;
 
      rebuild(false);
+}
+
+void CTrack::drawMultiColorLegend(QPainter& p)
+{
+    if(!useMultiColor)
+    {
+        return;
+    }
+
+    p.setPen(Qt::black);
+    p.setBrush(Qt::NoBrush);
+    p.drawRect(30,0,20,200);
+
+    if(idMultiColor == eMultiColorSlope)
+    {
+
+    }
+
 }
 
 void CTrack::setHighlight(bool yes)
@@ -1244,15 +1293,11 @@ void CTrack::rebuildColorMap()
 
 void CTrack::rebuildColorMapElevation()
 {
-    QColor colors[240];
-    for(int i = 0; i<240; i++)
-    {
-        colors[i].setHsv(240 - i, 255, 255, 255);
-    }
+    multi_color_setup_t& setup = setupMultiColor[eMultiColorEle];
 
-    int min  = ptMinEle.ele;
-    int max  = ptMaxEle.ele;
-    float itvl = float(max - min) / 240;
+    float min = setup.minVal == setup.maxVal ? ptMinEle.ele : setup.minVal;
+    float max = setup.minVal == setup.maxVal ? ptMaxEle.ele : setup.maxVal;
+    float itvl = float(setup.colors.size() - 1) / (max - min);
 
     for(int i = 0; i < track.size(); i++)
     {
@@ -1261,17 +1306,32 @@ void CTrack::rebuildColorMapElevation()
         {
             continue;
         }
-        pt.color = colors[(int)floor((pt.ele - min)/itvl)];
+
+        if(pt.ele > max)
+        {
+            pt.color = setup.colors.last();
+        }
+        else if(pt.ele < min)
+        {
+            pt.color = setup.colors.first();
+        }
+        else
+        {
+            int idx = floor((pt.ele - min) * itvl);
+            pt.color = setup.colors[idx];
+        }
     }
+
 }
 
 void CTrack::rebuildColorMapSlope()
 {
-    QColor colors[125];
-    for(int i = 0; i<125; i++)
-    {
-        colors[i].setHsv(125 - i, 255, 255, 255);
-    }
+    multi_color_setup_t& setup = setupMultiColor[eMultiColorSlope];
+
+    float min = setup.minVal == setup.maxVal ? 0 : setup.minVal;
+    float max = setup.minVal == setup.maxVal ? 25 : setup.maxVal;
+    float itvl = float(setup.colors.size()- 1) / (max - min);
+
     for(int i = 0; i < track.size(); i++)
     {
         pt_t & pt = track[i];
@@ -1280,13 +1340,18 @@ void CTrack::rebuildColorMapSlope()
             continue;
         }
 
-        if(pt.slope2 > 25)
+        if(pt.slope2 > max)
         {
-            pt.color = colors[124];
+            pt.color = setup.colors.last();
+        }
+        else if(pt.slope2 < min)
+        {
+            pt.color = setup.colors.first();
         }
         else
         {
-            pt.color = colors[(int)floor(125.0/25.0 * pt.slope2)];
+            int idx = floor((pt.slope2 - min) * itvl);
+            pt.color = setup.colors[idx];
         }
     }
 

@@ -1205,6 +1205,11 @@ void CTrackDB::draw(QPainter& p, const QRect& rect, bool& needsRedraw)
                 drawMarker(p, tr("Vmax=%1%2").arg(val).arg(unit), (*track)->ptMaxSpeed);
             }
         }
+
+        p.save();
+        p.translate(rect.width() - 50, 200);
+        (*track)->drawMultiColorLegend(p);
+        p.restore();
     }
 }
 

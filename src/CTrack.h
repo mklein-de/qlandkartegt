@@ -301,7 +301,7 @@ class CTrack : public IItem
         void getMultiColor(bool& on, int& id, QList<multi_color_item_t>& items);
         void setMultiColor(bool on, int id);
         bool isMultiColor(){return useMultiColor;}
-
+        void drawMultiColorLegend(QPainter& p);
 
     public slots:
         void slotScaleWpt2Track();
@@ -349,6 +349,8 @@ class CTrack : public IItem
 
         /// the Qt polyline for faster processing
         QPolygon polyline;
+        /// the color attached to each point in polyline (only used in multicolor mode)
+        QVector<QColor> polylineColor;
 
         float avgspeed0;
         float avgspeed1;
@@ -386,11 +388,26 @@ class CTrack : public IItem
             eMultiColorNone
             , eMultiColorSlope
             , eMultiColorEle
+            , eMultiColorMax
         };
 
         quint32 useMultiColor;
         qint32  idMultiColor;
-        QVector<QColor> polylineColor;
+
+
+        struct multi_color_setup_t
+        {
+            multi_color_setup_t(float min, float max, int minH, int maxH);
+            multi_color_setup_t() : minVal(0), maxVal(0), minHue(0), maxHue(0){}
+
+            float minVal;
+            float maxVal;
+            int   minHue;
+            int   maxHue;
+            QVector<QColor> colors;
+        };
+
+        static QVector<multi_color_setup_t> setupMultiColor;
 
 };
 
