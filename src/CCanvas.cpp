@@ -476,6 +476,7 @@ void CCanvas::draw(QPainter& p)
     drawCompass(p);
     drawClock(p);
     drawFadingMessage(p);
+    drawTrackLegend(p);
     DEBUG_TIME("Other:      ");
 
     mouse->draw(p);
@@ -1057,4 +1058,16 @@ void CCanvas::drawFadingMessage(QPainter& p)
     p.setFont(f);
     p.setPen(Qt::darkBlue);
     p.drawText(r1, Qt::AlignLeft|Qt::AlignTop|Qt::TextWordWrap,fadingMessage);
+}
+
+void CCanvas::drawTrackLegend(QPainter& p)
+{
+    CTrack * track = CTrackDB::self().highlightedTrack();
+    if(track == 0)
+    {
+        return;
+    }
+
+    qDebug() << profile->pos();
+
 }

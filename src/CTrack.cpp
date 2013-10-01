@@ -770,6 +770,7 @@ void CTrack::setMultiColor(bool on, int id)
      rebuild(false);
 }
 
+#include "CPlotAxis.h"
 void CTrack::drawMultiColorLegend(QPainter& p)
 {
     if(!useMultiColor)
@@ -781,10 +782,22 @@ void CTrack::drawMultiColorLegend(QPainter& p)
     p.setBrush(Qt::NoBrush);
     p.drawRect(30,0,20,200);
 
-    if(idMultiColor == eMultiColorSlope)
-    {
+    const multi_color_setup_t& setup = setupMultiColor[idMultiColor];
 
+    float step = 200.0/setup.colors.size();
+    float yoff = 0;
+
+    p.save();
+    p.translate(30,200);
+    p.setPen(Qt::NoPen);
+
+    foreach(const QColor& color, setup.colors)
+    {
+        p.setBrush(color);
+        p.drawRect(QRectF(0,yoff - step, 20, step));
+        yoff -= step;
     }
+    p.restore();
 
 }
 

@@ -172,6 +172,7 @@ class CCanvas : public QWidget
         void drawCompass(QPainter& p);
         void drawClock(QPainter& p);
         void drawFadingMessage(QPainter& p);
+        void drawTrackLegend(QPainter& p);
 
     private:
         friend class CStatusCanvas;
