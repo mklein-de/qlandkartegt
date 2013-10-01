@@ -2444,7 +2444,7 @@ void CMapTDB::drawPolylines(QPainter& p, polytype_t& lines)
             continue;
         }
 
-        if(property.hasBorder)
+        if(property.hasBorder && !property.hasPixmap)
         {
             // draw foreground line 2nd
             p.setPen(nightView ? property.penLineNight : property.penLineDay);
