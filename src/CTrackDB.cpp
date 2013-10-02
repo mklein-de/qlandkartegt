@@ -1206,10 +1206,6 @@ void CTrackDB::draw(QPainter& p, const QRect& rect, bool& needsRedraw)
             }
         }
 
-        p.save();
-        p.translate(10, 200);
-        (*track)->drawMultiColorLegend(p);
-        p.restore();
     }
 }
 

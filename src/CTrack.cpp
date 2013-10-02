@@ -42,7 +42,12 @@ QDir CTrack::path(_MKSTR(MAPPATH) "/Track");
 
 QVector<CTrack::multi_color_setup_t> CTrack::setupMultiColor;
 
-CTrack::multi_color_setup_t::multi_color_setup_t(float min, float max, int minH, int maxH) : minVal(min), maxVal(max), minHue(minH), maxHue(maxH)
+CTrack::multi_color_setup_t::multi_color_setup_t(bool fixValues, float min, float max, int minH, int maxH)
+    : fixValues(fixValues)
+    , minVal(min)
+    , maxVal(max)
+    , minHue(minH)
+    , maxHue(maxH)
 {
     if(minH > maxH)
     {
@@ -741,8 +746,8 @@ CTrack::CTrack(QObject * parent)
     {
         setupMultiColor.resize(eMultiColorMax);
         setupMultiColor[eMultiColorNone]    = multi_color_setup_t();
-        setupMultiColor[eMultiColorSlope]   = multi_color_setup_t(0, 25, 120, 0);
-        setupMultiColor[eMultiColorEle]     = multi_color_setup_t(0,  0, 240, 0);
+        setupMultiColor[eMultiColorSlope]   = multi_color_setup_t(true, 0, 25, 120, 0);
+        setupMultiColor[eMultiColorEle]     = multi_color_setup_t(false, 0,  0, 240, 0);
     }
 }
 
@@ -778,25 +783,75 @@ void CTrack::drawMultiColorLegend(QPainter& p)
         return;
     }
 
-    p.setPen(Qt::black);
-    p.setBrush(Qt::NoBrush);
-    p.drawRect(30,0,20,200);
-
     const multi_color_setup_t& setup = setupMultiColor[idMultiColor];
+    CPlotAxis axis(this);
+    axis.setAutoscale(false);
+    axis.setMinMax(setup.minVal, setup.maxVal);
+    axis.setScale(200);
 
-    float step = 200.0/setup.colors.size();
-    float yoff = 0;
+    QFontMetrics fm(p.font());
 
     p.save();
-    p.translate(30,200);
-    p.setPen(Qt::NoPen);
+    p.translate(5,0);
+
+    // draw color bar
+    float step = 200.0/setup.colors.size();
+    float yoff = 200;
 
     foreach(const QColor& color, setup.colors)
     {
+        p.setPen(color);
         p.setBrush(color);
         p.drawRect(QRectF(0,yoff - step, 20, step));
         yoff -= step;
     }
+    p.setPen(QPen(Qt::black,2));
+    p.setBrush(Qt::NoBrush);
+    p.drawRect(0,0,20,200);
+
+    // draw scale and tic marks
+    p.translate(20,0);
+
+    QString format_single_prec;
+    QRect   recText, recTextMin, recTextMax;
+    int     iy;
+    const CPlotAxis::TTic * t = axis.ticmark();
+    double limMin, limMax, useMin, useMax;
+
+    axis.getLimits(limMin, limMax, useMin, useMax);
+
+    format_single_prec = axis.fmtsgl(setup.minVal);
+    if(setup.minVal >= useMin)
+    {
+        QString text = QString().sprintf( format_single_prec.toLatin1().data(), setup.minVal);
+        recText      = fm.boundingRect(text);
+        iy = 200 - axis.val2pt(setup.minVal) - fm.height() / 2;
+        recText.moveTopLeft(QPoint(8, iy));
+        CCanvas::drawText(text, p, recText,Qt::black);
+        recTextMin = recText;
+    }
+
+    format_single_prec = axis.fmtsgl(setup.maxVal);
+    if(setup.minVal >= useMin)
+    {
+        QString text = QString().sprintf( format_single_prec.toLatin1().data(), setup.maxVal);
+        recText      = fm.boundingRect(text);
+        iy = 200 - axis.val2pt(setup.maxVal) - fm.height() / 2;
+        recText.moveTopLeft(QPoint(8, iy));
+        CCanvas::drawText(text, p, recText,Qt::black);
+        recTextMax = recText;
+    }
+
+
+    while ( t )
+    {
+        iy = 200 - axis.val2pt( t->val );
+
+        p.setPen(QPen(Qt::black,2));
+        p.drawLine( 0, iy, 5, iy );
+        t = axis.ticmark( t );
+    }
+
     p.restore();
 
 }
@@ -1308,9 +1363,9 @@ void CTrack::rebuildColorMapElevation()
 {
     multi_color_setup_t& setup = setupMultiColor[eMultiColorEle];
 
-    float min = setup.minVal == setup.maxVal ? ptMinEle.ele : setup.minVal;
-    float max = setup.minVal == setup.maxVal ? ptMaxEle.ele : setup.maxVal;
-    float itvl = float(setup.colors.size() - 1) / (max - min);
+    float min   = setup.minVal = setup.fixValues ? setup.minVal : ptMinEle.ele;
+    float max   = setup.maxVal = setup.fixValues ? setup.maxVal : ptMaxEle.ele;
+    float itvl  = float(setup.colors.size() - 1) / (max - min);
 
     for(int i = 0; i < track.size(); i++)
     {
@@ -1341,9 +1396,9 @@ void CTrack::rebuildColorMapSlope()
 {
     multi_color_setup_t& setup = setupMultiColor[eMultiColorSlope];
 
-    float min = setup.minVal == setup.maxVal ? 0 : setup.minVal;
-    float max = setup.minVal == setup.maxVal ? 25 : setup.maxVal;
-    float itvl = float(setup.colors.size()- 1) / (max - min);
+    float min   = setup.minVal = setup.fixValues ?  0 : setup.minVal;
+    float max   = setup.maxVal = setup.fixValues ? 25 : setup.maxVal;
+    float itvl  = float(setup.colors.size()- 1) / (max - min);
 
     for(int i = 0; i < track.size(); i++)
     {

@@ -808,6 +808,7 @@ void CTrackEditWidget::slotPointSelectionChanged()
     QList<CTrack::pt_t>::iterator trkpt   = trkpts.begin();
     while(trkpt != trkpts.end())
     {
+        trkpt->flags &= ~CTrack::pt_t::eFocus;
         trkpt->flags &= ~CTrack::pt_t::eSelected;
         ++trkpt;
     }
@@ -818,9 +819,13 @@ void CTrackEditWidget::slotPointSelectionChanged()
     while(item != items.end())
     {
         quint32 idxTrkPt = (*item)->data(0,Qt::UserRole).toUInt();
+        //trkpts[idxTrkPt].flags |= CTrack::pt_t::eFocus;
         trkpts[idxTrkPt].flags |= CTrack::pt_t::eSelected;
         ++item;
     }
+    quint32 idxTrkPt = items.last()->data(0,Qt::UserRole).toUInt();
+    trkpts[idxTrkPt].flags |= CTrack::pt_t::eFocus;
+
     originator = true;
     track->rebuild(false);
     originator = false;

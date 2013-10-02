@@ -1068,6 +1068,11 @@ void CCanvas::drawTrackLegend(QPainter& p)
         return;
     }
 
-    qDebug() << profile->pos();
+    QPoint pt = profile->pos();
+
+    p.save();
+    p.translate(pt.x(), pt.y() - 30 - 200);
+    track->drawMultiColorLegend(p);
+    p.restore();
 
 }
