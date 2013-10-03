@@ -42,12 +42,13 @@ QDir CTrack::path(_MKSTR(MAPPATH) "/Track");
 
 QVector<CTrack::multi_color_setup_t> CTrack::setupMultiColor;
 
-CTrack::multi_color_setup_t::multi_color_setup_t(bool fixValues, float min, float max, int minH, int maxH)
+CTrack::multi_color_setup_t::multi_color_setup_t(bool fixValues, float min, float max, int minH, int maxH, const QString &name)
     : fixValues(fixValues)
     , minVal(min)
     , maxVal(max)
     , minHue(minH)
     , maxHue(maxH)
+    , name(name)
 {
     if(minH > maxH)
     {
@@ -746,8 +747,8 @@ CTrack::CTrack(QObject * parent)
     {
         setupMultiColor.resize(eMultiColorMax);
         setupMultiColor[eMultiColorNone]    = multi_color_setup_t();
-        setupMultiColor[eMultiColorSlope]   = multi_color_setup_t(true, 0, 25, 120, 0);
-        setupMultiColor[eMultiColorEle]     = multi_color_setup_t(false, 0,  0, 240, 0);
+        setupMultiColor[eMultiColorSlope]   = multi_color_setup_t(true, 0, 25, 120, 0, tr("Slope [\260]"));
+        setupMultiColor[eMultiColorEle]     = multi_color_setup_t(false, 0,  0, 240, 0, tr("Elevation [m]"));
     }
 }
 
@@ -794,6 +795,12 @@ void CTrack::drawMultiColorLegend(QPainter& p)
     p.save();
     p.translate(5,0);
 
+    // draw parameter name
+    QRect recText = fm.boundingRect(setup.name);
+    recText.moveTopLeft(QPoint(0, -fm.height()*2));
+    recText.adjust(-1,-1,1,1);
+    CCanvas::drawText(setup.name,p,recText,Qt::black);
+
     // draw color bar
     float step = 200.0/setup.colors.size();
     float yoff = 200;
@@ -813,11 +820,12 @@ void CTrack::drawMultiColorLegend(QPainter& p)
     p.translate(20,0);
 
     QString format_single_prec;
-    QRect   recText, recTextMin, recTextMax;
+    QRect   recTextMin, recTextMax;
     int     iy;
     const CPlotAxis::TTic * t = axis.ticmark();
     double limMin, limMax, useMin, useMax;
 
+    // min max limits first
     axis.getLimits(limMin, limMax, useMin, useMax);
 
     format_single_prec = axis.fmtsgl(setup.minVal);
@@ -826,7 +834,8 @@ void CTrack::drawMultiColorLegend(QPainter& p)
         QString text = QString().sprintf( format_single_prec.toLatin1().data(), setup.minVal);
         recText      = fm.boundingRect(text);
         iy = 200 - axis.val2pt(setup.minVal) - fm.height() / 2;
-        recText.moveTopLeft(QPoint(8, iy));
+        recText.moveTopLeft(QPoint(10, iy));
+        recText.adjust(-1,-1,1,1);
         CCanvas::drawText(text, p, recText,Qt::black);
         recTextMin = recText;
     }
@@ -837,18 +846,32 @@ void CTrack::drawMultiColorLegend(QPainter& p)
         QString text = QString().sprintf( format_single_prec.toLatin1().data(), setup.maxVal);
         recText      = fm.boundingRect(text);
         iy = 200 - axis.val2pt(setup.maxVal) - fm.height() / 2;
-        recText.moveTopLeft(QPoint(8, iy));
+        recText.moveTopLeft(QPoint(10, iy));
+        recText.adjust(-1,-1,1,1);
         CCanvas::drawText(text, p, recText,Qt::black);
         recTextMax = recText;
     }
 
 
+    // tic marks and other labels
     while ( t )
     {
         iy = 200 - axis.val2pt( t->val );
 
         p.setPen(QPen(Qt::black,2));
         p.drawLine( 0, iy, 5, iy );
+
+        QString text = QString().sprintf( format_single_prec.toLatin1().data(), t->val );
+        recText      = fm.boundingRect(text);
+        iy = 200 - axis.val2pt(t->val ) - fm.height() / 2;
+        recText.moveTopLeft(QPoint(10, iy));
+        recText.adjust(-1,-1,1,1);
+
+        if(!recText.intersects(recTextMin) && !recText.intersects(recTextMax))
+        {
+            CCanvas::drawText(text, p, recText,Qt::black);
+        }
+
         t = axis.ticmark( t );
     }
 

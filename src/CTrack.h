@@ -397,7 +397,7 @@ class CTrack : public IItem
 
         struct multi_color_setup_t
         {
-            multi_color_setup_t(bool fixValues, float min, float max, int minH, int maxH);
+            multi_color_setup_t(bool fixValues, float min, float max, int minH, int maxH, const QString& name);
             multi_color_setup_t() : fixValues(false), minVal(0), maxVal(0), minHue(0), maxHue(0){}
 
             bool  fixValues;
@@ -406,6 +406,7 @@ class CTrack : public IItem
             int   minHue;
             int   maxHue;
             QVector<QColor> colors;
+            QString name;
         };
 
         static QVector<multi_color_setup_t> setupMultiColor;

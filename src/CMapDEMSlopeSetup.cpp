@@ -56,6 +56,7 @@ CMapDEMSlopeSetup::~CMapDEMSlopeSetup()
 void CMapDEMSlopeSetup::paintEvent(QPaintEvent * e)
 {
     QPainter p(this);
+    USE_ANTI_ALIASING(p,true);
 
     QRect r = rect();
     r.adjust(2,2,-2,-2);
