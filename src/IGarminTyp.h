@@ -192,6 +192,7 @@ class IGarminTyp : public QObject
         virtual bool parsePolyline(QDataStream& in, QMap<quint32, polyline_property>& polylines);
         virtual bool parsePoint(QDataStream& in, QMap<quint32, point_property>& points);
 
+        QTextCodec * getCodec(quint16 codepage);
         void decodeBitmap(QDataStream &in, QImage &img, int w, int h, int bpp);
         bool decodeBppAndBytes(int ncolors, int w, int flags, int& bpp, int& bytes);
         bool decodeColorTable(QDataStream& in, QImage& img, int ncolors,  int maxcolor, bool hasAlpha);
@@ -199,7 +200,7 @@ class IGarminTyp : public QObject
 
         struct typ_section_t
         {
-            typ_section_t() : dataOffset(0), dataLength(0), arrayOffset(0), arrayModulo(0), arraySize(0){};
+            typ_section_t() : dataOffset(0), dataLength(0), arrayOffset(0), arrayModulo(0), arraySize(0){}
             quint32  dataOffset;
             quint32  dataLength;
             quint32  arrayOffset;
