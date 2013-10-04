@@ -1499,10 +1499,12 @@ void CTrackDB::setPointOfFocusByIdx(qint32 idx)
     QList<CTrack::pt_t>& trkpts = track->getTrackPoints();
     if(idx < trkpts.size())
     {
+        track->setPointOfFocus(idx, CTrack::eHoover, false);
         emit sigPointOfFocus(idx);
     }
     else
     {
+        track->setPointOfFocus(-1, CTrack::eHoover, false);
         emit sigPointOfFocus(-1);
     }
 }

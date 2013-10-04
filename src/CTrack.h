@@ -72,7 +72,7 @@ class CTrack : public IItem
         virtual ~CTrack();
         int ref;
         enum type_e {eEnd,eBase,eTrkPts,eTrain,eTrkExt1,eTrkGpxExt,eTrkShdw, eTrkShdw2, eTrkPts2};
-        enum type_select_e{eErase, eNoErase, e3Way};
+        enum type_select_e{eErase, eNoErase, e3Way, eHoover};
 
 #ifdef GPX_EXTENSIONS
         CGpxExtTr tr_ext;        //TODO: CGpxExtPt -> tr_ext
@@ -398,10 +398,11 @@ class CTrack : public IItem
         struct multi_color_setup_t
         {
             multi_color_setup_t(bool fixValues, float min, float max, int minH, int maxH, const QString& name);
-            multi_color_setup_t() : fixValues(false), minVal(0), maxVal(0), minHue(0), maxHue(0){}
+            multi_color_setup_t() : fixValues(false), minVal(0), markVal(WPT_NOFLOAT), maxVal(0), minHue(0), maxHue(0){}
 
             bool  fixValues;
             float minVal;
+            float markVal;
             float maxVal;
             int   minHue;
             int   maxHue;

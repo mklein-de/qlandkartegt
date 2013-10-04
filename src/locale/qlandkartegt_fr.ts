@@ -4751,6 +4751,30 @@ Your selection will be stored in the track&apos;s data. You can save it along wi
         <source>This track has no valid start timestamp. Use the &apos;Date/Time&apos; track filter to set one.</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Slope [°]</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Elevation [m]</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>solid</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>slope</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>elevation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>slope: %1°</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>CTrackDB</name>
@@ -7990,6 +8014,10 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>Filter</source>
         <translation type="unfinished">Filtrer</translation>
+    </message>
+    <message>
+        <source>Multicolor</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

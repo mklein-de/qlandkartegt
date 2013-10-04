@@ -45,6 +45,7 @@ QVector<CTrack::multi_color_setup_t> CTrack::setupMultiColor;
 CTrack::multi_color_setup_t::multi_color_setup_t(bool fixValues, float min, float max, int minH, int maxH, const QString &name)
     : fixValues(fixValues)
     , minVal(min)
+    , markVal(WPT_NOFLOAT)
     , maxVal(max)
     , minHue(minH)
     , maxHue(maxH)
@@ -783,7 +784,7 @@ void CTrack::drawMultiColorLegend(QPainter& p)
     {
         return;
     }
-
+    int     iy;
     const multi_color_setup_t& setup = setupMultiColor[idMultiColor];
     CPlotAxis axis(this);
     axis.setAutoscale(false);
@@ -816,12 +817,19 @@ void CTrack::drawMultiColorLegend(QPainter& p)
     p.setBrush(Qt::NoBrush);
     p.drawRect(0,0,20,200);
 
+    // draw current value marker
+    if(setup.markVal != WPT_NOFLOAT)
+    {
+        iy = 200 - axis.val2pt(setup.markVal);
+        p.setPen(Qt::darkGray);
+        p.drawLine(3,iy,17,iy);
+    }
+
     // draw scale and tic marks
     p.translate(20,0);
 
     QString format_single_prec;
-    QRect   recTextMin, recTextMax;
-    int     iy;
+    QRect   recTextMin, recTextMax;    
     const CPlotAxis::TTic * t = axis.ticmark();
     double limMin, limMax, useMin, useMax;
 
@@ -1524,6 +1532,28 @@ void CTrack::setPointOfFocus(int idx, type_select_e typeSelect, bool moveMap)
                 }
                 stateSelect = eNoSel;
                 break;
+        }
+    }
+    else if(typeSelect == eHoover)
+    {
+        multi_color_setup_t& setup = setupMultiColor[idMultiColor];
+        if(idx != -1)
+        {
+            switch(idMultiColor)
+            {
+                case eMultiColorSlope:
+                    setup.markVal = track[idx].slope2;
+                    break;
+                case eMultiColorEle:
+                    setup.markVal = track[idx].ele;
+                    break;
+                default:
+                    setup.markVal = WPT_NOFLOAT;
+            }
+        }
+        else
+        {
+            setup.markVal = WPT_NOFLOAT;
         }
     }
     else
