@@ -1423,10 +1423,17 @@ void CTrackEditWidget::slotMultiColorConfig()
 {
     if(track.isNull()) return;
 
-    CDlgMultiColorConfig dlg(track->getMultiColorSetup(comboMultiColor->currentIndex()));
+    CTrack::multi_color_setup_t& setup = track->getMultiColorSetup(comboMultiColor->currentIndex());
+    CDlgMultiColorConfig dlg(setup);
     dlg.exec();
 
     track->rebuild(false);
+
+    SETTINGS;
+    cfg.beginGroup("MultiColorTrack");
+    setup.save(cfg);
+    cfg.endGroup();
+
 }
 
 #define CHAR_PER_LINE 120

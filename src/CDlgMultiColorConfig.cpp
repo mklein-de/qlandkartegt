@@ -26,7 +26,14 @@ CDlgMultiColorConfig::CDlgMultiColorConfig(CTrack::multi_color_setup_t &setup)
     setupUi(this);
 
     labelName->setText(setup.name);
-    checkAuto->setChecked(!setup.fixValues);
+    if(setup.modeMinMax == CTrack::eMinMaxModeNoAuto)
+    {
+        checkAuto->setEnabled(false);
+    }
+    else
+    {
+        checkAuto->setChecked(setup.modeMinMax ==  CTrack::eMinMaxModeAuto);
+    }
 
     lineMinValue->setText(QString("%1").arg(setup.minVal));
     lineMaxValue->setText(QString("%1").arg(setup.maxVal));
@@ -61,7 +68,10 @@ void CDlgMultiColorConfig::resizeEvent(QResizeEvent * e)
 
 void CDlgMultiColorConfig::accept()
 {
-    setup.fixValues = !checkAuto->isChecked();
+    if(setup.modeMinMax != CTrack::eMinMaxModeNoAuto)
+    {
+        setup.modeMinMax = checkAuto->isChecked() ? CTrack::eMinMaxModeAuto : CTrack::eMinMaxModeFixed;
+    }
     setup.minVal = lineMinValue->text().toFloat();
     setup.maxVal = lineMaxValue->text().toFloat();
     setup.minHue = spinMinColor->value();

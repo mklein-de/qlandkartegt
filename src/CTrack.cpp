@@ -42,8 +42,8 @@ QDir CTrack::path(_MKSTR(MAPPATH) "/Track");
 
 QVector<CTrack::multi_color_setup_t> CTrack::setupMultiColor;
 
-CTrack::multi_color_setup_t::multi_color_setup_t(bool fixValues, float min, float max, int minH, int maxH, const QString &name)
-    : fixValues(fixValues)
+CTrack::multi_color_setup_t::multi_color_setup_t(multi_color_setup_e modeMinMax, float min, float max, int minH, int maxH, const QString &name)
+    : modeMinMax(modeMinMax)
     , minVal(min)
     , markVal(WPT_NOFLOAT)
     , maxVal(max)
@@ -73,6 +73,32 @@ void CTrack::multi_color_setup_t::buildColorTable()
         }
     }
 
+}
+
+void CTrack::multi_color_setup_t::save(QSettings& cfg)
+{
+    cfg.beginGroup(name);
+
+    cfg.setValue("modeMinMax", modeMinMax);
+    cfg.setValue("minVal",minVal);
+    cfg.setValue("maxVal",maxVal);
+    cfg.setValue("minHue",minHue);
+    cfg.setValue("maxHue",maxHue);
+
+    cfg.endGroup();
+}
+
+void CTrack::multi_color_setup_t::restore(QSettings& cfg)
+{
+    cfg.beginGroup(name);
+
+    modeMinMax  = (multi_color_setup_e)cfg.value("modeMinMax", modeMinMax).toInt();
+    minVal      = cfg.value("minVal",minVal).toFloat();
+    maxVal      = cfg.value("maxVal",maxVal).toFloat();
+    minHue      = cfg.value("minHue",minHue).toInt();
+    maxHue      = cfg.value("maxHue",maxHue).toInt();;
+
+    cfg.endGroup();
 }
 
 
@@ -754,8 +780,14 @@ CTrack::CTrack(QObject * parent)
     {
         setupMultiColor.resize(eMultiColorMax);
         setupMultiColor[eMultiColorNone]    = multi_color_setup_t();
-        setupMultiColor[eMultiColorSlope]   = multi_color_setup_t(true, 0, 25, 120, 0, tr("Slope [\260]"));
-        setupMultiColor[eMultiColorEle]     = multi_color_setup_t(false, 0,  0, 240, 0, tr("Elevation [m]"));
+        setupMultiColor[eMultiColorSlope]   = multi_color_setup_t(CTrack::eMinMaxModeNoAuto, 0, 25, 120, 0, tr("Slope [\260]"));
+        setupMultiColor[eMultiColorEle]     = multi_color_setup_t(CTrack::eMinMaxModeAuto, 0,  0, 240, 0, tr("Elevation [m]"));
+
+        SETTINGS;
+        cfg.beginGroup("MultiColorTrack");
+        setupMultiColor[eMultiColorSlope].restore(cfg);
+        setupMultiColor[eMultiColorEle].restore(cfg);
+        cfg.endGroup();
     }
 }
 
@@ -1404,8 +1436,8 @@ void CTrack::rebuildColorMapElevation()
 {
     multi_color_setup_t& setup = setupMultiColor[eMultiColorEle];
 
-    float min   = setup.minVal = setup.fixValues ? setup.minVal : ptMinEle.ele;
-    float max   = setup.maxVal = setup.fixValues ? setup.maxVal : ptMaxEle.ele;
+    float min   = setup.minVal = setup.modeMinMax == CTrack::eMinMaxModeFixed ? setup.minVal : ptMinEle.ele;
+    float max   = setup.maxVal = setup.modeMinMax == CTrack::eMinMaxModeFixed ? setup.maxVal : ptMaxEle.ele;
     float itvl  = float(setup.colors.size() - 1) / (max - min);
 
     for(int i = 0; i < track.size(); i++)
@@ -1437,8 +1469,8 @@ void CTrack::rebuildColorMapSlope()
 {
     multi_color_setup_t& setup = setupMultiColor[eMultiColorSlope];
 
-    float min   = setup.minVal = setup.fixValues ? setup.minVal : setup.minVal;
-    float max   = setup.maxVal = setup.fixValues ? setup.maxVal : setup.maxVal;
+    float min   = setup.minVal;
+    float max   = setup.maxVal;
     float itvl  = float(setup.colors.size()- 1) / (max - min);
 
     for(int i = 0; i < track.size(); i++)

@@ -298,14 +298,23 @@ class CTrack : public IItem
             int id;
         };
 
+        enum multi_color_setup_e
+        {
+             eMinMaxModeNoAuto
+            ,eMinMaxModeAuto
+            ,eMinMaxModeFixed
+        };
+
         struct multi_color_setup_t
         {
-            multi_color_setup_t(bool fixValues, float min, float max, int minH, int maxH, const QString& name);
-            multi_color_setup_t() : fixValues(false), minVal(0), markVal(WPT_NOFLOAT), maxVal(0), minHue(0), maxHue(0){}
+            multi_color_setup_t(multi_color_setup_e modeMinMax, float min, float max, int minH, int maxH, const QString& name);
+            multi_color_setup_t() : modeMinMax(eMinMaxModeNoAuto), minVal(0), markVal(WPT_NOFLOAT), maxVal(0), minHue(0), maxHue(0){}
 
             void buildColorTable();
+            void save(QSettings& cfg);
+            void restore(QSettings& cfg);
 
-            bool  fixValues;
+            multi_color_setup_e  modeMinMax;
             float minVal;
             float markVal;
             float maxVal;
