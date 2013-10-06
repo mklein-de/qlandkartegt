@@ -2043,12 +2043,27 @@ void CGeoDB::saveWorkspace()
     }
 }
 
+void CGeoDB::syncModifyMarker(QSet<QString> &markers, QList<QString>& keys)
+{
+    QSet<QString> tmpMarkers;
+
+    foreach(const QString& key, keys)
+    {
+        if(markers.contains(key))
+        {
+            tmpMarkers << key;
+        }
+    }
+
+    markers = tmpMarkers;
+}
 
 void CGeoDB::slotWptDBChanged()
 {
     CWptDB& wptdb = CWptDB::self();
     CWptDB::keys_t key;
     QList<CWptDB::keys_t> keys = wptdb.keys();
+    QList<QString> _keys_;
 
     QList<QTreeWidgetItem*> items;
 
@@ -2060,6 +2075,8 @@ void CGeoDB::slotWptDBChanged()
         {
             continue;
         }
+
+        _keys_ << key.key;
 
         QTreeWidgetItem * item = new QTreeWidgetItem();
         item->setData(eCoName, eUrType, eWpt);
@@ -2082,6 +2099,8 @@ void CGeoDB::slotWptDBChanged()
     {
         changedWorkspace(UPDT_WPT);
     }
+
+    syncModifyMarker(keysWptModified, _keys_);
 }
 
 
@@ -2090,12 +2109,15 @@ void CGeoDB::slotTrkDBChanged()
     CTrackDB& trkdb = CTrackDB::self();
     CTrackDB::keys_t key;
     QList<CTrackDB::keys_t> keys = trkdb.keys();
+    QList<QString> _keys_;
 
     QList<QTreeWidgetItem*> items;
 
     foreach(key, keys)
     {
         CTrack * trk = trkdb.getTrackByKey(key.key);
+
+        _keys_ << key.key;
 
         QTreeWidgetItem * item = new QTreeWidgetItem();
         item->setData(eCoName, eUrType, eTrk);
@@ -2118,6 +2140,8 @@ void CGeoDB::slotTrkDBChanged()
     {
         changedWorkspace(UPDT_TRK);
     }
+
+    syncModifyMarker(keysTrkModified, _keys_);
 }
 
 
@@ -2126,12 +2150,15 @@ void CGeoDB::slotRteDBChanged()
     CRouteDB& rtedb = CRouteDB::self();
     CRouteDB::keys_t key;
     QList<CRouteDB::keys_t> keys = rtedb.keys();
+    QList<QString> _keys_;
 
     QList<QTreeWidgetItem*> items;
 
     foreach(key, keys)
     {
         CRoute * rte = rtedb.getRouteByKey(key.key);
+
+        _keys_ << key.key;
 
         QTreeWidgetItem * item = new QTreeWidgetItem();
         item->setData(eCoName, eUrType, eRte);
@@ -2154,6 +2181,8 @@ void CGeoDB::slotRteDBChanged()
     {
         changedWorkspace(UPDT_RTE);
     }
+
+    syncModifyMarker(keysRteModified, _keys_);
 }
 
 
@@ -2162,12 +2191,15 @@ void CGeoDB::slotOvlDBChanged()
     COverlayDB& ovldb = COverlayDB::self();
     COverlayDB::keys_t key;
     QList<COverlayDB::keys_t> keys = ovldb.keys();
+    QList<QString> _keys_;
 
     QList<QTreeWidgetItem*> items;
 
     foreach(key, keys)
     {
         IOverlay * ovl = ovldb.getOverlayByKey(key.key);
+
+        _keys_ << key.key;
 
         QTreeWidgetItem * item = new QTreeWidgetItem();
         item->setData(eCoName, eUrType, eOvl);
@@ -2190,6 +2222,8 @@ void CGeoDB::slotOvlDBChanged()
     {
         changedWorkspace(UPDT_OVL);
     }
+
+    syncModifyMarker(keysOvlModified, _keys_);
 }
 
 
@@ -2199,10 +2233,13 @@ void CGeoDB::slotMapDBChanged()
 
     IMapSelection * map;
     const QMap<QString,IMapSelection*>& maps = mapdb.getSelectedMaps();
+    QList<QString> _keys_;
 
     QList<QTreeWidgetItem*> items;
     foreach(map, maps)
     {
+        _keys_ << map->getKey();
+
         QTreeWidgetItem * item = new QTreeWidgetItem();
         item->setData(eCoName, eUrType, eMap);
         item->setData(eCoName, eUrQLKey, map->getKey());
@@ -2226,6 +2263,7 @@ void CGeoDB::slotMapDBChanged()
         changedWorkspace(UPDT_MAP);
     }
 
+    syncModifyMarker(keysMapModified, _keys_);
 }
 
 

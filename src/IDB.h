@@ -94,9 +94,11 @@ class IDB : public QObject
 
         virtual void emitSigChanged(){emit sigChanged(); signalFlags |= type;}
         virtual void emitSigModified(const QString& key){emit sigModified(key);}
+        virtual void emitSigNeedUpdate(const QString& key){emit sigNeedUpdate(key);}
         signals:
         void sigChanged();
         void sigModified(const QString&);
+        void sigNeedUpdate(const QString&);
 
     protected:
         dbType_e type;

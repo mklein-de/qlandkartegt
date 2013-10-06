@@ -1624,7 +1624,7 @@ void CTrack::setPointOfFocus(int idx, type_select_e typeSelect, bool moveMap)
     {
         theMainWindow->getCanvas()->move(track[idx].lon, track[idx].lat);
     }
-    emit sigChanged();
+    emit sigNeedUpdate();
 }
 
 void CTrack::getPointOfFocus(QList<CTrack::pt_t>& points)

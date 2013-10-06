@@ -339,8 +339,9 @@ void CTrackEditWidget::slotSetTrack(CTrack * t)
 
     if(track)
     {
-        disconnect(track,SIGNAL(sigChanged()), this, SLOT(slotUpdate()));
-        disconnect(track,SIGNAL(destroyed(QObject*)), this, SLOT(deleteLater()));
+        disconnect(track, SIGNAL(sigChanged()), this, SLOT(slotUpdate()));
+        disconnect(track, SIGNAL(sigNeedUpdate()), this, SLOT(slotUpdate()));
+        disconnect(track, SIGNAL(destroyed(QObject*)), this, SLOT(deleteLater()));
 
 #ifdef GPX_EXTENSIONS
         //delete all extension tabs and reset tab status
@@ -478,6 +479,7 @@ void CTrackEditWidget::slotSetTrack(CTrack * t)
     QList<CTrack::multi_color_item_t> multiColorItems;
     track->getMultiColor(on, id, multiColorItems);
 
+    track->blockSignals(true);
     comboMultiColor->clear();
     foreach(const CTrack::multi_color_item_t& item, multiColorItems)
     {
@@ -485,6 +487,7 @@ void CTrackEditWidget::slotSetTrack(CTrack * t)
     }
     comboMultiColor->setCurrentIndex(id);
     checkMultiColor->setChecked(on);
+    track->blockSignals(false);
 
     QList<CTrack::pt_t>& trkpts           = track->getTrackPoints();
     QList<CTrack::pt_t>::iterator trkpt   = trkpts.begin();
@@ -495,6 +498,7 @@ void CTrackEditWidget::slotSetTrack(CTrack * t)
     }
 
     connect(track,SIGNAL(sigChanged()), this, SLOT(slotUpdate()));
+    connect(track, SIGNAL(sigNeedUpdate()), this, SLOT(slotUpdate()));
     connect(track,SIGNAL(destroyed(QObject*)), this, SLOT(deleteLater()));
 
     slotUpdate();
@@ -825,11 +829,15 @@ void CTrackEditWidget::slotPointSelectionChanged()
         trkpts[idxTrkPt].flags |= CTrack::pt_t::eSelected;
         ++item;
     }
-    quint32 idxTrkPt = items.last()->data(0,Qt::UserRole).toUInt();
-    trkpts[idxTrkPt].flags |= CTrack::pt_t::eFocus;
+    if(!items.isEmpty())
+    {
+        quint32 idxTrkPt = items.last()->data(0,Qt::UserRole).toUInt();
+        trkpts[idxTrkPt].flags |= CTrack::pt_t::eFocus;
+    }
 
     originator = true;
-    track->rebuild(false);
+    //track->rebuild(false);
+    track->emitSigNeedUpdate();
     originator = false;
 }
 

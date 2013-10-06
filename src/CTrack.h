@@ -330,6 +330,8 @@ class CTrack : public IItem
         bool isMultiColor(){return useMultiColor;}
         void drawMultiColorLegend(QPainter& p);
 
+        void emitSigNeedUpdate(){emit sigNeedUpdate();}
+
     public slots:
         void slotScaleWpt2Track();
 

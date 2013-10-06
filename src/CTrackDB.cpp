@@ -642,6 +642,7 @@ void CTrackDB::addTrack(CTrack* track, bool silent)
     tracks[track->getKey()] = track;
 
     connect(track,SIGNAL(sigChanged()),this, SLOT(slotModified()));
+    connect(track,SIGNAL(sigNeedUpdate()),this, SLOT(slotNeedUpdate()));
     if(!silent)
     {
         emitSigChanged();
@@ -1603,6 +1604,15 @@ void CTrackDB::slotModified()
     if(trk)
     {
         emitSigModified(trk->getKey());
+    }
+}
+
+void CTrackDB::slotNeedUpdate()
+{
+    CTrack * trk = qobject_cast<CTrack*>(sender());
+    if(trk)
+    {
+        emitSigNeedUpdate(trk->getKey());
     }
 }
 

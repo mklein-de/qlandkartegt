@@ -181,6 +181,8 @@ class CGeoDB : public QWidget, private Ui::IGeoToolWidget
         void updateItemById(quint64 id);
 
         void exportProject(quint64 key, const QString &name, const QString &prefix);
+        /// sync list of modified keys with actual list of tems. drop removed keys.
+        void syncModifyMarker(QSet<QString> &markers, QList<QString>& keys);
 
         enum EntryType_e
         {

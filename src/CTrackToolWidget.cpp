@@ -45,6 +45,7 @@ CTrackToolWidget::CTrackToolWidget(QTabWidget * parent)
     parent->setTabToolTip(parent->indexOf(this), tr("Tracks"));
 
     connect(&CTrackDB::self(), SIGNAL(sigModified(const QString&)), this, SLOT(slotDBChanged()));
+    connect(&CTrackDB::self(), SIGNAL(sigNeedUpdate(const QString&)), this, SLOT(slotDBChanged()));
     connect(&CTrackDB::self(), SIGNAL(sigChanged()), this, SLOT(slotDBChanged()));
 
     connect(listTracks,SIGNAL(itemClicked(QListWidgetItem*) ),this,SLOT(slotItemClicked(QListWidgetItem*)));

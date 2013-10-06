@@ -124,6 +124,7 @@ class CTrackDB : public IDB
     private slots:
         void slotMapChanged();
         void slotModified();
+        void slotNeedUpdate();
 
     private:
 
