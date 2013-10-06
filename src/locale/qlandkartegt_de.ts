@@ -10980,7 +10980,7 @@ and GPS and adjust all image time-stamps before correlating them with loaded tra
     <message>
         <location filename="../IDlgMultiColorConfig.ui" line="93"/>
         <source>Max Color</source>
-        <translation>Farben Max.</translation>
+        <translation>Farbe Max.</translation>
     </message>
 </context>
 <context>
