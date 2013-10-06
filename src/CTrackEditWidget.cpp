@@ -37,6 +37,7 @@
 #include "CWptDB.h"
 #include "CSettings.h"
 #include "CPlot.h"
+#include "CDlgMultiColorConfig.h"
 
 #include <QtGui>
 
@@ -184,6 +185,7 @@ CTrackEditWidget::CTrackEditWidget(QWidget * parent)
     connect(textStages, SIGNAL(sigHighlightArea(QString)), this, SLOT(slotHighlightArea(QString)));
     connect(checkMultiColor, SIGNAL(toggled(bool)), this, SLOT(slotToggleMultiColor(bool)));
     connect(comboMultiColor, SIGNAL(currentIndexChanged(int)), this, SLOT(slotMultiColorMode(int)));
+    connect(toolMuliColorConfig, SIGNAL(clicked()), this, SLOT(slotMultiColorConfig()));
 
     connect(&CTrackDB::self(), SIGNAL(sigModified(const QString&)), this, SLOT(slotStagesChanged()));
     connect(&CTrackDB::self(), SIGNAL(sigPointOfFocus(int)), this, SLOT(slotPointOfFocus(int)));
@@ -1405,6 +1407,7 @@ void CTrackEditWidget::slotToggleMultiColor(bool on)
 {
     comboColor->setEnabled(!on);
     comboMultiColor->setEnabled(on);
+    toolMuliColorConfig->setEnabled(on);
 
     if(track.isNull()) return;
     track->setMultiColor(on, comboMultiColor->currentIndex());
@@ -1414,6 +1417,16 @@ void CTrackEditWidget::slotMultiColorMode(int idx)
 {
     if(track.isNull()) return;
     track->setMultiColor(checkMultiColor->isChecked(), idx);
+}
+
+void CTrackEditWidget::slotMultiColorConfig()
+{
+    if(track.isNull()) return;
+
+    CDlgMultiColorConfig dlg(track->getMultiColorSetup(comboMultiColor->currentIndex()));
+    dlg.exec();
+
+    track->rebuild(false);
 }
 
 #define CHAR_PER_LINE 120

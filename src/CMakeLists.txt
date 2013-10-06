@@ -165,6 +165,7 @@ set(qlandkarte_SRCS
     CDlgParentWpt.cpp
     CDlgDeviceExportPath.cpp
     CDlgProxy.cpp
+    CDlgMultiColorConfig.cpp
     CQlb.cpp
     CGpx.cpp
     IDevice.cpp
@@ -342,6 +343,7 @@ set(qlandkarte_HDRS
     CDlgParentWpt.h
     CDlgDeviceExportPath.h
     CDlgProxy.h
+    CDlgMultiColorConfig.h
     CQlb.h
     CGpx.h
     IDevice.h
@@ -471,6 +473,7 @@ SET(qlandkarte_UIS
     IDlgParentWpt.ui
     IDlgDeviceExportPath.ui
     IDlgProxy.ui
+    IDlgMultiColorConfig.ui
     ICreateMapQMAP.ui
     ICreateMapGeoTiff.ui
     ICreateMapGridTool.ui

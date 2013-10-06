@@ -1452,6 +1452,7 @@ void CTrackDB::setPointOfFocusByDist(double distance)
         }
         ++trkpt;
     }
+    track->setPointOfFocus(idx, CTrack::eHoover, false);
     emit sigPointOfFocus(idx);
 }
 
@@ -1484,6 +1485,7 @@ void CTrackDB::setPointOfFocusByTime(quint32 timestamp)
         }
         ++trkpt;
     }
+    track->setPointOfFocus(idx, CTrack::eHoover, false);
     emit sigPointOfFocus(idx);
 }
 

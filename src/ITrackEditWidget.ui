@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>642</width>
+    <width>664</width>
     <height>421</height>
    </rect>
   </property>
@@ -141,6 +141,17 @@
       <widget class="QComboBox" name="comboMultiColor">
        <property name="enabled">
         <bool>false</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QToolButton" name="toolMuliColorConfig">
+       <property name="text">
+        <string>...</string>
+       </property>
+       <property name="icon">
+        <iconset resource="resources.qrc">
+         <normaloff>:/icons/iconConfig16x16.png</normaloff>:/icons/iconConfig16x16.png</iconset>
        </property>
       </widget>
      </item>
@@ -356,7 +367,16 @@
             <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
            </property>
            <layout class="QGridLayout" name="gridLayout_Standard" rowstretch="0,0" rowminimumheight="0,0">
-            <property name="margin">
+            <property name="leftMargin">
+             <number>5</number>
+            </property>
+            <property name="topMargin">
+             <number>5</number>
+            </property>
+            <property name="rightMargin">
+             <number>5</number>
+            </property>
+            <property name="bottomMargin">
              <number>5</number>
             </property>
             <property name="spacing">
@@ -694,7 +714,16 @@
             <bool>false</bool>
            </property>
            <layout class="QGridLayout" name="gridLayout_Extensions">
-            <property name="margin">
+            <property name="leftMargin">
+             <number>5</number>
+            </property>
+            <property name="topMargin">
+             <number>5</number>
+            </property>
+            <property name="rightMargin">
+             <number>5</number>
+            </property>
+            <property name="bottomMargin">
              <number>5</number>
             </property>
             <property name="spacing">
@@ -734,8 +763,8 @@
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>142</width>
-                 <height>274</height>
+                 <width>100</width>
+                 <height>30</height>
                 </rect>
                </property>
                <layout class="QVBoxLayout" name="verticalLayout_Extensions"/>

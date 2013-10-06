@@ -298,6 +298,24 @@ class CTrack : public IItem
             int id;
         };
 
+        struct multi_color_setup_t
+        {
+            multi_color_setup_t(bool fixValues, float min, float max, int minH, int maxH, const QString& name);
+            multi_color_setup_t() : fixValues(false), minVal(0), markVal(WPT_NOFLOAT), maxVal(0), minHue(0), maxHue(0){}
+
+            void buildColorTable();
+
+            bool  fixValues;
+            float minVal;
+            float markVal;
+            float maxVal;
+            int   minHue;
+            int   maxHue;
+            QVector<QColor> colors;
+            QString name;
+        };
+
+        multi_color_setup_t &getMultiColorSetup(int id);
         void getMultiColor(bool& on, int& id, QList<multi_color_item_t>& items);
         void setMultiColor(bool on, int id);
         bool isMultiColor(){return useMultiColor;}
@@ -311,6 +329,7 @@ class CTrack : public IItem
         void slotProxyAuthenticationRequired(const QNetworkProxy&, QAuthenticator*);
 
     private:
+        friend class CDlgMultiColorConfig;
         friend class CTrackDB;
         friend QDataStream& operator >>(QDataStream& s, CTrack& track);
         friend QDataStream& operator <<(QDataStream& s, CTrack& track);
@@ -393,22 +412,6 @@ class CTrack : public IItem
 
         quint32 useMultiColor;
         qint32  idMultiColor;
-
-
-        struct multi_color_setup_t
-        {
-            multi_color_setup_t(bool fixValues, float min, float max, int minH, int maxH, const QString& name);
-            multi_color_setup_t() : fixValues(false), minVal(0), markVal(WPT_NOFLOAT), maxVal(0), minHue(0), maxHue(0){}
-
-            bool  fixValues;
-            float minVal;
-            float markVal;
-            float maxVal;
-            int   minHue;
-            int   maxHue;
-            QVector<QColor> colors;
-            QString name;
-        };
 
         static QVector<multi_color_setup_t> setupMultiColor;
 

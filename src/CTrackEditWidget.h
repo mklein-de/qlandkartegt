@@ -108,6 +108,7 @@ class CTrackEditWidget : public QWidget, private Ui::ITrackEditWidget
         void slotHighlightArea(const QString& key);
         void slotToggleMultiColor(bool on);
         void slotMultiColorMode(int idx);
+        void slotMultiColorConfig();
 
     protected:
         void keyPressEvent(QKeyEvent * e);

@@ -51,22 +51,28 @@ CTrack::multi_color_setup_t::multi_color_setup_t(bool fixValues, float min, floa
     , maxHue(maxH)
     , name(name)
 {
-    if(minH > maxH)
+    buildColorTable();
+}
+
+void CTrack::multi_color_setup_t::buildColorTable()
+{
+    if(minHue > maxHue)
     {
-        colors.resize(minH - maxH + 1);
+        colors.resize(minHue - maxHue + 1);
         for(int i = 0; i<colors.size(); i++)
         {
-            colors[i].setHsv(minH - i, 255, 255, 255);
+            colors[i].setHsv(minHue - i, 255, 255);
         }
     }
     else
     {
-        colors.resize(maxH - minH + 1);
+        colors.resize(maxHue - minHue + 1);
         for(int i = 0; i<colors.size(); i++)
         {
-            colors[i].setHsv(minH + i, 255, 255, 255);
+            colors[i].setHsv(minHue + i, 255, 255);
         }
     }
+
 }
 
 
@@ -769,6 +775,11 @@ void CTrack::getMultiColor(bool& on, int& id, QList<multi_color_item_t>& items)
     id = idMultiColor;
 }
 
+CTrack::multi_color_setup_t& CTrack::getMultiColorSetup(int id)
+{
+    return setupMultiColor[id];
+}
+
 void CTrack::setMultiColor(bool on, int id)
 {
      useMultiColor = on;
@@ -821,7 +832,7 @@ void CTrack::drawMultiColorLegend(QPainter& p)
     if(setup.markVal != WPT_NOFLOAT)
     {
         iy = 200 - axis.val2pt(setup.markVal);
-        p.setPen(Qt::darkGray);
+        p.setPen(Qt::black);
         p.drawLine(3,iy,17,iy);
     }
 
@@ -1360,7 +1371,6 @@ void CTrack::rebuild(bool reindex)
 
         float a  = atan((e2 - e1)/(d2 - d1));
         pt.slope2 = fabs(a * 360.0/(2 * M_PI));
-        qDebug() << d1 << d2 << e1 << e2 << pt.slope2;
 
     }
 
@@ -1427,8 +1437,8 @@ void CTrack::rebuildColorMapSlope()
 {
     multi_color_setup_t& setup = setupMultiColor[eMultiColorSlope];
 
-    float min   = setup.minVal = setup.fixValues ?  0 : setup.minVal;
-    float max   = setup.maxVal = setup.fixValues ? 25 : setup.maxVal;
+    float min   = setup.minVal = setup.fixValues ? setup.minVal : setup.minVal;
+    float max   = setup.maxVal = setup.fixValues ? setup.maxVal : setup.maxVal;
     float itvl  = float(setup.colors.size()- 1) / (max - min);
 
     for(int i = 0; i < track.size(); i++)
