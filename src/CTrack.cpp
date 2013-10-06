@@ -863,9 +863,12 @@ void CTrack::drawMultiColorLegend(QPainter& p)
     // draw current value marker
     if(setup.markVal != WPT_NOFLOAT)
     {
-        iy = 200 - axis.val2pt(setup.markVal);
-        p.setPen(Qt::black);
-        p.drawLine(3,iy,17,iy);
+        if((setup.minVal <= setup.markVal) && (setup.markVal <= setup.maxVal))
+        {
+            iy = 200 - axis.val2pt(setup.markVal);
+            p.setPen(Qt::black);
+            p.drawLine(3,iy,17,iy);
+        }
     }
 
     // draw scale and tic marks

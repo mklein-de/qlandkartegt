@@ -37,7 +37,6 @@
 
 #include <QtGui>
 #include "CUndoStackModel.h"
-#include "CTrackUndoCommandDelete.h"
 #include "CTrackUndoCommandSelect.h"
 
 #if WIN32
@@ -653,7 +652,10 @@ void CTrackDB::addTrack(CTrack* track, bool silent)
 void CTrackDB::delTrack(const QString& key, bool silent)
 {
     if(!tracks.contains(key)) return;
-    undoStack->push(new CTrackUndoCommandDelete(this,key,silent));
+
+    CTrack * track = take(key, silent);
+    track->deleteLater();
+
 
 }
 

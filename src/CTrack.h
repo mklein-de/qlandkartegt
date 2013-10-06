@@ -329,6 +329,7 @@ class CTrack : public IItem
         void setMultiColor(bool on, int id);
         bool isMultiColor(){return useMultiColor;}
         void drawMultiColorLegend(QPainter& p);
+        void rebuildColorMap();
 
         void emitSigNeedUpdate(){emit sigNeedUpdate();}
 
@@ -343,8 +344,7 @@ class CTrack : public IItem
         friend class CDlgMultiColorConfig;
         friend class CTrackDB;
         friend QDataStream& operator >>(QDataStream& s, CTrack& track);
-        friend QDataStream& operator <<(QDataStream& s, CTrack& track);
-        void rebuildColorMap();
+        friend QDataStream& operator <<(QDataStream& s, CTrack& track);        
         void rebuildColorMapElevation();
         void rebuildColorMapSlope();
         void rebuildColorMapDefault();
