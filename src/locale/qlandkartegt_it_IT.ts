@@ -3127,17 +3127,17 @@ is not a valid coordinate system definition:
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CGeoDB.cpp" line="3556"/>
+        <location filename="../CGeoDB.cpp" line="3594"/>
         <source>Delete diary...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CGeoDB.cpp" line="3556"/>
+        <location filename="../CGeoDB.cpp" line="3594"/>
         <source>Do you really want to delete the diary?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CGeoDB.cpp" line="3851"/>
+        <location filename="../CGeoDB.cpp" line="3889"/>
         <source>Export data to...</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3170,7 +3170,7 @@ is not a valid coordinate system definition:
     </message>
     <message>
         <location filename="../CGeoDB.cpp" line="1348"/>
-        <location filename="../CGeoDB.cpp" line="3815"/>
+        <location filename="../CGeoDB.cpp" line="3853"/>
         <source>Loading items from database.</source>
         <translation>Caricamento elementi dal database.</translation>
     </message>
@@ -3180,34 +3180,34 @@ is not a valid coordinate system definition:
         <translation>Salvataggio area di lavoro. Prego attendere.</translation>
     </message>
     <message>
-        <location filename="../CGeoDB.cpp" line="2738"/>
+        <location filename="../CGeoDB.cpp" line="2776"/>
         <source>Delete folder...</source>
         <translation>Elimina cartella...</translation>
     </message>
     <message>
-        <location filename="../CGeoDB.cpp" line="2898"/>
-        <location filename="../CGeoDB.cpp" line="3094"/>
+        <location filename="../CGeoDB.cpp" line="2936"/>
+        <location filename="../CGeoDB.cpp" line="3132"/>
         <source>Delete items.</source>
         <translation>Elimina elementi.</translation>
     </message>
     <message>
-        <location filename="../CGeoDB.cpp" line="2942"/>
+        <location filename="../CGeoDB.cpp" line="2980"/>
         <source>Copy items.</source>
         <translation>Copia elementi.</translation>
     </message>
     <message>
-        <location filename="../CGeoDB.cpp" line="2997"/>
-        <location filename="../CGeoDB.cpp" line="3057"/>
+        <location filename="../CGeoDB.cpp" line="3035"/>
+        <location filename="../CGeoDB.cpp" line="3095"/>
         <source>Move items.</source>
         <translation>Sposta elementi.</translation>
     </message>
     <message>
-        <location filename="../CGeoDB.cpp" line="3133"/>
+        <location filename="../CGeoDB.cpp" line="3171"/>
         <source>Add items to database.</source>
         <translation>Aggiungi elementi al database.</translation>
     </message>
     <message>
-        <location filename="../CGeoDB.cpp" line="3267"/>
+        <location filename="../CGeoDB.cpp" line="3305"/>
         <source>Save items.</source>
         <translation>Salva elementi.</translation>
     </message>
@@ -3239,7 +3239,7 @@ is not a valid coordinate system definition:
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CGeoDB.cpp" line="2738"/>
+        <location filename="../CGeoDB.cpp" line="2776"/>
         <source>You are sure you want to delete &apos;%1&apos; and all items below?</source>
         <translation>Sei sicuro di voler eliminare &apos;%1&apos; e tutti i suoi sottoelementi?</translation>
     </message>
@@ -6994,7 +6994,7 @@ lunghezza: %1 %2</translation>
 <context>
     <name>CTrack</name>
     <message>
-        <location filename="../CTrack.cpp" line="1692"/>
+        <location filename="../CTrack.cpp" line="1767"/>
         <source>
 length: %1 %2</source>
         <translation>
@@ -7005,178 +7005,178 @@ lunghezza: %1 %2</translation>
         <translation type="obsolete">, punti: %1</translation>
     </message>
     <message>
-        <location filename="../CTrack.cpp" line="1693"/>
+        <location filename="../CTrack.cpp" line="1768"/>
         <source>, points: %1 (%2)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CTrack.cpp" line="1703"/>
+        <location filename="../CTrack.cpp" line="1778"/>
         <source>
 time: %1:</source>
         <translation>
 tempo %1:</translation>
     </message>
     <message>
-        <location filename="../CTrack.cpp" line="1707"/>
+        <location filename="../CTrack.cpp" line="1782"/>
         <source>
 time: </source>
         <translation>
 tempo:</translation>
     </message>
     <message>
-        <location filename="../CTrack.cpp" line="1711"/>
-        <location filename="../CTrack.cpp" line="1729"/>
+        <location filename="../CTrack.cpp" line="1786"/>
+        <location filename="../CTrack.cpp" line="1804"/>
         <source>, speed: %1 %2</source>
         <translation>, velocità: %1 %2</translation>
     </message>
     <message>
-        <location filename="../CTrack.cpp" line="1721"/>
+        <location filename="../CTrack.cpp" line="1796"/>
         <source>
 moving: %1:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CTrack.cpp" line="1725"/>
+        <location filename="../CTrack.cpp" line="1800"/>
         <source>
 moving: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CTrack.cpp" line="1732"/>
+        <location filename="../CTrack.cpp" line="1807"/>
         <source>
 start: %1</source>
         <translation>
 inizio: %1</translation>
     </message>
     <message>
-        <location filename="../CTrack.cpp" line="1732"/>
-        <location filename="../CTrack.cpp" line="1733"/>
+        <location filename="../CTrack.cpp" line="1807"/>
+        <location filename="../CTrack.cpp" line="1808"/>
         <source>-</source>
         <translation>-</translation>
     </message>
     <message>
-        <location filename="../CTrack.cpp" line="1733"/>
+        <location filename="../CTrack.cpp" line="1808"/>
         <source>
 end: %1</source>
         <translation>
 fine: %1</translation>
     </message>
     <message>
-        <location filename="../CTrack.cpp" line="1738"/>
+        <location filename="../CTrack.cpp" line="1813"/>
         <source>
 %1%2 %3, %4%5 %6</source>
         <translation>
 %1%2 %3, %4%5 %6</translation>
     </message>
     <message>
-        <location filename="../CTrack.cpp" line="1794"/>
+        <location filename="../CTrack.cpp" line="1869"/>
         <source>%5 %4 %1:%2:%3 (%6%)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CTrack.cpp" line="1795"/>
+        <location filename="../CTrack.cpp" line="1870"/>
         <source> .. (%6%) %1:%2:%3 %4 %5</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CTrack.cpp" line="1800"/>
+        <location filename="../CTrack.cpp" line="1875"/>
         <source> .. (%5%) %1:%2:%3 %4</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CTrack.cpp" line="1817"/>
+        <location filename="../CTrack.cpp" line="1892"/>
         <source> .. (%3%) %1%2 %4 %5</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CTrack.cpp" line="1820"/>
+        <location filename="../CTrack.cpp" line="1895"/>
         <source> .. (%3%) %1%2 %4</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CTrack.cpp" line="1834"/>
+        <location filename="../CTrack.cpp" line="1909"/>
         <source>slope: %1°</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CTrack.cpp" line="2273"/>
+        <location filename="../CTrack.cpp" line="2348"/>
         <source>Error...</source>
         <translation type="unfinished">Errore...</translation>
     </message>
     <message>
-        <location filename="../CTrack.cpp" line="2273"/>
+        <location filename="../CTrack.cpp" line="2348"/>
         <source>This track has no valid start timestamp. Use the &apos;Date/Time&apos; track filter to set one.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CTrack.cpp" line="1798"/>
+        <location filename="../CTrack.cpp" line="1873"/>
         <source>%4 %1:%2:%3 (%5%)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CTrack.cpp" line="750"/>
+        <location filename="../CTrack.cpp" line="783"/>
         <source>Slope [°]</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CTrack.cpp" line="751"/>
+        <location filename="../CTrack.cpp" line="784"/>
         <source>Elevation [m]</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CTrack.cpp" line="763"/>
+        <location filename="../CTrack.cpp" line="802"/>
         <source>solid</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CTrack.cpp" line="764"/>
+        <location filename="../CTrack.cpp" line="803"/>
         <source>slope</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CTrack.cpp" line="765"/>
+        <location filename="../CTrack.cpp" line="804"/>
         <source>elevation</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CTrack.cpp" line="1813"/>
+        <location filename="../CTrack.cpp" line="1888"/>
         <source>%4 %1%2 (%3%)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CTrack.cpp" line="1828"/>
+        <location filename="../CTrack.cpp" line="1903"/>
         <source>elevation: %1%2</source>
         <translation type="unfinished">elevazione: %1%2</translation>
     </message>
     <message>
-        <location filename="../CTrack.cpp" line="1844"/>
+        <location filename="../CTrack.cpp" line="1919"/>
         <source>heart rate: %1bpm</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CTrack.cpp" line="1854"/>
+        <location filename="../CTrack.cpp" line="1929"/>
         <source>cadence: %1rpm</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CTrack.cpp" line="1889"/>
+        <location filename="../CTrack.cpp" line="1964"/>
         <source>Start</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CTrack.cpp" line="1895"/>
+        <location filename="../CTrack.cpp" line="1970"/>
         <source>End</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CTrack.cpp" line="1929"/>
-        <location filename="../CTrack.cpp" line="1931"/>
-        <location filename="../CTrack.cpp" line="1945"/>
+        <location filename="../CTrack.cpp" line="2004"/>
+        <location filename="../CTrack.cpp" line="2006"/>
+        <location filename="../CTrack.cpp" line="2020"/>
         <source> %3 %1 %2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CTrack.cpp" line="1810"/>
+        <location filename="../CTrack.cpp" line="1885"/>
         <source>%5 %4 %1%2 (%3%)</source>
         <translation type="unfinished"></translation>
     </message>
@@ -7185,41 +7185,41 @@ fine: %1</translation>
         <translation type="obsolete">elevazione: %1 %2</translation>
     </message>
     <message>
-        <location filename="../CTrack.cpp" line="1870"/>
+        <location filename="../CTrack.cpp" line="1945"/>
         <source>
  %1: %2 </source>
         <translation type="unfinished">
  %1: %2 </translation>
     </message>
     <message>
-        <location filename="../CTrack.cpp" line="1933"/>
+        <location filename="../CTrack.cpp" line="2008"/>
         <source> %3 %1 %2 </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CTrack.cpp" line="1943"/>
+        <location filename="../CTrack.cpp" line="2018"/>
         <source>| %3 %1 %2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CTrack.cpp" line="1947"/>
+        <location filename="../CTrack.cpp" line="2022"/>
         <source> %1 %2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CTrack.cpp" line="1948"/>
+        <location filename="../CTrack.cpp" line="2023"/>
         <source> %1 :%2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CTrack.cpp" line="2023"/>
+        <location filename="../CTrack.cpp" line="2098"/>
         <source>You are trying to find waypoints along a track with %1 waypoints and a track of size %2. This can be a very time consuming operation. Go on?
 
 Your selection will be stored in the track&apos;s data. You can save it along with the data. To change the selection use the checkbox in the track edit dialog.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CTrack.cpp" line="2030"/>
+        <location filename="../CTrack.cpp" line="2105"/>
         <source>Warning...</source>
         <translation type="unfinished"></translation>
     </message>
@@ -7227,37 +7227,37 @@ Your selection will be stored in the track&apos;s data. You can save it along wi
 <context>
     <name>CTrackDB</name>
     <message>
-        <location filename="../CTrackDB.cpp" line="638"/>
+        <location filename="../CTrackDB.cpp" line="637"/>
         <source>Track%1</source>
         <translation>Traccia%1</translation>
     </message>
     <message>
-        <location filename="../CTrackDB.cpp" line="1195"/>
+        <location filename="../CTrackDB.cpp" line="1198"/>
         <source>Hmax=%1%2</source>
         <translation>Alt.max=%1%2</translation>
     </message>
     <message>
-        <location filename="../CTrackDB.cpp" line="1200"/>
+        <location filename="../CTrackDB.cpp" line="1203"/>
         <source>Hmin=%1%2</source>
         <translation>Alt.min=%1%2</translation>
     </message>
     <message>
-        <location filename="../CTrackDB.cpp" line="1205"/>
+        <location filename="../CTrackDB.cpp" line="1208"/>
         <source>Vmax=%1%2</source>
         <translation>Vel.max=%1%2</translation>
     </message>
     <message>
-        <location filename="../CTrackDB.cpp" line="1227"/>
+        <location filename="../CTrackDB.cpp" line="1230"/>
         <source>Failed...</source>
         <translation>Fallito...</translation>
     </message>
     <message>
-        <location filename="../CTrackDB.cpp" line="1227"/>
+        <location filename="../CTrackDB.cpp" line="1230"/>
         <source>Failed to copy track. You must select a track or track points of a track.</source>
         <translation>Impossibile copiare la traccia. Devi selezionare una traccia o alcuni punti di una traccia.</translation>
     </message>
     <message>
-        <location filename="../CTrackDB.cpp" line="1321"/>
+        <location filename="../CTrackDB.cpp" line="1324"/>
         <source>_rev</source>
         <translation>_rev</translation>
     </message>
@@ -7265,30 +7265,30 @@ Your selection will be stored in the track&apos;s data. You can save it along wi
 <context>
     <name>CTrackEditWidget</name>
     <message>
-        <location filename="../CTrackEditWidget.cpp" line="702"/>
-        <location filename="../CTrackEditWidget.cpp" line="712"/>
-        <location filename="../CTrackEditWidget.cpp" line="727"/>
-        <location filename="../CTrackEditWidget.cpp" line="729"/>
-        <location filename="../CTrackEditWidget.cpp" line="731"/>
+        <location filename="../CTrackEditWidget.cpp" line="708"/>
+        <location filename="../CTrackEditWidget.cpp" line="718"/>
+        <location filename="../CTrackEditWidget.cpp" line="733"/>
+        <location filename="../CTrackEditWidget.cpp" line="735"/>
         <location filename="../CTrackEditWidget.cpp" line="737"/>
-        <location filename="../CTrackEditWidget.cpp" line="1579"/>
-        <location filename="../CTrackEditWidget.cpp" line="1622"/>
-        <location filename="../CTrackEditWidget.cpp" line="1649"/>
-        <location filename="../CTrackEditWidget.cpp" line="1650"/>
-        <location filename="../CTrackEditWidget.cpp" line="1655"/>
-        <location filename="../CTrackEditWidget.cpp" line="1658"/>
-        <location filename="../CTrackEditWidget.cpp" line="1663"/>
-        <location filename="../CTrackEditWidget.cpp" line="1668"/>
-        <location filename="../CTrackEditWidget.cpp" line="1757"/>
-        <location filename="../CTrackEditWidget.cpp" line="1761"/>
-        <location filename="../CTrackEditWidget.cpp" line="1764"/>
-        <location filename="../CTrackEditWidget.cpp" line="1769"/>
-        <location filename="../CTrackEditWidget.cpp" line="1774"/>
+        <location filename="../CTrackEditWidget.cpp" line="743"/>
+        <location filename="../CTrackEditWidget.cpp" line="1610"/>
+        <location filename="../CTrackEditWidget.cpp" line="1653"/>
+        <location filename="../CTrackEditWidget.cpp" line="1680"/>
+        <location filename="../CTrackEditWidget.cpp" line="1681"/>
+        <location filename="../CTrackEditWidget.cpp" line="1686"/>
+        <location filename="../CTrackEditWidget.cpp" line="1689"/>
+        <location filename="../CTrackEditWidget.cpp" line="1694"/>
+        <location filename="../CTrackEditWidget.cpp" line="1699"/>
+        <location filename="../CTrackEditWidget.cpp" line="1788"/>
+        <location filename="../CTrackEditWidget.cpp" line="1792"/>
+        <location filename="../CTrackEditWidget.cpp" line="1795"/>
+        <location filename="../CTrackEditWidget.cpp" line="1800"/>
+        <location filename="../CTrackEditWidget.cpp" line="1805"/>
         <source>%1 %2</source>
         <translation>%1 %2</translation>
     </message>
     <message>
-        <location filename="../CTrackEditWidget.cpp" line="1259"/>
+        <location filename="../CTrackEditWidget.cpp" line="1269"/>
         <source>Remove track points ...</source>
         <translation>Rimuovi punti della traccia ...</translation>
     </message>
@@ -7297,137 +7297,137 @@ Your selection will be stored in the track&apos;s data. You can save it along wi
         <translation type="obsolete">Stai per rimuovere i punti nella traccia eliminati definitivamente. Se premi su &apos;sì&apos;, tutte le informazioni saranno perse. </translation>
     </message>
     <message>
-        <location filename="../CTrackEditWidget.cpp" line="968"/>
+        <location filename="../CTrackEditWidget.cpp" line="978"/>
         <source>Trainee</source>
         <translation>Allenamento</translation>
     </message>
     <message>
-        <location filename="../CTrackEditWidget.cpp" line="877"/>
-        <location filename="../CTrackEditWidget.cpp" line="904"/>
+        <location filename="../CTrackEditWidget.cpp" line="887"/>
+        <location filename="../CTrackEditWidget.cpp" line="914"/>
         <source>Speed/Dist.</source>
         <translation>Velocità/Dist.</translation>
     </message>
     <message>
-        <location filename="../CTrackEditWidget.cpp" line="176"/>
+        <location filename="../CTrackEditWidget.cpp" line="177"/>
         <source>Split</source>
         <translation>Dividi</translation>
     </message>
     <message>
-        <location filename="../CTrackEditWidget.cpp" line="456"/>
+        <location filename="../CTrackEditWidget.cpp" line="459"/>
         <source>no extensions elements in this file</source>
         <translation>nessuna estensione in questo file</translation>
     </message>
     <message>
-        <location filename="../CTrackEditWidget.cpp" line="884"/>
-        <location filename="../CTrackEditWidget.cpp" line="915"/>
+        <location filename="../CTrackEditWidget.cpp" line="894"/>
+        <location filename="../CTrackEditWidget.cpp" line="925"/>
         <source>Dist./Time</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CTrackEditWidget.cpp" line="889"/>
-        <location filename="../CTrackEditWidget.cpp" line="926"/>
+        <location filename="../CTrackEditWidget.cpp" line="899"/>
+        <location filename="../CTrackEditWidget.cpp" line="936"/>
         <source>Profile/Dist.</source>
         <translation>Profilo/Dist.</translation>
     </message>
     <message>
-        <location filename="../CTrackEditWidget.cpp" line="941"/>
+        <location filename="../CTrackEditWidget.cpp" line="951"/>
         <source>Speed/Time</source>
         <translation>Velocità/Tempo</translation>
     </message>
     <message>
-        <location filename="../CTrackEditWidget.cpp" line="953"/>
+        <location filename="../CTrackEditWidget.cpp" line="963"/>
         <source>Profile/Time</source>
         <translation>Profilo/Tempo</translation>
     </message>
     <message>
-        <location filename="../CTrackEditWidget.cpp" line="1260"/>
+        <location filename="../CTrackEditWidget.cpp" line="1270"/>
         <source>You are about to remove hidden track points permanently. If you press &apos;yes&apos;, all information will be lost.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CTrackEditWidget.cpp" line="1526"/>
+        <location filename="../CTrackEditWidget.cpp" line="1557"/>
         <source>Name</source>
         <translation type="unfinished">Nome</translation>
     </message>
     <message>
-        <location filename="../CTrackEditWidget.cpp" line="1527"/>
+        <location filename="../CTrackEditWidget.cpp" line="1558"/>
         <source>Prox.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CTrackEditWidget.cpp" line="1528"/>
+        <location filename="../CTrackEditWidget.cpp" line="1559"/>
         <source>Pic.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CTrackEditWidget.cpp" line="1529"/>
+        <location filename="../CTrackEditWidget.cpp" line="1560"/>
         <source>Elevation</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CTrackEditWidget.cpp" line="1530"/>
+        <location filename="../CTrackEditWidget.cpp" line="1561"/>
         <source>To Next</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CTrackEditWidget.cpp" line="1531"/>
+        <location filename="../CTrackEditWidget.cpp" line="1562"/>
         <source>Total</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CTrackEditWidget.cpp" line="1575"/>
-        <location filename="../CTrackEditWidget.cpp" line="1577"/>
-        <location filename="../CTrackEditWidget.cpp" line="1582"/>
-        <location filename="../CTrackEditWidget.cpp" line="1584"/>
-        <location filename="../CTrackEditWidget.cpp" line="1586"/>
-        <location filename="../CTrackEditWidget.cpp" line="1588"/>
-        <location filename="../CTrackEditWidget.cpp" line="1798"/>
-        <location filename="../CTrackEditWidget.cpp" line="1800"/>
-        <location filename="../CTrackEditWidget.cpp" line="1814"/>
-        <location filename="../CTrackEditWidget.cpp" line="1816"/>
-        <location filename="../CTrackEditWidget.cpp" line="1818"/>
-        <location filename="../CTrackEditWidget.cpp" line="1820"/>
+        <location filename="../CTrackEditWidget.cpp" line="1606"/>
+        <location filename="../CTrackEditWidget.cpp" line="1608"/>
+        <location filename="../CTrackEditWidget.cpp" line="1613"/>
+        <location filename="../CTrackEditWidget.cpp" line="1615"/>
+        <location filename="../CTrackEditWidget.cpp" line="1617"/>
+        <location filename="../CTrackEditWidget.cpp" line="1619"/>
+        <location filename="../CTrackEditWidget.cpp" line="1829"/>
+        <location filename="../CTrackEditWidget.cpp" line="1831"/>
+        <location filename="../CTrackEditWidget.cpp" line="1845"/>
+        <location filename="../CTrackEditWidget.cpp" line="1847"/>
+        <location filename="../CTrackEditWidget.cpp" line="1849"/>
+        <location filename="../CTrackEditWidget.cpp" line="1851"/>
         <source>-</source>
         <translation type="unfinished">-</translation>
     </message>
     <message>
-        <location filename="../CTrackEditWidget.cpp" line="1661"/>
-        <location filename="../CTrackEditWidget.cpp" line="1666"/>
-        <location filename="../CTrackEditWidget.cpp" line="1767"/>
-        <location filename="../CTrackEditWidget.cpp" line="1772"/>
+        <location filename="../CTrackEditWidget.cpp" line="1692"/>
+        <location filename="../CTrackEditWidget.cpp" line="1697"/>
+        <location filename="../CTrackEditWidget.cpp" line="1798"/>
+        <location filename="../CTrackEditWidget.cpp" line="1803"/>
         <source>%1 %2 </source>
         <translation type="unfinished">%1 %2 </translation>
     </message>
     <message>
-        <location filename="../CTrackEditWidget.cpp" line="1677"/>
-        <location filename="../CTrackEditWidget.cpp" line="1682"/>
-        <location filename="../CTrackEditWidget.cpp" line="1783"/>
-        <location filename="../CTrackEditWidget.cpp" line="1788"/>
+        <location filename="../CTrackEditWidget.cpp" line="1708"/>
+        <location filename="../CTrackEditWidget.cpp" line="1713"/>
+        <location filename="../CTrackEditWidget.cpp" line="1814"/>
+        <location filename="../CTrackEditWidget.cpp" line="1819"/>
         <source>%1:%2 h</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CTrackEditWidget.cpp" line="1532"/>
+        <location filename="../CTrackEditWidget.cpp" line="1563"/>
         <source>Comment</source>
         <translation type="unfinished">Commento</translation>
     </message>
     <message>
-        <location filename="../CTrackEditWidget.cpp" line="1535"/>
+        <location filename="../CTrackEditWidget.cpp" line="1566"/>
         <source>wpt</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CTrackEditWidget.cpp" line="1538"/>
+        <location filename="../CTrackEditWidget.cpp" line="1569"/>
         <source>trk</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CTrackEditWidget.cpp" line="1572"/>
+        <location filename="../CTrackEditWidget.cpp" line="1603"/>
         <source>Start</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CTrackEditWidget.cpp" line="1590"/>
+        <location filename="../CTrackEditWidget.cpp" line="1621"/>
         <source>Start of track.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -7460,12 +7460,12 @@ Your selection will be stored in the track&apos;s data. You can save it along wi
 %3</translation>
     </message>
     <message>
-        <location filename="../CTrackEditWidget.cpp" line="1795"/>
+        <location filename="../CTrackEditWidget.cpp" line="1826"/>
         <source>End</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CTrackEditWidget.cpp" line="1831"/>
+        <location filename="../CTrackEditWidget.cpp" line="1862"/>
         <source>End of track.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -7483,55 +7483,55 @@ Your selection will be stored in the track&apos;s data. You can save it along wi
         <translation type="unfinished">Elimina</translation>
     </message>
     <message>
-        <location filename="../CTrackFilterWidget.cpp" line="390"/>
-        <location filename="../CTrackFilterWidget.cpp" line="1107"/>
+        <location filename="../CTrackFilterWidget.cpp" line="392"/>
+        <location filename="../CTrackFilterWidget.cpp" line="1109"/>
         <source>Filter name ...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CTrackFilterWidget.cpp" line="390"/>
-        <location filename="../CTrackFilterWidget.cpp" line="1107"/>
+        <location filename="../CTrackFilterWidget.cpp" line="392"/>
+        <location filename="../CTrackFilterWidget.cpp" line="1109"/>
         <source>Please enter a name for the filter list to store.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CTrackFilterWidget.cpp" line="412"/>
+        <location filename="../CTrackFilterWidget.cpp" line="414"/>
         <source>Delete track filter...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CTrackFilterWidget.cpp" line="412"/>
+        <location filename="../CTrackFilterWidget.cpp" line="414"/>
         <source>Do you really want to delete &apos;%1&apos;?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CTrackFilterWidget.cpp" line="674"/>
+        <location filename="../CTrackFilterWidget.cpp" line="676"/>
         <source>Reset</source>
         <translation type="unfinished">Reimposta</translation>
     </message>
     <message>
-        <location filename="../CTrackFilterWidget.cpp" line="710"/>
+        <location filename="../CTrackFilterWidget.cpp" line="712"/>
         <source> (local)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CTrackFilterWidget.cpp" line="710"/>
+        <location filename="../CTrackFilterWidget.cpp" line="712"/>
         <source> (remote)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CTrackFilterWidget.cpp" line="1271"/>
-        <location filename="../CTrackFilterWidget.cpp" line="1357"/>
-        <location filename="../CTrackFilterWidget.cpp" line="1438"/>
-        <location filename="../CTrackFilterWidget.cpp" line="1469"/>
-        <location filename="../CTrackFilterWidget.cpp" line="1510"/>
-        <location filename="../CTrackFilterWidget.cpp" line="1562"/>
-        <location filename="../CTrackFilterWidget.cpp" line="1602"/>
-        <location filename="../CTrackFilterWidget.cpp" line="1654"/>
-        <location filename="../CTrackFilterWidget.cpp" line="1693"/>
-        <location filename="../CTrackFilterWidget.cpp" line="1746"/>
-        <location filename="../CTrackFilterWidget.cpp" line="1785"/>
-        <location filename="../CTrackFilterWidget.cpp" line="1840"/>
+        <location filename="../CTrackFilterWidget.cpp" line="1273"/>
+        <location filename="../CTrackFilterWidget.cpp" line="1359"/>
+        <location filename="../CTrackFilterWidget.cpp" line="1440"/>
+        <location filename="../CTrackFilterWidget.cpp" line="1471"/>
+        <location filename="../CTrackFilterWidget.cpp" line="1512"/>
+        <location filename="../CTrackFilterWidget.cpp" line="1564"/>
+        <location filename="../CTrackFilterWidget.cpp" line="1604"/>
+        <location filename="../CTrackFilterWidget.cpp" line="1656"/>
+        <location filename="../CTrackFilterWidget.cpp" line="1695"/>
+        <location filename="../CTrackFilterWidget.cpp" line="1748"/>
+        <location filename="../CTrackFilterWidget.cpp" line="1787"/>
+        <location filename="../CTrackFilterWidget.cpp" line="1842"/>
         <source>Abort filter</source>
         <translation type="unfinished">Annulla filtro</translation>
     </message>
@@ -7552,7 +7552,7 @@ Your selection will be stored in the track&apos;s data. You can save it along wi
 <context>
     <name>CTrackStatExtensionWidget</name>
     <message>
-        <location filename="../CTrackStatExtensionWidget.cpp" line="105"/>
+        <location filename="../CTrackStatExtensionWidget.cpp" line="106"/>
         <source>time [h]</source>
         <translation>tempo [h]</translation>
     </message>
@@ -7570,18 +7570,18 @@ Your selection will be stored in the track&apos;s data. You can save it along wi
         <translation>alt. [m]</translation>
     </message>
     <message>
-        <location filename="../CTrackStatProfileWidget.cpp" line="81"/>
+        <location filename="../CTrackStatProfileWidget.cpp" line="82"/>
         <source>distance [%1]</source>
         <translation>distanza [%1]</translation>
     </message>
     <message>
-        <location filename="../CTrackStatProfileWidget.cpp" line="87"/>
+        <location filename="../CTrackStatProfileWidget.cpp" line="88"/>
         <source>alt. [%1]</source>
         <translation>alt. [%1]</translation>
     </message>
     <message>
         <location filename="../CTrackStatProfileWidget.cpp" line="40"/>
-        <location filename="../CTrackStatProfileWidget.cpp" line="85"/>
+        <location filename="../CTrackStatProfileWidget.cpp" line="86"/>
         <source>time [h]</source>
         <translation>tempo [h]</translation>
     </message>
@@ -7599,28 +7599,28 @@ Your selection will be stored in the track&apos;s data. You can save it along wi
         <translation>velocità [km/h]</translation>
     </message>
     <message>
-        <location filename="../CTrackStatSpeedWidget.cpp" line="76"/>
+        <location filename="../CTrackStatSpeedWidget.cpp" line="77"/>
         <source>distance [%1]</source>
         <translation>distanza [%1]</translation>
     </message>
     <message>
-        <location filename="../CTrackStatSpeedWidget.cpp" line="83"/>
+        <location filename="../CTrackStatSpeedWidget.cpp" line="84"/>
         <source>speed [%1]</source>
         <translation>velocità [%1]</translation>
     </message>
     <message>
-        <location filename="../CTrackStatSpeedWidget.cpp" line="148"/>
+        <location filename="../CTrackStatSpeedWidget.cpp" line="149"/>
         <source>speed</source>
         <translation type="unfinished">velocità</translation>
     </message>
     <message>
-        <location filename="../CTrackStatSpeedWidget.cpp" line="149"/>
+        <location filename="../CTrackStatSpeedWidget.cpp" line="150"/>
         <source>med. speed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../CTrackStatSpeedWidget.cpp" line="37"/>
-        <location filename="../CTrackStatSpeedWidget.cpp" line="80"/>
+        <location filename="../CTrackStatSpeedWidget.cpp" line="81"/>
         <source>time [h]</source>
         <translation>tempo [h]</translation>
     </message>
@@ -7633,13 +7633,13 @@ Your selection will be stored in the track&apos;s data. You can save it along wi
         <translation>distanza [m]</translation>
     </message>
     <message>
-        <location filename="../CTrackStatTraineeWidget.cpp" line="65"/>
+        <location filename="../CTrackStatTraineeWidget.cpp" line="66"/>
         <source>distance [%1]</source>
         <translation>distanza [%1]</translation>
     </message>
     <message>
         <location filename="../CTrackStatTraineeWidget.cpp" line="31"/>
-        <location filename="../CTrackStatTraineeWidget.cpp" line="66"/>
+        <location filename="../CTrackStatTraineeWidget.cpp" line="67"/>
         <source>heart rate [bpm]</source>
         <translation>battito cardiaco [bpm]</translation>
     </message>
@@ -7652,7 +7652,7 @@ Your selection will be stored in the track&apos;s data. You can save it along wi
         <translation>Tracce</translation>
     </message>
     <message>
-        <location filename="../CTrackToolWidget.cpp" line="55"/>
+        <location filename="../CTrackToolWidget.cpp" line="56"/>
         <source>Edit...</source>
         <translation>Modifica...</translation>
     </message>
@@ -7661,32 +7661,32 @@ Your selection will be stored in the track&apos;s data. You can save it along wi
         <translation type="obsolete">Filtro...</translation>
     </message>
     <message>
-        <location filename="../CTrackToolWidget.cpp" line="56"/>
+        <location filename="../CTrackToolWidget.cpp" line="57"/>
         <source>Revert</source>
         <translation>Reimposta</translation>
     </message>
     <message>
-        <location filename="../CTrackToolWidget.cpp" line="58"/>
+        <location filename="../CTrackToolWidget.cpp" line="59"/>
         <source>Make Overlay</source>
         <translation>Crea Sovrapposizione</translation>
     </message>
     <message>
-        <location filename="../CTrackToolWidget.cpp" line="60"/>
+        <location filename="../CTrackToolWidget.cpp" line="61"/>
         <source>Show</source>
         <translation>Mostra</translation>
     </message>
     <message>
-        <location filename="../CTrackToolWidget.cpp" line="61"/>
+        <location filename="../CTrackToolWidget.cpp" line="62"/>
         <source>Show Bullets</source>
         <translation>Mostra pallini</translation>
     </message>
     <message>
-        <location filename="../CTrackToolWidget.cpp" line="62"/>
+        <location filename="../CTrackToolWidget.cpp" line="63"/>
         <source>Show Min/Max</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CTrackToolWidget.cpp" line="64"/>
+        <location filename="../CTrackToolWidget.cpp" line="65"/>
         <source>Zoom to fit</source>
         <translation>Zoom della vista</translation>
     </message>
@@ -7695,7 +7695,7 @@ Your selection will be stored in the track&apos;s data. You can save it along wi
         <translation type="obsolete">Deseleziona</translation>
     </message>
     <message>
-        <location filename="../CTrackToolWidget.cpp" line="65"/>
+        <location filename="../CTrackToolWidget.cpp" line="66"/>
         <source>Delete</source>
         <translation>Elimina</translation>
     </message>
@@ -7748,31 +7748,31 @@ fine: %1</translation>
 %1%2 %3, %4%5 %6</translation>
     </message>
     <message>
-        <location filename="../CTrackToolWidget.cpp" line="251"/>
-        <location filename="../CTrackToolWidget.cpp" line="275"/>
+        <location filename="../CTrackToolWidget.cpp" line="252"/>
+        <location filename="../CTrackToolWidget.cpp" line="276"/>
         <source>Edit track ...</source>
         <translation>Modifica traccia ...</translation>
     </message>
     <message>
-        <location filename="../CTrackToolWidget.cpp" line="251"/>
-        <location filename="../CTrackToolWidget.cpp" line="275"/>
-        <location filename="../CTrackToolWidget.cpp" line="388"/>
+        <location filename="../CTrackToolWidget.cpp" line="252"/>
+        <location filename="../CTrackToolWidget.cpp" line="276"/>
+        <location filename="../CTrackToolWidget.cpp" line="389"/>
         <source>You have to select a track first.</source>
         <translation>Devi prima selezionare una traccia.</translation>
     </message>
     <message>
-        <location filename="../CTrackToolWidget.cpp" line="259"/>
-        <location filename="../CTrackToolWidget.cpp" line="283"/>
+        <location filename="../CTrackToolWidget.cpp" line="260"/>
+        <location filename="../CTrackToolWidget.cpp" line="284"/>
         <source>Track</source>
         <translation>Traccia</translation>
     </message>
     <message>
-        <location filename="../CTrackToolWidget.cpp" line="353"/>
+        <location filename="../CTrackToolWidget.cpp" line="354"/>
         <source>created from track</source>
         <translation>crea dalla traccia</translation>
     </message>
     <message>
-        <location filename="../CTrackToolWidget.cpp" line="388"/>
+        <location filename="../CTrackToolWidget.cpp" line="389"/>
         <source>Filter</source>
         <translation>Filtro</translation>
     </message>
@@ -10591,6 +10591,45 @@ and GPS and adjust all image time-stamps before correlating them with loaded tra
     </message>
 </context>
 <context>
+    <name>IDlgMultiColorConfig</name>
+    <message>
+        <location filename="../IDlgMultiColorConfig.ui" line="14"/>
+        <source>Multi Color Setup...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../IDlgMultiColorConfig.ui" line="20"/>
+        <location filename="../IDlgMultiColorConfig.ui" line="79"/>
+        <source>TextLabel</source>
+        <translation type="unfinished">TextLabel</translation>
+    </message>
+    <message>
+        <location filename="../IDlgMultiColorConfig.ui" line="29"/>
+        <source>Auto</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../IDlgMultiColorConfig.ui" line="36"/>
+        <source>Min</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../IDlgMultiColorConfig.ui" line="59"/>
+        <source>Max</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../IDlgMultiColorConfig.ui" line="86"/>
+        <source>Min Color</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../IDlgMultiColorConfig.ui" line="93"/>
+        <source>Max Color</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>IDlgNoMapConfig</name>
     <message>
         <location filename="../IDlgNoMapConfig.ui" line="14"/>
@@ -11986,6 +12025,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../ITrackEditWidget.ui" line="81"/>
         <location filename="../ITrackEditWidget.ui" line="100"/>
         <location filename="../ITrackEditWidget.ui" line="119"/>
+        <location filename="../ITrackEditWidget.ui" line="150"/>
         <source>...</source>
         <translation>...</translation>
     </message>
@@ -12013,13 +12053,13 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ITrackEditWidget.ui" line="171"/>
-        <location filename="../ITrackEditWidget.ui" line="208"/>
+        <location filename="../ITrackEditWidget.ui" line="182"/>
+        <location filename="../ITrackEditWidget.ui" line="219"/>
         <source>Stages</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ITrackEditWidget.ui" line="688"/>
+        <location filename="../ITrackEditWidget.ui" line="708"/>
         <source>Extensions</source>
         <translation>Estenzioni</translation>
     </message>
@@ -12033,7 +12073,7 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">Google Maps</translation>
     </message>
     <message>
-        <location filename="../ITrackEditWidget.ui" line="157"/>
+        <location filename="../ITrackEditWidget.ui" line="168"/>
         <source>Use &apos;return&apos; key to change name permanently.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -12046,91 +12086,91 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">mostra tutti i punti nascosti della traccia</translation>
     </message>
     <message>
-        <location filename="../ITrackEditWidget.ui" line="222"/>
+        <location filename="../ITrackEditWidget.ui" line="233"/>
         <source>Tracklist</source>
         <translation>Lista tracce</translation>
     </message>
     <message>
-        <location filename="../ITrackEditWidget.ui" line="259"/>
+        <location filename="../ITrackEditWidget.ui" line="270"/>
         <source>#</source>
         <translation>N.</translation>
     </message>
     <message>
-        <location filename="../ITrackEditWidget.ui" line="264"/>
-        <location filename="../ITrackEditWidget.ui" line="462"/>
+        <location filename="../ITrackEditWidget.ui" line="275"/>
+        <location filename="../ITrackEditWidget.ui" line="482"/>
         <source>time</source>
         <translation>tempo</translation>
     </message>
     <message>
-        <location filename="../ITrackEditWidget.ui" line="269"/>
-        <location filename="../ITrackEditWidget.ui" line="487"/>
+        <location filename="../ITrackEditWidget.ui" line="280"/>
+        <location filename="../ITrackEditWidget.ui" line="507"/>
         <source>altitude</source>
         <translation>altitudine</translation>
     </message>
     <message>
-        <location filename="../ITrackEditWidget.ui" line="274"/>
-        <location filename="../ITrackEditWidget.ui" line="512"/>
+        <location filename="../ITrackEditWidget.ui" line="285"/>
+        <location filename="../ITrackEditWidget.ui" line="532"/>
         <source>delta</source>
         <translation>delta</translation>
     </message>
     <message>
-        <location filename="../ITrackEditWidget.ui" line="279"/>
-        <location filename="../ITrackEditWidget.ui" line="537"/>
+        <location filename="../ITrackEditWidget.ui" line="290"/>
+        <location filename="../ITrackEditWidget.ui" line="557"/>
         <source>azimuth</source>
         <translation>azimuth</translation>
     </message>
     <message>
-        <location filename="../ITrackEditWidget.ui" line="284"/>
-        <location filename="../ITrackEditWidget.ui" line="562"/>
+        <location filename="../ITrackEditWidget.ui" line="295"/>
+        <location filename="../ITrackEditWidget.ui" line="582"/>
         <source>distance</source>
         <translation>distanza</translation>
     </message>
     <message>
-        <location filename="../ITrackEditWidget.ui" line="289"/>
-        <location filename="../ITrackEditWidget.ui" line="587"/>
+        <location filename="../ITrackEditWidget.ui" line="300"/>
+        <location filename="../ITrackEditWidget.ui" line="607"/>
         <source>speed</source>
         <translation>velocità</translation>
     </message>
     <message>
-        <location filename="../ITrackEditWidget.ui" line="294"/>
-        <location filename="../ITrackEditWidget.ui" line="612"/>
+        <location filename="../ITrackEditWidget.ui" line="305"/>
+        <location filename="../ITrackEditWidget.ui" line="632"/>
         <source>ascend</source>
         <translation>ascendente</translation>
     </message>
     <message>
-        <location filename="../ITrackEditWidget.ui" line="299"/>
-        <location filename="../ITrackEditWidget.ui" line="637"/>
+        <location filename="../ITrackEditWidget.ui" line="310"/>
+        <location filename="../ITrackEditWidget.ui" line="657"/>
         <source>descend</source>
         <translation>discendente</translation>
     </message>
     <message>
-        <location filename="../ITrackEditWidget.ui" line="304"/>
-        <location filename="../ITrackEditWidget.ui" line="662"/>
+        <location filename="../ITrackEditWidget.ui" line="315"/>
+        <location filename="../ITrackEditWidget.ui" line="682"/>
         <source>position</source>
         <translation>posizione</translation>
     </message>
     <message>
-        <location filename="../ITrackEditWidget.ui" line="317"/>
+        <location filename="../ITrackEditWidget.ui" line="328"/>
         <source>Filter</source>
         <translation type="unfinished">Filtro</translation>
     </message>
     <message>
-        <location filename="../ITrackEditWidget.ui" line="331"/>
+        <location filename="../ITrackEditWidget.ui" line="342"/>
         <source>Settings</source>
         <translation>Impostazioni</translation>
     </message>
     <message>
-        <location filename="../ITrackEditWidget.ui" line="337"/>
+        <location filename="../ITrackEditWidget.ui" line="348"/>
         <source>Choose here which columns are shown in the tracklist view</source>
         <translation>Scegli quali colonne visualizzare nella vista delle tracce</translation>
     </message>
     <message>
-        <location filename="../ITrackEditWidget.ui" line="353"/>
+        <location filename="../ITrackEditWidget.ui" line="364"/>
         <source>Standard</source>
         <translation>Standard</translation>
     </message>
     <message>
-        <location filename="../ITrackEditWidget.ui" line="437"/>
+        <location filename="../ITrackEditWidget.ui" line="457"/>
         <source>row number (#)</source>
         <translation>numero riga (n)</translation>
     </message>
@@ -12681,30 +12721,30 @@ Estimated finish: %02i:%02i:%02i [hh:mm:ss]</source>
 Fine stimata: %02i:%02i:%02i [hh:mm:ss]</translation>
     </message>
     <message>
-        <location filename="../CTrack.cpp" line="190"/>
-        <location filename="../CTrack.cpp" line="220"/>
-        <location filename="../CTrack.cpp" line="244"/>
-        <location filename="../CTrack.cpp" line="289"/>
-        <location filename="../CTrack.cpp" line="317"/>
-        <location filename="../CTrack.cpp" line="342"/>
+        <location filename="../CTrack.cpp" line="223"/>
+        <location filename="../CTrack.cpp" line="253"/>
+        <location filename="../CTrack.cpp" line="277"/>
+        <location filename="../CTrack.cpp" line="322"/>
+        <location filename="../CTrack.cpp" line="350"/>
+        <location filename="../CTrack.cpp" line="375"/>
         <source>Corrupt track ...</source>
         <translation>Traccia corrotta ...</translation>
     </message>
     <message>
-        <location filename="../CTrack.cpp" line="190"/>
-        <location filename="../CTrack.cpp" line="220"/>
+        <location filename="../CTrack.cpp" line="223"/>
+        <location filename="../CTrack.cpp" line="253"/>
         <source>Number of trackpoints is not equal the number of training data trackpoints.</source>
         <translation>Il numero dei trackpoint non è uguale al numero dei trackpoint dei dati di training.</translation>
     </message>
     <message>
-        <location filename="../CTrack.cpp" line="244"/>
-        <location filename="../CTrack.cpp" line="289"/>
+        <location filename="../CTrack.cpp" line="277"/>
+        <location filename="../CTrack.cpp" line="322"/>
         <source>Number of trackpoints is not equal the number of extended data trackpoints.</source>
         <translation>Il numero dei trackpoint non è uguale al numero di quelli dai dati estesi.</translation>
     </message>
     <message>
-        <location filename="../CTrack.cpp" line="317"/>
-        <location filename="../CTrack.cpp" line="342"/>
+        <location filename="../CTrack.cpp" line="350"/>
+        <location filename="../CTrack.cpp" line="375"/>
         <source>Number of trackpoints is not equal the number of shadow data trackpoints.</source>
         <translation type="unfinished"></translation>
     </message>

@@ -6912,6 +6912,37 @@ and GPS and adjust all image time-stamps before correlating them with loaded tra
     </message>
 </context>
 <context>
+    <name>IDlgMultiColorConfig</name>
+    <message>
+        <source>Multi Color Setup...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>TextLabel</source>
+        <translation type="unfinished">TextLabel</translation>
+    </message>
+    <message>
+        <source>Auto</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Min</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Max</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Min Color</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Max Color</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>IDlgNoMapConfig</name>
     <message>
         <source>...</source>
