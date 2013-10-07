@@ -1596,7 +1596,9 @@ void CTrackDB::slotMapChanged()
 {
     foreach(CTrack * track, tracks)
     {
+        track->blockSignals(true);
         track->rebuild(false);
+        track->blockSignals(false);
     }
 }
 
