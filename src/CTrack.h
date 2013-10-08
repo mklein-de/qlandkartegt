@@ -347,6 +347,7 @@ class CTrack : public IItem
         friend QDataStream& operator <<(QDataStream& s, CTrack& track);        
         void rebuildColorMapElevation();
         void rebuildColorMapSlope();
+        void rebuildColorMapSpeed();
         void rebuildColorMapDefault();
 
         static QDir path;
@@ -418,6 +419,7 @@ class CTrack : public IItem
             eMultiColorNone
             , eMultiColorSlope
             , eMultiColorEle
+            , eMultiColorSpeed
             , eMultiColorMax
         };
 

@@ -4775,6 +4775,14 @@ Your selection will be stored in the track&apos;s data. You can save it along wi
         <source>slope: %1°</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Speed [km/h]</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>speed</source>
+        <translation type="unfinished">vitesse</translation>
+    </message>
 </context>
 <context>
     <name>CTrackDB</name>

@@ -6496,7 +6496,7 @@ length: %1 %2</source>
 <context>
     <name>CTrack</name>
     <message>
-        <location filename="../CTrack.cpp" line="1767"/>
+        <location filename="../CTrack.cpp" line="1819"/>
         <source>
 length: %1 %2</source>
         <translation>
@@ -6517,121 +6517,131 @@ lengte: %1 %2</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CTrack.cpp" line="802"/>
-        <source>solid</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../CTrack.cpp" line="803"/>
-        <source>slope</source>
+        <location filename="../CTrack.cpp" line="785"/>
+        <source>Speed [km/h]</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../CTrack.cpp" line="804"/>
+        <source>solid</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../CTrack.cpp" line="805"/>
+        <source>slope</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../CTrack.cpp" line="806"/>
         <source>elevation</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CTrack.cpp" line="1768"/>
+        <location filename="../CTrack.cpp" line="807"/>
+        <source>speed</source>
+        <translation type="unfinished">snelheid</translation>
+    </message>
+    <message>
+        <location filename="../CTrack.cpp" line="1820"/>
         <source>, points: %1 (%2)</source>
         <translation>, punten: %1 (%2)</translation>
     </message>
     <message>
-        <location filename="../CTrack.cpp" line="1778"/>
+        <location filename="../CTrack.cpp" line="1830"/>
         <source>
 time: %1:</source>
         <translation>
 tijd: %1:</translation>
     </message>
     <message>
-        <location filename="../CTrack.cpp" line="1782"/>
+        <location filename="../CTrack.cpp" line="1834"/>
         <source>
 time: </source>
         <translation>
 tijd:</translation>
     </message>
     <message>
-        <location filename="../CTrack.cpp" line="1786"/>
-        <location filename="../CTrack.cpp" line="1804"/>
+        <location filename="../CTrack.cpp" line="1838"/>
+        <location filename="../CTrack.cpp" line="1856"/>
         <source>, speed: %1 %2</source>
         <translation>, snelheid: %1 %2</translation>
     </message>
     <message>
-        <location filename="../CTrack.cpp" line="1796"/>
+        <location filename="../CTrack.cpp" line="1848"/>
         <source>
 moving: %1:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CTrack.cpp" line="1800"/>
+        <location filename="../CTrack.cpp" line="1852"/>
         <source>
 moving: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CTrack.cpp" line="1807"/>
+        <location filename="../CTrack.cpp" line="1859"/>
         <source>
 start: %1</source>
         <translation>
 start:%1</translation>
     </message>
     <message>
-        <location filename="../CTrack.cpp" line="1807"/>
-        <location filename="../CTrack.cpp" line="1808"/>
+        <location filename="../CTrack.cpp" line="1859"/>
+        <location filename="../CTrack.cpp" line="1860"/>
         <source>-</source>
         <translation>-</translation>
     </message>
     <message>
-        <location filename="../CTrack.cpp" line="1808"/>
+        <location filename="../CTrack.cpp" line="1860"/>
         <source>
 end: %1</source>
         <translation>
 einde: %1</translation>
     </message>
     <message>
-        <location filename="../CTrack.cpp" line="1813"/>
+        <location filename="../CTrack.cpp" line="1865"/>
         <source>
 %1%2 %3, %4%5 %6</source>
         <translation>
 %1%2 %3, %4%5 %6</translation>
     </message>
     <message>
-        <location filename="../CTrack.cpp" line="1869"/>
+        <location filename="../CTrack.cpp" line="1921"/>
         <source>%5 %4 %1:%2:%3 (%6%)</source>
         <translation type="unfinished">%5 %4 %1%2 (%3%) {5 %4 %1:%2:%3 ?} {6%?}</translation>
     </message>
     <message>
-        <location filename="../CTrack.cpp" line="1870"/>
+        <location filename="../CTrack.cpp" line="1922"/>
         <source> .. (%6%) %1:%2:%3 %4 %5</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CTrack.cpp" line="1875"/>
+        <location filename="../CTrack.cpp" line="1927"/>
         <source> .. (%5%) %1:%2:%3 %4</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CTrack.cpp" line="1892"/>
+        <location filename="../CTrack.cpp" line="1944"/>
         <source> .. (%3%) %1%2 %4 %5</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CTrack.cpp" line="1895"/>
+        <location filename="../CTrack.cpp" line="1947"/>
         <source> .. (%3%) %1%2 %4</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CTrack.cpp" line="1909"/>
+        <location filename="../CTrack.cpp" line="1961"/>
         <source>slope: %1°</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CTrack.cpp" line="2348"/>
+        <location filename="../CTrack.cpp" line="2400"/>
         <source>Error...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CTrack.cpp" line="2348"/>
+        <location filename="../CTrack.cpp" line="2400"/>
         <source>This track has no valid start timestamp. Use the &apos;Date/Time&apos; track filter to set one.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -6640,7 +6650,7 @@ einde: %1</translation>
         <translation type="obsolete"> | (%3%) %1:%2:%3 %4 %5 {6%?}</translation>
     </message>
     <message>
-        <location filename="../CTrack.cpp" line="1873"/>
+        <location filename="../CTrack.cpp" line="1925"/>
         <source>%4 %1:%2:%3 (%5%)</source>
         <translation type="unfinished">%5 %4 %1%2 (%3%) {4 %1:%2:%3 ?} {5%?}</translation>
     </message>
@@ -6649,7 +6659,7 @@ einde: %1</translation>
         <translation type="obsolete"> | (%3%) %1:%2:%3 %4 {5%?}</translation>
     </message>
     <message>
-        <location filename="../CTrack.cpp" line="1888"/>
+        <location filename="../CTrack.cpp" line="1940"/>
         <source>%4 %1%2 (%3%)</source>
         <translation type="unfinished">%5 %4 %1%2 (%3%) {4 %1%2 ?} {3%?}</translation>
     </message>
@@ -6658,34 +6668,34 @@ einde: %1</translation>
         <translation type="obsolete"> | (%3%) %1%2 %4 {3%?}</translation>
     </message>
     <message>
-        <location filename="../CTrack.cpp" line="1903"/>
+        <location filename="../CTrack.cpp" line="1955"/>
         <source>elevation: %1%2</source>
         <translation type="unfinished">hoogte: %1%2</translation>
     </message>
     <message>
-        <location filename="../CTrack.cpp" line="1919"/>
+        <location filename="../CTrack.cpp" line="1971"/>
         <source>heart rate: %1bpm</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CTrack.cpp" line="1929"/>
+        <location filename="../CTrack.cpp" line="1981"/>
         <source>cadence: %1rpm</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CTrack.cpp" line="1964"/>
+        <location filename="../CTrack.cpp" line="2016"/>
         <source>Start</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CTrack.cpp" line="1970"/>
+        <location filename="../CTrack.cpp" line="2022"/>
         <source>End</source>
         <translation type="unfinished">Einde</translation>
     </message>
     <message>
-        <location filename="../CTrack.cpp" line="2004"/>
-        <location filename="../CTrack.cpp" line="2006"/>
-        <location filename="../CTrack.cpp" line="2020"/>
+        <location filename="../CTrack.cpp" line="2056"/>
+        <location filename="../CTrack.cpp" line="2058"/>
+        <location filename="../CTrack.cpp" line="2072"/>
         <source> %3 %1 %2</source>
         <translation type="unfinished"></translation>
     </message>
@@ -6698,7 +6708,7 @@ einde: %1</translation>
         <translation type="obsolete"> | (%5%) %1:%2h %3 %4</translation>
     </message>
     <message>
-        <location filename="../CTrack.cpp" line="1885"/>
+        <location filename="../CTrack.cpp" line="1937"/>
         <source>%5 %4 %1%2 (%3%)</source>
         <translation>%5 %4 %1%2 (%3%)</translation>
     </message>
@@ -6711,41 +6721,41 @@ einde: %1</translation>
         <translation type="obsolete">hoogte: %1 %2</translation>
     </message>
     <message>
-        <location filename="../CTrack.cpp" line="1945"/>
+        <location filename="../CTrack.cpp" line="1997"/>
         <source>
  %1: %2 </source>
         <translation>
  %1: %2 </translation>
     </message>
     <message>
-        <location filename="../CTrack.cpp" line="2008"/>
+        <location filename="../CTrack.cpp" line="2060"/>
         <source> %3 %1 %2 </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CTrack.cpp" line="2018"/>
+        <location filename="../CTrack.cpp" line="2070"/>
         <source>| %3 %1 %2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CTrack.cpp" line="2022"/>
+        <location filename="../CTrack.cpp" line="2074"/>
         <source> %1 %2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CTrack.cpp" line="2023"/>
+        <location filename="../CTrack.cpp" line="2075"/>
         <source> %1 :%2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CTrack.cpp" line="2098"/>
+        <location filename="../CTrack.cpp" line="2150"/>
         <source>You are trying to find waypoints along a track with %1 waypoints and a track of size %2. This can be a very time consuming operation. Go on?
 
 Your selection will be stored in the track&apos;s data. You can save it along with the data. To change the selection use the checkbox in the track edit dialog.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../CTrack.cpp" line="2105"/>
+        <location filename="../CTrack.cpp" line="2157"/>
         <source>Warning...</source>
         <translation>Waarschuwing ...</translation>
     </message>
@@ -6758,32 +6768,32 @@ Your selection will be stored in the track&apos;s data. You can save it along wi
         <translation>Track%1</translation>
     </message>
     <message>
-        <location filename="../CTrackDB.cpp" line="1198"/>
+        <location filename="../CTrackDB.cpp" line="1201"/>
         <source>Hmax=%1%2</source>
         <translation>Hmax=%1%2</translation>
     </message>
     <message>
-        <location filename="../CTrackDB.cpp" line="1203"/>
+        <location filename="../CTrackDB.cpp" line="1206"/>
         <source>Hmin=%1%2</source>
         <translation>Hmin=%1%2</translation>
     </message>
     <message>
-        <location filename="../CTrackDB.cpp" line="1208"/>
+        <location filename="../CTrackDB.cpp" line="1211"/>
         <source>Vmax=%1%2</source>
         <translation>Vmax=%1%2</translation>
     </message>
     <message>
-        <location filename="../CTrackDB.cpp" line="1230"/>
+        <location filename="../CTrackDB.cpp" line="1233"/>
         <source>Failed...</source>
         <translation>Mislukt ...</translation>
     </message>
     <message>
-        <location filename="../CTrackDB.cpp" line="1230"/>
+        <location filename="../CTrackDB.cpp" line="1233"/>
         <source>Failed to copy track. You must select a track or track points of a track.</source>
         <translation>Kopieren van track mislukt. Slecteer een track of trackpunten van een track.</translation>
     </message>
     <message>
-        <location filename="../CTrackDB.cpp" line="1324"/>
+        <location filename="../CTrackDB.cpp" line="1327"/>
         <source>_rev</source>
         <translation>_rev</translation>
     </message>

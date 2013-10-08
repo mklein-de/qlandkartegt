@@ -888,7 +888,10 @@ void CTrackDB::drawLine(const QPolygon& line, const QVector<QColor> colors, cons
     QPen pen = p.pen();
     for(int i = 1; i < line.size(); i++)
     {
-        pen.setColor(colors[i-1]);
+        QLinearGradient g(line[i-1], line[i]);
+        g.setColorAt(0, colors[i-1]);
+        g.setColorAt(1, colors[i]);
+        pen.setBrush(QBrush(g));
         p.setPen(pen);
         p.drawLine(line[i-1], line[i]);
     }

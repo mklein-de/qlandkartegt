@@ -782,11 +782,13 @@ CTrack::CTrack(QObject * parent)
         setupMultiColor[eMultiColorNone]    = multi_color_setup_t();
         setupMultiColor[eMultiColorSlope]   = multi_color_setup_t(CTrack::eMinMaxModeNoAuto, 0, 25, 120, 0, tr("Slope [\260]"));
         setupMultiColor[eMultiColorEle]     = multi_color_setup_t(CTrack::eMinMaxModeAuto, 0,  0, 240, 0, tr("Elevation [m]"));
+        setupMultiColor[eMultiColorSpeed]   = multi_color_setup_t(CTrack::eMinMaxModeAuto, 0,  0, 240, 0, tr("Speed [km/h]"));
 
         SETTINGS;
         cfg.beginGroup("MultiColorTrack");
         setupMultiColor[eMultiColorSlope].restore(cfg);
         setupMultiColor[eMultiColorEle].restore(cfg);
+        setupMultiColor[eMultiColorSpeed].restore(cfg);
         cfg.endGroup();
     }
 }
@@ -802,6 +804,7 @@ void CTrack::getMultiColor(bool& on, int& id, QList<multi_color_item_t>& items)
     items << multi_color_item_t(tr("solid"), eMultiColorNone);
     items << multi_color_item_t(tr("slope"), eMultiColorSlope);
     items << multi_color_item_t(tr("elevation"), eMultiColorEle);
+    items << multi_color_item_t(tr("speed"), eMultiColorSpeed);
 
     on = useMultiColor;
     id = idMultiColor;
@@ -829,6 +832,12 @@ void CTrack::drawMultiColorLegend(QPainter& p)
     }
     int     iy;
     const multi_color_setup_t& setup = setupMultiColor[idMultiColor];
+
+    if(setup.minVal == setup.maxVal)
+    {
+        return;
+    }
+
     CPlotAxis axis(this);
     axis.setAutoscale(false);
     axis.setMinMax(setup.minVal, setup.maxVal);
@@ -874,7 +883,7 @@ void CTrack::drawMultiColorLegend(QPainter& p)
     // draw scale and tic marks
     p.translate(20,0);
 
-    QString format_single_prec;
+    QString format_single_prec, format_double_prec;
     QRect   recTextMin, recTextMax;    
     const CPlotAxis::TTic * t = axis.ticmark();
     double limMin, limMax, useMin, useMax;
@@ -882,10 +891,10 @@ void CTrack::drawMultiColorLegend(QPainter& p)
     // min max limits first
     axis.getLimits(limMin, limMax, useMin, useMax);
 
-    format_single_prec = axis.fmtsgl(setup.minVal);
+    format_double_prec = axis.fmtdbl(setup.minVal);
     if(setup.minVal >= useMin)
     {
-        QString text = QString().sprintf( format_single_prec.toLatin1().data(), setup.minVal);
+        QString text = QString().sprintf( format_double_prec.toLatin1().data(), setup.minVal);
         recText      = fm.boundingRect(text);
         iy = 200 - axis.val2pt(setup.minVal) - fm.height() / 2;
         recText.moveTopLeft(QPoint(10, iy));
@@ -894,10 +903,10 @@ void CTrack::drawMultiColorLegend(QPainter& p)
         recTextMin = recText;
     }
 
-    format_single_prec = axis.fmtsgl(setup.maxVal);
+    format_double_prec = axis.fmtdbl(setup.maxVal);
     if(setup.minVal >= useMin)
     {
-        QString text = QString().sprintf( format_single_prec.toLatin1().data(), setup.maxVal);
+        QString text = QString().sprintf( format_double_prec.toLatin1().data(), setup.maxVal);
         recText      = fm.boundingRect(text);
         iy = 200 - axis.val2pt(setup.maxVal) - fm.height() / 2;
         recText.moveTopLeft(QPoint(10, iy));
@@ -915,6 +924,7 @@ void CTrack::drawMultiColorLegend(QPainter& p)
         p.setPen(QPen(Qt::black,2));
         p.drawLine( 0, iy, 5, iy );
 
+        format_single_prec = axis.fmtsgl(t->val);
         QString text = QString().sprintf( format_single_prec.toLatin1().data(), t->val );
         recText      = fm.boundingRect(text);
         iy = 200 - axis.val2pt(t->val ) - fm.height() / 2;
@@ -1430,6 +1440,9 @@ void CTrack::rebuildColorMap()
         case eMultiColorEle:
             rebuildColorMapElevation();
             break;
+        case eMultiColorSpeed:
+            rebuildColorMapSpeed();
+            break;
         default:
             rebuildColorMapDefault();
     }
@@ -1462,6 +1475,42 @@ void CTrack::rebuildColorMapElevation()
         else
         {
             int idx = floor((pt.ele - min) * itvl);
+            pt.color = setup.colors[idx];
+        }
+    }
+
+}
+
+void CTrack::rebuildColorMapSpeed()
+{
+    multi_color_setup_t& setup = setupMultiColor[eMultiColorSpeed];
+
+    float min   = setup.minVal = setup.modeMinMax == CTrack::eMinMaxModeFixed ? setup.minVal : ptMinSpeed.speed * 3.6;
+    float max   = setup.maxVal = setup.modeMinMax == CTrack::eMinMaxModeFixed ? setup.maxVal : ptMaxSpeed.speed * 3.6;
+
+    if(min < 0) min = setup.minVal = 0;
+
+    float itvl  = float(setup.colors.size() - 1) / (max - min);
+
+    for(int i = 0; i < track.size(); i++)
+    {
+        pt_t & pt = track[i];
+        if((pt.flags & pt_t::eDeleted) || (pt.ele == WPT_NOFLOAT))
+        {
+            continue;
+        }
+
+        if(pt.speed * 3.6 > max)
+        {
+            pt.color = setup.colors.last();
+        }
+        else if(pt.speed * 3.6 < min)
+        {
+            pt.color = setup.colors.first();
+        }
+        else
+        {
+            int idx = floor((pt.speed * 3.6 - min) * itvl);
             pt.color = setup.colors[idx];
         }
     }
@@ -1591,6 +1640,9 @@ void CTrack::setPointOfFocus(int idx, type_select_e typeSelect, bool moveMap)
                     break;
                 case eMultiColorEle:
                     setup.markVal = track[idx].ele;
+                    break;
+                case eMultiColorSpeed:
+                    setup.markVal = track[idx].speed * 3.6;
                     break;
                 default:
                     setup.markVal = WPT_NOFLOAT;
