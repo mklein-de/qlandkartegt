@@ -830,6 +830,7 @@ void CTrack::drawMultiColorLegend(QPainter& p)
     {
         return;
     }
+
     int     iy;
     const multi_color_setup_t& setup = setupMultiColor[idMultiColor];
 
@@ -884,7 +885,7 @@ void CTrack::drawMultiColorLegend(QPainter& p)
     p.translate(20,0);
 
     QString format_single_prec, format_double_prec;
-    QRect   recTextMin, recTextMax;    
+    QRect   recTextMin, recTextMax;
     const CPlotAxis::TTic * t = axis.ticmark();
     double limMin, limMax, useMin, useMax;
 

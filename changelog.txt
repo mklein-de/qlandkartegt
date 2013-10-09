@@ -1,3 +1,20 @@
+--- 2013.10.09 ---
+Database: Sanitize modify marker for tracks
+
+Garmin maps: Add UTF8 text codec to typfile decoder
+
+Garmin maps: Fix bad drawing of bitmap polylines if border flag is set by error
+
+Tracks: Add multicolor support for parameters slope, elevation and speed
+
+Tracks: Optimized drawing speed
+
+Geocaches: Fix broken spoiler download for gc.com geocaches
+
+Geocaches: Automatically load spoiler pictures when opening the edit dialog
+
+Fixed a bunch of little bugs introduced by the changes from previous releases
+
 --- 2013.09.16 ---
 Fix Google search
 
@@ -19,7 +36,7 @@ Add tooltip to vector maps used as overlays
 Database: Optimized "workspace update" for a workspace with a lot of items
 
 --- 2013.07.09 ---
-change license  to GPLV3 
+change license  to GPLV3
 
 Fix chrash with Garmin maps using unknown codepage for labels
 
@@ -47,7 +64,7 @@ Request #426:
 Uncheck and disable sticky waypoints in export dialog
 
 Request #427:
-Add spoiler download for geocaches 
+Add spoiler download for geocaches
 
 Request #428:
 Read number of satellites from gpsd
@@ -84,7 +101,7 @@ Request #413:
 Add lock flag to database folders and remove locked folders from possible target folders
 
 Request #414:
-Update DEM elevation in tracks if DEM attached to map file changes. 
+Update DEM elevation in tracks if DEM attached to map file changes.
 
 Request #415:
 Add support for Magellan RMP map format.
@@ -93,13 +110,13 @@ Request #416:
 Load other JNX files with same product ID as the one initially loaded
 
 Request #417:
-Add support to export raster maps to Magellan RMP format. 
+Add support to export raster maps to Magellan RMP format.
 
 Request #418:
 Add track filter to split tracks at stages.
 
 Request #419:
-Add 3-click track point selection 
+Add 3-click track point selection
 
 Request #420:
 Apply track filters to slection only, if there is a selection
@@ -268,7 +285,7 @@ Request #366:
 Enable limited map export from TMS/WMS maps
 
 Request #367:
-Add a user defined projection to --- no map --- 
+Add a user defined projection to --- no map ---
 
 Request #368:
 Add export of spoiler pictures to Garmin Bulk Device export
@@ -529,7 +546,7 @@ Fix: Crash on Garmin maps with POI labels
 --- 2011.06.15 ---
 
 Bug     #281:
-Fix: Crash for maps with bad dimensions 
+Fix: Crash for maps with bad dimensions
 
 Request #282:
 Trackfilter by azimuth
@@ -565,7 +582,7 @@ Bug     #292:
 Fix: Crash with 3D map if no map is selected
 
 Request #293:
-Change diary function completely 
+Change diary function completely
 
 
 
@@ -596,7 +613,7 @@ Request #274:
 Support OZI track files
 
 Request #275:
-Add sort waypoints by time 
+Add sort waypoints by time
 
 Bug     #276:
 Fix: Crash when cancelling new waypoint
@@ -1006,7 +1023,7 @@ Speed up loading of Garmin tiles.
 --- 2010.03.04 ---
 
 Bug     #141:
-Fix: Raster map search does not work with map files containing multiple '.' 
+Fix: Raster map search does not work with map files containing multiple '.'
 
 Bug     #142:
 Fix: Raster map search does not work with lon/lat WGS84 projection
@@ -1372,7 +1389,7 @@ Request #51:
 Garmin: Show labels of urban points on all zoom levels
 
 Request #52:
-Garmin: fine tune detail level 
+Garmin: fine tune detail level
 
 Request #53:
 Add false lightning to 3D via 2D map shading
@@ -1564,7 +1581,7 @@ Add nautic units
 --- 2008.06.13 ---
 
 Request #50:
-Add ascend and descend values to secondary track information 
+Add ascend and descend values to secondary track information
 
 Request #51:
 Add eleveation from DEM data to elevation plot as reference
@@ -1642,7 +1659,7 @@ Add "upload/download all" function
 --- 2008.05.06 ---
 
 Request #28:
-Printing diary: rotate map to fit the portrait page 
+Printing diary: rotate map to fit the portrait page
 
 Bug     #29:
 Empty diary is not detected as empty
@@ -1686,7 +1703,7 @@ Generate diary from loaded geo data
 --- 2008.04.19 ---
 
 Request #11:
-Suppress scalebar for bitmaps without georeferenceing information. 
+Suppress scalebar for bitmaps without georeferenceing information.
 
 Request #12:
 Implement sticky waypoints.
