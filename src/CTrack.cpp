@@ -1327,7 +1327,7 @@ void CTrack::rebuild(bool reindex)
         }
         else
         {
-            pt2->speed  = (dt > 0) ? pt2->delta / dt : 0;
+            pt2->speed  = (dt > 0) ? pt2->delta / dt : WPT_NOFLOAT;
         }
         pt2->dem        = dem.getElevation(pt2->lon * DEG_TO_RAD, pt2->lat * DEG_TO_RAD);
 
@@ -1340,8 +1340,8 @@ void CTrack::rebuild(bool reindex)
 
         if(pt2->ele   > maxEle)   {maxEle   = pt2->ele;   ptMaxEle   = *pt2;}
         if(pt2->ele   < minEle)   {minEle   = pt2->ele;   ptMinEle   = *pt2;}
-        if(pt2->speed > maxSpeed) {maxSpeed = pt2->speed; ptMaxSpeed = *pt2;}
-        if(pt2->speed < minSpeed) {minSpeed = pt2->speed; ptMinSpeed = *pt2;}
+//        if(pt2->speed > maxSpeed) {maxSpeed = pt2->speed; ptMaxSpeed = *pt2;}
+//        if(pt2->speed < minSpeed) {minSpeed = pt2->speed; ptMinSpeed = *pt2;}
 
         pt2->timeSinceStart = t2 - t1;
 
@@ -1365,7 +1365,7 @@ void CTrack::rebuild(bool reindex)
 
     totalTime = t2 - t1;
 
-    // calculate slope
+    // calculate slope && speed
     for(int i = 0; i<track.size(); i++)
     {
         pt_t & pt = track[i];
@@ -1376,6 +1376,7 @@ void CTrack::rebuild(bool reindex)
         }
 
         float d1 = pt.distance, e1 = pt.ele;
+        double t1 = pt.timestamp + pt.timestamp_msec / 1000.0;
         int n = i;
         while(n>0)
         {
@@ -1390,12 +1391,14 @@ void CTrack::rebuild(bool reindex)
             {
                 d1 = pt2.distance;
                 e1 = pt2.ele;
+                t1 = pt2.timestamp + pt2.timestamp_msec / 1000.0;
                 break;
             }
             n--;
         }
 
         float d2 = pt.distance, e2 = pt.ele;
+        double t2 = pt.timestamp + pt.timestamp_msec / 1000.0;
         n = i;
         while(n < track.size())
         {
@@ -1410,14 +1413,26 @@ void CTrack::rebuild(bool reindex)
             {
                 d2 = pt2.distance;
                 e2 = pt2.ele;
+                t2 = pt2.timestamp + pt2.timestamp_msec / 1000.0;
                 break;
             }
             n++;
         }
 
-        float a  = atan((e2 - e1)/(d2 - d1));
-        pt.slope2 = fabs(a * 360.0/(2 * M_PI));
+        float a     = atan((e2 - e1)/(d2 - d1));
+        pt.slope2   = fabs(a * 360.0/(2 * M_PI));
 
+        if((t2 - t1) > 0)
+        {
+            pt.speed    = (d2 - d1) / (t2 - t1);
+        }
+        else
+        {
+            pt.speed = WPT_NOFLOAT;
+        }
+
+        if(pt.speed > maxSpeed) {maxSpeed = pt.speed; ptMaxSpeed = pt;}
+        if(pt.speed < minSpeed) {minSpeed = pt.speed; ptMinSpeed = pt;}
     }
 
 
@@ -1961,6 +1976,14 @@ QString CTrack::getTrkPtInfo1(pt_t& trkpt)
         if(str.count()) str += " ";
         str += tr("slope: %1\260").arg(trkpt.slope2,0,'f',0);
     }
+
+    if(trkpt.speed != WPT_NOFLOAT)
+    {
+        if(str.count()) str += " ";
+        IUnit::self().meter2speed(trkpt.speed, val, unit);
+        str += tr("speed: %1%2").arg(val).arg(unit);
+    }
+
 
     if((trkpt.heartReateBpm != -1) || (trkpt.cadenceRpm != -1))
     {
