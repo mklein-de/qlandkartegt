@@ -1433,7 +1433,7 @@ void CTrackEditWidget::slotMultiColorConfig()
 
     CTrack::multi_color_setup_t& setup = track->getMultiColorSetup(comboMultiColor->currentIndex());
     CDlgMultiColorConfig dlg(setup);
-    if(dlg.exec() == QDialog::QDialog::Rejected)
+    if(dlg.exec() == QDialog::Rejected)
     {
         return;
     }
