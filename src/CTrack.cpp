@@ -1254,8 +1254,8 @@ void CTrack::rebuild(bool reindex)
 
     if(pt1->ele   > maxEle)   {maxEle   = pt1->ele;   ptMaxEle   = *pt1;}
     if(pt1->ele   < minEle)   {minEle   = pt1->ele;   ptMinEle   = *pt1;}
-    if(pt1->speed > maxSpeed) {maxSpeed = pt1->speed; ptMaxSpeed = *pt1;}
-    if(pt1->speed < minSpeed) {minSpeed = pt1->speed; ptMinSpeed = *pt1;}
+//    if(pt1->speed > maxSpeed) {maxSpeed = pt1->speed; ptMaxSpeed = *pt1;}
+//    if(pt1->speed < minSpeed) {minSpeed = pt1->speed; ptMinSpeed = *pt1;}
 
     // process track
     while(++pt2 != track.end())
