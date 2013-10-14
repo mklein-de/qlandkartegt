@@ -259,7 +259,7 @@ void IMouse::drawSelWpt(QPainter& p)
     if((selWpts.size() == 1) && !selWpts.first().wpt.isNull())
     {
         wpt_t& wptInfo = selWpts.first();
-        drawSelWpt(p, wptInfo, eFeatAll & (~eFeatName));
+        drawSelWpt(p, wptInfo, eFeatAll /*& (~eFeatName)*/);
     }
     else if(selWpts.size() > 1)
     {
@@ -439,7 +439,7 @@ void IMouse::drawSelWpt(QPainter& p, wpt_t& wptInfo, quint32 features)
         }
 
         p.save();
-        p.translate(u + RADIUS_CIRCLE + 10, v);
+        p.translate(u + RADIUS_CIRCLE + 15, v);
 
         p.setPen(CCanvas::penBorderBlue);
         p.setBrush(CCanvas::brushBackWhite);
