@@ -6615,12 +6615,12 @@ longitud: %1 %2</translation>
     <message>
         <location filename="../CSearchDB.cpp" line="233"/>
         <source>Unknown response</source>
-        <translation type="unfinished"></translation>
+        <translation>Respuesta desconocida</translation>
     </message>
     <message>
         <location filename="../CSearchDB.cpp" line="240"/>
         <source>Error: </source>
-        <translation type="unfinished"></translation>
+        <translation>Error: </translation>
     </message>
     <message>
         <location filename="../CSearchDB.cpp" line="66"/>
@@ -6799,37 +6799,37 @@ longitud: %1 %2</translation>
     <message>
         <location filename="../CTrack.cpp" line="783"/>
         <source>Slope [°]</source>
-        <translation type="unfinished"></translation>
+        <translation>Pendiente [°]</translation>
     </message>
     <message>
         <location filename="../CTrack.cpp" line="784"/>
         <source>Elevation [m]</source>
-        <translation type="unfinished"></translation>
+        <translation>Altura [m]</translation>
     </message>
     <message>
         <location filename="../CTrack.cpp" line="785"/>
         <source>Speed [km/h]</source>
-        <translation type="unfinished"></translation>
+        <translation>Velocidad [km/h]</translation>
     </message>
     <message>
         <location filename="../CTrack.cpp" line="804"/>
         <source>solid</source>
-        <translation type="unfinished"></translation>
+        <translation>sólido</translation>
     </message>
     <message>
         <location filename="../CTrack.cpp" line="805"/>
         <source>slope</source>
-        <translation type="unfinished">pendiente</translation>
+        <translation>pendiente</translation>
     </message>
     <message>
         <location filename="../CTrack.cpp" line="806"/>
         <source>elevation</source>
-        <translation type="unfinished"></translation>
+        <translation>altura</translation>
     </message>
     <message>
         <location filename="../CTrack.cpp" line="807"/>
         <source>speed</source>
-        <translation type="unfinished">velocidad</translation>
+        <translation>velocidad</translation>
     </message>
     <message>
         <location filename="../CTrack.cpp" line="1820"/>
@@ -6925,7 +6925,7 @@ final: %1</translation>
     <message>
         <location filename="../CTrack.cpp" line="1961"/>
         <source>slope: %1°</source>
-        <translation type="unfinished"></translation>
+        <translation>pendiente: %1°</translation>
     </message>
     <message>
         <location filename="../CTrack.cpp" line="2400"/>
@@ -9619,7 +9619,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../IDlgConfig.ui" line="114"/>
         <source>Time</source>
-        <translation>Tiempo</translation>
+        <translation type="unfinished">Hora</translation>
     </message>
     <message>
         <location filename="../IDlgConfig.ui" line="120"/>
@@ -10634,38 +10634,38 @@ and GPS and adjust all image time-stamps before correlating them with loaded tra
     <message>
         <location filename="../IDlgMultiColorConfig.ui" line="14"/>
         <source>Multi Color Setup...</source>
-        <translation type="unfinished"></translation>
+        <translation>Configuración Multi Color</translation>
     </message>
     <message>
         <location filename="../IDlgMultiColorConfig.ui" line="20"/>
         <location filename="../IDlgMultiColorConfig.ui" line="79"/>
         <source>TextLabel</source>
-        <translation type="unfinished"></translation>
+        <translation>Etiqueta de Texto</translation>
     </message>
     <message>
         <location filename="../IDlgMultiColorConfig.ui" line="29"/>
         <source>Auto</source>
-        <translation type="unfinished"></translation>
+        <translation>Auto</translation>
     </message>
     <message>
         <location filename="../IDlgMultiColorConfig.ui" line="36"/>
         <source>Min</source>
-        <translation type="unfinished"></translation>
+        <translation>Mín</translation>
     </message>
     <message>
         <location filename="../IDlgMultiColorConfig.ui" line="59"/>
         <source>Max</source>
-        <translation type="unfinished"></translation>
+        <translation>Máx</translation>
     </message>
     <message>
         <location filename="../IDlgMultiColorConfig.ui" line="86"/>
         <source>Min Color</source>
-        <translation type="unfinished"></translation>
+        <translation>Color Mín</translation>
     </message>
     <message>
         <location filename="../IDlgMultiColorConfig.ui" line="93"/>
         <source>Max Color</source>
-        <translation type="unfinished"></translation>
+        <translation>Color Máx</translation>
     </message>
 </context>
 <context>
@@ -11808,14 +11808,16 @@ DEM: %2</translation>
     <message>
         <location filename="../IMouse.cpp" line="315"/>
         <source>too many...</source>
-        <translation type="unfinished"></translation>
+        <translation>demasiados...</translation>
     </message>
     <message>
         <location filename="../IMouse.cpp" line="323"/>
         <source>Left click to lock circles.
 Then select function from circle.
 Left click on canvas to un-lock circles.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Haga click con el botón izquierdo para fijar círculo.
+Entonces seleccione función en el círculo.
+Haga click con el botón izquierdo en la pantalla para desbloquear círculo.</translation>
     </message>
 </context>
 <context>
@@ -12184,7 +12186,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../ITrackEditWidget.ui" line="136"/>
         <source>Multicolor</source>
-        <translation type="unfinished"></translation>
+        <translation>Multicolor</translation>
     </message>
     <message>
         <location filename="../ITrackEditWidget.ui" line="182"/>
