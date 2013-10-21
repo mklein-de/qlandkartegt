@@ -198,11 +198,19 @@ CTrackEditWidget::CTrackEditWidget(QWidget * parent)
         w->setTrackEditWidget(this);
     }
 
+    SETTINGS;
+    tabWidget->setCurrentIndex(cfg.value("TrackEditWidget/currentIndex",0).toUInt());
+    checkCenterMap->setChecked((cfg.value("TrackEditWidget/centerMap",true).toBool()));
+
 }
 
 
 CTrackEditWidget::~CTrackEditWidget()
 {
+    SETTINGS;
+    cfg.setValue("TrackEditWidget/currentIndex",tabWidget->currentIndex());
+    cfg.setValue("TrackEditWidget/centerMap",checkCenterMap->isChecked());
+
     if(!trackStatProfileDist.isNull())
     {
         delete trackStatProfileDist;
@@ -246,15 +254,42 @@ CTrackEditWidget::~CTrackEditWidget()
 
 void CTrackEditWidget::keyPressEvent(QKeyEvent * e)
 {
-    if(track.isNull()) return;
+    if(track.isNull()){e->ignore(); return;}
 
-    if(e->key() == Qt::Key_Delete)
+    switch (e->key())
     {
-        slotPurge();
-    }
-    else
-    {
-        QWidget::keyPressEvent(e);
+        case Qt::Key_Delete:
+        {
+            slotPurge();
+            break;
+        }
+
+        case Qt::Key_Left:
+        {
+            QList<QTreeWidgetItem*> items = treePoints->selectedItems();
+            if (items.begin() != items.end())
+            {
+                originator = true;
+                track->setPointOfFocus((*items.begin())->data(0,Qt::UserRole).toInt(), CTrack::eNoErase, true);
+                originator = false;
+            }
+            break;
+        }
+
+        case Qt::Key_Right:
+        {
+            QList<QTreeWidgetItem*> items = treePoints->selectedItems();
+            if (items.begin() != items.end())
+            {
+                originator = true;
+                track->setPointOfFocus((*(--items.end()))->data(0,Qt::UserRole).toInt(), CTrack::eNoErase, true);
+                originator = false;
+            }
+            break;
+        }
+
+        default:
+            e->ignore();
     }
 }
 
@@ -809,11 +844,26 @@ void CTrackEditWidget::slotPointSelectionChanged()
 
     //    qDebug() << Q_FUNC_INFO;
 
+    qint32 old_b = -1;
+    qint32 old_e = -1;
+    qint32 new_b = -1;
+    qint32 new_e = -1;
+    qint32 i = -1;
+
     // reset previous selections
     QList<CTrack::pt_t>& trkpts           = track->getTrackPoints();
     QList<CTrack::pt_t>::iterator trkpt   = trkpts.begin();
     while(trkpt != trkpts.end())
     {
+        i++;
+        if ((trkpt->flags & CTrack::pt_t::eSelected) != 0)
+        {
+            if (old_b < 0)
+            {
+                old_b = i;
+            }
+            old_e = i;
+        }
         trkpt->flags &= ~CTrack::pt_t::eFocus;
         trkpt->flags &= ~CTrack::pt_t::eSelected;
         ++trkpt;
@@ -827,6 +877,11 @@ void CTrackEditWidget::slotPointSelectionChanged()
         quint32 idxTrkPt = (*item)->data(0,Qt::UserRole).toUInt();
         //trkpts[idxTrkPt].flags |= CTrack::pt_t::eFocus;
         trkpts[idxTrkPt].flags |= CTrack::pt_t::eSelected;
+        if (new_b < 0)
+        {
+            new_b = idxTrkPt;
+        }
+        new_e = idxTrkPt;
         ++item;
     }
     if(!items.isEmpty())
@@ -836,6 +891,20 @@ void CTrackEditWidget::slotPointSelectionChanged()
     }
 
     originator = true;
+    if (checkCenterMap->isChecked())
+    {
+        if (items.begin() != items.end())
+        {
+            if (old_e != new_e)
+            {
+                track->setPointOfFocus(new_e, CTrack::eNoErase, true);
+            }
+            else
+            {
+                track->setPointOfFocus(new_b, CTrack::eNoErase, true);
+            }
+        }
+    }
     //track->rebuild(false);
     track->emitSigNeedUpdate();
     originator = false;

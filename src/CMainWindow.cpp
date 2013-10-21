@@ -352,7 +352,13 @@ CMainWindow::CMainWindow()
 
     sizes.clear();
     sizes << 40 << 60;
+
     rightSplitter->setSizes(sizes);
+
+    if( cfg.contains("mainWidget/rightSplitter") )
+    {
+        rightSplitter->restoreState(cfg.value("mainWidget/rightSplitter",rightSplitter->saveState()).toByteArray());
+    }
 
     connect(&CMapDB::self(), SIGNAL(sigChanged()), this, SLOT(slotDataChanged()));
     connect(&CWptDB::self(), SIGNAL(sigChanged()), this, SLOT(slotDataChanged()));
@@ -446,6 +452,7 @@ CMainWindow::~CMainWindow()
     SETTINGS;
     cfg.setValue("mainWidget/mainSplitter",mainSplitter->saveState());
     cfg.setValue("mainWidget/leftSplitter",leftSplitter->saveState());
+    cfg.setValue("mainWidget/rightSplitter",rightSplitter->saveState());
     cfg.setValue("mainWidget/geometry", geometry());
     cfg.setValue("mainWidget/crashed",false);
     cfg.setValue("path/data",pathData);
