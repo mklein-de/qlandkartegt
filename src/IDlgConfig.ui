@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>733</width>
-    <height>633</height>
+    <width>657</width>
+    <height>601</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -206,20 +206,17 @@
             </property>
            </widget>
           </item>
-          <item row="3" column="2">
-           <widget class="QCheckBox" name="checkTooltip">
-            <property name="toolTip">
-             <string>Show information as tooltip for items under cursor in vector maps.</string>
-            </property>
+          <item row="2" column="2">
+           <widget class="QCheckBox" name="checkShowClock">
             <property name="text">
-             <string>Tooltips (vector maps)</string>
+             <string>Show clock</string>
             </property>
            </widget>
           </item>
-          <item row="3" column="0">
-           <widget class="QCheckBox" name="checkReducePoiIcons">
+          <item row="2" column="3">
+           <widget class="QCheckBox" name="checkShowTrackEleInfo">
             <property name="text">
-             <string>Reduce POI icons (vector maps)</string>
+             <string>Show track elevation info</string>
             </property>
            </widget>
           </item>
@@ -233,21 +230,7 @@
             </property>
            </widget>
           </item>
-          <item row="2" column="3">
-           <widget class="QCheckBox" name="checkShowTrackEleInfo">
-            <property name="text">
-             <string>Show track elevation info</string>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="2">
-           <widget class="QCheckBox" name="checkShowClock">
-            <property name="text">
-             <string>Show clock</string>
-            </property>
-           </widget>
-          </item>
-          <item row="4" column="0">
+          <item row="3" column="0">
            <widget class="QCheckBox" name="checkAntiAliasing">
             <property name="toolTip">
              <string>Rendering the map with anti-aliasing uses a lot of CPU power. Best to disable it for weak CPUs.</string>
@@ -257,12 +240,104 @@
             </property>
            </widget>
           </item>
-          <item row="3" column="3">
-           <widget class="QCheckBox" name="checkElementInfo">
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QGroupBox" name="groupBox_11">
+         <property name="title">
+          <string>Vector Maps</string>
+         </property>
+         <layout class="QGridLayout" name="gridLayout_4">
+          <item row="0" column="1">
+           <widget class="QCheckBox" name="checkTooltip">
+            <property name="toolTip">
+             <string>Show information as tooltip for items under cursor in vector maps.</string>
+            </property>
             <property name="text">
-             <string>Element Info (vector maps)</string>
+             <string>Tooltips</string>
             </property>
            </widget>
+          </item>
+          <item row="0" column="2">
+           <widget class="QCheckBox" name="checkElementInfo">
+            <property name="text">
+             <string>Element Info</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="0">
+           <widget class="QCheckBox" name="checkReducePoiIcons">
+            <property name="text">
+             <string>Reduce POI icons</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0">
+           <layout class="QHBoxLayout" name="horizontalLayout_8">
+            <item>
+             <widget class="QLabel" name="label_13">
+              <property name="text">
+               <string>Zoom level threshold for POIs:</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QDoubleSpinBox" name="spinZoomLevelThresholdPois">
+              <property name="maximumSize">
+               <size>
+                <width>80</width>
+                <height>16777215</height>
+               </size>
+              </property>
+              <property name="toolTip">
+               <string>Defines at which zoom level POIs are drawn.</string>
+              </property>
+              <property name="decimals">
+               <number>1</number>
+              </property>
+              <property name="maximum">
+               <double>70000.000000000000000</double>
+              </property>
+              <property name="value">
+               <double>5.000000000000000</double>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item row="1" column="1" colspan="2">
+           <layout class="QHBoxLayout" name="horizontalLayout_9">
+            <item>
+             <widget class="QLabel" name="label_14">
+              <property name="text">
+               <string>Zoom level threshold for POI labels:</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QDoubleSpinBox" name="spinZoomLevelThresholdPoiLabels">
+              <property name="maximumSize">
+               <size>
+                <width>80</width>
+                <height>16777215</height>
+               </size>
+              </property>
+              <property name="toolTip">
+               <string>Defines at which zoom level POIs are labeled.</string>
+              </property>
+              <property name="decimals">
+               <number>1</number>
+              </property>
+              <property name="maximum">
+               <double>70000.000000000000000</double>
+              </property>
+              <property name="value">
+               <double>2.000000000000000</double>
+              </property>
+             </widget>
+            </item>
+           </layout>
           </item>
          </layout>
         </widget>
@@ -322,7 +397,7 @@
             <item>
              <widget class="QLineEdit" name="lineProxyPort">
               <property name="inputMask">
-               <string>00000; </string>
+               <string>00000</string>
               </property>
               <property name="text">
                <string>8080</string>
@@ -522,7 +597,16 @@
                <property name="spacing">
                 <number>0</number>
                </property>
-               <property name="margin">
+               <property name="leftMargin">
+                <number>0</number>
+               </property>
+               <property name="topMargin">
+                <number>0</number>
+               </property>
+               <property name="rightMargin">
+                <number>0</number>
+               </property>
+               <property name="bottomMargin">
                 <number>0</number>
                </property>
                <item>

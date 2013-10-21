@@ -73,6 +73,9 @@ class CResources : public QObject
         bool useAntiAliasing(){return m_useAntiAliasing;}
         bool reducePoiIcons(){return m_reducePoiIcons;}
 
+        double getZoomLevelThresholdPois(){return m_zoomLevelThresholdPois;}
+        double getZoomLevelThresholdPoiLabels(){return m_zoomLevelThresholdPoiLabels;}
+
         QColor wptTextColor(){return m_WptTextColor;}
 
         QDir getPathMapCache(){return m_pathMapCache;}
@@ -167,6 +170,9 @@ class CResources : public QObject
         bool m_showZoomLevel;
         bool m_useAntiAliasing;
         bool m_reducePoiIcons;
+
+        double m_zoomLevelThresholdPois;
+        double m_zoomLevelThresholdPoiLabels;
 
         QColor m_WptTextColor;
 

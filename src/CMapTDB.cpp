@@ -2804,7 +2804,7 @@ void CMapTDB::drawPoints(QPainter& p, pointtype_t& pts, QVector<QRect>& rectPois
     while(pt != pts.end())
     {
 
-        if((pt->type > 0x1600) && (zoomFactor > 5.0))
+        if((pt->type > 0x1600) && (zoomFactor > CResources::self().getZoomLevelThresholdPois()))
         {
             ++pt;
             continue;
@@ -2831,7 +2831,7 @@ void CMapTDB::drawPoints(QPainter& p, pointtype_t& pts, QVector<QRect>& rectPois
             p.drawPixmap(pt->lon - 4, pt->lat - 4, QPixmap(":/icons/small_bullet_blue.png"));
         }
 
-        if((!pt->labels.isEmpty() && (zoomFactor < 2) && poiLabels) || ((pt->type < 0x1600)  && showLabel))
+        if((!pt->labels.isEmpty() && (zoomFactor < CResources::self().getZoomLevelThresholdPoiLabels())  && poiLabels) || ((pt->type < 0x1600)  && showLabel))
         {
 
             // calculate bounding rectangle with a border of 2 px
@@ -2913,7 +2913,7 @@ void CMapTDB::drawPois(QPainter& p, pointtype_t& pts, QVector<QRect>& rectPois)
 
         if(showLabel)
         {
-            if((!pt->labels.isEmpty() && (zoomFactor < 2) && poiLabels) || (pt->type < 0x1600))
+            if((!pt->labels.isEmpty() && (zoomFactor < CResources::self().getZoomLevelThresholdPoiLabels()) && poiLabels) || (pt->type < 0x1600))
             {
 
                 // calculate bounding rectangle with a border of 2 px

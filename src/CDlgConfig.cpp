@@ -107,6 +107,9 @@ void CDlgConfig::exec()
     checkAntiAliasing->setChecked(resources.m_useAntiAliasing);
     checkReducePoiIcons->setChecked(resources.m_reducePoiIcons);
 
+    spinZoomLevelThresholdPois->setValue(resources.m_zoomLevelThresholdPois);
+    spinZoomLevelThresholdPoiLabels->setValue(resources.m_zoomLevelThresholdPoiLabels);
+
     checkUseGeoDB->setChecked(resources.m_useGeoDB);
     groupSaveWks->setEnabled(resources.m_useGeoDB);
     checkGeoDBSaveOnExit->setChecked(resources.m_saveGeoDBOnExit);
@@ -229,6 +232,9 @@ void CDlgConfig::accept()
     resources.m_playSound       = checkPlaySound->isChecked();
     resources.m_useAntiAliasing = checkAntiAliasing->isChecked();
     resources.m_reducePoiIcons  = checkReducePoiIcons->isChecked();
+
+    resources.m_zoomLevelThresholdPois      = spinZoomLevelThresholdPois->value();
+    resources.m_zoomLevelThresholdPoiLabels = spinZoomLevelThresholdPoiLabels->value();
 
     resources.m_useGeoDB        = checkUseGeoDB->isChecked();
     resources.m_saveGeoDBOnExit = checkGeoDBSaveOnExit->isChecked();

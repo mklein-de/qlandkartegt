@@ -79,6 +79,8 @@ CResources::CResources(QObject * parent)
 , m_showZoomLevel(true)
 , m_useAntiAliasing(true)
 , m_reducePoiIcons(true)
+, m_zoomLevelThresholdPois(5.0)
+, m_zoomLevelThresholdPoiLabels(2.0)
 , m_WptTextColor(Qt::black)
 , m_pathMapCache(QDir::temp().filePath("qlandkartegt/cache"))
 , m_sizeMapCache(100)
@@ -167,6 +169,9 @@ CResources::CResources(QObject * parent)
     m_showZoomLevel    = cfg.value("environment/showZoomLevel",m_showZoomLevel).toBool();
     m_useAntiAliasing  = cfg.value("environment/useAntiAliasing",m_useAntiAliasing).toBool();
     m_reducePoiIcons   = cfg.value("environment/reducePoiIcons",m_reducePoiIcons).toBool();
+
+    m_zoomLevelThresholdPois      = cfg.value("environment/zoomLevelThresholdPois",m_zoomLevelThresholdPois).toDouble();
+    m_zoomLevelThresholdPoiLabels = cfg.value("environment/zoomLevelThresholdPoiLabels",m_zoomLevelThresholdPoiLabels).toDouble();
 
     m_WptTextColor = QColor(cfg.value("environment/wptTextColor", m_WptTextColor.name()).toString());
 
@@ -263,6 +268,9 @@ CResources::~CResources()
     cfg.setValue("environment/showZoomLevel",m_showZoomLevel);
     cfg.setValue("environment/useAntiAliasing",m_useAntiAliasing);
     cfg.setValue("environment/reducePoiIcons",m_reducePoiIcons);
+
+    cfg.setValue("environment/zoomLevelThresholdPois",m_zoomLevelThresholdPois);
+    cfg.setValue("environment/zoomLevelThresholdPoiLabels",m_zoomLevelThresholdPoiLabels);
 
     cfg.setValue("environment/wptTextColor", m_WptTextColor.name());
 
