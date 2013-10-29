@@ -711,10 +711,9 @@ void CDlgEditWpt::slotRequestFinished(QNetworkReply * reply)
         return;
     }
 
-
     QRegExp re0(".*Object moved to <a href=\"(.*)\".*");
     QRegExp re1(".*CachePageImages.*");
-    QRegExp re2("(http://img.geocaching.com/cache/large/.*\\.jpg).*>(.*)</a>");
+    QRegExp re2("(http://.*\\.jpg).*>(.*)</a>");
 
     re2.setMinimal(true);
 
