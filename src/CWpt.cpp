@@ -981,8 +981,8 @@ void CWpt::saveGcExt(QDomElement& gpxCache, bool isExport)
             gpxLogs.appendChild(gpxLog);
 
             gpxLog.setAttribute("id", log.id);
-            setEntry("date", log.date, gpx, gpxLog);
-            setEntry("type", log.type, gpx, gpxLog);
+            setEntry("groundspeak:date", log.date, gpx, gpxLog);
+            setEntry("groundspeak:type", log.type, gpx, gpxLog);
 
             QDomElement finder = gpx.createElement("groundspeak:finder");
             gpxLog.appendChild(finder);
@@ -991,7 +991,7 @@ void CWpt::saveGcExt(QDomElement& gpxCache, bool isExport)
             finder.appendChild(_finder_);
             finder.setAttribute("id", log.finderId);
 
-            setEntryHtml("text", log.text, gpx, gpxLog);
+            setEntryHtml("groundspeak:text", log.text, gpx, gpxLog);
         }
     }
 }
