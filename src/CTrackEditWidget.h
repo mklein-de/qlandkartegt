@@ -34,7 +34,6 @@ class CTrackStatDistanceWidget;
 class QMenu;
 
 #ifdef GPX_EXTENSIONS
-//TODO: Class Defininition
 class CTrackStatExtensionWidget;
 #endif
 
@@ -82,16 +81,12 @@ class CTrackEditWidget : public QWidget, private Ui::ITrackEditWidget
         void slotDelete();
 
 #ifdef GPX_EXTENSIONS
-        //TODO: Deklaration der Methode fr die Extensions Graphen
         void slotToggleExtensionsGraph();
-        //TODO: eigenes Methdchen
         void slotSetColumns(bool checked);
         void slotSetColumnsExt(bool checked);
 #endif
-        void slotGoogleMaps();   //TODO: Google Maps
-                                 //TODO: Kill Tab
+        void slotGoogleMaps();
         void slotKillTab(int index);
-
         void slotResetAllZoom();
 
 
@@ -152,7 +147,7 @@ class CTrackEditWidget : public QWidget, private Ui::ITrackEditWidget
         //QList with all extension tabs made for further handling
         QList<CTrackStatExtensionWidget *> trackStatExtensions;
 
-        QSpacerItem *Vspace;     //TODO: Spacer Item
+        QSpacerItem *Vspace;
 
         int tabstat;
         int no_ext_info_stat;

@@ -89,7 +89,7 @@ class IMouse : public QObject
         void setSelTrackPt(CTrack::pt_t * pt);
 
 #ifdef GPX_EXTENSIONS
-        CGpxExtTr tr_ext;        //TODO: CGpxExtPt -> tr_ext
+        CGpxExtTr tr_ext;
 #endif
 
     public slots:

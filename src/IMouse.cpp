@@ -708,7 +708,7 @@ void IMouse::mouseMoveEventWpt(QMouseEvent * e)
 
     }
 
-    // check for cursor-over-function @todo this has to be done over all waypoints
+    // check for cursor-over-function
     for(int i = 0; i < selWpts.size(); i++)
     {
         QPoint pt;

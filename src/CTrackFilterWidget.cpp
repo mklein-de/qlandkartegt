@@ -329,7 +329,6 @@ void CTrackFilterWidget::slotHighlightTrack(CTrack * trk)
     track = trk;
     if(!track.isNull())
     {
-        // todo add track dependend setup
         connect(track, SIGNAL(sigChanged()), this, SLOT(slotUpdate()));
         connect(track, SIGNAL(sigNeedUpdate()), this, SLOT(slotUpdate()));
         slotUpdate();

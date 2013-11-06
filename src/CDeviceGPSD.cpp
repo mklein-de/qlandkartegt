@@ -177,7 +177,6 @@ void CGPSDThread::run()
 #endif
     if( !gpsdata )
     {
-        // TODO: message box (from other thread)
         //        qDebug() << "gps_open failed.";
         return;
     }                            // if
@@ -264,9 +263,7 @@ bool CGPSDThread::decodeData()
     current_log.lat = gpsdata->fix.latitude;
     current_log.ele = gpsdata->fix.altitude;
     current_log.timestamp = gpsdata->fix.time;
-                                 // TODO
     current_log.error_horz = gpsdata->fix.epx;
-                                 // TODO
     current_log.error_vert = gpsdata->fix.epv;
     current_log.heading = gpsdata->fix.track;
     current_log.velocity = gpsdata->fix.speed;

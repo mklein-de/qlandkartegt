@@ -538,7 +538,6 @@ void CTrackEditWidget::slotSetTrack(CTrack * t)
 
     slotUpdate();
 
-    //TODO: resize of the TrackEditWidget
     SETTINGS;
     // restore last session position and size of TrackEditWidget
     if ( cfg.contains("TrackEditWidget/geometry"))
@@ -591,8 +590,6 @@ void CTrackEditWidget::slotUpdate()
     }
 
 #ifdef GPX_EXTENSIONS
-    //TODO: endable ext. sym. only when there are exts
-
     //get names and number of extensions
                                  //Anzahl der Extensions
     QList<QString> names_of_ext = track->tr_ext.set.toList();
@@ -1099,13 +1096,11 @@ void CTrackEditWidget::slotToggleExtensionsGraph()
     theMainWindow->getCanvasTab()->setTabPosition(QTabWidget::South);
     theMainWindow->getCanvasTab()->setMovable(true);
 
-    //TODO: make tabs closeable
     theMainWindow->getCanvasTab()->setTabsClosable(true);
 }
 #endif
 
 #ifdef GPX_EXTENSIONS
-//TODO: method to switch on/off standard columns in track view
 void CTrackEditWidget::slotSetColumns(bool checked)
 {
     //who made the signal
@@ -1179,7 +1174,6 @@ void CTrackEditWidget::slotSetColumns(bool checked)
 #endif
 
 #ifdef GPX_EXTENSIONS
-//TODO: switch extension columns on/off
 void CTrackEditWidget::slotSetColumnsExt(bool checked)
 {
     //who's sender of checkbox signal
@@ -1193,7 +1187,6 @@ void CTrackEditWidget::slotSetColumnsExt(bool checked)
 }
 #endif
 
-//TODO: Show Track in Google Maps
 void CTrackEditWidget::slotGoogleMaps()
 {
     QString str, outp;
@@ -1262,7 +1255,6 @@ void CTrackEditWidget::slotGoogleMaps()
 }
 
 
-//TODO: Close Tab
 void CTrackEditWidget::slotKillTab(int index)
 {
     if (index != 0)

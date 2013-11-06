@@ -90,15 +90,12 @@ void IGarminStrTbl::readFile(QFileExt &file, quint32 offset, quint32 size, QByte
         return;
     }
 
+    data = QByteArray::fromRawData(file.data(offset), size);
     // wenn mask == 0 ist kein xor noetig
     if(mask == 0)
     {
-        data = QByteArray::fromRawData(file.data(offset), size);
         return;
     }
-
-    // TODO: dieses copy is unnoetig
-    data = QByteArray(file.data(offset), size);
 
 #ifdef HOST_IS_64_BIT
     quint64 * p64 = (quint64*)data.data();

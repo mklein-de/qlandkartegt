@@ -228,7 +228,6 @@ void CMouseMoveMap::contextMenu(QMenu& menu)
     if(selTrkPt)
     {
         menu.addSeparator();
-                                 //TODO: Google Maps right click
         menu.addAction(QPixmap(":/icons/iconGoogleMaps16x16.png"),tr("Open Pos. with Google Maps"),this,SLOT(slotOpenGoogleMaps()));
         menu.addAction(QPixmap(":/icons/iconClipboard16x16.png"),tr("Copy Pos. Trackpoint"),this,SLOT(slotCopyPositionTrack()));
         menu.addAction(QPixmap(":/icons/iconEdit16x16.png"),tr("Edit Track ..."),this,SLOT(slotEditTrack()));
@@ -490,7 +489,6 @@ void CMouseMoveMap::slotSplitTrack()
 }
 
 
-                                 //TODO: Open Google Maps
 void CMouseMoveMap::slotOpenGoogleMaps()
 {
     QString position;

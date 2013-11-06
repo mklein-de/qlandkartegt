@@ -337,10 +337,7 @@ void CTrackDB::loadGPX(CGpx& gpx)
                 if(!tmpelem.isNull())
                 {
 #ifdef GPX_EXTENSIONS
-                                 //TODO: Abholen der Extension
                     pt.gpx_exts.setValues(tmpelem);
-
-                                 //TODO: Auslesen der Namen der Ext
                     track->tr_ext.addKey2List(tmpelem);
 #endif
 

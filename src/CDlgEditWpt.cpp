@@ -34,6 +34,7 @@
 
 #include <QtGui>
 #include <QtNetwork>
+#include <tzdata.h>
 
 CDlgEditWpt::CDlgEditWpt(CWpt &wpt, QWidget * parent)
 : QDialog(parent)
@@ -140,7 +141,6 @@ int CDlgEditWpt::exec()
     oldLon = wpt.lon;
     oldLat = wpt.lat;
 
-    //TODO: that has to be metric/imperial
     if(wpt.ele != WPT_NOFLOAT)
     {
         IUnit::self().meter2elevation(wpt.ele, val, unit);
@@ -832,26 +832,40 @@ void CDlgEditWpt::updateWebView()
     // ------------ waypoint name ------------------------
     if(wpt.isGeoCache())
     {
-        page += QString(" <span style='font-weight: bold;'>%1 (%2)</span>").arg(wpt.getGeocacheData().name).arg(wpt.getName());
+        page += QString(" <span style='font-weight: bold;'>%1 (%2) by %3</span>").arg(wpt.getGeocacheData().name).arg(wpt.getName()).arg(wpt.getGeocacheData().owner);
     }
     else
     {
-        page += QString(" <span style='font-weight: bold;'>%1</span> <sub>(<a href='changeName'>%2</a>)</sub>").arg(wpt.getName()).arg(tr("edit"));
+        page += QString(" <span style='font-weight: bold;'>%1</span> <sub>(<a href='changeName'>%2</a>)</sub> ").arg(wpt.getName()).arg(tr("edit"));
+        quint32 timestamp = wpt.getTimestamp();
+        if(timestamp != 0x00000000 && timestamp != 0xFFFFFFFF)
+        {
+            QString timezone = GPS_Timezone(wpt.lon, wpt.lat);
+            QDateTime time = QDateTime::fromTime_t(timestamp);
+            if(!timezone.isEmpty())
+            {
+                time = TimeStamp(timestamp).toZone(timezone).toDateTime();
+            }
+            page += time.toString();
+        }
+
     }
 
     page += "</p>";
     // ===================================================
     page += "<p>";
 
+    addImageToPage(page, ":/icons/iconGlobe16x16.png","");
+
     QString pos;
     GPS_Math_Deg_To_Str(wpt.lon, wpt.lat, pos);
     if(wpt.isGeoCache())
     {
-        page += pos;
+        page += " " + pos;
     }
     else
     {
-        page += "<a href='changePosition'>" + pos + "</a>";
+        page += " <a href='changePosition'>" + pos + "</a>";
     }
     page += "</p>";
     // ===================================================

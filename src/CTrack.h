@@ -32,7 +32,7 @@
 #include "IItem.h"
 
 #ifdef GPX_EXTENSIONS
-#include "CGpxExtension.h"       //TODO: include von gpx ext
+#include "CGpxExtension.h"
 #endif
 
 #define MAX_TRACK_SIZE 10000
@@ -75,7 +75,7 @@ class CTrack : public IItem
         enum type_select_e{eErase, eNoErase, e3Way, eHoover};
 
 #ifdef GPX_EXTENSIONS
-        CGpxExtTr tr_ext;        //TODO: CGpxExtPt -> tr_ext
+        CGpxExtTr tr_ext;
 #endif
 
         struct pt_t
@@ -154,7 +154,7 @@ class CTrack : public IItem
             float   vz;          ///< [m/s] velocity
 
 #ifdef GPX_EXTENSIONS
-            CGpxExtPt gpx_exts;  //TODO: CGpxExtPt -> gpx_exts
+            CGpxExtPt gpx_exts;
 #endif
 
             // track shadow data (copy of original data)
@@ -344,7 +344,7 @@ class CTrack : public IItem
         friend class CDlgMultiColorConfig;
         friend class CTrackDB;
         friend QDataStream& operator >>(QDataStream& s, CTrack& track);
-        friend QDataStream& operator <<(QDataStream& s, CTrack& track);        
+        friend QDataStream& operator <<(QDataStream& s, CTrack& track);
         void rebuildColorMapElevation();
         void rebuildColorMapSlope();
         void rebuildColorMapSpeed();

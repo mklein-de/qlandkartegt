@@ -2006,8 +2006,7 @@ QString CTrack::getTrkPtInfo1(pt_t& trkpt)
     }
 
     //-----------------------------------------------------------------------------------------------------------
-    //TODO: HOVERTEXT FOR EXTENSIONS
-//#ifdef GPX_EXTENSIONS
+
     if (!trkpt.gpx_exts.values.isEmpty())
     {
         QList<QString> ext_list = trkpt.gpx_exts.values.keys();
@@ -2023,7 +2022,7 @@ QString CTrack::getTrkPtInfo1(pt_t& trkpt)
         }
 
     }
-//#endif
+
 
     return str;
 }

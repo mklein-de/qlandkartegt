@@ -5,12 +5,12 @@
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
-    
+
     This program is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU General Public License for more details.
-    
+
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
@@ -58,15 +58,12 @@ void CGarminTile::readFile(QFileExt& file, quint32 offset, quint32 size, QByteAr
         throw exce_t(eErrOpen, tr("Failed to read: ") + filename);
     }
 
+    data = QByteArray::fromRawData(file.data(offset), size);
     // wenn mask == 0 ist kein xor noetig
     if(mask == 0)
     {
-        data = QByteArray::fromRawData(file.data(offset), size);
         return;
     }
-
-    // TODO: dieses copy is unnoetig
-    data = QByteArray::fromRawData(file.data(offset), size);
 
 #ifdef HOST_IS_64_BIT
     quint64 * p64 = (quint64*)data.data();

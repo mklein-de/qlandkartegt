@@ -1994,7 +1994,6 @@ void CGeoDB::saveWorkspace()
         QUERY_EXEC(continue);
     }
 
-    /// @todo
     size = itemWksMap->childCount();
     for(i=0; i<size; i++)
     {
@@ -2006,7 +2005,6 @@ void CGeoDB::saveWorkspace()
         QByteArray data;
         QDataStream stream(&data, QIODevice::WriteOnly);
         stream.setVersion(QDataStream::Qt_4_5);
-        //stream << *map;
         *map >> stream;
 
         query.prepare("INSERT INTO workspace (type, key, changed, data) VALUES (:type, :key, :changed, :data)");
@@ -2771,7 +2769,6 @@ void CGeoDB::slotDelFolder()
 {
     CGeoDBInternalEditLock lock(this);
 
-    /// @todo delete just current folder or all selected?
     QTreeWidgetItem * item = treeDatabase->currentItem();
     QMessageBox::StandardButton but = QMessageBox::question(0, tr("Delete folder..."), tr("You are sure you want to delete '%1' and all items below?").arg(item->text(eCoName)), QMessageBox::Ok|QMessageBox::Abort);
     if(but == QMessageBox::Ok)

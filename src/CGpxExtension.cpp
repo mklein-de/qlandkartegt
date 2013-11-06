@@ -5,12 +5,12 @@
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
-    
+
     This program is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU General Public License for more details.
-    
+
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
@@ -19,7 +19,7 @@
 // Includes
 #include "CGpxExtension.h"
 
-//TODO: Methode zum auslesen der extension aus dem gpx file
+
 void CGpxExtPt::setValues(const QDomNode& parent)
 {
     QDomNode child = parent.firstChild();
@@ -31,21 +31,18 @@ void CGpxExtPt::setValues(const QDomNode& parent)
 }
 
 
-//TODO: Methode zur ermittlung der anzahl der extentions pro pt
 int CGpxExtPt::getSize()
 {
     return values.size();
 }
 
 
-//TODO: Methode um den Wert der Extension X zu erhalten
 QString CGpxExtPt::getValue (const QString& name)
 {
     return values.value(name);
 }
 
 
-//TODO: Methode um die Namen der Extensions zu listen
 void CGpxExtTr::addKey2List(const QDomNode& parent)
 {
     QDomNode child = parent.firstChild();
