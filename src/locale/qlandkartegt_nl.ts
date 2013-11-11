@@ -831,7 +831,7 @@
     <message>
         <location filename="../CCanvas.cpp" line="882"/>
         <source>[Grid: N %1m, E %2m] </source>
-        <translation type="unfinished"></translation>
+        <translation>[Grid: N %1m, E %2m] </translation>
     </message>
     <message>
         <source>[Grid: %1m, %2m] </source>
@@ -859,12 +859,12 @@
     <message>
         <location filename="../CCopyright.cpp" line="40"/>
         <source>&lt;p&gt;&amp;#169; 2007 Oliver Eichler (oliver.eichler@gmx.de)&lt;/p&gt;&lt;p&gt;Thanks for contributing to the project:&lt;/p&gt;&lt;p&gt;Andrew Vagin&lt;br/&gt;Fabrice Crohas&lt;br/&gt;Marc Feld&lt;br/&gt;Joerg Wunsch&lt;br/&gt;Albrecht Dre&amp;szlig;&lt;br&gt;Christian Ehrlicher&lt;br/&gt;Christian Treffs&lt;br/&gt;Michael Klein&lt;br/&gt;&lt;/p&gt;&lt;p&gt;Translation:&lt;br&gt;Sarah Neumann (German)&lt;br&gt;Fabrice Crohas (French)&lt;br&gt;Alessandro Briosi (Italian)&lt;br&gt;Mike Markov (Russian)&lt;br&gt;Oscar A. and Luis Llorente (Spanish)&lt;br&gt;Harrie Klomp (Dutch)&lt;br&gt;&lt;/p&gt;&lt;p&gt;Icons and eye candy are from the &lt;b&gt;KDE&lt;/b&gt; icon set, the &lt;b&gt;Nuvola&lt;/b&gt; icon set and the &lt;b&gt;Oxygen&lt;/b&gt; icon set.See &lt;b&gt;http://www.kde.org/&lt;/b&gt;,&lt;b&gt;http://www.icon-king.com/&lt;/b&gt; and &lt;b&gt;http://www.oxygen-icons.org/&lt;/b&gt;. Waypoint icons are copied from &lt;b&gt;GPSMan&lt;/b&gt;. See &lt;b&gt;http://www.ncc.up.pt/gpsman/&lt;/b&gt;. Cursor icons are from the &apos;Polar Cursor Theme&apos;. See &lt;b&gt;http://www.kde-look.org/content/show.php?content=27913&lt;/b&gt;.Geocache icons are taken from the OpenCacheManager project. See &lt;b&gt;http://opencachemanage.sourceforge.net/&lt;/b&gt;.&lt;/p&gt; &lt;p&gt;Some of the 2D polygon math is copied from &lt;b&gt;http://local.wasp.uwa.edu.au/~pbourke/geometry/&lt;/b&gt;. The geodesic distance calculation by Thaddeus Vincenty is copied from &lt;b&gt;http://www.movable-type.co.uk/scripts/LatLongVincenty.html&lt;/b&gt;&lt;/p&gt;&lt;p&gt;Typ file decoding is done with the help of the source code published at http://ati.land.cz/gps/typedit//&lt;p&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;p&gt;&amp;#169; 2007 Oliver Eichler (oliver.eichler@gmx.de)&lt;/p&gt;&lt;p&gt;Bedankt voor de bijdrage aan dit projekt: &lt;/p&gt;&lt;p&gt;Andrew Vagin&lt;br/&gt;Fabrice Crohas&lt;br/&gt;Marc Feld&lt;br/&gt;Joerg Wunsch&lt;br/&gt;Albrecht Dre&amp;szlig;&lt;br/&gt;Christian Ehrlicher&lt;br/&gt;Christian Treffs&lt;br/&gt;Michael Klein&lt;br/&gt;&lt;/p&gt;&lt;p&gt;Vertaling:&lt;/p&gt;&lt;p&gt;Sarah Neumann (Duits)&lt;br/&gt;Fabrice Crohas (Frans)&lt;br/&gt;Alessandro Briosi (Italiaans)&lt;br/&gt;Harrie Klomp (Nederlands)&lt;br/&gt;Mike Markov (Russisch)&lt;br/&gt;Oscar A. (Spaans)&lt;br/&gt;&lt;/p&gt;&lt;p&gt;Iconen en zoetwaren voor de ogen zijn uit de &lt;b&gt;KDE&lt;/b&gt;, de &lt;b&gt;Nuvola&lt;/b&gt; en de &lt;b&gt;Oxygen&lt;/b&gt; Iconen. Zie &lt;b&gt;http://www.kde.org&lt;/b&gt;, &lt;b&gt;http://www.icon-king.com&lt;/b&gt; en &lt;b&gt;http://www.oxygen-icons.org&lt;/b&gt;. Wegpunt symbolen zijn van &lt;b&gt;GPSMan&lt;/b&gt; gekopieerd. Zie &lt;b&gt;http://www.ncc.up.pt/gpsman&lt;/b&gt;. Muiswijzers zijn uit de &apos;Polar Cursor Theme&apos;. Zie &lt;b&gt;http://www.kde-look.org/content/show.php?content=27913&lt;/b&gt;.Geocache iconen zijn van het OpenCacheManager project. Zie &lt;b&gt; http://opencachemanager.sourceforge.net&lt;/b/&gt;.&lt;/p&gt; &lt;p&gt;Delen van de 2D-Polygon-wiskunde werd van &lt;b&gt;http://local.wasp.uwa.edu.au/~pbourke/geometry&lt;/b&gt; gekopieerd. De geografische afstandsberekening van Thaddeus Vincenty werd van &lt;b&gt;http://www.movable-type.co.uk/scripts/LatLongVincenty.html&lt;/b&gt; gekopieerd.&lt;/p&gt;&lt;p&gt;</translation>
     </message>
     <message>
         <location filename="../CCopyright.cpp" line="90"/>
         <source>running gdal_translate failed!</source>
-        <translation type="unfinished"></translation>
+        <translation>draaiende gdal_vertaling misluk!</translation>
     </message>
     <message>
         <location filename="../CCopyright.cpp" line="93"/>
@@ -1004,7 +1004,12 @@ coordinate formats:
 • &quot;N49° 10.234 E12° 01.456&quot; (dd mm.mmm)
 • &quot;46.575377   12.193172&quot;  (dd.dddddd)
 • &quot;285000 5162000&quot;</source>
-        <translation type="unfinished"></translation>
+        <translation>De volgende stap is het ingeven van bekende referentie punten. Voeg de referentie punten toe op de map met de latitude / longtitude (WGS84) of de lengte en breedte (m) in de tabel. Vervolgens kan het punt naar de correcte plaats van de kaart geschoven worden.
+
+Coördinaat formaten:
+• &quot;N49° 10.234 E12° 01.456&quot; (dd mm.mmm)
+• &quot;46.575377   12.193172&quot;  (dd dddddd)
+• &quot;285000 5162000&quot;</translation>
     </message>
     <message>
         <source>Raw bitmaps (*.tif *.tiff *.png *.gif)</source>
@@ -1013,7 +1018,7 @@ coordinate formats:
     <message>
         <location filename="../CCreateMapGeoTiff.cpp" line="243"/>
         <source>Raw bitmaps (*.tif *.tiff *.png *.gif *.jpg)</source>
-        <translation type="unfinished"></translation>
+        <translation>Ruwe bitmaps (*.tif *.tiff *.png *.gif *.jpg)</translation>
     </message>
     <message>
         <location filename="../CCreateMapGeoTiff.cpp" line="289"/>
@@ -1478,14 +1483,18 @@ verwacht: %1, ontvangen %2.</translation>
         <source>The selected path must have a subdirectory &apos;%1&apos;. Should I create the path?
 
 %2</source>
-        <translation type="unfinished"></translation>
+        <translation>De geselecteerde map dient een submap &apos;%1&apos; te hebben. Moet er een gemaakt worden?
+
+%2</translation>
     </message>
     <message>
         <location filename="../CDeviceGarminBulk.cpp" line="171"/>
         <source>The selected path must have a subdirectory &apos;%1. Should I create the path?
 
 %2</source>
-        <translation type="unfinished"></translation>
+        <translation>De geselecteerde map dient een submap &apos;%1 te hebben. Moet er een gemaakt worden?
+
+%2</translation>
     </message>
     <message>
         <location filename="../CDeviceGarminBulk.cpp" line="218"/>
@@ -1500,7 +1509,7 @@ verwacht: %1, ontvangen %2.</translation>
         <location filename="../CDeviceGarminBulk.cpp" line="501"/>
         <location filename="../CDeviceGarminBulk.cpp" line="537"/>
         <source>Error</source>
-        <translation type="unfinished">Fout</translation>
+        <translation>Fout</translation>
     </message>
     <message>
         <location filename="../CDeviceGarminBulk.cpp" line="290"/>
@@ -1570,7 +1579,7 @@ verwacht: %1, ontvangen %2.</translation>
     <message>
         <location filename="../CDeviceMagellan.cpp" line="68"/>
         <source>Path to Magellan device...</source>
-        <translation type="unfinished"></translation>
+        <translation>Pad naar Magellan apparaat...</translation>
     </message>
     <message>
         <location filename="../CDeviceMagellan.cpp" line="77"/>
@@ -1580,7 +1589,7 @@ verwacht: %1, ontvangen %2.</translation>
         <location filename="../CDeviceMagellan.cpp" line="293"/>
         <location filename="../CDeviceMagellan.cpp" line="298"/>
         <source>Error...</source>
-        <translation type="unfinished"></translation>
+        <translation>Fout...</translation>
     </message>
     <message>
         <location filename="../CDeviceMagellan.cpp" line="77"/>
@@ -1590,7 +1599,7 @@ verwacht: %1, ontvangen %2.</translation>
     <message>
         <location filename="../CDeviceMagellan.cpp" line="109"/>
         <source>waypoints</source>
-        <translation type="unfinished"></translation>
+        <translation>waypoints</translation>
     </message>
     <message>
         <location filename="../CDeviceMagellan.cpp" line="134"/>
@@ -1600,57 +1609,57 @@ verwacht: %1, ontvangen %2.</translation>
         <location filename="../CDeviceMagellan.cpp" line="236"/>
         <location filename="../CDeviceMagellan.cpp" line="267"/>
         <source>Error</source>
-        <translation type="unfinished">Fout</translation>
+        <translation>Fout</translation>
     </message>
     <message>
         <location filename="../CDeviceMagellan.cpp" line="151"/>
         <source>Upload waypoints finished!</source>
-        <translation type="unfinished">Uploaden waypoints klaar!</translation>
+        <translation>Uploaden waypoints klaar!</translation>
     </message>
     <message>
         <location filename="../CDeviceMagellan.cpp" line="203"/>
         <source>Download waypoints finished!</source>
-        <translation type="unfinished">Downloaden waypoints klaar!</translation>
+        <translation>Downloaden waypoints klaar!</translation>
     </message>
     <message>
         <location filename="../CDeviceMagellan.cpp" line="218"/>
         <source>tracks</source>
-        <translation type="unfinished"></translation>
+        <translation>tracks</translation>
     </message>
     <message>
         <location filename="../CDeviceMagellan.cpp" line="242"/>
         <source>Upload tracks finished!</source>
-        <translation type="unfinished">Uploaden tracks klaar!</translation>
+        <translation>Uploaden tracks klaar!</translation>
     </message>
     <message>
         <location filename="../CDeviceMagellan.cpp" line="273"/>
         <source>Download tracks finished!</source>
-        <translation type="unfinished">Downloaden tracks klaar!</translation>
+        <translation>Downloaden tracks klaar!</translation>
     </message>
     <message>
         <location filename="../CDeviceMagellan.cpp" line="278"/>
         <source>Magellan: Upload routes is not implemented.</source>
-        <translation type="unfinished"></translation>
+        <translation>Magellan: Routes uploaden niet uitgevoerd.</translation>
     </message>
     <message>
         <location filename="../CDeviceMagellan.cpp" line="283"/>
         <source>Magellan: Download routes is not implemented.</source>
-        <translation type="unfinished"></translation>
+        <translation>Magellan: Routes downloaden niet uitgevoerd.</translation>
     </message>
     <message>
         <location filename="../CDeviceMagellan.cpp" line="288"/>
         <source>Magellan: Upload maps is not implemented.</source>
-        <translation type="unfinished"></translation>
+        <translation>Magellan: Kaarten uploaden niet uitgevoerd.</translation>
     </message>
     <message>
         <location filename="../CDeviceMagellan.cpp" line="293"/>
         <source>Magellan: Live log is not supported.</source>
-        <translation type="unfinished"></translation>
+        <translation>Magellan:Live log niet ondersteund.</translation>
     </message>
     <message>
         <location filename="../CDeviceMagellan.cpp" line="298"/>
         <source>Magellan: Screen shot is not supported.</source>
-        <translation type="unfinished"></translation>
+        <translation>Magellan: Scherm afdruk niet ondersteund.</translation>
     </message>
 </context>
 <context>
@@ -1992,7 +2001,7 @@ verwacht: %1, ontvangen %2.</translation>
         <location filename="../CDeviceTwoNav.cpp" line="1010"/>
         <location filename="../CDeviceTwoNav.cpp" line="1020"/>
         <source>Only support lon/lat WGS 84 format.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ondersteund alleen lon/lat WGS 84 formaat.</translation>
     </message>
 </context>
 <context>
@@ -2268,7 +2277,7 @@ verwacht: %1, ontvangen %2.</translation>
     <message>
         <location filename="../CDlgConfig.cpp" line="120"/>
         <source>Magellan</source>
-        <translation type="unfinished"></translation>
+        <translation>Magellan</translation>
     </message>
     <message>
         <location filename="../CDlgConfig.cpp" line="121"/>
@@ -2546,22 +2555,22 @@ Geanuleerd door gebruiker.
     <message>
         <location filename="../CDlgEditWpt.cpp" line="647"/>
         <source>Delete images...</source>
-        <translation type="unfinished"></translation>
+        <translation>Verwijderen afbeeldingen...</translation>
     </message>
     <message>
         <location filename="../CDlgEditWpt.cpp" line="647"/>
         <source>Remove all other images first?</source>
-        <translation type="unfinished"></translation>
+        <translation>Alle andere afbeeldingen eerst verwijderen?</translation>
     </message>
     <message>
         <location filename="../CDlgEditWpt.cpp" line="761"/>
         <source>No spoilers...</source>
-        <translation type="unfinished"></translation>
+        <translation>Geen spoilers...</translation>
     </message>
     <message>
         <location filename="../CDlgEditWpt.cpp" line="761"/>
         <source>No spoilers found.</source>
-        <translation type="unfinished"></translation>
+        <translation>Geen spoilers gevonden.</translation>
     </message>
 </context>
 <context>
@@ -2587,7 +2596,7 @@ Geanuleerd door gebruiker.
     <message>
         <location filename="../CDlgImportImages.cpp" line="142"/>
         <source>Select path...</source>
-        <translation type="unfinished">Pad selecteren ...</translation>
+        <translation>Pad selecteren ...</translation>
     </message>
 </context>
 <context>
@@ -2595,7 +2604,7 @@ Geanuleerd door gebruiker.
     <message>
         <location filename="../CDlgLoadOnlineMap.cpp" line="204"/>
         <source>Open Directory</source>
-        <translation type="unfinished">Open directory</translation>
+        <translation>Open directory</translation>
     </message>
 </context>
 <context>
@@ -2647,7 +2656,7 @@ is een niet geldig coördinaten  stelsel
     <message>
         <location filename="../CDlgProxy.cpp" line="39"/>
         <source>&lt;qt&gt;Connect to proxy &quot;%1&quot; using:&lt;/qt&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;qt&gt;Verbinden met proxy &quot;%1&quot;via:&lt;/qt&gt;</translation>
     </message>
 </context>
 <context>
@@ -2905,7 +2914,7 @@ is een niet geldig coördinaten  stelsel
         <location filename="../CGeoDB.cpp" line="819"/>
         <location filename="../CGeoDB.cpp" line="879"/>
         <source>Workspace</source>
-        <translation>Werkruimte</translation>
+        <translation>Werkblad</translation>
     </message>
     <message>
         <location filename="../CGeoDB.cpp" line="103"/>
@@ -2939,7 +2948,7 @@ is een niet geldig coördinaten  stelsel
     <message>
         <location filename="../CGeoDB.cpp" line="136"/>
         <source>Map Selections</source>
-        <translation type="unfinished"></translation>
+        <translation>Kaart selecties</translation>
     </message>
     <message>
         <location filename="../CGeoDB.cpp" line="143"/>
@@ -3028,27 +3037,27 @@ is een niet geldig coördinaten  stelsel
     <message>
         <location filename="../CGeoDB.cpp" line="479"/>
         <source>Migrating database from version 4 to 5.</source>
-        <translation type="unfinished"></translation>
+        <translation>Exporteer database van versie 4 naar 5.</translation>
     </message>
     <message>
         <location filename="../CGeoDB.cpp" line="530"/>
         <source>Migrating database from version 5 to 6.</source>
-        <translation type="unfinished"></translation>
+        <translation>Exporteer database van versie 5 naar 6.</translation>
     </message>
     <message>
         <location filename="../CGeoDB.cpp" line="587"/>
         <source>Migrating database from version 6 to 7.</source>
-        <translation type="unfinished"></translation>
+        <translation>Exporteer database van versie 6 naar 7.</translation>
     </message>
     <message>
         <location filename="../CGeoDB.cpp" line="652"/>
         <source>Migrating database from version 7 to 8.</source>
-        <translation type="unfinished"></translation>
+        <translation>Exporteer database van versie 7 naar 8.</translation>
     </message>
     <message>
         <location filename="../CGeoDB.cpp" line="677"/>
         <source>Migrating database from version 8 to 9.</source>
-        <translation type="unfinished"></translation>
+        <translation>Exporteer database van versie 8 naar 9.</translation>
     </message>
     <message>
         <location filename="../CGeoDB.cpp" line="747"/>
@@ -3774,7 +3783,7 @@ Do you want to save your changes?</source>
     <message>
         <location filename="../CMainWindow.cpp" line="1429"/>
         <source>Magellan</source>
-        <translation type="unfinished"></translation>
+        <translation>Magellan</translation>
     </message>
     <message>
         <location filename="../CMainWindow.cpp" line="1587"/>
@@ -6325,12 +6334,12 @@ length: %1 %2</source>
     <message>
         <location filename="../CSearchDB.cpp" line="233"/>
         <source>Unknown response</source>
-        <translation type="unfinished"></translation>
+        <translation>Onbekende reactie</translation>
     </message>
     <message>
         <location filename="../CSearchDB.cpp" line="240"/>
         <source>Error: </source>
-        <translation type="unfinished"></translation>
+        <translation>Fout:</translation>
     </message>
     <message>
         <location filename="../CSearchDB.cpp" line="66"/>
@@ -6509,17 +6518,17 @@ lengte: %1 %2</translation>
     <message>
         <location filename="../CTrack.cpp" line="783"/>
         <source>Slope [°]</source>
-        <translation type="unfinished"></translation>
+        <translation>verval [°]</translation>
     </message>
     <message>
         <location filename="../CTrack.cpp" line="784"/>
         <source>Elevation [m]</source>
-        <translation type="unfinished"></translation>
+        <translation>Hoogte [m]</translation>
     </message>
     <message>
         <location filename="../CTrack.cpp" line="785"/>
         <source>Speed [km/h]</source>
-        <translation type="unfinished"></translation>
+        <translation>Snelheid [km/h]</translation>
     </message>
     <message>
         <location filename="../CTrack.cpp" line="804"/>
@@ -6529,17 +6538,17 @@ lengte: %1 %2</translation>
     <message>
         <location filename="../CTrack.cpp" line="805"/>
         <source>slope</source>
-        <translation type="unfinished"></translation>
+        <translation>verval</translation>
     </message>
     <message>
         <location filename="../CTrack.cpp" line="806"/>
         <source>elevation</source>
-        <translation type="unfinished"></translation>
+        <translation>Hoogte</translation>
     </message>
     <message>
         <location filename="../CTrack.cpp" line="807"/>
         <source>speed</source>
-        <translation type="unfinished">snelheid</translation>
+        <translation>snelheid</translation>
     </message>
     <message>
         <location filename="../CTrack.cpp" line="1820"/>
@@ -6608,37 +6617,38 @@ einde: %1</translation>
     <message>
         <location filename="../CTrack.cpp" line="1921"/>
         <source>%5 %4 %1:%2:%3 (%6%)</source>
-        <translation type="unfinished">%5 %4 %1%2 (%3%) {5 %4 %1:%2:%3 ?} {6%?}</translation>
+        <translation>%5 %4 %1:%2:%3 (%6%)</translation>
     </message>
     <message>
         <location filename="../CTrack.cpp" line="1922"/>
         <source> .. (%6%) %1:%2:%3 %4 %5</source>
-        <translation type="unfinished"></translation>
+        <translation> .. (%6%) %1:%2:%3 %4 %5</translation>
     </message>
     <message>
         <location filename="../CTrack.cpp" line="1927"/>
         <source> .. (%5%) %1:%2:%3 %4</source>
-        <translation type="unfinished"></translation>
+        <translatorcomment> .. (%5%) %1:%2:%3 %4</translatorcomment>
+        <translation></translation>
     </message>
     <message>
         <location filename="../CTrack.cpp" line="1944"/>
         <source> .. (%3%) %1%2 %4 %5</source>
-        <translation type="unfinished"></translation>
+        <translation> .. (%3%) %1%2 %4 %5</translation>
     </message>
     <message>
         <location filename="../CTrack.cpp" line="1947"/>
         <source> .. (%3%) %1%2 %4</source>
-        <translation type="unfinished"></translation>
+        <translation> .. (%3%) %1%2 %4</translation>
     </message>
     <message>
         <location filename="../CTrack.cpp" line="1961"/>
         <source>slope: %1°</source>
-        <translation type="unfinished"></translation>
+        <translation>verval: %1°</translation>
     </message>
     <message>
         <location filename="../CTrack.cpp" line="2400"/>
         <source>Error...</source>
-        <translation type="unfinished"></translation>
+        <translation>Fout...</translation>
     </message>
     <message>
         <location filename="../CTrack.cpp" line="2400"/>
@@ -6652,7 +6662,7 @@ einde: %1</translation>
     <message>
         <location filename="../CTrack.cpp" line="1925"/>
         <source>%4 %1:%2:%3 (%5%)</source>
-        <translation type="unfinished">%5 %4 %1%2 (%3%) {4 %1:%2:%3 ?} {5%?}</translation>
+        <translation>%4 %1:%2:%3 (%5%)</translation>
     </message>
     <message>
         <source> | (%5%) %1:%2:%3 %4</source>
@@ -6661,7 +6671,7 @@ einde: %1</translation>
     <message>
         <location filename="../CTrack.cpp" line="1940"/>
         <source>%4 %1%2 (%3%)</source>
-        <translation type="unfinished">%5 %4 %1%2 (%3%) {4 %1%2 ?} {3%?}</translation>
+        <translation>%4 %1%2 (%3%)</translation>
     </message>
     <message>
         <source> | (%3%) %1%2 %4</source>
@@ -6670,34 +6680,34 @@ einde: %1</translation>
     <message>
         <location filename="../CTrack.cpp" line="1955"/>
         <source>elevation: %1%2</source>
-        <translation type="unfinished">hoogte: %1%2</translation>
+        <translation>hoogte: %1%2</translation>
     </message>
     <message>
         <location filename="../CTrack.cpp" line="1971"/>
         <source>heart rate: %1bpm</source>
-        <translation type="unfinished"></translation>
+        <translation>hartslag: %1spm</translation>
     </message>
     <message>
         <location filename="../CTrack.cpp" line="1981"/>
         <source>cadence: %1rpm</source>
-        <translation type="unfinished"></translation>
+        <translation>cadans: %1rpm</translation>
     </message>
     <message>
         <location filename="../CTrack.cpp" line="2016"/>
         <source>Start</source>
-        <translation type="unfinished"></translation>
+        <translation>Start</translation>
     </message>
     <message>
         <location filename="../CTrack.cpp" line="2022"/>
         <source>End</source>
-        <translation type="unfinished">Einde</translation>
+        <translation>Einde</translation>
     </message>
     <message>
         <location filename="../CTrack.cpp" line="2056"/>
         <location filename="../CTrack.cpp" line="2058"/>
         <location filename="../CTrack.cpp" line="2072"/>
         <source> %3 %1 %2</source>
-        <translation type="unfinished"></translation>
+        <translation> %3 %1 %2</translation>
     </message>
     <message>
         <source>%4 %3 %1:%2h (%5%)</source>
@@ -6730,22 +6740,22 @@ einde: %1</translation>
     <message>
         <location filename="../CTrack.cpp" line="2060"/>
         <source> %3 %1 %2 </source>
-        <translation type="unfinished"></translation>
+        <translation> %3 %1 %2 </translation>
     </message>
     <message>
         <location filename="../CTrack.cpp" line="2070"/>
         <source>| %3 %1 %2</source>
-        <translation type="unfinished"></translation>
+        <translation>| %3 %1 %2</translation>
     </message>
     <message>
         <location filename="../CTrack.cpp" line="2074"/>
         <source> %1 %2</source>
-        <translation type="unfinished"></translation>
+        <translation> %1 %2</translation>
     </message>
     <message>
         <location filename="../CTrack.cpp" line="2075"/>
         <source> %1 :%2</source>
-        <translation type="unfinished"></translation>
+        <translation> %1 :%2</translation>
     </message>
     <message>
         <location filename="../CTrack.cpp" line="2150"/>
@@ -7055,7 +7065,7 @@ Your selection will be stored in the track&apos;s data. You can save it along wi
     <message>
         <location filename="../CTrackFilterWidget.cpp" line="676"/>
         <source>Reset</source>
-        <translation type="unfinished">Herstellen</translation>
+        <translation>Herstellen</translation>
     </message>
     <message>
         <location filename="../CTrackFilterWidget.cpp" line="712"/>
@@ -7329,7 +7339,7 @@ end: %1</source>
     <message>
         <location filename="../CWpt.cpp" line="522"/>
         <source>direction: %1%2</source>
-        <translation type="unfinished"></translation>
+        <translation>richting: %1%2</translation>
     </message>
     <message>
         <location filename="../CWpt.cpp" line="530"/>
@@ -8689,22 +8699,22 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../IDlgConfig.ui" line="114"/>
         <source>Time</source>
-        <translation type="unfinished"></translation>
+        <translation>Tijd</translation>
     </message>
     <message>
         <location filename="../IDlgConfig.ui" line="120"/>
         <source>UTC</source>
-        <translation type="unfinished">UTC</translation>
+        <translation>UTC</translation>
     </message>
     <message>
         <location filename="../IDlgConfig.ui" line="127"/>
         <source>Local</source>
-        <translation type="unfinished"></translation>
+        <translation>Lokaal</translation>
     </message>
     <message>
         <location filename="../IDlgConfig.ui" line="134"/>
         <source>Automatic</source>
-        <translation type="unfinished"></translation>
+        <translation>Automatish</translation>
     </message>
     <message>
         <location filename="../IDlgConfig.ui" line="160"/>
@@ -8802,7 +8812,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../IDlgConfig.ui" line="246"/>
         <source>Show clock</source>
-        <translation type="unfinished"></translation>
+        <translation>Toon klok</translation>
     </message>
     <message>
         <location filename="../IDlgConfig.ui" line="263"/>
@@ -9718,12 +9728,12 @@ For modern Garmin device select &quot;Garmin Mass Storage&quot; device to exchan
     <message>
         <location filename="../IDlgImportImages.ui" line="29"/>
         <source>./</source>
-        <translation type="unfinished"></translation>
+        <translation>./</translation>
     </message>
     <message>
         <location filename="../IDlgImportImages.ui" line="36"/>
         <source>...</source>
-        <translation type="unfinished">...</translation>
+        <translation>...</translation>
     </message>
     <message>
         <location filename="../IDlgImportImages.ui" line="52"/>
@@ -9865,12 +9875,12 @@ and GPS and adjust all image time-stamps before correlating them with loaded tra
     <message>
         <location filename="../IDlgMapRMPConfig.ui" line="14"/>
         <source>Information...</source>
-        <translation type="unfinished">Informatie...</translation>
+        <translation>Informatie...</translation>
     </message>
     <message>
         <location filename="../IDlgMapRMPConfig.ui" line="21"/>
         <source>about:blank</source>
-        <translation type="unfinished">about:blank</translation>
+        <translation>about:blank</translation>
     </message>
 </context>
 <context>
@@ -9942,7 +9952,7 @@ and GPS and adjust all image time-stamps before correlating them with loaded tra
     <message>
         <location filename="../IDlgMapWmsConfig.ui" line="47"/>
         <source>Property</source>
-        <translation type="unfinished"></translation>
+        <translation>Eigenaar</translation>
     </message>
     <message>
         <location filename="../IDlgMapWmsConfig.ui" line="52"/>
@@ -10489,7 +10499,7 @@ and GPS and adjust all image time-stamps before correlating them with loaded tra
     <message>
         <location filename="../IImageViewer.ui" line="429"/>
         <source>Dialog</source>
-        <translation type="unfinished">Dialoog</translation>
+        <translation>Dialoog</translation>
     </message>
 </context>
 <context>
@@ -10626,7 +10636,7 @@ DEM: %2</translation>
     <message>
         <location filename="../IMapDEMSlopeSetup.ui" line="14"/>
         <source>Form</source>
-        <translation type="unfinished">Form</translation>
+        <translation>Form</translation>
     </message>
     <message>
         <location filename="../IMapDEMSlopeSetup.ui" line="47"/>
@@ -10641,7 +10651,7 @@ DEM: %2</translation>
         <location filename="../IMapDEMSlopeSetup.ui" line="110"/>
         <location filename="../IMapDEMSlopeSetup.ui" line="125"/>
         <source>TextLabel</source>
-        <translation type="unfinished">Tekstlabel</translation>
+        <translation>Tekstlabel</translation>
     </message>
 </context>
 <context>
@@ -11088,14 +11098,16 @@ DEM: %2</translation>
     <message>
         <location filename="../IMouse.cpp" line="315"/>
         <source>too many...</source>
-        <translation type="unfinished"></translation>
+        <translation>te-veel...</translation>
     </message>
     <message>
         <location filename="../IMouse.cpp" line="323"/>
         <source>Left click to lock circles.
 Then select function from circle.
 Left click on canvas to un-lock circles.</source>
-        <translation type="unfinished"></translation>
+        <translation>Klik links om cirkels te vergrendelen.
+Selecteer functie in cirkel.
+Klik links om cirkels te ontgrendelen.</translation>
     </message>
 </context>
 <context>
@@ -11289,7 +11301,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../IStatusDEM.ui" line="47"/>
         <source>slope</source>
-        <translation type="unfinished"></translation>
+        <translation>verval</translation>
     </message>
 </context>
 <context>
@@ -11679,7 +11691,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../ITrackFilterWidget.ui" line="485"/>
         <source>Profile</source>
-        <translation type="unfinished"></translation>
+        <translation>Profiel</translation>
     </message>
     <message>
         <location filename="../ITrackFilterWidget.ui" line="596"/>
@@ -11699,7 +11711,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../ITrackFilterWidget.ui" line="648"/>
         <source>Username:</source>
-        <translation type="unfinished">Gebruikernaam:</translation>
+        <translation>Gebruikernaam:</translation>
     </message>
     <message>
         <location filename="../ITrackFilterWidget.ui" line="677"/>
@@ -11724,7 +11736,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../ITrackFilterWidget.ui" line="990"/>
         <source>sec.</source>
-        <translation type="unfinished"></translation>
+        <translation>sec.</translation>
     </message>
     <message>
         <location filename="../ITrackFilterWidget.ui" line="997"/>
@@ -11770,37 +11782,37 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../ITrackFilterWidget.ui" line="780"/>
         <source>Time</source>
-        <translation type="unfinished"></translation>
+        <translation>Tijd</translation>
     </message>
     <message>
         <location filename="../ITrackFilterWidget.ui" line="807"/>
         <source>Date/Time of track</source>
-        <translation type="unfinished"></translation>
+        <translation>Datum/tijd van track</translation>
     </message>
     <message>
         <location filename="../ITrackFilterWidget.ui" line="835"/>
         <source>New date/time of track</source>
-        <translation type="unfinished"></translation>
+        <translation>Nieuwe datum/tijd van track</translation>
     </message>
     <message>
         <location filename="../ITrackFilterWidget.ui" line="848"/>
         <source>dd.MMMM.yyyy HH:mm:ss</source>
-        <translation type="unfinished"></translation>
+        <translation>dd.MMMM.yyyy HH:mm:ss</translation>
     </message>
     <message>
         <location filename="../ITrackFilterWidget.ui" line="874"/>
         <source>Speed of track</source>
-        <translation type="unfinished"></translation>
+        <translation>Snelheid van track</translation>
     </message>
     <message>
         <location filename="../ITrackFilterWidget.ui" line="902"/>
         <source>Speed</source>
-        <translation type="unfinished">Snelheid</translation>
+        <translation>Snelheid</translation>
     </message>
     <message>
         <location filename="../ITrackFilterWidget.ui" line="909"/>
         <source>km/h</source>
-        <translation type="unfinished"></translation>
+        <translation>km/h</translation>
     </message>
     <message>
         <source>Change the track&apos;s starting time (anonymize track) to:</source>
@@ -12000,17 +12012,17 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../IDlgProxy.ui" line="26"/>
         <source>Connect to proxy</source>
-        <translation type="unfinished"></translation>
+        <translation>Verbind met proxy</translation>
     </message>
     <message>
         <location filename="../IDlgProxy.ui" line="36"/>
         <source>Username:</source>
-        <translation type="unfinished">Gebruikernaam:</translation>
+        <translation>Gebruikernaam:</translation>
     </message>
     <message>
         <location filename="../IDlgProxy.ui" line="46"/>
         <source>Password:</source>
-        <translation type="unfinished"></translation>
+        <translation>Wachtwoord:</translation>
     </message>
 </context>
 <context>
