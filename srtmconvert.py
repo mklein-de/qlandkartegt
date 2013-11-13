@@ -1,24 +1,53 @@
-#!python
+#!/usr/bin python
+# -*- coding: utf-8 -*-
+"""Merge hgt files to a single srtm.tif with given projection.
+@author Michael Rastetter
+"""
 
 import os
-from string import join
+from subprocess import call
 
-geotifs = []
 
-for root, dirs, files in os.walk("./", topdown=False):
-    for name in files:
+def find_hgt(basedir):
+    """Search for '*.hgt' files in `basedir`.
+    @param basedir : Directory to start search for files.
+    @return List of strings with full path to hgt files.
+    """
+    print 'Search for hgt files in:', basedir
+    hgtfiles = []
+    for root, _dirs, files in os.walk(basedir, topdown=False):
+        for name in files:
+            if os.path.splitext(name)[1].lower() != '.hgt':
+                continue
+            filename = os.path.join(root, name)
+            hgtfiles.append(filename)
+    return hgtfiles
 
-        if os.path.splitext(name)[1] != ".hgt": continue
 
-        filename = os.path.join(root, name)
-        cmd = "gdalwarp -t_srs \"+proj=merc +lon_0=0 +k=1 +x_0=0 +y_0=0 +ellps=WGS84 +datum=WGS84 +units=m +no_defs \" -r cubic %s %s.tif" % (filename, name[:-4])
-        os.system(cmd)
+def reproject(hgtfiles, projection):
+    """Merge hgt files, reproject them and translate to srtm.tif.
+    @param hgtfiles : List of strings with full paths to hgt files.
+    @param projection : Projection, ellipsoid and datum of target file, string.
+    """
+    cmd = 'gdalwarp -r cubic ' + ' '.join(hgtfiles) + ' _merge.tif'
+    call(cmd, shell=True)
+    projection += ' +lon_0=0 +k=1 +x_0=0 +y_0=0 +units=m +no_defs'
+    cmd = 'gdalwarp -t_srs "%s" -r cubic _merge.tif _repro.tif' % projection
+    call(cmd, shell=True)
+    os.remove('_merge.tif')
+    cmd = 'gdal_translate -co tiled=yes -co blockxsize=256 -co blockysize=256 ' \
+        '-co compress=deflate -co predictor=1 _repro.tif srtm.tif'
+    call(cmd, shell=True)
+    os.remove('_repro.tif')
 
-        geotifs.append(name[:-4] + ".tif")
 
-cmd = "gdalwarp -r cubic " + join(geotifs) + " tmp.tif"
-os.system(cmd)
+def main():
+    """Find hgt files in current dir and reproject them to a GeoTiff file.
+    """
+    hgtfiles = find_hgt('.')
+    projection = '+proj=utm +zone=32 +ellps=WGS84 +datum=WGS84'
+    reproject(hgtfiles, projection)
 
-cmd = "gdal_translate -co tiled=yes -co blockxsize=256 -co blockysize=256 -co compress=deflate -co predictor=1 tmp.tif srtm.tif"
-os.system(cmd)
 
+if __name__ == '__main__':
+    main()
