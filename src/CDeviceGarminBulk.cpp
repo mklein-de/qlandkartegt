@@ -111,6 +111,10 @@ bool CDeviceGarminBulk::aquire(QDir& dir)
     if(dir.exists("Garmin/GarminDevice.xml"))
     {
         readDeviceXml(dir.absoluteFilePath("Garmin/GarminDevice.xml"));
+        if(!dir.exists(pathGpx) && dir.exists("Garmin/GPX"))
+        {
+            pathGpx = "Garmin/GPX";
+        }
     }
 
     if(!dir.exists() || !dir.exists(pathGpx))
@@ -137,6 +141,10 @@ bool CDeviceGarminBulk::aquire(QDir& dir)
             if(dir.exists("Garmin/GarminDevice.xml"))
             {
                 readDeviceXml(dir.absoluteFilePath("Garmin/GarminDevice.xml"));
+                if(!dir.exists(pathGpx) && dir.exists("Garmin/GPX"))
+                {
+                    pathGpx = "Garmin/GPX";
+                }
             }
 
             if(!dir.exists(pathGpx))
