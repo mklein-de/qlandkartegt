@@ -769,7 +769,7 @@ void CTrackEditWidget::slotUpdate()
         item->setText(eDescend, tr("%1 %2").arg(val).arg(unit));
 
         // speed
-        if(trkpt->speed > 0)
+        if(trkpt->speed != WPT_NOFLOAT)
         {
             IUnit::self().meter2speed(trkpt->speed, val, unit);
             str = tr("%1 %2").arg(val).arg(unit);

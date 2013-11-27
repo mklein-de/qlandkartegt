@@ -63,7 +63,21 @@ QDateTime IDB::parseTimestamp(const QString &timetext, int& tzoffset)
     tzoffset = 0;
 
     QString format = "yyyy-MM-dd'T'hh:mm:ss";
-    if (timetext.indexOf(".") != -1) format += ".zzz";
+
+    i = timetext.indexOf(".");
+    if (i != -1)
+    {
+
+        if(timetext[i+1] == '0')
+        {
+            format += ".zzz";
+        }
+        else
+        {
+            format += ".z";
+        }
+    }
+
     // trailing "Z" explicitly declares the timestamp to be UTC
     if (timetext.indexOf("Z") != -1)
     {
@@ -102,8 +116,7 @@ QDateTime IDB::parseTimestamp(const QString &timetext, int& tzoffset)
 }
 
 
-static bool parseTstampInternal(const QString &timetext, quint32 &tstamp,
-bool do_msec, quint32 &tstamp_msec)
+static bool parseTstampInternal(const QString &timetext, quint32 &tstamp, bool do_msec, quint32 &tstamp_msec)
 {
 
     int tzoffset;
@@ -136,8 +149,7 @@ bool IDB::parseTimestamp(const QString &time, quint32 &tstamp)
 }
 
 
-bool IDB::parseTimestamp(const QString &time, quint32 &tstamp,
-quint32 &tstamp_msec)
+bool IDB::parseTimestamp(const QString &time, quint32 &tstamp, quint32 &tstamp_msec)
 {
     return parseTstampInternal(time, tstamp, true, tstamp_msec);
 }
