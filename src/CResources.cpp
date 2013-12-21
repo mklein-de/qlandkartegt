@@ -127,6 +127,7 @@ CResources::CResources(QObject * parent)
     m_devIPPort         = cfg.value("device/ipPort",m_devIPPort).toUInt();
     m_devSerialPort     = cfg.value("device/serialPort",m_devSerialPort).toString();
     m_devBaudRate       = cfg.value("device/baudRate",m_devBaudRate).toString();
+	m_watchdogEnabled   = cfg.value("device/watchdog",m_watchdogEnabled).toBool();
     m_devType           = cfg.value("device/type",m_devType).toString();
     m_devCharset        = cfg.value("device/charset",m_devCharset).toString();
 
@@ -246,6 +247,7 @@ CResources::~CResources()
     cfg.setValue("device/ipPort",m_devIPPort);
     cfg.setValue("device/serialPort",m_devSerialPort);
     cfg.setValue("device/baudRate",m_devBaudRate);
+	cfg.setValue("device/watchdog",m_watchdogEnabled);
     cfg.setValue("device/type",m_devType);
     cfg.setValue("device/charset",m_devCharset);
 
@@ -346,7 +348,7 @@ IDevice * CResources::device()
         }
         else if(m_devKey == "NMEA")
         {
-            m_device = new CDeviceNMEA(m_devSerialPort, m_devBaudRate, this);
+            m_device = new CDeviceNMEA(m_devSerialPort, m_devBaudRate, this, m_watchdogEnabled);
         }
 #ifdef HAS_GPSD
         else if(m_devKey == "GPSD")

@@ -124,6 +124,8 @@ void CDlgConfig::exec()
     comboDevice->addItem(tr("TwoNav"), "TwoNav");
     comboDevice->addItem(tr("NMEA"), "NMEA");
 
+	checkWatchDog->setChecked(resources.m_watchdogEnabled);
+
     comboDevBaudRate->addItem("4800");
     comboDevBaudRate->addItem("9600");
     comboDevBaudRate->addItem("19200");
@@ -246,6 +248,7 @@ void CDlgConfig::accept()
     resources.m_devIPPort       = lineDevIPPort->text().toUShort();
     resources.m_devSerialPort   = lineDevSerialPort->text();
     resources.m_devBaudRate     = comboDevBaudRate->currentText();
+	resources.m_watchdogEnabled = checkWatchDog->isChecked();
     resources.m_devType         = comboDevType->itemText(comboDevType->currentIndex());
     resources.m_devCharset      = comboDevCharset->itemText(comboDevCharset->currentIndex());
 

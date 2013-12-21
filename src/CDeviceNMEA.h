@@ -26,7 +26,7 @@ class CDeviceNMEA : public IDevice
 {
     Q_OBJECT;
     public:
-        CDeviceNMEA(const QString& serialport, const QString& baudrate, QObject * parent);
+        CDeviceNMEA(const QString& serialport, const QString& baudrate, QObject * parent, bool watchdog);
         virtual ~CDeviceNMEA();
 
         void uploadWpts(const QList<CWpt*>& wpts);

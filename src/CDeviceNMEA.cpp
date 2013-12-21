@@ -22,7 +22,8 @@
 
 CDeviceNMEA::CDeviceNMEA(const QString& serialport,
 const QString& baudrate,
-QObject * parent)
+QObject * parent,
+bool watchdogEnabled )
 : IDevice("NMEA",parent)
 , serialport(serialport)
 , haveSeenData(false)
@@ -48,8 +49,12 @@ QObject * parent)
     tty.enableReceiving();
     tty.setPort(serialport);
 
-    watchdog = new QTimer(this);
-    connect(watchdog, SIGNAL(timeout()), this, SLOT(slotWatchdog()));
+	if (watchdogEnabled) {
+      watchdog = new QTimer(this);
+      connect(watchdog, SIGNAL(timeout()), this, SLOT(slotWatchdog()));
+	} else {
+		watchdog = NULL;
+	}
 
     connect(&tty, SIGNAL(newDataReceived(const QByteArray &)), this, SLOT(slotNewDataReceived(const QByteArray &)));
 }
@@ -93,7 +98,7 @@ void CDeviceNMEA::setLiveLog(bool on)
         {
             log.fix = CLiveLog::eConnectionFailed;
         }
-        watchdog->start(10000);
+        if (watchdog != NULL) watchdog->start(10000);
         haveSeenData    = false;
         haveSeenGPRMC   = false;
         haveSeenGPGGA   = false;
@@ -102,7 +107,7 @@ void CDeviceNMEA::setLiveLog(bool on)
     }
     else
     {
-        watchdog->stop();
+        if (watchdog != NULL) watchdog->stop();
         tty.close();
         log.fix = CLiveLog::eOff;
     }

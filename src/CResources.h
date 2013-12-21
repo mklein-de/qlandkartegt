@@ -146,6 +146,8 @@ class CResources : public QObject
         QString m_devSerialPort;
         QString m_devBaudRate;
 
+		bool m_watchdogEnabled;
+
         QString m_devType;
         QString m_devCharset;
 

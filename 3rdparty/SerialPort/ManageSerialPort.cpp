@@ -506,6 +506,8 @@ void ThreadSend::run()
 		mutexSend.unlock();
 		
 		extSerialPort.write(byteArray, 1);
+
+		msleep(100);
 	}
 }
 
@@ -572,6 +574,8 @@ void ThreadReceive::run()
 			emit newDataReceived(dataReceived);
 		}
 			mutexReceive.unlock();
+
+			msleep(100);
 	}
 }
 
