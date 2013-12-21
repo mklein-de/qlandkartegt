@@ -671,40 +671,6 @@ For modern Garmin device select &quot;Garmin Mass Storage&quot; device to exchan
          </item>
         </layout>
        </widget>
-       <widget class="QWidget" name="tab_5">
-        <attribute name="title">
-         <string>Seite</string>
-        </attribute>
-        <layout class="QVBoxLayout" name="verticalLayout_7">
-         <property name="spacing">
-          <number>0</number>
-         </property>
-         <property name="leftMargin">
-          <number>0</number>
-         </property>
-         <property name="topMargin">
-          <number>0</number>
-         </property>
-         <property name="rightMargin">
-          <number>0</number>
-         </property>
-         <property name="bottomMargin">
-          <number>0</number>
-         </property>
-         <item>
-          <widget class="QWebView" name="webViewSetup">
-           <property name="url">
-            <url>
-             <string>about:blank</string>
-            </url>
-           </property>
-           <property name="renderHints">
-            <set>QPainter::Antialiasing|QPainter::HighQualityAntialiasing|QPainter::SmoothPixmapTransform|QPainter::TextAntialiasing</set>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </widget>
       </widget>
      </item>
      <item>

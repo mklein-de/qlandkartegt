@@ -273,8 +273,6 @@ int CDlgEditWpt::exec()
         triggerSpoilerDownload();
     }
 
-    updateWebView();
-
     return QDialog::exec();
 }
 
@@ -766,110 +764,4 @@ void CDlgEditWpt::slotRequestFinished(QNetworkReply * reply)
 
 }
 
-const QString head(
-        "<?xml version='1.0' encoding='UTF-8'?>"
-        "<!DOCTYPE html><html xmlns='http://www.w3.org/1999/xhtml'>"
-        "<head>"
-        "   <meta http-equiv='content-type' content='text/html; charset=UTF-8' />"
-        "   <title></title>"
-        "   <style type='text/css'>"
-        "       body {"
-        "           font-family: sans-serif;"
-        "       }"
-        "   </style>"
-        "</head>"
-        "<body>"
-        );
 
-const QString foot(
-        "</body>"
-        "</html>"
-        );
-
-
-void addImageToPage(QString& page, const QString& src, const QString& link)
-{
-    if(!link.isEmpty())
-    {
-        page += "<a href='" + link + "'>";
-    }
-
-    if(src[0] == ':')
-    {
-        page += QString("<img src='qrc%1'/>").arg(src);
-    }
-    else
-    {
-        page += QString("<img src='file:%1'/>").arg(src);
-    }
-
-    if(!link.isEmpty())
-    {
-        page += "</a>";
-    }
-
-}
-
-void CDlgEditWpt::updateWebView()
-{
-    QString page = head;
-
-    // ===================================================
-    page += "<p>";
-    // ------------ waypoint icon ------------------------
-    QString iconSrc;
-    if(wpt.isGeoCache())
-    {
-        getWptIconByName(wpt.getGeocacheData().type, &iconSrc);
-        addImageToPage(page, iconSrc, "");
-    }
-    else
-    {
-        getWptIconByName(wpt.getIconString(), &iconSrc);
-        addImageToPage(page, iconSrc, "changeIcon");
-    }
-
-    // ------------ waypoint name ------------------------
-    if(wpt.isGeoCache())
-    {
-        page += QString(" <span style='font-weight: bold;'>%1 (%2) by %3</span>").arg(wpt.getGeocacheData().name).arg(wpt.getName()).arg(wpt.getGeocacheData().owner);
-    }
-    else
-    {
-        page += QString(" <span style='font-weight: bold;'>%1</span> <sub>(<a href='changeName'>%2</a>)</sub> ").arg(wpt.getName()).arg(tr("edit"));
-        quint32 timestamp = wpt.getTimestamp();
-        if(timestamp != 0x00000000 && timestamp != 0xFFFFFFFF)
-        {
-            QString timezone = GPS_Timezone(wpt.lon, wpt.lat);
-            QDateTime time = QDateTime::fromTime_t(timestamp);
-            if(!timezone.isEmpty())
-            {
-                time = TimeStamp(timestamp).toZone(timezone).toDateTime();
-            }
-            page += time.toString();
-        }
-
-    }
-
-    page += "</p>";
-    // ===================================================
-    page += "<p>";
-
-    addImageToPage(page, ":/icons/iconGlobe16x16.png","");
-
-    QString pos;
-    GPS_Math_Deg_To_Str(wpt.lon, wpt.lat, pos);
-    if(wpt.isGeoCache())
-    {
-        page += " " + pos;
-    }
-    else
-    {
-        page += " <a href='changePosition'>" + pos + "</a>";
-    }
-    page += "</p>";
-    // ===================================================
-
-    page += foot;
-    webViewSetup->setHtml(page);
-}

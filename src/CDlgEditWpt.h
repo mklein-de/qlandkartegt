@@ -69,8 +69,6 @@ class CDlgEditWpt : public QDialog, private Ui::IDlgEditWpt
         bool eventFilter(QObject *obj, QEvent *event);
 
     private:
-        void updateWebView();
-
         void showImage(int idx);
         void triggerSpoilerDownload();
 
