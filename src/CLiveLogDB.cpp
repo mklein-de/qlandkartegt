@@ -387,7 +387,7 @@ void CLiveLogDB::draw(QPainter& p, const QRect& rect, bool& needsRedraw)
         double v = m_log.lat * DEG_TO_RAD;
         map.convertRad2Pt(u,v);
 
-		/*
+
         float heading = m_log.heading;
         if(!isnan(heading) )
         {
@@ -421,7 +421,7 @@ void CLiveLogDB::draw(QPainter& p, const QRect& rect, bool& needsRedraw)
             }
             p.restore();
         }
-        else */
+        else
         {
             p.drawPixmap(u-20 , v-20, QPixmap(":/cursors/cursor2.png"));
         }
