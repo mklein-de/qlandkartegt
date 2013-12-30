@@ -35,6 +35,7 @@ void initWptIcons()
     wptIcons["Small City"]          = ":/icons/wpt/small_city15x15.png";
     wptIcons["Geocache"]            = ":/icons/wpt/geocache15x15.png";
     wptIcons["Geocache Found"]      = ":/icons/wpt/geocache_fnd15x15.png";
+    wptIcons["Custom 0"]            = ":/icons/wpt/custom15x15.bmp";
     wptIcons["Custom 1"]            = ":/icons/wpt/custom1.png";
     wptIcons["Custom 2"]            = ":/icons/wpt/custom2.png";
     wptIcons["Custom 3"]            = ":/icons/wpt/custom3.png";
@@ -58,7 +59,6 @@ void initWptIcons()
     wptIcons["Custom 21"]           = ":/icons/wpt/custom15x15.bmp";
     wptIcons["Custom 22"]           = ":/icons/wpt/custom15x15.bmp";
     wptIcons["Custom 23"]           = ":/icons/wpt/custom15x15.bmp";
-    wptIcons["Custom 24"]           = ":/icons/wpt/custom15x15.bmp";
     wptIcons["Flag, Red"]           = ":/icons/wpt/flag_pin_red15x15.png";
     wptIcons["Flag, Blue"]          = ":/icons/wpt/flag_pin_blue15x15.png";
     wptIcons["Flag, Green"]         = ":/icons/wpt/flag_pin_green15x15.png";
@@ -74,6 +74,7 @@ void initWptIcons()
 
     SETTINGS;
 
+    setWptIconByName("Custom 0", cfg.value("garmin/icons/custom0", ":/icons/wpt/custom15x15.bmp").toString());
     setWptIconByName("Custom 1", cfg.value("garmin/icons/custom1", ":/icons/wpt/custom15x15.bmp").toString());
     setWptIconByName("Custom 2", cfg.value("garmin/icons/custom2", ":/icons/wpt/custom15x15.bmp").toString());
     setWptIconByName("Custom 3", cfg.value("garmin/icons/custom3", ":/icons/wpt/custom15x15.bmp").toString());
@@ -97,7 +98,6 @@ void initWptIcons()
     setWptIconByName("Custom 21", cfg.value("garmin/icons/custom21", ":/icons/wpt/custom15x15.bmp").toString());
     setWptIconByName("Custom 22", cfg.value("garmin/icons/custom22", ":/icons/wpt/custom15x15.bmp").toString());
     setWptIconByName("Custom 23", cfg.value("garmin/icons/custom23", ":/icons/wpt/custom15x15.bmp").toString());
-    setWptIconByName("Custom 24", cfg.value("garmin/icons/custom24", ":/icons/wpt/custom15x15.bmp").toString());
 
     setWptIconByName("Traditional Cache", ":/icons/cache/Traditional-Cache.png");
     setWptIconByName("Multi-cache", ":/icons/cache/Multi-cache.png");

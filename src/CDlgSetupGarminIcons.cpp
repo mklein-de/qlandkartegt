@@ -64,7 +64,7 @@ void CDlgSetupGarminIcons::exec()
     {
         QTreeWidgetItem * entry = new QTreeWidgetItem(listCustomIcons);
 
-        name = QString("Custom %1").arg(i + 1);
+        name = QString("Custom %1").arg(i);
 
         entry->setIcon(0,QIcon(getWptIconByName(name,&src)));
 
@@ -105,12 +105,12 @@ void CDlgSetupGarminIcons::accept()
     QString name;
     for(int i=0; i < N_CUSTOM_ICONS; ++i)
     {
-        name = QString("Custom %1").arg(i + 1);
+        name = QString("Custom %1").arg(i);
 
         QTreeWidgetItem * entry = listCustomIcons->topLevelItem(i);
         setWptIconByName(name, entry->text(4));
 
-        name = QString("garmin/icons/custom%1").arg(i + 1);
+        name = QString("garmin/icons/custom%1").arg(i);
         cfg.setValue(name, entry->text(4));
     }
 
