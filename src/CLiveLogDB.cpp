@@ -163,7 +163,11 @@ void CLiveLogDB::slotLiveLog(const CLiveLog& log)
 
     //2.) always update m_log which is used to draw the position symbolin the map
     m_log = log;
-    float speed_km_h = log.velocity * 3.6;
+    float speed_km_h = 0;
+    if (log.velocity != WPT_NOFLOAT)
+    {
+        speed_km_h = log.velocity * 3.6;
+    }
     float heading = log.heading;
     //HS: depending on what log.error_horz for the different devices,
     //we could use it here as well.
@@ -176,7 +180,7 @@ void CLiveLogDB::slotLiveLog(const CLiveLog& log)
         // 0.06 km/h while standing still, but you don't always
         // have +/-5m...
         speed_km_h = 0.0;
-        heading = std::numeric_limits<float>::quiet_NaN();
+        heading = WPT_NOFLOAT;
     }
     m_log.heading = heading;
 
@@ -389,7 +393,7 @@ void CLiveLogDB::draw(QPainter& p, const QRect& rect, bool& needsRedraw)
 
 
         float heading = m_log.heading;
-        if(!isnan(heading) )
+        if(heading != WPT_NOFLOAT)
         {
             p.save();
             p.translate(u,v);
