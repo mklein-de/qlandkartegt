@@ -662,6 +662,7 @@ void CDlgEditWpt::triggerSpoilerDownload()
     pendingRequests.clear();
 
     QNetworkRequest request;
+    request.setRawHeader("User-Agent", "Mozilla");
     request.setUrl(wpt.link);
     networkAccessManager->get(request);
 }
@@ -725,6 +726,7 @@ void CDlgEditWpt::slotRequestFinished(QNetworkReply * reply)
             QString url  = re0.cap(1);
 
             QNetworkRequest request;
+            request.setRawHeader("User-Agent", "Mozilla");
             request.setUrl(url);
             networkAccessManager->get(request);
             return;
@@ -744,6 +746,7 @@ void CDlgEditWpt::slotRequestFinished(QNetworkReply * reply)
                 QString text = re2.cap(2);
 
                 QNetworkRequest request;
+                request.setRawHeader("User-Agent", "Mozilla");
                 request.setUrl(url);
                 pendingRequests[networkAccessManager->get(request)] = text;
 

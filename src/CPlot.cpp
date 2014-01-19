@@ -141,7 +141,7 @@ void CPlot::newLine(const QPolygonF& line, const QList<QPointF>& focus, const QS
     m_pData->lines.clear();
 
     QRectF r = line.boundingRect();
-    if(!r.isValid())
+    if(!r.height() < 0 || r.width() < 0)
     {
         m_pData->badData = true;
         return;

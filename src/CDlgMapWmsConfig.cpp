@@ -150,6 +150,7 @@ CDlgMapWmsConfig::CDlgMapWmsConfig(CMapWms &map)
         this, SLOT(slotProxyAuthenticationRequired(const QNetworkProxy&, QAuthenticator*)));
 
     QNetworkRequest request;
+    request.setRawHeader("User-Agent", "Mozilla");
     QUrl url(map.urlstr);
     url.addQueryItem("version", map.version);
     url.addQueryItem("service", "wms");

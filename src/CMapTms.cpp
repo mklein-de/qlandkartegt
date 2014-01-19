@@ -596,6 +596,7 @@ void CMapTms::checkQueue()
         }
 
         QNetworkRequest request;
+        request.setRawHeader("User-Agent", "Mozilla");
         request.setUrl(req.url);
         req.reply = accessManager->get(request);
 
@@ -618,6 +619,7 @@ void CMapTms::checkQueue()
 void CMapTms::slotRequestFinished(QNetworkReply* reply)
 {
     QString _url_ = reply->url().toString();
+
     if(pendRequests.contains(_url_))
     {
         QImage img;

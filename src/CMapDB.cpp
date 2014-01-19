@@ -134,7 +134,8 @@ CMapDB::CMapDB(QTabWidget * tb, QObject * parent)
         map_t m;
 
         m.description   = "OpenStreetMap";
-        m.filename      = "http://tile.openstreetmap.org/%1/%2/%3.png";
+        //http://a.tile.openstreetmap.de/tiles/osmde/&#37;1/&#37;2/&#37;3.png
+        m.filename      = "http://a.tile.openstreetmap.org/%1/%2/%3.png";
         m.type          = IMap::eTMS;
         m.key           = QString::number(qHash(m.filename));
         m.copyright     = "Open Street Map, Creative Commons Attribution-ShareAlike 2.0 license";
