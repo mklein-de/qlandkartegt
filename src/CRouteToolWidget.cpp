@@ -500,7 +500,7 @@ void CRouteToolWidget::startOpenRouteService(CRoute& rte)
     url.setPath("/qlandkarte/route");
 
     QNetworkRequest request;
-    request.setRawHeader("User-Agent", "Mozilla");
+    request.setRawHeader("User-Agent", "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.1)");
     request.setUrl(url);
 
     QNetworkReply* reply = m_networkAccessManager->post(request, array);
@@ -928,7 +928,7 @@ void CRouteToolWidget::startMapQuest(CRoute& rte)
     //    qDebug() << url.toString();
 
     QNetworkRequest request;
-    request.setRawHeader("User-Agent", "Mozilla");
+    request.setRawHeader("User-Agent", "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.1)");
     request.setUrl(url);
     m_networkAccessManager->get(request);
 

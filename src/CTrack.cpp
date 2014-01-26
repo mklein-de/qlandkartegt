@@ -1006,7 +1006,7 @@ void CTrack::replaceElevationByRemote(bool replaceOrignalData)
         url.addQueryItem("username",username);
 
         QNetworkRequest request;
-        request.setRawHeader("User-Agent", "Mozilla");
+        request.setRawHeader("User-Agent", "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.1)");
         request.setUrl(url);
         QNetworkReply * reply = networkAccessManager->get(request);
 

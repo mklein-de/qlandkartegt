@@ -610,7 +610,7 @@ void CMapWms::checkQueue()
         }
 
         QNetworkRequest request;
-        request.setRawHeader("User-Agent", "Mozilla");
+        request.setRawHeader("User-Agent", "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.1)");
         request.setUrl(req.url);
         req.reply = accessManager->get(request);
 
@@ -646,7 +646,7 @@ void CMapWms::slotRequestFinished(QNetworkReply* reply)
             QUrl url(urlRedir);
 
             QNetworkRequest request;
-            request.setRawHeader("User-Agent", "Mozilla");
+            request.setRawHeader("User-Agent", "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.1)");
             request.setUrl(url);
             req.reply = accessManager->get(request);
 
