@@ -95,7 +95,7 @@ void CSearchDB::startGoogle(const QString& str)
     url.addQueryItem("sensor","false");
 
     QNetworkRequest request;
-    request.setRawHeader("User-Agent", "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.1)");
+    
     request.setUrl(url);
     QNetworkReply * reply = networkAccessManager.get(request);
     pendingRequests[reply] = eGoogle;
@@ -162,7 +162,7 @@ void CSearchDB::startOpenRouteService(const QString& str)
     url.setPath("/qlandkarte/geocode");
 
     QNetworkRequest request;
-    request.setRawHeader("User-Agent", "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.1)");
+    
     request.setUrl(url);
     QNetworkReply * reply = networkAccessManager.post(request, array);
     pendingRequests[reply] = eOpenRouteService;

@@ -133,23 +133,6 @@ CMapDB::CMapDB(QTabWidget * tb, QObject * parent)
     {
         map_t m;
 
-        m.description   = "OpenStreetMap";
-        //http://a.tile.openstreetmap.de/tiles/osmde/&#37;1/&#37;2/&#37;3.png
-        m.filename      = "http://a.tile.openstreetmap.org/%1/%2/%3.png";
-        m.type          = IMap::eTMS;
-        m.key           = QString::number(qHash(m.filename));
-        m.copyright     = "Open Street Map, Creative Commons Attribution-ShareAlike 2.0 license";
-        knownMaps[m.key] = m;
-        builtInKeys << m.key;
-
-        m.description   = "OpenCycleMap";
-        m.filename      = "http://b.tile.opencyclemap.org/cycle/%1/%2/%3.png";
-        m.type          = IMap::eTMS;
-        m.key           = QString::number(qHash(m.filename));
-        m.copyright     = "Open Street Map, Creative Commons Attribution-ShareAlike 2.0 license";
-        knownMaps[m.key] = m;
-        builtInKeys << m.key;
-
         QStringList keys = cfg.value("tms/knownMaps").toString().split("|",QString::SkipEmptyParts);
         foreach(const QString& key, keys)
         {
@@ -178,7 +161,7 @@ CMapDB::CMapDB(QTabWidget * tb, QObject * parent)
         }
     }
 
-    maps = cfg.value("maps/visibleMaps","http://tile.openstreetmap.org/%1/%2/%3.png").toString().split("|",QString::SkipEmptyParts);
+    maps = cfg.value("maps/visibleMaps","").toString().split("|",QString::SkipEmptyParts);
     cfg.setValue("maps/visibleMaps","");
     cfg.sync();
 
