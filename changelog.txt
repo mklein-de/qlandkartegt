@@ -1,3 +1,20 @@
+--- 2014.02.14 ---
+Remove built-in OSM map links
+
+Tracks: Calculate speed over a larger delta to get better values
+
+Fix spoiler picture download for geocaches
+
+Fix namspace for geocaching log tags
+
+Fix timestamp parsing for timestamps with no 3 digit milliseconds format
+
+Fix CPU load for realtime log, add option to disable watchdog
+
+Change index for garmin custom symbols form 1 to 0
+
+Fix bad heading when using NMEA
+
 --- 2013.10.09 ---
 Database: Sanitize modify marker for tracks
 
