@@ -3881,13 +3881,13 @@ It won&apos;t transmit any private data other than needed for requesting a HTML 
 If you want QLandkarte GT to do this query now and in the future press &apos;Ok&apos;. Else press &apos;No&apos;.
 
 You won&apos;t be bugged a second time unless you erase QLandkarte&apos;s configuration data.</source>
-        <translation>QLandkarte GT ist in der Lage nach einer aktuelleren Version zu suchen. Wenn eine aktuellere Version vorhanden ist, wird eine kurze Benachrichtigung unten in der Fußleiste eingeblendet. Hierfür ist eine Verbindung zu dem Server
+        <translation type="unfinished">QLandkarte GT ist in der Lage nach einer aktuelleren Version zu suchen. Wenn eine aktuellere Version vorhanden ist, wird eine kurze Benachrichtigung unten in der Fußleiste eingeblendet. Hierfür ist eine Verbindung zu dem Server
 
 http://www.qlandkarte.org/webservice/qlandkartegt.php
 
 nötig. Dabei werden keine anderen privaten Daten übermittelt, als wenn eine HTML Seite angefordert wird.
 
-Wenn Su wollen, dass QLandkarte diese Abfrage macht dann drücken Sie &apos;Ok&apos;. Andernfalls &apos;Nein&apos;
+Wenn Sie wollen, dass QLandkarte diese Abfrage macht dann drücken Sie &apos;Ok&apos;. Andernfalls &apos;Nein&apos;
 
 Sie werden kein zweites Mal gefragt, solange Sie nicht die Konfigurationsdaten von QLandkarte löschen. </translation>
     </message>
