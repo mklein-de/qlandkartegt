@@ -5,12 +5,12 @@
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
-    
+
     This program is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU General Public License for more details.
-    
+
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
@@ -658,10 +658,10 @@ void CMainWindow::setupMenuBar()
     menu->addAction(QIcon(":/icons/iconHelp16x16.png"),tr("http://Help"),this,SLOT(slotHelp()));
     menu->addAction(QIcon(":/icons/iconHelp16x16.png"),tr("http://Support"),this,SLOT(slotSupport()));
     menu->addSeparator();
-    slotUpdate();
     menu->addAction(QIcon(":/icons/iconGlobe16x16.png"),tr("About &QLandkarte GT"),this,SLOT(slotCopyright()));
 #endif
     menuBar()->addMenu(menu);
+    slotUpdate();
 }
 
 
@@ -1570,6 +1570,39 @@ void CMainWindow::slotDownload()
 
 void CMainWindow::slotUpdate()
 {
+    SETTINGS;
+    int result = cfg.value("checkVersion", -1).toInt();
+    if(result == -1)
+    {
+        QString msg = tr(
+                "QLandkarte GT can query for new versions on start-up. If there is a new version available, it will display a short notice in the statusbar. "
+                "To query for a new version QLandkarte GT has to connect to the server"
+                "\n\n"
+                "http://www.qlandkarte.org/webservice/qlandkartegt.php"
+                "\n\n"
+                "It won't transmit any private data other than needed for requesting a HTML page."
+                "\n\n"
+                "If you want QLandkarte GT to do this query now and in the future press 'Ok'. Else press 'No'."
+                "\n\n"
+                "You won't be bugged a second time unless you erase QLandkarte's configuration data."
+                    );
+
+        QMessageBox::StandardButton r = QMessageBox::question(this, tr("Query for new version..."),msg,QMessageBox::Ok|QMessageBox::No, QMessageBox::Ok);
+        if(r == QMessageBox::Ok)
+        {
+            cfg.setValue("checkVersion", 1);
+        }
+        else
+        {
+            cfg.setValue("checkVersion", 0);
+            return;
+        }
+    }
+    else if(result == 0)
+    {
+        return;
+    }
+
     QtSoapMessage request;
     request.setMethod(QtSoapQName("getlastversion", "urn:qlandkartegt"));
     request.addMethodArgument("changelog", "", "0");

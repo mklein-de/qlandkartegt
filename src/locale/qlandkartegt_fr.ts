@@ -2567,6 +2567,22 @@ Voulez vous sauvegarder vos changements ?</translation>
         <source>&lt;div style=&apos;float: left;&apos;&gt;&lt;b&gt;Workspace Summary (&lt;a href=&apos;Clear&apos;&gt;clear&lt;/a&gt; workspace):&lt;/b&gt;&lt;/div&gt;</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>QLandkarte GT can query for new versions on start-up. If there is a new version available, it will display a short notice in the statusbar. To query for a new version QLandkarte GT has to connect to the server
+
+http://www.qlandkarte.org/webservice/qlandkartegt.php
+
+It won&apos;t transmit any private data other than needed for requesting a HTML page.
+
+If you want QLandkarte GT to do this query now and in the future press &apos;Ok&apos;. Else press &apos;No&apos;.
+
+You won&apos;t be bugged a second time unless you erase QLandkarte&apos;s configuration data.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Query for new version...</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>CMap3D</name>
@@ -4783,6 +4799,10 @@ Your selection will be stored in the track&apos;s data. You can save it along wi
         <source>speed</source>
         <translation type="unfinished">vitesse</translation>
     </message>
+    <message>
+        <source>speed: %1%2</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>CTrackDB</name>
@@ -6110,7 +6130,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>00000; </source>
-        <translation>00000;</translation>
+        <translation type="obsolete">00000;</translation>
     </message>
     <message>
         <source>ABCDEFGHabcdefgh123456789</source>
@@ -6257,14 +6277,6 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Tooltips (vector maps)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Reduce POI icons (vector maps)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Rendering the map with anti-aliasing uses a lot of CPU power. Best to disable it for weak CPUs.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -6382,7 +6394,43 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Element Info (vector maps)</source>
+        <source>Vector Maps</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Tooltips</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Element Info</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Reduce POI icons</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Zoom level threshold for POIs:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Defines at which zoom level POIs are drawn.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Zoom level threshold for POI labels:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Defines at which zoom level POIs are labeled.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>00000</source>
+        <translation type="unfinished">00000</translation>
+    </message>
+    <message>
+        <source>Watch Dog</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -8056,6 +8104,14 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Multicolor</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>If checked, the map is centered map on selected trackpoint.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Center map</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

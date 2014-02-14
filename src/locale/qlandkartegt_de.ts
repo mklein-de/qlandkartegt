@@ -3871,7 +3871,33 @@ Sollen die Änderungen gespeichert werden?</translation>
         <translation>Magellan</translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="1594"/>
+        <location filename="../CMainWindow.cpp" line="1577"/>
+        <source>QLandkarte GT can query for new versions on start-up. If there is a new version available, it will display a short notice in the statusbar. To query for a new version QLandkarte GT has to connect to the server
+
+http://www.qlandkarte.org/webservice/qlandkartegt.php
+
+It won&apos;t transmit any private data other than needed for requesting a HTML page.
+
+If you want QLandkarte GT to do this query now and in the future press &apos;Ok&apos;. Else press &apos;No&apos;.
+
+You won&apos;t be bugged a second time unless you erase QLandkarte&apos;s configuration data.</source>
+        <translation>QLandkarte GT ist in der Lage nach einer aktuelleren Version zu suchen. Wenn eine aktuellere Version vorhanden ist, wird eine kurze Benachrichtigung unten in der Fußleiste eingeblendet. Hierfür ist eine Verbindung zu dem Server
+
+http://www.qlandkarte.org/webservice/qlandkartegt.php
+
+nötig. Dabei werden keine anderen privaten Daten übermittelt, als wenn eine HTML Seite angefordert wird.
+
+Wenn Su wollen, dass QLandkarte diese Abfrage macht dann drücken Sie &apos;Ok&apos;. Andernfalls &apos;Nein&apos;
+
+Sie werden kein zweites Mal gefragt, solange Sie nicht die Konfigurationsdaten von QLandkarte löschen. </translation>
+    </message>
+    <message>
+        <location filename="../CMainWindow.cpp" line="1590"/>
+        <source>Query for new version...</source>
+        <translation>Nach neuer Version suchen...</translation>
+    </message>
+    <message>
+        <location filename="../CMainWindow.cpp" line="1627"/>
         <source>New QLandkarte GT %1 available</source>
         <translation>Neue QLandkarte GT %1 verfügbar</translation>
     </message>
@@ -3948,7 +3974,7 @@ Sollen die Änderungen gespeichert werden?</translation>
         <translation></translation>
     </message>
     <message>
-        <location filename="../CMainWindow.cpp" line="662"/>
+        <location filename="../CMainWindow.cpp" line="661"/>
         <source>About &amp;QLandkarte GT</source>
         <translation>&amp;Über QLandkarteGT</translation>
     </message>
@@ -4189,54 +4215,54 @@ Sollen die Änderungen gespeichert werden?</translation>
         <translation>--- Keine Karte ---</translation>
     </message>
     <message>
-        <location filename="../CMapDB.cpp" line="172"/>
+        <location filename="../CMapDB.cpp" line="155"/>
         <source>Crash detected....</source>
         <translation>Absturz erkannt...</translation>
     </message>
     <message>
-        <location filename="../CMapDB.cpp" line="172"/>
+        <location filename="../CMapDB.cpp" line="155"/>
         <source>QLandkarte GT was terminated with a crash. This is really bad. A common reason for that is a bad map. Do you really want to load the last map?</source>
         <translation>QLandkarte GT wurde mit einem Absturz beendet. Das ist wirklich schlecht. Üblicherweise passiert das aufgrund einer fehlerhaften Karte. Wollen Sie die letzte Karte wirklich wieder laden?</translation>
     </message>
     <message>
-        <location filename="../CMapDB.cpp" line="551"/>
-        <location filename="../CMapDB.cpp" line="1054"/>
-        <location filename="../CMapDB.cpp" line="1098"/>
+        <location filename="../CMapDB.cpp" line="534"/>
+        <location filename="../CMapDB.cpp" line="1037"/>
+        <location filename="../CMapDB.cpp" line="1081"/>
         <source>Error...</source>
         <translation>Fehler ...</translation>
     </message>
     <message>
-        <location filename="../CMapDB.cpp" line="551"/>
+        <location filename="../CMapDB.cpp" line="534"/>
         <source>Only vector maps are valid overlays.</source>
         <translation>Nur Vektorkarten sind gültige Overlays.</translation>
     </message>
     <message>
-        <location filename="../CMapDB.cpp" line="981"/>
+        <location filename="../CMapDB.cpp" line="964"/>
         <source>Map 3D...</source>
         <translation>3D-Karte ...</translation>
     </message>
     <message>
-        <location filename="../CMapDB.cpp" line="1098"/>
+        <location filename="../CMapDB.cpp" line="1081"/>
         <source>This map does not support this feature.</source>
         <translation>Diese Karte unterstützt diese Möglichkeit nicht.</translation>
     </message>
     <message>
-        <location filename="../CMapDB.cpp" line="968"/>
+        <location filename="../CMapDB.cpp" line="951"/>
         <source>Edit Map</source>
         <translation>Karte bearbeiten</translation>
     </message>
     <message>
-        <location filename="../CMapDB.cpp" line="996"/>
+        <location filename="../CMapDB.cpp" line="979"/>
         <source>Search Map</source>
         <translation>Karte durchsuchen</translation>
     </message>
     <message>
-        <location filename="../CMapDB.cpp" line="1010"/>
+        <location filename="../CMapDB.cpp" line="993"/>
         <source>Sorry...</source>
         <translation>Schade...</translation>
     </message>
     <message>
-        <location filename="../CMapDB.cpp" line="1010"/>
+        <location filename="../CMapDB.cpp" line="993"/>
         <source>You can&apos;t select subareas from single file maps. Create a collection with F1-&gt;F6.</source>
         <translation>Sie können keine Ausschnitte aus einer einzelnen Kartendatei wählen. Erzeugen Sie eine Kartensammlung mit F1-&gt;F6.</translation>
     </message>
