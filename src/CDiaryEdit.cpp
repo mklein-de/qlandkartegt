@@ -683,7 +683,7 @@ void CDiaryEdit::draw(QTextDocument& doc)
         {
 
             table->cellAt(cnt,eSym).firstCursorPosition().insertImage(wpt->getIcon().toImage().scaledToWidth(16, Qt::SmoothTransformation));
-            table->cellAt(cnt,eInfo).firstCursorPosition().insertText(wpt->getInfo(), fmtCharStandard);
+            table->cellAt(cnt,eInfo).firstCursorPosition().insertText(wpt->getName() + "\n" + wpt->getInfo(), fmtCharStandard);
 
             QTextCursor c = table->cellAt(cnt,eComment).firstCursorPosition();
             c.setCharFormat(fmtCharStandard);
