@@ -523,6 +523,7 @@ static void printProgress(int current, int total)
 
 int main(int argc, char ** argv)
 {
+    uint16_t tmp16;
     const uint8_t dummy = 0;
     uint32_t tileTableStart = 0;
     uint32_t tileCnt    = 0;
@@ -898,12 +899,13 @@ int main(int argc, char ** argv)
     char GUID[40];
     createGUID(GUID);
 
+    tmp16 = jnx_hdr.productId;
+
     fwrite(&blockVersion, sizeof(blockVersion), 1, fid);
     fwrite(GUID, 37, 1, fid);
     fwrite(subscname, strlen(subscname) + 1, 1, fid);
     fwrite(&dummy, sizeof(dummy), 1, fid);
-    fwrite(&dummy, sizeof(dummy), 1, fid);
-    fwrite(&dummy, sizeof(dummy), 1, fid);
+    fwrite(&tmp16, sizeof(tmp16), 1, fid);
     fwrite(mapname, strlen(mapname) + 1, 1, fid);
     fwrite(&nLevels , sizeof(nLevels), 1, fid);
     for(int i = 1; i <= nLevels; i++)
