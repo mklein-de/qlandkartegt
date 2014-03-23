@@ -54,6 +54,7 @@ class CActions : public QObject
         void funcSwitchToLiveLog();
         void funcSwitchToOverlay();
         void funcSwitchToOverlayDistance();
+        void funcSwitchToOverlayArea();
         void funcSwitchToMainMore();
         void funcClearAll();
         void funcUploadAll();
@@ -103,6 +104,7 @@ class CActions : public QObject
         void funcText();
         void funcTextBox();
         void funcDistance();
+        void funcArea();
         void funcCombineDistOvl();
 
         void funcOcm();

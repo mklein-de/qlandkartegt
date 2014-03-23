@@ -21,6 +21,7 @@
 
 #include "IDB.h"
 #include "COverlayDistance.h"
+#include "COverlayArea.h"
 
 #include <QMap>
 #include <proj_api.h>
@@ -35,7 +36,6 @@ class QPainter;
 class QString;
 class COverlayText;
 class COverlayTextBox;
-class COverlayDistance;
 class QMenu;
 
 class COverlayDB : public IDB
@@ -71,6 +71,7 @@ class COverlayDB : public IDB
         COverlayText * addText(const QString& text, const QRect& rect, const QString& key = QString(), bool silent = false);
         COverlayTextBox * addTextBox(const QString& text, double lon, double lat, const QPoint& anchor, const QRect& rect, const QString& key = QString(), bool silent = false);
         COverlayDistance * addDistance(const QString& name, const QString& comment, double speed, const QList<COverlayDistance::pt_t>& pts, const QString& key = QString(), bool silent = false);
+        COverlayArea * addArea(const QString& name, const QString& comment, const QColor &color, const QList<COverlayArea::pt_t>& pts, const QString& key = QString(), bool silent = false);
 
         void customMenu(const QString& key, QMenu& menu);
 

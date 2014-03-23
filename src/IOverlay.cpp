@@ -108,6 +108,27 @@ QDataStream& operator >>(QDataStream& s, COverlayDB& db)
                     ovl = db.addDistance(name, comment, speed, points, key);
                     ovl->setParentWpt(parentWpt);
                 }
+                else if(type == "Area")
+                {
+                    IOverlay * ovl;
+                    QColor color;
+                    QString name;
+                    QString comment;
+                    QString parentWpt;
+                    int size, idx = 0;
+                    COverlayArea::pt_t pt;
+                    QList<COverlayArea::pt_t> points;
+                    s1 >> name >> comment >> size;
+                    for(int i = 0; i < size; ++i)
+                    {
+                        s1 >> pt.u >> pt.v;
+                        pt.idx = idx++;
+                        points << pt;
+                    }
+                    s1 >> color >> key >> parentWpt;
+                    ovl = db.addArea(name, comment, color, points, key);
+                    ovl->setParentWpt(parentWpt);
+                }
                 break;
             }
 

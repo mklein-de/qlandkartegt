@@ -1,5 +1,5 @@
 /**********************************************************************************************
-    Copyright (C) 2010 Oliver Eichler oliver.eichler@gmx.de
+    Copyright (C) 2014 Oliver Eichler oliver.eichler@gmx.de
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -16,21 +16,19 @@
 
 **********************************************************************************************/
 
-#include "COverlayDistanceEditWidget.h"
-#include "COverlayDistance.h"
-#include "IUnit.h"
-#include "GeoMath.h"
-#include "CMegaMenu.h"
+#include "COverlayAreaEditWidget.h"
+#include "COverlayArea.h"
 #include "CMainWindow.h"
-#include "CCanvas.h"
+#include "CMenus.h"
 #include "CActions.h"
-#include "COverlayDB.h"
+#include "GeoMath.h"
+#include "CCanvas.h"
 
 #include <QtGui>
 
-COverlayDistanceEditWidget::COverlayDistanceEditWidget(QWidget * parent, COverlayDistance * ovl)
-: QWidget(parent)
-, ovl(ovl)
+COverlayAreaEditWidget::COverlayAreaEditWidget(QWidget *parent, COverlayArea *ovl)
+    : QWidget(parent)
+    , ovl(ovl)
 {
     ovl->isEdit = true;
 
@@ -38,10 +36,13 @@ COverlayDistanceEditWidget::COverlayDistanceEditWidget(QWidget * parent, COverla
 
     lineName->setText(ovl->name);
     textComment->setText(ovl->comment);
+    color = ovl->color.name();
 
-    labelUnit->setText(IUnit::self().speedunit);
-    lineSpeed->setText(QString::number(ovl->speed * IUnit::self().speedfactor));
+    QPixmap icon(64,32);
+    icon.fill(color);
+    labelColor->setPixmap(icon);
 
+    connect(toolColor, SIGNAL(clicked()), this, SLOT(slotChangeColor()));
     connect(pushApply, SIGNAL(clicked()), this, SLOT(slotApply()));
     connect(treeWidget, SIGNAL(itemSelectionChanged()), this, SLOT(slotItemSelectionChanged()));
 
@@ -60,8 +61,7 @@ COverlayDistanceEditWidget::COverlayDistanceEditWidget(QWidget * parent, COverla
     slotSelectionChanged();
 }
 
-
-COverlayDistanceEditWidget::~COverlayDistanceEditWidget()
+COverlayAreaEditWidget::~COverlayAreaEditWidget()
 {
     if(ovl)
     {
@@ -69,24 +69,23 @@ COverlayDistanceEditWidget::~COverlayDistanceEditWidget()
     }
 }
 
-
-bool COverlayDistanceEditWidget::isAboutToClose()
+bool COverlayAreaEditWidget::isAboutToClose()
 {
     return !ovl->isEdit;
 }
 
 
-void COverlayDistanceEditWidget::slotApply()
+void COverlayAreaEditWidget::slotApply()
 {
     ovl->name = lineName->text();
     ovl->comment = textComment->toPlainText();
-    ovl->speed = lineSpeed->text().toDouble() / IUnit::self().speedfactor;
+    ovl->color.setNamedColor(color);
 
     emit ovl->sigChanged();
 }
 
 
-void COverlayDistanceEditWidget::slotChanged()
+void COverlayAreaEditWidget::slotChanged()
 {
     QString pos;
 
@@ -98,7 +97,7 @@ void COverlayDistanceEditWidget::slotChanged()
     QList<QTreeWidgetItem*> items;
     for(i = 0; i < size; i++)
     {
-        COverlayDistance::pt_t pt = ovl->points[i];
+        COverlayArea::pt_t pt = ovl->points[i];
         GPS_Math_Deg_To_Str(pt.u * RAD_TO_DEG, pt.v * RAD_TO_DEG, pos);
 
         QTreeWidgetItem * item = new QTreeWidgetItem();
@@ -114,7 +113,7 @@ void COverlayDistanceEditWidget::slotChanged()
 }
 
 
-void COverlayDistanceEditWidget::slotSelectionChanged()
+void COverlayAreaEditWidget::slotSelectionChanged()
 {
     QTreeWidgetItem * item = 0;
     int idx;
@@ -139,7 +138,7 @@ void COverlayDistanceEditWidget::slotSelectionChanged()
 }
 
 
-void COverlayDistanceEditWidget::slotItemSelectionChanged()
+void COverlayAreaEditWidget::slotItemSelectionChanged()
 {
     ovl->selectedPoints.clear();
     const QList<QTreeWidgetItem *>& items = treeWidget->selectedItems();
@@ -155,7 +154,7 @@ void COverlayDistanceEditWidget::slotItemSelectionChanged()
 }
 
 
-void COverlayDistanceEditWidget::slotContextMenu(const QPoint& pos)
+void COverlayAreaEditWidget::slotContextMenu(const QPoint& pos)
 {
     int cnt = treeWidget->selectedItems().count();
     if(cnt > 0)
@@ -168,7 +167,7 @@ void COverlayDistanceEditWidget::slotContextMenu(const QPoint& pos)
 }
 
 
-void COverlayDistanceEditWidget::slotDelete()
+void COverlayAreaEditWidget::slotDelete()
 {
     QList<int> idx;
     QTreeWidgetItem * item;
@@ -181,3 +180,20 @@ void COverlayDistanceEditWidget::slotDelete()
 
     ovl->delPointsByIdx(idx);
 }
+
+void COverlayAreaEditWidget::slotChangeColor()
+{
+    QColorDialog dlg(color);
+    dlg.open(this, SLOT(slotChangeColor(QColor)));
+    dlg.exec();
+}
+
+void COverlayAreaEditWidget::slotChangeColor(const QColor& c)
+{
+    color = c.name();
+
+    QPixmap icon(64,32);
+    icon.fill(color);
+    labelColor->setPixmap(icon);
+}
+

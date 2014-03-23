@@ -43,6 +43,7 @@ class CMenus: public QObject
             LiveLogMenu,
             OverlayMenu,
             OverlayDistanceMenu,
+            OverlayAreaMenu,
             MainMoreMenu,
             TrackMenu,
             RouteMenu,

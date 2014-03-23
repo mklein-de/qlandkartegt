@@ -33,6 +33,7 @@
 #include "CMouseAddText.h"
 #include "CMouseAddTextBox.h"
 #include "CMouseAddDistance.h"
+#include "CMouseAddArea.h"
 #include "CMouseOverlay.h"
 #include "CMouseColorPicker.h"
 #include "CMouseSelWpt.h"
@@ -95,6 +96,7 @@ CCanvas::CCanvas(QWidget * parent)
     mouseAddText    = new CMouseAddText(this);
     mouseAddTextBox = new CMouseAddTextBox(this);
     mouseAddDistance= new CMouseAddDistance(this);
+    mouseAddArea    = new CMouseAddArea(this);
     mouseOverlay    = new CMouseOverlay(this);
     mouseColorPicker = new CMouseColorPicker(this);
     mouseSelWpt     = new CMouseSelWpt(this);
@@ -218,6 +220,10 @@ void CCanvas::setMouseMode(mouse_mode_e mode)
 
         case eMouseAddDistance:
             mouse = mouseAddDistance;
+            break;
+
+        case eMouseAddArea:
+            mouse = mouseAddArea;
             break;
 
         case eMouseOverlay:

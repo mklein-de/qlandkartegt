@@ -44,7 +44,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "CDlgExport.h"
 #include "CTabWidget.h"
 #include "COverlayDistance.h"
-#include "COverlayDistanceEditWidget.h"
+
 
 #include <QtGui>
 
@@ -112,7 +112,9 @@ QObject(parent), parent(parent)
     createAction(tr("F6"), ":/icons/iconTextBox16x16.png", tr("Add &Geo-Ref. Text Box"), "aTextBox", tr("Add a textbox on the map."));
     createAction(tr("F7"), ":/icons/iconDistance16x16.png", tr("Add Distance &Polyline"), "aDistance", tr("Add a polyline to measure distances."));
     createAction(tr("F7"), ":/icons/iconDistance16x16.png", tr("Distance &Polyline"), "aSwitchToOverlayDistance", tr("Add a polyline to measure distances."));
-    createAction(tr("F5"), ":/icons/iconAdd16x16.png", tr("Join Distance PolyLines"), "aCombineDistOvl", tr("Join distance polylines to one."));
+    createAction(tr("F5"), ":/icons/iconAdd16x16.png", tr("Join Distance PolyLines"), "aCombineDistOvl", tr("Join distance polylines to one."));    
+    createAction(tr("F8"), ":/icons/iconArea16x16.png", tr("Add Area Polygon"), "aArea", tr("Mark an area with a polygon."));
+    createAction(tr("F8"), ":/icons/iconArea16x16.png", tr("Area Polygon"), "aSwitchToOverlayArea", tr("Mark an area with a polygon."));
 
     //
     createAction(tr("F6"), ":/icons/cache/Traditional-Cache.png", tr("&Export to OCM"), "aOcm", tr("Send current workspace to Open Cache Manager."));
@@ -307,6 +309,15 @@ void CActions::funcSwitchToOverlayDistance()
     funcDistance();
 }
 
+void CActions::funcSwitchToOverlayArea()
+{
+    setMenuTitle(tr("&Overlay Area"));
+    setMenuPixmap(QPixmap(":/icons/backArea128x128.png"));
+    actionGroup->switchToActionGroup(CMenus::OverlayAreaMenu);
+    COverlayDB::self().gainFocus();
+
+    funcArea();
+}
 
 void CActions::funcSwitchToMainMore()
 {
@@ -639,6 +650,11 @@ void CActions::funcTextBox()
 void CActions::funcDistance()
 {
     canvas->setMouseMode(CCanvas::eMouseAddDistance);
+}
+
+void CActions::funcArea()
+{
+    canvas->setMouseMode(CCanvas::eMouseAddArea);
 }
 
 

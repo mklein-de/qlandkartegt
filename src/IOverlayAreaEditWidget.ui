@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>IOverlayDistanceEditWidget</class>
- <widget class="QWidget" name="IOverlayDistanceEditWidget">
+ <class>IOverlayAreaEditWidget</class>
+ <widget class="QWidget" name="IOverlayAreaEditWidget">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -23,32 +23,27 @@
          <item row="2" column="0">
           <widget class="QLabel" name="label_4">
            <property name="text">
-            <string>Speed</string>
+            <string>Color</string>
            </property>
           </widget>
          </item>
          <item row="2" column="1">
           <layout class="QHBoxLayout" name="horizontalLayout">
            <item>
-            <widget class="QLineEdit" name="lineSpeed">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
+            <widget class="QLabel" name="labelColor">
              <property name="text">
-              <string/>
-             </property>
-             <property name="maxLength">
-              <number>5</number>
+              <string>TextLabel</string>
              </property>
             </widget>
            </item>
            <item>
-            <widget class="QLabel" name="labelUnit">
+            <widget class="QToolButton" name="toolColor">
              <property name="text">
-              <string>TextLabel</string>
+              <string>...</string>
+             </property>
+             <property name="icon">
+              <iconset resource="resources.qrc">
+               <normaloff>:/icons/preferences-desktop-color.png</normaloff>:/icons/preferences-desktop-color.png</iconset>
              </property>
             </widget>
            </item>
@@ -128,6 +123,8 @@
    </item>
   </layout>
  </widget>
- <resources/>
+ <resources>
+  <include location="resources.qrc"/>
+ </resources>
  <connections/>
 </ui>

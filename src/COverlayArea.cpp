@@ -1,5 +1,5 @@
 /**********************************************************************************************
-    Copyright (C) 2008 Oliver Eichler oliver.eichler@gmx.de
+    Copyright (C) 2014 Oliver Eichler oliver.eichler@gmx.de
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -16,52 +16,40 @@
 
 **********************************************************************************************/
 
-#include "COverlayDistance.h"
-#include "COverlayDistanceEditWidget.h"
+#include "COverlayArea.h"
 #include "CMapDB.h"
-#include "IMap.h"
-#include "GeoMath.h"
-#include "IUnit.h"
 #include "CMainWindow.h"
+#include "GeoMath.h"
 #include "COverlayDB.h"
-#include "CTrackDB.h"
-#include "CTrack.h"
-#include "CRouteDB.h"
-#include "CRoute.h"
-#include "CMegaMenu.h"
-#include "CDlgConvertToTrack.h"
+#include "IUnit.h"
 #include "CResources.h"
+#include "COverlayAreaEditWidget.h"
 
 #include <QtGui>
-
-bool COverlayDistance::showBullets = true;
 
 static bool operator==(const projXY& p1, const projXY& p2)
 {
     return (p1.u == p2.u) && (p1.v == p2.v);
 }
 
+QPointer<COverlayAreaEditWidget> overlayAreaEditWidget;
 
-QPointer<COverlayDistanceEditWidget> overlayDistanceEditWidget;
-
-COverlayDistance::COverlayDistance(const QString& name, const QString& comment, double speed, const QList<pt_t>& pts, QObject * parent)
-: IOverlay(parent, "Distance", ":/icons/iconDistance16x16.png")
+COverlayArea::COverlayArea(const QString &name, const QString &comment, const QColor& color, const QList<pt_t> &pts, QObject *parent)
+: IOverlay(parent, "Area", ":/icons/iconArea16x16.png")
 , points(pts)
+, color(color)
 , thePoint(0)
 , thePointBefor(0)
 , thePointAfter(0)
-, distance(0)
-, speed(speed)
 , doSpecialCursor(false)
 , doMove(false)
 , doFuncWheel(false)
 , addType(eNone)
 , isEdit(false)
 {
-
     if(name.isEmpty())
     {
-        setName(tr("Tour %1").arg(keycnt));
+        setName(tr("Area %1").arg(keycnt));
     }
     else
     {
@@ -75,7 +63,7 @@ COverlayDistance::COverlayDistance(const QString& name, const QString& comment, 
     rectAdd1 = QRect(0,32,16,16);
     rectAdd2 = QRect(32,32,16,16);
 
-    calcDistance();
+    calc();
 
     if(pts.size() == 1)
     {
@@ -88,14 +76,7 @@ COverlayDistance::COverlayDistance(const QString& name, const QString& comment, 
     }
 }
 
-
-COverlayDistance::~COverlayDistance()
-{
-
-}
-
-
-void COverlayDistance::save(QDataStream& s)
+void COverlayArea::save(QDataStream& s)
 {
     s << name << comment << points.size();
     projXY pt;
@@ -103,13 +84,13 @@ void COverlayDistance::save(QDataStream& s)
     {
         s << pt.u << pt.v;
     }
-    s << speed;
+    s << color;
     s << getKey();
     s << getParentWpt();
 }
 
 
-void COverlayDistance::load(QDataStream& s)
+void COverlayArea::load(QDataStream& s)
 {
     pt_t pt;
     int size;
@@ -124,20 +105,17 @@ void COverlayDistance::load(QDataStream& s)
         pt.idx = i;
         points << pt;
     }
-    s >> speed;
+    s >> color;
     s >> key;
 
     setKey(key);
 
 }
 
-
-QString COverlayDistance::getInfo()
+QString COverlayArea::getInfo()
 {
     QString info;
     QString val, unit;
-
-    IUnit::self().meter2distance(distance, val, unit);
 
     if(!name.isEmpty())
     {
@@ -147,39 +125,244 @@ QString COverlayDistance::getInfo()
     {
         if(comment.length() < 60)
         {
-            info += comment + "\n";
+            info += comment + "";
         }
         else
         {
-            info += comment.left(57) + "...\n";
+            info += comment.left(57) + "...";
         }
     }
 
-    info += tr("Length: %1 %2").arg(val).arg(unit);
-
-    if(speed > 0)
-    {
-        info += "\n" + QString::number(speed * IUnit::self().speedfactor)  + IUnit::self().speedunit + " " + QChar(0x21E8) + " ";
-
-        double ttime = distance * 3.6/ (speed * IUnit::self().speedfactor);
-        quint32 days = ttime / 86400;
-
-        QTime time;
-        time = time.addSecs(ttime);
-        if(days)
-        {
-            info += tr("%1:").arg(days) + time.toString("HH:mm") + "h";
-        }
-        else
-        {
-            info += time.toString("HH:mm") + "h";
-        }
-    }
     return info;
 }
 
 
-bool COverlayDistance::isCloseEnough(const QPoint& pt)
+void COverlayArea::draw(QPainter& p, const QRect& viewport)
+{
+    if(points.isEmpty() || !isVisible) return;
+
+    IMap& map = CMapDB::self().getMap();
+
+    QPen pen1, pen2;
+    QPixmap icon(":/icons/small_bullet_darkgray.png");
+    QPixmap icon_red(":/icons/small_bullet_red.png");
+    QPixmap icon_BigRed(":/icons/bullet_red.png");
+    projXY pt1, pt2;
+    QPoint pt;
+
+    int i;
+    int start   = 0;
+    int stop    = points.count();
+    int skip    = -1;
+
+    // if there is an active subline fine tune start and stop index
+    // to make the subline replace the first of last line segment
+    if(thePoint && !subline.isEmpty())
+    {
+        if(*thePoint == points.last() )
+        {
+            stop -= 1;
+        }
+        else if(*thePoint == points.first())
+        {
+            start += 1;
+        }
+
+        int idx = points.indexOf(*thePoint);
+
+        if(addType == eAfter)
+        {
+            skip = idx;
+        }
+        else
+        {
+            skip = idx + 1;
+        }
+    }
+
+    pt1 = points[start];
+    map.convertRad2Pt(pt1.u, pt1.v);
+
+    QPolygon polyline;
+
+    polyline << QPoint(pt1.u, pt1.v);
+
+    // draw the lines
+    for(i = start + 1; i < stop; i++)
+    {
+
+        pt2 = points[i];
+        map.convertRad2Pt(pt2.u, pt2.v);
+
+        int d = abs(pt1.u - pt2.u) + abs(pt1.v - pt2.v);
+        if(d < 10)
+        {
+            continue;
+        }
+
+        if(i != skip)
+        {
+            polyline << QPoint(pt2.u, pt2.v);
+        }
+        pt1 = pt2;
+    }
+
+    if(highlight)
+    {
+        pen1 = QPen(Qt::white,7);
+        pen1.setCapStyle(Qt::RoundCap);
+        pen1.setJoinStyle(Qt::RoundJoin);
+
+        pen2 = QPen(color,5);
+        pen2.setCapStyle(Qt::RoundCap);
+        pen2.setJoinStyle(Qt::RoundJoin);
+    }
+    else
+    {
+        pen1 = QPen(Qt::white,5);
+        pen1.setCapStyle(Qt::RoundCap);
+        pen1.setJoinStyle(Qt::RoundJoin);
+
+        pen2 = QPen(color,3);
+        pen2.setCapStyle(Qt::RoundCap);
+        pen2.setJoinStyle(Qt::RoundJoin);
+    }
+
+
+    p.setBrush(Qt::NoBrush);
+    p.setPen(pen1);
+    p.drawPolygon(polyline);
+
+    p.setPen(pen2);
+    p.setBrush(QBrush(color, Qt::BDiagPattern));
+    p.drawPolygon(polyline);
+
+    // overlay _the_ point with a red bullet
+    if(thePoint)
+    {
+        pt2 = *thePoint;
+        map.convertRad2Pt(pt2.u, pt2.v);
+        p.drawPixmap(pt2.u - 4, pt2.v - 4, icon_red);
+    }
+
+    // if there is a subline draw it
+    if(!subline.isEmpty())
+    {
+
+        QPen pen;
+        pen.setBrush(QBrush(QColor(255,0,255,150)));
+        pen.setWidth(20);
+        pen.setCapStyle(Qt::RoundCap);
+        pen.setJoinStyle(Qt::RoundJoin);
+
+        p.setPen(pen);
+        p.drawPolyline(leadline);
+
+        p.setPen(QPen(Qt::white, 7));
+        p.drawPolyline(subline);
+        p.setPen(QPen(Qt::red, 5));
+        p.drawPolyline(subline);
+        p.setPen(QPen(Qt::white, 1));
+        p.drawPolyline(subline);
+
+        p.setPen(Qt::black);
+        for(i = 1; i < (subline.size() - 1); i++)
+        {
+            p.drawPixmap(subline[i] - QPoint(4,4), icon_red);
+        }
+
+    }
+
+    if(thePoint && !doMove)
+    {
+        pt2 = *thePoint;
+        map.convertRad2Pt(pt2.u, pt2.v);
+
+        if(doFuncWheel)
+        {
+
+            p.setPen(CCanvas::penBorderBlue);
+            p.setBrush(CCanvas::brushBackWhite);
+            p.drawEllipse(pt2.u - 35, pt2.v - 35, 70, 70);
+
+            p.save();
+            p.translate(pt2.u - 24, pt2.v - 24);
+            p.drawPixmap(rectDel, QPixmap(":/icons/iconClear16x16.png"));
+            p.drawPixmap(rectMove, QPixmap(":/icons/iconMove16x16.png"));
+            if(anglePrev < 360)
+            {
+                p.save();
+                p.setRenderHint(QPainter::SmoothPixmapTransform, true);
+                p.translate(rectAdd1.center());
+                p.rotate(-anglePrev);
+                p.drawPixmap(QPoint(-8, -8), QPixmap(":/icons/iconAddPoint16x16.png"));
+                p.restore();
+            }
+            else
+            {
+                p.save();
+                p.setRenderHint(QPainter::SmoothPixmapTransform, true);
+                p.translate(rectAdd1.center());
+                p.rotate(-angleNext + 180);
+                p.drawPixmap(QPoint(-8, -8), QPixmap(":/icons/iconAddPointEnd16x16.png"));
+                p.restore();
+            }
+
+            if(angleNext < 360)
+            {
+                p.save();
+                p.setRenderHint(QPainter::SmoothPixmapTransform, true);
+                p.translate(rectAdd2.center());
+                p.rotate(-angleNext);
+                p.drawPixmap(QPoint(-8, -8), QPixmap(":/icons/iconAddPoint16x16.png"));
+                p.restore();
+            }
+            else
+            {
+                p.save();
+                p.setRenderHint(QPainter::SmoothPixmapTransform, true);
+                p.translate(rectAdd2.center());
+                p.rotate(-anglePrev + 180);
+                p.drawPixmap(QPoint(-8, -8), QPixmap(":/icons/iconAddPointEnd16x16.png"));
+                p.restore();
+            }
+
+            p.restore();
+        }
+        else
+        {
+            p.setPen(CCanvas::penBorderBlue);
+            p.setBrush(CCanvas::brushBackWhite);
+            p.drawEllipse(pt2.u - 8, pt2.v - 8, 16, 16);
+        }
+    }
+
+    // overlay points with the selected point icon
+    foreach(i, selectedPoints)
+    {
+        if(i < points.size())
+        {
+            projXY pt = points[i];
+            map.convertRad2Pt(pt.u, pt.v);
+            p.drawPixmap(pt.u - 6, pt.v - 6, icon_BigRed);
+        }
+    }
+
+    // draw distance information to neighbour points
+    if(thePointBefor && subline.isEmpty())
+    {
+        drawDistanceInfo(*thePointBefor, *thePoint, p, map);
+    }
+
+    if(thePointAfter && subline.isEmpty())
+    {
+        drawDistanceInfo(*thePoint, *thePointAfter, p, map);
+    }
+
+}
+
+
+bool COverlayArea::isCloseEnough(const QPoint& pt)
 {
     IMap& map = CMapDB::self().getMap();
     QList<pt_t>::iterator p = points.begin();
@@ -248,8 +431,7 @@ bool COverlayDistance::isCloseEnough(const QPoint& pt)
     return (dist != ref);
 }
 
-
-void COverlayDistance::keyPressEvent(QKeyEvent * e)
+void COverlayArea::keyPressEvent(QKeyEvent * e)
 {
     if (e->key() == Qt::Key_Backspace)
     {
@@ -282,7 +464,8 @@ void COverlayDistance::keyPressEvent(QKeyEvent * e)
                 default:
                     break;
             }
-            calcDistance();
+
+            calc();
             emit sigChanged();
             QPoint pos = theMainWindow->getCanvas()->mapFromGlobal(QCursor::pos());
             QMouseEvent * ev = new QMouseEvent(QEvent::MouseMove, pos, Qt::NoButton, QApplication::mouseButtons(), QApplication::keyboardModifiers());
@@ -291,8 +474,7 @@ void COverlayDistance::keyPressEvent(QKeyEvent * e)
     }
 }
 
-
-void COverlayDistance::mouseMoveEvent(QMouseEvent * e)
+void COverlayArea::mouseMoveEvent(QMouseEvent * e)
 {
 
     IMap& map   = CMapDB::self().getMap();
@@ -412,7 +594,7 @@ void COverlayDistance::mouseMoveEvent(QMouseEvent * e)
 }
 
 
-void COverlayDistance::mousePressEvent(QMouseEvent * e)
+void COverlayArea::mousePressEvent(QMouseEvent * e)
 {
     if(thePoint == 0) return;
     IMap& map   = CMapDB::self().getMap();
@@ -585,7 +767,7 @@ void COverlayDistance::mousePressEvent(QMouseEvent * e)
 
             subline.clear();
 
-            calcDistance();
+            calc();
             theMainWindow->getCanvas()->update();
 
             //if(addType == eNone)   // why?
@@ -625,7 +807,8 @@ void COverlayDistance::mousePressEvent(QMouseEvent * e)
                 QStringList keys(getKey());
                 COverlayDB::self().delOverlays(keys);
             }
-            calcDistance();
+
+            calc();
             doFuncWheel     = false;
             thePoint        = 0;
             thePointBefor   = 0;
@@ -711,316 +894,12 @@ void COverlayDistance::mousePressEvent(QMouseEvent * e)
 }
 
 
-void COverlayDistance::mouseReleaseEvent(QMouseEvent * e)
+void COverlayArea::mouseReleaseEvent(QMouseEvent * e)
 {
 
 }
 
-
-void COverlayDistance::drawArrows(const QPolygon& line, const QRect& viewport, QPainter& p)
-{
-    QPointF arrow[4] =
-    {
-        QPointF( 20.0, 7.0),     //front
-        QPointF( 0.0, 0.0),      //upper tail
-        QPointF( 5.0, 7.0),      //mid tail
-        QPointF( 0.0, 15.0)      //lower tail
-    };
-
-    QPoint  pt, pt1, ptt;
-
-    // draw direction arrows
-    bool    start = true;
-    double  heading;
-
-    //generate arrow pic
-    QImage arrow_pic(21,16, QImage::Format_ARGB32);
-    arrow_pic.fill( qRgba(0,0,0,0));
-    QPainter t_paint(&arrow_pic);
-    USE_ANTI_ALIASING(t_paint, true);
-    t_paint.setPen(QPen(Qt::white, 2));
-    t_paint.setBrush(p.brush());
-    t_paint.drawPolygon(arrow, 4);
-    t_paint.end();
-
-    foreach(pt,line)
-    {
-        if(start)                // no arrow on  the first loop
-        {
-            start = false;
-        }
-        else
-        {
-            if(!viewport.contains(pt))
-            {
-                pt1 = pt;
-                continue;
-            }
-            if((abs(pt.x() - pt1.x()) + abs(pt.y() - pt1.y())) < 7)
-            {
-                pt1 = pt;
-                continue;
-            }
-            // keep distance
-            if((abs(pt.x() - ptt.x()) + abs(pt.y() - ptt.y())) > 100)
-            {
-                if(0 != pt.x() - pt1.x() && (pt.y() - pt1.y()))
-                {
-                    heading = ( atan2((double)(pt.y() - pt1.y()), (double)(pt.x() - pt1.x())) * 180.) / M_PI;
-
-                    p.save();
-                    // draw arrow between bullets
-                    p.translate((pt.x() + pt1.x())/2,(pt.y() + pt1.y())/2);
-                    p.rotate(heading);
-                    p.drawImage(-11, -7, arrow_pic);
-                    p.restore();
-                    //remember last point
-                    ptt = pt;
-                }
-            }
-        }
-        pt1 = pt;
-    }
-
-}
-
-
-void COverlayDistance::draw(QPainter& p, const QRect& viewport)
-{
-    if(points.isEmpty() || !isVisible) return;
-
-    IMap& map = CMapDB::self().getMap();
-
-    QPen pen1, pen2;
-    QPixmap icon(":/icons/small_bullet_darkgray.png");
-    QPixmap icon_red(":/icons/small_bullet_red.png");
-    QPixmap icon_BigRed(":/icons/bullet_red.png");
-    projXY pt1, pt2;
-    QPoint pt;
-
-    int i;
-    int start   = 0;
-    int stop    = points.count();
-    int skip    = -1;
-
-    // if there is an active subline fine tune start and stop index
-    // to make the subline replace the first of last line segment
-    if(thePoint && !subline.isEmpty())
-    {
-        if(*thePoint == points.last() )
-        {
-            stop -= 1;
-        }
-        else if(*thePoint == points.first())
-        {
-            start += 1;
-        }
-
-        int idx = points.indexOf(*thePoint);
-
-        if(addType == eAfter)
-        {
-            skip = idx;
-        }
-        else
-        {
-            skip = idx + 1;
-        }
-    }
-
-    pt1 = points[start];
-    map.convertRad2Pt(pt1.u, pt1.v);
-
-    QPolygon polyline;
-
-    polyline << QPoint(pt1.u, pt1.v);
-
-    // draw the lines
-    for(i = start + 1; i < stop; i++)
-    {
-
-        pt2 = points[i];
-        map.convertRad2Pt(pt2.u, pt2.v);
-
-        int d = abs(pt1.u - pt2.u) + abs(pt1.v - pt2.v);
-        if(d < 10)
-        {
-            continue;
-        }
-
-        if(i != skip)
-        {
-            polyline << QPoint(pt2.u, pt2.v);
-        }
-        pt1 = pt2;
-    }
-
-    if(highlight)
-    {
-        pen1 = QPen(QColor(255,200,0,180),13);
-        pen1.setCapStyle(Qt::RoundCap);
-        pen1.setJoinStyle(Qt::RoundJoin);
-
-        pen2 = QPen(QColor(0,150,0,128),11);
-        pen2.setCapStyle(Qt::RoundCap);
-        pen2.setJoinStyle(Qt::RoundJoin);
-        pen2.setStyle(Qt::DotLine);
-    }
-    else
-    {
-        pen1 = QPen(QColor(255,200,0,180),7);
-        pen1.setCapStyle(Qt::RoundCap);
-        pen1.setJoinStyle(Qt::RoundJoin);
-
-        pen2 = QPen(QColor(0,150,0,255),5);
-        pen2.setCapStyle(Qt::RoundCap);
-        pen2.setJoinStyle(Qt::RoundJoin);
-        pen2.setStyle(Qt::DotLine);
-    }
-
-    p.setPen(pen1);
-    p.drawPolyline(polyline);
-    p.setPen(pen2);
-    p.drawPolyline(polyline);
-
-    // draw the points
-    if(showBullets)
-    {
-        foreach(pt, polyline)
-        {
-            p.drawPixmap(pt.x() - 4, pt.y() - 4, icon);
-        }
-    }
-
-    p.setBrush(QColor(0,150,0,255));
-    drawArrows(polyline, viewport, p);
-
-    // overlay _the_ point with a red bullet
-    if(thePoint)
-    {
-        pt2 = *thePoint;
-        map.convertRad2Pt(pt2.u, pt2.v);
-        p.drawPixmap(pt2.u - 4, pt2.v - 4, icon_red);
-    }
-
-    // if there is a subline draw it
-    if(!subline.isEmpty())
-    {
-
-        QPen pen;
-        pen.setBrush(QBrush(QColor(255,0,255,150)));
-        pen.setWidth(20);
-        pen.setCapStyle(Qt::RoundCap);
-        pen.setJoinStyle(Qt::RoundJoin);
-
-        p.setPen(pen);
-        p.drawPolyline(leadline);
-
-        p.setPen(QPen(Qt::white, 7));
-        p.drawPolyline(subline);
-        p.setPen(QPen(Qt::red, 5));
-        p.drawPolyline(subline);
-        p.setPen(QPen(Qt::white, 1));
-        p.drawPolyline(subline);
-
-        p.setPen(Qt::black);
-        for(i = 1; i < (subline.size() - 1); i++)
-        {
-            p.drawPixmap(subline[i] - QPoint(4,4), icon_red);
-        }
-
-    }
-
-    if(thePoint && !doMove)
-    {
-        pt2 = *thePoint;
-        map.convertRad2Pt(pt2.u, pt2.v);
-
-        if(doFuncWheel)
-        {
-
-            p.setPen(CCanvas::penBorderBlue);
-            p.setBrush(CCanvas::brushBackWhite);
-            p.drawEllipse(pt2.u - 35, pt2.v - 35, 70, 70);
-
-            p.save();
-            p.translate(pt2.u - 24, pt2.v - 24);
-            p.drawPixmap(rectDel, QPixmap(":/icons/iconClear16x16.png"));
-            p.drawPixmap(rectMove, QPixmap(":/icons/iconMove16x16.png"));
-            if(anglePrev < 360)
-            {
-                p.save();
-                p.setRenderHint(QPainter::SmoothPixmapTransform, true);
-                p.translate(rectAdd1.center());
-                p.rotate(-anglePrev);
-                p.drawPixmap(QPoint(-8, -8), QPixmap(":/icons/iconAddPoint16x16.png"));
-                p.restore();
-            }
-            else
-            {
-                p.save();
-                p.setRenderHint(QPainter::SmoothPixmapTransform, true);
-                p.translate(rectAdd1.center());
-                p.rotate(-angleNext + 180);
-                p.drawPixmap(QPoint(-8, -8), QPixmap(":/icons/iconAddPointEnd16x16.png"));
-                p.restore();
-            }
-
-            if(angleNext < 360)
-            {
-                p.save();
-                p.setRenderHint(QPainter::SmoothPixmapTransform, true);
-                p.translate(rectAdd2.center());
-                p.rotate(-angleNext);
-                p.drawPixmap(QPoint(-8, -8), QPixmap(":/icons/iconAddPoint16x16.png"));
-                p.restore();
-            }
-            else
-            {
-                p.save();
-                p.setRenderHint(QPainter::SmoothPixmapTransform, true);
-                p.translate(rectAdd2.center());
-                p.rotate(-anglePrev + 180);
-                p.drawPixmap(QPoint(-8, -8), QPixmap(":/icons/iconAddPointEnd16x16.png"));
-                p.restore();
-            }
-
-            p.restore();
-        }
-        else
-        {
-            p.setPen(CCanvas::penBorderBlue);
-            p.setBrush(CCanvas::brushBackWhite);
-            p.drawEllipse(pt2.u - 8, pt2.v - 8, 16, 16);
-        }
-    }
-
-    // overlay points with the selected point icon
-    foreach(i, selectedPoints)
-    {
-        if(i < points.size())
-        {
-            projXY pt = points[i];
-            map.convertRad2Pt(pt.u, pt.v);
-            p.drawPixmap(pt.u - 6, pt.v - 6, icon_BigRed);
-        }
-    }
-
-    // draw distance information to neighbour points
-    if(thePointBefor && subline.isEmpty())
-    {
-        drawDistanceInfo(*thePointBefor, *thePoint, p, map);
-    }
-
-    if(thePointAfter && subline.isEmpty())
-    {
-        drawDistanceInfo(*thePoint, *thePointAfter, p, map);
-    }
-
-}
-
-
-void COverlayDistance::drawDistanceInfo(projXY p1, projXY p2, QPainter& p, IMap& map)
+void COverlayArea::drawDistanceInfo(projXY p1, projXY p2, QPainter& p, IMap& map)
 {
     QString val, unit, str;
     double a1, a2, dist;
@@ -1058,213 +937,30 @@ void COverlayDistance::drawDistanceInfo(projXY p1, projXY p2, QPainter& p, IMap&
 }
 
 
-void COverlayDistance::calcDistance()
-{
-    distance = 0.0;
-
-    if(points.count() < 2)
-    {
-        return;
-    }
-
-    double a1,a2;
-    pt_t pt1, pt2;
-    pt1 = points.first();
-    points[0].idx = 0;
-
-    for(int i = 1; i < points.count(); i++)
-    {
-        points[i].idx = i;
-        pt2 = points[i];
-        distance += ::distance(pt1, pt2, a1, a2);
-
-        pt1 = pt2;
-    }
-
-}
-
-
-void COverlayDistance::customMenu(QMenu& menu)
-{
-    menu.addAction(QPixmap(":/icons/iconEdit16x16.png"),tr("Edit..."),this,SLOT(slotEdit()));
-    menu.addAction(QPixmap(":/icons/iconReload16x16.png"),tr("Revert"),this,SLOT(slotRevert()));
-    menu.addSeparator();
-    menu.addAction(QPixmap(":/icons/iconTrack16x16.png"),tr("Make Track"),this,SLOT(slotToTrack()));
-    menu.addAction(QPixmap(":/icons/iconRoute16x16.png"),tr("Make Route"),this,SLOT(slotToRoute()));
-    menu.addSeparator();
-    QAction * actShow = menu.addAction(tr("Show"),this,SLOT(slotShow()));
-    actShow->setCheckable(true);
-    actShow->setChecked(isVisible);
-    QAction * actPoints = menu.addAction(tr("Show Bullets"),this,SLOT(slotShowBullets()));
-    actPoints->setCheckable(true);
-    actPoints->setChecked(showBullets);
-}
-
-
-void COverlayDistance::slotShow()
+void COverlayArea::slotShow()
 {
     isVisible = !isVisible;
     emit sigChanged();
 }
 
-
-void COverlayDistance::slotShowBullets()
+void COverlayArea::slotEdit()
 {
-    showBullets = !showBullets;
-    emit sigChanged();
+    if(!overlayAreaEditWidget.isNull()) delete overlayAreaEditWidget;
+    overlayAreaEditWidget = new COverlayAreaEditWidget(theMainWindow->getCanvas(), this);
+    theMainWindow->setTempWidget(overlayAreaEditWidget, tr("Overlay"));
+}
+
+void COverlayArea::customMenu(QMenu& menu)
+{
+    menu.addAction(QPixmap(":/icons/iconEdit16x16.png"),tr("Edit..."),this,SLOT(slotEdit()));
+    menu.addSeparator();
+    QAction * actShow = menu.addAction(tr("Show"),this,SLOT(slotShow()));
+    actShow->setCheckable(true);
+    actShow->setChecked(isVisible);
 }
 
 
-void COverlayDistance::slotToTrack()
-{
-    if(points.isEmpty()) return;
-
-    double dist, d, delta = 10.0, a1 , a2;
-    projXY pt1, pt2, ptx;
-    CTrack::pt_t pt;
-    CDlgConvertToTrack::EleMode_e eleMode;
-
-    CDlgConvertToTrack dlg(0);
-    if(dlg.exec() == QDialog::Rejected)
-    {
-        return;
-    }
-
-    CTrack * track  = new CTrack(&CTrackDB::self());
-    track->setName(name);
-
-    delta   = dlg.getDelta();
-    eleMode = dlg.getEleMode();
-
-    if(delta == -1)
-    {
-
-        for(int i = 0; i < points.count(); ++i)
-        {
-            pt2 = points[i];
-            pt.lon = pt2.u * RAD_TO_DEG;
-            pt.lat = pt2.v * RAD_TO_DEG;
-            pt._lon = pt.lon;
-            pt._lat = pt.lat;
-            *track << pt;
-        }
-    }
-    else
-    {
-        if((distance / delta) > (MAX_TRACK_SIZE - points.count()))
-        {
-            delta = distance / (MAX_TRACK_SIZE - points.count());
-        }
-
-        // 1st point
-        pt1 = points.first();
-        pt.lon = pt1.u * RAD_TO_DEG;
-        pt.lat = pt1.v * RAD_TO_DEG;
-        pt._lon = pt.lon;
-        pt._lat = pt.lat;
-        *track << pt;
-
-        // all other points
-        for(int i = 1; i < points.count(); ++i)
-        {
-            pt2 = points[i];
-
-            // all points from pt1 -> pt2, with 10m steps
-            dist = ::distance(pt1, pt2, a1, a2);
-            a1 *= DEG_TO_RAD;
-
-            d = delta;
-            while(d < dist)
-            {
-                ptx = GPS_Math_Wpt_Projection(pt1, d, a1);
-                pt.lon = ptx.u * RAD_TO_DEG;
-                pt.lat = ptx.v * RAD_TO_DEG;
-                pt._lon = pt.lon;
-                pt._lat = pt.lat;
-
-                *track << pt;
-
-                d += delta;
-            }
-
-            // and finally the next point
-            pt.lon = pt2.u * RAD_TO_DEG;
-            pt.lat = pt2.v * RAD_TO_DEG;
-            pt._lon = pt.lon;
-            pt._lat = pt.lat;
-            *track << pt;
-
-            pt1 = pt2;
-        }
-    }
-
-    if(eleMode == CDlgConvertToTrack::eLocal)
-    {
-        track->replaceElevationByLocal(true);
-    }
-    else if(eleMode == CDlgConvertToTrack::eRemote)
-    {
-        track->replaceElevationByRemote(true);
-    }
-
-    CTrackDB::self().addTrack(track, false);
-    CMegaMenu::self().switchByKeyWord("Tracks");
-
-    isVisible = false;
-    emit sigChanged();
-
-}
-
-
-void COverlayDistance::slotToRoute()
-{
-    if(points.isEmpty()) return;
-
-    CRoute * route  = new CRoute(&CRouteDB::self());
-
-    route->setName(name);
-
-    projXY pt;
-
-    for(int i = 0; i < points.count(); ++i)
-    {
-        pt = points[i];
-        pt.u = pt.u * RAD_TO_DEG;
-        pt.v = pt.v * RAD_TO_DEG;
-        route->addPosition(pt.u, pt.v, QString("p%1").arg(i + 1));
-    }
-
-    CRouteDB::self().addRoute(route, false);
-    CMegaMenu::self().switchByKeyWord("Routes");
-
-    isVisible = false;
-    emit sigChanged();
-}
-
-
-void COverlayDistance::slotEdit()
-{
-    if(!overlayDistanceEditWidget.isNull()) delete overlayDistanceEditWidget;
-    overlayDistanceEditWidget = new COverlayDistanceEditWidget(theMainWindow->getCanvas(), this);
-    theMainWindow->setTempWidget(overlayDistanceEditWidget, tr("Overlay"));
-}
-
-
-void COverlayDistance::slotRevert()
-{
-    QList<pt_t> rev;
-    QList<pt_t> pts = points;
-
-    while(pts.size())
-    {
-        rev << pts.takeLast();
-    }
-
-    COverlayDB::self().addDistance(name + "_rev", comment, speed, rev);
-}
-
-
-void COverlayDistance::makeVisible()
+void COverlayArea::makeVisible()
 {
     double north =  -90.0 * DEG_TO_RAD;
     double south =  +90.0 * DEG_TO_RAD;
@@ -1286,7 +982,7 @@ void COverlayDistance::makeVisible()
 }
 
 
-void COverlayDistance::looseFocus()
+void COverlayArea::looseFocus()
 {
     if(thePoint && doMove)
     {
@@ -1311,12 +1007,11 @@ void COverlayDistance::looseFocus()
     doFuncWheel     = false;
 
     subline.clear();
-    calcDistance();
-    //emit sigChanged();
+    calc();
 }
 
 
-QRectF COverlayDistance::getBoundingRectF()
+QRectF COverlayArea::getBoundingRectF()
 {
     double north =  -90.0 * DEG_TO_RAD;
     double south =  +90.0 * DEG_TO_RAD;
@@ -1337,7 +1032,7 @@ QRectF COverlayDistance::getBoundingRectF()
 }
 
 
-void COverlayDistance::delPointsByIdx(const QList<int>& idx)
+void COverlayArea::delPointsByIdx(const QList<int>& idx)
 {
     int i;
 
@@ -1366,6 +1061,14 @@ void COverlayDistance::delPointsByIdx(const QList<int>& idx)
 
     selectedPoints.clear();
 
-    calcDistance();
+    calc();
     emit sigChanged();
+}
+
+void COverlayArea::calc()
+{
+    for(int i = 1; i < points.count(); i++)
+    {
+        points[i].idx = i;
+    }
 }

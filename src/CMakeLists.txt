@@ -106,6 +106,7 @@ set(qlandkarte_SRCS
     CMouseAddText.cpp
     CMouseAddTextBox.cpp
     CMouseAddDistance.cpp
+    CMouseAddArea.cpp
     CMouseOverlay.cpp
     CMouseColorPicker.cpp
     CMouseSelWpt.cpp
@@ -218,8 +219,10 @@ set(qlandkarte_SRCS
     COverlayToolWidget.cpp
     COverlayText.cpp
     COverlayTextBox.cpp
-    COverlayDistance.cpp
+    COverlayDistance.cpp    
     COverlayDistanceEditWidget.cpp
+    COverlayArea.cpp
+    COverlayAreaEditWidget.cpp
     IUnit.cpp
     CUnitMetric.cpp
     CUnitImperial.cpp
@@ -283,6 +286,7 @@ set(qlandkarte_HDRS
     CMouseAddText.h
     CMouseAddTextBox.h
     CMouseAddDistance.h
+    CMouseAddArea.h
     CMouseOverlay.h
     CMouseColorPicker.h
     CMouseSelWpt.h
@@ -392,8 +396,10 @@ set(qlandkarte_HDRS
     COverlayToolWidget.h
     COverlayText.h
     COverlayTextBox.h
-    COverlayDistance.h
+    COverlayDistance.h    
     COverlayDistanceEditWidget.h
+    COverlayArea.h
+    COverlayAreaEditWidget.h
     IUnit.h
     CUnitMetric.h
     CUnitImperial.h
@@ -483,6 +489,7 @@ SET(qlandkarte_UIS
     ILiveLogToolWidget.ui
     IOverlayToolWidget.ui
     IOverlayDistanceEditWidget.ui
+    IOverlayAreaEditWidget.ui
     IGarminExport.ui
     IHelpDlg.ui
     IDiaryEdit.ui

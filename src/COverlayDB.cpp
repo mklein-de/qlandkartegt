@@ -22,6 +22,8 @@
 #include "COverlayTextBox.h"
 #include "COverlayDistance.h"
 #include "COverlayDistanceEditWidget.h"
+#include "COverlayAreaEditWidget.h"
+#include "COverlayArea.h"
 #include "CMainWindow.h"
 #include "CCanvas.h"
 #include "CQlb.h"
@@ -195,6 +197,45 @@ void COverlayDB::loadGPX(CGpx& gpx)
 
                     addDistance(name, comment, speed, points, "", true);
                 }
+                else if(type == (gpx.version() == CGpx::qlVer_1_0 ? "area" : (CGpx::ql_ns + ":" + "area")))
+                {
+                    QString name;
+                    QString comment;
+                    QString color;
+                    QList<COverlayArea::pt_t> points;
+                    QDomNodeList list;
+                    QDomNode node;
+
+                    list = element.elementsByTagName("name");
+                    if(list.count() == 1)
+                    {
+                        node = list.item(0);
+                        name = node.toElement().text();
+                    }
+                    list = element.elementsByTagName("comment");
+                    if(list.count() == 1)
+                    {
+                        node = list.item(0);
+                        comment = node.toElement().text();
+                    }
+                    list = element.elementsByTagName("color");
+                    if(list.count() == 1)
+                    {
+                        node = list.item(0);
+                        color = node.toElement().text();
+                    }
+                    list = element.elementsByTagName("point");
+                    for(int i = 0; i < list.size(); ++i)
+                    {
+                        COverlayArea::pt_t pt;
+                        pt.u    = list.item(i).toElement().attribute("lon", 0).toDouble() * DEG_TO_RAD;
+                        pt.v    = list.item(i).toElement().attribute("lat", 0).toDouble() * DEG_TO_RAD;
+                        pt.idx  = i;
+                        points << pt;
+                    }
+
+                    addArea(name, comment, color, points, "", true);
+                }
 
             }
             break;
@@ -288,6 +329,37 @@ void COverlayDB::saveGPX(CGpx& gpx, const QStringList& keys)
             QDomElement speed = gpx.createElement("ql:speed");
             elem.appendChild(speed);
             speed.appendChild(gpx.createTextNode(QString("%1").arg(ovl->speed)));
+
+            projXY pt;
+            foreach(pt, ovl->points)
+            {
+                QDomElement point = gpx.createElement("ql:point");
+                str.sprintf("%1.8f",pt.u * RAD_TO_DEG);
+                point.setAttribute("lon",str);
+                str.sprintf("%1.8f",pt.v * RAD_TO_DEG);
+                point.setAttribute("lat", str);
+                elem.appendChild(point);
+            }
+        }
+        else if(overlay->type == "Area")
+        {
+            COverlayArea * ovl = qobject_cast<COverlayArea*>(overlay);
+            if(ovl == 0) continue;
+
+            QDomElement elem  = gpx.createElement("ql:area");
+            _overlay_.appendChild(elem);
+
+            QDomElement name  = gpx.createElement("ql:name");
+            elem.appendChild(name);
+            name.appendChild(gpx.createTextNode(ovl->name));
+
+            QDomElement comment = gpx.createElement("ql:comment");
+            elem.appendChild(comment);
+            comment.appendChild(gpx.createTextNode(ovl->comment));
+
+            QDomElement color = gpx.createElement("ql:color");
+            elem.appendChild(color);
+            color.appendChild(gpx.createTextNode(ovl->color.name()));
 
             projXY pt;
             foreach(pt, ovl->points)
@@ -457,6 +529,33 @@ COverlayDistance * COverlayDB::addDistance(const QString& name, const QString& c
     return qobject_cast<COverlayDistance*>(overlay);
 }
 
+COverlayArea * COverlayDB::addArea(const QString& name, const QString& comment, const QColor& color, const QList<COverlayArea::pt_t>& pts, const QString& key, bool silent)
+{
+    IOverlay * overlay = new COverlayArea(name, comment, color, pts, this);
+
+    if(addOverlaysAsDuplicate)
+    {
+        if(key.isEmpty())
+        {
+            overlay->setKey(key + QString("%1").arg(QDateTime::currentDateTime().toTime_t()));
+        }
+    }
+    else
+    {
+        overlay->setKey(key);
+    }
+
+    overlays[overlay->getKey()] = overlay;
+
+    connect(overlay, SIGNAL(sigChanged()),this, SLOT(slotModified()));
+
+    if(!silent)
+    {
+        emitSigChanged();
+    }
+
+    return qobject_cast<COverlayArea*>(overlay);
+}
 
 void COverlayDB::customMenu(const QString& key, QMenu& menu)
 {
@@ -478,6 +577,8 @@ void COverlayDB::copyToClipboard(bool deleteSelection)
     CQlb qlb(this);
 
     COverlayDistance * dist = qobject_cast<COverlayDistance*>(ovl);
+    COverlayArea * area     = qobject_cast<COverlayArea*>(ovl);
+
     if(dist && dist->selectedPoints.size() > 1)
     {
         int idx;
@@ -492,7 +593,21 @@ void COverlayDB::copyToClipboard(bool deleteSelection)
         COverlayDistance dist2("", "", dist->speed, pts, this);
 
         qlb << dist2;
+    }
+    else if(area && dist->selectedPoints.size() > 1)
+    {
+        int idx;
+        const QList<int>& selectedPoints = area->selectedPoints;
+        QList<COverlayArea::pt_t> pts;
 
+        foreach(idx,selectedPoints)
+        {
+            pts << area->points[idx];
+        }
+
+        COverlayArea area2("", "", Qt::blue, pts, this);
+
+        qlb << area2;
     }
     else
     {
@@ -548,9 +663,16 @@ void COverlayDB::highlightOverlay(const QString& key)
             overlayDistanceEditWidget = new COverlayDistanceEditWidget(theMainWindow->getCanvas(), qobject_cast<COverlayDistance*>(ovl));
             theMainWindow->setTempWidget(overlayDistanceEditWidget, tr("Overlay"));
         }
+        else if((ovl->type == "Area") && overlayAreaEditWidget)
+        {
+            delete overlayAreaEditWidget;
+            overlayAreaEditWidget = new COverlayAreaEditWidget(theMainWindow->getCanvas(), qobject_cast<COverlayArea*>(ovl));
+            theMainWindow->setTempWidget(overlayAreaEditWidget, tr("Area"));
+        }
         else if(overlayDistanceEditWidget)
         {
             delete overlayDistanceEditWidget;
+            delete overlayAreaEditWidget;
         }
 
         ovl->setHighlight(true);
@@ -618,6 +740,14 @@ QList<COverlayDB::keys_t> COverlayDB::keys()
             k2.name     = dist->name;
             k2.comment  = dist->comment.left(32);
             k2.icon     = dist->getIcon();
+        }
+        else if(ovl->type == "Area")
+        {
+            COverlayArea * area = qobject_cast<COverlayArea*>(ovl);
+            k2.key      = k1;
+            k2.name     = area->name;
+            k2.comment  = area->comment.left(32);
+            k2.icon     = area->getIcon();
         }
 
         k << k2;

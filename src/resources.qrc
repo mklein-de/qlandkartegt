@@ -566,5 +566,8 @@
         <file>cursors/cursorMoveVert.png</file>
         <file>icons/iconMultipleImages16x16.png</file>
         <file>icons/iconLink8x8.png</file>
+        <file>icons/backArea128x128.png</file>
+        <file>icons/iconArea16x16.png</file>
+        <file>cursors/cursorArea.png</file>
     </qresource>
 </RCC>

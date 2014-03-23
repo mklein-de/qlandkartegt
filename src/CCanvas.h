@@ -36,6 +36,7 @@ class CMouseRefPoint;
 class CMouseAddText;
 class CMouseAddTextBox;
 class CMouseAddDistance;
+class CMouseAddArea;
 class CMouseOverlay;
 class CMouseColorPicker;
 class CMouseSelWpt;
@@ -90,6 +91,7 @@ class CCanvas : public QWidget
             , eMouseAddText      ///< use mouse to define a new text field on the map
             , eMouseAddTextBox   ///< use mouse to define a new text field with anchor on the map
             , eMouseAddDistance  ///< use mouse to define a new distance polygon
+            , eMouseAddArea      ///< use mouse to define a new area polygon
             , eMouseOverlay      ///< use mouse to change overlays
             , eMouseColorPicker  ///< use mouse to pick a color from map
             , eMouseSelWpt       ///< use mouse to select waypoints in a radius
@@ -192,6 +194,7 @@ class CCanvas : public QWidget
         CMouseAddText * mouseAddText;
         CMouseAddTextBox * mouseAddTextBox;
         CMouseAddDistance * mouseAddDistance;
+        CMouseAddArea * mouseAddArea;
         CMouseOverlay * mouseOverlay;
         CMouseColorPicker * mouseColorPicker;
         CMouseSelWpt * mouseSelWpt;

@@ -17,9 +17,11 @@
 **********************************************************************************************/
 #include "COverlayToolWidget.h"
 #include "COverlayDB.h"
-#include "COverlayDistanceEditWidget.h"
 #include "IOverlay.h"
 #include "CMapDB.h"
+
+#include "COverlayAreaEditWidget.h"
+#include "COverlayDistanceEditWidget.h"
 
 #include <QtGui>
 
@@ -117,6 +119,10 @@ void COverlayToolWidget::slotSelectionChanged()
         if(overlayDistanceEditWidget)
         {
             delete overlayDistanceEditWidget;
+        }
+        if(overlayAreaEditWidget)
+        {
+            delete overlayAreaEditWidget;
         }
     }
 }
