@@ -667,6 +667,7 @@ include_directories(
   ${EXIF_INCLUDE_DIRS}
   ${DMTX_INCLUDE_DIRS}
   ${GPSD_INCLUDE_DIRS}
+  ${QEXTSERIALPORT_INCLUDE_DIRS}
 )
 
 set(qlandkarte_ALLINP

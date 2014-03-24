@@ -148,54 +148,7 @@ void ManageSerialPort::setBaudRate(const BaudRateType baudRate)
 
 QString ManageSerialPort::getBaudRate()
 {
-	switch (extSerialPort.baudRate())
-	{
-		case BAUD50:
-			return QString("50");
-		case BAUD75:
-			return QString("75");
-		case BAUD110:
-			return QString("110");
-		case BAUD134:
-			return QString("134");
-		case BAUD150:
-			return QString("150");
-		case BAUD200:
-			return QString("200");
-		case BAUD300:
-			return QString("300");
-		case BAUD600:
-			return QString("600");
-		case BAUD1200:
-			return QString("1200");
-		case BAUD1800:
-			return QString("1800");
-		case BAUD2400:
-			return QString("2400");
-		case BAUD4800:
-			return QString("4800");
-		case BAUD9600:
-			return QString("9600");
-		case BAUD14400:
-			return QString("14400");
-		case BAUD19200:
-			return QString("19200");
-		case BAUD38400:
-			return QString("38400");
-		case BAUD56000:
-			return QString("56000");
-		case BAUD57600:
-			return QString("57600");
-		case BAUD76800:
-			return QString("76800");
-		case BAUD115200:
-			return QString("115200");
-		case BAUD128000:
-			return QString("128000");
-		case BAUD256000:
-			return QString("256000");
-	}
-	return 0;
+	return QString::number(extSerialPort.baudRate());
 }
 
 
@@ -236,8 +189,10 @@ QString ManageSerialPort::getParity()
 			return QString(tr("Odd"));
 		case PAR_EVEN:
 			return QString(tr("Even"));
+#ifdef Q_OS_WIN
 		case PAR_MARK:
 			return QString(tr("Mark"));
+#endif
 		case PAR_SPACE:
 			return QString(tr("Space"));
 		}
@@ -256,8 +211,10 @@ QString ManageSerialPort::getStopBit()
 	{
 		case STOP_1:
 			return QString("1");
+#ifdef Q_OS_WIN
 		case STOP_1_5:
 			return QString("1.5");
+#endif
 		case STOP_2:
 			return QString("2");
 		}
@@ -287,7 +244,7 @@ QString ManageSerialPort::getFlowControl()
 
 void ManageSerialPort::setTimeout(ulong seconds, ulong milliseconds)
 {
-	extSerialPort.setTimeout(seconds,milliseconds);
+	extSerialPort.setTimeout(seconds * 1000 + milliseconds);
 }
 
 /*

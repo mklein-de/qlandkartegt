@@ -13,7 +13,7 @@
 #include <QQueue>
 #include <QMetaType>
 #include <QMutex>
-#include "qextserialport.h"
+#include <qextserialport.h>
 
 Q_DECLARE_METATYPE(BaudRateType);
 Q_DECLARE_METATYPE(DataBitsType);

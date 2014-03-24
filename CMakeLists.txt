@@ -63,6 +63,14 @@ configure_file(config.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config.h)
 
 option(WITH_PROFILING "BUILD WITH PROFILING" OFF)
 
+find_package(QextSerialPort)
+
+if(NOT QEXTSERIALPORT_FOUND)
+    add_subdirectory(3rdparty/SerialPort/qextserialport)
+    set(QEXTSERIALPORT_LIBRARIES qextserialport)
+    set(QEXTSERIALPORT_INCLUDE_DIRS ${CMAKE_SOURCE_DIR}/3rdparty/SerialPort/qextserialport)
+endif()
+
 add_subdirectory(3rdparty/SerialPort)
 add_subdirectory(3rdparty/QMKToolBox)
 add_subdirectory(3rdparty/QZip)
