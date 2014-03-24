@@ -115,6 +115,7 @@ QDataStream& operator >>(QDataStream& s, COverlayDB& db)
                     QString name;
                     QString comment;
                     QString parentWpt;
+                    qint32 style;
                     int size, idx = 0;
                     COverlayArea::pt_t pt;
                     QList<COverlayArea::pt_t> points;
@@ -125,8 +126,8 @@ QDataStream& operator >>(QDataStream& s, COverlayDB& db)
                         pt.idx = idx++;
                         points << pt;
                     }
-                    s1 >> color >> key >> parentWpt;
-                    ovl = db.addArea(name, comment, color, points, key);
+                    s1 >> color >> key >> parentWpt >> style;
+                    ovl = db.addArea(name, comment, color, (Qt::BrushStyle)style, points, key);
                     ovl->setParentWpt(parentWpt);
                 }
                 break;

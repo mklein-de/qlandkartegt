@@ -26,6 +26,17 @@
 
 #include <QtGui>
 
+Qt::BrushStyle styles[7] =
+{
+      Qt::NoBrush
+    , Qt::HorPattern
+    , Qt::VerPattern
+    , Qt::CrossPattern
+    , Qt::BDiagPattern
+    , Qt::FDiagPattern
+    , Qt::DiagCrossPattern
+};
+
 COverlayAreaEditWidget::COverlayAreaEditWidget(QWidget *parent, COverlayArea *ovl)
     : QWidget(parent)
     , ovl(ovl)
@@ -38,9 +49,24 @@ COverlayAreaEditWidget::COverlayAreaEditWidget(QWidget *parent, COverlayArea *ov
     textComment->setText(ovl->comment);
     color = ovl->color.name();
 
-    QPixmap icon(64,32);
+    QPixmap icon(64,24);
     icon.fill(color);
     labelColor->setPixmap(icon);
+
+    for(int i = 0; i < 7; i++)
+    {
+        QPixmap icon(64,24);
+        icon.fill(Qt::white);
+        QPainter p(&icon);
+        p.setPen(Qt::black);
+        p.setBrush(styles[i]);
+        p.drawRect(icon.rect());
+
+        comboStyle->addItem(icon,"",styles[i]);
+    }
+
+    comboStyle->setCurrentIndex(comboStyle->findData(ovl->style));
+
 
     connect(toolColor, SIGNAL(clicked()), this, SLOT(slotChangeColor()));
     connect(pushApply, SIGNAL(clicked()), this, SLOT(slotApply()));
@@ -80,6 +106,7 @@ void COverlayAreaEditWidget::slotApply()
     ovl->name = lineName->text();
     ovl->comment = textComment->toPlainText();
     ovl->color.setNamedColor(color);
+    ovl->style = (Qt::BrushStyle)comboStyle->itemData(comboStyle->currentIndex()).toInt();
 
     emit ovl->sigChanged();
 }

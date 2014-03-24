@@ -34,10 +34,11 @@ static bool operator==(const projXY& p1, const projXY& p2)
 
 QPointer<COverlayAreaEditWidget> overlayAreaEditWidget;
 
-COverlayArea::COverlayArea(const QString &name, const QString &comment, const QColor& color, const QList<pt_t> &pts, QObject *parent)
+COverlayArea::COverlayArea(const QString &name, const QString &comment, const QColor& color, const Qt::BrushStyle style, const QList<pt_t> &pts, QObject *parent)
 : IOverlay(parent, "Area", ":/icons/iconArea16x16.png")
 , points(pts)
 , color(color)
+, style(style)
 , thePoint(0)
 , thePointBefor(0)
 , thePointAfter(0)
@@ -87,6 +88,7 @@ void COverlayArea::save(QDataStream& s)
     s << color;
     s << getKey();
     s << getParentWpt();
+    s << qint32(style);
 }
 
 
@@ -95,6 +97,8 @@ void COverlayArea::load(QDataStream& s)
     pt_t pt;
     int size;
     QString key;
+    QString parentWpt;
+    qint32 tmp32;
 
     points.clear();
 
@@ -107,6 +111,10 @@ void COverlayArea::load(QDataStream& s)
     }
     s >> color;
     s >> key;
+    s >> parentWpt;
+    s >> tmp32;
+
+    style = (Qt::BrushStyle)tmp32;
 
     setKey(key);
 
@@ -234,7 +242,7 @@ void COverlayArea::draw(QPainter& p, const QRect& viewport)
     p.drawPolygon(polyline);
 
     p.setPen(pen2);
-    p.setBrush(QBrush(color, Qt::BDiagPattern));
+    p.setBrush(QBrush(color, style));
     p.drawPolygon(polyline);
 
     // overlay _the_ point with a red bullet

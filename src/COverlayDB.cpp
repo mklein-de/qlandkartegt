@@ -234,7 +234,7 @@ void COverlayDB::loadGPX(CGpx& gpx)
                         points << pt;
                     }
 
-                    addArea(name, comment, color, points, "", true);
+                    addArea(name, comment, color, Qt::BDiagPattern, points, "", true);
                 }
 
             }
@@ -529,9 +529,9 @@ COverlayDistance * COverlayDB::addDistance(const QString& name, const QString& c
     return qobject_cast<COverlayDistance*>(overlay);
 }
 
-COverlayArea * COverlayDB::addArea(const QString& name, const QString& comment, const QColor& color, const QList<COverlayArea::pt_t>& pts, const QString& key, bool silent)
+COverlayArea * COverlayDB::addArea(const QString& name, const QString& comment, const QColor& color, Qt::BrushStyle style, const QList<COverlayArea::pt_t>& pts, const QString& key, bool silent)
 {
-    IOverlay * overlay = new COverlayArea(name, comment, color, pts, this);
+    IOverlay * overlay = new COverlayArea(name, comment, color, style, pts, this);
 
     if(addOverlaysAsDuplicate)
     {
@@ -605,7 +605,7 @@ void COverlayDB::copyToClipboard(bool deleteSelection)
             pts << area->points[idx];
         }
 
-        COverlayArea area2("", "", Qt::blue, pts, this);
+        COverlayArea area2("", "", Qt::blue, Qt::BDiagPattern, pts, this);
 
         qlb << area2;
     }

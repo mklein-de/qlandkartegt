@@ -36,7 +36,7 @@ public:
         int idx;
     };
 
-    COverlayArea(const QString& name, const QString& comment, const QColor &color, const QList<pt_t>& pts, QObject * parent);
+    COverlayArea(const QString& name, const QString& comment, const QColor &color, const Qt::BrushStyle style, const QList<pt_t>& pts, QObject * parent);
 
     /// draw what ever you want
     void draw(QPainter& p, const QRect& viewport);
@@ -85,6 +85,7 @@ private:
     QList<int> selectedPoints;
 
     QColor color;
+    Qt::BrushStyle style;
 
     /// pointer to point of polyline if cursor is closer than 30px
     pt_t * thePoint;
@@ -121,8 +122,7 @@ private:
     /// the subline of the leadline between the last point and the cursor
     QPolygon subline;
 
-    bool isEdit;
-
+    bool isEdit;    
 };
 
 #endif // COVERLAYAREA_H
