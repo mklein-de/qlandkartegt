@@ -66,6 +66,9 @@ public:
     void save(QDataStream& s);
     void load(QDataStream& s);
 
+    void setWidth(quint32 w){width = w;}
+    void setOpacity(quint8 o){opacity = o;}
+
 signals:
     void sigSelectionChanged();
 
@@ -86,6 +89,8 @@ private:
 
     QColor color;
     Qt::BrushStyle style;
+    quint32 width;
+    quint8 opacity;
 
     /// pointer to point of polyline if cursor is closer than 30px
     pt_t * thePoint;

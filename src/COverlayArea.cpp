@@ -39,6 +39,8 @@ COverlayArea::COverlayArea(const QString &name, const QString &comment, const QC
 , points(pts)
 , color(color)
 , style(style)
+, width(5)
+, opacity(50)
 , thePoint(0)
 , thePointBefor(0)
 , thePointAfter(0)
@@ -89,6 +91,8 @@ void COverlayArea::save(QDataStream& s)
     s << getKey();
     s << getParentWpt();
     s << qint32(style);
+    s << width;
+    s << opacity;
 }
 
 
@@ -113,6 +117,8 @@ void COverlayArea::load(QDataStream& s)
     s >> key;
     s >> parentWpt;
     s >> tmp32;
+    s >> width;
+    s >> opacity;
 
     style = (Qt::BrushStyle)tmp32;
 
@@ -218,21 +224,25 @@ void COverlayArea::draw(QPainter& p, const QRect& viewport)
 
     if(highlight)
     {
-        pen1 = QPen(Qt::white,7);
+        color.setAlpha(opacity);
+
+        pen1 = QPen(QColor(255,255,255,opacity),width + 2);
         pen1.setCapStyle(Qt::RoundCap);
         pen1.setJoinStyle(Qt::RoundJoin);
 
-        pen2 = QPen(color,5);
+        pen2 = QPen(color,width);
         pen2.setCapStyle(Qt::RoundCap);
         pen2.setJoinStyle(Qt::RoundJoin);
     }
     else
     {
-        pen1 = QPen(Qt::white,5);
+        color.setAlpha(opacity);
+
+        pen1 = QPen(QColor(255,255,255,opacity),width);
         pen1.setCapStyle(Qt::RoundCap);
         pen1.setJoinStyle(Qt::RoundJoin);
 
-        pen2 = QPen(color,3);
+        pen2 = QPen(color,width - 2);
         pen2.setCapStyle(Qt::RoundCap);
         pen2.setJoinStyle(Qt::RoundJoin);
     }

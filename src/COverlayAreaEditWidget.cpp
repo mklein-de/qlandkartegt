@@ -26,7 +26,10 @@
 
 #include <QtGui>
 
-Qt::BrushStyle styles[7] =
+#define N_STYLES        8
+#define N_WIDTHS        4
+
+Qt::BrushStyle styles[N_STYLES] =
 {
       Qt::NoBrush
     , Qt::HorPattern
@@ -35,7 +38,25 @@ Qt::BrushStyle styles[7] =
     , Qt::BDiagPattern
     , Qt::FDiagPattern
     , Qt::DiagCrossPattern
+    , Qt::SolidPattern
 };
+
+
+struct width_t
+{
+    int width;
+    QString string;
+};
+
+width_t widths[N_WIDTHS] =
+{
+     {3, QObject::tr("thin")}
+    ,{5, QObject::tr("normal")}
+    ,{7, QObject::tr("wide")}
+    ,{13, QObject::tr("strong")}
+};
+
+
 
 COverlayAreaEditWidget::COverlayAreaEditWidget(QWidget *parent, COverlayArea *ovl)
     : QWidget(parent)
@@ -53,7 +74,7 @@ COverlayAreaEditWidget::COverlayAreaEditWidget(QWidget *parent, COverlayArea *ov
     icon.fill(color);
     labelColor->setPixmap(icon);
 
-    for(int i = 0; i < 7; i++)
+    for(int i = 0; i < N_STYLES; i++)
     {
         QPixmap icon(64,24);
         icon.fill(Qt::white);
@@ -64,8 +85,16 @@ COverlayAreaEditWidget::COverlayAreaEditWidget(QWidget *parent, COverlayArea *ov
 
         comboStyle->addItem(icon,"",styles[i]);
     }
-
     comboStyle->setCurrentIndex(comboStyle->findData(ovl->style));
+
+    for(int i = 0; i < N_WIDTHS; i++)
+    {
+        comboWidth->addItem(widths[i].string, widths[i].width);
+    }
+    comboWidth->setCurrentIndex(comboWidth->findData(ovl->width));
+
+
+    checkOpacity->setChecked(ovl->opacity != 255);
 
 
     connect(toolColor, SIGNAL(clicked()), this, SLOT(slotChangeColor()));
@@ -103,10 +132,12 @@ bool COverlayAreaEditWidget::isAboutToClose()
 
 void COverlayAreaEditWidget::slotApply()
 {
-    ovl->name = lineName->text();
-    ovl->comment = textComment->toPlainText();
+    ovl->name       = lineName->text();
+    ovl->comment    = textComment->toPlainText();
     ovl->color.setNamedColor(color);
-    ovl->style = (Qt::BrushStyle)comboStyle->itemData(comboStyle->currentIndex()).toInt();
+    ovl->style      = (Qt::BrushStyle)comboStyle->itemData(comboStyle->currentIndex()).toInt();
+    ovl->width      = comboWidth->itemData(comboWidth->currentIndex()).toInt();
+    ovl->opacity    = checkOpacity->isChecked() ? 128 : 255;
 
     emit ovl->sigChanged();
 }

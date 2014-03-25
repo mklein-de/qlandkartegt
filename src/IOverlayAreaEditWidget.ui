@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1086</width>
+    <width>686</width>
     <height>439</height>
    </rect>
   </property>
@@ -40,23 +40,7 @@
              </property>
             </widget>
            </item>
-           <item>
-            <spacer name="horizontalSpacer">
-             <property name="orientation">
-              <enum>Qt::Horizontal</enum>
-             </property>
-             <property name="sizeHint" stdset="0">
-              <size>
-               <width>38</width>
-               <height>18</height>
-              </size>
-             </property>
-            </spacer>
-           </item>
           </layout>
-         </item>
-         <item row="0" column="1">
-          <widget class="QLineEdit" name="lineName"/>
          </item>
          <item row="2" column="0">
           <widget class="QLabel" name="label_4">
@@ -81,9 +65,6 @@
             <string>Name</string>
            </property>
           </widget>
-         </item>
-         <item row="1" column="1">
-          <widget class="QTextEdit" name="textComment"/>
          </item>
          <item row="3" column="0">
           <widget class="QLabel" name="label_3">
@@ -110,20 +91,37 @@
              </property>
             </widget>
            </item>
-           <item>
-            <spacer name="horizontalSpacer_2">
-             <property name="orientation">
-              <enum>Qt::Horizontal</enum>
-             </property>
-             <property name="sizeHint" stdset="0">
-              <size>
-               <width>40</width>
-               <height>20</height>
-              </size>
-             </property>
-            </spacer>
-           </item>
           </layout>
+         </item>
+         <item row="2" column="2">
+          <widget class="QLabel" name="label_5">
+           <property name="text">
+            <string>Border Width</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="3">
+          <widget class="QComboBox" name="comboWidth"/>
+         </item>
+         <item row="3" column="2">
+          <widget class="QLabel" name="label_6">
+           <property name="text">
+            <string>Opacity</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="1" colspan="3">
+          <widget class="QTextEdit" name="textComment"/>
+         </item>
+         <item row="0" column="1" colspan="3">
+          <widget class="QLineEdit" name="lineName"/>
+         </item>
+         <item row="3" column="3">
+          <widget class="QCheckBox" name="checkOpacity">
+           <property name="text">
+            <string/>
+           </property>
+          </widget>
          </item>
         </layout>
        </item>
@@ -160,6 +158,19 @@
       </property>
      </column>
     </widget>
+   </item>
+   <item>
+    <spacer name="horizontalSpacer">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>40</width>
+       <height>20</height>
+      </size>
+     </property>
+    </spacer>
    </item>
   </layout>
  </widget>

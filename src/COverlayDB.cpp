@@ -234,7 +234,7 @@ void COverlayDB::loadGPX(CGpx& gpx)
                         points << pt;
                     }
 
-                    addArea(name, comment, color, Qt::BDiagPattern, points, "", true);
+                    addArea(name, comment, color, Qt::NoBrush, points, "", true);
                 }
 
             }
@@ -605,7 +605,7 @@ void COverlayDB::copyToClipboard(bool deleteSelection)
             pts << area->points[idx];
         }
 
-        COverlayArea area2("", "", Qt::blue, Qt::BDiagPattern, pts, this);
+        COverlayArea area2("", "", Qt::blue, Qt::NoBrush, pts, this);
 
         qlb << area2;
     }

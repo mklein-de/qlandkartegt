@@ -53,7 +53,7 @@ void CMouseAddArea::mousePressEvent(QMouseEvent * e)
         pt.idx  = 0;
         QList<COverlayArea::pt_t> pts;
         pts << pt;
-        selOverlay = COverlayDB::self().addArea("", "", Qt::blue, Qt::BDiagPattern, pts);
+        selOverlay = COverlayDB::self().addArea("", "", Qt::blue, Qt::NoBrush, pts);
     }
 }
 
