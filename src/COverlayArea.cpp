@@ -222,6 +222,7 @@ void COverlayArea::draw(QPainter& p, const QRect& viewport)
         pt1 = pt2;
     }
 
+    p.save();
     if(highlight)
     {
         color.setAlpha(opacity);
@@ -255,6 +256,8 @@ void COverlayArea::draw(QPainter& p, const QRect& viewport)
     p.setPen(pen2);
     p.setBrush(QBrush(color, style));
     p.drawPolygon(polyline);
+
+    p.restore();
 
 	pt3 = getPolygonCentroid(polyline);	
 	CCanvas::drawText(getName(), p, pt3);
