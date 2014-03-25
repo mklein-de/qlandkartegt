@@ -1158,3 +1158,19 @@ const char * GPS_Timezone(double lon, double lat)
 
     return tblTimezone[tz];
 }
+
+QPoint getPolygonCentroid(const QPolygon& polygon){
+	
+    int i, len, x = 0, y = 0;
+
+	len = polygon.size();
+
+	for(i = 0; i < len; i++) {
+		x = x + polygon[i].x();
+		y = y + polygon[i].y();
+	}
+	x = x / len;
+	y = y / len;
+
+	return QPoint(x,y);
+} 

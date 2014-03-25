@@ -157,6 +157,7 @@ void COverlayArea::draw(QPainter& p, const QRect& viewport)
     QPixmap icon_BigRed(":/icons/bullet_red.png");
     projXY pt1, pt2;
     QPoint pt;
+	QPoint pt3;
 
     int i;
     int start   = 0;
@@ -245,6 +246,8 @@ void COverlayArea::draw(QPainter& p, const QRect& viewport)
     p.setBrush(QBrush(color, style));
     p.drawPolygon(polyline);
 
+	pt3 = getPolygonCentroid(polyline);	
+	CCanvas::drawText(getName(), p, pt3);
     // overlay _the_ point with a red bullet
     if(thePoint)
     {

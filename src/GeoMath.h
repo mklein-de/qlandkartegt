@@ -147,4 +147,7 @@ extern const char * GPS_Timezone(double lon, double lat);
 
 extern const char * tblTimezone[];
 
+extern QPoint getPolygonCentroid(const QPolygon& polygon);
+
 #endif                           //GEOMATH_H
+
