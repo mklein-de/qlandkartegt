@@ -63,7 +63,11 @@ configure_file(config.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config.h)
 
 option(WITH_PROFILING "BUILD WITH PROFILING" OFF)
 
+if (NOT WIN32)
 find_package(QextSerialPort)
+else (NOT WIN32)
+find_package(QextSerialPort QUIET)
+endif (NOT WIN32)
 
 if(NOT QEXTSERIALPORT_FOUND)
     add_subdirectory(3rdparty/SerialPort/qextserialport)
