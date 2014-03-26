@@ -40,7 +40,7 @@ COverlayArea::COverlayArea(const QString &name, const QString &comment, const QC
 , color(color)
 , style(style)
 , width(5)
-, opacity(50)
+, opacity(255)
 , thePoint(0)
 , thePointBefor(0)
 , thePointAfter(0)
@@ -259,8 +259,9 @@ void COverlayArea::draw(QPainter& p, const QRect& viewport)
 
     p.restore();
 
-	pt3 = getPolygonCentroid(polyline);	
+	pt3 = getPolygonCentroid(polyline);
 	CCanvas::drawText(getName(), p, pt3);
+
     // overlay _the_ point with a red bullet
     if(thePoint)
     {

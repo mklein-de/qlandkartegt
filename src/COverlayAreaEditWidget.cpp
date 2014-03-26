@@ -52,7 +52,7 @@ width_t widths[N_WIDTHS] =
 {
      {3, QObject::tr("thin")}
     ,{5, QObject::tr("normal")}
-    ,{7, QObject::tr("wide")}
+    ,{9, QObject::tr("wide")}
     ,{13, QObject::tr("strong")}
 };
 
@@ -137,7 +137,7 @@ void COverlayAreaEditWidget::slotApply()
     ovl->color.setNamedColor(color);
     ovl->style      = (Qt::BrushStyle)comboStyle->itemData(comboStyle->currentIndex()).toInt();
     ovl->width      = comboWidth->itemData(comboWidth->currentIndex()).toInt();
-    ovl->opacity    = checkOpacity->isChecked() ? 128 : 255;
+    ovl->opacity    = checkOpacity->isChecked() ? 100 : 255;
 
     emit ovl->sigChanged();
 }
