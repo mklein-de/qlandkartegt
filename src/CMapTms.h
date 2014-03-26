@@ -156,6 +156,14 @@ class CMapTms : public IMap
 
         QString name;
 
+        struct rawHeaderItem_t
+        {
+            QString name;
+            QString value;
+        };
+
+        QList<rawHeaderItem_t> rawHeaderItems;
+
         int minZoomLevel;
         int maxZoomLevel;
 

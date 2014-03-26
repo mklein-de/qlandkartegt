@@ -189,10 +189,18 @@ void CMapTms::readConfigFromFile(const QString& filename, QWidget *parent)
         {
             layers[idx].maxZoomLevel = layerSingle.firstChildElement("MaxZoomLevel").text().toInt();
         }
+    }
 
-        //        qDebug() << idx << layers[idx].strUrl << layers[idx].minZoomLevel << layers[idx].maxZoomLevel;
-
-        //        qDebug() << idx << layers[idx].script;
+    const QDomElement& rawHeader    = tms.firstChildElement("RawHeader");
+    const QDomNodeList& valueList   = rawHeader.elementsByTagName("Value");
+    N = valueList.count();
+    for(uint n = 0; n < N; ++n)
+    {
+        rawHeaderItem_t item;
+        const QDomNode& valueSingle = valueList.item(n);
+        item.name  = valueSingle.attributes().namedItem("name").nodeValue();
+        item.value = valueSingle.toElement().text();
+        rawHeaderItems << item;
     }
 
 }
@@ -598,6 +606,11 @@ void CMapTms::checkQueue()
         QNetworkRequest request;
 
         request.setUrl(req.url);
+        foreach(const rawHeaderItem_t& item, rawHeaderItems)
+        {
+            request.setRawHeader(item.name.toAscii(), item.value.toAscii());
+        }
+
         req.reply = accessManager->get(request);
 
         pendRequests[req.url.toString()] = req;
