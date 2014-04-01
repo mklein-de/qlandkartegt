@@ -29,6 +29,7 @@
 #include "CDlgCropMap.h"
 
 #include <QtGui>
+#include <QMenu>
 #include "CUndoStackView.h"
 #include "CMapUndoCommandMove.h"
 

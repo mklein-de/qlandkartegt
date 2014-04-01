@@ -122,7 +122,7 @@ void CMouseMoveWpt::draw(QPainter& p)
 
         QString str, val, unit;
         IUnit::self().meter2distance(d, val, unit);
-        str = QString("%1%2 %3\260> <%4\260").arg(val).arg(unit).arg(a1,0,'f',0).arg(a2,0,'f',0);
+        str = QString("%1%2 %3%5> <%4%5").arg(val).arg(unit).arg(a1,0,'f',0).arg(a2,0,'f',0).arg(QChar(0260));
 
         // draw line between old and new location
         p.setPen(QPen(Qt::white,3));
@@ -132,6 +132,12 @@ void CMouseMoveWpt::draw(QPainter& p)
 
         // draw waypoint icon
         QPixmap icon = selWpt->getIcon();
+#ifdef QK_QT5_PORT
+        QPainter::CompositionMode oldMode = p.compositionMode();
+        p.setCompositionMode(QPainter::CompositionMode_SourceOver);
+        p.drawPixmap(x2 - 7 , y2 - 7, icon);
+        p.setCompositionMode(oldMode);
+#else
         QPixmap back = QPixmap(icon.size());
         back.fill(Qt::white);
         back.setMask(icon.alphaChannel().createMaskFromColor(Qt::black));
@@ -145,8 +151,7 @@ void CMouseMoveWpt::draw(QPainter& p)
         p.drawPixmap(x2 - 6 , y2 - 8, back);
         p.drawPixmap(x2 - 6 , y2 - 7, back);
         p.drawPixmap(x2 - 6 , y2 - 6, back);
-
-        p.drawPixmap(x2 - 7 , y2 - 7, icon);
+#endif
 
         CCanvas::drawText(str, p, QPoint(x2,y2 - 5));
     }

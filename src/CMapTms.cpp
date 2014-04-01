@@ -31,6 +31,9 @@
 #include <QtNetwork>
 #include <QtXml>
 #include <QtScript>
+#include <QMessageBox>
+#include <QCheckBox>
+#include <QStatusBar>
 
 #include <iostream>
 
@@ -608,7 +611,7 @@ void CMapTms::checkQueue()
         request.setUrl(req.url);
         foreach(const rawHeaderItem_t& item, rawHeaderItems)
         {
-            request.setRawHeader(item.name.toAscii(), item.value.toAscii());
+            request.setRawHeader(item.name.toLatin1(), item.value.toLatin1());
         }
 
         req.reply = accessManager->get(request);

@@ -5,12 +5,12 @@
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
-    
+
     This program is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU General Public License for more details.
-    
+
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
@@ -27,23 +27,23 @@
 #endif
 
 const QString CDlgMapJNXConfig::text =  QObject::tr(""
-                                                    "<!DOCTYPE HTML PUBLIC '-//W3C//DTD HTML 4.01 Transitional//EN'  'http://www.w3.org/TR/html4/loose.dtd'>"
-                                                    "<html>"
-                                                    "   <head>"
-                                                    "       <title></title>"
-                                                    "       <META HTTP-EQUIV='CACHE-CONTROL' CONTENT='NO-CACHE'>"
-                                                    "       <meta http-equiv='Content-Type' content='text/html; charset=utf-8'>"
-                                                    "       <style type='text/css'>"
-                                                    "           p, li { white-space: pre-wrap;}"
-                                                    "           td {padding-top: 3px;}"
-                                                    "           th {background-color: darkBlue; color: white;}"
-                                                    "       </style>"
-                                                    "   </head>"
-                                                    "   <body style=' font-family: sans-serif; font-size: 9pt; font-weight:400; font-style:normal;'>"
-                                                    "       <p>${info}</p>"
-                                                    "   </body>"
-                                                    "</html>"
-                                                    "");
+"<!DOCTYPE HTML PUBLIC '-//W3C//DTD HTML 4.01 Transitional//EN'  'http://www.w3.org/TR/html4/loose.dtd'>"
+"<html>"
+"   <head>"
+"       <title></title>"
+"       <META HTTP-EQUIV='CACHE-CONTROL' CONTENT='NO-CACHE'>"
+"       <meta http-equiv='Content-Type' content='text/html; charset=utf-8'>"
+"       <style type='text/css'>"
+"           p, li { white-space: pre-wrap;}"
+"           td {padding-top: 3px;}"
+"           th {background-color: darkBlue; color: white;}"
+"       </style>"
+"   </head>"
+"   <body style=' font-family: sans-serif; font-size: 9pt; font-weight:400; font-style:normal;'>"
+"       <p>${info}</p>"
+"   </body>"
+"</html>"
+"");
 
 CDlgMapJNXConfig::CDlgMapJNXConfig(CMapJnx * map)
 : map(map)

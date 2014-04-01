@@ -5,12 +5,12 @@
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
-    
+
     This program is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU General Public License for more details.
-    
+
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
@@ -22,6 +22,8 @@
 #include "CSettings.h"
 
 #include <QtGui>
+#include <QFileDialog>
+#include <QScrollBar>
 
 #undef DEBUG_SHOW_SECT_DESC
 
@@ -469,9 +471,9 @@ void CGarminExport::addTileToMPS(tile_t& t, QDataStream& mps)
     mps << t.fid << t.pid;
     // file ID, map name, tile name
     mps << t.id;
-    mps.writeRawData(t.map.toAscii(),t.map.size() + 1);
-    mps.writeRawData(t.name.toAscii(),t.name.size() + 1);
-    mps.writeRawData(t.map.toAscii(),t.map.size() + 1);
+    mps.writeRawData(t.map.toLatin1(),t.map.size() + 1);
+    mps.writeRawData(t.name.toLatin1(),t.name.size() + 1);
+    mps.writeRawData(t.map.toLatin1(),t.map.size() + 1);
 
     QString intname = t.subfiles.keys()[0];
     // ??? wow. :-/ write the number in the internal name
@@ -583,17 +585,17 @@ void CGarminExport::slotStart()
         while(map != maps.end())
         {
             mps << quint8('F');
-            mps << quint16(5 + map->map.toAscii().size());
+            mps << quint16(5 + map->map.toLatin1().size());
             // I suspect this should really be the basic file name of the .img set:
             mps << map->fid << map->pid;
 
-            mps.writeRawData(map->map.toAscii(),map->map.toAscii().size());
+            mps.writeRawData(map->map.toLatin1(),map->map.toLatin1().size());
             mps.writeRawData("\0",1);
 
             if(!map->key.isEmpty())
             {
                 mps << (quint8)'U' << (quint16)26;
-                mps.writeRawData(map->key.toAscii(),26);
+                mps.writeRawData(map->key.toLatin1(),26);
             }
             ++map;
         }
@@ -707,8 +709,8 @@ void CGarminExport::slotStart()
                     quint16 blockidx = 0;
 
                     initFATBlock(pFAT);
-                    memcpy(pFAT->name, subfile.key().toAscii(), sizeof(pFAT->name));
-                    memcpy(pFAT->type, part.key().toAscii(), sizeof(pFAT->type));
+                    memcpy(pFAT->name, subfile.key().toLatin1(), sizeof(pFAT->name));
+                    memcpy(pFAT->type, part.key().toLatin1(), sizeof(pFAT->type));
                     pFAT->size = gar_endian(uint32_t, part->size);
                     pFAT->part = gar_endian(uint16_t, partno++ << 8);
 
@@ -718,8 +720,8 @@ void CGarminExport::slotStart()
                         {
                             gmapsupp.write(FATblock);
                             initFATBlock(pFAT);
-                            memcpy(pFAT->name, subfile.key().toAscii(), sizeof(pFAT->name));
-                            memcpy(pFAT->type, part.key().toAscii(), sizeof(pFAT->type));
+                            memcpy(pFAT->name, subfile.key().toLatin1(), sizeof(pFAT->name));
+                            memcpy(pFAT->type, part.key().toLatin1(), sizeof(pFAT->type));
                             pFAT->size  = 0;
                             pFAT->part  = gar_endian(uint16_t, partno++ << 8);
                             blockidx    = 0;
@@ -782,7 +784,7 @@ void CGarminExport::slotStart()
                 quint16 blockidx = 0;
 
                 initFATBlock(pFAT);
-                memcpy(pFAT->name, fi.baseName().toAscii(), sizeof(pFAT->name));
+                memcpy(pFAT->name, fi.baseName().toLatin1(), sizeof(pFAT->name));
                 memcpy(pFAT->type, "TYP", sizeof(pFAT->type));
                 pFAT->size = gar_endian(uint32_t, fi.size());
                 pFAT->part = gar_endian(uint16_t, partno++ << 8);
@@ -792,7 +794,7 @@ void CGarminExport::slotStart()
                     {
                         gmapsupp.write(FATblock);
                         initFATBlock(pFAT);
-                        memcpy(pFAT->name, fi.baseName().toAscii(), sizeof(pFAT->name));
+                        memcpy(pFAT->name, fi.baseName().toLatin1(), sizeof(pFAT->name));
                         memcpy(pFAT->type, "TYP", sizeof(pFAT->type));
                         pFAT->size  = 0;
                         pFAT->part  = gar_endian(uint16_t, partno++ << 8);

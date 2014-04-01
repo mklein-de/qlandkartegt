@@ -5,12 +5,12 @@
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
-    
+
     This program is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU General Public License for more details.
-    
+
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
@@ -26,6 +26,9 @@
 #include "CSettings.h"
 
 #include <QtGui>
+#include <QFileDialog>
+#include <QScrollBar>
+#include <QMessageBox>
 
 static bool tileIndexLessThan(const QPair<int, int> &i1, const QPair<int, int> &i2)
 {
@@ -105,7 +108,7 @@ CMapQMAPExport::CMapQMAPExport(const CMapSelectionRaster& mapsel, QWidget * pare
     path_map2rmap       = QCoreApplication::applicationDirPath()+QDir::separator()+"map2rmap.exe";
     path_map2rmp        = QCoreApplication::applicationDirPath()+QDir::separator()+"map2rmp.exe";
 #else
-#if defined(Q_WS_MAC)
+#if defined(Q_OS_MAC)
     // MacOS X: applications are stored in the bundle folder
     path_map2gcm        = QString("%1/Resources/map2gcm").arg(QCoreApplication::applicationDirPath().replace(QRegExp("MacOS$"), ""));
     path_map2jnx        = QString("%1/Resources/map2jnx").arg(QCoreApplication::applicationDirPath().replace(QRegExp("MacOS$"), ""));
@@ -195,8 +198,6 @@ CMapQMAPExport::CMapQMAPExport(const CMapSelectionRaster& mapsel, QWidget * pare
         labelWarnStream->show();
         groupStreaming->show();
     }
-
-
 
     QFont f = font();
     f.setFamily("Mono");
@@ -359,6 +360,7 @@ void CMapQMAPExport::slotRMAPToggled(bool checked)
     adjustSize();
 }
 
+
 void CMapQMAPExport::slotRMPToggled(bool checked)
 {
     if(checked)
@@ -384,6 +386,7 @@ void CMapQMAPExport::slotRMPToggled(bool checked)
     adjustSize();
 }
 
+
 void CMapQMAPExport::slotSelectCopyright()
 {
     copyright = QFileDialog::getOpenFileName(0, tr("Select copyright notice..."),"./", tr("text file (*.txt)"), 0, FILE_DIALOG_FLAGS);
@@ -396,6 +399,7 @@ void CMapQMAPExport::slotSelectCopyright()
     labelMagellanCopyright->setText(QFileInfo(copyright).fileName());
 
 }
+
 
 void CMapQMAPExport::slotStderr()
 {
@@ -928,7 +932,6 @@ void CMapQMAPExport::startExportCommon(QStringList& srcFiles, QDir& tarPath, con
         state5->addJob(job);
         states << state5;
     }
-
 
 }
 
@@ -1570,6 +1573,7 @@ void CMapExportStateRMAP::nextJob(QProcess& cmd)
         gui->setNextState();
     }
 }
+
 
 // --------------------------------------------------------------------------------------------
 CMapExportStateRMP::CMapExportStateRMP(const QString& app, CMapQMAPExport * parent)

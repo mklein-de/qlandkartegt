@@ -735,16 +735,29 @@ static int exportWMS(int level, double lon1, double lat1, double lon2, double la
             }
 
             QUrl url(map.url);
-            url.addQueryItem("request", "GetMap");
-            url.addQueryItem("version", version);
-            url.addQueryItem("layers", layers);
-            url.addQueryItem("styles", "");
-            url.addQueryItem("srs", srs);
-            url.addQueryItem("format", format);
-            url.addQueryItem("width", QString::number(map.blockSizeX));
+#ifdef QK_QT5_PORT
+	    QUrlQuery urlQuery;
+            urlQuery.addQueryItem("request", "GetMap");
+            urlQuery.addQueryItem("version", version);
+            urlQuery.addQueryItem("layers", layers);
+            urlQuery.addQueryItem("styles", "");
+            urlQuery.addQueryItem("srs", srs);
+            urlQuery.addQueryItem("format", format);
+            urlQuery.addQueryItem("width", QString::number(map.blockSizeX));
+            urlQuery.addQueryItem("height", QString::number(map.blockSizeY));
+            urlQuery.addQueryItem("bbox", bbox);
+	    url.setQuery(urlQuery);
+#else
+	    url.addQueryItem("request", "GetMap");
+	    url.addQueryItem("version", version);
+	    url.addQueryItem("layers", layers);
+	    url.addQueryItem("styles", "");
+	    url.addQueryItem("srs", srs);
+	    url.addQueryItem("format", format);
+	    url.addQueryItem("width", QString::number(map.blockSizeX));
             url.addQueryItem("height", QString::number(map.blockSizeY));
-            url.addQueryItem("bbox", bbox);
-
+	    url.addQueryItem("bbox", bbox);
+#endif
             QImage img;
             diskCache.restore(url.toString(),img);
 

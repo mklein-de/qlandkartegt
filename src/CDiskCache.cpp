@@ -5,12 +5,12 @@
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
-    
+
     This program is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU General Public License for more details.
-    
+
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
@@ -69,7 +69,7 @@ CDiskCache::~CDiskCache()
 void CDiskCache::store(const QString& key, QImage& img)
 {
     QCryptographicHash md5(QCryptographicHash::Md5);
-    md5.addData(key.toAscii());
+    md5.addData(key.toLatin1());
 
     QString hash        = md5.result().toHex();
     QString filename    = QString("%1.png").arg(hash);
@@ -90,7 +90,7 @@ void CDiskCache::store(const QString& key, QImage& img)
 void CDiskCache::restore(const QString& key, QImage& img)
 {
     QCryptographicHash md5(QCryptographicHash::Md5);
-    md5.addData(key.toAscii());
+    md5.addData(key.toLatin1());
 
     QString hash = md5.result().toHex();
 
@@ -117,7 +117,7 @@ void CDiskCache::restore(const QString& key, QImage& img)
 bool CDiskCache::contains(const QString& key)
 {
     QCryptographicHash md5(QCryptographicHash::Md5);
-    md5.addData(key.toAscii());
+    md5.addData(key.toLatin1());
 
     QString hash = md5.result().toHex();
     return table.contains(hash) || cache.contains(hash);

@@ -25,13 +25,15 @@
 #include "CCanvas.h"
 
 #include <QtGui>
+#include <QMenu>
+#include <QColorDialog>
 
 #define N_STYLES        8
 #define N_WIDTHS        4
 
 Qt::BrushStyle styles[N_STYLES] =
 {
-      Qt::NoBrush
+    Qt::NoBrush
     , Qt::HorPattern
     , Qt::VerPattern
     , Qt::CrossPattern
@@ -41,7 +43,6 @@ Qt::BrushStyle styles[N_STYLES] =
     , Qt::SolidPattern
 };
 
-
 struct width_t
 {
     int width;
@@ -50,17 +51,15 @@ struct width_t
 
 width_t widths[N_WIDTHS] =
 {
-     {3, QObject::tr("thin")}
+    {3, QObject::tr("thin")}
     ,{5, QObject::tr("normal")}
     ,{9, QObject::tr("wide")}
     ,{13, QObject::tr("strong")}
 };
 
-
-
 COverlayAreaEditWidget::COverlayAreaEditWidget(QWidget *parent, COverlayArea *ovl)
-    : QWidget(parent)
-    , ovl(ovl)
+: QWidget(parent)
+, ovl(ovl)
 {
     ovl->isEdit = true;
 
@@ -83,9 +82,9 @@ COverlayAreaEditWidget::COverlayAreaEditWidget(QWidget *parent, COverlayArea *ov
         p.setBrush(styles[i]);
         p.drawRect(icon.rect());
 
-        comboStyle->addItem(icon,"",styles[i]);
+        comboStyle->addItem(icon,"",(int)styles[i]);
     }
-    comboStyle->setCurrentIndex(comboStyle->findData(ovl->style));
+    comboStyle->setCurrentIndex(comboStyle->findData((int)ovl->style));
 
     for(int i = 0; i < N_WIDTHS; i++)
     {
@@ -93,9 +92,7 @@ COverlayAreaEditWidget::COverlayAreaEditWidget(QWidget *parent, COverlayArea *ov
     }
     comboWidth->setCurrentIndex(comboWidth->findData(ovl->width));
 
-
     checkOpacity->setChecked(ovl->opacity != 255);
-
 
     connect(toolColor, SIGNAL(clicked()), this, SLOT(slotChangeColor()));
     connect(pushApply, SIGNAL(clicked()), this, SLOT(slotApply()));
@@ -116,6 +113,7 @@ COverlayAreaEditWidget::COverlayAreaEditWidget(QWidget *parent, COverlayArea *ov
     slotSelectionChanged();
 }
 
+
 COverlayAreaEditWidget::~COverlayAreaEditWidget()
 {
     if(ovl)
@@ -123,6 +121,7 @@ COverlayAreaEditWidget::~COverlayAreaEditWidget()
         ovl->isEdit = false;
     }
 }
+
 
 bool COverlayAreaEditWidget::isAboutToClose()
 {
@@ -167,7 +166,11 @@ void COverlayAreaEditWidget::slotChanged()
     }
 
     treeWidget->addTopLevelItems(items);
+#ifdef QK_QT5_PORT
+    treeWidget->header()->setSectionResizeMode(eNo,QHeaderView::ResizeToContents);
+#else
     treeWidget->header()->setResizeMode(eNo,QHeaderView::ResizeToContents);
+#endif
 }
 
 
@@ -239,12 +242,14 @@ void COverlayAreaEditWidget::slotDelete()
     ovl->delPointsByIdx(idx);
 }
 
+
 void COverlayAreaEditWidget::slotChangeColor()
 {
     QColorDialog dlg(color);
     dlg.open(this, SLOT(slotChangeColor(QColor)));
     dlg.exec();
 }
+
 
 void COverlayAreaEditWidget::slotChangeColor(const QColor& c)
 {
@@ -254,4 +259,3 @@ void COverlayAreaEditWidget::slotChangeColor(const QColor& c)
     icon.fill(color);
     labelColor->setPixmap(icon);
 }
-

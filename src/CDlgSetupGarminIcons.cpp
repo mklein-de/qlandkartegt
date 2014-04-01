@@ -5,12 +5,12 @@
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
-    
+
     This program is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU General Public License for more details.
-    
+
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
@@ -30,6 +30,8 @@
 #include <garmin/IDevice.h>
 
 #include <QtGui>
+#include <QMessageBox>
+#include <QFileDialog>
 
 #include <limits>
 #include <math.h>
@@ -52,7 +54,11 @@ CDlgSetupGarminIcons::~CDlgSetupGarminIcons()
 }
 
 
+#ifdef QK_QT5_PORT
+int CDlgSetupGarminIcons::exec()
+#else
 void CDlgSetupGarminIcons::exec()
+#endif
 {
     QPushButton * but;
     QPixmap icon;
@@ -86,16 +92,27 @@ void CDlgSetupGarminIcons::exec()
 
     }
 
+#ifdef QK_QT5_PORT
+    listCustomIcons->header()->setSectionResizeMode(0,QHeaderView::Interactive);
+    listCustomIcons->header()->setSectionResizeMode(1,QHeaderView::Interactive);
+    listCustomIcons->header()->setSectionResizeMode(2,QHeaderView::Interactive);
+    listCustomIcons->header()->setSectionResizeMode(3,QHeaderView::Interactive);
+#else
     listCustomIcons->header()->setResizeMode(0,QHeaderView::Interactive);
     listCustomIcons->header()->setResizeMode(1,QHeaderView::Interactive);
     listCustomIcons->header()->setResizeMode(2,QHeaderView::Interactive);
     listCustomIcons->header()->setResizeMode(3,QHeaderView::Interactive);
+#endif
     listCustomIcons->resizeColumnToContents(0);
     listCustomIcons->resizeColumnToContents(1);
     listCustomIcons->resizeColumnToContents(2);
     listCustomIcons->resizeColumnToContents(3);
 
+#ifdef QK_QT5_PORT
+    return QDialog::exec();
+#else
     QDialog::exec();
+#endif
 }
 
 

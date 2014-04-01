@@ -23,6 +23,11 @@
 #include <QRegExp>
 #include <gdal_priv.h>
 #include <proj_api.h>
+#ifdef QK_QT5_PORT
+#include <QQuickView>
+#endif
+#include <QSplashScreen>
+#include <QMessageBox>
 
 #include "CGetOpt.h"
 #include "CAppOpts.h"
@@ -61,27 +66,47 @@ static const QString text = QObject::tr(
 
 "");
 
+#ifdef QK_QT5_PORT
+static void myMessageOutput(QtMsgType type, const QMessageLogContext &context, const QString &msg)
+#else
 static void myMessageOutput(QtMsgType type, const char *msg)
+#endif
 {
     switch (type)
     {
         case QtDebugMsg:
             if (qlOpts->debug)
             {
+#ifdef QK_QT5_PORT
+                std::cout << msg.toUtf8().constData() << std::endl;
+#else
                 puts(msg);
+#endif
             }
+
             break;
 
         case QtWarningMsg:
+#ifdef QK_QT5_PORT
+            std::cerr << "Warning: " << msg.toUtf8().constData() << std::endl;
+#else
             fprintf(stderr, "Warning: %s\n", msg);
+#endif
             break;
 
         case QtCriticalMsg:
+#ifdef QK_QT5_PORT
+            std::cerr << "Critical: " <<  msg.toUtf8().constData() << std::endl;
+#else
             fprintf(stderr, "Critical: %s\n", msg);
+#endif
             break;
-
         case QtFatalMsg:
+#ifdef QK_QT5_PORT
+            std::cerr << "Fatal: " << msg.toUtf8().constData() << std::endl;
+#else
             fprintf(stderr, "Fatal: %s\n", msg);
+#endif
             abort();
     }
 }
@@ -176,7 +201,11 @@ int main(int argc, char ** argv)
     processOptions();
 
 #ifndef WIN32
+#ifdef QK_QT5_PORT
+    qInstallMessageHandler(myMessageOutput);
+#else
     qInstallMsgHandler(myMessageOutput);
+#endif
 #endif
 
 #ifdef WIN32
@@ -207,7 +236,7 @@ int main(int argc, char ** argv)
         }
 
         QStringList dirList;
-#ifndef Q_WS_MAC
+#ifndef Q_OS_MAC
         dirList << ".";
         dirList << "src";
 #ifndef Q_OS_WIN32
@@ -254,9 +283,16 @@ int main(int argc, char ** argv)
 
     GDALAllRegister();
 
+#ifdef Q_OS_MAC
+    QCoreApplication::setApplicationName("QLandkarte GT");
+    QCoreApplication::setApplicationVersion(VER_STR);
+    QCoreApplication::setOrganizationName("org.qlandkarte");
+    QCoreApplication::setOrganizationDomain("org.qlandkarte");
+#else
     QCoreApplication::setApplicationName("QLandkarteGT");
     QCoreApplication::setOrganizationName("QLandkarteGT");
     QCoreApplication::setOrganizationDomain("qlandkarte.org");
+#endif
     QApplication::setWindowIcon(QIcon(":/icons/qlandkartegt.png"));
 
 #ifdef WIN32

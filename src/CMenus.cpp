@@ -22,6 +22,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "CMegaMenu.h"
 
 #include <QtGui>
+#include <QMenu>
 
 // #define lqdebug(x) qDebug() << x
 #define lqdebug(x)

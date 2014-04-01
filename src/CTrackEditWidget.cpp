@@ -40,10 +40,15 @@
 #include "CDlgMultiColorConfig.h"
 
 #include <QtGui>
+#include <QMessageBox>
+#include <QMenu>
+#include <QDesktopWidget>
 
+#ifndef QK_QT5_TZONE
 #include <tzdata.h>
+#endif
 
-#ifdef Q_WS_MAC
+#ifdef Q_OS_MAC
 #include <CoreFoundation/CoreFoundation.h>
 
 template<class T>
@@ -559,7 +564,7 @@ void CTrackEditWidget::slotSetTrack(CTrack * t)
 #ifdef GPX_EXTENSIONS
     for(int i=0; i < eMaxColumn+num_of_ext-1; ++i)
 #else
-    for(int i=0; i < eMaxColumn; ++i)
+        for(int i=0; i < eMaxColumn; ++i)
 #endif
     {
         treePoints->resizeColumnToContents(i);
@@ -618,7 +623,7 @@ void CTrackEditWidget::slotUpdate()
     QList<CTrack::pt_t>& trkpts           = track->getTrackPoints();
     QList<CTrack::pt_t>::iterator trkpt   = trkpts.begin();
 
-#ifdef Q_WS_MAC
+#ifdef Q_OS_MAC
     // work around https://bugreports.qt.nokia.com/browse/QTBUG-21678
     CFType<CFLocaleRef> loc(CFLocaleCopyCurrent());
     CFType<CFDateFormatterRef> df(CFDateFormatterCreate(NULL, loc, kCFDateFormatterNoStyle, kCFDateFormatterNoStyle));
@@ -666,7 +671,7 @@ void CTrackEditWidget::slotUpdate()
 #ifdef GPX_EXTENSIONS
             for(i = 0; i < (eMaxColumn + num_of_ext); ++i)
 #else
-            for(i = 0; i < eMaxColumn; ++i)
+                for(i = 0; i < eMaxColumn; ++i)
 #endif
             {
                 item->setForeground(i,QBrush(Qt::gray));
@@ -678,7 +683,7 @@ void CTrackEditWidget::slotUpdate()
 #ifdef GPX_EXTENSIONS
             for(i = 0; i < (eMaxColumn + num_of_ext); ++i)
 #else
-            for(i = 0; i < eMaxColumn; ++i)
+                for(i = 0; i < eMaxColumn; ++i)
 #endif
             {
                 item->setForeground(i,QBrush(Qt::black));
@@ -715,10 +720,14 @@ void CTrackEditWidget::slotUpdate()
             QDateTime time = QDateTime::fromTime_t(trkpt->timestamp);
             if(!timezone.isEmpty())
             {
+#ifdef QK_QT5_TZONE
+                time = time.toTimeZone(QTimeZone(timezone.toLatin1()));
+#else
                 time = TimeStamp(trkpt->timestamp).toZone(timezone).toDateTime();
+#endif
             }
 
-#ifdef Q_WS_MAC
+#ifdef Q_OS_MAC
             CFType<CFDateRef> cfdate(CFDateCreate(NULL, time.toTime_t() - kCFAbsoluteTimeIntervalSince1970));
             CFType<CFStringRef> cfstr(CFDateFormatterCreateStringWithDate(NULL, df, cfdate));
             str = CFStringToQString(cfstr);
@@ -821,7 +830,12 @@ void CTrackEditWidget::slotUpdate()
     treePoints->setUpdatesEnabled(true);
 
     // adjust column sizes to fit
+
+#ifdef QK_QT5_PORT
+    treePoints->header()->setSectionResizeMode(0,QHeaderView::Interactive);
+#else
     treePoints->header()->setResizeMode(0,QHeaderView::Interactive);
+#endif
 
     // scroll to item of user focus
     if(focus)
@@ -1425,7 +1439,7 @@ void CTrackEditWidget::slotPointOfFocus(const int idx)
             textStages->slotHighlightArea(QString("stage%1").arg(cnt));
             if(trackStatProfileDist)
             {
-//                double x = track->getTrackPoints()[idx].distance;
+                //                double x = track->getTrackPoints()[idx].distance;
                 trackStatProfileDist->getPlot()->slotHighlightSection(x1,x2);
             }
             return;
@@ -1441,7 +1455,7 @@ void CTrackEditWidget::slotPointOfFocus(const int idx)
 
         if(trackStatProfileDist && track)
         {
-//            double x = track->getTrackPoints()[idx].distance;
+            //            double x = track->getTrackPoints()[idx].distance;
             trackStatProfileDist->getPlot()->slotHighlightSection(x1,track->getTrackPoints().last().distance);
         }
 
@@ -1472,6 +1486,7 @@ void CTrackEditWidget::slotHighlightArea(const QString& key)
     }
 }
 
+
 void CTrackEditWidget::slotToggleMultiColor(bool on)
 {
     comboColor->setEnabled(!on);
@@ -1482,11 +1497,13 @@ void CTrackEditWidget::slotToggleMultiColor(bool on)
     track->setMultiColor(on, comboMultiColor->currentIndex());
 }
 
+
 void CTrackEditWidget::slotMultiColorMode(int idx)
 {
     if(track.isNull()) return;
     track->setMultiColor(checkMultiColor->isChecked(), idx);
 }
+
 
 void CTrackEditWidget::slotMultiColorConfig()
 {
@@ -1507,6 +1524,7 @@ void CTrackEditWidget::slotMultiColorConfig()
     cfg.endGroup();
 
 }
+
 
 #define CHAR_PER_LINE 120
 #define ROOT_FRAME_MARGIN 5

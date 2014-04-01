@@ -34,7 +34,12 @@
 
 #include <QtGui>
 #include <QtNetwork>
+#ifndef QK_QT5_PORT
 #include <tzdata.h>
+#endif
+#include <QMessageBox>
+#include <QInputDialog>
+#include <QFileDialog>
 
 CDlgEditWpt::CDlgEditWpt(CWpt &wpt, QWidget * parent)
 : QDialog(parent)
@@ -370,7 +375,6 @@ void CDlgEditWpt::slotAddImage()
     QFileInfo fi(filename);
     cfg.setValue("path/images", fi.absolutePath());
 
-
     QString info =  QInputDialog::getText( this, tr("Add comment ..."), tr("comment"), QLineEdit::Normal, QFileInfo(filename).fileName());
 
     CWpt::image_t img;
@@ -522,7 +526,7 @@ void CDlgEditWpt::slotUpdateBarcode()
         dmtxEncodeSetProp( enc, DmtxPropHeight, 200 );
 
         barcode += "    ";
-        barcode = barcode.replace('\260',' ');
+        barcode = barcode.replace(QChar(0260),' ');
         if(barcode.size() > 180)
         {
             barcode = barcode.left(177) + "...";
@@ -609,6 +613,7 @@ void CDlgEditWpt::slotTransparent(bool ok)
     imageSelect->setTransparent(ok);
 }
 
+
 void CDlgEditWpt::slotEditInfo()
 {
     CWpt::image_t& img = wpt.images[idxImg];
@@ -624,6 +629,7 @@ void CDlgEditWpt::slotEditInfo()
 
 }
 
+
 bool CDlgEditWpt::eventFilter(QObject *obj, QEvent *event)
 {
     if(obj == labelImage)
@@ -637,6 +643,7 @@ bool CDlgEditWpt::eventFilter(QObject *obj, QEvent *event)
 
     return QObject::eventFilter(obj, event);
 }
+
 
 void CDlgEditWpt::slotCollectSpoiler()
 {
@@ -655,6 +662,7 @@ void CDlgEditWpt::slotCollectSpoiler()
     }
 }
 
+
 void CDlgEditWpt::triggerSpoilerDownload()
 {
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
@@ -662,10 +670,11 @@ void CDlgEditWpt::triggerSpoilerDownload()
     pendingRequests.clear();
 
     QNetworkRequest request;
-    
+
     request.setUrl(wpt.link);
     networkAccessManager->get(request);
 }
+
 
 void CDlgEditWpt::slotProxyAuthenticationRequired(const QNetworkProxy &prox, QAuthenticator *auth)
 {
@@ -677,6 +686,7 @@ void CDlgEditWpt::slotProxyAuthenticationRequired(const QNetworkProxy &prox, QAu
     auth->setUser(user);
     auth->setPassword(pwd);
 }
+
 
 void CDlgEditWpt::slotRequestFinished(QNetworkReply * reply)
 {
@@ -726,7 +736,7 @@ void CDlgEditWpt::slotRequestFinished(QNetworkReply * reply)
             QString url  = re0.cap(1);
 
             QNetworkRequest request;
-            
+
             request.setUrl(url);
             networkAccessManager->get(request);
             return;
@@ -746,7 +756,7 @@ void CDlgEditWpt::slotRequestFinished(QNetworkReply * reply)
                 QString text = re2.cap(2);
 
                 QNetworkRequest request;
-                
+
                 request.setUrl(url);
                 pendingRequests[networkAccessManager->get(request)] = text;
 
@@ -766,5 +776,3 @@ void CDlgEditWpt::slotRequestFinished(QNetworkReply * reply)
     silentSpoilerQuery = false;
 
 }
-
-

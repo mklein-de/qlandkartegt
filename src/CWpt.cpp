@@ -26,7 +26,9 @@
 #include <QtGui>
 #include <QtXml>
 
+#ifndef QK_QT5_TZONE
 #include <tzdata.h>
+#endif
 
 #ifndef _MKSTR_1
 #define _MKSTR_1(x)    #x
@@ -503,7 +505,11 @@ QString CWpt::getInfo()
         QDateTime time = QDateTime::fromTime_t(timestamp);
         if(!timezone.isEmpty())
         {
+#ifdef QK_QT5_TZONE
+            time = time.toTimeZone(QTimeZone(timezone.toLatin1()));
+#else
             time = TimeStamp(timestamp).toZone(timezone).toDateTime();
+#endif
         }
         str += time.toString();
     }
@@ -519,7 +525,7 @@ QString CWpt::getInfo()
     if(dir != WPT_NOFLOAT)
     {
         if(str.count()) str += "\n";
-        str += tr("direction: %1%2").arg(dir).arg(QChar('\260'));
+        str += tr("direction: %1%2").arg(dir).arg(QChar(0260));
     }
 
     if(prx != WPT_NOFLOAT)
@@ -1170,7 +1176,7 @@ QString CWpt::getExtInfo(bool showHidden)
 
     QString cpytext = html.arg(QUrl::fromLocalFile(dirWeb.path()).toString());
     cpytext = cpytext.replace("${info}", info);
-    cpytext.replace("&deg;","\260");
+    cpytext.replace("&deg;",QChar(0260));
     //    qDebug() << cpytext;
 
     return cpytext;

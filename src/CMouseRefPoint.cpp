@@ -5,12 +5,12 @@
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
-    
+
     This program is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU General Public License for more details.
-    
+
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
@@ -22,6 +22,7 @@
 #include "CCreateMapGridTool.h"
 
 #include <QtGui>
+#include <QMenu>
 
 CMouseRefPoint::CMouseRefPoint(CCanvas * canvas)
 : IMouse(canvas)
@@ -71,7 +72,6 @@ void CMouseRefPoint::mouseMoveEvent(QMouseEvent * e)
 }
 
 
-
 bool CMouseRefPoint::stateMove(QPoint& pos, CCreateMapGeoTiff &dlg)
 {
     IMap& map = CMapDB::self().getMap();
@@ -98,7 +98,6 @@ bool CMouseRefPoint::stateMove(QPoint& pos, CCreateMapGeoTiff &dlg)
 
         ++refpt;
     }
-
 
     if(CCreateMapGridTool::self())
     {
@@ -172,6 +171,7 @@ bool CMouseRefPoint::stateMove(QPoint& pos, CCreateMapGeoTiff &dlg)
 
 }
 
+
 bool CMouseRefPoint::stateMoveMap(QPoint& pos, CCreateMapGeoTiff& dlg)
 {
     IMap& map = CMapDB::self().getMap();
@@ -180,6 +180,7 @@ bool CMouseRefPoint::stateMoveMap(QPoint& pos, CCreateMapGeoTiff& dlg)
     oldPoint = pos;
     return true;
 }
+
 
 bool CMouseRefPoint::stateMoveRefPoint(QPoint& pos, CCreateMapGeoTiff &dlg)
 {
@@ -195,6 +196,7 @@ bool CMouseRefPoint::stateMoveRefPoint(QPoint& pos, CCreateMapGeoTiff &dlg)
     return true;
 }
 
+
 bool CMouseRefPoint::stateMoveSelArea(QPoint& pos, CCreateMapGeoTiff& dlg)
 {
     IMap& map = CMapDB::self().getMap();
@@ -206,23 +208,24 @@ bool CMouseRefPoint::stateMoveSelArea(QPoint& pos, CCreateMapGeoTiff& dlg)
 
     switch(selAreaMode)
     {
-    case eSelAreaTop:
-        r1.setTop(y);
-        break;
-    case eSelAreaBottom:
-        r1.setBottom(y);
-        break;
-    case eSelAreaLeft:
-        r1.setLeft(x);
-        break;
-    case eSelAreaRight:
-        r1.setRight(x);
-        break;
-    default:;
+        case eSelAreaTop:
+            r1.setTop(y);
+            break;
+        case eSelAreaBottom:
+            r1.setBottom(y);
+            break;
+        case eSelAreaLeft:
+            r1.setLeft(x);
+            break;
+        case eSelAreaRight:
+            r1.setRight(x);
+            break;
+        default:;
     }
 
     return true;
 }
+
 
 bool CMouseRefPoint::stateHighlightRefPoint(QPoint& pos, CCreateMapGeoTiff &dlg)
 {
@@ -246,6 +249,7 @@ bool CMouseRefPoint::stateHighlightRefPoint(QPoint& pos, CCreateMapGeoTiff &dlg)
     return false;
 }
 
+
 bool CMouseRefPoint::stateHighlightSelArea(QPoint& pos, CCreateMapGeoTiff &dlg)
 {
     IMap& map = CMapDB::self().getMap();
@@ -265,39 +269,39 @@ bool CMouseRefPoint::stateHighlightSelArea(QPoint& pos, CCreateMapGeoTiff &dlg)
 
     switch(selAreaMode)
     {
-    case eSelAreaTop:
-        l1 = r1.top() + 10;
-        l2 = r1.top() - 10;
-        if(pos.y() > l2 && pos.y() < l1)
-        {
-            return false;
-        }
-        break;
-    case eSelAreaBottom:
-        l1 = r1.bottom() + 10;
-        l2 = r1.bottom() - 10;
-        if(pos.y() > l2 && pos.y() < l1)
-        {
-            return false;
-        }
-        break;
-    case eSelAreaLeft:
-        l1 = r1.left() + 10;
-        l2 = r1.left() - 10;
-        if(pos.x() > l2 && pos.x() < l1)
-        {
-            return false;
-        }
-        break;
-    case eSelAreaRight:
-        l1 = r1.right() + 10;
-        l2 = r1.right() - 10;
-        if(pos.x() > l2 && pos.x() < l1)
-        {
-            return false;
-        }
-        break;
-    default:;
+        case eSelAreaTop:
+            l1 = r1.top() + 10;
+            l2 = r1.top() - 10;
+            if(pos.y() > l2 && pos.y() < l1)
+            {
+                return false;
+            }
+            break;
+        case eSelAreaBottom:
+            l1 = r1.bottom() + 10;
+            l2 = r1.bottom() - 10;
+            if(pos.y() > l2 && pos.y() < l1)
+            {
+                return false;
+            }
+            break;
+        case eSelAreaLeft:
+            l1 = r1.left() + 10;
+            l2 = r1.left() - 10;
+            if(pos.x() > l2 && pos.x() < l1)
+            {
+                return false;
+            }
+            break;
+        case eSelAreaRight:
+            l1 = r1.right() + 10;
+            l2 = r1.right() - 10;
+            if(pos.x() > l2 && pos.x() < l1)
+            {
+                return false;
+            }
+            break;
+        default:;
     }
 
     cursor = QCursor(QPixmap(":/cursors/cursorMoveMap.png"),0,0);

@@ -16,6 +16,15 @@
 
 **********************************************************************************************/
 
+#include <QMenu>
+#include <QSplitter>
+#include <QMessageBox>
+#include <QPrinter>
+#include <QPrintDialog>
+#include <QFileDialog>
+#include <QStatusBar>
+#include <QMenuBar>
+#include <QDesktopWidget>
 #include "CMainWindow.h"
 #include "CMegaMenu.h"
 #include "CCanvas.h"
@@ -212,7 +221,6 @@ CMainWindow::CMainWindow()
     actionGroupProvider->addAction(CMenus::OverlayAreaMenu, "aZoomArea");
     actionGroupProvider->addAction(CMenus::OverlayAreaMenu, "aCenterMap");
     actionGroupProvider->addAction(CMenus::OverlayAreaMenu, "aArea");
-
 
     actionGroupProvider->addAction(CMenus::MainMoreMenu, "aSwitchToMain");
     actionGroupProvider->addAction(CMenus::MainMoreMenu, "aMoveArea");
@@ -593,7 +601,7 @@ void CMainWindow::setupMenuBar()
     //menu->addAction(QIcon(":/icons/iconPrint16x16.png"),tr("Print Diary ..."),this,SLOT(slotPrintPreview()));
     menu->addSeparator();
     menu->addAction(QIcon(":/icons/iconUnknown16x16.png"),tr("Toggle toolview"),this,SLOT(slotToggleToolView()), Qt::CTRL + Qt::Key_T);
-#if defined(Q_WS_MAC)
+#if defined(Q_OS_MAC)
     menu->addAction(QIcon(":/icons/iconExit16x16.png"),("Exit"),this,SLOT(close()), Qt::CTRL + Qt::Key_Q);
 #else
     menu->addAction(QIcon(":/icons/iconExit16x16.png"),tr("Exit"),this,SLOT(close()), Qt::CTRL + Qt::Key_Q);
@@ -645,7 +653,7 @@ void CMainWindow::setupMenuBar()
 
     menu = new QMenu(this);
     menu->setTitle(tr("&Setup"));
-#if defined(Q_WS_MAC)
+#if defined(Q_OS_MAC)
     menu->addAction(QIcon(":/icons/iconConfig16x16.png"),"&Preferences",this,SLOT(slotConfig()));
 #else
     menu->addAction(QIcon(":/icons/iconConfig16x16.png"),tr("&General"),this,SLOT(slotConfig()));
@@ -653,7 +661,7 @@ void CMainWindow::setupMenuBar()
     menuBar()->addMenu(menu);
 
     menu = new QMenu(this);
-#if defined(Q_WS_MAC)
+#if defined(Q_OS_MAC)
     menu->setTitle(("&Help"));
     menu->addAction(QIcon(":/icons/iconHelp16x16.png"),("http://FAQ"),this,SLOT(slotFAQ()));
     menu->addAction(QIcon(":/icons/iconHelp16x16.png"),("http://Help"),this,SLOT(slotHelp()));
@@ -1583,17 +1591,17 @@ void CMainWindow::slotUpdate()
     if(result == -1)
     {
         QString msg = tr(
-                "QLandkarte GT can query for new versions on start-up. If there is a new version available, it will display a short notice in the statusbar. "
-                "To query for a new version QLandkarte GT has to connect to the server"
-                "\n\n"
-                "http://www.qlandkarte.org/webservice/qlandkartegt.php"
-                "\n\n"
-                "It won't transmit any private data other than needed for requesting a HTML page."
-                "\n\n"
-                "If you want QLandkarte GT to do this query now and in the future press 'Ok'. Else press 'No'."
-                "\n\n"
-                "You won't be bugged a second time unless you erase QLandkarte's configuration data."
-                    );
+            "QLandkarte GT can query for new versions on start-up. If there is a new version available, it will display a short notice in the statusbar. "
+            "To query for a new version QLandkarte GT has to connect to the server"
+            "\n\n"
+            "http://www.qlandkarte.org/webservice/qlandkartegt.php"
+            "\n\n"
+            "It won't transmit any private data other than needed for requesting a HTML page."
+            "\n\n"
+            "If you want QLandkarte GT to do this query now and in the future press 'Ok'. Else press 'No'."
+            "\n\n"
+            "You won't be bugged a second time unless you erase QLandkarte's configuration data."
+            );
 
         QMessageBox::StandardButton r = QMessageBox::question(this, tr("Query for new version..."),msg,QMessageBox::Ok|QMessageBox::No, QMessageBox::Ok);
         if(r == QMessageBox::Ok)

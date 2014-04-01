@@ -5,12 +5,12 @@
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
-    
+
     This program is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU General Public License for more details.
-    
+
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
@@ -53,9 +53,9 @@ class CMapJnx : public IMap
         {
             quint32 version;     // byte 00000000..00000003
             quint32 devid;       // byte 00000004..00000007
-            qint32  lat1;         // byte 00000010..00000013
-            qint32  lon2;       // byte 00000014..00000017
-            qint32  lat2;      // byte 00000008..0000000B
+            qint32  lat1;        // byte 00000010..00000013
+            qint32  lon2;        // byte 00000014..00000017
+            qint32  lat2;        // byte 00000008..0000000B
             qint32  lon1;        // byte 0000000C..0000000F
             quint32 details;     // byte 00000018..0000001B
             quint32 expire;      // byte 0000001C..0000001F
@@ -96,7 +96,6 @@ class CMapJnx : public IMap
 
             QVector<tile_t> tiles;
         };
-
 
         struct file_t
         {

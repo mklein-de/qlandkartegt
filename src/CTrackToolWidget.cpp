@@ -30,6 +30,8 @@
 #include "CSettings.h"
 
 #include <QtGui>
+#include <QMessageBox>
+#include <QMenu>
 
 #define N_LINES 7
 

@@ -46,6 +46,10 @@
 #include <QtGui>
 #include <QSqlQuery>
 #include <QSqlError>
+#include <QFileDialog>
+#include <QMessageBox>
+#include <QProgressDialog>
+#include <QMenu>
 
 #define UPDT_WPT    0x00000001
 #define UPDT_TRK    0x00000002
@@ -463,8 +467,15 @@ void CGeoDB::migrateDB(int version)
             }
             case 5:
             {
+#ifdef QK_QT5_PORT
+                if (QFile::exists(CResources::self().pathGeoDB().absoluteFilePath("qlgt_save_v4.db")))
+                    QFile::remove(CResources::self().pathGeoDB().absoluteFilePath("qlgt_save_v4.db"));
+                QFile f(CResources::self().pathGeoDB().absoluteFilePath("qlgt.db"));
+                f.copy(CResources::self().pathGeoDB().absoluteFilePath("qlgt_save_v4.db"));
+#else
                 QFSFileEngine fse(CResources::self().pathGeoDB().absoluteFilePath("qlgt.db"));
                 fse.copy(CResources::self().pathGeoDB().absoluteFilePath("qlgt_save_v4.db"));
+#endif
 
                 QSqlQuery query2(db);
 
@@ -671,8 +682,15 @@ void CGeoDB::migrateDB(int version)
 
             case 9:
             {
+#ifdef QK_QT5_PORT
+                if (QFile::exists(CResources::self().pathGeoDB().absoluteFilePath("qlgt.db")))
+                    QFile::remove(CResources::self().pathGeoDB().absoluteFilePath("qlgt_save_v8.db"));
+                QFile f(CResources::self().pathGeoDB().absoluteFilePath("qlgt.db"));
+                f.copy(CResources::self().pathGeoDB().absoluteFilePath("qlgt_save_v4.db"));
+#else
                 QFSFileEngine fse(CResources::self().pathGeoDB().absoluteFilePath("qlgt.db"));
                 fse.copy(CResources::self().pathGeoDB().absoluteFilePath("qlgt_save_v8.db"));
+#endif
 
                 PROGRESS_SETUP(tr("Migrating database from version 8 to 9."), 1);
 
@@ -843,7 +861,6 @@ void CGeoDB::updateModifyMarker(quint32 what)
         updateModifyMarker(itemWksMap, keysMapModified, tr("Map Selection"));
     }
 
-
     treeWorkspace->setUpdatesEnabled(true);
     treeWorkspace->blockSignals(false);
     treeWorkspace->model()->blockSignals(false);
@@ -963,13 +980,24 @@ void CGeoDB::changedWorkspace(quint32 what)
     updateCheckmarks();
     updateDiaryIcon();
 
+#ifdef QK_QT5_PORT
+    treeWorkspace->header()->setSectionResizeMode(eCoName,QHeaderView::ResizeToContents);
+    treeWorkspace->header()->setSectionResizeMode(eCoState,QHeaderView::ResizeToContents);
+#else
     treeWorkspace->header()->setResizeMode(eCoName,QHeaderView::ResizeToContents);
     treeWorkspace->header()->setResizeMode(eCoState,QHeaderView::ResizeToContents);
+#endif
 
     CGeoDBInternalEditLock lock(this);
+#ifdef QK_QT5_PORT
+    treeDatabase->header()->setSectionResizeMode(eCoName,QHeaderView::ResizeToContents);
+    treeDatabase->header()->setSectionResizeMode(eCoState,QHeaderView::ResizeToContents);
+    treeDatabase->header()->setSectionResizeMode(eCoDiary,QHeaderView::ResizeToContents);
+#else
     treeDatabase->header()->setResizeMode(eCoName,QHeaderView::ResizeToContents);
     treeDatabase->header()->setResizeMode(eCoState,QHeaderView::ResizeToContents);
     treeDatabase->header()->setResizeMode(eCoDiary,QHeaderView::ResizeToContents);
+#endif
 }
 
 
@@ -1028,7 +1056,6 @@ void CGeoDB::queryChildrenFromDB(QTreeWidgetItem * parent, int levels)
         {
             item->setIcon(eCoName, QIcon(query2.value(0).toString()));
         }
-
 
         if(query2.value(3).toInt() == eFolder2)
         {
@@ -1111,9 +1138,15 @@ void CGeoDB::queryChildrenFromDB(QTreeWidgetItem * parent, int levels)
         item->setCheckState(eCoState, Qt::Unchecked);
     }
 
+#ifdef QK_QT5_PORT
+    treeDatabase->header()->setSectionResizeMode(eCoName,QHeaderView::ResizeToContents);
+    treeDatabase->header()->setSectionResizeMode(eCoState,QHeaderView::ResizeToContents);
+    treeDatabase->header()->setSectionResizeMode(eCoDiary,QHeaderView::ResizeToContents);
+#else
     treeDatabase->header()->setResizeMode(eCoName,QHeaderView::ResizeToContents);
     treeDatabase->header()->setResizeMode(eCoState,QHeaderView::ResizeToContents);
     treeDatabase->header()->setResizeMode(eCoDiary,QHeaderView::ResizeToContents);
+#endif
 }
 
 
@@ -2041,6 +2074,7 @@ void CGeoDB::saveWorkspace()
     }
 }
 
+
 void CGeoDB::syncModifyMarker(QSet<QString> &markers, QList<QString>& keys)
 {
     QSet<QString> tmpMarkers;
@@ -2055,6 +2089,7 @@ void CGeoDB::syncModifyMarker(QSet<QString> &markers, QList<QString>& keys)
 
     markers = tmpMarkers;
 }
+
 
 void CGeoDB::slotWptDBChanged()
 {
@@ -3796,6 +3831,7 @@ bool CGeoDB::setProjectDiaryData(quint64 id, CDiary& diary)
     return true;
 }
 
+
 void CGeoDB::slotLockFolder(bool yes)
 {
     QTreeWidgetItem * item = treeDatabase->currentItem();
@@ -3812,6 +3848,7 @@ void CGeoDB::slotLockFolder(bool yes)
 
     updateFolderById(itemId);
 }
+
 
 void CGeoDB::slotExportProject()
 {

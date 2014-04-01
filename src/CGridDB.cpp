@@ -5,12 +5,12 @@
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
-    
+
     This program is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU General Public License for more details.
-    
+
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
@@ -24,6 +24,9 @@
 #include "CSettings.h"
 
 #include <QtGui>
+#include <QCheckBox>
+#include <QFileDialog>
+#include <QStatusBar>
 
 CGridDB * CGridDB::m_pSelf = 0;
 
@@ -89,7 +92,7 @@ void CGridDB::setProjAndColor(const QString& proj, const QColor& c)
     color   = c;
 
     if(pjGrid) pj_free(pjGrid);
-    pjGrid  = pj_init_plus(projstr.toAscii());
+    pjGrid  = pj_init_plus(projstr.toLatin1());
 
     setupGrid->setToolTip(tr("Configure grid color and projection.\nCur. proj.: %1").arg(projstr));
 
@@ -351,22 +354,22 @@ void CGridDB::draw(QPainter& p, const QRect& rect, bool& needsRedraw)
 
         foreach(const val_t& val, horzTopTicks)
         {
-            CCanvas::drawText(fabs(val.val)<1.e-5?"0":QString("%1\260").arg(val.val * RAD_TO_DEG), p, QPoint(val.pos, yoff), color);
+            CCanvas::drawText(fabs(val.val)<1.e-5?"0":QString("%1%2").arg(val.val * RAD_TO_DEG).arg(QChar(0260)), p, QPoint(val.pos, yoff), color);
         }
 
         foreach(const val_t& val, horzBtmTicks)
         {
-            CCanvas::drawText(fabs(val.val)<1.e-5?"0":QString("%1\260").arg(val.val * RAD_TO_DEG), p, QPoint(val.pos, h), color);
+            CCanvas::drawText(fabs(val.val)<1.e-5?"0":QString("%1%2").arg(val.val * RAD_TO_DEG).arg(QChar(0260)), p, QPoint(val.pos, h), color);
         }
 
         foreach(const val_t& val, vertLftTicks)
         {
-            CCanvas::drawText(fabs(val.val)<1.e-5?"0":QString("%1\260").arg(val.val * RAD_TO_DEG), p, QPoint(xoff, val.pos), color);
+            CCanvas::drawText(fabs(val.val)<1.e-5?"0":QString("%1%2").arg(val.val * RAD_TO_DEG).arg(QChar(0260)), p, QPoint(xoff, val.pos), color);
         }
 
         foreach(const val_t& val, vertRgtTicks)
         {
-            CCanvas::drawText(fabs(val.val)<1.e-5?"0":QString("%1\260").arg(val.val * RAD_TO_DEG), p, QPoint(w - xoff, val.pos), color);
+            CCanvas::drawText(fabs(val.val)<1.e-5?"0":QString("%1%2").arg(val.val * RAD_TO_DEG).arg(QChar(0260)), p, QPoint(w - xoff, val.pos), color);
         }
     }
     else

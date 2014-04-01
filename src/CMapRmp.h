@@ -5,12 +5,12 @@
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
-    
+
     This program is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU General Public License for more details.
-    
+
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
@@ -54,7 +54,6 @@ class CMapRmp : public IMap
         struct dir_entry_t
         {
             dir_entry_t() : offset(0), length(0), name(10,0), extension(8,0){}
-
 
             quint32 offset;
             quint32 length;
@@ -179,7 +178,6 @@ class CMapRmp : public IMap
 
         static scale_t scales[];
 
-
         /// reference point [m] (left hand side of map)
         double xref1;
         /// reference point [m] (top of map)
@@ -200,8 +198,5 @@ class CMapRmp : public IMap
         int tileCnt;
         int blockCnt;
 
-
 };
-
-#endif //CMAPRMP_H
-
+#endif                           //CMAPRMP_H

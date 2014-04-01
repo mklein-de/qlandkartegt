@@ -26,11 +26,13 @@
 #include "COverlayAreaEditWidget.h"
 
 #include <QtGui>
+#include <QMenu>
 
 static bool operator==(const projXY& p1, const projXY& p2)
 {
     return (p1.u == p2.u) && (p1.v == p2.v);
 }
+
 
 QPointer<COverlayAreaEditWidget> overlayAreaEditWidget;
 
@@ -79,6 +81,7 @@ COverlayArea::COverlayArea(const QString &name, const QString &comment, const QC
     }
 }
 
+
 void COverlayArea::save(QDataStream& s)
 {
     s << name << comment << points.size();
@@ -126,6 +129,7 @@ void COverlayArea::load(QDataStream& s)
 
 }
 
+
 QString COverlayArea::getInfo()
 {
     QString info;
@@ -163,7 +167,7 @@ void COverlayArea::draw(QPainter& p, const QRect& viewport)
     QPixmap icon_BigRed(":/icons/bullet_red.png");
     projXY pt1, pt2;
     QPoint pt;
-	QPoint pt3;
+    QPoint pt3;
 
     int i;
     int start   = 0;
@@ -248,7 +252,6 @@ void COverlayArea::draw(QPainter& p, const QRect& viewport)
         pen2.setJoinStyle(Qt::RoundJoin);
     }
 
-
     p.setBrush(Qt::NoBrush);
     p.setPen(pen1);
     p.drawPolygon(polyline);
@@ -259,8 +262,8 @@ void COverlayArea::draw(QPainter& p, const QRect& viewport)
 
     p.restore();
 
-	pt3 = getPolygonCentroid(polyline);
-	CCanvas::drawText(getName(), p, pt3);
+    pt3 = getPolygonCentroid(polyline);
+    CCanvas::drawText(getName(), p, pt3);
 
     // overlay _the_ point with a red bullet
     if(thePoint)
@@ -456,6 +459,7 @@ bool COverlayArea::isCloseEnough(const QPoint& pt)
     return (dist != ref);
 }
 
+
 void COverlayArea::keyPressEvent(QKeyEvent * e)
 {
     if (e->key() == Qt::Key_Backspace)
@@ -498,6 +502,7 @@ void COverlayArea::keyPressEvent(QKeyEvent * e)
         }
     }
 }
+
 
 void COverlayArea::mouseMoveEvent(QMouseEvent * e)
 {
@@ -924,6 +929,7 @@ void COverlayArea::mouseReleaseEvent(QMouseEvent * e)
 
 }
 
+
 void COverlayArea::drawDistanceInfo(projXY p1, projXY p2, QPainter& p, IMap& map)
 {
     QString val, unit, str;
@@ -968,12 +974,14 @@ void COverlayArea::slotShow()
     emit sigChanged();
 }
 
+
 void COverlayArea::slotEdit()
 {
     if(!overlayAreaEditWidget.isNull()) delete overlayAreaEditWidget;
     overlayAreaEditWidget = new COverlayAreaEditWidget(theMainWindow->getCanvas(), this);
     theMainWindow->setTempWidget(overlayAreaEditWidget, tr("Overlay"));
 }
+
 
 void COverlayArea::customMenu(QMenu& menu)
 {
@@ -1089,6 +1097,7 @@ void COverlayArea::delPointsByIdx(const QList<int>& idx)
     calc();
     emit sigChanged();
 }
+
 
 void COverlayArea::calc()
 {

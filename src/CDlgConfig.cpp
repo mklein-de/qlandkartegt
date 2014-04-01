@@ -28,6 +28,9 @@
 
 #include <QtGui>
 #include <QNetworkProxy>
+#include <QColorDialog>
+#include <QFileDialog>
+#include <QFontDialog>
 
 #define XSTR(x) STR(x)
 #define STR(x) #x
@@ -35,7 +38,7 @@
 CDlgConfig::CDlgConfig(QWidget * parent)
 : QDialog(parent)
 {
-#if defined(Q_WS_MAC)
+#if defined(Q_OS_MAC)
     this->setParent(qApp->focusWidget());
     this->setWindowModality(Qt::WindowModal);
     this->setWindowFlags(Qt::Sheet);
@@ -67,7 +70,11 @@ CDlgConfig::~CDlgConfig()
 }
 
 
+#ifdef QK_QT5_PORT
+int CDlgConfig::exec()
+#else
 void CDlgConfig::exec()
+#endif
 {
     CResources& resources = CResources::self();
 
@@ -124,7 +131,7 @@ void CDlgConfig::exec()
     comboDevice->addItem(tr("TwoNav"), "TwoNav");
     comboDevice->addItem(tr("NMEA"), "NMEA");
 
-	checkWatchDog->setChecked(resources.m_watchdogEnabled);
+    checkWatchDog->setChecked(resources.m_watchdogEnabled);
 
     comboDevBaudRate->addItem("4800");
     comboDevBaudRate->addItem("9600");
@@ -185,7 +192,11 @@ void CDlgConfig::exec()
         radioTimeZone->setChecked(true);
     }
 
+#ifdef QK_QT5_PORT
+    return QDialog::exec();
+#else
     QDialog::exec();
+#endif
 }
 
 
@@ -248,7 +259,7 @@ void CDlgConfig::accept()
     resources.m_devIPPort       = lineDevIPPort->text().toUShort();
     resources.m_devSerialPort   = lineDevSerialPort->text();
     resources.m_devBaudRate     = comboDevBaudRate->currentText();
-	resources.m_watchdogEnabled = checkWatchDog->isChecked();
+    resources.m_watchdogEnabled = checkWatchDog->isChecked();
     resources.m_devType         = comboDevType->itemText(comboDevType->currentIndex());
     resources.m_devCharset      = comboDevCharset->itemText(comboDevCharset->currentIndex());
 
@@ -366,7 +377,7 @@ void CDlgConfig::fillTypeCombo()
     QRegExp regex("lib(.*)\\" XSTR(SHARED_LIB_EXT));
     QString file;
     QStringList files;
-#if defined(Q_WS_MAC)
+#if defined(Q_OS_MAC)
     // MacOS X: plug-ins are stored in the bundle folder
     QDir inst_dir(QCoreApplication::applicationDirPath()
         .replace(QRegExp("MacOS$"), "Resources/Drivers"));
@@ -386,7 +397,7 @@ void CDlgConfig::fillTypeCombo()
 
     if(files.isEmpty())
     {
-#if defined(Q_WS_MAC)
+#if defined(Q_OS_MAC)
         labelMessage->setText(tr("No plugins found. I expect them in: %1")
             .arg(QCoreApplication::applicationDirPath()
             .replace(QRegExp("MacOS$"), "Resources/Drivers")));

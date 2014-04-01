@@ -5,12 +5,12 @@
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
-    
+
     This program is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU General Public License for more details.
-    
+
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
@@ -38,6 +38,8 @@
 #include <QNetworkRequest>
 #include <QNetworkReply>
 #include <QNetworkProxy>
+#include <QMessageBox>
+#include <QMenu>
 
 #define N_LINES 3
 
@@ -500,7 +502,7 @@ void CRouteToolWidget::startOpenRouteService(CRoute& rte)
     url.setPath("/qlandkarte/route");
 
     QNetworkRequest request;
-    
+
     request.setUrl(url);
 
     QNetworkReply* reply = m_networkAccessManager->post(request, array);
@@ -917,6 +919,17 @@ void CRouteToolWidget::startMapQuest(CRoute& rte)
     QUrl url("http://www.mapquestapi.com");
     url.setPath("directions/v1/route");
 
+#ifdef QK_QT5_PORT
+    QList< QPair<QString, QString> > queryItems;
+    queryItems << QPair<QString, QString>("key", keyMapQuest);
+    queryItems << QPair<QString, QString>("ambiguities", "ignore");
+    queryItems << QPair<QString, QString>("inFormat", "xml");
+    queryItems << QPair<QString, QString>("outFormat", "xml");
+    queryItems << QPair<QString, QString>("xml", QUrl::toPercentEncoding(xmlstr));
+    QUrlQuery urlQuery;
+    urlQuery.setQueryItems(queryItems);
+    url.setQuery(urlQuery);
+#else
     QList< QPair<QByteArray, QByteArray> > queryItems;
     queryItems << QPair<QByteArray, QByteArray>(QByteArray("key"), keyMapQuest);
     queryItems << QPair<QByteArray, QByteArray>(QByteArray("ambiguities"), QByteArray("ignore"));
@@ -924,11 +937,11 @@ void CRouteToolWidget::startMapQuest(CRoute& rte)
     queryItems << QPair<QByteArray, QByteArray>(QByteArray("outFormat"), QByteArray("xml"));
     queryItems << QPair<QByteArray, QByteArray>(QByteArray("xml"), QUrl::toPercentEncoding(xmlstr));
     url.setEncodedQueryItems(queryItems);
-
+#endif
     //    qDebug() << url.toString();
 
     QNetworkRequest request;
-    
+
     request.setUrl(url);
     m_networkAccessManager->get(request);
 

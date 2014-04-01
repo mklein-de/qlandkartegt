@@ -85,7 +85,7 @@ QString QTextHtmlExporter::toHtml(const QByteArray &encoding, ExportMode mode)
     fragmentMarkers = (mode == ExportFragment);
 
     if (!encoding.isEmpty())
-        html += QString::fromLatin1("<meta http-equiv=\"Content-Type\" content=\"text/html; charset=%1\" />").arg(QString::fromAscii(encoding));
+        html += QString::fromLatin1("<meta http-equiv=\"Content-Type\" content=\"text/html; charset=%1\" />").arg(QString::fromLatin1(encoding));
 
     QString title  = doc->metaInformation(QTextDocument::DocumentTitle);
     if (!title.isEmpty())
@@ -171,7 +171,11 @@ void QTextHtmlExporter::emitAttribute(const char *attribute, const QString &valu
     html += QLatin1Char(' ');
     html += QLatin1String(attribute);
     html += QLatin1String("=\"");
+#ifdef QK_QT5_PORT
+    html += value.toHtmlEscaped();
+#else
     html += Qt::escape(value);
+#endif
     html += QLatin1Char('"');
 }
 
@@ -475,13 +479,21 @@ void QTextHtmlExporter::emitFragment(const QTextFragment &fragment)
         const QString name = format.anchorName();
         if (!name.isEmpty()) {
             html += QLatin1String("<a name=\"");
-            html += Qt::escape(name);
+#ifdef QK_QT5_PORT
+            html += name.toHtmlEscaped();
+#else
+	    html += Qt::escape(name);
+#endif
             html += QLatin1String("\"></a>");
         }
         const QString href = format.anchorHref();
         if (!href.isEmpty()) {
             html += QLatin1String("<a href=\"");
-            html += Qt::escape(href);
+#ifdef QK_QT5_PORT
+            html += href.toHtmlEscaped();
+#else
+	    html += Qt::escape(href);
+#endif
             html += QLatin1String("\">");
             closeAnchor = true;
         }
@@ -530,7 +542,11 @@ void QTextHtmlExporter::emitFragment(const QTextFragment &fragment)
     } else {
         Q_ASSERT(!txt.contains(QChar::ObjectReplacementCharacter));
 
-        txt = Qt::escape(txt);
+#ifdef QK_QT5_PORT
+        txt = txt.toHtmlEscaped();
+#else
+	txt = Qt::escape(txt);
+#endif
 
         // split for [\n{LineSeparator}]
         QString forcedLineBreakRegExp = QString::fromLatin1("[\\na]");

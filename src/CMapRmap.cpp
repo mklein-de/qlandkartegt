@@ -5,12 +5,12 @@
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
-    
+
     This program is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU General Public License for more details.
-    
+
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
@@ -22,6 +22,8 @@
 #include "CSettings.h"
 
 #include <QtGui>
+#include <QMessageBox>
+#include <QCheckBox>
 
 CMapRmap::CMapRmap(const QString &key, const QString &fn, CCanvas *parent)
 : IMap(eRaster,key,parent)
@@ -383,7 +385,7 @@ bool CMapRmap::setProjection(const QString& projection, const QString& datum)
         projstr += " +ellps=bessel +towgs84=606,23,413,0,0,0,0 +units=m +no_defs";
     }
 
-    pjsrc = pj_init_plus(projstr.toAscii().data());
+    pjsrc = pj_init_plus(projstr.toLatin1().data());
     if(pjsrc == 0)
     {
         return false;

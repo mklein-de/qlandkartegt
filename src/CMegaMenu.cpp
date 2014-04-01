@@ -5,12 +5,12 @@
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
-    
+
     This program is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU General Public License for more details.
-    
+
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
@@ -38,6 +38,8 @@
 #endif
 
 #include <QtGui>
+#include <QMenu>
+#include <QMenuBar>
 
 CMegaMenu * CMegaMenu::m_self = 0;
 
@@ -176,7 +178,7 @@ void CMegaMenu::initStyleOption(QStyleOptionMenuItem *option, const QAction *act
     if (isCurrent && !action->isSeparator())
     {
         option->state |= QStyle::State_Selected | (mouseDown ? QStyle::State_Sunken : QStyle::State_None);
-#ifdef Q_WS_MAC
+#ifdef Q_OS_MAC
         option->palette.setColor(QPalette::Normal, QPalette::HighlightedText, Qt::white);
 #endif
     }
@@ -214,7 +216,11 @@ void CMegaMenu::initStyleOption(QStyleOptionMenuItem *option, const QAction *act
         QKeySequence seq = action->shortcut();
         if (!seq.isEmpty())
         {
+#ifdef QK_QT5_PORT
+            textAndAccel += QLatin1Char('\t') + QString(seq.toString());
+#else
             textAndAccel += QLatin1Char('\t') + QString(seq);
+#endif
         }
     }
 

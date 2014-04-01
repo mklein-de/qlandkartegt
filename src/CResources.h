@@ -82,7 +82,8 @@ class CResources : public QObject
         int getSizeMapCache(){return m_sizeMapCache;}
         int getExpireMapCache(){return m_expireMapCache;}
 
-        enum TimezoneMode_e{
+        enum TimezoneMode_e
+        {
             eTZUtc
             ,eTZLocal
             ,eTZAuto
@@ -146,7 +147,7 @@ class CResources : public QObject
         QString m_devSerialPort;
         QString m_devBaudRate;
 
-		bool m_watchdogEnabled;
+        bool m_watchdogEnabled;
 
         QString m_devType;
         QString m_devCharset;

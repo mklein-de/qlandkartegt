@@ -5,12 +5,12 @@
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
-    
+
     This program is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU General Public License for more details.
-    
+
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
@@ -21,6 +21,7 @@
 
 #include "IGarminTyp.h"
 #include <QtCore>
+#include <QMessageBox>
 
 #include <stdio.h>
 #include <string.h>
@@ -40,6 +41,7 @@ IGarminTyp::~IGarminTyp()
 
 }
 
+
 QTextCodec * IGarminTyp::getCodec(quint16 codepage)
 {
     QTextCodec * codec = QTextCodec::codecForName(QString("CP%1").arg(codepage).toLatin1());
@@ -50,6 +52,7 @@ QTextCodec * IGarminTyp::getCodec(quint16 codepage)
 
     return codec;
 }
+
 
 bool IGarminTyp::parseHeader(QDataStream& in)
 {
@@ -295,7 +298,11 @@ bool IGarminTyp::parsePolygon(QDataStream& in, QMap<quint32, polygon_property>& 
             case 0x08:
             {
                 // day & night two color
+#ifdef QK_QT5_PORT
+                xpmDay.setColorCount(2);
+#else
                 xpmDay.setNumColors(2);
+#endif
 
                 in >> b >> g >> r;
                 xpmDay.setColor(1, qRgb(r,g,b) );
@@ -313,9 +320,13 @@ bool IGarminTyp::parsePolygon(QDataStream& in, QMap<quint32, polygon_property>& 
             case 0x09:
             {
                 //day two color & night two color
+#ifdef QK_QT5_PORT
+                xpmDay.setColorCount(2);
+                xpmNight.setColorCount(2);
+#else
                 xpmDay.setNumColors(2);
                 xpmNight.setNumColors(2);
-
+#endif
                 in >> b >> g >> r;
                 xpmDay.setColor(1, qRgb(r,g,b) );
                 in >> b >> g >> r;
@@ -337,8 +348,13 @@ bool IGarminTyp::parsePolygon(QDataStream& in, QMap<quint32, polygon_property>& 
             case 0x0B:
             {
                 // day one color, transparent & night two color
+#ifdef QK_QT5_PORT
+                xpmDay.setColorCount(2);
+                xpmNight.setColorCount(2);
+#else
                 xpmDay.setNumColors(2);
                 xpmNight.setNumColors(2);
+#endif
                 in >> b >> g >> r;
                 xpmDay.setColor(1, qRgb(r,g,b) );
                 xpmDay.setColor(0, qRgba(255,255,255,0) );
@@ -360,8 +376,14 @@ bool IGarminTyp::parsePolygon(QDataStream& in, QMap<quint32, polygon_property>& 
             case 0x0D:
             {
                 // day two color & night one color, transparent
+
+#ifdef QK_QT5_PORT
+                xpmDay.setColorCount(2);
+                xpmNight.setColorCount(2);
+#else
                 xpmDay.setNumColors(2);
                 xpmNight.setNumColors(2);
+#endif
                 in >> b >> g >> r;
                 xpmDay.setColor(1, qRgb(r,g,b) );
                 in >> b >> g >> r;
@@ -383,7 +405,11 @@ bool IGarminTyp::parsePolygon(QDataStream& in, QMap<quint32, polygon_property>& 
             case 0x0E:
             {
                 // day & night one color, transparent
+#ifdef QK_QT5_PORT
+                xpmDay.setColorCount(2);
+#else
                 xpmDay.setNumColors(2);
+#endif
                 in >> b >> g >> r;
                 xpmDay.setColor(1, qRgb(r,g,b) );
                 xpmDay.setColor(0, qRgba(255,255,255,0) );
@@ -399,8 +425,13 @@ bool IGarminTyp::parsePolygon(QDataStream& in, QMap<quint32, polygon_property>& 
             case 0x0F:
             {
                 // day one color, transparent & night one color, transparent
+#ifdef QK_QT5_PORT
+                xpmDay.setColorCount(2);
+                xpmNight.setColorCount(2);
+#else
                 xpmDay.setNumColors(2);
                 xpmNight.setNumColors(2);
+#endif
                 in >> b >> g >> r;
                 xpmDay.setColor(1, qRgb(r,g,b) );
                 xpmDay.setColor(0, qRgba(255,255,255,0) );
@@ -968,7 +999,11 @@ bool IGarminTyp::decodeBppAndBytes(int ncolors, int w, int flags, int& bpp, int&
 bool IGarminTyp::decodeColorTable(QDataStream& in, QImage& img, int ncolors, int maxcolor, bool hasAlpha)
 {
 
+#ifdef QK_QT5_PORT
+    img.setColorCount(ncolors);
+#else
     img.setNumColors(ncolors);
+#endif
 
     if(hasAlpha)
     {

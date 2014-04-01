@@ -5,12 +5,12 @@
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
-    
+
     This program is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU General Public License for more details.
-    
+
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
@@ -28,6 +28,10 @@
 #include <QtGui>
 #include <QtXml>
 #include <QtNetwork>
+#include <QMessageBox>
+#include <QCheckBox>
+#include <QUrl>
+#include <QStatusBar>
 
 CMapWms::CMapWms(const QString &key, const QString &filename, CCanvas *parent)
 : IMap(eWMS,key,parent)
@@ -116,7 +120,7 @@ CMapWms::CMapWms(const QString &key, const QString &filename, CCanvas *parent)
 
     if(pjsrc == 0)
     {
-        QMessageBox::critical(parent, tr("Error..."), tr("Unknown projection %1").arg(projection.toAscii().data()), QMessageBox::Abort, QMessageBox::Abort);
+        QMessageBox::critical(parent, tr("Error..."), tr("Unknown projection %1").arg(projection.toLatin1().data()), QMessageBox::Abort, QMessageBox::Abort);
         return;
     }
     oSRS.importFromProj4(getProjection());
@@ -538,6 +542,17 @@ void CMapWms::draw()
             convertPixel2M(p2x, p2y);
 
             QUrl url(urlstr);
+#ifdef QK_QT5_PORT
+            QUrlQuery urlQuery;
+            urlQuery.addQueryItem("request", "GetMap");
+            urlQuery.addQueryItem("version", version);
+            urlQuery.addQueryItem("layers", layers);
+            urlQuery.addQueryItem("styles", "");
+            urlQuery.addQueryItem("srs", srs);
+            urlQuery.addQueryItem("format", format);
+            urlQuery.addQueryItem("width", QString::number(blockSizeX));
+            urlQuery.addQueryItem("height", QString::number(blockSizeY));
+#else
             url.addQueryItem("request", "GetMap");
             url.addQueryItem("version", version);
             url.addQueryItem("layers", layers);
@@ -546,16 +561,28 @@ void CMapWms::draw()
             url.addQueryItem("format", format);
             url.addQueryItem("width", QString::number(blockSizeX));
             url.addQueryItem("height", QString::number(blockSizeY));
+#endif
 
             if(pj_is_latlong(pjsrc))
             {
+#ifdef QK_QT5_PORT
+                urlQuery.addQueryItem("bbox", QString("%1,%2,%3,%4").arg(p1x*RAD_TO_DEG,0,'f').arg(p2y*RAD_TO_DEG,0,'f').arg(p2x*RAD_TO_DEG,0,'f').arg(p1y*RAD_TO_DEG,0,'f'));
+#else
                 url.addQueryItem("bbox", QString("%1,%2,%3,%4").arg(p1x*RAD_TO_DEG,0,'f').arg(p2y*RAD_TO_DEG,0,'f').arg(p2x*RAD_TO_DEG,0,'f').arg(p1y*RAD_TO_DEG,0,'f'));
+#endif
             }
             else
             {
+#ifdef QK_QT5_PORT
+                urlQuery.addQueryItem("bbox", QString("%1,%2,%3,%4").arg(p1x,0,'f').arg(p2y,0,'f').arg(p2x,0,'f').arg(p1y,0,'f'));
+#else
                 url.addQueryItem("bbox", QString("%1,%2,%3,%4").arg(p1x,0,'f').arg(p2y,0,'f').arg(p2x,0,'f').arg(p1y,0,'f'));
+#endif
             }
 
+#ifdef QK_QT5_PORT
+            url.setQuery(urlQuery);
+#endif
             request_t req;
             req.url         = url;
             req.lon         = p1x;
@@ -610,7 +637,7 @@ void CMapWms::checkQueue()
         }
 
         QNetworkRequest request;
-        
+
         request.setUrl(req.url);
         req.reply = accessManager->get(request);
 
@@ -646,7 +673,7 @@ void CMapWms::slotRequestFinished(QNetworkReply* reply)
             QUrl url(urlRedir);
 
             QNetworkRequest request;
-            
+
             request.setUrl(url);
             req.reply = accessManager->get(request);
 

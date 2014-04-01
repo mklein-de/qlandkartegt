@@ -5,12 +5,12 @@
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
-    
+
     This program is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU General Public License for more details.
-    
+
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
@@ -37,7 +37,11 @@ CDlgProxy::CDlgProxy(QString &user, QString &pwd, QWidget *parent)
     iconLabel->setPixmap(theMainWindow->style()->standardIcon(QStyle::SP_MessageBoxQuestion, 0, theMainWindow).pixmap(32, 32));
 
     QString introMessage = tr("<qt>Connect to proxy \"%1\" using:</qt>");
+#ifdef QK_QT5_PORT
+    introMessage = introMessage.arg(url.toHtmlEscaped());
+#else
     introMessage = introMessage.arg(Qt::escape(url));
+#endif
     introLabel->setText(introMessage);
     introLabel->setWordWrap(true);
 

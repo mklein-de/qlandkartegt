@@ -30,6 +30,8 @@
 
 #include <QtGui>
 #include <QtXml>
+#include <QMessageBox>
+#include <QFileDialog>
 
 CDeviceGarminBulk::CDeviceGarminBulk(QObject * parent)
 : IDevice("Garmin Mass Storage", parent)

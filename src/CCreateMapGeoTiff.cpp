@@ -34,6 +34,9 @@
 #include <gdal_priv.h>
 
 #include <QtGui>
+#include <QMessageBox>
+#include <QFileDialog>
+#include <QScrollBar>
 
 CCreateMapGeoTiff * CCreateMapGeoTiff::m_self = 0;
 
@@ -255,7 +258,6 @@ void CCreateMapGeoTiff::slotOpenFile()
 
     theMainWindow->getCanvas()->move(CCanvas::eMoveCenter);
 
-
     GDALDataset * dataset = (GDALDataset*)GDALOpen(filename.toLocal8Bit(),GA_ReadOnly);
     if(dataset == 0) return;
 
@@ -351,7 +353,11 @@ void CCreateMapGeoTiff::slotAddRef()
 
     treeWidget->addTopLevelItem(pt.item);
 
+#ifdef QK_QT5_PORT
+    treeWidget->header()->setSectionResizeMode(0,QHeaderView::Interactive);
+#else
     treeWidget->header()->setResizeMode(0,QHeaderView::Interactive);
+#endif
     for(int i=0; i < eMaxColumn - 1; ++i)
     {
         treeWidget->resizeColumnToContents(i);
@@ -380,7 +386,11 @@ void CCreateMapGeoTiff::addRef(double x, double y, double u, double v)
 
     treeWidget->addTopLevelItem(pt.item);
 
+#ifdef QK_QT5_PORT
+    treeWidget->header()->setSectionResizeMode(0,QHeaderView::Interactive);
+#else
     treeWidget->header()->setResizeMode(0,QHeaderView::Interactive);
+#endif
     for(int i=0; i < eMaxColumn - 1; ++i)
     {
         treeWidget->resizeColumnToContents(i);
@@ -438,7 +448,11 @@ void CCreateMapGeoTiff::slotLoadRef()
         loadTAB(filename);
     }
 
+#ifdef QK_QT5_PORT
+    treeWidget->header()->setSectionResizeMode(0,QHeaderView::Interactive);
+#else
     treeWidget->header()->setResizeMode(0,QHeaderView::Interactive);
+#endif
     for(int i=0; i < eMaxColumn - 1; ++i)
     {
         treeWidget->resizeColumnToContents(i);

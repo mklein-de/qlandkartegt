@@ -34,20 +34,16 @@ class CDlgMultiColorConfig : public QDialog, private Ui::IDlgMultiColorConfig
         void accept();
 
     protected:
-         void resizeEvent(QResizeEvent * e);
-
+        void resizeEvent(QResizeEvent * e);
 
     private slots:
-         void slotSliderChanged(int i);
-         void slotSpinChanged(int i);
-         void slotCheckAuto(bool on);
+        void slotSliderChanged(int i);
+        void slotSpinChanged(int i);
+        void slotCheckAuto(bool on);
 
-    private:        
+    private:
         void drawColorBar();
         CTrack::multi_color_setup_t& setup;
 
 };
-
-
-
-#endif //CDLGMULTICOLORCONFIG_H
+#endif                           //CDLGMULTICOLORCONFIG_H

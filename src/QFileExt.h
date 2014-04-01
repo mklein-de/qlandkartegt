@@ -36,4 +36,4 @@ class QFileExt : public QFile
     private:
         const char *m_mapped;
 };
-#endif //QFILEEXT_H
+#endif                           //QFILEEXT_H

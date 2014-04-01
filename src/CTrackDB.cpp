@@ -36,6 +36,7 @@
 #include "GeoMath.h"
 
 #include <QtGui>
+#include <QMessageBox>
 #include "CUndoStackModel.h"
 #include "CTrackUndoCommandSelect.h"
 
@@ -76,7 +77,6 @@ CTrackDB::CTrackDB(QTabWidget * tb, QObject * parent)
     showMinMax = cfg.value("track/showMinMax", showMinMax).toBool();
     toolview    = new CTrackToolWidget(tb);
     undoStack   = CUndoStackModel::getInstance();
-
 
     connect(&CMapDB::self(), SIGNAL(sigChanged()), this, SLOT(slotMapChanged()));
 }
@@ -653,7 +653,6 @@ void CTrackDB::delTrack(const QString& key, bool silent)
     CTrack * track = take(key, silent);
     track->deleteLater();
 
-
 }
 
 
@@ -867,6 +866,7 @@ void CTrackDB::splitLineToViewport(const QPolygon& line, const QRect& extViewpor
 
 }
 
+
 void CTrackDB::drawLine(const QPolygon& line, const QRect& extViewport, QPainter& p)
 {
     int i;
@@ -879,6 +879,7 @@ void CTrackDB::drawLine(const QPolygon& line, const QRect& extViewport, QPainter
         p.drawPolyline(lines[i]);
     }
 }
+
 
 void CTrackDB::drawLine(const QPolygon& line, const QVector<QColor> colors, const QRect& extViewport, QPainter& p)
 {
@@ -1310,8 +1311,6 @@ void CTrackDB::insert(const QString& key, CTrack *track, bool silent)
 }
 
 
-
-
 void CTrackDB::revertTrack(const QString& key)
 {
     if(!tracks.contains(key))
@@ -1602,6 +1601,7 @@ void CTrackDB::slotMapChanged()
     }
 }
 
+
 void CTrackDB::slotModified()
 {
     CTrack * trk = qobject_cast<CTrack*>(sender());
@@ -1611,6 +1611,7 @@ void CTrackDB::slotModified()
     }
 }
 
+
 void CTrackDB::slotNeedUpdate()
 {
     CTrack * trk = qobject_cast<CTrack*>(sender());
@@ -1619,4 +1620,3 @@ void CTrackDB::slotNeedUpdate()
         emitSigNeedUpdate(trk->getKey());
     }
 }
-

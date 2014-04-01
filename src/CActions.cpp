@@ -18,6 +18,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "CActions.h"
 #include <QAction>
 #include <QDebug>
+#include <QInputDialog>
 #include "CMainWindow.h"
 #include "CMenus.h"
 #include "CCanvas.h"
@@ -44,7 +45,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "CDlgExport.h"
 #include "CTabWidget.h"
 #include "COverlayDistance.h"
-
 
 #include <QtGui>
 
@@ -112,7 +112,7 @@ QObject(parent), parent(parent)
     createAction(tr("F6"), ":/icons/iconTextBox16x16.png", tr("Add &Geo-Ref. Text Box"), "aTextBox", tr("Add a textbox on the map."));
     createAction(tr("F7"), ":/icons/iconDistance16x16.png", tr("Add Distance &Polyline"), "aDistance", tr("Add a polyline to measure distances."));
     createAction(tr("F7"), ":/icons/iconDistance16x16.png", tr("Distance &Polyline"), "aSwitchToOverlayDistance", tr("Add a polyline to measure distances."));
-    createAction(tr("F5"), ":/icons/iconAdd16x16.png", tr("Join Distance PolyLines"), "aCombineDistOvl", tr("Join distance polylines to one."));    
+    createAction(tr("F5"), ":/icons/iconAdd16x16.png", tr("Join Distance PolyLines"), "aCombineDistOvl", tr("Join distance polylines to one."));
     createAction(tr("F8"), ":/icons/iconArea16x16.png", tr("Add Area Polygon"), "aArea", tr("Mark an area with a polygon."));
     createAction(tr("F8"), ":/icons/iconArea16x16.png", tr("Area Polygon"), "aSwitchToOverlayArea", tr("Mark an area with a polygon."));
 
@@ -171,7 +171,7 @@ const QString& toolTip)
         slotName = actionName;
     }
 
-    connect(tmpAction, SIGNAL(triggered()), this, QString("1" + slotName + "()").toAscii().data());
+    connect(tmpAction, SIGNAL(triggered()), this, QString("1" + slotName + "()").toLatin1().data());
 
 }
 
@@ -309,6 +309,7 @@ void CActions::funcSwitchToOverlayDistance()
     funcDistance();
 }
 
+
 void CActions::funcSwitchToOverlayArea()
 {
     setMenuTitle(tr("&Overlay Area"));
@@ -318,6 +319,7 @@ void CActions::funcSwitchToOverlayArea()
 
     funcArea();
 }
+
 
 void CActions::funcSwitchToMainMore()
 {
@@ -651,6 +653,7 @@ void CActions::funcDistance()
 {
     canvas->setMouseMode(CCanvas::eMouseAddDistance);
 }
+
 
 void CActions::funcArea()
 {

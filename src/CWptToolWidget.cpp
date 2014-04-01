@@ -35,6 +35,8 @@
 #include "CSettings.h"
 
 #include <QtGui>
+#include <QMenu>
+#include <QInputDialog>
 
 CWptToolWidget::sortmode_e CWptToolWidget::sortmode = CWptToolWidget::eSortByName;
 QString CWptToolWidget::sortpos;

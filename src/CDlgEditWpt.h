@@ -63,8 +63,6 @@ class CDlgEditWpt : public QDialog, private Ui::IDlgEditWpt
         void slotRequestFinished(QNetworkReply * reply);
         void slotProxyAuthenticationRequired(const QNetworkProxy&, QAuthenticator*);
 
-
-
     protected:
         bool eventFilter(QObject *obj, QEvent *event);
 

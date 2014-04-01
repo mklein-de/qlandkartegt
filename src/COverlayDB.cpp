@@ -529,6 +529,7 @@ COverlayDistance * COverlayDB::addDistance(const QString& name, const QString& c
     return qobject_cast<COverlayDistance*>(overlay);
 }
 
+
 COverlayArea * COverlayDB::addArea(const QString& name, const QString& comment, const QColor& color, Qt::BrushStyle style, const QList<COverlayArea::pt_t>& pts, const QString& key, bool silent)
 {
     IOverlay * overlay = new COverlayArea(name, comment, color, style, pts, this);
@@ -556,6 +557,7 @@ COverlayArea * COverlayDB::addArea(const QString& name, const QString& comment, 
 
     return qobject_cast<COverlayArea*>(overlay);
 }
+
 
 void COverlayDB::customMenu(const QString& key, QMenu& menu)
 {

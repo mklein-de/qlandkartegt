@@ -36,6 +36,13 @@
 #include <QtGui>
 #include <QSqlDatabase>
 #include <algorithm>
+#include <QCheckBox>
+#include <QComboBox>
+#include <QMessageBox>
+#include <QStatusBar>
+#include <QToolTip>
+#include <QFileDialog>
+#include <QInputDialog>
 
 // define DEBUG_DRAW to get drawing performance (needs Qt >= 4.7)
 #undef DEBUG_DRAW
@@ -432,7 +439,7 @@ CMapTDB::~CMapTDB()
     cfg.beginGroup("garmin/maps");
     cfg.beginGroup(name);
     GPS_Math_Deg_To_Str(topLeft.u * RAD_TO_DEG, topLeft.v * RAD_TO_DEG, pos);
-    pos = pos.replace("\260","");
+    pos = pos.replace(QChar(0260),"");
     cfg.setValue("topleft",pos);
     cfg.setValue("zoomidx",zoomidx);
     cfg.setValue("details", detailsFineTune);
@@ -1905,7 +1912,6 @@ void CMapTDB::draw(QPainter& p)
 
     needsRedraw = false;
 
-
     drawInfo(p);
 
     p.drawPixmap(pointFocus - QPoint(5,5), QPixmap(":/icons/small_bullet_yellow.png"));
@@ -2180,6 +2186,7 @@ void CMapTDB::drawInfo(QPainter& p)
         p.restore();
     }
 }
+
 
 void CMapTDB::drawLine(QPainter& p, CGarminPolygon& l, const IGarminTyp::polyline_property& property, const QFontMetricsF& metrics, const QFont& font)
 {

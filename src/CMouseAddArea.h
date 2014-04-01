@@ -23,15 +23,14 @@
 
 class CMouseAddArea : public IMouse
 {
-public:
-    CMouseAddArea(CCanvas * canvas);
+    public:
+        CMouseAddArea(CCanvas * canvas);
 
-    void mouseMoveEvent(QMouseEvent * e);
-    void mousePressEvent(QMouseEvent * e);
-    void mouseReleaseEvent(QMouseEvent * e);
+        void mouseMoveEvent(QMouseEvent * e);
+        void mousePressEvent(QMouseEvent * e);
+        void mouseReleaseEvent(QMouseEvent * e);
 
-private:
-    QPoint pos;
+    private:
+        QPoint pos;
 };
-
-#endif // CMOUSEADDAREA_H
+#endif                           // CMOUSEADDAREA_H

@@ -18,6 +18,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <QtGui>
 #include <QtCore/QMutex>
+#include <QMessageBox>
 #include <sys/select.h>
 #include <unistd.h>
 

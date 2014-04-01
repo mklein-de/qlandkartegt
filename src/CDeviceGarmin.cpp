@@ -5,12 +5,12 @@
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
-    
+
     This program is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU General Public License for more details.
-    
+
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
@@ -36,6 +36,9 @@
 #include <garmin/IDevice.h>
 
 #include <QtGui>
+#include <QMessageBox>
+#include <QSound>
+#include <QProgressDialog>
 
 #include <limits>
 #include <math.h>
@@ -514,7 +517,7 @@ Garmin::IDevice * CDeviceGarmin::getDevice()
     Garmin::IDevice * (*func)(const char*) = 0;
     Garmin::IDevice * dev = 0;
 
-#if defined(Q_WS_MAC)
+#if defined(Q_OS_MAC)
     // MacOS X: plug-ins are stored in the bundle folder
     QString libname     = QString("%1/lib%2" XSTR(SHARED_LIB_EXT))
         .arg(QCoreApplication::applicationDirPath().replace(QRegExp("MacOS$"), "Resources/Drivers"))
@@ -529,7 +532,7 @@ Garmin::IDevice * CDeviceGarmin::getDevice()
     bool lib_loaded = lib.load();
     if (lib_loaded)
     {
-        func = (Garmin::IDevice * (*)(const char*))lib.resolve(funcname.toAscii());
+        func = (Garmin::IDevice * (*)(const char*))lib.resolve(funcname.toLatin1());
     }
 
     if(!lib_loaded || func == 0)
@@ -654,7 +657,7 @@ void CDeviceGarmin::uploadWpts(const QList<CWpt*>& wpts)
     if(dev == 0) return;
 
     std::list<Garmin::Wpt_t> garwpts;
-    QTextCodec *codec = QTextCodec::codecForName(CResources::self().charset().toAscii());
+    QTextCodec *codec = QTextCodec::codecForName(CResources::self().charset().toLatin1());
 
     QList<CWpt*>::const_iterator wpt = wpts.begin();
     while(wpt != wpts.end())
@@ -740,7 +743,7 @@ void CDeviceGarmin::downloadWpts(QList<CWpt*>& wpts)
         return;
     }
 
-    QTextCodec *codec = QTextCodec::codecForName(CResources::self().charset().toAscii());
+    QTextCodec *codec = QTextCodec::codecForName(CResources::self().charset().toLatin1());
 
     std::list<Garmin::Wpt_t>::const_iterator garwpt = garwpts.begin();
     while(garwpt != garwpts.end())
@@ -781,7 +784,7 @@ void CDeviceGarmin::uploadTracks(const QList<CTrack*>& trks)
     if(dev == 0) return;
 
     std::list<Garmin::Track_t> gartrks;
-    QTextCodec *codec = QTextCodec::codecForName(CResources::self().charset().toAscii());
+    QTextCodec *codec = QTextCodec::codecForName(CResources::self().charset().toLatin1());
 
     QList<CTrack*>::const_iterator trk = trks.begin();
     while(trk != trks.end())
@@ -860,7 +863,7 @@ void CDeviceGarmin::downloadTracks(QList<CTrack*>& trks)
         return;
     }
 
-    QTextCodec *codec = QTextCodec::codecForName(CResources::self().charset().toAscii());
+    QTextCodec *codec = QTextCodec::codecForName(CResources::self().charset().toLatin1());
     std::list<Garmin::Track_t>::const_iterator gartrk = gartrks.begin();
     while(gartrk != gartrks.end())
     {
@@ -971,7 +974,7 @@ void CDeviceGarmin::uploadRoutes(const QList<CRoute*>& rtes)
     std::list<Garmin::Route_t> garrtes;
     int id = 0;
 
-    QTextCodec *codec = QTextCodec::codecForName(CResources::self().charset().toAscii());
+    QTextCodec *codec = QTextCodec::codecForName(CResources::self().charset().toLatin1());
 
     QList<CRoute*>::const_iterator rte = rtes.begin();
     while(rte != rtes.end())
@@ -1002,7 +1005,7 @@ void CDeviceGarmin::uploadRoutes(const QList<CRoute*>& rtes)
 
             garrtept.lon            = rtept->lon;
             garrtept.lat            = rtept->lat;
-            garrtept.Wpt_t::ident   = QString("%1.%2").arg(id).arg(++cnt,3,10,QChar('0')).toAscii().data();
+            garrtept.Wpt_t::ident   = QString("%1.%2").arg(id).arg(++cnt,3,10,QChar('0')).toLatin1().data();
             garrtept.Wpt_t::comment = codec->fromUnicode(name).data();
             garrtept.Wpt_t::smbl    = smbl;
 
@@ -1061,7 +1064,7 @@ void CDeviceGarmin::downloadRoutes(QList<CRoute*>& rtes)
         return;
     }
 
-    QTextCodec *codec = QTextCodec::codecForName(CResources::self().charset().toAscii());
+    QTextCodec *codec = QTextCodec::codecForName(CResources::self().charset().toLatin1());
 
     std::list<Garmin::Route_t>::const_iterator garrte = garrtes.begin();
     while(garrte != garrtes.end())
@@ -1139,7 +1142,7 @@ void CDeviceGarmin::uploadMap(const QList<IMapSelection*>& mss)
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
     try
     {
-        dev->uploadMap(tmpfile.fileName().toLocal8Bit(), (quint32)fi.size() , keys.isEmpty() ? 0 : keys[0].toAscii().data());
+        dev->uploadMap(tmpfile.fileName().toLocal8Bit(), (quint32)fi.size() , keys.isEmpty() ? 0 : keys[0].toLatin1().data());
         if (CResources::self().playSound())
         {
             QSound::play(":/sounds/xfer-done.wav");

@@ -5,12 +5,12 @@
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
-    
+
     This program is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU General Public License for more details.
-    
+
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
@@ -20,7 +20,11 @@
 #define CDEVICENMEA_H
 
 #include "IDevice.h"
+#ifdef QK_QT5_SERIAL_PORT
+#include <QSerialPort>
+#else
 #include <ManageSerialPort.h>
+#endif
 
 class CDeviceNMEA : public IDevice
 {
@@ -46,7 +50,11 @@ class CDeviceNMEA : public IDevice
         bool liveLog();
 
     private slots:
+#ifdef QK_QT5_SERIAL_PORT
+        void slotNewDataReceived();
+#else
         void slotNewDataReceived(const QByteArray &dataReceived);
+#endif
         void slotWatchdog();
 
     private:
@@ -55,7 +63,11 @@ class CDeviceNMEA : public IDevice
 
         QString serialport;
         QString line;
+#ifdef QK_QT5_SERIAL_PORT
+        QSerialPort tty;
+#else
         ManageSerialPort tty;
+#endif
 
         bool haveSeenData;
         bool haveSeenGPRMC;

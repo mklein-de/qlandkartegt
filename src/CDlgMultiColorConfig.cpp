@@ -21,7 +21,7 @@
 #include <QtGui>
 
 CDlgMultiColorConfig::CDlgMultiColorConfig(CTrack::multi_color_setup_t &setup)
-    : setup(setup)
+: setup(setup)
 {
     setupUi(this);
 
@@ -53,6 +53,7 @@ CDlgMultiColorConfig::CDlgMultiColorConfig(CTrack::multi_color_setup_t &setup)
     slotCheckAuto(checkAuto->isChecked());
 }
 
+
 CDlgMultiColorConfig::~CDlgMultiColorConfig()
 {
 
@@ -65,6 +66,7 @@ void CDlgMultiColorConfig::resizeEvent(QResizeEvent * e)
 
     drawColorBar();
 }
+
 
 void CDlgMultiColorConfig::accept()
 {
@@ -81,11 +83,13 @@ void CDlgMultiColorConfig::accept()
     QDialog::accept();
 }
 
+
 void CDlgMultiColorConfig::slotCheckAuto(bool on)
 {
     lineMinValue->setEnabled(!on);
     lineMaxValue->setEnabled(!on);
 }
+
 
 void CDlgMultiColorConfig::slotSliderChanged(int )
 {
@@ -93,6 +97,7 @@ void CDlgMultiColorConfig::slotSliderChanged(int )
     spinMaxColor->setValue(sliderMaxColor->value());
     drawColorBar();
 }
+
 
 void CDlgMultiColorConfig::slotSpinChanged(int )
 {

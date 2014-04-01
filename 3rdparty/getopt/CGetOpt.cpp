@@ -95,13 +95,19 @@ CGetOpt::CGetOpt()
 {
     if ( !qApp )
 	qFatal( "CGetOpt: requires a QApplication instance to be constructed first" );
-
+#ifdef QK_QT5_PORT
+    args = QCoreApplication::arguments().mid(1);
+    init(0, 0);
+#else
     init( qApp->argc(), qApp->argv(), 1 );
+#endif
 }
 
 /**
    \internal
  */
+#ifdef QK_QT5_PORT
+#else
 CGetOpt::CGetOpt( int offset )
 {
     if ( !qApp )
@@ -109,6 +115,7 @@ CGetOpt::CGetOpt( int offset )
 
     init( qApp->argc(), qApp->argv(), offset );
 }
+#endif
 
 /**
    Construct a command line parser from the array \a argv of string
@@ -274,7 +281,7 @@ bool CGetOpt::parse( bool untilFirstSwitchOnly )
 	    }
 	    if ( t == LongOpt && opt.type == OUnknown ) {
 		if ( currOpt.type != OVarLen ) {
-		    qWarning( "Unknown option --%s", (const char *)a.toAscii() );
+		    qWarning( "Unknown option --%s", (const char *)a.toLatin1() );
 		    return false;
 		} else {
 		    // VarLength options support arguments starting with '-'
@@ -351,7 +358,7 @@ bool CGetOpt::parse( bool untilFirstSwitchOnly )
 	    } else {
 		QString n = currType == LongOpt ?
 			    currOpt.lname : QString( QChar( currOpt.sname ) );
-		qWarning( "Expected an argument after '%s' option", (const char *)n.toAscii() );
+		qWarning( "Expected an argument after '%s' option", (const char *)n.toLatin1() );
 		return false;
 	    }
 	    break;

@@ -74,7 +74,7 @@ class IItem : public QObject
 
         static void removeHtml(QString& str);
 
-    signals:
+        signals:
         /// emit whenever the data of the item has been changed
         void sigChanged();
         /// emit whenever some transient status changed and has to be updated

@@ -33,6 +33,7 @@
 #include "CResources.h"
 
 #include <QtGui>
+#include <QMenu>
 
 bool COverlayDistance::showBullets = true;
 
@@ -1027,7 +1028,7 @@ void COverlayDistance::drawDistanceInfo(projXY p1, projXY p2, QPainter& p, IMap&
 
     dist = ::distance(p1, p2, a1, a2);
     IUnit::self().meter2distance(dist, val, unit);
-    str = QString("%1 %2 %3\260").arg(val).arg(unit).arg(a2,0,'f',0);
+    str = QString("%1 %2 %3%4").arg(val).arg(unit).arg(a2,0,'f',0).arg(QChar(0260));
 
     map.convertRad2Pt(p1.u, p1.v);
     map.convertRad2Pt(p2.u, p2.v);

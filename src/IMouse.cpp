@@ -133,6 +133,7 @@ void IMouse::drawPos1(QPainter& p)
     CCanvas::drawText(fi.fileName(), p, QRect(u,v, LENGTH, 20));
 }
 
+
 void IMouse::clearSelWpts()
 {
     lockWptCircles = false;
@@ -143,6 +144,7 @@ void IMouse::clearSelWpts()
     doShowWptBuddies = false;
     selWpts.clear();
 }
+
 
 #define RADIUS_CIRCLES      130
 #define RADIUS_CIRCLE       35
@@ -166,7 +168,6 @@ void IMouse::sortSelWpts(QList<wpt_t>& list)
         deg += 45;
     }
 
-
     // sort waypoints to be closest to the reference point
     for(int i = 0; i < list.size(); i++)
     {
@@ -175,7 +176,6 @@ void IMouse::sortSelWpts(QList<wpt_t>& list)
         list[i].dist    = p0.x()*p0.x() + p0.y()*p0.y();
     }
     qSort(list);
-
 
     // calculate distance matrix for the first 8 waypoints
     for(int i = 0; i < nWpts; i++)
@@ -237,8 +237,6 @@ void IMouse::sortSelWpts(QList<wpt_t>& list)
         if(tmp != -1 && tmp != i) i = tmp - 1;
 
     }
-
-
 
     // convert positions to coordinates
     for(int i = 0; i < nWpts; i++)
@@ -349,9 +347,10 @@ void IMouse::drawSelWpt(QPainter& p)
             drawSelWpt(p, selWpts[idxInfoBox], eFeatInfoBox|eFeatArrow);
         }
 
-        p.restore(); // mousePos
+        p.restore();             // mousePos
     }
 }
+
 
 void IMouse::drawSelWpt(QPainter& p, wpt_t& wptInfo, quint32 features)
 {
@@ -500,7 +499,6 @@ void IMouse::drawSelWpt(QPainter& p, wpt_t& wptInfo, quint32 features)
         p.setBrush(Qt::NoBrush);
         p.drawEllipse(-off,-off,2*off,2*off);
 
-
         int l = 1;
         for ( int i = 0; i < name.size(); i++ )
         {
@@ -520,7 +518,7 @@ void IMouse::drawSelWpt(QPainter& p, wpt_t& wptInfo, quint32 features)
             p.restore();
 
             l += fm.width(str) + 2;
-          }
+        }
 
         p.restore();
     }
@@ -669,7 +667,6 @@ void IMouse::mouseMoveEventWpt(QMouseEvent * e)
     IMap& map       = CMapDB::self().getMap();
     int oldSize     = selWpts.size();
 
-
     if(!lockWptCircles)
     {
         clearSelWpts();
@@ -719,7 +716,6 @@ void IMouse::mouseMoveEventWpt(QMouseEvent * e)
         {
             continue;
         }
-
 
         // mind the different offset values in wptInfo for single or multiple waypoints
         // @todo there must be a better way
@@ -1176,10 +1172,12 @@ void IMouse::mouseMoveEventMapSel(QMouseEvent * e)
 
 }
 
+
 void IMouse::slotMapChanged()
 {
     clearSelWpts();
 }
+
 
 void IMouse::slotSetPos1()
 {

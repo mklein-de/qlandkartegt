@@ -5,12 +5,12 @@
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
-    
+
     This program is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU General Public License for more details.
-    
+
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
@@ -22,39 +22,41 @@
 #include "CDlgMapRMPConfig.h"
 
 #include <QtGui>
+#include <QMessageBox>
+#include <QCheckBox>
 
 #define MAX_IDX_ZOOM 26
 #define MIN_IDX_ZOOM 0
 
 CMapRmp::scale_t CMapRmp::scales[] =
 {
-{80000,  2.2400e+02 }
-,{5000,  1.4000e+01 }
-,{3000,  8.4000e+00 }
-,{2000,  5.6000e+00 }
-,{1200,  3.3600e+00 }
-,{800,   2.2400e+00 }
-,{500,   1.4000e+00 }
-,{300,   8.4000e-01 }
-,{200,   5.6000e-01 }
-,{120,   3.3600e-01 }
-,{80.0,  2.2400e-01 }
-,{50.0,  1.4000e-01 }
-,{30.0,  8.4000e-02 }
-,{20.0,  5.6000e-02 }
-,{12.0,  3.3600e-02 }
-,{8.00,  2.2400e-02 }
-,{5.00,  1.4000e-02 }
-,{3.00,  8.4000e-03 }
-,{2.00,  5.6000e-03 }
-,{1.20,  3.3600e-03 }
-,{0.80,  2.2400e-03 }
-,{0.50,  1.4000e-03 }
-,{0.30,  8.4000e-04 }
-,{0.20,  5.6000e-04 }
-,{0.12,  3.3600e-04 }
-,{0.08,  2.2400e-04 }
-,{0.05,  1.4000e-04 }
+    {80000,  2.2400e+02 }
+    ,{5000,  1.4000e+01 }
+    ,{3000,  8.4000e+00 }
+    ,{2000,  5.6000e+00 }
+    ,{1200,  3.3600e+00 }
+    ,{800,   2.2400e+00 }
+    ,{500,   1.4000e+00 }
+    ,{300,   8.4000e-01 }
+    ,{200,   5.6000e-01 }
+    ,{120,   3.3600e-01 }
+    ,{80.0,  2.2400e-01 }
+    ,{50.0,  1.4000e-01 }
+    ,{30.0,  8.4000e-02 }
+    ,{20.0,  5.6000e-02 }
+    ,{12.0,  3.3600e-02 }
+    ,{8.00,  2.2400e-02 }
+    ,{5.00,  1.4000e-02 }
+    ,{3.00,  8.4000e-03 }
+    ,{2.00,  5.6000e-03 }
+    ,{1.20,  3.3600e-03 }
+    ,{0.80,  2.2400e-03 }
+    ,{0.50,  1.4000e-03 }
+    ,{0.30,  8.4000e-04 }
+    ,{0.20,  5.6000e-04 }
+    ,{0.12,  3.3600e-04 }
+    ,{0.08,  2.2400e-04 }
+    ,{0.05,  1.4000e-04 }
 };
 
 bool qSortLevels(CMapRmp::level_t& l1, CMapRmp::level_t& l2)
@@ -64,14 +66,14 @@ bool qSortLevels(CMapRmp::level_t& l1, CMapRmp::level_t& l2)
 
 
 CMapRmp::CMapRmp(const QString &key, const QString &fn, CCanvas *parent)
-    : IMap(eRaster,key,parent)
-    , xref1(180.0)
-    , yref1(-90)
-    , xref2(-180)
-    , yref2(90)
-    , xscale(1.0)
-    , yscale(-1.0)
-    , tileCnt(0)
+: IMap(eRaster,key,parent)
+, xref1(180.0)
+, yref1(-90)
+, xref2(-180)
+, yref2(90)
+, xscale(1.0)
+, yscale(-1.0)
+, tileCnt(0)
 
 {
     int i;
@@ -94,7 +96,7 @@ CMapRmp::CMapRmp(const QString &key, const QString &fn, CCanvas *parent)
 
     if(!files.isEmpty() && !files.first().provider.isEmpty() && !files.first().product.isEmpty())
     {
-//        qDebug() << "load maps with:" << files.first().provider << files.first().product;
+        //        qDebug() << "load maps with:" << files.first().provider << files.first().product;
         foreach(const QString& subMap, subMaps)
         {
             if(dir.absoluteFilePath(subMap) == filename)
@@ -119,8 +121,8 @@ CMapRmp::CMapRmp(const QString &key, const QString &fn, CCanvas *parent)
     convertRad2M(xref1, yref1);
     convertRad2M(xref2, yref2);
 
-//    qDebug() << "xref1:" << xref1 << "yref1:" << yref1;
-//    qDebug() << "xref2:" << xref2 << "yref2:" << yref2;
+    //    qDebug() << "xref1:" << xref1 << "yref1:" << yref1;
+    //    qDebug() << "xref2:" << xref2 << "yref2:" << yref2;
 
     SETTINGS;
     cfg.beginGroup("magellan/maps");
@@ -137,6 +139,7 @@ CMapRmp::CMapRmp(const QString &key, const QString &fn, CCanvas *parent)
 
     theMainWindow->getCheckBoxQuadraticZoom()->hide();
 }
+
 
 CMapRmp::~CMapRmp()
 {
@@ -159,6 +162,7 @@ CMapRmp::~CMapRmp()
 
 }
 
+
 void CMapRmp::readFile(const QString& filename, const QString &provider, const QString &product)
 {
     qint32 tmp32;
@@ -166,7 +170,7 @@ void CMapRmp::readFile(const QString& filename, const QString &provider, const Q
     QByteArray buffer(30,0);
     QString tmpInfo;
 
-//    qDebug() << "++++++++" << filename << "++++++++";
+    //    qDebug() << "++++++++" << filename << "++++++++";
 
     tmpInfo  += "<h1>" + QFileInfo(filename).baseName() + "</h1>";
 
@@ -207,13 +211,13 @@ void CMapRmp::readFile(const QString& filename, const QString &provider, const Q
     {
         if(mapFile.provider != provider)
         {
-//            qDebug() << "------- do not load";
+            //            qDebug() << "------- do not load";
             files.pop_back();
             return;
         }
         if(mapFile.product != product)
         {
-//            qDebug() << "------- do not load";
+            //            qDebug() << "------- do not load";
             files.pop_back();
             return;
         }
@@ -239,6 +243,7 @@ void CMapRmp::readFile(const QString& filename, const QString &provider, const Q
     mapFile.bbox = QRectF(QPointF(mapFile.lon1, mapFile.lat1), QPointF(mapFile.lon2, mapFile.lat2));
     file.close();
 }
+
 
 void CMapRmp::readDirectory(QDataStream& stream, file_t& file)
 {
@@ -274,12 +279,13 @@ void CMapRmp::readDirectory(QDataStream& stream, file_t& file)
         }
     }
 
-//    foreach(const dir_entry_t& entry, file.directory)
-//    {
-//        qDebug() << entry.name << "." << entry.extension << hex << entry.offset << entry.length;
-//    }
+    //    foreach(const dir_entry_t& entry, file.directory)
+    //    {
+    //        qDebug() << entry.name << "." << entry.extension << hex << entry.offset << entry.length;
+    //    }
 
 }
+
 
 void CMapRmp::readCVGMap(QDataStream& stream, file_t& file, QString& tmpInfo)
 {
@@ -328,6 +334,7 @@ void CMapRmp::readCVGMap(QDataStream& stream, file_t& file, QString& tmpInfo)
     }
 }
 
+
 void CMapRmp::readCopyright(QDataStream& stream, file_t &file, QString &tmpInfo)
 {
     foreach(const dir_entry_t& entry, file.directory)
@@ -343,6 +350,7 @@ void CMapRmp::readCopyright(QDataStream& stream, file_t &file, QString &tmpInfo)
         }
     }
 }
+
 
 void CMapRmp::readLevel(QDataStream& stream, level_t& level, double& lon1, double& lat1, double& lon2, double& lat2)
 {
@@ -365,18 +373,18 @@ void CMapRmp::readLevel(QDataStream& stream, level_t& level, double& lon1, doubl
 
     level.tlm.bbox = QRectF(QPointF(tileLeft, tileTop), QPointF(tileRight, tileBottom));
 
-//    qDebug() << "--------------";
-//    qDebug() << level.tlm.name;
-//    qDebug() << level.tlm.tileCount << level.tlm.tileXSize << level.tlm.tileYSize;
-//    qDebug() << level.tlm.tileHeight << level.tlm.tileWidth << level.tlm.bbox.topLeft() << level.tlm.bbox.bottomRight();
-
+    //    qDebug() << "--------------";
+    //    qDebug() << level.tlm.name;
+    //    qDebug() << level.tlm.tileCount << level.tlm.tileXSize << level.tlm.tileYSize;
+    //    qDebug() << level.tlm.tileHeight << level.tlm.tileWidth << level.tlm.bbox.topLeft() << level.tlm.bbox.bottomRight();
 
     //start 1st node
     stream.device()->seek(level.tlm.offset + 256);
-    stream >> tmp32 >> tmp32 >> firstBlockOffset; //(tlm.offset + 256 + firstBlockOffset)
+                                 //(tlm.offset + 256 + firstBlockOffset)
+    stream >> tmp32 >> tmp32 >> firstBlockOffset;
     stream.device()->seek(level.tlm.offset + 256 + firstBlockOffset);
 
-//    qDebug() << "first block" << hex << quint32(stream.device()->pos());
+    //    qDebug() << "first block" << hex << quint32(stream.device()->pos());
 
     readTLMNode(stream, level.tlm);
 
@@ -385,7 +393,7 @@ void CMapRmp::readLevel(QDataStream& stream, level_t& level, double& lon1, doubl
     stream >> tmp32;
     if(tmp32)
     {
-//        qDebug() << "previous block" << hex << quint32(level.tlm.offset + 256 + tmp32);
+        //        qDebug() << "previous block" << hex << quint32(level.tlm.offset + 256 + tmp32);
         otherNodes << (level.tlm.offset + 256 + tmp32);
     }
 
@@ -394,7 +402,7 @@ void CMapRmp::readLevel(QDataStream& stream, level_t& level, double& lon1, doubl
         stream >> tmp32;
         if(tmp32)
         {
-//            qDebug() << "next block" << hex << quint32(level.tlm.offset + 256 + tmp32);
+            //            qDebug() << "next block" << hex << quint32(level.tlm.offset + 256 + tmp32);
             otherNodes << (level.tlm.offset + 256 + tmp32);
         }
     }
@@ -405,6 +413,7 @@ void CMapRmp::readLevel(QDataStream& stream, level_t& level, double& lon1, doubl
         readTLMNode(stream, level.tlm);
     }
 }
+
 
 void CMapRmp::readTLMNode(QDataStream& stream, tlm_t& tlm)
 {
@@ -435,10 +444,9 @@ void CMapRmp::readTLMNode(QDataStream& stream, tlm_t& tlm)
         lon =   x * tlm.tileWidth - 180.0;
         lat = -(y * tlm.tileHeight - 90.0);
 
-//        qDebug() << i << lon << lat << x << y << tlm.tileWidth << tlm.tileHeight;
+        //        qDebug() << i << lon << lat << x << y << tlm.tileWidth << tlm.tileHeight;
 
         tile.bbox = QRectF(lon, lat, tlm.tileWidth, -tlm.tileHeight);
-
 
         if(i < node.nTiles)
         {
@@ -461,11 +469,13 @@ void CMapRmp::convertPt2M(double& u, double& v)
     v = y + v * yscale * zoomFactor;
 }
 
+
 void CMapRmp::convertM2Pt(double& u, double& v)
 {
     u = floor((u - x) / (xscale * zoomFactor) + 0.5);
     v = floor((v - y) / (yscale * zoomFactor) + 0.5);
 }
+
 
 void CMapRmp::move(const QPoint& old, const QPoint& next)
 {
@@ -488,6 +498,7 @@ void CMapRmp::move(const QPoint& old, const QPoint& next)
 
     setAngleNorth();
 }
+
 
 void CMapRmp::zoom(bool zoomIn, const QPoint& p0)
 {
@@ -525,6 +536,7 @@ void CMapRmp::zoom(bool zoomIn, const QPoint& p0)
     blockSignals(false);
     emit sigChanged();
 }
+
 
 void CMapRmp::zoom(double lon1, double lat1, double lon2, double lat2)
 {
@@ -571,6 +583,7 @@ void CMapRmp::zoom(double lon1, double lat1, double lon2, double lat2)
     }
 }
 
+
 void CMapRmp::zoom(qint32& level)
 {
     needsRedraw = true;
@@ -580,10 +593,11 @@ void CMapRmp::zoom(qint32& level)
     if(zoomidx > MAX_IDX_ZOOM) zoomidx = MAX_IDX_ZOOM;
     zoomFactor = scales[zoomidx].qlgtScale;
 
-//    qDebug() << "zoom:" << zoomFactor << level;
+    //    qDebug() << "zoom:" << zoomFactor << level;
 
     emit sigChanged();
 }
+
 
 void CMapRmp::dimensions(double& lon1, double& lat1, double& lon2, double& lat2)
 {
@@ -597,8 +611,8 @@ void CMapRmp::dimensions(double& lon1, double& lat1, double& lon2, double& lat2)
     lat2 = yref2;
     pj_transform(pjsrc,pjtar,1,0,&lon2,&lat2,0);
 
-
 }
+
 
 void CMapRmp::getArea_n_Scaling(projXY& p1, projXY& p2, float& my_xscale, float& my_yscale)
 {
@@ -625,7 +639,7 @@ int CMapRmp::zlevel2idx(quint32 zl, const file_t& file)
     {
         const level_t& level = file.levels[i];
 
-//        qDebug() << actScale << level.tlm.tileWidth << level.tlm.tileHeight << level.name;
+        //        qDebug() << actScale << level.tlm.tileWidth << level.tlm.tileHeight << level.name;
         if(fabs(actScale - level.tlm.tileHeight) < delta)
         {
             delta = fabs(actScale - level.tlm.tileHeight);
@@ -640,6 +654,7 @@ int CMapRmp::zlevel2idx(quint32 zl, const file_t& file)
 
     return idx;
 }
+
 
 void CMapRmp::draw(QPainter& p)
 {
@@ -659,6 +674,7 @@ void CMapRmp::draw(QPainter& p)
 
     needsRedraw = false;
 }
+
 
 void CMapRmp::drawTileBorder(QPainter& p, const file_t& mapFile)
 {
@@ -683,6 +699,7 @@ void CMapRmp::drawTileBorder(QPainter& p, const file_t& mapFile)
     CCanvas::drawText(QFileInfo(mapFile.filename).fileName(),p,r.center().toPoint());
 
 }
+
 
 void CMapRmp::draw()
 {
@@ -709,7 +726,6 @@ void CMapRmp::draw()
     viewport.setRight(u2);
     viewport.setBottom(v1);
     viewport.setLeft(u1);
-
 
     pixBuffer.fill(Qt::white);
     QPainter p(&pixBuffer);
@@ -760,7 +776,6 @@ void CMapRmp::draw()
                     continue;
                 }
 
-
                 file.seek(level.a00.offset + tile.offset + 4);
 
                 img.load(&file,"JPG");
@@ -771,16 +786,17 @@ void CMapRmp::draw()
 
                 p.drawImage(u1 + 0.5,v1 + 0.5,img.scaled(u2 - u1  + 0.5, v2 - v1 + 0.5,Qt::IgnoreAspectRatio,Qt::SmoothTransformation));
 
-//                p.setPen(QPen(Qt::black,3));
-//                p.drawRect(QRectF(u1,v1,u2-u1,v2-v1));
-//                CCanvas::drawText(QString("%1/%2").arg(tile.b).arg(tile.t),p,QPoint(u1 + (u2-u1)/2, v1 + (v2-v1)/2));
+                //                p.setPen(QPen(Qt::black,3));
+                //                p.drawRect(QRectF(u1,v1,u2-u1,v2-v1));
+                //                CCanvas::drawText(QString("%1/%2").arg(tile.b).arg(tile.t),p,QPoint(u1 + (u2-u1)/2, v1 + (v2-v1)/2));
 
-            }            
+            }
         }
         //drawTileBorder(p, mapFile);
         file.close();
     }
 }
+
 
 void CMapRmp::config()
 {

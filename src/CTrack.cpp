@@ -28,10 +28,13 @@
 #include "CSettings.h"
 
 #include <QtGui>
-#include <QtNetwork/QHttp>
-#include <QtNetwork/QNetworkProxy>
+#include <QNetworkProxy>
+#include <QMessageBox>
+#include <QProgressDialog>
 
+#ifndef QK_QT5_TZONE
 #include <tzdata.h>
+#endif
 
 #ifndef _MKSTR_1
 #define _MKSTR_1(x)    #x
@@ -43,16 +46,17 @@ QDir CTrack::path(_MKSTR(MAPPATH) "/Track");
 QVector<CTrack::multi_color_setup_t> CTrack::setupMultiColor;
 
 CTrack::multi_color_setup_t::multi_color_setup_t(multi_color_setup_e modeMinMax, float min, float max, int minH, int maxH, const QString &name)
-    : modeMinMax(modeMinMax)
-    , minVal(min)
-    , markVal(WPT_NOFLOAT)
-    , maxVal(max)
-    , minHue(minH)
-    , maxHue(maxH)
-    , name(name)
+: modeMinMax(modeMinMax)
+, minVal(min)
+, markVal(WPT_NOFLOAT)
+, maxVal(max)
+, minHue(minH)
+, maxHue(maxH)
+, name(name)
 {
     buildColorTable();
 }
+
 
 void CTrack::multi_color_setup_t::buildColorTable()
 {
@@ -75,6 +79,7 @@ void CTrack::multi_color_setup_t::buildColorTable()
 
 }
 
+
 void CTrack::multi_color_setup_t::save(QSettings& cfg)
 {
     cfg.beginGroup(name);
@@ -87,6 +92,7 @@ void CTrack::multi_color_setup_t::save(QSettings& cfg)
 
     cfg.endGroup();
 }
+
 
 void CTrack::multi_color_setup_t::restore(QSettings& cfg)
 {
@@ -474,7 +480,6 @@ QDataStream& operator <<(QDataStream& s, CTrack& track)
 
     entries << entryTrkPts2;
 
-
     //---------------------------------------
     // prepare trainings data
     //---------------------------------------
@@ -799,6 +804,7 @@ CTrack::~CTrack()
 
 }
 
+
 void CTrack::getMultiColor(bool& on, int& id, QList<multi_color_item_t>& items)
 {
     items << multi_color_item_t(tr("solid"), eMultiColorNone);
@@ -810,18 +816,21 @@ void CTrack::getMultiColor(bool& on, int& id, QList<multi_color_item_t>& items)
     id = idMultiColor;
 }
 
+
 CTrack::multi_color_setup_t& CTrack::getMultiColorSetup(int id)
 {
     return setupMultiColor[id];
 }
 
+
 void CTrack::setMultiColor(bool on, int id)
 {
-     useMultiColor = on;
-     idMultiColor  = id;
+    useMultiColor = on;
+    idMultiColor  = id;
 
-     rebuild(false);
+    rebuild(false);
 }
+
 
 #include "CPlotAxis.h"
 void CTrack::drawMultiColorLegend(QPainter& p)
@@ -916,7 +925,6 @@ void CTrack::drawMultiColorLegend(QPainter& p)
         recTextMax = recText;
     }
 
-
     // tic marks and other labels
     while ( t )
     {
@@ -943,6 +951,7 @@ void CTrack::drawMultiColorLegend(QPainter& p)
     p.restore();
 
 }
+
 
 void CTrack::setHighlight(bool yes)
 {
@@ -1001,12 +1010,20 @@ void CTrack::replaceElevationByRemote(bool replaceOrignalData)
 
         QUrl url("http://ws.geonames.org");
         url.setPath("/srtm3");
+#ifdef QK_QT5_PORT
+        QUrlQuery urlQuery;
+        urlQuery.addQueryItem("lats",lats.join(","));
+        urlQuery.addQueryItem("lngs",lngs.join(","));
+        urlQuery.addQueryItem("username",username);
+        url.setQuery(urlQuery);
+#else
         url.addQueryItem("lats",lats.join(","));
         url.addQueryItem("lngs",lngs.join(","));
         url.addQueryItem("username",username);
+#endif
 
         QNetworkRequest request;
-        
+
         request.setUrl(url);
         QNetworkReply * reply = networkAccessManager->get(request);
 
@@ -1076,7 +1093,6 @@ void CTrack::slotRequestFinished(QNetworkReply * reply)
         qDebug() << "failed to recognize reply";
     }
 }
-
 
 
 QRectF CTrack::getBoundingRectF()
@@ -1255,8 +1271,8 @@ void CTrack::rebuild(bool reindex)
 
     if(pt1->ele   > maxEle)   {maxEle   = pt1->ele;   ptMaxEle   = *pt1;}
     if(pt1->ele   < minEle)   {minEle   = pt1->ele;   ptMinEle   = *pt1;}
-//    if(pt1->speed > maxSpeed) {maxSpeed = pt1->speed; ptMaxSpeed = *pt1;}
-//    if(pt1->speed < minSpeed) {minSpeed = pt1->speed; ptMinSpeed = *pt1;}
+    //    if(pt1->speed > maxSpeed) {maxSpeed = pt1->speed; ptMaxSpeed = *pt1;}
+    //    if(pt1->speed < minSpeed) {minSpeed = pt1->speed; ptMinSpeed = *pt1;}
 
     // process track
     while(++pt2 != track.end())
@@ -1341,8 +1357,8 @@ void CTrack::rebuild(bool reindex)
 
         if(pt2->ele   > maxEle)   {maxEle   = pt2->ele;   ptMaxEle   = *pt2;}
         if(pt2->ele   < minEle)   {minEle   = pt2->ele;   ptMinEle   = *pt2;}
-//        if(pt2->speed > maxSpeed) {maxSpeed = pt2->speed; ptMaxSpeed = *pt2;}
-//        if(pt2->speed < minSpeed) {minSpeed = pt2->speed; ptMinSpeed = *pt2;}
+        //        if(pt2->speed > maxSpeed) {maxSpeed = pt2->speed; ptMaxSpeed = *pt2;}
+        //        if(pt2->speed < minSpeed) {minSpeed = pt2->speed; ptMinSpeed = *pt2;}
 
         pt2->timeSinceStart = t2 - t1;
 
@@ -1359,7 +1375,6 @@ void CTrack::rebuild(bool reindex)
 
             }
         }
-
 
         pt1 = pt2;
     }
@@ -1436,7 +1451,6 @@ void CTrack::rebuild(bool reindex)
         if(pt.speed < minSpeed) {minSpeed = pt.speed; ptMinSpeed = pt;}
     }
 
-
     rebuildColorMap();
 
     emit sigChanged();
@@ -1464,6 +1478,7 @@ void CTrack::rebuildColorMap()
             rebuildColorMapDefault();
     }
 }
+
 
 void CTrack::rebuildColorMapElevation()
 {
@@ -1497,6 +1512,7 @@ void CTrack::rebuildColorMapElevation()
     }
 
 }
+
 
 void CTrack::rebuildColorMapSpeed()
 {
@@ -1534,6 +1550,7 @@ void CTrack::rebuildColorMapSpeed()
 
 }
 
+
 void CTrack::rebuildColorMapSlope()
 {
     multi_color_setup_t& setup = setupMultiColor[eMultiColorSlope];
@@ -1566,6 +1583,7 @@ void CTrack::rebuildColorMapSlope()
     }
 
 }
+
 
 void CTrack::rebuildColorMapDefault()
 {
@@ -1699,6 +1717,7 @@ void CTrack::setPointOfFocus(int idx, type_select_e typeSelect, bool moveMap)
     emit sigNeedUpdate();
 }
 
+
 void CTrack::getPointOfFocus(QList<CTrack::pt_t>& points)
 {
     foreach(const pt_t& trkpt, track)
@@ -1709,6 +1728,7 @@ void CTrack::getPointOfFocus(QList<CTrack::pt_t>& points)
         }
     }
 }
+
 
 void CTrack::setupIterators(QList<pt_t>::iterator& begin, QList<pt_t>::iterator& end)
 {
@@ -1760,7 +1780,11 @@ QDateTime CTrack::getStartTimestamp()
         QDateTime time = QDateTime::fromTime_t(trkpt->timestamp);
         if(!timezone.isEmpty())
         {
+#ifdef QK_QT5_PORT
+            time = time.toTimeZone(QTimeZone(timezone.toLatin1()));
+#else
             time = TimeStamp(trkpt->timestamp).toZone(timezone).toDateTime();
+#endif
         }
         return time;
     }
@@ -1782,7 +1806,11 @@ QDateTime CTrack::getEndTimestamp()
         QDateTime time = QDateTime::fromTime_t(trkpt->timestamp);
         if(!timezone.isEmpty())
         {
+#ifdef QK_QT5_TZONE
+            time = time.toTimeZone(QTimeZone(timezone.toLatin1()));
+#else
             time = TimeStamp(trkpt->timestamp).toZone(timezone).toDateTime();
+#endif
         }
         return time;
     }
@@ -1905,7 +1933,11 @@ QString CTrack::getTrkPtInfo1(pt_t& trkpt)
         QDateTime time = QDateTime::fromTime_t(trkpt.timestamp);
         if(!timezone.isEmpty())
         {
+#ifdef QK_QT5_TZONE
+            time = time.toTimeZone(QTimeZone(timezone.toLatin1()));
+#else
             time = TimeStamp(trkpt.timestamp).toZone(timezone).toDateTime();
+#endif
         }
 
         str = time.toString();
@@ -1985,7 +2017,6 @@ QString CTrack::getTrkPtInfo1(pt_t& trkpt)
         str += tr("speed: %1%2").arg(val).arg(unit);
     }
 
-
     if((trkpt.heartReateBpm != -1) || (trkpt.cadenceRpm != -1))
     {
         if(str.count()) str += "\n";
@@ -2023,7 +2054,6 @@ QString CTrack::getTrkPtInfo1(pt_t& trkpt)
         }
 
     }
-
 
     return str;
 }
@@ -2104,6 +2134,7 @@ QString CTrack::getTrkPtInfo2(pt_t& trkpt)
     return str;
 }
 
+
 QString CTrack::getFocusInfo()
 {
     double tmp, d;
@@ -2133,15 +2164,14 @@ QString CTrack::getFocusInfo()
     }
     tmp = p2.ascend - p1.ascend;
     IUnit::self().meter2elevation(tmp, val, unit);
-    str += QString("%3 %1%2 (%4\260)\n").arg(val).arg(unit).arg(QChar(0x2197)).arg(qRound(atan(tmp/d) * 360 / (2*M_PI)));
+    str += QString("%3 %1%2 (%4%5)\n").arg(val).arg(unit).arg(QChar(0x2197)).arg(qRound(atan(tmp/d) * 360 / (2*M_PI))).arg(QChar(0260));
     tmp = p1.descend - p2.descend;
     IUnit::self().meter2elevation(tmp, val, unit);
-    str += QString("%3 %1%2 (%4\260)").arg(val).arg(unit).arg(QChar(0x2198)).arg(qRound(atan(tmp/d) * 360 / (2*M_PI)));
-
-
+    str += QString("%3 %1%2 (%4%5)").arg(val).arg(unit).arg(QChar(0x2198)).arg(qRound(atan(tmp/d) * 360 / (2*M_PI))).arg(QChar(0260));
 
     return str;
 }
+
 
 void CTrack::setDoScaleWpt2Track(Qt::CheckState state)
 {
@@ -2258,7 +2288,6 @@ void CTrack::slotScaleWpt2Track()
 
     qSort(waypoints.begin(), waypoints.end(), qSortWptLessDistance);
 
-
     QApplication::restoreOverrideCursor();
     return ;
 }
@@ -2318,6 +2347,7 @@ void CTrack::medianFilter(qint32 len, QProgressDialog& progress)
 
 }
 
+
 void CTrack::offsetElevation(double offset)
 {
 
@@ -2334,6 +2364,7 @@ void CTrack::offsetElevation(double offset)
         trkpt++;
     }
 }
+
 
 void CTrack::changeStartTime(QDateTime& time)
 {
@@ -2353,6 +2384,7 @@ void CTrack::changeStartTime(QDateTime& time)
         trkpt++;
     }
 }
+
 
 void CTrack::changeSpeed(double speed)
 {
@@ -2409,6 +2441,7 @@ void CTrack::changeSpeed(double speed)
     }
 }
 
+
 bool CTrack::unifyTimestamps(quint32 delta)
 {
     QList<CTrack::pt_t>::iterator trkpt, end;
@@ -2447,6 +2480,7 @@ bool CTrack::unifyTimestamps(quint32 delta)
 
     return true;
 }
+
 
 void CTrack::reset()
 {

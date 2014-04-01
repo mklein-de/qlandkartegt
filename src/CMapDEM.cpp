@@ -5,12 +5,12 @@
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
-    
+
     This program is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU General Public License for more details.
-    
+
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
@@ -35,9 +35,12 @@
 #endif
 
 #include <QtGui>
+#include <QMessageBox>
+#include <QStatusBar>
 
-const QRgb CMapDEM::slopeColorTable[] = {
-     qRgba(0,0,0,0)
+const QRgb CMapDEM::slopeColorTable[] =
+{
+    qRgba(0,0,0,0)
     ,qRgba(0,128,0,100)
     ,qRgba(0,255,0,100)
     ,qRgba(255,255,0,100)
@@ -45,9 +48,9 @@ const QRgb CMapDEM::slopeColorTable[] = {
     ,qRgba(255,0,0,100)
 };
 
-
-const double CMapDEM::grade1[6] = {
-     0.0
+const double CMapDEM::grade1[6] =
+{
+    0.0
     ,27.0
     ,31.0
     ,34.0
@@ -55,8 +58,9 @@ const double CMapDEM::grade1[6] = {
     ,50.0
 };
 
-const double CMapDEM::grade2[6] = {
-     0.0
+const double CMapDEM::grade2[6] =
+{
+    0.0
     ,27.0
     ,30.0
     ,32.0
@@ -64,8 +68,9 @@ const double CMapDEM::grade2[6] = {
     ,39.0
 };
 
-const double CMapDEM::grade3[6] = {
-     0.0
+const double CMapDEM::grade3[6] =
+{
+    0.0
     ,27.0
     ,29.0
     ,30.0
@@ -73,8 +78,9 @@ const double CMapDEM::grade3[6] = {
     ,34.0
 };
 
-const double CMapDEM::grade4[6] = {
-     0.0
+const double CMapDEM::grade4[6] =
+{
+    0.0
     ,23.0
     ,25.0
     ,27.0
@@ -82,14 +88,14 @@ const double CMapDEM::grade4[6] = {
     ,30.0
 };
 
-const double * CMapDEM::grade[5] = {
-     CMapDEM::grade1 // dummy
+const double * CMapDEM::grade[5] =
+{
+    CMapDEM::grade1              // dummy
     ,CMapDEM::grade1
     ,CMapDEM::grade2
     ,CMapDEM::grade3
     ,CMapDEM::grade4
 };
-
 
 CMapDEM::CMapDEM(const QString& filename, CCanvas * parent)
 : IMap(eDEM, "",parent)
@@ -697,6 +703,7 @@ void CMapDEM::contour(QImage& img, qint16 * data, float xscl, float /*yscale*/)
     }
 }
 
+
 void CMapDEM::slope(QImage& img, qint16 * data, int xoff, int yoff)
 {
     int w1 = img.width();
@@ -769,7 +776,11 @@ void CMapDEM::slope(QImage& img, qint16 * data, int xoff, int yoff)
 
     for(i = 0; i < (w1 * h1); ++i)
     {
+#ifdef QK_QT5_PORT
+        val = abs(data[i]);
+#else
         val = abs(qRound(data[i]));
+#endif
         if(val > g[5])
         {
             *pixel++ = 5;

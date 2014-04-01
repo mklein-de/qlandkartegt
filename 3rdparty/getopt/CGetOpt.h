@@ -44,7 +44,9 @@
 class CGetOpt {
 public:
     CGetOpt();
+#ifndef QK_QT5_PORT
     CGetOpt( int offset );
+#endif
     CGetOpt( int argc, char *argv[] );
     CGetOpt( const QStringList &a );
 

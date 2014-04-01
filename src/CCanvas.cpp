@@ -15,6 +15,8 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 **********************************************************************************************/
+#include <QPrinter>
+#include <QMenu>
 #include "CResources.h"
 #include "CCanvas.h"
 #include "CMapNoMap.h"
@@ -63,7 +65,9 @@
 #include <QtGui>
 
 #include <stdio.h>
+#ifndef QK_QT5_TZONE
 #include <tzdata.h>
+#endif
 
 QPen CCanvas::penBorderBlue(QColor(10,10,150,220),2);
 QPen CCanvas::penBorderBlack(QColor(0,0,0,200),2);
@@ -137,6 +141,7 @@ QColor CCanvas::getSelectedColor()
     return mouseColorPicker->getSelectedColor();
 }
 
+
 void CCanvas::slotMapChanged()
 {
     if(mouse)
@@ -145,6 +150,7 @@ void CCanvas::slotMapChanged()
     }
     update();
 }
+
 
 void CCanvas::slotCopyPosition()
 {
@@ -393,7 +399,7 @@ void CCanvas::print(QPrinter& printer)
 {
     QPainter p;
 
-    p.begin(&printer);
+    p.begin(static_cast<QPaintDevice *>(&printer));
     print(p, printer.pageRect().size());
     p.end();
 
@@ -444,9 +450,9 @@ void CCanvas::print(QImage& img, const QSize& pagesize)
 #ifdef DEBUG_DRAW
 
 #define DEBUG_TIME(label)\
-    qDebug() << label << et.restart() << "ms";
+qDebug() << label << et.restart() << "ms";
 #else
-    #define DEBUG_TIME(label)
+#define DEBUG_TIME(label)
 #endif
 
 void CCanvas::draw(QPainter& p)
@@ -669,14 +675,20 @@ void CCanvas::drawCompass(QPainter& p)
     p.restore();
 }
 
+
 void CCanvas::drawClock(QPainter& p)
 {
     if(!CResources::self().showClock())
     {
         return;
     }
+#ifdef QK_QT5_TZONE
+    QDateTime tstamp = QDateTime::currentDateTimeUtc().toTimeZone(QTimeZone(timezone.toLatin1()));
+    QString strDateTime = tstamp.toString() + " (" + timezone + ")";;
+#else
     TimeStamp tstamp = TimeStamp::now().toUTC();
     QString strDateTime = tstamp.toZone(timezone).toDateTime().toString() + " (" + timezone + ")";
+#endif
 #ifdef WIN32
     strDateTime = " "+strDateTime+" ";
 #endif
@@ -690,6 +702,7 @@ void CCanvas::drawClock(QPainter& p)
     drawText(strDateTime,p,r);
 
 }
+
 
 void CCanvas::drawText(const QString& str, QPainter& p, const QPoint& center, const QColor& color)
 {
@@ -866,7 +879,6 @@ void CCanvas::mouseMoveEventCoord(QMouseEvent * e)
     {
         timezone = GPS_Timezone(x*RAD_TO_DEG, y*RAD_TO_DEG);
 
-
         float ele = CMapDB::self().getDEM().getElevation(x,y);
         if(ele != WPT_NOFLOAT)
         {
@@ -1022,6 +1034,7 @@ void CCanvas::slotTime()
     }
 }
 
+
 void CCanvas::setFadingMessage(const QString& msg)
 {
     fadingMessage = msg;
@@ -1036,6 +1049,7 @@ void CCanvas::slotFadingMessage()
     update();
 
 }
+
 
 void CCanvas::drawFadingMessage(QPainter& p)
 {
@@ -1065,6 +1079,7 @@ void CCanvas::drawFadingMessage(QPainter& p)
     p.setPen(Qt::darkBlue);
     p.drawText(r1, Qt::AlignLeft|Qt::AlignTop|Qt::TextWordWrap,fadingMessage);
 }
+
 
 void CCanvas::drawTrackLegend(QPainter& p)
 {

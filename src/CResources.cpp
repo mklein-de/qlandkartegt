@@ -16,6 +16,7 @@
 
 **********************************************************************************************/
 
+#include <QMessageBox>
 #include "CResources.h"
 #include "CDeviceMagellan.h"
 #include "CDeviceGarmin.h"
@@ -64,7 +65,7 @@ CResources::CResources(QObject * parent)
 , m_useGeoDB(true)
 , m_saveGeoDBOnExit(false)
 , m_saveGeoDBMinutes(5)
-#ifndef Q_WS_MAC
+#ifndef Q_OS_MAC
 , m_pathGeoDB(QDir::homePath())
 #else
 , m_pathGeoDB(QDir::home().filePath(CONFIGDIR))
@@ -92,7 +93,7 @@ CResources::CResources(QObject * parent)
 
     SETTINGS;
 
-#ifndef Q_WS_MAC
+#ifndef Q_OS_MAC
     QString family      = cfg.value("environment/mapfont/family","Arial").toString();
 #else
     // Qt on Mac OS X 10.6 sometimes fails to render, so use the Mac default font here...
@@ -127,7 +128,7 @@ CResources::CResources(QObject * parent)
     m_devIPPort         = cfg.value("device/ipPort",m_devIPPort).toUInt();
     m_devSerialPort     = cfg.value("device/serialPort",m_devSerialPort).toString();
     m_devBaudRate       = cfg.value("device/baudRate",m_devBaudRate).toString();
-	m_watchdogEnabled   = cfg.value("device/watchdog",m_watchdogEnabled).toBool();
+    m_watchdogEnabled   = cfg.value("device/watchdog",m_watchdogEnabled).toBool();
     m_devType           = cfg.value("device/type",m_devType).toString();
     m_devCharset        = cfg.value("device/charset",m_devCharset).toString();
 
@@ -200,12 +201,16 @@ CResources::CResources(QObject * parent)
     }
     else
     {
-#ifndef Q_WS_MAC
+#ifndef Q_OS_MAC
         struct passwd * userInfo = getpwuid(getuid());
         cacheFolder = QDir::tempPath() + "/qlandkarteqt-" + userInfo->pw_name + "/cache/";
 #else
         // Mac OS X: points to /Users/<user name>/Library/Caches/QLandkarteGT/QLandkarteGT
+#ifdef QK_QT5_PORT
+        cacheFolder = QStandardPaths::writableLocation(QStandardPaths::CacheLocation);
+#else
         cacheFolder = QDesktopServices::storageLocation(QDesktopServices::CacheLocation);
+#endif
 #endif
     }
 #else
@@ -247,7 +252,7 @@ CResources::~CResources()
     cfg.setValue("device/ipPort",m_devIPPort);
     cfg.setValue("device/serialPort",m_devSerialPort);
     cfg.setValue("device/baudRate",m_devBaudRate);
-	cfg.setValue("device/watchdog",m_watchdogEnabled);
+    cfg.setValue("device/watchdog",m_watchdogEnabled);
     cfg.setValue("device/type",m_devType);
     cfg.setValue("device/charset",m_devCharset);
 

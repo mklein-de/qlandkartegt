@@ -23,23 +23,34 @@ template <typename KeyL, typename KeyR>
 class Dictionary
 {
     protected:
-        // The pointers are actually iterators over the other hash map
-        typedef QHash<KeyL, void*> HashL;
-        typedef QHash<KeyR, void*> HashR;
+        typedef QHash<KeyL, KeyR> HashL;
+        typedef QHash<KeyR, KeyL> HashR;
 
         HashL hashL;
         HashR hashR;
 
     protected:
         // These convert left iterators to right iterators and back
-        static typename HashR::iterator left2right(typename HashL::iterator il)
-            { return typename HashR::iterator(il.value()); }
-        static typename HashR::const_iterator left2right(typename HashL::const_iterator il)
-            { return typename HashR::const_iterator(il.value()); }
-        static typename HashL::iterator right2left(typename HashR::iterator ir)
-            { return typename HashL::iterator(ir.value()); }
-        static typename HashL::const_iterator right2left(typename HashR::const_iterator ir)
-            { return typename HashL::const_iterator(ir.value()); }
+
+        typename HashR::iterator left2right(typename HashL::iterator il) const
+        {
+            return hashR.find(il.value());
+        }
+
+        typename HashR::const_iterator left2right(typename HashL::const_iterator il) const
+        {
+            return hashR.find(il.value());
+        }
+
+        typename HashL::iterator right2left(typename HashR::iterator ir) const
+        {
+            return hashL.find(ir.value());
+        }
+
+        typename HashL::const_iterator right2left(typename HashR::const_iterator ir) const
+        {
+            return hashL.find(ir.value());
+        }
 
         template<typename I>
             class iterator_base
@@ -111,6 +122,7 @@ class Dictionary
             if (ir == hashR.end()) return hashL.end();
             return right2left(ir);
         }
+
         const_iterator findL(const KeyL& keyL) const { return hashL.find(keyL); }
         const_iterator findR(const KeyR& keyR) const
         {
@@ -118,20 +130,14 @@ class Dictionary
             if (ir == hashR.end()) return hashL.end();
             return right2left(ir);
         }
+
         iterator insert(const KeyL& keyL, const KeyR& keyR)
         {
-            typename HashL::iterator il = hashL.insert(keyL, 0);
-            typename HashR::iterator ir = hashR.insert(keyR, il);
-            il.value() = ir;
+            typename HashL::iterator il = hashL.insert(keyL, keyR);
+            hashR.insert(keyR, keyL);
             return il;
         }
-        iterator insertMulti(const KeyL& keyL, const KeyR& keyR)
-        {
-            typename HashL::iterator il = hashL.insertMulti(keyL, 0);
-            typename HashR::iterator ir = hashR.insertMulti(keyR, il);
-            il.value() = ir;
-            return il;
-        }
+
         bool isEmpty() const { return hashL.isEmpty(); }
         const KeyL left(const KeyR& keyR) const
         {

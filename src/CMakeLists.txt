@@ -5,7 +5,36 @@ option(WITH_EXIF "BUILD EXIF" ON)
 option(WITH_DMTX "BUILD DMTX" ON)
 option(WITH_GPSD "BUILD_GPSD" ON)
 
-find_package(Qt4 REQUIRED)
+
+if(QK_QT5_PORT)
+  find_package(Qt5Widgets)
+  find_package(Qt5Quick)
+  find_package(Qt5Network)
+  find_package(Qt5Gui)
+  find_package(Qt5OpenGL)
+  find_package(Qt5Xml)
+  find_package(Qt5Sql)
+  if(NOT APPLE)
+    find_package(Qt5DBus)
+  endif(NOT APPLE)
+  find_package(Qt5PrintSupport)
+  find_package(Qt5Script)
+  find_package(Qt5Multimedia)
+  find_package(Qt5WebKitWidgets)
+  if(QK_QT5_SERIAL_PORT)
+    find_package(Qt5SerialPort)
+    add_definitions(-DQK_QT5_SERIAL_PORT)
+  endif(QK_QT5_SERIAL_PORT)
+  if(QK_QT5_TZONE)
+    add_definitions(-DQK_QT5_TZONE)
+  endif(QK_QT5_TZONE)
+else(QK_QT5_PORT)
+  find_package(Qt4 REQUIRED)
+  include(${QT_USE_FILE})
+endif(QK_QT5_PORT)
+
+
+
 if(WITH_OPENGL)
     find_package(OpenGL REQUIRED)
 endif(WITH_OPENGL)
@@ -76,7 +105,6 @@ if (NOT WIN32)
 endif (NOT WIN32)
 
 
-include(${QT_USE_FILE})
 
 set(qlandkarte_SRCS
     main.cpp
@@ -507,11 +535,11 @@ SET (PLOT_3D ON CACHE BOOL "3D Maps with OpenGL")
 SET (GPX_EXTENSIONS ON CACHE BOOL "Read <extensions> data from tracks in GPX files.")
 SET (GEO_DB ON CACHE BOOL "Enable Sqlite database for geo data")
 SET (MIKROKOPTER OFF CACHE BOOL "Enable telemtry with a mikrokopter")
-if (NOT WIN32)
+if (NOT WIN32 AND NOT APPLE)
 SET (DBUS ON CACHE BOOL "Enable DBus control.")
-else (NOT WIN32)
+else (NOT WIN32 AND NOT APPLE)
 SET (DBUS OFF CACHE BOOL "Enable DBus control.")
-endif (NOT WIN32)
+endif (NOT WIN32 AND NOT APPLE)
 SET (ALTKEY_MOVES_MAP OFF CACHE BOOL "Move map while pressing ALT key and mousemove.")
 SET (RMAP ON CACHE BOOL "Enable TwoNav RMAP Support")
 
@@ -598,14 +626,22 @@ IF(MIKROKOPTER)
     SET(qlandkarte_UIS ${qlandkarte_UIS})
 ENDIF(MIKROKOPTER)
 
-
-qt4_wrap_cpp(qlandkarte_MOC_SRCS ${qlandkarte_HDRS})
-qt4_wrap_ui(qlandkarte_UI_HDRS ${qlandkarte_UIS})
-qt4_add_resources(qlandkarte_RC_SRCS ${qlandkarte_RCS})
+if(QK_QT5_PORT)
+  qt5_wrap_cpp(qlandkarte_MOC_SRCS ${qlandkarte_HDRS})
+  qt5_wrap_ui(qlandkarte_UI_HDRS ${qlandkarte_UIS})
+  qt5_add_resources(qlandkarte_RC_SRCS ${qlandkarte_RCS})
+else(QK_QT5_PORT)
+  qt4_wrap_cpp(qlandkarte_MOC_SRCS ${qlandkarte_HDRS})
+  qt4_wrap_ui(qlandkarte_UI_HDRS ${qlandkarte_UIS})
+  qt4_add_resources(qlandkarte_RC_SRCS ${qlandkarte_RCS})
+endif(QK_QT5_PORT)
 
 SET (ENABLE_TRANSLATION ON CACHE BOOL "enable translations")
 #-D ENABLE_TRANSLATION:bool=OFF
 IF(ENABLE_TRANSLATION)
+    if(QK_QT5_PORT)
+      find_package(Qt5LinguistTools)
+    endif(QK_QT5_PORT)
     add_definitions(-DENABLE_TRANSLATION)
 
     file (GLOB TRANSLATIONS_FILES locale/*.ts)
@@ -613,14 +649,27 @@ IF(ENABLE_TRANSLATION)
     option (UPDATE_TRANSLATIONS "Update source translation translations/*.ts
     files (WARNING: make clean will delete the source .ts files! Danger!)")
     if (UPDATE_TRANSLATIONS)
-       qt4_create_translation(qlandkarte_QM_FILES
-                              ${qlandkarte_SRCS}
-                              ${qlandkarte_HDRS}
-                              ${qlandkarte_UIS}
-                              ${TRANSLATIONS_FILES}
-                          )
+       if(QK_QT5_PORT)
+	 qt5_create_translation(qlandkarte_QM_FILES
+           ${qlandkarte_SRCS}
+           ${qlandkarte_HDRS}
+           ${qlandkarte_UIS}
+           ${TRANSLATIONS_FILES}
+           )
+       else(QK_QT5_PORT)
+	 qt4_create_translation(qlandkarte_QM_FILES
+           ${qlandkarte_SRCS}
+           ${qlandkarte_HDRS}
+           ${qlandkarte_UIS}
+           ${TRANSLATIONS_FILES}
+           )
+       endif(QK_QT5_PORT)
     else (UPDATE_TRANSLATIONS)
-       qt4_add_translation(qlandkarte_QM_FILES ${TRANSLATIONS_FILES})
+      if (QK_QT5_PORT)
+	qt5_add_translation(qlandkarte_QM_FILES ${TRANSLATIONS_FILES})
+      else(QK_QT5_PORT)
+	qt4_add_translation(qlandkarte_QM_FILES ${TRANSLATIONS_FILES})
+      endif(QK_QT5_PORT)
     endif (UPDATE_TRANSLATIONS)
 
     if (UNIX AND NOT WIN32 AND NOT APPLE)
@@ -642,7 +691,7 @@ if(UNIX)
     add_definitions(-D_TTY_POSIX_ -Wall )
 endif(UNIX)
 
-include_directories(
+set(qlandkarte_include_dirs
   ${CMAKE_BINARY_DIR}
   ${CMAKE_CURRENT_BINARY_DIR}
   ${GDAL_INCLUDE_DIRS}
@@ -656,18 +705,41 @@ include_directories(
   ${QT_QTSCRIPT_INCLUDE_DIR}
   ${QL_OPENGL_INCLUDE_DIR}
   ${CMAKE_SOURCE_DIR}/include
-  ${CMAKE_SOURCE_DIR}/3rdparty/SerialPort
-  ${CMAKE_SOURCE_DIR}/3rdparty/QMKToolBox
+  # ${CMAKE_SOURCE_DIR}/3rdparty/QMKToolBox
   ${CMAKE_SOURCE_DIR}/3rdparty/QZip
   ${CMAKE_SOURCE_DIR}/3rdparty/QTextHtmlExporter
   ${CMAKE_SOURCE_DIR}/3rdparty/getopt
   ${CMAKE_SOURCE_DIR}/3rdparty/conan/include
-  ${CMAKE_SOURCE_DIR}/3rdparty/tzone/include
   ${QTSOAP_INCLUDE_DIRS}
   ${EXIF_INCLUDE_DIRS}
   ${DMTX_INCLUDE_DIRS}
   ${GPSD_INCLUDE_DIRS}
   ${QEXTSERIALPORT_INCLUDE_DIRS}
+)
+
+if(NOT QK_QT5_PORT)
+  set(qlandkarte_include_dirs
+    ${qlandkarte_include_dirs} 
+    ${CMAKE_SOURCE_DIR}/3rdparty/QMKToolBox
+  )
+endif(NOT QK_QT5_PORT)
+
+if(NOT QK_QT5_SERIAL_PORT)
+  set(qlandkarte_include_dirs
+    ${qlandkarte_include_dirs} 
+    ${CMAKE_SOURCE_DIR}/3rdparty/SerialPort
+  )
+endif(NOT QK_QT5_SERIAL_PORT)
+
+if(NOT QK_QT5_TZONE)
+  set(qlandkarte_include_dirs
+    ${qlandkarte_include_dirs} 
+    ${CMAKE_SOURCE_DIR}/3rdparty/tzone/include
+  )
+endif(NOT QK_QT5_TZONE)
+
+include_directories(
+  ${qlandkarte_include_dirs}
 )
 
 set(qlandkarte_ALLINP
@@ -712,36 +784,78 @@ else(APPLE)
   add_executable(${PROGNAME} WIN32 ${qlandkarte_ALLINP})
 endif(APPLE)
 
+if(QK_QT5_PORT)
+  qt5_use_modules(${PROGNAME} Widgets)
+  qt5_use_modules(${PROGNAME} Quick)
+  qt5_use_modules(${PROGNAME} Network)
+  qt5_use_modules(${PROGNAME} Gui)
+  qt5_use_modules(${PROGNAME} Xml)
+  qt5_use_modules(${PROGNAME} Sql)
+  qt5_use_modules(${PROGNAME} OpenGL)
+  if (NOT APPLE)
+    qt5_use_modules(${PROGNAME} DBus)
+  endif(NOT APPLE)
+  qt5_use_modules(${PROGNAME} PrintSupport)
+  qt5_use_modules(${PROGNAME} Script)
+  qt5_use_modules(${PROGNAME} Multimedia)
+  qt5_use_modules(${PROGNAME} WebKitWidgets)
+  qt5_use_modules(${PROGNAME} SerialPort)
+endif(QK_QT5_PORT)
+
+
 if(MSVC)
   add_definitions(-D_CRT_SECURE_NO_DEPRECATE )
 endif(MSVC)
-target_link_libraries(
+
+set(qlandkarte_link_libs
     ${PROGNAME}
-      ${GDAL_LIBRARIES}
-      ${PROJ_LIBRARIES}
-      ${QT_LIBRARIES}
-      ${QT_QTNETWORK_LIBRARIES}
-      ${QT_QTXML_LIBRARIES}
-      ${QT_QTSQL_LIBRARIES}
-      ${QT_QTDBUS_LIBRARIES}
-      ${QT_QTMAIN_LIBRARIES}
-      ${QT_QTWEBKIT_LIBRARIES}
-      ${QT_PHONON_LIBRARIES}
-      ${QT_QTSCRIPT_LIBRARIES}
-      ${QT_QTXMLPATTERNS_LIBRARIES}
-      ${QL_OPENGL_LIBRARIES}
-      ${EXIF_LIBRARIES}
-      ${DMTX_LIBRARIES}
-      ${GPSD_LIBRARIES}
-      SerialPort
-      QMKToolBox
-      qzip
-      qtexthtmlexporter
-      getopt
-      ${QTSOAP_LIBRARIES}
-      ${PROFILING_LIBRARIES}
-      tzone
+    ${GDAL_LIBRARIES}
+    ${PROJ_LIBRARIES}
+    ${QT_LIBRARIES}
+    ${QT_QTNETWORK_LIBRARIES}
+    ${QT_QTXML_LIBRARIES}
+    ${QT_QTSQL_LIBRARIES}
+    ${QT_QTDBUS_LIBRARIES}
+    ${QT_QTMAIN_LIBRARIES}
+    ${QT_QTWEBKIT_LIBRARIES}
+    ${QT_PHONON_LIBRARIES}
+    ${QT_QTSCRIPT_LIBRARIES}
+    ${QT_QTXMLPATTERNS_LIBRARIES}
+    ${QL_OPENGL_LIBRARIES}
+    ${EXIF_LIBRARIES}
+    ${DMTX_LIBRARIES}
+    ${GPSD_LIBRARIES}
+    qzip
+    qtexthtmlexporter
+    getopt
+    ${QTSOAP_LIBRARIES}
+    ${PROFILING_LIBRARIES}
+)
+
+if(NOT QK_QT5_PORT)
+  set(qlandkarte_link_libs
+    ${qlandkarte_link_libs}
+    QMKToolBox
   )
+endif(NOT QK_QT5_PORT)
+
+if(NOT QK_QT5_SERIAL_PORT)
+  set(qlandkarte_link_libs
+    ${qlandkarte_link_libs}
+    SerialPort
+  )
+endif(NOT QK_QT5_SERIAL_PORT)
+
+if(NOT QK_QT5_TZONE)
+  set(qlandkarte_link_libs
+    ${qlandkarte_link_libs}
+    tzone
+  )
+endif(NOT QK_QT5_TZONE)
+
+target_link_libraries(
+  ${qlandkarte_link_libs}
+)
 
 install(
     TARGETS

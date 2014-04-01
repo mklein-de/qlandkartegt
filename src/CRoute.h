@@ -97,7 +97,6 @@ class CRoute : public IItem
 
         void setCalcPending(){calcRoutePending = true;}
 
-
     private:
         friend class CRouteDB;
         friend QDataStream& operator >>(QDataStream& s, CRoute& route);

@@ -1,13 +1,29 @@
 project(QLandkarteGT)
 
-# Required cmake version
-cmake_minimum_required(VERSION 2.6.0)
+option(QK_QT5_PORT "Qt5 port" OFF)
+if(QK_QT5_PORT)
+  set(QT_QMAKE_EXECUTABLE "/usr/lib64/qt5/bin/qmake")
+  add_definitions(-DQK_QT5_PORT)
+  cmake_minimum_required(VERSION 2.8.9)
+  find_package(Qt5Widgets)
+  if(NOT(${Qt5Core_VERSION_MINOR} LESS 1))
+    set(QK_QT5_SERIAL_PORT ON)
+    set(QEXTSERIALPORT_INCLUDE_DIRS "")
+  endif(NOT(${Qt5Core_VERSION_MINOR} LESS 1))
+  if(NOT(${Qt5Core_VERSION_MINOR} LESS 2))
+    set(QK_QT5_TZONE ON)
+  endif(NOT(${Qt5Core_VERSION_MINOR} LESS 2))
+else(QK_QT5_PORT)
+  cmake_minimum_required(VERSION 2.6.0)
+endif(QK_QT5_PORT)
+
 
 set(APPLICATION_NAME ${PROJECT_NAME})
 
 set(APPLICATION_VERSION_MAJOR "1")
 set(APPLICATION_VERSION_MINOR "7")
 set(APPLICATION_VERSION_PATCH "6.post")
+
 
 add_definitions(-DVER_MAJOR=${APPLICATION_VERSION_MAJOR} -DVER_MINOR=${APPLICATION_VERSION_MINOR} -DVER_STEP=${APPLICATION_VERSION_PATCH})
 
@@ -63,20 +79,25 @@ configure_file(config.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config.h)
 
 option(WITH_PROFILING "BUILD WITH PROFILING" OFF)
 
-if (NOT WIN32)
-find_package(QextSerialPort)
-else (NOT WIN32)
-find_package(QextSerialPort QUIET)
-endif (NOT WIN32)
+if (NOT QK_QT5_SERIAL_PORT)
+  if (NOT WIN32)
+    find_package(QextSerialPort)
+  else (NOT WIN32)
+    find_package(QextSerialPort QUIET)
+  endif (NOT WIN32)
 
-if(NOT QEXTSERIALPORT_FOUND)
+  if(NOT QEXTSERIALPORT_FOUND)
     add_subdirectory(3rdparty/SerialPort/qextserialport)
     set(QEXTSERIALPORT_LIBRARIES qextserialport)
     set(QEXTSERIALPORT_INCLUDE_DIRS ${CMAKE_SOURCE_DIR}/3rdparty/SerialPort/qextserialport)
-endif()
+  endif()
+  add_subdirectory(3rdparty/SerialPort)
+endif (NOT QK_QT5_SERIAL_PORT)
 
-add_subdirectory(3rdparty/SerialPort)
-add_subdirectory(3rdparty/QMKToolBox)
+if (NOT QK_QT5_PORT)
+  add_subdirectory(3rdparty/QMKToolBox)
+endif (NOT QK_QT5_PORT)
+
 add_subdirectory(3rdparty/QZip)
 add_subdirectory(3rdparty/QTextHtmlExporter)
 add_subdirectory(3rdparty/getopt)
@@ -85,15 +106,19 @@ add_subdirectory(3rdparty/map2rmap)
 add_subdirectory(3rdparty/map2rmp)
 add_subdirectory(3rdparty/map2jnx)
 add_subdirectory(3rdparty/cache2gtiff)
-add_subdirectory(3rdparty/tzone)
+
+if (NOT QK_QT5_TZONE)
+    add_subdirectory(3rdparty/tzone)
+endif (NOT QK_QT5_TZONE)
+
 find_package(QtSoap)
 if (NOT QTSOAP_FOUND)
-add_subdirectory(3rdparty/qtsoap)
+    add_subdirectory(3rdparty/qtsoap)
 endif()
 
 if(WITH_PROFILING)
-add_definitions(-DDO_PROFILING)
-add_subdirectory(3rdparty/conan)
+    add_definitions(-DDO_PROFILING)
+    add_subdirectory(3rdparty/conan)
 endif(WITH_PROFILING)
 
 add_subdirectory(src)

@@ -30,6 +30,10 @@
 #include "config.h"
 
 #include <QtGui>
+#include <QFileDialog>
+#include <QMessageBox>
+#include <QShortcut>
+#include <QMenu>
 
 CMapToolWidget::CMapToolWidget(QTabWidget * parent)
 : QWidget(parent)
@@ -227,18 +231,30 @@ void CMapToolWidget::slotDBChanged()
     }
 
     // adjust column sizes to fit
+#ifdef QK_QT5_PORT
+    treeKnownMapsStream->header()->setSectionResizeMode(0,QHeaderView::Interactive);
+#else
     treeKnownMapsStream->header()->setResizeMode(0,QHeaderView::Interactive);
+#endif
     for(int i=0; i < eMaxColumn - 1; ++i)
     {
         treeKnownMapsStream->resizeColumnToContents(i);
     }
+#ifdef QK_QT5_PORT
+    treeKnownMapsVector->header()->setSectionResizeMode(0,QHeaderView::Interactive);
+#else
     treeKnownMapsVector->header()->setResizeMode(0,QHeaderView::Interactive);
+#endif
     for(int i=0; i < eMaxColumn - 1; ++i)
     {
         treeKnownMapsVector->resizeColumnToContents(i);
     }
 
+#ifdef QK_QT5_PORT
+    treeKnownMapsRaster->header()->setSectionResizeMode(0,QHeaderView::Interactive);
+#else
     treeKnownMapsRaster->header()->setResizeMode(0,QHeaderView::Interactive);
+#endif
     for(int i=0; i < eMaxColumn - 1; ++i)
     {
         treeKnownMapsRaster->resizeColumnToContents(i);
@@ -261,7 +277,7 @@ void CMapToolWidget::slotDBChanged()
             ++map;
         }
 
-#if defined(Q_WS_MAC)
+#if defined(Q_OS_MAC)
         listSelectedMaps->setCurrentRow(0);
 #endif
         if(selected) listSelectedMaps->setCurrentItem(selected);

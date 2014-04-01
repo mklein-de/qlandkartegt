@@ -6,9 +6,13 @@ cmake_minimum_required(VERSION 2.6.0)
 
 set(LIBRARY_OUTPUT_PATH ${CMAKE_BINARY_DIR}/lib)
 
-find_package(Qt4 REQUIRED)
 
-include(${QT_USE_FILE})
+if(QK_QT5_PORT)
+  find_package(Qt5Widgets)
+else(QK_QT5_PORT)
+  find_package(Qt4 REQUIRED)
+  include(${QT_USE_FILE})
+endif(QK_QT5_PORT)
 
 if(WIN32)
     #add path to zlib.h in QT 3rdparty directory
@@ -41,9 +45,15 @@ set(RCS
 )
 
 
-qt4_wrap_cpp(MOC_SRCS ${HDRS})
-qt4_wrap_ui(UI_HDRS ${UIS})
-qt4_add_resources(RC_SRCS ${RCS})
+if(QK_QT5_PORT)
+  qt5_wrap_cpp(MOC_SRCS ${HDRS})
+  qt5_wrap_ui(UI_HDRS ${UIS})
+  qt5_add_resources(RC_SRCS ${RCS})
+else(QK_QT5_PORT)
+  qt4_wrap_cpp(MOC_SRCS ${HDRS})
+  qt4_wrap_ui(UI_HDRS ${UIS})
+  qt4_add_resources(RC_SRCS ${RCS})
+endif(QK_QT5_PORT)
 
 
 
@@ -66,6 +76,10 @@ add_library(qzip
   ${MOC_SRCS}
   ${QM_FILES}
 )
+
+if(QK_QT5_PORT)
+  qt5_use_modules(qzip Widgets)
+endif(QK_QT5_PORT)
 
 if(WIN32)
 target_link_libraries( qzip

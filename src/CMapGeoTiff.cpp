@@ -26,6 +26,8 @@
 #include <math.h>
 
 #include <QtGui>
+#include <QMessageBox>
+#include <QCheckBox>
 
 CMapGeoTiff::CMapGeoTiff(const QString& fn, CCanvas * parent)
 : IMap(eRaster, "",parent)

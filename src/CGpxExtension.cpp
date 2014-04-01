@@ -19,7 +19,6 @@
 // Includes
 #include "CGpxExtension.h"
 
-
 void CGpxExtPt::setValues(const QDomNode& parent)
 {
     QDomNode child = parent.firstChild();

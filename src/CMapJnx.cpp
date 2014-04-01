@@ -5,12 +5,12 @@
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
-    
+
     This program is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU General Public License for more details.
-    
+
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
@@ -23,6 +23,7 @@
 #include "CMainWindow.h"
 #include "CSettings.h"
 #include <QtGui>
+#include <QCheckBox>
 
 #define MAX_IDX_ZOOM 26
 #define MIN_IDX_ZOOM 0
@@ -108,7 +109,6 @@ CMapJnx::CMapJnx(const QString& key, const QString& fn, CCanvas * parent)
             readFile(dir.absoluteFilePath(subMap), productId);
         }
     }
-
 
     pjsrc = pj_init_plus("+proj=merc +ellps=WGS84 +datum=WGS84 +units=m +no_defs +towgs84=0,0,0");
     oSRS.importFromProj4(getProjection());
@@ -215,7 +215,6 @@ void CMapJnx::readFile(const QString& fn, qint32& productId)
     mapFile.lon2 = hdr.lon2 * 180.0 / 0x7FFFFFFF;
     mapFile.bbox = QRectF(QPointF(mapFile.lon1, mapFile.lat1), QPointF(mapFile.lon2, mapFile.lat2));
 
-
     qDebug() << hex << "Version:" << hdr.version << "DevId" <<  hdr.devid;
     qDebug() << mapFile.lon1 << mapFile.lat1 << mapFile.lon2 << mapFile.lat2;
     qDebug() << hex <<  hdr.lon1 <<  hdr.lat1 <<  hdr.lon2 <<  hdr.lat2;
@@ -228,8 +227,8 @@ void CMapJnx::readFile(const QString& fn, qint32& productId)
 
     info += QString("<p><table>");
     info += QString("<tr><td style='background-color: blue; color: white;'>%1</td><td>%2</td></tr>").arg(tr("Product ID")).arg(hdr.productId);
-    info += QString("<tr><td style='background-color: blue; color: white;'>%1</td><td>%2</td></tr>").arg(tr("Top/Left")).arg(strTopLeft.replace("\260","&#176;"));
-    info += QString("<tr><td style='background-color: blue; color: white;'>%1</td><td>%2</td></tr>").arg(tr("Bottom/Right")).arg(strBottomRight.replace("\260","&#176;"));
+    info += QString("<tr><td style='background-color: blue; color: white;'>%1</td><td>%2</td></tr>").arg(tr("Top/Left")).arg(strTopLeft.replace(QChar(0260),"&#176;"));
+    info += QString("<tr><td style='background-color: blue; color: white;'>%1</td><td>%2</td></tr>").arg(tr("Bottom/Right")).arg(strBottomRight.replace(QChar(0260),"&#176;"));
 
     {
         projXY p1, p2;
@@ -347,6 +346,7 @@ void CMapJnx::readFile(const QString& fn, qint32& productId)
     if(mapFile.lat2 < lat2) lat2  = mapFile.lat2;
 
 }
+
 
 void CMapJnx::convertPt2M(double& u, double& v)
 {

@@ -27,6 +27,9 @@
 #include "CSettings.h"
 
 #include <QtGui>
+#include <QMenu>
+#include <QMessageBox>
+#include <QFileDialog>
 
 CPlot::CPlot(CPlotData::axis_type_e type, mode_e mode, QWidget * parent)
 : QWidget(parent)
@@ -135,6 +138,7 @@ void CPlot::setLimits()
 {
     m_pData->setLimits();
 }
+
 
 void CPlot::newLine(const QPolygonF& line, const QList<QPointF>& focus, const QString& label)
 {
@@ -484,7 +488,6 @@ void CPlot::draw(QPainter& p)
                 p.drawText(r1, Qt::AlignLeft|Qt::AlignTop|Qt::TextWordWrap,str);
             }
 
-
             x   = posMouse.x();
             str = track->getTrkPtInfo2(*selTrkPt);
             if(!str.isEmpty() && m_pData->focus.isEmpty())
@@ -693,7 +696,6 @@ void CPlot::drawYScale( QPainter &p )
         t = m_pData->y().ticmark( t );
     }
 
-
     if((limMax - limMin) <= (useMax - useMin)) return;
 
     double scale = (top - bottom) / (limMax - limMin);
@@ -806,7 +808,6 @@ void CPlot::drawGridY( QPainter &p )
         iy = bottom - m_pData->y().val2pt( m_pData->ymax );
         p.drawLine( ix, iy, ix + dx, iy );
     }
-
 
     p.setPen( oldpen );
     m_pData->y().setTicType( oldtic );
@@ -937,7 +938,6 @@ void CPlot::drawData(QPainter& p)
         p.drawPolyline(background.mid(1,line.size()));
         p.restore();
 
-
     }
 
     if(m_pData->focus.size() < 2)
@@ -986,7 +986,6 @@ void CPlot::drawData(QPainter& p)
                 {
                     pty = pty - r1.height();
                 }
-
 
                 r1.moveTopLeft(QPoint(ptx, pty));
 

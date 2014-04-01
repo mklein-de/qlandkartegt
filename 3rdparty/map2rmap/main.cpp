@@ -252,7 +252,7 @@ int main(int argc, char ** argv)
 
     file.seek(posMapData);
     stream << quint32(1) << mapdata.size();
-    stream.writeRawData(mapdata.toAscii(), mapdata.size());
+    stream.writeRawData(mapdata.toLatin1(), mapdata.size());
 
     GDALDestroyDriverManager();
     printf("\n");

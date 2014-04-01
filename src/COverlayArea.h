@@ -30,104 +30,102 @@ extern QPointer<COverlayAreaEditWidget> overlayAreaEditWidget;
 class COverlayArea : public IOverlay
 {
     Q_OBJECT;
-public:
-    struct pt_t : public projXY
-    {
-        int idx;
-    };
+    public:
+        struct pt_t : public projXY
+        {
+            int idx;
+        };
 
-    COverlayArea(const QString& name, const QString& comment, const QColor &color, const Qt::BrushStyle style, const QList<pt_t>& pts, QObject * parent);
+        COverlayArea(const QString& name, const QString& comment, const QColor &color, const Qt::BrushStyle style, const QList<pt_t>& pts, QObject * parent);
 
-    /// draw what ever you want
-    void draw(QPainter& p, const QRect& viewport);
-    /// returns name, comment and length
-    QString getInfo();
-    /// return true if coursor is close to the overlay to redirect mouse events into the overlay
-    bool isCloseEnough(const QPoint& pt);
+        /// draw what ever you want
+        void draw(QPainter& p, const QRect& viewport);
+        /// returns name, comment and length
+        QString getInfo();
+        /// return true if coursor is close to the overlay to redirect mouse events into the overlay
+        bool isCloseEnough(const QPoint& pt);
 
-    /// returns true while moving a waypoint
-    bool mouseActionInProgress(){return doMove;}
+        /// returns true while moving a waypoint
+        bool mouseActionInProgress(){return doMove;}
 
-    void keyPressEvent(QKeyEvent * e);
-    void mouseMoveEvent(QMouseEvent * e);
-    void mousePressEvent(QMouseEvent * e);
-    void mouseReleaseEvent(QMouseEvent * e);
+        void keyPressEvent(QKeyEvent * e);
+        void mouseMoveEvent(QMouseEvent * e);
+        void mousePressEvent(QMouseEvent * e);
+        void mouseReleaseEvent(QMouseEvent * e);
 
-    /// add "Make Track" and "Edit..." to custom menu
-    void customMenu(QMenu& menu);
+        /// add "Make Track" and "Edit..." to custom menu
+        void customMenu(QMenu& menu);
 
-    /// iterate over all waypoints to get zoom area
-    void makeVisible();
-    void looseFocus();
-    QRectF getBoundingRectF();
-    void delPointsByIdx(const QList<int>& idx);
+        /// iterate over all waypoints to get zoom area
+        void makeVisible();
+        void looseFocus();
+        QRectF getBoundingRectF();
+        void delPointsByIdx(const QList<int>& idx);
 
+        void save(QDataStream& s);
+        void load(QDataStream& s);
 
-    void save(QDataStream& s);
-    void load(QDataStream& s);
+        void setWidth(quint32 w){width = w;}
+        void setOpacity(quint8 o){opacity = o;}
 
-    void setWidth(quint32 w){width = w;}
-    void setOpacity(quint8 o){opacity = o;}
+        signals:
+        void sigSelectionChanged();
 
-signals:
-    void sigSelectionChanged();
+    private slots:
+        void slotShow();
+        void slotEdit();
 
-private slots:
-    void slotShow();    
-    void slotEdit();
+    private:
+        friend class COverlayDB;
+        friend class COverlayAreaEditWidget;
+        void drawDistanceInfo(projXY p1, projXY p2, QPainter& p, IMap& map);
+        void calc();
 
-private:
-    friend class COverlayDB;
-    friend class COverlayAreaEditWidget;
-    void drawDistanceInfo(projXY p1, projXY p2, QPainter& p, IMap& map);
-    void calc();
+        /// the polyline as list of points [rad]
+        QList<pt_t> points;
+        /// indices of selected points
+        QList<int> selectedPoints;
 
-    /// the polyline as list of points [rad]
-    QList<pt_t> points;
-    /// indices of selected points
-    QList<int> selectedPoints;
+        QColor color;
+        Qt::BrushStyle style;
+        quint32 width;
+        quint8 opacity;
 
-    QColor color;
-    Qt::BrushStyle style;
-    quint32 width;
-    quint8 opacity;
+        /// pointer to point of polyline if cursor is closer than 30px
+        pt_t * thePoint;
+        pt_t * thePointBefor;
+        pt_t * thePointAfter;
+        /// need to restore point if move command is aborted
+        pt_t savePoint;
 
-    /// pointer to point of polyline if cursor is closer than 30px
-    pt_t * thePoint;
-    pt_t * thePointBefor;
-    pt_t * thePointAfter;
-    /// need to restore point if move command is aborted
-    pt_t savePoint;
+        /// rectangle in function wheel for del icon
+        QRect rectDel;
+        /// rectangle in function wheel for move icon
+        QRect rectMove;
+        /// rectangle in function wheel for add1 icon
+        QRect rectAdd1;
+        /// rectangle in function wheel for add2 icon
+        QRect rectAdd2;
 
-    /// rectangle in function wheel for del icon
-    QRect rectDel;
-    /// rectangle in function wheel for move icon
-    QRect rectMove;
-    /// rectangle in function wheel for add1 icon
-    QRect rectAdd1;
-    /// rectangle in function wheel for add2 icon
-    QRect rectAdd2;
+        /// to show special cursor over function wheel icon
+        bool doSpecialCursor;
+        /// set true while moving a point
+        bool doMove;
+        /// set true while showing the function wheel
+        bool doFuncWheel;
 
-    /// to show special cursor over function wheel icon
-    bool doSpecialCursor;
-    /// set true while moving a point
-    bool doMove;
-    /// set true while showing the function wheel
-    bool doFuncWheel;
+        enum addType_e{eNone, eBefore, eAfter, eAtEnd};
+        ///
+        addType_e addType;
 
-    enum addType_e{eNone, eBefore, eAfter, eAtEnd};
-    ///
-    addType_e addType;
+        double anglePrev;
+        double angleNext;
 
-    double anglePrev;
-    double angleNext;
+        /// the complete polyline close to the cursor from a vector map
+        QPolygon leadline;
+        /// the subline of the leadline between the last point and the cursor
+        QPolygon subline;
 
-    /// the complete polyline close to the cursor from a vector map
-    QPolygon leadline;
-    /// the subline of the leadline between the last point and the cursor
-    QPolygon subline;
-
-    bool isEdit;    
+        bool isEdit;
 };
-
-#endif // COVERLAYAREA_H
+#endif                           // COVERLAYAREA_H

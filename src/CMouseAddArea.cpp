@@ -24,9 +24,8 @@
 
 #include <QtGui>
 
-
 CMouseAddArea::CMouseAddArea(CCanvas *canvas)
-    : IMouse(canvas)
+: IMouse(canvas)
 {
     cursor = QCursor(QPixmap(":/cursors/cursorArea.png"),0,0);
 }
@@ -36,6 +35,7 @@ void CMouseAddArea::mouseMoveEvent(QMouseEvent * e)
 {
 
 }
+
 
 void CMouseAddArea::mousePressEvent(QMouseEvent * e)
 {
@@ -56,6 +56,7 @@ void CMouseAddArea::mousePressEvent(QMouseEvent * e)
         selOverlay = COverlayDB::self().addArea("", "", Qt::blue, Qt::NoBrush, pts);
     }
 }
+
 
 void CMouseAddArea::mouseReleaseEvent(QMouseEvent * e)
 {

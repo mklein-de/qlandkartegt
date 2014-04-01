@@ -37,6 +37,9 @@
 #include "CTrackDB.h"
 
 #include <QtGui>
+#include <QMessageBox>
+#include <QPixmap>
+#include <QProgressDialog>
 
 CWptDB * CWptDB::m_self = 0;
 
@@ -957,16 +960,22 @@ void CWptDB::draw(QPainter& p, const QRect& rect, bool& needsRedraw)
 
         if(rect.contains(QPoint(u,v)))
         {
-
             QPixmap icon = (*wpt)->getIcon();
             QPixmap back = QPixmap(icon.size());
+#ifdef QK_QT5_PORT
+            back.fill(Qt::black);
+            QPainter::CompositionMode oldMode = p.compositionMode();
+            p.setCompositionMode(QPainter::CompositionMode_SourceOver);
+#else
             back.fill(Qt::white);
             back.setMask(icon.alphaChannel().createMaskFromColor(Qt::black));
+#endif
 
             int o =  icon.width() >>1;
 
             // draw waypoint icon
 
+#ifndef QK_QT5_PORT
             p.drawPixmap(u - (o + 1) , v - (o + 1), back);
             p.drawPixmap(u - (o + 1) , v - (o + 0), back);
             p.drawPixmap(u - (o + 1) , v - (o - 1), back);
@@ -977,8 +986,12 @@ void CWptDB::draw(QPainter& p, const QRect& rect, bool& needsRedraw)
             p.drawPixmap(u - (o - 1) , v - (o + 1), back);
             p.drawPixmap(u - (o - 1) , v - (o + 0), back);
             p.drawPixmap(u - (o - 1) , v - (o - 1), back);
+#endif
 
             p.drawPixmap(u - o , v - o, icon);
+#ifdef QK_QT5_PORT
+            p.setCompositionMode(oldMode);
+#endif
 
             if((*wpt)->selected)
             {
@@ -1458,7 +1471,6 @@ void CWptDB::addWptFromExif(const exifGPS_t& exif, exifMode_e mode, const QStrin
             break;
     }
 
-
     int w = pixtmp.width();
     int h = pixtmp.height();
 
@@ -1557,6 +1569,7 @@ void CWptDB::getListOfGeoCaches(QStringList& caches)
 
 }
 
+
 void CWptDB::slotModified()
 {
     CWpt * wpt = qobject_cast<CWpt*>(sender());
@@ -1565,4 +1578,3 @@ void CWptDB::slotModified()
         emitSigModified(wpt->getKey());
     }
 }
-

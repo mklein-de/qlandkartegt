@@ -101,7 +101,7 @@ class IMouse : public QObject
     protected:
         enum features_e
         {
-             eFeatInfoBox = 0x00000001
+            eFeatInfoBox = 0x00000001
             ,eFeatArrow   = 0x00000002
             ,eFeatWheel   = 0x00000004
             ,eFeatName    = 0x00000008

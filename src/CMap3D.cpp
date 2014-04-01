@@ -5,12 +5,12 @@
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
-    
+
     This program is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU General Public License for more details.
-    
+
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
@@ -34,7 +34,7 @@
 #include <QtGui>
 #include <QtOpenGL>
 #include <math.h>
-#if defined(Q_WS_MAC)
+#if defined(Q_OS_MAC)
 #include <OpenGL/glu.h>
 #else
 #include <GL/glu.h>
@@ -1185,21 +1185,31 @@ void CMap3D::drawWaypoints()
 
         glBlendFunc(GL_DST_COLOR,GL_ZERO);
 
+#ifndef QK_QT5_PORT
         iconMaskId  = bindTexture(icon.alphaChannel().createMaskFromColor(Qt::black));
+#endif
         iconId      = bindTexture(icon);
+#ifndef QK_QT5_PORT
         textMaskId  = bindTexture(text.alphaChannel().createMaskFromColor(Qt::black));
+#endif
         textId      = bindTexture(text);
 
+#ifndef QK_QT5_PORT
         quadTexture(u, v, wsize, wsize, ele, iconMaskId, true);
         quadTexture(u, v, tw, th, ele + icon.height() / (zoomFactorZ*zoomFactorEle), textMaskId, true);
+#endif
 
         glBlendFunc(GL_ONE, GL_ONE);
 
         quadTexture(u, v, wsize, wsize, ele, iconId, false);
         quadTexture(u, v, tw, th, ele + icon.height() / (zoomFactorZ*zoomFactorEle), textId, false);
+#ifndef QK_QT5_PORT
         deleteTexture(iconMaskId);
+#endif
         deleteTexture(iconId);
+#ifndef QK_QT5_PORT
         deleteTexture(textMaskId);
+#endif
         deleteTexture(textId);
 
         ++wpt;
@@ -1254,7 +1264,7 @@ void CMap3D::drawCompass(QPainter& p)
             p.drawLine(x,35,x,50);
             p.setPen(pen2);
             p.drawLine(x,35,x,50);
-            str = QString("%1\260").arg(deg < 0 ? 360 + deg : deg > 360 ? deg - 360 : deg);
+            str = QString("%1%2").arg(deg < 0 ? 360 + deg : deg > 360 ? deg - 360 : deg).arg(QChar(0260));
             p.setFont(f1);
         }
         else if((deg % 5) == 0)
@@ -1453,7 +1463,7 @@ void CMap3D::drawHorizont(QPainter& p)
 
         if((deg % 45) == 0)
         {
-            str = QString("%1\260").arg(abs(deg));
+            str = QString("%1%2").arg(abs(deg)).arg(QChar(0260));
             p.setFont(f1);
             CCanvas::drawText(str,p, QPoint(80, y + textOff), Qt::darkBlue, p.font());
         }

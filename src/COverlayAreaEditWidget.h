@@ -29,30 +29,29 @@ class COverlayArea;
 class COverlayAreaEditWidget : public QWidget, private Ui::IOverlayAreaEditWidget
 {
     Q_OBJECT
-public:
-    COverlayAreaEditWidget(QWidget *parent, COverlayArea * ovl);
-    virtual ~COverlayAreaEditWidget();
+        public:
+        COverlayAreaEditWidget(QWidget *parent, COverlayArea * ovl);
+        virtual ~COverlayAreaEditWidget();
 
-    bool isAboutToClose();
-private slots:
-    void slotApply();
-    void slotChanged();
-    void slotSelectionChanged();
-    void slotItemSelectionChanged();
-    void slotContextMenu(const QPoint& pos);
-    void slotDelete();
-    void slotChangeColor();
-    void slotChangeColor(const QColor& c);
+        bool isAboutToClose();
+    private slots:
+        void slotApply();
+        void slotChanged();
+        void slotSelectionChanged();
+        void slotItemSelectionChanged();
+        void slotContextMenu(const QPoint& pos);
+        void slotDelete();
+        void slotChangeColor();
+        void slotChangeColor(const QColor& c);
 
-private:
-    friend class COverlayArea;
-    enum columns_e {eNo, ePos};
+    private:
+        friend class COverlayArea;
+        enum columns_e {eNo, ePos};
 
-    QPointer<COverlayArea> ovl;
-    QMenu * contextMenu;
+        QPointer<COverlayArea> ovl;
+        QMenu * contextMenu;
 
-    QString color;
+        QString color;
 
 };
-
-#endif // COVERLAYAREAEDITWIDGET_H
+#endif                           // COVERLAYAREAEDITWIDGET_H

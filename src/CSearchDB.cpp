@@ -31,7 +31,6 @@
 
 CSearchDB * CSearchDB::m_self;
 
-
 CSearchDB::CSearchDB(QTabWidget * tb, QObject * parent)
 : IDB(IDB::eTypeSrc, tb, parent)
 , tmpResult(0)
@@ -91,11 +90,17 @@ void CSearchDB::startGoogle(const QString& str)
 
     QUrl url("http://maps.googleapis.com");
     url.setPath("/maps/api/geocode/xml");
+#ifdef QK_QT5_PORT
+    QUrlQuery urlQuery;
+    urlQuery.addQueryItem("address",addr.replace(" ","+"));
+    urlQuery.addQueryItem("sensor","false");
+    url.setQuery(urlQuery);
+#else
     url.addQueryItem("address",addr.replace(" ","+"));
     url.addQueryItem("sensor","false");
-
+#endif
     QNetworkRequest request;
-    
+
     request.setUrl(url);
     QNetworkReply * reply = networkAccessManager.get(request);
     pendingRequests[reply] = eGoogle;
@@ -162,7 +167,7 @@ void CSearchDB::startOpenRouteService(const QString& str)
     url.setPath("/qlandkarte/geocode");
 
     QNetworkRequest request;
-    
+
     request.setUrl(url);
     QNetworkReply * reply = networkAccessManager.post(request, array);
     pendingRequests[reply] = eOpenRouteService;
@@ -226,7 +231,7 @@ void CSearchDB::slotRequestFinishedGoogle(QByteArray& data)
     QString status = tr("finished");
 
     xml.setContent(data);
-//    qDebug() << xml.toString();
+    //    qDebug() << xml.toString();
 
     QDomElement root = xml.documentElement();
 
@@ -278,7 +283,7 @@ void CSearchDB::slotRequestFinishedGoogle(QByteArray& data)
         }
     }
 
-slotRequestFinishedGoogle_End:
+    slotRequestFinishedGoogle_End:
     emit sigStatus(status);
     emit sigFinished();
     emitSigChanged();
