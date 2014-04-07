@@ -13,7 +13,7 @@ def find_hgt(basedir):
     @param basedir : Directory to start search for files.
     @return List of strings with full path to hgt files.
     """
-    print('Search for hgt files in:', basedir)
+    print('Search for hgt files in: %s' % basedir)
     hgtfiles = []
     for root, _dirs, files in os.walk(basedir, topdown=False):
         for name in files:
