@@ -156,7 +156,7 @@ void CDlgConfig::exec()
     lineDevIPPort->setText(QString::number(resources.m_devIPPort));
     lineDevSerialPort->setText(resources.m_devSerialPort);
 #ifdef Q_OS_WIN32
-    lineDevSerialPort->setToolTip(tr("Pass something like \"COM1:\" or \"\\\\.\\COM13\" or \"\\\\.\\com13\" for serial Garmin devices or NMEA devices. For Garmin USB devices leave blank."));
+    lineDevSerialPort->setToolTip(tr("Pass something like \"COM1\" or \"\\\\.\\COM13\" or \"\\\\.\\com13\" for serial Garmin devices or NMEA devices. For Garmin USB devices leave blank."));
 #endif
 
     checkDownloadTrk->setChecked(IDevice::m_DownloadAllTrk);

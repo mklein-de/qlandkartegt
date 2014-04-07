@@ -366,6 +366,18 @@ void CCanvas::leaveEvent(QEvent * )
 
 #define BORDER  0
 
+
+
+void CCanvas::print(QPrinter& printer)
+{
+    QPainter p;
+
+    p.begin(&printer);
+    print(p, printer.pageRect().size());
+    p.end();
+
+}
+
 void CCanvas::print(QPainter& p, const QSize& pagesize)
 {
     QSize _size_ = pagesize;
@@ -395,15 +407,7 @@ void CCanvas::print(QPainter& p, const QSize& pagesize)
 }
 
 
-void CCanvas::print(QPrinter& printer)
-{
-    QPainter p;
 
-    p.begin(static_cast<QPaintDevice *>(&printer));
-    print(p, printer.pageRect().size());
-    p.end();
-
-}
 
 
 void CCanvas::print(QImage& img)
