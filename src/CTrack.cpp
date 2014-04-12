@@ -41,6 +41,8 @@
 #define _MKSTR(x)      _MKSTR_1(x)
 #endif
 
+#define ASCEND_THRESHOLD    5
+
 QDir CTrack::path(_MKSTR(MAPPATH) "/Track");
 
 QVector<CTrack::multi_color_setup_t> CTrack::setupMultiColor;
@@ -1219,6 +1221,7 @@ void CTrack::rebuild(bool reindex)
     float minEle    =  WPT_NOFLOAT;
     float maxSpeed  = -WPT_NOFLOAT;
     float minSpeed  =  WPT_NOFLOAT;
+    float lastEle   = 0;
 
     // reindex track if desired
     if(reindex)
@@ -1264,6 +1267,7 @@ void CTrack::rebuild(bool reindex)
     pt1->slope2     = 0.0;
     t1              = pt1->timestamp;
     t2              = t1;        //for the case that the track has only 1 point
+    lastEle         = pt1->ele;
 
     pt1Slope = pt1;
 
@@ -1313,6 +1317,8 @@ void CTrack::rebuild(bool reindex)
 
         pt2->delta      = distance(p1,p2,pt1->azimuth,a2);
         pt2->distance   = pt1->distance + pt2->delta;
+
+        // slope in degree
         if ((pt1->ele != WPT_NOFLOAT) && (pt2->ele != WPT_NOFLOAT))
         {
             slope = pt2->ele - pt1->ele;
@@ -1321,23 +1327,31 @@ void CTrack::rebuild(bool reindex)
         {
             slope = 0.;
         }
-
         pt2->slope    = atan(slope / pt2->delta) * 360 / (2*M_PI);
+
         if (qAbs(pt2->slope )>100)
         {
             pt2->slope = pt1->slope;
         }
 
-        if(slope > 0)
+        // ascend descend
+        qreal d = pt2->ele - lastEle;
+        if(fabs(d) > ASCEND_THRESHOLD)
         {
-            totalAscend  += slope;
-        }
-        else
-        {
-            totalDescend += slope;
+            if(d > 0)
+            {
+                totalAscend += d;
+            }
+            else
+            {
+                totalDescend -= d;
+            }
+            lastEle = pt2->ele;
         }
         pt2->ascend     = totalAscend;
         pt2->descend    = totalDescend;
+
+        // speeds
         if(ext1Data && pt2->velocity != WPT_NOFLOAT)
         {
             pt2->speed  =  pt2->velocity;
