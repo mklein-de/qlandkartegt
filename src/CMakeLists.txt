@@ -689,12 +689,6 @@ set(qlandkarte_include_dirs
   ${QEXTSERIALPORT_INCLUDE_DIRS}
 )
 
-if(NOT QK_QT5_PORT)
-  set(qlandkarte_include_dirs
-    ${qlandkarte_include_dirs}
-    ${CMAKE_SOURCE_DIR}/3rdparty/QMKToolBox
-  )
-endif(NOT QK_QT5_PORT)
 
 if(NOT QK_QT5_SERIAL_PORT)
   set(qlandkarte_include_dirs
@@ -804,13 +798,6 @@ set(qlandkarte_link_libs
     ${QTSOAP_LIBRARIES}
     ${PROFILING_LIBRARIES}
 )
-
-if(NOT QK_QT5_PORT)
-  set(qlandkarte_link_libs
-    ${qlandkarte_link_libs}
-    QMKToolBox
-  )
-endif(NOT QK_QT5_PORT)
 
 if(NOT QK_QT5_SERIAL_PORT)
   set(qlandkarte_link_libs

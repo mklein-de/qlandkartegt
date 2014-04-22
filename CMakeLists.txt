@@ -94,10 +94,6 @@ if (NOT QK_QT5_SERIAL_PORT)
   add_subdirectory(3rdparty/SerialPort)
 endif (NOT QK_QT5_SERIAL_PORT)
 
-if (NOT QK_QT5_PORT)
-  add_subdirectory(3rdparty/QMKToolBox)
-endif (NOT QK_QT5_PORT)
-
 add_subdirectory(3rdparty/QZip)
 add_subdirectory(3rdparty/QTextHtmlExporter)
 add_subdirectory(3rdparty/getopt)

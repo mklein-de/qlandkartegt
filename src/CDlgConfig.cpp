@@ -140,9 +140,6 @@ void CDlgConfig::exec()
     comboDevBaudRate->addItem("57600");
     comboDevBaudRate->addItem("115200");
     comboDevBaudRate->setCurrentIndex(comboDevBaudRate->findText(resources.m_devBaudRate));
-#ifdef HS_MIKROKOPTER
-    comboDevice->addItem(tr("Mikrokopter"), "Mikrokopter");
-#endif
 #ifdef HAS_GPSD
     comboDevice->addItem(tr("GPSD"), "GPSD");
 #endif
