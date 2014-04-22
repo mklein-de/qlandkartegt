@@ -39,9 +39,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "CUndoStackView.h"
 #include "CTrackUndoCommandDeletePts.h"
 #include "CTrackUndoCommandPurgePts.h"
-#ifdef PLOT_3D
 #include "CMap3D.h"
-#endif
 #include "CDlgExport.h"
 #include "CTabWidget.h"
 #include "COverlayDistance.h"
@@ -73,18 +71,16 @@ QObject(parent), parent(parent)
     createAction(tr("F5"), ":/icons/iconSelect16x16.png", tr("Select &Sub Map"), "aSelectArea", tr("Select area of map to export. Select area by pressing down the left mouse button and move the mouse."));
     createAction(tr("F6"), ":/icons/iconEdit16x16.png", tr("&Edit / Create Map"), "aEditMap", tr(""));
     createAction(tr("F7"), ":/icons/iconFind16x16.png", tr("&Search Map"), "aSearchMap", tr("Find symbols on a map via image recognition."));
-#ifdef PLOT_3D
     createAction(tr("F8"),":/icons/icon3D16x16.png",tr("3&D Map..."), "aSwitchToMap3D", tr("Show 3D map"));
-#endif
     createAction(tr("F9"), ":/icons/iconUpload16x16.png", tr("U&pload"), "aUploadMap", tr("Upload map selection to device."));
 
-#ifdef PLOT_3D
+
     createAction(tr("ESC"),":/icons/iconBack16x16",tr("&Close"),"aCloseMap3D",tr("Close 3D view."));
     createAction(tr("F1"),0,tr("3D / 2D"),"aMap3DMode",tr("Toggle between 3D and 2D map."));
     createAction(tr("F2"),0,tr("FPV / Rot."),"aMap3DFPVMode",tr("Toggle between first person view and rotation mode."));
     createAction(tr("F3"),":/icons/iconLight16x16",tr("Lighting On/Off"), "aMap3DLighting",tr("Turn on/off lighting."));
     createAction(tr("F4"),":/icons/iconTrack16x16",tr("Trackmode"), "aMap3DTrackMode",tr("Glue point of view to track."));
-#endif
+
     //
     createAction(tr("F5"), ":/icons/iconAdd16x16.png", tr("&New Waypoint"), "aNewWpt", tr("Create a new user waypoint. The default position will be the current cursor position."));
     createAction(tr("F6"), ":/icons/iconSelect16x16.png", tr("&Radius Select"), "aSelWpt", tr("Select waypoints in a radius"));
@@ -219,7 +215,6 @@ void CActions::funcSwitchToMap()
     setMenuTitle(tr("&Maps"));
     setMenuPixmap(QPixmap(":/icons/backMap128x128.png"));
 
-#ifdef PLOT_3D
     if(theMainWindow->getCanvasTab()->currentWidget()->objectName() == "CMap3D")
     {
         actionGroup->switchToActionGroup(CMenus::Map3DMenu);
@@ -228,9 +223,6 @@ void CActions::funcSwitchToMap()
     {
         actionGroup->switchToActionGroup(CMenus::MapMenu);
     }
-#else
-    actionGroup->switchToActionGroup(CMenus::MapMenu);
-#endif
 
     CMapDB::self().gainFocus();
     funcMoveArea();
@@ -239,13 +231,11 @@ void CActions::funcSwitchToMap()
 
 void CActions::funcSwitchToMap3D()
 {
-#ifdef PLOT_3D
     setMenuTitle(tr("&Maps"));
     setMenuPixmap(QPixmap(":/icons/backMap128x128.png"));
     actionGroup->switchToActionGroup(CMenus::Map3DMenu);
     CMapDB::self().gainFocus();
     CMapDB::self().show3DMap(true);
-#endif
 }
 
 
@@ -436,60 +426,49 @@ void CActions::funcSelWpt()
 
 void CActions::funcCloseMap3D()
 {
-#ifdef PLOT_3D
-    //qDebug() << Q_FUNC_INFO;
     CMapDB::self().show3DMap(false);
     setMenuTitle(tr("Maps ..."));
     setMenuPixmap(QPixmap(":/icons/backMap128x128.png"));
     actionGroup->switchToActionGroup(CMenus::MapMenu);
     CMapDB::self().gainFocus();
     funcMoveArea();
-#endif
 }
 
 
 void CActions::funcMap3DLighting()
 {
-#ifdef PLOT_3D
     CMap3D * map = CMapDB::self().getMap3D();
     map->lightTurn();
-#endif
 }
 
 
 void CActions::funcMap3DMode()
 {
-#ifdef PLOT_3D
     CMap3D * map = CMapDB::self().getMap3D();
     if(map)
     {
         map->slotChange3DMode();
     }
-#endif
 }
 
 
 void CActions::funcMap3DFPVMode()
 {
-#ifdef PLOT_3D
     CMap3D * map = CMapDB::self().getMap3D();
     if(map)
     {
         map->slotChange3DFPVMode();
     }
-#endif
 }
 
 
 void CActions::funcMap3DTrackMode()
 {
-#ifdef PLOT_3D
     CMap3D * map = CMapDB::self().getMap3D();
     if(map)
     {
         map->slotChange3DTrackMode();
     }
-#endif
 }
 
 

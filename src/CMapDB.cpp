@@ -23,9 +23,7 @@
 #include "CMapRaster.h"
 #include "CMapGeoTiff.h"
 #include "CMapJnx.h"
-#ifdef HAS_RMAP
 #include "CMapRmap.h"
-#endif
 #include "CMapRmp.h"
 #include "CMapWms.h"
 #include "CMapTms.h"
@@ -35,9 +33,7 @@
 #include "CMapSearchWidget.h"
 #include "GeoMath.h"
 #include "CCanvas.h"
-#ifdef PLOT_3D
 #include "CMap3D.h"
-#endif
 #include "CTabWidget.h"
 #include "CMapSelectionGarmin.h"
 #include "CMapSelectionRaster.h"
@@ -112,12 +108,10 @@ CMapDB::CMapDB(QTabWidget * tb, QObject * parent)
             file.close();
             if(m.description.isEmpty()) m.description = fi.fileName();
         }
-#ifdef HAS_RMAP
         else if(ext == "rmap")
         {
             m.description = fi.baseName();
         }
-#endif                   // HAS_RMAP
         else
         {
             QSettings mapdef(map,QSettings::IniFormat);
@@ -214,12 +208,11 @@ CMapDB::~CMapDB()
 }
 
 
-#ifdef PLOT_3D
 CMap3D * CMapDB::getMap3D()
 {
     return map3D;
 }
-#endif
+
 
 void CMapDB::clear()
 {
@@ -335,7 +328,6 @@ void CMapDB::openMap(const QString& filename, bool asRaster, CCanvas& canvas)
         cfg.setValue(map.filename, map.description);
         cfg.endGroup();
     }
-#ifdef HAS_RMAP
     else if(ext == "rmap")
     {
 
@@ -356,7 +348,6 @@ void CMapDB::openMap(const QString& filename, bool asRaster, CCanvas& canvas)
         // store current map filename for next session
         cfg.setValue("maps/visibleMaps",filename);
     }
-#endif
     else if(ext == "rmp")
     {
 
@@ -479,12 +470,10 @@ void CMapDB::openMap(const QString& key)
     {
         theMap = new CMapJnx(key,filename,theMainWindow->getCanvas());
     }
-#ifdef HAS_RMAP
     else if(ext == "rmap")
     {
         theMap = new CMapRmap(key,filename,theMainWindow->getCanvas());
     }
-#endif
     else if(ext == "rmp")
     {
         theMap = new CMapRmp(key,filename,theMainWindow->getCanvas());
@@ -954,7 +943,6 @@ void CMapDB::editMap()
 }
 
 
-#ifdef PLOT_3D
 void CMapDB::show3DMap(bool show)
 {
     if(map3D.isNull() && show)
@@ -970,7 +958,7 @@ void CMapDB::show3DMap(bool show)
         map3D->deleteLater();
     }
 }
-#endif
+
 
 void CMapDB::searchMap()
 {

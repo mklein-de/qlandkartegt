@@ -1,6 +1,5 @@
 project(qlandkarteqt-binary)
 
-option(WITH_OPENGL "BUILD OPENGL" ON)
 option(WITH_EXIF "BUILD EXIF" ON)
 option(WITH_DMTX "BUILD DMTX" ON)
 option(WITH_GPSD "BUILD_GPSD" ON)
@@ -33,12 +32,7 @@ else(QK_QT5_PORT)
   include(${QT_USE_FILE})
 endif(QK_QT5_PORT)
 
-
-
-if(WITH_OPENGL)
-    find_package(OpenGL REQUIRED)
-endif(WITH_OPENGL)
-
+find_package(OpenGL REQUIRED)
 find_package(GDAL REQUIRED)
 find_package(PROJ REQUIRED)
 if(WITH_EXIF)
@@ -150,6 +144,8 @@ set(qlandkarte_SRCS
     CMapWms.cpp
     CMapTms.cpp
     CMapJnx.cpp
+    CMapRmap.cpp
+    CMap3D.cpp
     IMapSelection.cpp
     CMapSelectionRaster.cpp
     CMapSelectionGarmin.cpp
@@ -195,6 +191,7 @@ set(qlandkarte_SRCS
     CDlgDeviceExportPath.cpp
     CDlgProxy.cpp
     CDlgMultiColorConfig.cpp
+    CDlg3DHelp.cpp
     CQlb.cpp
     CGpx.cpp
     IDevice.cpp
@@ -247,7 +244,7 @@ set(qlandkarte_SRCS
     COverlayToolWidget.cpp
     COverlayText.cpp
     COverlayTextBox.cpp
-    COverlayDistance.cpp    
+    COverlayDistance.cpp
     COverlayDistanceEditWidget.cpp
     COverlayArea.cpp
     COverlayAreaEditWidget.cpp
@@ -330,6 +327,8 @@ set(qlandkarte_HDRS
     CMapWms.h
     CMapTms.h
     CMapJnx.h
+    CMapRmap.h
+    CMap3D.h
     IMapSelection.h
     CMapSelectionRaster.h
     CMapSelectionGarmin.h
@@ -375,6 +374,7 @@ set(qlandkarte_HDRS
     CDlgDeviceExportPath.h
     CDlgProxy.h
     CDlgMultiColorConfig.h
+    CDlg3DHelp.h
     CQlb.h
     CGpx.h
     IDevice.h
@@ -424,7 +424,7 @@ set(qlandkarte_HDRS
     COverlayToolWidget.h
     COverlayText.h
     COverlayTextBox.h
-    COverlayDistance.h    
+    COverlayDistance.h
     COverlayDistanceEditWidget.h
     COverlayArea.h
     COverlayAreaEditWidget.h
@@ -506,6 +506,7 @@ SET(qlandkarte_UIS
     IDlgDeviceExportPath.ui
     IDlgProxy.ui
     IDlgMultiColorConfig.ui
+    IDlg3DHelp.ui
     ICreateMapQMAP.ui
     ICreateMapGeoTiff.ui
     ICreateMapGridTool.ui
@@ -530,34 +531,24 @@ SET(qlandkarte_RCS
     resources.qrc
 )
 
+add_definitions(-DDB_VERSION=9)
+SET(qlandkarte_HDRS ${qlandkarte_HDRS}  CGeoDB.h CDlgSelGeoDBFolder.h CDlgEditFolder.h)
+SET(qlandkarte_SRCS ${qlandkarte_SRCS}  CGeoDB.cpp CDlgSelGeoDBFolder.cpp CDlgEditFolder.cpp)
+SET(qlandkarte_UIS ${qlandkarte_UIS} IGeoToolWidget.ui IDlgSelGeoDBFolder.ui IDlgEditFolder.ui)
 
-SET (PLOT_3D ON CACHE BOOL "3D Maps with OpenGL")
 SET (GPX_EXTENSIONS ON CACHE BOOL "Read <extensions> data from tracks in GPX files.")
-SET (GEO_DB ON CACHE BOOL "Enable Sqlite database for geo data")
-SET (MIKROKOPTER OFF CACHE BOOL "Enable telemtry with a mikrokopter")
 if (NOT WIN32 AND NOT APPLE)
 SET (DBUS ON CACHE BOOL "Enable DBus control.")
 else (NOT WIN32 AND NOT APPLE)
 SET (DBUS OFF CACHE BOOL "Enable DBus control.")
 endif (NOT WIN32 AND NOT APPLE)
 SET (ALTKEY_MOVES_MAP OFF CACHE BOOL "Move map while pressing ALT key and mousemove.")
-SET (RMAP ON CACHE BOOL "Enable TwoNav RMAP Support")
 
-SET (QL_OPENGL_INCLUDE_DIR "")
-SET (QL_OPENGL_LIBRARIES "")
 
 if(ALTKEY_MOVES_MAP)
     add_definitions(-DALTKEY_MOVES_MAP)
 endif(ALTKEY_MOVES_MAP)
 
-IF(PLOT_3D AND OPENGL_FOUND)
-    add_definitions(-DPLOT_3D)
-    SET(qlandkarte_HDRS ${qlandkarte_HDRS} CMap3D.h CDlg3DHelp.h)
-    SET(qlandkarte_SRCS ${qlandkarte_SRCS} CMap3D.cpp CDlg3DHelp.cpp)
-    SET(qlandkarte_UIS ${qlandkarte_UIS} IDlg3DHelp.ui)
-    SET(QL_OPENGL_INCLUDE_DIR ${QT_QTOPENGL_INCLUDE_DIR} ${OPENGL_INCLUDE_DIR})
-    SET(QL_OPENGL_LIBRARIES ${QT_QTOPENGL_LIBRARIES} ${OPENGL_LIBRARIES})
-ENDIF(PLOT_3D AND OPENGL_FOUND)
 
 if(GPX_EXTENSIONS)
     add_definitions(-DGPX_EXTENSIONS)
@@ -598,11 +589,6 @@ IF(NOT QTSOAP_FOUND)
 ENDIF()
 
 
-add_definitions(-DDB_VERSION=9)
-SET(qlandkarte_HDRS ${qlandkarte_HDRS}  CGeoDB.h CDlgSelGeoDBFolder.h CDlgEditFolder.h)
-SET(qlandkarte_SRCS ${qlandkarte_SRCS}  CGeoDB.cpp CDlgSelGeoDBFolder.cpp CDlgEditFolder.cpp)
-SET(qlandkarte_UIS ${qlandkarte_UIS} IGeoToolWidget.ui IDlgSelGeoDBFolder.ui IDlgEditFolder.ui)
-
 IF(DBUS)
     add_definitions(-DHAS_DBUS)
     SET(qlandkarte_HDRS ${qlandkarte_HDRS}  CDBus.h)
@@ -611,20 +597,6 @@ IF(DBUS)
 ENDIF(DBUS)
 
 
-IF(RMAP)
-    add_definitions(-DHAS_RMAP)
-    SET(qlandkarte_HDRS ${qlandkarte_HDRS}  CMapRmap.h)
-    SET(qlandkarte_SRCS ${qlandkarte_SRCS}  CMapRmap.cpp)
-    SET(qlandkarte_UIS ${qlandkarte_UIS})
-ENDIF(RMAP)
-
-
-IF(MIKROKOPTER)
-    add_definitions(-DHAS_MIKROKOPTER)
-    SET(qlandkarte_HDRS ${qlandkarte_HDRS}  CDeviceMikrokopter.h)
-    SET(qlandkarte_SRCS ${qlandkarte_SRCS}  CDeviceMikrokopter.cpp)
-    SET(qlandkarte_UIS ${qlandkarte_UIS})
-ENDIF(MIKROKOPTER)
 
 if(QK_QT5_PORT)
   qt5_wrap_cpp(qlandkarte_MOC_SRCS ${qlandkarte_HDRS})
@@ -650,14 +622,14 @@ IF(ENABLE_TRANSLATION)
     files (WARNING: make clean will delete the source .ts files! Danger!)")
     if (UPDATE_TRANSLATIONS)
        if(QK_QT5_PORT)
-	 qt5_create_translation(qlandkarte_QM_FILES
+     qt5_create_translation(qlandkarte_QM_FILES
            ${qlandkarte_SRCS}
            ${qlandkarte_HDRS}
            ${qlandkarte_UIS}
            ${TRANSLATIONS_FILES}
            )
        else(QK_QT5_PORT)
-	 qt4_create_translation(qlandkarte_QM_FILES
+     qt4_create_translation(qlandkarte_QM_FILES
            ${qlandkarte_SRCS}
            ${qlandkarte_HDRS}
            ${qlandkarte_UIS}
@@ -666,9 +638,9 @@ IF(ENABLE_TRANSLATION)
        endif(QK_QT5_PORT)
     else (UPDATE_TRANSLATIONS)
       if (QK_QT5_PORT)
-	qt5_add_translation(qlandkarte_QM_FILES ${TRANSLATIONS_FILES})
+    qt5_add_translation(qlandkarte_QM_FILES ${TRANSLATIONS_FILES})
       else(QK_QT5_PORT)
-	qt4_add_translation(qlandkarte_QM_FILES ${TRANSLATIONS_FILES})
+    qt4_add_translation(qlandkarte_QM_FILES ${TRANSLATIONS_FILES})
       endif(QK_QT5_PORT)
     endif (UPDATE_TRANSLATIONS)
 
@@ -694,6 +666,7 @@ endif(UNIX)
 set(qlandkarte_include_dirs
   ${CMAKE_BINARY_DIR}
   ${CMAKE_CURRENT_BINARY_DIR}
+  ${OPENGL_INCLUDE_DIRS}
   ${GDAL_INCLUDE_DIRS}
   ${PROJ_INCLUDE_DIRS}
   ${QT_QTXML_INCLUDE_DIR}
@@ -703,9 +676,8 @@ set(qlandkarte_include_dirs
   ${QT_QTDBUS_INCLUDE_DIR}
   ${QT_QTWEBKIT_INCLUDE_DIR}
   ${QT_QTSCRIPT_INCLUDE_DIR}
-  ${QL_OPENGL_INCLUDE_DIR}
+  ${QT_OPENGL_INCLUDE_DIR}
   ${CMAKE_SOURCE_DIR}/include
-  # ${CMAKE_SOURCE_DIR}/3rdparty/QMKToolBox
   ${CMAKE_SOURCE_DIR}/3rdparty/QZip
   ${CMAKE_SOURCE_DIR}/3rdparty/QTextHtmlExporter
   ${CMAKE_SOURCE_DIR}/3rdparty/getopt
@@ -719,21 +691,21 @@ set(qlandkarte_include_dirs
 
 if(NOT QK_QT5_PORT)
   set(qlandkarte_include_dirs
-    ${qlandkarte_include_dirs} 
+    ${qlandkarte_include_dirs}
     ${CMAKE_SOURCE_DIR}/3rdparty/QMKToolBox
   )
 endif(NOT QK_QT5_PORT)
 
 if(NOT QK_QT5_SERIAL_PORT)
   set(qlandkarte_include_dirs
-    ${qlandkarte_include_dirs} 
+    ${qlandkarte_include_dirs}
     ${CMAKE_SOURCE_DIR}/3rdparty/SerialPort
   )
 endif(NOT QK_QT5_SERIAL_PORT)
 
 if(NOT QK_QT5_TZONE)
   set(qlandkarte_include_dirs
-    ${qlandkarte_include_dirs} 
+    ${qlandkarte_include_dirs}
     ${CMAKE_SOURCE_DIR}/3rdparty/tzone/include
   )
 endif(NOT QK_QT5_TZONE)
@@ -809,6 +781,7 @@ endif(MSVC)
 
 set(qlandkarte_link_libs
     ${PROGNAME}
+    ${OPENGL_LIBRARIES}
     ${GDAL_LIBRARIES}
     ${PROJ_LIBRARIES}
     ${QT_LIBRARIES}
@@ -821,7 +794,7 @@ set(qlandkarte_link_libs
     ${QT_PHONON_LIBRARIES}
     ${QT_QTSCRIPT_LIBRARIES}
     ${QT_QTXMLPATTERNS_LIBRARIES}
-    ${QL_OPENGL_LIBRARIES}
+    ${QT_QTOPENGL_LIBRARIES}
     ${EXIF_LIBRARIES}
     ${DMTX_LIBRARIES}
     ${GPSD_LIBRARIES}

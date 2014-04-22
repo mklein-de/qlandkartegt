@@ -23,9 +23,6 @@
 #include "CDeviceGarminBulk.h"
 #include "CDeviceTwoNav.h"
 #include "CDeviceQLandkarteM.h"
-#ifdef HS_MIKROKOPTER
-#include "CDeviceMikrokopter.h"
-#endif
 #include "CDeviceNMEA.h"
 #ifdef HAS_GPSD
 #include "CDeviceGPSD.h"
@@ -341,12 +338,6 @@ IDevice * CResources::device()
             //m_device = new CDeviceTBDOE(m_devIPAddress,m_devIPPort,this);
             m_device = new CDeviceQLandkarteM(m_devIPAddress,m_devIPPort,this);
         }
-#ifdef HS_MIKROKOPTER
-        if(m_devKey == "Mikrokopter")
-        {
-            m_device = new CDeviceMikrokopter(m_devSerialPort, this);
-        }
-#endif
         else if(m_devKey == "Garmin" && !m_devType.isEmpty())
         {
             m_device = new CDeviceGarmin(m_devType, m_devSerialPort, this);

@@ -156,18 +156,14 @@ CMainWindow::CMainWindow()
     actionGroupProvider->addAction(CMenus::MapMenu, "aSelectArea");
     actionGroupProvider->addAction(CMenus::MapMenu, "aEditMap");
     actionGroupProvider->addAction(CMenus::MapMenu, "aSearchMap");
-#ifdef PLOT_3D
     actionGroupProvider->addAction(CMenus::MapMenu, "aSwitchToMap3D");
-#endif
     actionGroupProvider->addAction(CMenus::MapMenu, "aUploadMap");
 
-#ifdef PLOT_3D
     actionGroupProvider->addAction(CMenus::Map3DMenu, "aCloseMap3D");
     actionGroupProvider->addAction(CMenus::Map3DMenu, "aMap3DMode");
     actionGroupProvider->addAction(CMenus::Map3DMenu, "aMap3DFPVMode");
     actionGroupProvider->addAction(CMenus::Map3DMenu, "aMap3DLighting");
     actionGroupProvider->addAction(CMenus::Map3DMenu, "aMap3DTrackMode");
-#endif
 
     actionGroupProvider->addAction(CMenus::WptMenu, "aSwitchToMain");
     actionGroupProvider->addAction(CMenus::WptMenu, "aMoveArea");
@@ -714,11 +710,7 @@ void CMainWindow::slotLoadMapSet()
     QString filter   = cfg.value("maps/filter","").toString();
     QString filename = QFileDialog::getOpenFileName( 0, tr("Select map...")
         ,CResources::self().pathMaps
-    #ifdef HAS_RMAP
         ,"All (*.*);;Map Collection (*.qmap);;Garmin (*.tdb);;BirdsEye (*.jnx);;TwoNav (*.rmap);;Magellan (*.rmp)"
-    #else
-        ,"All (*.*);;Map Collection (*.qmap);;Garmin (*.tdb);;BirdsEye (*.jnx);;Magellan (*.rmp)"
-    #endif
         , &filter
         , FILE_DIALOG_FLAGS
         );
@@ -1297,7 +1289,6 @@ void CMainWindow::slotSaveImage()
         filename += ".png";
     }
 
-#ifdef PLOT_3D
     CMap3D * map3d = qobject_cast<CMap3D*>(canvasTab->currentWidget());
 
     if(map3d)
@@ -1305,7 +1296,6 @@ void CMainWindow::slotSaveImage()
         map3d->slotSaveImage(filename);
     }
     else
-#endif
     {
         QImage img(canvas->size(), QImage::Format_ARGB32);
         canvas->print(img);
@@ -1452,9 +1442,6 @@ void CMainWindow::slotDeviceChanged()
     comboDevice->addItem(tr("Magellan"), "Magellan");
     comboDevice->addItem(tr("TwoNav"), "TwoNav");
     comboDevice->addItem(tr("NMEA"), "NMEA");
-#ifdef HS_MIKROKOPTER
-    comboDevice->addItem(tr("Mikrokopter"), "Mikrokopter");
-#endif
 #ifdef HAS_GPSD
     comboDevice->addItem(tr("GPSD"), "GPSD");
 #endif

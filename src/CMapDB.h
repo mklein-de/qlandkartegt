@@ -83,9 +83,7 @@ class CMapDB : public IDB
 
         IMapSelection * getMapSelectionByKey(const QString& key);
 
-#ifdef PLOT_3D
         CMap3D * getMap3D();
-#endif
 
         /// delete known maps by keys
         void delKnownMap(const QStringList& keys);
@@ -112,10 +110,8 @@ class CMapDB : public IDB
         void clear();
         /// create map edit dialog
         void editMap();
-#ifdef PLOT_3D
         /// create tab with 3D map
         void show3DMap(bool show);
-#endif
         /// create map search dialog
         void searchMap();
 
@@ -174,10 +170,10 @@ class CMapDB : public IDB
 
         /// the map edit widget used to alter and create maps
         QPointer<CMapEditWidget> mapedit;
-#ifdef PLOT_3D
+
         /// the 3D view of the map
         QPointer<CMap3D> map3D;
-#endif
+
         QPointer<CMapSearchWidget> mapsearch;
 
         /// list of selected areas on maps

@@ -85,7 +85,6 @@ CMapQMAPExport::CMapQMAPExport(const CMapSelectionRaster& mapsel, QWidget * pare
     lineDescription->setText(mapData.description);
     lineDescription->setCursorPosition(0);
 
-#ifdef HAS_RMAP
     radioRMAP->show();
     radioRMAP->setEnabled(true);
 
@@ -93,11 +92,6 @@ CMapQMAPExport::CMapQMAPExport(const CMapSelectionRaster& mapsel, QWidget * pare
     comboRmapProjection->addItem("EPSG:4326, LongLat(WGS 84)", "+init=epsg:4326");
     comboRmapProjection->addItem("EPSG:31467, GK3 (DHDN)", "+init=epsg:31467");
     comboRmapProjection->addItem("EPSG:31468, GK4 (DHDN)", "+init=epsg:31468");
-
-#else
-    radioRMAP->hide();
-    radioRMAP->setDisabled(true);
-#endif
 
 #ifdef WIN32
     path_map2jnx        = QCoreApplication::applicationDirPath()+QDir::separator()+"map2jnx.exe";

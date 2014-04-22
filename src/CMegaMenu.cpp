@@ -33,9 +33,7 @@
 #include "IDevice.h"
 #include "CMenus.h"
 #include "CActions.h"
-#ifdef PLOT_3D
 #include "CMap3D.h"
-#endif
 
 #include <QtGui>
 #include <QMenu>
