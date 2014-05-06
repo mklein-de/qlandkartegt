@@ -759,7 +759,8 @@ void CDeviceTwoNav::readWptFile(QDir& dir, const QString& filename, QList<CWpt*>
             case 'a':
             {
                 CWpt::image_t img;
-                QString fn = line.mid(1).simplified();
+                QStringList values = line.mid(1).simplified().split(',', QString::KeepEmptyParts);
+                QString fn = values[0].simplified();
 
 #ifndef WIN32
                 fn = fn.replace("\\","/");
