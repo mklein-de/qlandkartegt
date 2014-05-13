@@ -77,8 +77,6 @@ endif(NATIVE_FILE_DIALOG)
 include(ConfigureChecks.cmake)
 configure_file(config.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config.h)
 
-option(WITH_PROFILING "BUILD WITH PROFILING" OFF)
-
 if (NOT QK_QT5_SERIAL_PORT)
   if (NOT WIN32)
     find_package(QextSerialPort)
@@ -96,6 +94,7 @@ endif (NOT QK_QT5_SERIAL_PORT)
 
 add_subdirectory(3rdparty/QZip)
 add_subdirectory(3rdparty/QTextHtmlExporter)
+add_subdirectory(3rdparty/QDeviceWatcher)
 add_subdirectory(3rdparty/getopt)
 add_subdirectory(3rdparty/map2gcm)
 add_subdirectory(3rdparty/map2rmap)
@@ -111,11 +110,6 @@ find_package(QtSoap)
 if (NOT QTSOAP_FOUND)
     add_subdirectory(3rdparty/qtsoap)
 endif()
-
-if(WITH_PROFILING)
-    add_definitions(-DDO_PROFILING)
-    add_subdirectory(3rdparty/conan)
-endif(WITH_PROFILING)
 
 add_subdirectory(src)
 

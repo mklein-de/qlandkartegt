@@ -680,8 +680,8 @@ set(qlandkarte_include_dirs
   ${CMAKE_SOURCE_DIR}/include
   ${CMAKE_SOURCE_DIR}/3rdparty/QZip
   ${CMAKE_SOURCE_DIR}/3rdparty/QTextHtmlExporter
+  ${CMAKE_SOURCE_DIR}/3rdparty/QDeviceWatcher
   ${CMAKE_SOURCE_DIR}/3rdparty/getopt
-  ${CMAKE_SOURCE_DIR}/3rdparty/conan/include
   ${QTSOAP_INCLUDE_DIRS}
   ${EXIF_INCLUDE_DIRS}
   ${DMTX_INCLUDE_DIRS}
@@ -794,6 +794,7 @@ set(qlandkarte_link_libs
     ${GPSD_LIBRARIES}
     qzip
     qtexthtmlexporter
+    qdevicewatcher
     getopt
     ${QTSOAP_LIBRARIES}
     ${PROFILING_LIBRARIES}

@@ -105,12 +105,6 @@ CMainWindow::CMainWindow()
     canvasTab = new CTabWidget(this);
     rightSplitter->addWidget(canvasTab);
 
-#ifdef DO_PROFILING
-    Q_INIT_RESOURCE(Conan);
-    conanWidget = new conan::ConanWidget(this);
-    canvasTab->addTab(conanWidget,tr("Profiling"));
-#endif
-
     canvas = new CCanvas(this);
     canvasTab->addTab(canvas,tr("Map"));
 
@@ -287,9 +281,6 @@ CMainWindow::CMainWindow()
     diarydb     = new CDiaryDB(canvasTab, this);
     searchdb    = new CSearchDB(tabbar, this);
 
-#ifdef DO_PROFILING
-    conanWidget->AddRootObject(this);
-#endif
 
     if(resources->useGeoDB())
     {

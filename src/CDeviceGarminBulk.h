@@ -21,6 +21,8 @@
 
 #include "IDevice.h"
 
+class QDeviceWatcher;
+
 class CDeviceGarminBulk : public IDevice
 {
     Q_OBJECT;
@@ -44,6 +46,9 @@ class CDeviceGarminBulk : public IDevice
 
         void downloadScreenshot(QImage& image);
 
+    private slots:
+        void slotDevice(const QString& dev);
+
     private:
         void readDeviceXml(const QString& filename);
         bool aquire(QDir& dir);
@@ -55,6 +60,8 @@ class CDeviceGarminBulk : public IDevice
         QString pathSpoilers;
 
         QString pathDay;
+
+        QDeviceWatcher * deviceWatcher;
 
 };
 #endif                           //CDEVICEGARMINBULK_H
