@@ -39,9 +39,9 @@
 #include "CMapDB.h"
 #include "IMap.h"
 #include "CDlgEditFolder.h"
-
 #include "CQlb.h"
 #include "CSettings.h"
+#include "CExchangeGarmin.h"
 
 #include <QtGui>
 #include <QSqlQuery>
@@ -272,6 +272,8 @@ CGeoDB::CGeoDB(QTabWidget * tb, QWidget * parent)
     {
         QTimer::singleShot(saveOnMinutes * 60000, this, SLOT(saveWorkspace()));
     }
+
+    xchngGarmin = new CExchangeGarmin(this);
 }
 
 

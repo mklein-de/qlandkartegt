@@ -277,6 +277,7 @@ set(qlandkarte_SRCS
     CImageViewer.cpp
     CMapRmp.cpp
     CMapDEMSlopeSetup.cpp
+    CExchangeGarmin.cpp
 )
 
 if (WIN32)
@@ -462,6 +463,7 @@ set(qlandkarte_HDRS
     CMapDEMSlopeSetup.h
     Dictionary.h
     QFileExt.h
+    CExchangeGarmin.h
 )
 
 
