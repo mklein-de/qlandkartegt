@@ -277,6 +277,7 @@ set(qlandkarte_SRCS
     CImageViewer.cpp
     CMapRmp.cpp
     CMapDEMSlopeSetup.cpp
+    IExchange.cpp
     CExchangeGarmin.cpp
 )
 
@@ -463,6 +464,7 @@ set(qlandkarte_HDRS
     CMapDEMSlopeSetup.h
     Dictionary.h
     QFileExt.h
+    IExchange.h
     CExchangeGarmin.h
 )
 

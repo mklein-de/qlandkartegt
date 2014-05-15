@@ -15,28 +15,26 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 **********************************************************************************************/
-#ifndef CEXCHANGEGARMIN_H
-#define CEXCHANGEGARMIN_H
 
-#include <IExchange.h>
+#include "IExchange.h"
+#include <QtGui>
 
-class QDBusObjectPath;
-
-
-class CExchangeGarmin : public IExchange
+IExchange::IExchange(QTreeWidget *treeWidget, QObject *parent)
+    : QObject(parent)
+    , treeWidget(treeWidget)
 {
-    Q_OBJECT
-    public:
-        CExchangeGarmin(QTreeWidget *treeWidget, QObject * parent);
-        virtual ~CExchangeGarmin();
 
-    private slots:
-        void slotQueryDevices();
-        void slotAddDevice(const QDBusObjectPath& path);
-        void slotRemoveDevice(const QDBusObjectPath& path);
-        void slotChangeDevice(const QDBusObjectPath& path);
+}
 
-};
+IExchange::~IExchange()
+{
 
-#endif //CEXCHANGEGARMIN_H
+}
 
+
+CDeviceTreeWidgetItem::CDeviceTreeWidgetItem(const QString& id, QTreeWidget *parent)
+    : QTreeWidgetItem(parent)
+    , id(id)
+{
+
+}

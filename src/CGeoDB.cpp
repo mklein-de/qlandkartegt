@@ -273,7 +273,7 @@ CGeoDB::CGeoDB(QTabWidget * tb, QWidget * parent)
         QTimer::singleShot(saveOnMinutes * 60000, this, SLOT(saveWorkspace()));
     }
 
-    xchngGarmin = new CExchangeGarmin(this);
+    xchngGarmin = new CExchangeGarmin(treeWorkspace, this);
 }
 
 
