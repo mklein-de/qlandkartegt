@@ -30,10 +30,8 @@ class CExchangeGarmin : public IExchange
         virtual ~CExchangeGarmin();
 
     private slots:
-        void slotQueryDevices();
-        void slotAddDevice(const QDBusObjectPath& path);
-        void slotRemoveDevice(const QDBusObjectPath& path);
-        void slotChangeDevice(const QDBusObjectPath& path);
+        void slotDeviceAdded(const QDBusObjectPath& path, const QVariantMap& map);
+        void slotDeviceRemoved(const QDBusObjectPath& path, const QStringList& list);
 
 };
 
