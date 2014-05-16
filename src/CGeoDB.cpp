@@ -2756,6 +2756,12 @@ void CGeoDB::slotContextMenuWorkspace(const QPoint& pos)
         return;
     }
 
+    if(dynamic_cast<CDeviceTreeWidgetItem*>(item) != 0)
+    {
+
+        return;
+    }
+
     if(item->data(eCoName, eUrType).toInt() >= eFolder0)
     {
         actHardCopy->setVisible(false);

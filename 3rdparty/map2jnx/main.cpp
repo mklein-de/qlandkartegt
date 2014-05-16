@@ -691,7 +691,10 @@ int main(int argc, char ** argv)
         projPJ   pj;
         char * ptr = projstr;
 
-        strncpy(projstr,dataset->GetProjectionRef(),sizeof(projstr));
+        if(dataset->GetProjectionRef())
+        {
+            strncpy(projstr,dataset->GetProjectionRef(),sizeof(projstr));
+        }
         oSRS.importFromWkt(&ptr);
         oSRS.exportToProj4(&ptr);
 

@@ -22,7 +22,6 @@
 
 class QDBusObjectPath;
 
-
 class CExchangeGarmin : public IExchange
 {
     Q_OBJECT

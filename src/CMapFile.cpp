@@ -45,8 +45,11 @@ CMapFile::CMapFile(const QString& filename, QObject * parent)
 #endif
     if(dataset == 0) return;
 
-    char str[1024];
-    strncpy(str,dataset->GetProjectionRef(),sizeof(str));
+    char str[1024] = {0};
+    if(dataset->GetProjectionRef())
+    {
+        strncpy(str,dataset->GetProjectionRef(),sizeof(str));
+    }
     char * ptr = str;
     oSRS.importFromWkt(&ptr);
     oSRS.exportToProj4(&ptr);

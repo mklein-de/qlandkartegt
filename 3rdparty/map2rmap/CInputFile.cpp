@@ -90,7 +90,10 @@ CInputFile::CInputFile(const QString &filename, quint32 tileSize, int epsg)
     }
 
     char * ptr = projstr;
-    strncpy(projstr,dataset->GetProjectionRef(),sizeof(projstr));
+    if(dataset->GetProjectionRef())
+    {
+        strncpy(projstr,dataset->GetProjectionRef(),sizeof(projstr));
+    }
     oSRS.importFromWkt(&ptr);
     oSRS.exportToProj4(&ptr);
 

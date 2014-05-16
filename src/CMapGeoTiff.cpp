@@ -109,8 +109,11 @@ CMapGeoTiff::CMapGeoTiff(const QString& fn, CCanvas * parent)
         }
     }
 
-    char str[1024];
-    strncpy(str,dataset->GetProjectionRef(),sizeof(str));
+    char str[1024] = {0};
+    if(dataset->GetProjectionRef())
+    {
+        strncpy(str,dataset->GetProjectionRef(),sizeof(str));
+    }
     char * ptr = str;
     oSRS.importFromWkt(&ptr);
     oSRS.exportToProj4(&ptr);

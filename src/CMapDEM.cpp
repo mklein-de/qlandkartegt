@@ -130,8 +130,11 @@ CMapDEM::CMapDEM(const QString& filename, CCanvas * parent)
     }
     pBand->GetBlockSize(&tileWidth,&tileHeight);
 
-    char str[1024];
-    strncpy(str,dataset->GetProjectionRef(),sizeof(str));
+    char str[1024]= {0};
+    if(dataset->GetProjectionRef())
+    {
+        strncpy(str,dataset->GetProjectionRef(),sizeof(str));
+    }
     char * ptr = str;
     oSRS.importFromWkt(&ptr);
     oSRS.exportToProj4(&ptr);
