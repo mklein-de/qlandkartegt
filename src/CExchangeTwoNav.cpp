@@ -15,11 +15,11 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 **********************************************************************************************/
-#include "CExchangeGarmin.h"
+#include "CExchangeTwoNav.h"
 
 #include <QtDBus>
 
-CExchangeGarmin::CExchangeGarmin(QTreeWidget * treeWidget, QObject * parent)
+CExchangeTwoNav::CExchangeTwoNav(QTreeWidget * treeWidget, QObject * parent)
     : IExchange(treeWidget,parent)
 {
 
@@ -42,12 +42,12 @@ CExchangeGarmin::CExchangeGarmin(QTreeWidget * treeWidget, QObject * parent)
 
 }
 
-CExchangeGarmin::~CExchangeGarmin()
+CExchangeTwoNav::~CExchangeTwoNav()
 {
 
 }
 
-void CExchangeGarmin::slotUpdate()
+void CExchangeTwoNav::slotUpdate()
 {
 
     QList<QDBusObjectPath> paths;
@@ -79,9 +79,11 @@ void CExchangeGarmin::slotUpdate()
     {
         slotDeviceAdded(i, QVariantMap());
     }
+
+//    qDebug() << mDevicesByPath;
 }
 
-void CExchangeGarmin::slotDeviceAdded(const QDBusObjectPath& path, const QVariantMap& map)
+void CExchangeTwoNav::slotDeviceAdded(const QDBusObjectPath& path, const QVariantMap& map)
 {
     qDebug() << "-----------slotDeviceAdded----------";
     qDebug() << path.path() << map;
@@ -108,11 +110,10 @@ void CExchangeGarmin::slotDeviceAdded(const QDBusObjectPath& path, const QVarian
     QString vendor = driveIface->property("Vendor").toString();
     qDebug() << vendor;
 
-    if(vendor.toUpper() != "GARMIN")
+    if(vendor.toUpper() != "GENERAL")
     {
         return;
     }
-
 
     quint64 size = blockIface->property("Size").toULongLong();
     if(size == 0)
@@ -122,13 +123,11 @@ void CExchangeGarmin::slotDeviceAdded(const QDBusObjectPath& path, const QVarian
 
 
     CDeviceTreeWidgetItem * item = new CDeviceTreeWidgetItem(path.path(), treeWidget);
-    item->setText(0, "Garmin " + driveIface->property("Model").toString());
-    item->setIcon(0, QIcon("://icons/iconDeviceGarmin16x16.png"));
-
-
+    item->setText(0, "TwoNav " + driveIface->property("Model").toString());
+    item->setIcon(0, QIcon("://icons/iconDeviceTwoNav16x16.png"));
 }
 
-void CExchangeGarmin::slotDeviceRemoved(const QDBusObjectPath& path, const QStringList& list)
+void CExchangeTwoNav::slotDeviceRemoved(const QDBusObjectPath& path, const QStringList& list)
 {
     qDebug() << "-----------dbusDeviceRemoved----------";
     qDebug() << path.path() << list;
@@ -150,7 +149,7 @@ void CExchangeGarmin::slotDeviceRemoved(const QDBusObjectPath& path, const QStri
 }
 
 //#ifdef Q_OS_LINUX
-//void CExchangeGarmin::slotQueryDevices()
+//void CExchangeTwoNav::slotQueryDevices()
 //{
 //    QDBusMessage call = QDBusMessage::createMethodCall(UDISK_SERVICE, UDISK_PATH, UDISK_INTERFACE, "EnumerateDevices");
 
@@ -163,7 +162,7 @@ void CExchangeGarmin::slotDeviceRemoved(const QDBusObjectPath& path, const QStri
 //    }
 //}
 
-//void CExchangeGarmin::slotAddDevice(const QDBusObjectPath& path)
+//void CExchangeTwoNav::slotAddDevice(const QDBusObjectPath& path)
 //{
 //    qDebug() << "add device:" << path.path();
 
@@ -204,7 +203,7 @@ void CExchangeGarmin::slotDeviceRemoved(const QDBusObjectPath& path, const QStri
 
 //}
 
-//void CExchangeGarmin::slotRemoveDevice(const QDBusObjectPath& path)
+//void CExchangeTwoNav::slotRemoveDevice(const QDBusObjectPath& path)
 //{
 //    qDebug() << "remove device:" << path.path();
 //    const int N = treeWidget->topLevelItemCount();
@@ -218,7 +217,7 @@ void CExchangeGarmin::slotDeviceRemoved(const QDBusObjectPath& path, const QStri
 //    }
 //}
 
-//void CExchangeGarmin::slotChangeDevice(const QDBusObjectPath& path)
+//void CExchangeTwoNav::slotChangeDevice(const QDBusObjectPath& path)
 //{
 //    qDebug() << "change device:" << path.path();
 //}

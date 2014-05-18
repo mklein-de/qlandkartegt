@@ -42,6 +42,7 @@
 #include "CQlb.h"
 #include "CSettings.h"
 #include "CExchangeGarmin.h"
+#include "CExchangeTwoNav.h"
 
 #include <QtGui>
 #include <QSqlQuery>
@@ -274,6 +275,7 @@ CGeoDB::CGeoDB(QTabWidget * tb, QWidget * parent)
     }
 
     xchngGarmin = new CExchangeGarmin(treeWorkspace, this);
+    xchngTwoNav = new CExchangeTwoNav(treeWorkspace, this);
 }
 
 

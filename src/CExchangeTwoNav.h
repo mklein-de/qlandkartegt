@@ -15,19 +15,19 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 **********************************************************************************************/
-#ifndef CEXCHANGEGARMIN_H
-#define CEXCHANGEGARMIN_H
+#ifndef CEXCHANGETWONAV_H
+#define CEXCHANGETWONAV_H
 
 #include <IExchange.h>
 
 class QDBusObjectPath;
 
-class CExchangeGarmin : public IExchange
+class CExchangeTwoNav : public IExchange
 {
     Q_OBJECT
     public:
-        CExchangeGarmin(QTreeWidget *treeWidget, QObject * parent);
-        virtual ~CExchangeGarmin();
+        CExchangeTwoNav(QTreeWidget *treeWidget, QObject * parent);
+        virtual ~CExchangeTwoNav();
 
     private slots:
         void slotUpdate();
@@ -36,5 +36,5 @@ class CExchangeGarmin : public IExchange
 
 };
 
-#endif //CEXCHANGEGARMIN_H
+#endif //CEXCHANGETWONAV_H
 

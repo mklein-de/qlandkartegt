@@ -279,6 +279,7 @@ set(qlandkarte_SRCS
     CMapDEMSlopeSetup.cpp
     IExchange.cpp
     CExchangeGarmin.cpp
+    CExchangeTwoNav.cpp
 )
 
 if (WIN32)
@@ -466,6 +467,7 @@ set(qlandkarte_HDRS
     QFileExt.h
     IExchange.h
     CExchangeGarmin.h
+    CExchangeTwoNav.h
 )
 
 

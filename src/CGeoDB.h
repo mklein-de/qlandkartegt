@@ -27,6 +27,7 @@ class QTreeWidgetItem;
 class QMenu;
 class CDiary;
 class CExchangeGarmin;
+class CExchangeTwoNav;
 
 class CGeoDB : public QWidget, private Ui::IGeoToolWidget
 {
@@ -278,6 +279,7 @@ class CGeoDB : public QWidget, private Ui::IGeoToolWidget
 
 
         CExchangeGarmin * xchngGarmin;
+        CExchangeTwoNav * xchngTwoNav;
 
 };
 #endif                           //CGEODB_H
