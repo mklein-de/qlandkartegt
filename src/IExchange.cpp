@@ -18,6 +18,7 @@
 
 #include "IExchange.h"
 #include <QtGui>
+#include <QtDBus>
 
 IExchange::IExchange(QTreeWidget *treeWidget, QObject *parent)
     : QObject(parent)
@@ -31,8 +32,72 @@ IExchange::~IExchange()
 
 }
 
+QString IExchange::checkForDevice(const QDBusObjectPath& path, const QString& strVendor)
+{
+    // ignore all path that are no block devices
+    if(!path.path().startsWith("/org/freedesktop/UDisks2/block_devices/"))
+    {
+        return "";
+    }
 
-CDeviceTreeWidgetItem::CDeviceTreeWidgetItem(const QString& id, QTreeWidget *parent)
+
+    // create path of to drive the block device belongs to
+    QDBusInterface * blockIface = new QDBusInterface("org.freedesktop.UDisks2",
+                                         path.path(),
+                                         "org.freedesktop.UDisks2.Block",
+                                         QDBusConnection::systemBus(),
+                                         this);
+    Q_ASSERT(blockIface);
+    QDBusObjectPath drive_object = blockIface->property("Drive").value<QDBusObjectPath>();
+
+
+    // read vendor string attached to drive
+    QDBusInterface * driveIface = new QDBusInterface("org.freedesktop.UDisks2",
+                                         drive_object.path(),
+                                         "org.freedesktop.UDisks2.Drive",
+                                         QDBusConnection::systemBus(),
+                                         this);
+    Q_ASSERT(driveIface);
+    QString vendor = driveIface->property("Vendor").toString();
+
+    // vendor must match
+    if(vendor.toUpper() != strVendor)
+    {
+        delete driveIface;
+        delete blockIface;
+        return "";
+    }
+
+    // single out block devices with attached filesystem
+    // devices with partitions will have a block device for the drive and one for each partition
+    // we are interested in the ones with filesystem as they are the ones to mount
+    QDBusMessage call = QDBusMessage::createMethodCall("org.freedesktop.UDisks2",
+                                                       path.path(),
+                                                       "org.freedesktop.DBus.Introspectable",
+                                                       "Introspect");
+    QDBusPendingReply<QString> reply = QDBusConnection::systemBus().call(call);
+
+    QXmlStreamReader xml(reply.value());
+    while (!xml.atEnd())
+    {
+        xml.readNext();
+        if (xml.tokenType() == QXmlStreamReader::StartElement && xml.name().toString() == "interface" )
+        {
+
+            QString name = xml.attributes().value("name").toString();
+            if(name == "org.freedesktop.UDisks2.Filesystem")
+            {
+                return  driveIface->property("Model").toString();
+            }
+        }
+    }
+    delete driveIface;
+    delete blockIface;
+    return "";
+}
+
+
+IDeviceTreeWidgetItem::IDeviceTreeWidgetItem(const QString& id, QTreeWidget *parent)
     : QTreeWidgetItem(parent)
     , id(id)
 {

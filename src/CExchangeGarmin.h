@@ -36,5 +36,11 @@ class CExchangeGarmin : public IExchange
 
 };
 
+class CGarminTreeWidgetItem : public IDeviceTreeWidgetItem
+{
+    public:
+        CGarminTreeWidgetItem(const QString& id, QTreeWidget *parent);
+};
+
 #endif //CEXCHANGEGARMIN_H
 

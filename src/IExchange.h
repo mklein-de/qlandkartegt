@@ -21,6 +21,7 @@
 #include <QObject>
 #include <QTreeWidgetItem>
 class QTreeWidget;
+class QDBusObjectPath;
 
 class IExchange : public QObject
 {
@@ -29,14 +30,16 @@ class IExchange : public QObject
         virtual ~IExchange();
 
     protected:
+        QString checkForDevice(const QDBusObjectPath& path, const QString& strVendor);
+
         QTreeWidget * treeWidget;
 
 };
 
-class CDeviceTreeWidgetItem : public QTreeWidgetItem
+class IDeviceTreeWidgetItem : public QTreeWidgetItem
 {
     public:
-        CDeviceTreeWidgetItem(const QString& id, QTreeWidget * parent);
+        IDeviceTreeWidgetItem(const QString& id, QTreeWidget * parent);
 
         const QString& getId(){return id;}
 
