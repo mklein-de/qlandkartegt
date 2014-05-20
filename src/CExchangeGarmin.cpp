@@ -26,25 +26,8 @@ CGarminTreeWidgetItem::CGarminTreeWidgetItem(const QString& id, QTreeWidget *par
 }
 
 CExchangeGarmin::CExchangeGarmin(QTreeWidget * treeWidget, QObject * parent)
-    : IExchange(treeWidget,parent)
+    : IExchange("Garmin", treeWidget,parent)
 {
-
-    QDBusConnection::systemBus().connect("org.freedesktop.UDisks2",
-                   "/org/freedesktop/UDisks2",
-                   "org.freedesktop.DBus.ObjectManager",
-                   "InterfacesAdded",
-                   this,
-                   SLOT(slotDeviceAdded(QDBusObjectPath,QVariantMap)));
-
-    QDBusConnection::systemBus().connect("org.freedesktop.UDisks2",
-                   "/org/freedesktop/UDisks2",
-                   "org.freedesktop.DBus.ObjectManager",
-                   "InterfacesRemoved",
-                   this,
-                   SLOT(slotDeviceRemoved(QDBusObjectPath,QStringList)));
-
-
-    QTimer::singleShot(1000, this, SLOT(slotUpdate()));
 
 }
 
@@ -53,72 +36,17 @@ CExchangeGarmin::~CExchangeGarmin()
 
 }
 
-void CExchangeGarmin::slotUpdate()
-{
-
-    QList<QDBusObjectPath> paths;
-    QDBusMessage call = QDBusMessage::createMethodCall("org.freedesktop.UDisks2",
-                                                       "/org/freedesktop/UDisks2/block_devices",
-                                                       "org.freedesktop.DBus.Introspectable",
-                                                       "Introspect");
-    QDBusPendingReply<QString> reply = QDBusConnection::systemBus().call(call);
-
-    if (!reply.isValid())
-    {
-        qWarning("UDisks2Manager: error: %s", qPrintable(reply.error().name()));
-        return;
-    }
-
-    QXmlStreamReader xml(reply.value());
-    while (!xml.atEnd())
-    {
-        xml.readNext();
-        if (xml.tokenType() == QXmlStreamReader::StartElement && xml.name().toString() == "node" )
-        {
-            QString name = xml.attributes().value("name").toString();
-            if(!name.isEmpty())
-                paths << QDBusObjectPath("/org/freedesktop/UDisks2/block_devices/" + name);
-        }
-    }
-
-    foreach (QDBusObjectPath i, paths)
-    {
-        slotDeviceAdded(i, QVariantMap());
-    }
-}
-
 void CExchangeGarmin::slotDeviceAdded(const QDBusObjectPath& path, const QVariantMap& map)
 {
-    qDebug() << "-----------slotDeviceAdded----------";
+    qDebug() << "-----------CExchangeGarmin::slotDeviceAdded----------";
     qDebug() << path.path() << map;
 
-    QString device = checkForDevice(path, "GARMIN");
+    QString device = checkForDevice(path);
     if(!device.isEmpty())
     {
         CGarminTreeWidgetItem * item = new CGarminTreeWidgetItem(path.path(), treeWidget);
         item->setText(0, device);
 
-    }
-}
-
-void CExchangeGarmin::slotDeviceRemoved(const QDBusObjectPath& path, const QStringList& list)
-{
-    qDebug() << "-----------dbusDeviceRemoved----------";
-    qDebug() << path.path() << list;
-    if(!path.path().startsWith("/org/freedesktop/UDisks2/block_devices/"))
-    {
-        return;
-    }
-
-    const int N = treeWidget->topLevelItemCount();
-    for(int i = 0; i<N; i++)
-    {
-        CGarminTreeWidgetItem * item = dynamic_cast<CGarminTreeWidgetItem*>(treeWidget->topLevelItem(i));
-        if(item && item->getId() == path.path())
-        {
-            delete item;
-            return;
-        }
     }
 }
 

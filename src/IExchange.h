@@ -25,14 +25,24 @@ class QDBusObjectPath;
 
 class IExchange : public QObject
 {
+    Q_OBJECT;
     public:
-        IExchange(QTreeWidget *treeWidget,QObject * parent);
+        IExchange(const QString &vendor, QTreeWidget *treeWidget, QObject * parent);
         virtual ~IExchange();
 
+    protected slots:
+        virtual void slotUpdate();
+        virtual void slotDeviceAdded(const QDBusObjectPath& path, const QVariantMap& map) = 0;
+        virtual void slotDeviceRemoved(const QDBusObjectPath& path, const QStringList& list);
+
     protected:
-        QString checkForDevice(const QDBusObjectPath& path, const QString& strVendor);
+        QString checkForDevice(const QDBusObjectPath& path);
+
+        QString vendor;
 
         QTreeWidget * treeWidget;
+
+
 
 };
 

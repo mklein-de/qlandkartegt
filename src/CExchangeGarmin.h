@@ -30,10 +30,7 @@ class CExchangeGarmin : public IExchange
         virtual ~CExchangeGarmin();
 
     private slots:
-        void slotUpdate();
         void slotDeviceAdded(const QDBusObjectPath& path, const QVariantMap& map);
-        void slotDeviceRemoved(const QDBusObjectPath& path, const QStringList& list);
-
 };
 
 class CGarminTreeWidgetItem : public IDeviceTreeWidgetItem

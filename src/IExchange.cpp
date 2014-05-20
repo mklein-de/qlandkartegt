@@ -20,11 +20,26 @@
 #include <QtGui>
 #include <QtDBus>
 
-IExchange::IExchange(QTreeWidget *treeWidget, QObject *parent)
+IExchange::IExchange(const QString& vendor, QTreeWidget *treeWidget, QObject *parent)
     : QObject(parent)
+    , vendor(vendor)
     , treeWidget(treeWidget)
 {
+    QDBusConnection::systemBus().connect("org.freedesktop.UDisks2",
+                   "/org/freedesktop/UDisks2",
+                   "org.freedesktop.DBus.ObjectManager",
+                   "InterfacesAdded",
+                   this,
+                   SLOT(slotDeviceAdded(QDBusObjectPath,QVariantMap)));
 
+    QDBusConnection::systemBus().connect("org.freedesktop.UDisks2",
+                   "/org/freedesktop/UDisks2",
+                   "org.freedesktop.DBus.ObjectManager",
+                   "InterfacesRemoved",
+                   this,
+                   SLOT(slotDeviceRemoved(QDBusObjectPath,QStringList)));
+
+    QTimer::singleShot(1000, this, SLOT(slotUpdate()));
 }
 
 IExchange::~IExchange()
@@ -32,7 +47,7 @@ IExchange::~IExchange()
 
 }
 
-QString IExchange::checkForDevice(const QDBusObjectPath& path, const QString& strVendor)
+QString IExchange::checkForDevice(const QDBusObjectPath& path)
 {
     // ignore all path that are no block devices
     if(!path.path().startsWith("/org/freedesktop/UDisks2/block_devices/"))
@@ -58,10 +73,10 @@ QString IExchange::checkForDevice(const QDBusObjectPath& path, const QString& st
                                          QDBusConnection::systemBus(),
                                          this);
     Q_ASSERT(driveIface);
-    QString vendor = driveIface->property("Vendor").toString();
+    QString _vendor_ = driveIface->property("Vendor").toString();
 
     // vendor must match
-    if(vendor.toUpper() != strVendor)
+    if(_vendor_.toUpper() != vendor.toUpper())
     {
         delete driveIface;
         delete blockIface;
@@ -95,6 +110,63 @@ QString IExchange::checkForDevice(const QDBusObjectPath& path, const QString& st
     delete blockIface;
     return "";
 }
+
+void IExchange::slotUpdate()
+{
+
+    QList<QDBusObjectPath> paths;
+    QDBusMessage call = QDBusMessage::createMethodCall("org.freedesktop.UDisks2",
+                                                       "/org/freedesktop/UDisks2/block_devices",
+                                                       "org.freedesktop.DBus.Introspectable",
+                                                       "Introspect");
+    QDBusPendingReply<QString> reply = QDBusConnection::systemBus().call(call);
+
+    if (!reply.isValid())
+    {
+        qWarning("UDisks2Manager: error: %s", qPrintable(reply.error().name()));
+        return;
+    }
+
+    QXmlStreamReader xml(reply.value());
+    while (!xml.atEnd())
+    {
+        xml.readNext();
+        if (xml.tokenType() == QXmlStreamReader::StartElement && xml.name().toString() == "node" )
+        {
+            QString name = xml.attributes().value("name").toString();
+            if(!name.isEmpty())
+                paths << QDBusObjectPath("/org/freedesktop/UDisks2/block_devices/" + name);
+        }
+    }
+
+    foreach (QDBusObjectPath i, paths)
+    {
+        slotDeviceAdded(i, QVariantMap());
+    }
+}
+
+void IExchange::slotDeviceRemoved(const QDBusObjectPath& path, const QStringList& list)
+{
+    qDebug() << "-----------dbusDeviceRemoved----------";
+    qDebug() << path.path() << list;
+    if(!path.path().startsWith("/org/freedesktop/UDisks2/block_devices/"))
+    {
+        return;
+    }
+
+    const int N = treeWidget->topLevelItemCount();
+    for(int i = 0; i<N; i++)
+    {
+        IDeviceTreeWidgetItem * item = dynamic_cast<IDeviceTreeWidgetItem*>(treeWidget->topLevelItem(i));
+        if(item && item->getId() == path.path())
+        {
+            delete item;
+            return;
+        }
+    }
+}
+
+
 
 
 IDeviceTreeWidgetItem::IDeviceTreeWidgetItem(const QString& id, QTreeWidget *parent)

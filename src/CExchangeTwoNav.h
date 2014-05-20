@@ -30,9 +30,7 @@ class CExchangeTwoNav : public IExchange
         virtual ~CExchangeTwoNav();
 
     private slots:
-        void slotUpdate();
         void slotDeviceAdded(const QDBusObjectPath& path, const QVariantMap& map);
-        void slotDeviceRemoved(const QDBusObjectPath& path, const QStringList& list);
 
 };
 
