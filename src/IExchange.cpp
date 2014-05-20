@@ -19,6 +19,78 @@
 #include "IExchange.h"
 #include <QtGui>
 #include <QtDBus>
+#include <QMetaType>
+
+
+IDeviceTreeWidgetItem::IDeviceTreeWidgetItem(const QString& id, QTreeWidget *parent)
+    : QTreeWidgetItem(parent)
+    , id(id)
+{
+    setChildIndicatorPolicy(QTreeWidgetItem::ShowIndicator);
+}
+
+void IDeviceTreeWidgetItem::readMountPoint()
+{
+    QStringList points;
+    QDBusMessage message = QDBusMessage::createMethodCall("org.freedesktop.UDisks2",
+                                                          id,
+                                                          "org.freedesktop.DBus.Properties",
+                                                          "Get");
+
+    QList<QVariant> args;
+    args << "org.freedesktop.UDisks2.Filesystem" << "MountPoints";
+    message.setArguments(args);
+
+    QDBusMessage reply = QDBusConnection::systemBus().call(message);
+
+    QList<QByteArray> l;
+    foreach (QVariant arg, reply.arguments())
+    {
+        arg.value<QDBusVariant>().variant().value<QDBusArgument>() >> l;
+    }
+
+    foreach (QByteArray p, l)
+    {
+        points.append(p);
+    }
+
+    if(!points.isEmpty())
+    {
+        setIcon(1,QIcon("://icons/iconEject16x16.png"));
+        mountPoint = points[0];
+    }
+    else
+    {
+        mountPoint.clear();
+        setIcon(1,QIcon());
+    }
+
+}
+
+void IDeviceTreeWidgetItem::mount()
+{
+    readMountPoint();
+
+    QDBusMessage message = QDBusMessage::createMethodCall("org.freedesktop.UDisks2",id,"org.freedesktop.UDisks2.Filesystem","Mount");
+    QVariantMap args;
+    args.insert("options", "flush");
+    message << args;
+    QDBusConnection::systemBus().call(message);
+
+    readMountPoint();
+}
+
+void IDeviceTreeWidgetItem::unmount()
+{
+    QDBusMessage message = QDBusMessage::createMethodCall("org.freedesktop.UDisks2",id,"org.freedesktop.UDisks2.Filesystem","Unmount");
+    QVariantMap args;
+    message << args;
+    QDBusConnection::systemBus().call(message);
+
+    readMountPoint();
+}
+
+
 
 IExchange::IExchange(const QString& vendor, QTreeWidget *treeWidget, QObject *parent)
     : QObject(parent)
@@ -40,6 +112,9 @@ IExchange::IExchange(const QString& vendor, QTreeWidget *treeWidget, QObject *pa
                    SLOT(slotDeviceRemoved(QDBusObjectPath,QStringList)));
 
     QTimer::singleShot(1000, this, SLOT(slotUpdate()));
+
+    connect(treeWidget, SIGNAL(itemExpanded(QTreeWidgetItem*)), this, SLOT(slotItemExpanded(QTreeWidgetItem*)));
+    connect(treeWidget, SIGNAL(itemCollapsed(QTreeWidgetItem*)), this, SLOT(slotItemCollapsed(QTreeWidgetItem*)));
 }
 
 IExchange::~IExchange()
@@ -49,66 +124,63 @@ IExchange::~IExchange()
 
 QString IExchange::checkForDevice(const QDBusObjectPath& path)
 {
-    // ignore all path that are no block devices
-    if(!path.path().startsWith("/org/freedesktop/UDisks2/block_devices/"))
+    QString model;
+    QDBusInterface * blockIface = 0;
+    QDBusInterface * driveIface = 0;
+
+    try
     {
-        return "";
-    }
-
-
-    // create path of to drive the block device belongs to
-    QDBusInterface * blockIface = new QDBusInterface("org.freedesktop.UDisks2",
-                                         path.path(),
-                                         "org.freedesktop.UDisks2.Block",
-                                         QDBusConnection::systemBus(),
-                                         this);
-    Q_ASSERT(blockIface);
-    QDBusObjectPath drive_object = blockIface->property("Drive").value<QDBusObjectPath>();
-
-
-    // read vendor string attached to drive
-    QDBusInterface * driveIface = new QDBusInterface("org.freedesktop.UDisks2",
-                                         drive_object.path(),
-                                         "org.freedesktop.UDisks2.Drive",
-                                         QDBusConnection::systemBus(),
-                                         this);
-    Q_ASSERT(driveIface);
-    QString _vendor_ = driveIface->property("Vendor").toString();
-
-    // vendor must match
-    if(_vendor_.toUpper() != vendor.toUpper())
-    {
-        delete driveIface;
-        delete blockIface;
-        return "";
-    }
-
-    // single out block devices with attached filesystem
-    // devices with partitions will have a block device for the drive and one for each partition
-    // we are interested in the ones with filesystem as they are the ones to mount
-    QDBusMessage call = QDBusMessage::createMethodCall("org.freedesktop.UDisks2",
-                                                       path.path(),
-                                                       "org.freedesktop.DBus.Introspectable",
-                                                       "Introspect");
-    QDBusPendingReply<QString> reply = QDBusConnection::systemBus().call(call);
-
-    QXmlStreamReader xml(reply.value());
-    while (!xml.atEnd())
-    {
-        xml.readNext();
-        if (xml.tokenType() == QXmlStreamReader::StartElement && xml.name().toString() == "interface" )
+        // ignore all path that are no block devices
+        if(!path.path().startsWith("/org/freedesktop/UDisks2/block_devices/"))
         {
+            throw QString();
+        }
 
-            QString name = xml.attributes().value("name").toString();
-            if(name == "org.freedesktop.UDisks2.Filesystem")
+        // create path of to drive the block device belongs to
+        blockIface = new QDBusInterface("org.freedesktop.UDisks2", path.path(), "org.freedesktop.UDisks2.Block", QDBusConnection::systemBus(), this);
+        Q_ASSERT(blockIface);
+        QDBusObjectPath drive_object = blockIface->property("Drive").value<QDBusObjectPath>();
+
+
+        // read vendor string attached to drive
+        driveIface = new QDBusInterface("org.freedesktop.UDisks2", drive_object.path(),"org.freedesktop.UDisks2.Drive", QDBusConnection::systemBus(), this);
+        Q_ASSERT(driveIface);
+        QString _vendor_ = driveIface->property("Vendor").toString();
+
+        // vendor must match
+        if(_vendor_.toUpper() != vendor.toUpper())
+        {
+            throw QString();
+        }
+
+        // single out block devices with attached filesystem
+        // devices with partitions will have a block device for the drive and one for each partition
+        // we are interested in the ones with filesystem as they are the ones to mount
+        QDBusMessage call = QDBusMessage::createMethodCall("org.freedesktop.UDisks2", path.path(), "org.freedesktop.DBus.Introspectable", "Introspect");
+        QDBusPendingReply<QString> reply = QDBusConnection::systemBus().call(call);
+
+        QXmlStreamReader xml(reply.value());
+        while (!xml.atEnd())
+        {
+            xml.readNext();
+            if (xml.tokenType() == QXmlStreamReader::StartElement && xml.name().toString() == "interface" )
             {
-                return  driveIface->property("Model").toString();
+
+                QString name = xml.attributes().value("name").toString();
+                if(name == "org.freedesktop.UDisks2.Filesystem")
+                {
+                    throw  driveIface->property("Model").toString();
+                }
             }
         }
     }
+    catch(const QString& str)
+    {
+        model = str;
+    }
     delete driveIface;
     delete blockIface;
-    return "";
+    return model;
 }
 
 void IExchange::slotUpdate()
@@ -166,12 +238,30 @@ void IExchange::slotDeviceRemoved(const QDBusObjectPath& path, const QStringList
     }
 }
 
-
-
-
-IDeviceTreeWidgetItem::IDeviceTreeWidgetItem(const QString& id, QTreeWidget *parent)
-    : QTreeWidgetItem(parent)
-    , id(id)
+void IExchange::slotItemExpanded(QTreeWidgetItem * item)
 {
+    IDeviceTreeWidgetItem * devItem = dynamic_cast<IDeviceTreeWidgetItem*>(item);
+    if(!devItem)
+    {
+        return;
+    }
+    if(devItem->childCount() != 0)
+    {
+        return;
+    }
+
+    devItem->mount();
 
 }
+
+void IExchange::slotItemCollapsed(QTreeWidgetItem * item)
+{
+    IDeviceTreeWidgetItem * devItem = dynamic_cast<IDeviceTreeWidgetItem*>(item);
+    if(!devItem)
+    {
+        return;
+    }
+    devItem->unmount();
+}
+
+

@@ -571,5 +571,6 @@
         <file>cursors/cursorArea.png</file>
         <file>icons/iconDeviceGarmin16x16.png</file>
         <file>icons/iconDeviceTwoNav16x16.png</file>
+        <file>icons/iconEject16x16.png</file>
     </qresource>
 </RCC>

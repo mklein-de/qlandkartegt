@@ -34,6 +34,8 @@ class IExchange : public QObject
         virtual void slotUpdate();
         virtual void slotDeviceAdded(const QDBusObjectPath& path, const QVariantMap& map) = 0;
         virtual void slotDeviceRemoved(const QDBusObjectPath& path, const QStringList& list);
+        void slotItemExpanded(QTreeWidgetItem * item);
+        void slotItemCollapsed(QTreeWidgetItem * item);
 
     protected:
         QString checkForDevice(const QDBusObjectPath& path);
@@ -53,8 +55,13 @@ class IDeviceTreeWidgetItem : public QTreeWidgetItem
 
         const QString& getId(){return id;}
 
+        void mount();
+        void unmount();
+
     private:
+        void readMountPoint();
         QString id;
+        QString mountPoint;
 };
 
 #endif //IEXCHANGE_H
