@@ -43,9 +43,6 @@ class IExchange : public QObject
         QString vendor;
 
         QTreeWidget * treeWidget;
-
-
-
 };
 
 class IDeviceTreeWidgetItem : public QTreeWidgetItem
@@ -58,7 +55,9 @@ class IDeviceTreeWidgetItem : public QTreeWidgetItem
         void mount();
         void unmount();
 
-    private:
+        virtual void readDevice() = 0;
+
+    protected:
         void readMountPoint();
         QString id;
         QString mountPoint;

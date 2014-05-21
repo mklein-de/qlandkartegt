@@ -22,6 +22,21 @@
 
 class QDBusObjectPath;
 
+class CGarminTreeWidgetItem : public IDeviceTreeWidgetItem
+{
+    public:
+        CGarminTreeWidgetItem(const QString& id, QTreeWidget *parent);
+
+        void readDevice();
+
+    private:
+        void readDeviceXml(const QString& filename);
+        QString pathGpx;
+        QString pathSpoiler;
+        QString pathJpeg;
+        QString pathAdventure;
+};
+
 class CExchangeGarmin : public IExchange
 {
     Q_OBJECT
@@ -33,11 +48,6 @@ class CExchangeGarmin : public IExchange
         void slotDeviceAdded(const QDBusObjectPath& path, const QVariantMap& map);
 };
 
-class CGarminTreeWidgetItem : public IDeviceTreeWidgetItem
-{
-    public:
-        CGarminTreeWidgetItem(const QString& id, QTreeWidget *parent);
-};
 
 #endif //CEXCHANGEGARMIN_H
 

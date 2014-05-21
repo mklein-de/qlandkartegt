@@ -18,6 +18,7 @@
 #include "CExchangeGarmin.h"
 
 #include <QtDBus>
+#include <QtXml>
 
 CGarminTreeWidgetItem::CGarminTreeWidgetItem(const QString& id, QTreeWidget *parent)
     : IDeviceTreeWidgetItem(id,parent)
@@ -25,6 +26,80 @@ CGarminTreeWidgetItem::CGarminTreeWidgetItem(const QString& id, QTreeWidget *par
     setIcon(0, QIcon("://icons/iconDeviceGarmin16x16.png"));
 }
 
+void CGarminTreeWidgetItem::readDevice()
+{
+    pathGpx.clear();
+    pathSpoiler.clear();
+    pathJpeg.clear();
+    pathAdventure.clear();
+
+    QDir dir(mountPoint);
+    if(dir.exists("Garmin/GarminDevice.xml"))
+    {
+        readDeviceXml(dir.absoluteFilePath("Garmin/GarminDevice.xml"));
+    }
+    else
+    {
+        QTreeWidgetItem * item = new QTreeWidgetItem(this);
+        item->setText(0,QObject::tr("No 'Garmin/GarminDevice.xml' found"));
+        item->setIcon(0,QIcon("://icons/iconWarning16x16.png"));
+        return;
+    }
+
+
+
+}
+
+void CGarminTreeWidgetItem::readDeviceXml(const QString& filename)
+{
+    QFile file(filename);
+    file.open(QIODevice::ReadOnly);
+
+    QDomDocument dom;
+    dom.setContent(&file);
+
+    QDomElement device              = dom.firstChildElement("Device");
+    QDomElement MassStorageMode     = device.firstChildElement("MassStorageMode");
+    const QDomNodeList& DataTypes   = MassStorageMode.elementsByTagName("DataType");
+
+    for(int i = 0; i < DataTypes.size(); i++)
+    {
+        QDomNode dataType       = DataTypes.at(i);
+        QDomElement Name        = dataType.firstChildElement("Name");
+        QDomElement File        = dataType.firstChildElement("File");
+        QDomElement Location    = File.firstChildElement("Location");
+        QDomElement Path        = Location.firstChildElement("Path");
+
+        qDebug() << Name.text().simplified() << Path.text().simplified();
+
+        QString name = Name.text().simplified();
+
+        if(name == "GPSData")
+        {
+            pathGpx = Path.text().simplified();
+        }
+        else if(name == "UserDataSync")
+        {
+            pathGpx = Path.text().simplified();
+        }
+        else if(name == "GeotaggedPhotos")
+        {
+            pathJpeg = Path.text().simplified();
+        }
+        else if(name == "GeocachePhotos")
+        {
+            pathSpoiler = Path.text().simplified();
+        }
+        else if(name == "Adventures")
+        {
+            pathAdventure = Path.text().simplified();
+        }
+    }
+}
+
+// ----------------------------------------------------------------------------------------
+// ----------------------------------------------------------------------------------------
+// ----------------------------------------------------------------------------------------
 CExchangeGarmin::CExchangeGarmin(QTreeWidget * treeWidget, QObject * parent)
     : IExchange("Garmin", treeWidget,parent)
 {

@@ -25,6 +25,11 @@ CTwoNavTreeWidgetItem::CTwoNavTreeWidgetItem(const QString& id, QTreeWidget *par
     setIcon(0, QIcon("://icons/iconDeviceTwoNav16x16.png"));
 }
 
+void CTwoNavTreeWidgetItem::readDevice()
+{
+
+}
+
 CExchangeTwoNav::CExchangeTwoNav(QTreeWidget * treeWidget, QObject * parent)
     : IExchange("General", treeWidget,parent)
 {
@@ -48,4 +53,5 @@ void CExchangeTwoNav::slotDeviceAdded(const QDBusObjectPath& path, const QVarian
         item->setText(0, "TwoNav " + device);
     }
 }
+
 

@@ -69,6 +69,7 @@ void IDeviceTreeWidgetItem::readMountPoint()
 
 void IDeviceTreeWidgetItem::mount()
 {
+    qDebug() << "IDeviceTreeWidgetItem::mount()";
     readMountPoint();
 
     QDBusMessage message = QDBusMessage::createMethodCall("org.freedesktop.UDisks2",id,"org.freedesktop.UDisks2.Filesystem","Mount");
@@ -82,6 +83,7 @@ void IDeviceTreeWidgetItem::mount()
 
 void IDeviceTreeWidgetItem::unmount()
 {
+    qDebug() << "IDeviceTreeWidgetItem::unmount()";
     QDBusMessage message = QDBusMessage::createMethodCall("org.freedesktop.UDisks2",id,"org.freedesktop.UDisks2.Filesystem","Unmount");
     QVariantMap args;
     message << args;
@@ -251,6 +253,7 @@ void IExchange::slotItemExpanded(QTreeWidgetItem * item)
     }
 
     devItem->mount();
+    devItem->readDevice();
 
 }
 
@@ -262,6 +265,9 @@ void IExchange::slotItemCollapsed(QTreeWidgetItem * item)
         return;
     }
     devItem->unmount();
+    QList<QTreeWidgetItem *> children =	devItem->takeChildren();
+    qDeleteAll(children);
+
 }
 
 

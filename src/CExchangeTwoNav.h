@@ -22,6 +22,14 @@
 
 class QDBusObjectPath;
 
+class CTwoNavTreeWidgetItem : public IDeviceTreeWidgetItem
+{
+    public:
+        CTwoNavTreeWidgetItem(const QString& id, QTreeWidget *parent);
+
+        void readDevice();
+};
+
 class CExchangeTwoNav : public IExchange
 {
     Q_OBJECT
@@ -34,11 +42,6 @@ class CExchangeTwoNav : public IExchange
 
 };
 
-class CTwoNavTreeWidgetItem : public IDeviceTreeWidgetItem
-{
-    public:
-        CTwoNavTreeWidgetItem(const QString& id, QTreeWidget *parent);
-};
 
 
 #endif //CEXCHANGETWONAV_H
