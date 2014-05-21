@@ -299,7 +299,7 @@ static inline HWND dw_create_internal_window(const void* userData)
 	wc.hCursor = 0;
 	wc.hbrBackground = 0;
 	wc.lpszMenuName = NULL;
-	wc.lpszClassName = reinterpret_cast<const wchar_t *>(className.utf16());
+	wc.lpszClassName = reinterpret_cast<LPCSTR>(className.utf16());
 	RegisterClass(&wc);
 
 	HWND hwnd = CreateWindow(wc.lpszClassName,	   // classname
@@ -346,7 +346,7 @@ static inline void dw_destroy_internal_window(HWND hwnd)
 #if CONFIG_NOTIFICATION
 	UnregisterDeviceNotification(hDevNotify);
 #endif
-	UnregisterClass(reinterpret_cast<const wchar_t *>(className().utf16()), qWinAppInst());
+	UnregisterClass(reinterpret_cast<LPCSTR>(className().utf16()), qWinAppInst());
 }
 
 

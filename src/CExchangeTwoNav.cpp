@@ -30,6 +30,9 @@ void CTwoNavTreeWidgetItem::readDevice()
 
 }
 
+// ----------------------------------------------------------------------------------------
+// ----------------------------------------------------------------------------------------
+// ----------------------------------------------------------------------------------------
 CExchangeTwoNav::CExchangeTwoNav(QTreeWidget * treeWidget, QObject * parent)
     : IExchange("General", treeWidget,parent)
 {
@@ -43,6 +46,7 @@ CExchangeTwoNav::~CExchangeTwoNav()
 
 void CExchangeTwoNav::slotDeviceAdded(const QDBusObjectPath& path, const QVariantMap& map)
 {
+#ifdef Q_OS_LINUX
     qDebug() << "-----------CExchangeTwoNav::slotDeviceAdded----------";
     qDebug() << path.path() << map;
 
@@ -52,6 +56,7 @@ void CExchangeTwoNav::slotDeviceAdded(const QDBusObjectPath& path, const QVarian
         CTwoNavTreeWidgetItem * item = new CTwoNavTreeWidgetItem(path.path(), treeWidget);
         item->setText(0, "TwoNav " + device);
     }
+#endif //Q_OS_LINUX
 }
 
 

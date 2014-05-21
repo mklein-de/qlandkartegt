@@ -28,10 +28,6 @@ CGarminTreeWidgetItem::CGarminTreeWidgetItem(const QString& id, QTreeWidget *par
 
 void CGarminTreeWidgetItem::readDevice()
 {
-    pathGpx.clear();
-    pathSpoiler.clear();
-    pathJpeg.clear();
-    pathAdventure.clear();
 
     QDir dir(mountPoint);
     if(dir.exists("Garmin/GarminDevice.xml"))
@@ -46,7 +42,18 @@ void CGarminTreeWidgetItem::readDevice()
         return;
     }
 
+    QDir dirGpx(dir.absoluteFilePath(pathGpx));
+    QStringList subdirs = dirGpx.entryList(QStringList("*"), QDir::Dirs|QDir::NoDotAndDotDot, QDir::Name);
+    foreach(const QString& dirname, subdirs)
+    {
+        qDebug() << dirname;
+    }
 
+    QStringList files = dirGpx.entryList(QStringList("*"), QDir::Files|QDir::NoDotAndDotDot, QDir::Name);
+    foreach(const QString& filename, files)
+    {
+        qDebug() << filename;
+    }
 
 }
 
@@ -61,6 +68,11 @@ void CGarminTreeWidgetItem::readDeviceXml(const QString& filename)
     QDomElement device              = dom.firstChildElement("Device");
     QDomElement MassStorageMode     = device.firstChildElement("MassStorageMode");
     const QDomNodeList& DataTypes   = MassStorageMode.elementsByTagName("DataType");
+
+    pathGpx.clear();
+    pathSpoiler.clear();
+    pathJpeg.clear();
+    pathAdventure.clear();
 
     for(int i = 0; i < DataTypes.size(); i++)
     {
@@ -113,6 +125,7 @@ CExchangeGarmin::~CExchangeGarmin()
 
 void CExchangeGarmin::slotDeviceAdded(const QDBusObjectPath& path, const QVariantMap& map)
 {
+#ifdef Q_OS_LINUX
     qDebug() << "-----------CExchangeGarmin::slotDeviceAdded----------";
     qDebug() << path.path() << map;
 
@@ -123,5 +136,6 @@ void CExchangeGarmin::slotDeviceAdded(const QDBusObjectPath& path, const QVarian
         item->setText(0, device);
 
     }
+#endif //Q_OS_LINUX
 }
 

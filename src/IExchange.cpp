@@ -31,6 +31,7 @@ IDeviceTreeWidgetItem::IDeviceTreeWidgetItem(const QString& id, QTreeWidget *par
 
 void IDeviceTreeWidgetItem::readMountPoint()
 {
+#ifdef Q_OS_LINUX
     QStringList points;
     QDBusMessage message = QDBusMessage::createMethodCall("org.freedesktop.UDisks2",
                                                           id,
@@ -64,11 +65,12 @@ void IDeviceTreeWidgetItem::readMountPoint()
         mountPoint.clear();
         setIcon(1,QIcon());
     }
-
+#endif //Q_OS_LINUX
 }
 
 void IDeviceTreeWidgetItem::mount()
 {
+#ifdef Q_OS_LINUX
     qDebug() << "IDeviceTreeWidgetItem::mount()";
     readMountPoint();
 
@@ -79,10 +81,12 @@ void IDeviceTreeWidgetItem::mount()
     QDBusConnection::systemBus().call(message);
 
     readMountPoint();
+#endif //Q_OS_LINUX
 }
 
 void IDeviceTreeWidgetItem::unmount()
 {
+#ifdef Q_OS_LINUX
     qDebug() << "IDeviceTreeWidgetItem::unmount()";
     QDBusMessage message = QDBusMessage::createMethodCall("org.freedesktop.UDisks2",id,"org.freedesktop.UDisks2.Filesystem","Unmount");
     QVariantMap args;
@@ -90,6 +94,7 @@ void IDeviceTreeWidgetItem::unmount()
     QDBusConnection::systemBus().call(message);
 
     readMountPoint();
+#endif //Q_OS_LINUX
 }
 
 
@@ -99,6 +104,7 @@ IExchange::IExchange(const QString& vendor, QTreeWidget *treeWidget, QObject *pa
     , vendor(vendor)
     , treeWidget(treeWidget)
 {
+#ifdef Q_OS_LINUX
     QDBusConnection::systemBus().connect("org.freedesktop.UDisks2",
                    "/org/freedesktop/UDisks2",
                    "org.freedesktop.DBus.ObjectManager",
@@ -114,7 +120,7 @@ IExchange::IExchange(const QString& vendor, QTreeWidget *treeWidget, QObject *pa
                    SLOT(slotDeviceRemoved(QDBusObjectPath,QStringList)));
 
     QTimer::singleShot(1000, this, SLOT(slotUpdate()));
-
+#endif //Q_OS_LINUX
     connect(treeWidget, SIGNAL(itemExpanded(QTreeWidgetItem*)), this, SLOT(slotItemExpanded(QTreeWidgetItem*)));
     connect(treeWidget, SIGNAL(itemCollapsed(QTreeWidgetItem*)), this, SLOT(slotItemCollapsed(QTreeWidgetItem*)));
 }
@@ -126,6 +132,7 @@ IExchange::~IExchange()
 
 QString IExchange::checkForDevice(const QDBusObjectPath& path)
 {
+#ifdef Q_OS_LINUX
     QString model;
     QDBusInterface * blockIface = 0;
     QDBusInterface * driveIface = 0;
@@ -183,11 +190,14 @@ QString IExchange::checkForDevice(const QDBusObjectPath& path)
     delete driveIface;
     delete blockIface;
     return model;
+#else // Q_OS_LINUX
+	return "";
+#endif // Q_OS_LINUX
 }
 
 void IExchange::slotUpdate()
 {
-
+#ifdef Q_OS_LINUX
     QList<QDBusObjectPath> paths;
     QDBusMessage call = QDBusMessage::createMethodCall("org.freedesktop.UDisks2",
                                                        "/org/freedesktop/UDisks2/block_devices",
@@ -217,10 +227,12 @@ void IExchange::slotUpdate()
     {
         slotDeviceAdded(i, QVariantMap());
     }
+#endif //Q_OS_LINUX
 }
 
 void IExchange::slotDeviceRemoved(const QDBusObjectPath& path, const QStringList& list)
 {
+#ifdef Q_OS_LINUX
     qDebug() << "-----------dbusDeviceRemoved----------";
     qDebug() << path.path() << list;
     if(!path.path().startsWith("/org/freedesktop/UDisks2/block_devices/"))
@@ -238,6 +250,8 @@ void IExchange::slotDeviceRemoved(const QDBusObjectPath& path, const QStringList
             return;
         }
     }
+
+#endif //Q_OS_LINUX
 }
 
 void IExchange::slotItemExpanded(QTreeWidgetItem * item)
