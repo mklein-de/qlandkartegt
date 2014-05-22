@@ -31,6 +31,9 @@ class CLiveLogToolWidget : public QWidget, public Ui::ILiveLogToolWidget
         CLiveLogToolWidget(QTabWidget * parent);
         virtual ~CLiveLogToolWidget();
 
+    protected:
+        void resizeEvent(QResizeEvent * e);
+
     private slots:
         void slotChanged();
         void slotUseSmallArrow(bool on);

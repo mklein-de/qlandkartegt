@@ -55,3 +55,36 @@ void CLiveLogToolWidget::slotUseSmallArrow(bool on)
 {
     CLiveLogDB::self().setUseSmallArrow(on);
 }
+
+void CLiveLogToolWidget::resizeEvent(QResizeEvent * e)
+{
+    QWidget::resizeEvent(e);
+
+    const int maxWidth   = lblSpeed->width();
+    const int maxHeight2 = 100;
+
+    QFont f         = font();
+    QFont fontValue = f;
+    int pt          = f.pointSize();
+    while(1)
+    {
+        QFontMetrics fm(f);
+
+        if(fm.width("000.00 km/h") > maxWidth)
+        {
+            break;
+        }
+        if(fm.height() > maxHeight2)
+        {
+            break;
+        }
+
+        fontValue = f;
+        f.setPointSize(++pt);
+    }
+
+    lblSpeed->setFont(fontValue);
+    lblHeading->setFont(fontValue);
+
+
+}
