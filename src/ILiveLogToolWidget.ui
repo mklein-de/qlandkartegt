@@ -159,13 +159,6 @@
      </property>
     </widget>
    </item>
-   <item row="7" column="0">
-    <widget class="QCheckBox" name="checkSmallArrow">
-     <property name="text">
-      <string>use small arrow</string>
-     </property>
-    </widget>
-   </item>
    <item row="9" column="0">
     <spacer name="verticalSpacer">
      <property name="orientation">
@@ -191,6 +184,13 @@
       </size>
      </property>
     </spacer>
+   </item>
+   <item row="7" column="0" colspan="3">
+    <widget class="QCheckBox" name="checkSmallArrow">
+     <property name="text">
+      <string>use small arrow</string>
+     </property>
+    </widget>
    </item>
   </layout>
  </widget>
