@@ -85,7 +85,7 @@ void CGarminTreeWidgetItem::readDeviceXml(const QString& filename)
         QDomElement Location    = File.firstChildElement("Location");
         QDomElement Path        = Location.firstChildElement("Path");
 
-        qDebug() << Name.text().simplified() << Path.text().simplified();
+//        qDebug() << Name.text().simplified() << Path.text().simplified();
 
         QString name = Name.text().simplified();
 
@@ -171,7 +171,7 @@ void CGarminFileTreeWidgetItem::read()
     QString msg;
     int line;
     int column;
-    if(!xml.setContent(&file, true, &msg, &line, &column))
+    if(!xml.setContent(&file, false, &msg, &line, &column))
     {
         file.close();
         QMessageBox::critical(0, QObject::tr("Failed to read..."), QObject::tr("Failed to read: %1\nline %2, column %3:\n %4").arg(filename).arg(line).arg(column).arg(msg), QMessageBox::Abort);
@@ -262,6 +262,67 @@ void CGarminFileTreeWidgetItem::read()
     addChildren(children);
 }
 
+void CGarminFileTreeWidgetItem::save()
+{
+    int N;
+    QFile file(filename);
+    file.open(QIODevice::ReadOnly);
+    QDomDocument xml;
+
+    QString msg;
+    int line;
+    int column;
+    if(!xml.setContent(&file, false, &msg, &line, &column))
+    {
+        file.close();
+        //QMessageBox::critical(0, QObject::tr("Failed to read..."), QObject::tr("Failed to read: %1\nline %2, column %3:\n %4").arg(filename).arg(line).arg(column).arg(msg), QMessageBox::Abort);
+        return;
+    }
+    file.close();
+
+    QDomElement gpx = xml.documentElement();
+    if(gpx.tagName() != "gpx")
+    {
+        //QMessageBox::critical(0, QObject::tr("Failed to read..."), QObject::tr("Not a GPX file: ") + filename, QMessageBox::Abort);
+        return;
+    }
+
+    const QDomNodeList& waypoints = gpx.elementsByTagName("wpt");
+    N = waypoints.count();
+    for(int n = 0; n < N; ++n)
+    {
+        gpx.removeChild(waypoints.item(n));
+    }
+    const QDomNodeList& tracks = gpx.elementsByTagName("trk");
+    N = tracks.count();
+    for(int n = 0; n < N; ++n)
+    {
+        gpx.removeChild(tracks.item(n));
+    }
+    const QDomNodeList& routes = gpx.elementsByTagName("rte");
+    N = routes.count();
+    for(int n = 0; n < N; ++n)
+    {
+        gpx.removeChild(routes.item(n));
+    }
+
+    for(int c = 0;  c < childCount(); c++)
+    {
+        QTreeWidgetItem * item = child(c);
+        QString str = item->data(0,Qt::UserRole).toString();
+        QDomDocument tmp;
+        tmp.setContent(str);
+        gpx.appendChild(tmp.documentElement());
+    }
+
+    file.open(QIODevice::WriteOnly);
+    QTextStream out(&file);
+    out.setCodec("UTF-8");
+    xml.save(out,2);
+    file.close();
+
+}
+
 // ----------------------------------------------------------------------------------------
 // ----------------------------------------------------------------------------------------
 // ----------------------------------------------------------------------------------------
@@ -288,8 +349,8 @@ CExchangeGarmin::~CExchangeGarmin()
 void CExchangeGarmin::slotDeviceAdded(const QDBusObjectPath& path, const QVariantMap& map)
 {
 #ifdef Q_OS_LINUX
-    qDebug() << "-----------CExchangeGarmin::slotDeviceAdded----------";
-    qDebug() << path.path() << map;
+//    qDebug() << "-----------CExchangeGarmin::slotDeviceAdded----------";
+//    qDebug() << path.path() << map;
 
     QString device = checkForDevice(path);
     if(!device.isEmpty())
@@ -322,6 +383,13 @@ void CExchangeGarmin::slotItemExpanded(QTreeWidgetItem * item)
 
 void CExchangeGarmin::slotItemCollapsed(QTreeWidgetItem * item)
 {
+    CGarminFileTreeWidgetItem * file = dynamic_cast<CGarminFileTreeWidgetItem*>(item);
+    if(file)
+    {
+        file->save();
+        return;
+    }
+
     IExchange::slotItemCollapsed(item);
 }
 

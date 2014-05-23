@@ -55,6 +55,7 @@ class CGarminFileTreeWidgetItem : public QTreeWidgetItem
         CGarminFileTreeWidgetItem(const QString &path, QTreeWidgetItem *parent);
 
         void read();
+        void save();
 
     private:
         QString filename;
