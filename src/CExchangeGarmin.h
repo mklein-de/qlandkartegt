@@ -19,6 +19,7 @@
 #define CEXCHANGEGARMIN_H
 
 #include <IExchange.h>
+#include <QDir>
 
 class QDBusObjectPath;
 
@@ -37,12 +38,45 @@ class CGarminTreeWidgetItem : public IDeviceTreeWidgetItem
         QString pathAdventure;
 };
 
+class CGarminFolderTreeWidgetItem : public QTreeWidgetItem
+{
+    public:
+        CGarminFolderTreeWidgetItem(const QString &path, QTreeWidgetItem *parent);
+
+        void read();
+
+    private:
+        QDir dir;
+};
+
+class CGarminFileTreeWidgetItem : public QTreeWidgetItem
+{
+    public:
+        CGarminFileTreeWidgetItem(const QString &path, QTreeWidgetItem *parent);
+
+        void read();
+
+    private:
+        QString filename;
+};
+
+class CGarminAdventureTreeWidgetItem : public QTreeWidgetItem
+{
+    public:
+        CGarminAdventureTreeWidgetItem(const QString &path, QTreeWidgetItem *parent);
+};
+
+
 class CExchangeGarmin : public IExchange
 {
     Q_OBJECT
     public:
         CExchangeGarmin(QTreeWidget *treeWidget, QObject * parent);
         virtual ~CExchangeGarmin();
+
+    protected slots:
+        virtual void slotItemExpanded(QTreeWidgetItem * item);
+        virtual void slotItemCollapsed(QTreeWidgetItem * item);
 
     private slots:
         void slotDeviceAdded(const QDBusObjectPath& path, const QVariantMap& map);

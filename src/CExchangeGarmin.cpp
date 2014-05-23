@@ -16,9 +16,11 @@
 
 **********************************************************************************************/
 #include "CExchangeGarmin.h"
+#include "WptIcons.h"
 
 #include <QtDBus>
 #include <QtXml>
+#include <QtGui>
 
 CGarminTreeWidgetItem::CGarminTreeWidgetItem(const QString& id, QTreeWidget *parent)
     : IDeviceTreeWidgetItem(id,parent)
@@ -46,13 +48,14 @@ void CGarminTreeWidgetItem::readDevice()
     QStringList subdirs = dirGpx.entryList(QStringList("*"), QDir::Dirs|QDir::NoDotAndDotDot, QDir::Name);
     foreach(const QString& dirname, subdirs)
     {
-        qDebug() << dirname;
+        new CGarminFolderTreeWidgetItem(dirGpx.absoluteFilePath(dirname), this);
+
     }
 
-    QStringList files = dirGpx.entryList(QStringList("*"), QDir::Files|QDir::NoDotAndDotDot, QDir::Name);
+    QStringList files = dirGpx.entryList(QStringList("*.gpx"), QDir::Files|QDir::NoDotAndDotDot, QDir::Name);
     foreach(const QString& filename, files)
     {
-        qDebug() << filename;
+        new CGarminFileTreeWidgetItem(dirGpx.absoluteFilePath(filename), this);
     }
 
 }
@@ -108,6 +111,165 @@ void CGarminTreeWidgetItem::readDeviceXml(const QString& filename)
         }
     }
 }
+// ----------------------------------------------------------------------------------------
+// ----------------------------------------------------------------------------------------
+// ----------------------------------------------------------------------------------------
+CGarminFolderTreeWidgetItem::CGarminFolderTreeWidgetItem(const QString& path, QTreeWidgetItem *parent)
+    : QTreeWidgetItem(parent)
+    , dir(path)
+{
+    QFileInfo fi(path);
+    setText(0, fi.baseName());
+    setIcon(0, QIcon("://icons/iconFolderOrange16x16.png"));
+    setChildIndicatorPolicy(QTreeWidgetItem::ShowIndicator);
+}
+
+void CGarminFolderTreeWidgetItem::read()
+{
+    QList<QTreeWidgetItem *> children =	takeChildren();
+    qDeleteAll(children);
+
+    QStringList subdirs = dir.entryList(QStringList("*"), QDir::Dirs|QDir::NoDotAndDotDot, QDir::Name);
+    foreach(const QString& dirname, subdirs)
+    {
+        new CGarminFolderTreeWidgetItem(dir.absoluteFilePath(dirname), this);
+
+    }
+
+    QStringList files = dir.entryList(QStringList("*.gpx"), QDir::Files|QDir::NoDotAndDotDot, QDir::Name);
+    foreach(const QString& filename, files)
+    {
+        new CGarminFileTreeWidgetItem(dir.absoluteFilePath(filename), this);
+    }
+
+}
+
+// ----------------------------------------------------------------------------------------
+// ----------------------------------------------------------------------------------------
+// ----------------------------------------------------------------------------------------
+CGarminFileTreeWidgetItem::CGarminFileTreeWidgetItem(const QString &path, QTreeWidgetItem *parent)
+    : QTreeWidgetItem(parent)
+    , filename(path)
+{
+    QFileInfo fi(path);
+    setText(0, fi.baseName());
+    setIcon(0, QIcon("://icons/textjustify.png"));
+    setChildIndicatorPolicy(QTreeWidgetItem::ShowIndicator);
+}
+
+void CGarminFileTreeWidgetItem::read()
+{
+    int N;
+    QList<QTreeWidgetItem *> children =	takeChildren();
+    qDeleteAll(children);
+    children.clear();
+
+    QFile file(filename);
+    file.open(QIODevice::ReadOnly);
+    QDomDocument xml;
+
+    QString msg;
+    int line;
+    int column;
+    if(!xml.setContent(&file, true, &msg, &line, &column))
+    {
+        file.close();
+        QMessageBox::critical(0, QObject::tr("Failed to read..."), QObject::tr("Failed to read: %1\nline %2, column %3:\n %4").arg(filename).arg(line).arg(column).arg(msg), QMessageBox::Abort);
+        return;
+    }
+    file.close();
+
+    const QDomElement& gpx = xml.documentElement();
+    if(gpx.tagName() != "gpx")
+    {
+        QMessageBox::critical(0, QObject::tr("Failed to read..."), QObject::tr("Not a GPX file: ") + filename, QMessageBox::Abort);
+        return;
+    }
+
+    const QDomNodeList& waypoints = gpx.elementsByTagName("wpt");
+    N = waypoints.count();
+    for(int n = 0; n < N; ++n)
+    {
+        QString name, sym, str;
+        const QDomNode& waypoint = waypoints.item(n);
+
+        QTextStream s(&str, QIODevice::WriteOnly);
+        waypoint.save(s,2);
+
+        if(waypoint.namedItem("name").isElement())
+        {
+            name = waypoint.namedItem("name").toElement().text();
+        }
+
+        if(waypoint.namedItem("sym").isElement())
+        {
+            sym = waypoint.namedItem("sym").toElement().text();
+
+        }
+
+        QTreeWidgetItem * item = new QTreeWidgetItem();
+        item->setText(0, name);
+        item->setIcon(0, getWptIconByName(sym));
+        item->setData(0, Qt::UserRole,str);
+
+        children << item;
+    }
+
+    const QDomNodeList& tracks = gpx.elementsByTagName("trk");
+    N = tracks.count();
+    for(int n = 0; n < N; ++n)
+    {
+        QString name, str;
+        const QDomNode& track = tracks.item(n);
+
+        QTextStream s(&str, QIODevice::WriteOnly);
+        track.save(s,2);
+
+        if(track.namedItem("name").isElement())
+        {
+            name = track.namedItem("name").toElement().text();
+        }
+
+        QTreeWidgetItem * item = new QTreeWidgetItem();
+        item->setText(0, name);
+        item->setIcon(0, QIcon("://icons/iconTrack16x16.png"));
+        item->setData(0, Qt::UserRole,str);
+        children << item;
+    }
+
+    const QDomNodeList& routes = gpx.elementsByTagName("rte");
+    N = routes.count();
+    for(int n = 0; n < N; ++n)
+    {
+        QString name, str;
+        const QDomNode& route = routes.item(n);
+
+        QTextStream s(&str, QIODevice::WriteOnly);
+        route.save(s,2);
+
+        if(route.namedItem("name").isElement())
+        {
+            name = route.namedItem("name").toElement().text();
+        }
+
+        QTreeWidgetItem * item = new QTreeWidgetItem();
+        item->setText(0, name);
+        item->setIcon(0, QIcon("://icons/iconRoute16x16.png"));
+        item->setData(0, Qt::UserRole,str);
+        children << item;
+    }
+
+    addChildren(children);
+}
+
+// ----------------------------------------------------------------------------------------
+// ----------------------------------------------------------------------------------------
+// ----------------------------------------------------------------------------------------
+CGarminAdventureTreeWidgetItem::CGarminAdventureTreeWidgetItem(const QString &path, QTreeWidgetItem *parent)
+    : QTreeWidgetItem(parent)
+{
+    setChildIndicatorPolicy(QTreeWidgetItem::ShowIndicator);
+}
 
 // ----------------------------------------------------------------------------------------
 // ----------------------------------------------------------------------------------------
@@ -137,5 +299,29 @@ void CExchangeGarmin::slotDeviceAdded(const QDBusObjectPath& path, const QVarian
 
     }
 #endif //Q_OS_LINUX
+}
+
+void CExchangeGarmin::slotItemExpanded(QTreeWidgetItem * item)
+{
+    CGarminFolderTreeWidgetItem * folder = dynamic_cast<CGarminFolderTreeWidgetItem*>(item);
+    if(folder)
+    {
+        folder->read();
+        return;
+    }
+
+    CGarminFileTreeWidgetItem * file = dynamic_cast<CGarminFileTreeWidgetItem*>(item);
+    if(file)
+    {
+        file->read();
+        return;
+    }
+
+    IExchange::slotItemExpanded(item);
+}
+
+void CExchangeGarmin::slotItemCollapsed(QTreeWidgetItem * item)
+{
+    IExchange::slotItemCollapsed(item);
 }
 

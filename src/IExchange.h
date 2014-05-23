@@ -34,8 +34,8 @@ class IExchange : public QObject
         virtual void slotUpdate();
         virtual void slotDeviceAdded(const QDBusObjectPath& path, const QVariantMap& map) = 0;
         virtual void slotDeviceRemoved(const QDBusObjectPath& path, const QStringList& list);
-        void slotItemExpanded(QTreeWidgetItem * item);
-        void slotItemCollapsed(QTreeWidgetItem * item);
+        virtual void slotItemExpanded(QTreeWidgetItem * item);
+        virtual void slotItemCollapsed(QTreeWidgetItem * item);
 
     protected:
         QString checkForDevice(const QDBusObjectPath& path);
