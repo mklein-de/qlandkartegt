@@ -269,6 +269,8 @@ void CGarminFileTreeWidgetItem::save()
     file.open(QIODevice::ReadOnly);
     QDomDocument xml;
 
+    qDebug() << "void CGarminFileTreeWidgetItem::save()";
+
     QString msg;
     int line;
     int column;
@@ -287,23 +289,15 @@ void CGarminFileTreeWidgetItem::save()
         return;
     }
 
-    const QDomNodeList& waypoints = gpx.elementsByTagName("wpt");
-    N = waypoints.count();
-    for(int n = 0; n < N; ++n)
+    QDomNodeList children = gpx.childNodes();
+    for(int i = (children.count() - 1); i >= 0; i--)
     {
-        gpx.removeChild(waypoints.item(n));
-    }
-    const QDomNodeList& tracks = gpx.elementsByTagName("trk");
-    N = tracks.count();
-    for(int n = 0; n < N; ++n)
-    {
-        gpx.removeChild(tracks.item(n));
-    }
-    const QDomNodeList& routes = gpx.elementsByTagName("rte");
-    N = routes.count();
-    for(int n = 0; n < N; ++n)
-    {
-        gpx.removeChild(routes.item(n));
+        QDomNode child = children.at(i);
+        QString tag = child.toElement().tagName();
+        if(tag == "trk" || tag == "wpt" || tag == "rte")
+        {
+            gpx.removeChild(child);
+        }
     }
 
     for(int c = 0;  c < childCount(); c++)
