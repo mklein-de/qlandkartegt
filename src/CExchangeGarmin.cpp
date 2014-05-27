@@ -26,6 +26,16 @@ CGarminTreeWidgetItem::CGarminTreeWidgetItem(const QString& id, QTreeWidget *par
     : IDeviceTreeWidgetItem(id,parent)
 {
     setIcon(0, QIcon("://icons/iconDeviceGarmin16x16.png"));
+
+//    Qt::NoItemFlags	0	It does not have any properties set.
+//    Qt::ItemIsSelectable	1	It can be selected.
+//    Qt::ItemIsEditable	2	It can be edited.
+//    Qt::ItemIsDragEnabled	4	It can be dragged.
+//    Qt::ItemIsDropEnabled	8	It can be used as a drop target.
+//    Qt::ItemIsUserCheckable	16	It can be checked or unchecked by the user.
+//    Qt::ItemIsEnabled	32	The user can interact with the item.
+//    Qt::ItemIsTristate	64	The item is checkable with three separate states.
+    setFlags(Qt::ItemIsSelectable|Qt::ItemIsEnabled);
 }
 
 void CGarminTreeWidgetItem::readDevice()
@@ -115,13 +125,24 @@ void CGarminTreeWidgetItem::readDeviceXml(const QString& filename)
 // ----------------------------------------------------------------------------------------
 // ----------------------------------------------------------------------------------------
 CGarminFolderTreeWidgetItem::CGarminFolderTreeWidgetItem(const QString& path, QTreeWidgetItem *parent)
-    : QTreeWidgetItem(parent)
+    : ITreeWidgetItem(parent)
     , dir(path)
 {
     QFileInfo fi(path);
     setText(0, fi.baseName());
     setIcon(0, QIcon("://icons/iconFolderOrange16x16.png"));
     setChildIndicatorPolicy(QTreeWidgetItem::ShowIndicator);
+
+    //    Qt::NoItemFlags	0	It does not have any properties set.
+    //    Qt::ItemIsSelectable	1	It can be selected.
+    //    Qt::ItemIsEditable	2	It can be edited.
+    //    Qt::ItemIsDragEnabled	4	It can be dragged.
+    //    Qt::ItemIsDropEnabled	8	It can be used as a drop target.
+    //    Qt::ItemIsUserCheckable	16	It can be checked or unchecked by the user.
+    //    Qt::ItemIsEnabled	32	The user can interact with the item.
+    //    Qt::ItemIsTristate	64	The item is checkable with three separate states.
+    setFlags(Qt::ItemIsSelectable|Qt::ItemIsEnabled);
+
 }
 
 void CGarminFolderTreeWidgetItem::read()
@@ -148,13 +169,24 @@ void CGarminFolderTreeWidgetItem::read()
 // ----------------------------------------------------------------------------------------
 // ----------------------------------------------------------------------------------------
 CGarminFileTreeWidgetItem::CGarminFileTreeWidgetItem(const QString &path, QTreeWidgetItem *parent)
-    : QTreeWidgetItem(parent)
+    : ITreeWidgetItem(parent)
     , filename(path)
 {
     QFileInfo fi(path);
     setText(0, fi.baseName());
     setIcon(0, QIcon("://icons/textjustify.png"));
     setChildIndicatorPolicy(QTreeWidgetItem::ShowIndicator);
+
+    //    Qt::NoItemFlags	0	It does not have any properties set.
+    //    Qt::ItemIsSelectable	1	It can be selected.
+    //    Qt::ItemIsEditable	2	It can be edited.
+    //    Qt::ItemIsDragEnabled	4	It can be dragged.
+    //    Qt::ItemIsDropEnabled	8	It can be used as a drop target.
+    //    Qt::ItemIsUserCheckable	16	It can be checked or unchecked by the user.
+    //    Qt::ItemIsEnabled	32	The user can interact with the item.
+    //    Qt::ItemIsTristate	64	The item is checkable with three separate states.
+    setFlags(Qt::ItemIsSelectable|Qt::ItemIsEnabled|Qt::ItemIsDragEnabled|Qt::ItemIsDropEnabled);
+
 }
 
 void CGarminFileTreeWidgetItem::read()
@@ -212,6 +244,17 @@ void CGarminFileTreeWidgetItem::read()
         item->setIcon(0, getWptIconByName(sym));
         item->setData(0, Qt::UserRole,str);
 
+        //    Qt::NoItemFlags	0	It does not have any properties set.
+        //    Qt::ItemIsSelectable	1	It can be selected.
+        //    Qt::ItemIsEditable	2	It can be edited.
+        //    Qt::ItemIsDragEnabled	4	It can be dragged.
+        //    Qt::ItemIsDropEnabled	8	It can be used as a drop target.
+        //    Qt::ItemIsUserCheckable	16	It can be checked or unchecked by the user.
+        //    Qt::ItemIsEnabled	32	The user can interact with the item.
+        //    Qt::ItemIsTristate	64	The item is checkable with three separate states.
+        item->setFlags(Qt::ItemIsSelectable|Qt::ItemIsEnabled|Qt::ItemIsDragEnabled);
+
+
         children << item;
     }
 
@@ -234,6 +277,17 @@ void CGarminFileTreeWidgetItem::read()
         item->setText(0, name);
         item->setIcon(0, QIcon("://icons/iconTrack16x16.png"));
         item->setData(0, Qt::UserRole,str);
+
+        //    Qt::NoItemFlags	0	It does not have any properties set.
+        //    Qt::ItemIsSelectable	1	It can be selected.
+        //    Qt::ItemIsEditable	2	It can be edited.
+        //    Qt::ItemIsDragEnabled	4	It can be dragged.
+        //    Qt::ItemIsDropEnabled	8	It can be used as a drop target.
+        //    Qt::ItemIsUserCheckable	16	It can be checked or unchecked by the user.
+        //    Qt::ItemIsEnabled	32	The user can interact with the item.
+        //    Qt::ItemIsTristate	64	The item is checkable with three separate states.
+        item->setFlags(Qt::ItemIsSelectable|Qt::ItemIsEnabled|Qt::ItemIsDragEnabled);
+
         children << item;
     }
 
@@ -256,6 +310,17 @@ void CGarminFileTreeWidgetItem::read()
         item->setText(0, name);
         item->setIcon(0, QIcon("://icons/iconRoute16x16.png"));
         item->setData(0, Qt::UserRole,str);
+
+        //    Qt::NoItemFlags	0	It does not have any properties set.
+        //    Qt::ItemIsSelectable	1	It can be selected.
+        //    Qt::ItemIsEditable	2	It can be edited.
+        //    Qt::ItemIsDragEnabled	4	It can be dragged.
+        //    Qt::ItemIsDropEnabled	8	It can be used as a drop target.
+        //    Qt::ItemIsUserCheckable	16	It can be checked or unchecked by the user.
+        //    Qt::ItemIsEnabled	32	The user can interact with the item.
+        //    Qt::ItemIsTristate	64	The item is checkable with three separate states.
+        item->setFlags(Qt::ItemIsSelectable|Qt::ItemIsEnabled|Qt::ItemIsDragEnabled);
+
         children << item;
     }
 
@@ -264,7 +329,6 @@ void CGarminFileTreeWidgetItem::read()
 
 void CGarminFileTreeWidgetItem::save()
 {
-    int N;
     QFile file(filename);
     file.open(QIODevice::ReadOnly);
     QDomDocument xml;
@@ -321,7 +385,7 @@ void CGarminFileTreeWidgetItem::save()
 // ----------------------------------------------------------------------------------------
 // ----------------------------------------------------------------------------------------
 CGarminAdventureTreeWidgetItem::CGarminAdventureTreeWidgetItem(const QString &path, QTreeWidgetItem *parent)
-    : QTreeWidgetItem(parent)
+    : ITreeWidgetItem(parent)
 {
     setChildIndicatorPolicy(QTreeWidgetItem::ShowIndicator);
 }

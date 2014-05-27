@@ -38,7 +38,7 @@ class CGarminTreeWidgetItem : public IDeviceTreeWidgetItem
         QString pathAdventure;
 };
 
-class CGarminFolderTreeWidgetItem : public QTreeWidgetItem
+class CGarminFolderTreeWidgetItem : public ITreeWidgetItem
 {
     public:
         CGarminFolderTreeWidgetItem(const QString &path, QTreeWidgetItem *parent);
@@ -49,7 +49,7 @@ class CGarminFolderTreeWidgetItem : public QTreeWidgetItem
         QDir dir;
 };
 
-class CGarminFileTreeWidgetItem : public QTreeWidgetItem
+class CGarminFileTreeWidgetItem : public ITreeWidgetItem
 {
     public:
         CGarminFileTreeWidgetItem(const QString &path, QTreeWidgetItem *parent);
@@ -61,7 +61,7 @@ class CGarminFileTreeWidgetItem : public QTreeWidgetItem
         QString filename;
 };
 
-class CGarminAdventureTreeWidgetItem : public QTreeWidgetItem
+class CGarminAdventureTreeWidgetItem : public ITreeWidgetItem
 {
     public:
         CGarminAdventureTreeWidgetItem(const QString &path, QTreeWidgetItem *parent);

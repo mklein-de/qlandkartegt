@@ -2758,9 +2758,9 @@ void CGeoDB::slotContextMenuWorkspace(const QPoint& pos)
         return;
     }
 
-    if(dynamic_cast<IDeviceTreeWidgetItem*>(item) != 0)
+    if(dynamic_cast<ITreeWidgetItem*>(item) != 0)
     {
-
+        dynamic_cast<ITreeWidgetItem*>(item)->menu(pos);
         return;
     }
 

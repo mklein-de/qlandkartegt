@@ -23,7 +23,7 @@
 
 
 IDeviceTreeWidgetItem::IDeviceTreeWidgetItem(const QString& id, QTreeWidget *parent)
-    : QTreeWidgetItem(parent)
+    : ITreeWidgetItem(parent)
     , id(id)
 {
     setChildIndicatorPolicy(QTreeWidgetItem::ShowIndicator);

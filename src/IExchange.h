@@ -45,7 +45,16 @@ class IExchange : public QObject
         QTreeWidget * treeWidget;
 };
 
-class IDeviceTreeWidgetItem : public QTreeWidgetItem
+class ITreeWidgetItem : public QTreeWidgetItem
+{
+    public:
+        ITreeWidgetItem(QTreeWidgetItem * parent) : QTreeWidgetItem(parent){}
+        ITreeWidgetItem(QTreeWidget * parent) : QTreeWidgetItem(parent){}
+        virtual void menu(const QPoint& pos){}
+
+};
+
+class IDeviceTreeWidgetItem : public ITreeWidgetItem
 {
     public:
         IDeviceTreeWidgetItem(const QString& id, QTreeWidget * parent);
@@ -62,6 +71,7 @@ class IDeviceTreeWidgetItem : public QTreeWidgetItem
         QString id;
         QString mountPoint;
 };
+
 
 #endif //IEXCHANGE_H
 
