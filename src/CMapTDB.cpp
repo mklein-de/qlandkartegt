@@ -2867,6 +2867,20 @@ void CMapTDB::drawPoints(QPainter& p, pointtype_t& pts, QVector<QRect>& rectPois
                         IUnit::self().meter2elevation(val.toFloat() / 3.28084f, val, unit);
                         str = QString("%1 %2").arg(val).arg(unit);
                     }
+                    else if(pt->type == 0x6616) //669 DAV
+                    {
+                        if(pt->labels.size()>1)
+                        {
+                            QString unit;
+                            QString val = pt->labels[1];
+                            IUnit::self().meter2elevation(val.toFloat() / 3.28084f, val, unit);
+                            str = QString("%1 %2 %3").arg(pt->labels[0]).arg(val).arg(unit);
+                        }
+                        else
+                        {
+                            str = pt->labels[0];
+                        }
+                    }
                     else
                     {
                         str = pt->labels.join(" ");
@@ -2949,6 +2963,20 @@ void CMapTDB::drawPois(QPainter& p, pointtype_t& pts, QVector<QRect>& rectPois)
                             IUnit::self().meter2elevation(val.toFloat() / 3.28084f, val, unit);
                             str = QString("%1 %2").arg(val).arg(unit);
                         }
+                        else if(pt->type == 0x6616) //669 DAV
+                        {
+                            if(pt->labels.size()>1)
+                            {
+                                QString unit;
+                                QString val = pt->labels[1];
+                                IUnit::self().meter2elevation(val.toFloat() / 3.28084f, val, unit);
+                                str = QString("%1 %2 %3").arg(pt->labels[0]).arg(val).arg(unit);
+                            }
+                            else
+                            {
+                                str = pt->labels[0];
+                            }
+                        }
                         else
                         {
                             str = pt->labels.join(" ");
@@ -3004,6 +3032,20 @@ void CMapTDB::getInfoPoints(const QPoint& pt, QMultiMap<QString, QString>& dict)
                     IUnit::self().meter2elevation(val.toFloat() / 3.28084f, val, unit);
                     str = QString("%1 %2").arg(val).arg(unit);
                 }
+                else if(point->type == 0x6616) //669 DAV
+                {
+                    if(point->labels.size()>1)
+                    {
+                        QString unit;
+                        QString val = point->labels[1];
+                        IUnit::self().meter2elevation(val.toFloat() / 3.28084f, val, unit);
+                        str = QString("%1 %2 %3").arg(point->labels[0]).arg(val).arg(unit);
+                    }
+                    else
+                    {
+                        str = point->labels[0];
+                    }
+                }
                 else
                 {
                     str = point->labels.join(", ");
@@ -3053,6 +3095,20 @@ void CMapTDB::getInfoPois(const QPoint& pt, QMultiMap<QString, QString>& dict)
                     QString val = point->labels[0];
                     IUnit::self().meter2elevation(val.toFloat() / 3.28084f, val, unit);
                     str = QString("%1 %2").arg(val).arg(unit);
+                }
+                else if(point->type == 0x6616) //669 DAV
+                {
+                    if(point->labels.size()>1)
+                    {
+                        QString unit;
+                        QString val = point->labels[1];
+                        IUnit::self().meter2elevation(val.toFloat() / 3.28084f, val, unit);
+                        str = QString("%1 %2 %3").arg(point->labels[0]).arg(val).arg(unit);
+                    }
+                    else
+                    {
+                        str = point->labels[0];
+                    }
                 }
                 else
                 {

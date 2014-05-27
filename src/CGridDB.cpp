@@ -285,7 +285,8 @@ void CGridDB::draw(QPainter& p, const QRect& rect, bool& needsRedraw)
 
     p.save();
     p.setBrush(Qt::NoBrush);
-    p.setPen(QPen(color,2));
+    p.setPen(QPen(color,1));
+    USE_ANTI_ALIASING(p,false); //669 DAV
 
     double h = rect.height();
     double w = rect.width();
@@ -344,7 +345,11 @@ void CGridDB::draw(QPainter& p, const QRect& rect, bool& needsRedraw)
         x  = xStart;
         y -= yGridSpace;
     }
+    USE_ANTI_ALIASING(p,true); //669 DAV
     p.restore();
+
+    QColor textColor; //669 DAV
+    textColor.setHsv(color.hslHue(), color.hsvSaturation(), (color.value()>128?color.value()-128:0));
 
     if(pj_is_latlong(pjGrid))
     {
@@ -354,22 +359,22 @@ void CGridDB::draw(QPainter& p, const QRect& rect, bool& needsRedraw)
 
         foreach(const val_t& val, horzTopTicks)
         {
-            CCanvas::drawText(fabs(val.val)<1.e-5?"0":QString("%1%2").arg(val.val * RAD_TO_DEG).arg(QChar(0260)), p, QPoint(val.pos, yoff), color);
+            CCanvas::drawText(fabs(val.val)<1.e-5?"0":QString("%1%2").arg(val.val * RAD_TO_DEG).arg(QChar(0260)), p, QPoint(val.pos, yoff), textColor); //669 DAV
         }
 
         foreach(const val_t& val, horzBtmTicks)
         {
-            CCanvas::drawText(fabs(val.val)<1.e-5?"0":QString("%1%2").arg(val.val * RAD_TO_DEG).arg(QChar(0260)), p, QPoint(val.pos, h), color);
+            CCanvas::drawText(fabs(val.val)<1.e-5?"0":QString("%1%2").arg(val.val * RAD_TO_DEG).arg(QChar(0260)), p, QPoint(val.pos, h), textColor); //669 DAV
         }
 
         foreach(const val_t& val, vertLftTicks)
         {
-            CCanvas::drawText(fabs(val.val)<1.e-5?"0":QString("%1%2").arg(val.val * RAD_TO_DEG).arg(QChar(0260)), p, QPoint(xoff, val.pos), color);
+            CCanvas::drawText(fabs(val.val)<1.e-5?"0":QString("%1%2").arg(val.val * RAD_TO_DEG).arg(QChar(0260)), p, QPoint(xoff, val.pos), textColor); //669 DAV
         }
 
         foreach(const val_t& val, vertRgtTicks)
         {
-            CCanvas::drawText(fabs(val.val)<1.e-5?"0":QString("%1%2").arg(val.val * RAD_TO_DEG).arg(QChar(0260)), p, QPoint(w - xoff, val.pos), color);
+            CCanvas::drawText(fabs(val.val)<1.e-5?"0":QString("%1%2").arg(val.val * RAD_TO_DEG).arg(QChar(0260)), p, QPoint(w - xoff, val.pos), textColor); //669 DAV
         }
     }
     else
@@ -380,22 +385,22 @@ void CGridDB::draw(QPainter& p, const QRect& rect, bool& needsRedraw)
 
         foreach(const val_t& val, horzTopTicks)
         {
-            CCanvas::drawText(QString("%1").arg(qint32(val.val/1000)), p, QPoint(val.pos, yoff), color);
+            CCanvas::drawText(QString("%1").arg(qint32(val.val/1000)), p, QPoint(val.pos, yoff), textColor); //669 DAV
         }
 
         foreach(const val_t& val, horzBtmTicks)
         {
-            CCanvas::drawText(QString("%1").arg(qint32(val.val/1000)), p, QPoint(val.pos, h), color);
+            CCanvas::drawText(QString("%1").arg(qint32(val.val/1000)), p, QPoint(val.pos, h), textColor); //669 DAV
         }
 
         foreach(const val_t& val, vertLftTicks)
         {
-            CCanvas::drawText(QString("%1").arg(qint32(val.val/1000)), p, QPoint(xoff, val.pos), color);
+            CCanvas::drawText(QString("%1").arg(qint32(val.val/1000)), p, QPoint(xoff, val.pos), textColor); //669 DAV
         }
 
         foreach(const val_t& val, vertRgtTicks)
         {
-            CCanvas::drawText(QString("%1").arg(qint32(val.val/1000)), p, QPoint(w - xoff, val.pos), color);
+            CCanvas::drawText(QString("%1").arg(qint32(val.val/1000)), p, QPoint(w - xoff, val.pos), textColor); //669 DAV
         }
     }
 }
