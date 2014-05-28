@@ -41,8 +41,6 @@
 #include "CDlgEditFolder.h"
 #include "CQlb.h"
 #include "CSettings.h"
-#include "CExchangeGarmin.h"
-#include "CExchangeTwoNav.h"
 
 #include <QtGui>
 #include <QSqlQuery>
@@ -273,9 +271,6 @@ CGeoDB::CGeoDB(QTabWidget * tb, QWidget * parent)
     {
         QTimer::singleShot(saveOnMinutes * 60000, this, SLOT(saveWorkspace()));
     }
-
-    xchngGarmin = new CExchangeGarmin(treeWorkspace, this);
-    xchngTwoNav = new CExchangeTwoNav(treeWorkspace, this);
 }
 
 
@@ -2758,11 +2753,6 @@ void CGeoDB::slotContextMenuWorkspace(const QPoint& pos)
         return;
     }
 
-    if(dynamic_cast<ITreeWidgetItem*>(item) != 0)
-    {
-        dynamic_cast<ITreeWidgetItem*>(item)->menu(pos);
-        return;
-    }
 
     if(item->data(eCoName, eUrType).toInt() >= eFolder0)
     {
