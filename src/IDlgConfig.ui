@@ -397,10 +397,10 @@
             <item>
              <widget class="QLineEdit" name="lineProxyPort">
               <property name="inputMask">
-               <string>00000</string>
+               <string notr="true">00000; </string>
               </property>
               <property name="text">
-               <string>8080</string>
+               <string notr="true">8080</string>
               </property>
              </widget>
             </item>
