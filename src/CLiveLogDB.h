@@ -60,7 +60,7 @@ class CLiveLogDB : public IDB
         void start(bool yes);
         bool logging();
 
-        void setLockToCenter(bool on){m_lockToCenter = on;}
+        void setLockToCenter(bool on);
         bool lockToCenter(){return m_lockToCenter;}
 
         bool useSmallArrow(){return m_useSmallArrow;}

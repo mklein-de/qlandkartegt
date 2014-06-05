@@ -47,6 +47,7 @@ CLiveLogDB::CLiveLogDB(QTabWidget * tb, QObject * parent)
     m_self      = this;
 
     SETTINGS;
+    m_lockToCenter = cfg.value("livelog/lockToCenter", m_lockToCenter).toBool();
     m_useSmallArrow = cfg.value("livelog/useSmallArrow", m_useSmallArrow).toBool();
 
     toolview    = new CLiveLogToolWidget(tb);
@@ -63,6 +64,7 @@ CLiveLogDB::CLiveLogDB(QTabWidget * tb, QObject * parent)
 CLiveLogDB::~CLiveLogDB()
 {
     SETTINGS;
+    cfg.setValue("livelog/lockToCenter", m_lockToCenter);
     cfg.setValue("livelog/useSmallArrow", m_useSmallArrow);
 }
 
@@ -141,6 +143,16 @@ void CLiveLogDB::clear()
     emitSigChanged();
 }
 
+
+void CLiveLogDB::setLockToCenter(bool on)
+{
+    m_lockToCenter = on;
+
+    CLiveLogToolWidget * w = qobject_cast<CLiveLogToolWidget*>(toolview);
+    if(w == 0) return;
+
+    w->labelCenter->setVisible(m_lockToCenter);
+}
 
 void CLiveLogDB::slotLiveLog(const CLiveLog& log)
 {
@@ -329,15 +341,6 @@ void CLiveLogDB::slotLiveLog(const CLiveLog& log)
         w->lblSpeed->setText("-");
         w->lblHeading->setText("-");
         w->lblTime->setText("-");
-    }
-
-    if(m_lockToCenter)
-    {
-        w->labelCenter->show();
-    }
-    else
-    {
-        w->labelCenter->hide();
     }
 
     emitSigChanged();

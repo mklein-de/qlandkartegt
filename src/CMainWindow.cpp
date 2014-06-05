@@ -893,32 +893,32 @@ bool CMainWindow::loadData(const QString& filename, const QString& filter)
 
             if(filter.startsWith("TwoNav"))
             {
-                loadGPXData = convertData("compegps", filename, "gpx", tmpfile.fileName());
+                loadGPXData = convertData("compegps", filename, "gpx,garminextensions", tmpfile.fileName());
             }
             else if(ext == "LOC")
             {
-                loadGPXData = convertData("geo", filename, "gpx", tmpfile.fileName());
+                loadGPXData = convertData("geo", filename, "gpx,garminextensions", tmpfile.fileName());
             }
             else if(ext == "GDB")
             {
 
-                loadGPXData = convertData("gdb", filename, "gpx", tmpfile.fileName());
+                loadGPXData = convertData("gdb", filename, "gpx,garminextensions", tmpfile.fileName());
             }
             else if(ext == "KML")
             {
-                loadGPXData = convertData("kml", filename, "gpx", tmpfile.fileName());
+                loadGPXData = convertData("kml", filename, "gpx,garminextensions", tmpfile.fileName());
             }
             else if(ext == "PLT" || ext == "WPT" || ext == "RTE")
             {
-                loadGPXData = convertData("ozi", filename, "gpx", tmpfile.fileName());
+                loadGPXData = convertData("ozi", filename, "gpx,garminextensions", tmpfile.fileName());
             }
             else if(ext == "TK1")
             {
-                loadGPXData = convertData("wbt-tk1", filename, "gpx", tmpfile.fileName());
+                loadGPXData = convertData("wbt-tk1", filename, "gpx,garminextensions", tmpfile.fileName());
             }
             else if(ext =="CSV")
             {
-                loadGPXData = convertData("unicsv", filename, "gpx", tmpfile.fileName());
+                loadGPXData = convertData("unicsv", filename, "gpx,garminextensions", tmpfile.fileName());
             }
 
             if (!loadGPXData)
