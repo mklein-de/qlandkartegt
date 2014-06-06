@@ -85,6 +85,6 @@ void CLiveLogToolWidget::resizeEvent(QResizeEvent * e)
 
     lblSpeed->setFont(fontValue);
     lblHeading->setFont(fontValue);
-
+    lblAltitude->setFont(fontValue);
 
 }
