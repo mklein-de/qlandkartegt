@@ -100,12 +100,12 @@
     <message>
         <location filename="../CActions.cpp" line="62"/>
         <source>&amp;Overlay ...</source>
-        <translation>&amp;Vrstva...</translation>
+        <translation>&amp;Přetisk...</translation>
     </message>
     <message>
         <location filename="../CActions.cpp" line="62"/>
         <source>Manage overlays, such as textboxes</source>
-        <translation>Spravovat vrstvy tak jako textová pole</translation>
+        <translation>Spravovat přetisky tak jako textová pole</translation>
     </message>
     <message>
         <location filename="../CActions.cpp" line="63"/>
@@ -301,7 +301,7 @@
     <message>
         <location filename="../CActions.cpp" line="110"/>
         <source>Go back to overlay menu.</source>
-        <translation>Jít zpět do nabídky vrstev.</translation>
+        <translation>Jít zpět do nabídky přetisků.</translation>
     </message>
     <message>
         <location filename="../CActions.cpp" line="114"/>
@@ -342,7 +342,7 @@
         <location filename="../CActions.cpp" line="706"/>
         <location filename="../CActions.cpp" line="713"/>
         <source>Overlay</source>
-        <translation>Vrstva</translation>
+        <translation>Přetisk</translation>
     </message>
     <message>
         <location filename="../CActions.cpp" line="707"/>
@@ -430,7 +430,7 @@
     <message>
         <location filename="../CActions.cpp" line="92"/>
         <source>Create waypoints from geo-referenced images in a path.</source>
-        <translation>Vytvořit cestovní body ze zeměpisně určených obrázků v cestě.</translation>
+        <translation>Vytvořit cestovní body z obrázků s prostorově vyjádřenými vztahy v cestě.</translation>
     </message>
     <message>
         <location filename="../CActions.cpp" line="94"/>
@@ -589,7 +589,7 @@
     <message>
         <location filename="../CActions.cpp" line="106"/>
         <source>Move Map to &amp;Pos.</source>
-        <translation>Posunout mapu do &amp;polohy.</translation>
+        <translation>Posunout mapu na &amp;polohu</translation>
     </message>
     <message>
         <location filename="../CActions.cpp" line="106"/>
@@ -798,7 +798,7 @@
     <message>
         <location filename="../CActions.cpp" line="153"/>
         <source>Action with the name &apos;%1&apos; already registered. Please choose another name.</source>
-        <translation type="unfinished">Činnost s názvem &apos;%1&apos; je již použita. Vyberte, prosím, jiný název.</translation>
+        <translation>Činnost s názvem &apos;%1&apos; je již použita. Vyberte, prosím, jiný název.</translation>
     </message>
     <message>
         <location filename="../CActions.cpp" line="186"/>
@@ -839,12 +839,12 @@
     <message>
         <location filename="../CActions.cpp" line="292"/>
         <source>&amp;Overlay</source>
-        <translation>&amp;Vrstva</translation>
+        <translation>&amp;Přetisk</translation>
     </message>
     <message>
         <location filename="../CActions.cpp" line="302"/>
         <source>&amp;Overlay Distance</source>
-        <translation>Vzdálenostní &amp;vrstva</translation>
+        <translation>&amp;Přetisk vzdálenosti</translation>
     </message>
     <message>
         <location filename="../CActions.cpp" line="313"/>
@@ -879,7 +879,7 @@
     <message>
         <location filename="../CCanvas.cpp" line="882"/>
         <source>[Grid: N %1m, E %2m] </source>
-        <translation type="unfinished"></translation>
+        <translation>[Mřížka: S %1m, V %2m] </translation>
     </message>
     <message>
         <source>[Grid: %1m, %2m] </source>
@@ -949,12 +949,12 @@ GDAL Environment
     <message>
         <location filename="../CCreateMapGeoTiff.cpp" line="54"/>
         <source>This dialog allows you to georeference raster map files. As pre-requisite you need a set of reference points and the projection for those points. You will get best results if the projection of the points is also the projection of the map. In most cases this is mercator. It is recommended to shift the reference point to WGS84 datum, right from the beginning.</source>
-        <translation>Tento dialog vám umožní zeměpisně určit bitmapové soubory map (soubory tif s 8 bitovou barevnou paletou). Předpokladem pro to je, že je přítomen soubor výchozích bodů a jejich promítání. Nejlepších výsledků se dosáhne, když je promítání bodu totožné s promítáním mapy. Ve většině případů je promítání Mercatorovo. Doporučuje se posunout výchozí bod na datum geodetického referenčního systému WGS84, vpravo od začátku.</translation>
+        <translation>Tento dialog vám umožní zeměpisně určit bitmapové soubory map (soubory tif s 8 bitovou barevnou paletou). Předpokladem pro to je, že je přítomen soubor referenčních bodů a jejich promítání. Nejlepších výsledků se dosáhne, když je promítání bodu totožné s promítáním mapy. Ve většině případů je promítání Mercatorovo. Doporučuje se posunout referenční bod na datum geodetického referenčního systému WGS84, vpravo od začátku.</translation>
     </message>
     <message>
         <location filename="../CCreateMapGeoTiff.cpp" line="55"/>
         <source>Add Reference Points</source>
-        <translation>Přidat výchozí body</translation>
+        <translation>Přidat referenční body</translation>
     </message>
     <message utf8="true">
         <source>The next stage is to add known reference points. Simply add reference points to the map and enter their latitude / longitude (WGS84) or the easting and northing [m] in the table. Next you move the point to the correct location on the map.
@@ -984,12 +984,12 @@ Koordinatenformat:
     <message>
         <location filename="../CCreateMapGeoTiff.cpp" line="57"/>
         <source>Reference Map</source>
-        <translation>Určit mapu</translation>
+        <translation>Vyjádřit prostorové vztahy v mapě</translation>
     </message>
     <message>
         <location filename="../CCreateMapGeoTiff.cpp" line="58"/>
         <source>Now QLandkarte GT will reference your file with the help of the GDAL tools. Watch the progress in the output browser.</source>
-        <translation>QLandkarte GT určí váš soubor s pomocí nástrojů GDAL. Postup lze sledovat v prohlížeči výstupu.</translation>
+        <translation>QLandkarte GT vyjádří prostorové vztahy ve vašem souboru s pomocí nástrojů GDAL. Postup lze sledovat v prohlížeči výstupu.</translation>
     </message>
     <message>
         <location filename="../CCreateMapGeoTiff.cpp" line="89"/>
@@ -1051,7 +1051,12 @@ coordinate formats:
 • &quot;N49° 10.234 E12° 01.456&quot; (dd mm.mmm)
 • &quot;46.575377   12.193172&quot;  (dd.dddddd)
 • &quot;285000 5162000&quot;</source>
-        <translation type="unfinished"></translation>
+        <translation>Dalším krokem je přidání známých referenčních bodů. Jednoduše referenční body přidejte do mapy a zadejte jejich zeměpisnou šířku a délku (WGS84) nebo do tabulky souřadnice na východ a sever od referenční linie [m]. Jako další posuňte bod na správé místo na mapě.
+
+Souřadnicový formát: 
+• &quot;N49° 10.234 E12° 01.456&quot; (dd mm.mmm)
+• &quot;46.575377 12.193172&quot; (dd.dddddd)
+• &quot;285000 5162000&quot;</translation>
     </message>
     <message>
         <source>Raw bitmaps (*.tif *.tiff *.png *.gif)</source>
@@ -1060,7 +1065,7 @@ coordinate formats:
     <message>
         <location filename="../CCreateMapGeoTiff.cpp" line="243"/>
         <source>Raw bitmaps (*.tif *.tiff *.png *.gif *.jpg)</source>
-        <translation type="unfinished"></translation>
+        <translation>Nezpracované bitmapy (*.tif *.tiff *.png *.gif *.jpg)</translation>
     </message>
     <message>
         <location filename="../CCreateMapGeoTiff.cpp" line="289"/>
@@ -1084,12 +1089,12 @@ coordinate formats:
     <message>
         <location filename="../CCreateMapGeoTiff.cpp" line="428"/>
         <source>Load reference points...</source>
-        <translation>Přidat výchozí body...</translation>
+        <translation>Přidat referenční body...</translation>
     </message>
     <message>
         <location filename="../CCreateMapGeoTiff.cpp" line="616"/>
         <source>Save reference points...</source>
-        <translation>Uložit výchozí body...</translation>
+        <translation>Uložit referenční body...</translation>
     </message>
     <message>
         <location filename="../CCreateMapGeoTiff.cpp" line="687"/>
@@ -1114,7 +1119,7 @@ coordinate formats:
     <message>
         <location filename="../CCreateMapGeoTiff.cpp" line="809"/>
         <source>Reference points are too close.</source>
-        <translation>Výchozí body jsou příliš blízko u sebe</translation>
+        <translation>Referenční body jsou příliš blízko u sebe.</translation>
     </message>
     <message>
         <location filename="../CCreateMapGeoTiff.cpp" line="868"/>
@@ -1136,16 +1141,16 @@ coordinate formats:
     <message>
         <location filename="../CCreateMapGridTool.cpp" line="43"/>
         <source>Place Reference Points</source>
-        <translation>Umístit výchozí body</translation>
+        <translation>Umístit referenční body</translation>
     </message>
     <message>
         <location filename="../CCreateMapGridTool.cpp" line="44"/>
         <source>The grid tool will place reference points with calculated longitude and latitude to the line crossings of a linear map grid. To do so you have to place the 4 initial reference points to the grid as shown in the example.
 
 Altenatively you might have chosen to use already existing reference points. In this case you simply have to define the grid step size.</source>
-        <translation>Nástroj mřížky nastaví výchozí body, spočítané z délky a šířky, na křížení čar lineární mapové mřížky. K tomu je potřeba na mřížku umístit 4 počáteční výchozí body, jak je to ukázáno v příkladu.
+        <translation>Nástroj mřížky nastaví referenční body, spočítané z délky a šířky, na křížení čar lineární mapové mřížky. K tomu je potřeba na mřížku umístit 4 počáteční referenční body, jak je to ukázáno v příkladu.
 
-Podle volby se dají použít také stávající výchozí body. V takovém případě se musí ještě jednoduše zadat velikost kroku mřížky.</translation>
+Podle volby se dají použít také stávající referenční body. V takovém případě se musí ještě jednoduše zadat velikost kroku mřížky.</translation>
     </message>
     <message>
         <location filename="../CCreateMapGridTool.cpp" line="45"/>
@@ -1155,7 +1160,7 @@ Podle volby se dají použít také stávající výchozí body. V takovém př�
     <message>
         <location filename="../CCreateMapGridTool.cpp" line="46"/>
         <source>Next you might want to add a source projection to do a grid shift to WGS84. And you have to define the longitude and the latitude of the top left reference point. And the spacing between point 1 and 2, and 1 and 4.</source>
-        <translation>Jako další můžete přidat promítání původní mapy pro provedení změny na systém WGS84. Pro to se musí stanovit šířka a délka horního levého výchozího bodua odstupy mezi body 1 a 2 a mezi 1 a 4.</translation>
+        <translation>Jako další můžete přidat promítání původní mapy pro provedení změny na systém WGS84. Pro to se musí stanovit šířka a délka horního levého referenčního bodu a odstupy mezi body 1 a 2 a mezi 1 a 4.</translation>
     </message>
     <message>
         <location filename="../CCreateMapGridTool.cpp" line="47"/>
@@ -1165,17 +1170,17 @@ Podle volby se dají použít také stávající výchozí body. V takovém př�
     <message>
         <location filename="../CCreateMapGridTool.cpp" line="48"/>
         <source>On ok, the grid tool will add equally spaced reference points over your map. Keep in mind to manually fine tune the location of each point to get good results.</source>
-        <translation>Při stisknutí OK rozdělí nástroj mřížky výchozí body se stejnými odstupy na mapě. Myslete na ruční vyrovnání jednotlivých bodů, abyste obdrželi dobré výsledky.</translation>
+        <translation>Při stisknutí OK rozdělí nástroj mřížky referenční body se stejnými odstupy na mapě. Myslete na ruční vyrovnání jednotlivých bodů, abyste obdrželi dobré výsledky.</translation>
     </message>
     <message>
         <location filename="../CCreateMapGridTool.cpp" line="74"/>
         <source>Reference points found.</source>
-        <translation>Nalezeny výchozí body.</translation>
+        <translation>Nalezeny referenční body.</translation>
     </message>
     <message>
         <location filename="../CCreateMapGridTool.cpp" line="74"/>
         <source>Do you want to take the existing reference points to calculate additional points on the grid?</source>
-        <translation>Chcete použít stávající výchozí body pro výpočet dodatečných bodů v mřížce?</translation>
+        <translation>Chcete použít stávající referenční body pro výpočet dodatečných bodů v mřížce?</translation>
     </message>
     <message>
         <location filename="../CCreateMapGridTool.cpp" line="131"/>
@@ -1530,7 +1535,7 @@ Očekáváno: %1, přijato %2.</translation>
     <message>
         <location filename="../CDeviceGarminBulk.cpp" line="129"/>
         <source>Path to Garmin device...</source>
-        <translation type="unfinished"></translation>
+        <translation>Cesta k zařízení Garmin...</translation>
     </message>
     <message>
         <source>The selected path must have a subdirectory &apos;%1&apos;.</source>
@@ -1542,19 +1547,23 @@ Očekáváno: %1, přijato %2.</translation>
         <source>The selected path must have a subdirectory &apos;%1&apos;. Should I create the path?
 
 %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Vybraná cesta musí mít podadresář &apos;%1&apos;. Má se vytvořit cesta?
+
+%2</translation>
     </message>
     <message>
         <location filename="../CDeviceGarminBulk.cpp" line="179"/>
         <source>The selected path must have a subdirectory &apos;%1. Should I create the path?
 
 %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Vybraná cesta musí mít podadresář &apos;%1&apos;. Má se vytvořit cesta?
+
+%2</translation>
     </message>
     <message>
         <location filename="../CDeviceGarminBulk.cpp" line="226"/>
         <source>waypoints</source>
-        <translation type="unfinished"></translation>
+        <translation>Cestovní body</translation>
     </message>
     <message>
         <location filename="../CDeviceGarminBulk.cpp" line="294"/>
@@ -1564,7 +1573,7 @@ Očekáváno: %1, přijato %2.</translation>
         <location filename="../CDeviceGarminBulk.cpp" line="509"/>
         <location filename="../CDeviceGarminBulk.cpp" line="545"/>
         <source>Error</source>
-        <translation type="unfinished">Chyba</translation>
+        <translation>Chyba</translation>
     </message>
     <message>
         <location filename="../CDeviceGarminBulk.cpp" line="298"/>
@@ -1579,7 +1588,7 @@ Očekáváno: %1, přijato %2.</translation>
     <message>
         <location filename="../CDeviceGarminBulk.cpp" line="415"/>
         <source>tracks</source>
-        <translation type="unfinished"></translation>
+        <translation>Stopy</translation>
     </message>
     <message>
         <location filename="../CDeviceGarminBulk.cpp" line="436"/>
@@ -1594,7 +1603,7 @@ Očekáváno: %1, přijato %2.</translation>
     <message>
         <location filename="../CDeviceGarminBulk.cpp" line="491"/>
         <source>routes</source>
-        <translation type="unfinished"></translation>
+        <translation>Cesty</translation>
     </message>
     <message>
         <location filename="../CDeviceGarminBulk.cpp" line="512"/>
@@ -1634,7 +1643,7 @@ Očekáváno: %1, přijato %2.</translation>
     <message>
         <location filename="../CDeviceMagellan.cpp" line="68"/>
         <source>Path to Magellan device...</source>
-        <translation type="unfinished"></translation>
+        <translation>Cesta k zařízení Magellan...</translation>
     </message>
     <message>
         <location filename="../CDeviceMagellan.cpp" line="77"/>
@@ -1644,17 +1653,17 @@ Očekáváno: %1, přijato %2.</translation>
         <location filename="../CDeviceMagellan.cpp" line="293"/>
         <location filename="../CDeviceMagellan.cpp" line="298"/>
         <source>Error...</source>
-        <translation type="unfinished"></translation>
+        <translation>Chyba...</translation>
     </message>
     <message>
         <location filename="../CDeviceMagellan.cpp" line="77"/>
         <source>I need a path with &apos;Track&apos;, &apos;Waypoints&apos;, &apos;Routes&apos; and &apos;Geocaches&apos; as subdirectory</source>
-        <translation type="unfinished"></translation>
+        <translation>Je potřeba cesta se stopou, cestovními body, cestami a skrytými schránkami jako podadresář.</translation>
     </message>
     <message>
         <location filename="../CDeviceMagellan.cpp" line="109"/>
         <source>waypoints</source>
-        <translation type="unfinished"></translation>
+        <translation>Cestovní body</translation>
     </message>
     <message>
         <location filename="../CDeviceMagellan.cpp" line="134"/>
@@ -1664,57 +1673,57 @@ Očekáváno: %1, přijato %2.</translation>
         <location filename="../CDeviceMagellan.cpp" line="236"/>
         <location filename="../CDeviceMagellan.cpp" line="267"/>
         <source>Error</source>
-        <translation type="unfinished">Chyba</translation>
+        <translation>Chyba</translation>
     </message>
     <message>
         <location filename="../CDeviceMagellan.cpp" line="151"/>
         <source>Upload waypoints finished!</source>
-        <translation type="unfinished">Nahrání cestovních bodů dokončeno!</translation>
+        <translation>Nahrání cestovních bodů dokončeno!</translation>
     </message>
     <message>
         <location filename="../CDeviceMagellan.cpp" line="203"/>
         <source>Download waypoints finished!</source>
-        <translation type="unfinished">Stažení cestovních bodů dokončeno!</translation>
+        <translation>Stažení cestovních bodů dokončeno!</translation>
     </message>
     <message>
         <location filename="../CDeviceMagellan.cpp" line="218"/>
         <source>tracks</source>
-        <translation type="unfinished"></translation>
+        <translation>Stopy</translation>
     </message>
     <message>
         <location filename="../CDeviceMagellan.cpp" line="242"/>
         <source>Upload tracks finished!</source>
-        <translation type="unfinished">Nahrání stop dokončeno!</translation>
+        <translation>Nahrání stop dokončeno!</translation>
     </message>
     <message>
         <location filename="../CDeviceMagellan.cpp" line="273"/>
         <source>Download tracks finished!</source>
-        <translation type="unfinished">Stažení stop dokončeno!</translation>
+        <translation>Stažení stop dokončeno!</translation>
     </message>
     <message>
         <location filename="../CDeviceMagellan.cpp" line="278"/>
         <source>Magellan: Upload routes is not implemented.</source>
-        <translation type="unfinished"></translation>
+        <translation>Magellan: Nahrávání cest není provedeno.</translation>
     </message>
     <message>
         <location filename="../CDeviceMagellan.cpp" line="283"/>
         <source>Magellan: Download routes is not implemented.</source>
-        <translation type="unfinished"></translation>
+        <translation>Magellan: Stahování cest není provedeno.</translation>
     </message>
     <message>
         <location filename="../CDeviceMagellan.cpp" line="288"/>
         <source>Magellan: Upload maps is not implemented.</source>
-        <translation type="unfinished"></translation>
+        <translation>Magellan: Nahrávání map není provedeno.</translation>
     </message>
     <message>
         <location filename="../CDeviceMagellan.cpp" line="293"/>
         <source>Magellan: Live log is not supported.</source>
-        <translation type="unfinished"></translation>
+        <translation>Magellan: Živý záznam není podporován.</translation>
     </message>
     <message>
         <location filename="../CDeviceMagellan.cpp" line="298"/>
         <source>Magellan: Screen shot is not supported.</source>
-        <translation type="unfinished"></translation>
+        <translation>Magellan: Snímek obrazovky není podporován.</translation>
     </message>
 </context>
 <context>
@@ -2054,7 +2063,7 @@ Očekáváno: %1, přijato %2.</translation>
         <location filename="../CDeviceTwoNav.cpp" line="1010"/>
         <location filename="../CDeviceTwoNav.cpp" line="1020"/>
         <source>Error...</source>
-        <translation type="unfinished">Chyba...</translation>
+        <translation>Chyba...</translation>
     </message>
     <message>
         <source>TwoNav: Upload wapoints is not implemented.</source>
@@ -2075,62 +2084,62 @@ Očekáváno: %1, přijato %2.</translation>
     <message>
         <location filename="../CDeviceTwoNav.cpp" line="138"/>
         <source>Path to TwoNav device...</source>
-        <translation type="unfinished"></translation>
+        <translation>Cesta k zařízení TwoNav...</translation>
     </message>
     <message>
         <location filename="../CDeviceTwoNav.cpp" line="147"/>
         <source>I need a path with &apos;TwoNavData/Data&apos; as subdirectory</source>
-        <translation type="unfinished"></translation>
+        <translation>Je potřeba cesta s &apos;TwoNavData/Data&apos; jako podadresář.</translation>
     </message>
     <message>
         <location filename="../CDeviceTwoNav.cpp" line="191"/>
         <source>waypoints</source>
-        <translation type="unfinished"></translation>
+        <translation>Cestovní body</translation>
     </message>
     <message>
         <location filename="../CDeviceTwoNav.cpp" line="313"/>
         <source>Upload waypoints finished!</source>
-        <translation type="unfinished">Nahrání cestovních bodů dokončeno!</translation>
+        <translation>Nahrání cestovních bodů dokončeno!</translation>
     </message>
     <message>
         <location filename="../CDeviceTwoNav.cpp" line="355"/>
         <source>Download waypoints finished!</source>
-        <translation type="unfinished">Stažení cestovních bodů dokončeno!</translation>
+        <translation>Stažení cestovních bodů dokončeno!</translation>
     </message>
     <message>
         <location filename="../CDeviceTwoNav.cpp" line="369"/>
         <source>tracks</source>
-        <translation type="unfinished"></translation>
+        <translation>Stopy</translation>
     </message>
     <message>
         <location filename="../CDeviceTwoNav.cpp" line="391"/>
         <source>Upload tracks finished!</source>
-        <translation type="unfinished">Nahrání stop dokončeno!</translation>
+        <translation>Nahrání stop dokončeno!</translation>
     </message>
     <message>
         <location filename="../CDeviceTwoNav.cpp" line="432"/>
         <source>Download tracks finished!</source>
-        <translation type="unfinished">Stažení stop dokončeno!</translation>
+        <translation>Stažení stop dokončeno!</translation>
     </message>
     <message>
         <location filename="../CDeviceTwoNav.cpp" line="438"/>
         <source>TwoNav: Upload routes is not implemented.</source>
-        <translation type="unfinished">TwoNav: Nahrání cest do zařízení není provedeno.</translation>
+        <translation>TwoNav: Nahrávání cest do zařízení není provedeno.</translation>
     </message>
     <message>
         <location filename="../CDeviceTwoNav.cpp" line="444"/>
         <source>TwoNav: Download routes is not implemented.</source>
-        <translation type="unfinished">TwoNav: Stažení cest ze zařízení není provedeno.</translation>
+        <translation>TwoNav: Stahování cest ze zařízení není provedeno.</translation>
     </message>
     <message>
         <location filename="../CDeviceTwoNav.cpp" line="450"/>
         <source>TwoNav: Upload maps is not implemented.</source>
-        <translation type="unfinished">TwoNav: Nahrání map do zařízení není provedeno.</translation>
+        <translation>TwoNav: Nahrávání map do zařízení není provedeno.</translation>
     </message>
     <message>
         <location filename="../CDeviceTwoNav.cpp" line="456"/>
         <source>TwoNav: Download screenshots is not implemented.</source>
-        <translation type="unfinished">TwoNav: Stažení map ze zařízení není provedeno.</translation>
+        <translation>TwoNav: Stahování map ze zařízení není provedeno.</translation>
     </message>
     <message>
         <location filename="../CDeviceTwoNav.cpp" line="657"/>
@@ -2138,7 +2147,7 @@ Očekáváno: %1, přijato %2.</translation>
         <location filename="../CDeviceTwoNav.cpp" line="1010"/>
         <location filename="../CDeviceTwoNav.cpp" line="1020"/>
         <source>Only support lon/lat WGS 84 format.</source>
-        <translation type="unfinished"></translation>
+        <translation>Je podporován jen formát lon/lat WGS 84.</translation>
     </message>
 </context>
 <context>
@@ -2414,12 +2423,12 @@ Očekáváno: %1, přijato %2.</translation>
     <message>
         <location filename="../CDlgConfig.cpp" line="123"/>
         <source>Magellan</source>
-        <translation type="unfinished"></translation>
+        <translation>Magellan</translation>
     </message>
     <message>
         <location filename="../CDlgConfig.cpp" line="124"/>
         <source>TwoNav</source>
-        <translation type="unfinished">TwoNav</translation>
+        <translation>TwoNav</translation>
     </message>
     <message>
         <location filename="../CDlgConfig.cpp" line="125"/>
@@ -2449,7 +2458,7 @@ Očekáváno: %1, přijato %2.</translation>
         <location filename="../CDlgConfig.cpp" line="390"/>
         <location filename="../CDlgConfig.cpp" line="394"/>
         <source>No plugins found. I expect them in: %1</source>
-        <translation>Nenalezeny žádné přídavné moduly. Očekávány v cestě: %1</translation>
+        <translation>Nebyly nalezeny žádné přídavné moduly. Byly očekávány v cestě: %1</translation>
     </message>
     <message>
         <location filename="../CDlgConfig.cpp" line="430"/>
@@ -2586,7 +2595,7 @@ Zrušeno uživatelem.</translation>
     <message>
         <location filename="../CDlgDeviceExportPath.cpp" line="28"/>
         <source>Where should I place all %1?</source>
-        <translation type="unfinished"></translation>
+        <translation>Kam se mají umístit všechny %1?</translation>
     </message>
 </context>
 <context>
@@ -2695,22 +2704,22 @@ Zrušeno uživatelem.</translation>
     <message>
         <location filename="../CDlgEditWpt.cpp" line="647"/>
         <source>Delete images...</source>
-        <translation type="unfinished"></translation>
+        <translation>Smazat obrázky...</translation>
     </message>
     <message>
         <location filename="../CDlgEditWpt.cpp" line="647"/>
         <source>Remove all other images first?</source>
-        <translation type="unfinished"></translation>
+        <translation>Odstranit nejprve všechny ostatní obrázky?</translation>
     </message>
     <message>
         <location filename="../CDlgEditWpt.cpp" line="763"/>
         <source>No spoilers...</source>
-        <translation type="unfinished"></translation>
+        <translation>Žádné spoilery...</translation>
     </message>
     <message>
         <location filename="../CDlgEditWpt.cpp" line="763"/>
         <source>No spoilers found.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nebyly nalezeny žádné spoilery.</translation>
     </message>
 </context>
 <context>
@@ -2736,7 +2745,7 @@ Zrušeno uživatelem.</translation>
     <message>
         <location filename="../CDlgImportImages.cpp" line="142"/>
         <source>Select path...</source>
-        <translation type="unfinished">Vybrat cestu k souboru...</translation>
+        <translation>Vybrat cestu k souboru...</translation>
     </message>
 </context>
 <context>
@@ -2744,7 +2753,7 @@ Zrušeno uživatelem.</translation>
     <message>
         <location filename="../CDlgLoadOnlineMap.cpp" line="204"/>
         <source>Open Directory</source>
-        <translation type="unfinished">Otevřít adresář</translation>
+        <translation>Otevřít adresář</translation>
     </message>
 </context>
 <context>
@@ -2812,7 +2821,7 @@ není platným vymezením soustavy souřadnic
     <message>
         <location filename="../CDlgProxy.cpp" line="39"/>
         <source>&lt;qt&gt;Connect to proxy &quot;%1&quot; using:&lt;/qt&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;qt&gt;Připojit se k proxy &quot;%1&quot; jako:&lt;/qt&gt;</translation>
     </message>
 </context>
 <context>
@@ -2887,7 +2896,7 @@ není platným vymezením soustavy souřadnic
     <message>
         <location filename="../CGarminExport.cpp" line="58"/>
         <source>Select output path...</source>
-        <translation type="unfinished">Vybrat výstupní cestu...</translation>
+        <translation>Vybrat výstupní cestu...</translation>
     </message>
     <message>
         <location filename="../CGarminExport.cpp" line="71"/>
@@ -3159,7 +3168,7 @@ není platným vymezením soustavy souřadnic
     <message>
         <location filename="../CGeoDB.cpp" line="210"/>
         <source>Export</source>
-        <translation type="unfinished">Vyvést</translation>
+        <translation>Vyvést</translation>
     </message>
     <message>
         <location filename="../CGeoDB.cpp" line="212"/>
@@ -3177,7 +3186,7 @@ není platným vymezením soustavy souřadnic
     <message>
         <location filename="../CGeoDB.cpp" line="214"/>
         <source>Lock</source>
-        <translation type="unfinished"></translation>
+        <translation>Uzamknout</translation>
     </message>
     <message>
         <location filename="../CGeoDB.cpp" line="227"/>
@@ -3212,22 +3221,22 @@ není platným vymezením soustavy souřadnic
     <message>
         <location filename="../CGeoDB.cpp" line="677"/>
         <source>Migrating database from version 8 to 9.</source>
-        <translation type="unfinished">Databáze se stěhuje z verze 7 do verze 8. {8 ?} {9.?}</translation>
+        <translation>Databáze se stěhuje z verze 8 do verze 9.</translation>
     </message>
     <message>
         <location filename="../CGeoDB.cpp" line="3591"/>
         <source>Delete diary...</source>
-        <translation type="unfinished"></translation>
+        <translation>Smazat deník...</translation>
     </message>
     <message>
         <location filename="../CGeoDB.cpp" line="3591"/>
         <source>Do you really want to delete the diary?</source>
-        <translation type="unfinished"></translation>
+        <translation>Opravdu chcete smazat deník?</translation>
     </message>
     <message>
         <location filename="../CGeoDB.cpp" line="3886"/>
         <source>Export data to...</source>
-        <translation type="unfinished"></translation>
+        <translation>Vyvést data...</translation>
     </message>
     <message>
         <source>Mirgrating database from version 4 to 5.</source>
@@ -3414,12 +3423,12 @@ není platným vymezením soustavy souřadnic
     <message>
         <location filename="../CGpx.cpp" line="181"/>
         <source>Failed to create %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Nepodařilo se vytvořit %1</translation>
     </message>
     <message>
         <location filename="../CGpx.cpp" line="190"/>
         <source>Failed to write %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Nepodařilo se zapsat %1</translation>
     </message>
     <message>
         <location filename="../CGpx.cpp" line="202"/>
@@ -3517,7 +3526,7 @@ Akt. Proj: %1</translation>
         <location filename="../CImageSelect.cpp" line="91"/>
         <location filename="../CImageSelect.cpp" line="99"/>
         <source>hard right turn</source>
-        <translation>Zahnout silně doprava</translation>
+        <translation>Zahnout ostře doprava</translation>
     </message>
     <message>
         <location filename="../CImageSelect.cpp" line="61"/>
@@ -3525,7 +3534,7 @@ Akt. Proj: %1</translation>
         <location filename="../CImageSelect.cpp" line="92"/>
         <location filename="../CImageSelect.cpp" line="100"/>
         <source>hard left turn</source>
-        <translation>Zahnout silně doleva</translation>
+        <translation>Zahnout ostře doleva</translation>
     </message>
     <message>
         <location filename="../CImageSelect.cpp" line="64"/>
@@ -3722,7 +3731,7 @@ Akt. Proj: %1</translation>
     <message>
         <location filename="../CMainWindow.cpp" line="574"/>
         <source>Load Online Map</source>
-        <translation type="unfinished"></translation>
+        <translation>Nahrát internetovou mapu</translation>
     </message>
     <message>
         <location filename="../CMainWindow.cpp" line="576"/>
@@ -3846,32 +3855,32 @@ Chcete uložit změny?</translation>
     <message>
         <location filename="../CMainWindow.cpp" line="1328"/>
         <source>Currently there are %1 &lt;a href=&apos;Waypoints&apos;&gt;waypoints&lt;/a&gt;, </source>
-        <translation>Nyní jsou (je) %1 &lt;a href=&apos;Waypoints&apos;&gt;cestovní(ch) body(ů)&lt;/a&gt;, </translation>
+        <translation>Nyní tu jsou/je %1 &lt;a href=&apos;Waypoints&apos;&gt;cestovních bodů&lt;/a&gt;, </translation>
     </message>
     <message>
         <location filename="../CMainWindow.cpp" line="1333"/>
         <source>There are no waypoints, </source>
-        <translation>Nejsou žádné cestovní body, </translation>
+        <translation>Nejsou tu žádné cestovní body, </translation>
     </message>
     <message>
         <location filename="../CMainWindow.cpp" line="1375"/>
         <source> %1 &lt;a href=&apos;Overlay&apos;&gt;overlay&lt;/a&gt;. </source>
-        <translation> %1 &lt;a href=&apos;Overlay&apos;&gt;vrstva&lt;/a&gt;.</translation>
+        <translation> %1 &lt;a href=&apos;Overlay&apos;&gt;přetisk&lt;/a&gt;.</translation>
     </message>
     <message>
         <location filename="../CMainWindow.cpp" line="1379"/>
         <source> %1 &lt;a href=&apos;Overlay&apos;&gt;overlays&lt;/a&gt;. </source>
-        <translation> %1 &lt;a href=&apos;Overlay&apos;&gt;vrstvy&lt;/a&gt;.</translation>
+        <translation> %1 &lt;a href=&apos;Overlay&apos;&gt;přetisky&lt;/a&gt;.</translation>
     </message>
     <message>
         <location filename="../CMainWindow.cpp" line="1384"/>
         <source>no overlays. </source>
-        <translation> žádné vrstvy. </translation>
+        <translation> žádný přetisk. </translation>
     </message>
     <message>
         <location filename="../CMainWindow.cpp" line="1436"/>
         <source>Magellan</source>
-        <translation type="unfinished"></translation>
+        <translation>Magellan</translation>
     </message>
     <message>
         <location filename="../CMainWindow.cpp" line="1577"/>
@@ -3884,17 +3893,25 @@ It won&apos;t transmit any private data other than needed for requesting a HTML 
 If you want QLandkarte GT to do this query now and in the future press &apos;Ok&apos;. Else press &apos;No&apos;.
 
 You won&apos;t be bugged a second time unless you erase QLandkarte&apos;s configuration data.</source>
-        <translation type="unfinished"></translation>
+        <translation>QLandkarte GT se při spuštění může poptat po nové verzi. Pokud je dostupná nová verze, zobrazí krátké oznámení ve stavovém řádku. Kvůli dotazu na novou verzi se QLandkarte GT musí spojit se serverem
+
+http://www.qlandkarte.org/webservice/qlandkartegt.php
+
+Nedojde k přenosu žádných soukromých dat s výjimkou těch, která jsou nezbytná pro požádání stránky HTML.
+
+Pokud stojíte o to, aby QLandkarte GT nyní a v budoucnu prováděla toto dotazování, stiskněte tlačítko OK. V opačném případě stiskněte Ne.
+
+Podruhé už nebudete otravován, pokud ovšem nevymažete data QLandkarte s nastavením.</translation>
     </message>
     <message>
         <location filename="../CMainWindow.cpp" line="1590"/>
         <source>Query for new version...</source>
-        <translation type="unfinished"></translation>
+        <translation>Provést hledání nové verze...</translation>
     </message>
     <message>
         <location filename="../CMainWindow.cpp" line="1627"/>
         <source>New QLandkarte GT %1 available</source>
-        <translation type="unfinished"></translation>
+        <translation>Nový QLandkarte GT %1 je dostupný</translation>
     </message>
     <message>
         <source>A &lt;a href=&apos;Diary&apos;&gt;diary&lt;/a&gt; is loaded.</source>
@@ -3917,7 +3934,7 @@ You won&apos;t be bugged a second time unless you erase QLandkarte&apos;s config
     <message>
         <location filename="../CMainWindow.cpp" line="1437"/>
         <source>TwoNav</source>
-        <translation type="unfinished">TwoNav</translation>
+        <translation>TwoNav</translation>
     </message>
     <message>
         <location filename="../CMainWindow.cpp" line="1438"/>
@@ -3942,7 +3959,7 @@ You won&apos;t be bugged a second time unless you erase QLandkarte&apos;s config
     <message>
         <location filename="../CMainWindow.cpp" line="102"/>
         <source>Profiling</source>
-        <translation type="unfinished"></translation>
+        <translation>Profilování</translation>
     </message>
     <message>
         <location filename="../CMainWindow.cpp" line="634"/>
@@ -3981,7 +3998,7 @@ You won&apos;t be bugged a second time unless you erase QLandkarte&apos;s config
     <message>
         <location filename="../CMainWindow.cpp" line="597"/>
         <source>&amp;Edit</source>
-        <translation>&amp;Úpravy</translation>
+        <translation>Úp&amp;ravy</translation>
     </message>
     <message>
         <location filename="../CMainWindow.cpp" line="583"/>
@@ -3991,7 +4008,7 @@ You won&apos;t be bugged a second time unless you erase QLandkarte&apos;s config
     <message>
         <location filename="../CMainWindow.cpp" line="514"/>
         <source>This will erase all workspace data like waypoints and tracks.</source>
-        <translation type="unfinished"></translation>
+        <translation>Tento krok smaže všechna data pracovního prostředí, jako jsou cestovní body a stopy.</translation>
     </message>
     <message>
         <location filename="../CMainWindow.cpp" line="587"/>
@@ -4026,7 +4043,7 @@ You won&apos;t be bugged a second time unless you erase QLandkarte&apos;s config
     <message>
         <location filename="../CMainWindow.cpp" line="627"/>
         <source>&amp;Overlay</source>
-        <translation>&amp;Vrstva</translation>
+        <translation>&amp;Přetisk</translation>
     </message>
     <message>
         <source>&amp;more</source>
@@ -4041,7 +4058,7 @@ You won&apos;t be bugged a second time unless you erase QLandkarte&apos;s config
     <message>
         <location filename="../CMainWindow.cpp" line="1316"/>
         <source>&lt;div style=&apos;float: left;&apos;&gt;&lt;b&gt;Workspace Summary (&lt;a href=&apos;Clear&apos;&gt;clear&lt;/a&gt; workspace):&lt;/b&gt;&lt;/div&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;div style=&apos;float: left;&apos;&gt;&lt;b&gt;Přehled pracovního prostředí (&lt;a href=&apos;Clear&apos;&gt;smazat&lt;/a&gt; pracovní prostředí):&lt;/b&gt;&lt;/div&gt;</translation>
     </message>
     <message>
         <location filename="../CMainWindow.cpp" line="1341"/>
@@ -4229,7 +4246,7 @@ You won&apos;t be bugged a second time unless you erase QLandkarte&apos;s config
     <message>
         <location filename="../CMapDB.cpp" line="534"/>
         <source>Only vector maps are valid overlays.</source>
-        <translation>Jen vektorové mapy jsou platnými vrstvami.</translation>
+        <translation>Jen vektorové mapy jsou platnými přetisky.</translation>
     </message>
     <message>
         <location filename="../CMapDB.cpp" line="964"/>
@@ -4298,7 +4315,7 @@ You won&apos;t be bugged a second time unless you erase QLandkarte&apos;s config
     <message>
         <location filename="../CMapDEMSlopeSetup.cpp" line="100"/>
         <source>Grade %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Stupeň %1</translation>
     </message>
 </context>
 <context>
@@ -4395,7 +4412,7 @@ You won&apos;t be bugged a second time unless you erase QLandkarte&apos;s config
     <message>
         <location filename="../CMapQMAPExport.cpp" line="1601"/>
         <source>Create Magellan RMP Map...</source>
-        <translation type="unfinished"></translation>
+        <translation>Vytvořit mapu RMP Magellan...</translation>
     </message>
 </context>
 <context>
@@ -4439,7 +4456,7 @@ You won&apos;t be bugged a second time unless you erase QLandkarte&apos;s config
     <message>
         <location filename="../CMapGeoTiff.cpp" line="122"/>
         <source>No georeference information found.</source>
-        <translation>Nenalezeny žádné zeměpisně určující údaje.</translation>
+        <translation>Nenalezeny žádné údaje o vyjádření prostorových vztahů.</translation>
     </message>
     <message>
         <location filename="../CMapGeoTiff.cpp" line="198"/>
@@ -4469,7 +4486,7 @@ You won&apos;t be bugged a second time unless you erase QLandkarte&apos;s config
     <message>
         <location filename="../CMapJnx.cpp" line="230"/>
         <source>Product ID</source>
-        <translation type="unfinished">Identifikátor výrobku</translation>
+        <translation>Identifikátor výrobku</translation>
     </message>
     <message>
         <location filename="../CMapJnx.cpp" line="231"/>
@@ -4638,17 +4655,17 @@ Zrušeno uživatelem.</translation>
         <location filename="../CMapQMAPExport.cpp" line="139"/>
         <location filename="../CMapQMAPExport.cpp" line="140"/>
         <source>Please enter a string</source>
-        <translation type="unfinished"></translation>
+        <translation>Zadejte, prosím, text</translation>
     </message>
     <message>
         <location filename="../CMapQMAPExport.cpp" line="389"/>
         <source>Select copyright notice...</source>
-        <translation type="unfinished"></translation>
+        <translation>Vybrat text k autorskému právu...</translation>
     </message>
     <message>
         <location filename="../CMapQMAPExport.cpp" line="389"/>
         <source>text file (*.txt)</source>
-        <translation type="unfinished"></translation>
+        <translation>Textový soubor (*.txt)</translation>
     </message>
     <message>
         <location filename="../CMapQMAPExport.cpp" line="537"/>
@@ -4710,7 +4727,7 @@ Zrušeno uživatelem.</translation>
     <message>
         <location filename="../CMapQMAPExport.cpp" line="994"/>
         <source>Select output path...</source>
-        <translation type="unfinished">Vybrat výstupní cestu...</translation>
+        <translation>Vybrat výstupní cestu...</translation>
     </message>
     <message>
         <source>--- finished ---
@@ -4793,7 +4810,7 @@ Zrušeno uživatelem.</translation>
         <location filename="../CMapRmap.cpp" line="186"/>
         <location filename="../CMapRmap.cpp" line="208"/>
         <source>Failed to read reference point.</source>
-        <translation>Nepodařilo se přečíst výchozí bod.</translation>
+        <translation>Nepodařilo se přečíst referenční bod.</translation>
     </message>
     <message>
         <location filename="../CMapRmap.cpp" line="236"/>
@@ -4817,17 +4834,17 @@ Zrušeno uživatelem.</translation>
         <location filename="../CMapRmp.cpp" line="176"/>
         <location filename="../CMapRmp.cpp" line="193"/>
         <source>Error...</source>
-        <translation type="unfinished"></translation>
+        <translation>Chyba...</translation>
     </message>
     <message>
         <location filename="../CMapRmp.cpp" line="176"/>
         <source>Failed to open: %1.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nepodařilo se otevřít: %1.</translation>
     </message>
     <message>
         <location filename="../CMapRmp.cpp" line="193"/>
         <source>This is not a Magellan RMP file: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Toto není soubor RMP Magellan: %1</translation>
     </message>
 </context>
 <context>
@@ -5690,19 +5707,19 @@ Zrušeno uživatelem.</translation>
         <location filename="../CMapTms.cpp" line="141"/>
         <location filename="../CMapTms.cpp" line="151"/>
         <source>Error...</source>
-        <translation type="unfinished"></translation>
+        <translation>Chyba...</translation>
     </message>
     <message>
         <location filename="../CMapTms.cpp" line="141"/>
         <source>Failed to open %1</source>
-        <translation type="unfinished">Nepodařilo se otevřít %1</translation>
+        <translation>Nepodařilo se otevřít %1</translation>
     </message>
     <message>
         <location filename="../CMapTms.cpp" line="151"/>
         <source>Failed to read: %1
 line %2, column %3:
  %4</source>
-        <translation type="unfinished">Chyba při čtení: %1
+        <translation>Chyba při čtení: %1
 Řádek %2, Sloupec %3:
 %4</translation>
     </message>
@@ -5813,7 +5830,7 @@ line %2, column %3:
     <message>
         <location filename="../CMapToolWidget.cpp" line="143"/>
         <source>Magellan/RMP</source>
-        <translation type="unfinished"></translation>
+        <translation>Magellan/RMP</translation>
     </message>
     <message>
         <location filename="../CMapToolWidget.cpp" line="148"/>
@@ -5848,12 +5865,12 @@ line %2, column %3:
     <message>
         <location filename="../CMapToolWidget.cpp" line="186"/>
         <source>use a single click to deactivate map as overlay</source>
-        <translation>Použít jednoduché klepnutí pro vypnutí mapy jako vrstvy</translation>
+        <translation>Použít jednoduché klepnutí pro vypnutí mapy jako přetisku</translation>
     </message>
     <message>
         <location filename="../CMapToolWidget.cpp" line="192"/>
         <source>use a single click to activate map as overlay</source>
-        <translation>Použít jednoduché klepnutí pro zapnutí mapy jako vrstvy</translation>
+        <translation>Použít jednoduché klepnutí pro zapnutí mapy jako přetisku</translation>
     </message>
     <message>
         <location filename="../CMapToolWidget.cpp" line="476"/>
@@ -5873,7 +5890,7 @@ line %2, column %3:
     <message>
         <location filename="../CMapToolWidget.cpp" line="496"/>
         <source>16bit Srtm Data (*.tif *.tiff *.hgt *.blx *.vrt)</source>
-        <translation type="unfinished"></translation>
+        <translation>16-bitová data SRTM (*.tif *.tiff *.hgt *.blx *.vrt)</translation>
     </message>
     <message>
         <source>16bit Srtm Data (*.tif *.tiff *.hgt)</source>
@@ -6451,7 +6468,7 @@ line %2, column %3:
     <message>
         <location filename="../CMouseMoveMap.cpp" line="234"/>
         <source>Split Track ...</source>
-        <translation type="unfinished">Rozdělit stopu...</translation>
+        <translation>Rozdělit stopu...</translation>
     </message>
     <message>
         <location filename="../CMouseMoveMap.cpp" line="248"/>
@@ -6551,7 +6568,7 @@ line %2, column %3:
     <message>
         <location filename="../COverlayDB.cpp" line="549"/>
         <source>Overlay</source>
-        <translation>Vrstva</translation>
+        <translation>Přetisk</translation>
     </message>
     <message>
         <location filename="../COverlayDB.cpp" line="601"/>
@@ -6609,7 +6626,7 @@ line %2, column %3:
     <message>
         <location filename="../COverlayDistance.cpp" line="1249"/>
         <source>Overlay</source>
-        <translation>Vrstva</translation>
+        <translation>Přetisk</translation>
     </message>
     <message>
         <location filename="../COverlayDistance.cpp" line="1093"/>
@@ -7006,7 +7023,7 @@ Länge: %1 %2</translation>
     <message>
         <location filename="../CRouteToolWidget.cpp" line="322"/>
         <source>Make Overlay</source>
-        <translation>Udělat vrstvu</translation>
+        <translation>Udělat přetisk</translation>
     </message>
     <message>
         <location filename="../CRouteToolWidget.cpp" line="323"/>
@@ -7062,17 +7079,17 @@ Länge: %1 %2</translation>
         <location filename="../CSearchDB.cpp" line="79"/>
         <location filename="../CSearchDB.cpp" line="213"/>
         <source>Unknown host.</source>
-        <translation>Neznámý server</translation>
+        <translation>Neznámý server.</translation>
     </message>
     <message>
         <location filename="../CSearchDB.cpp" line="235"/>
         <source>Unknown response</source>
-        <translation type="unfinished"></translation>
+        <translation>Neznámá odpověď</translation>
     </message>
     <message>
         <location filename="../CSearchDB.cpp" line="242"/>
         <source>Error: </source>
-        <translation type="unfinished"></translation>
+        <translation>Chyba: </translation>
     </message>
     <message>
         <location filename="../CSearchDB.cpp" line="66"/>
@@ -7255,37 +7272,37 @@ Délka: %1 %2</translation>
     <message>
         <location filename="../CTrack.cpp" line="783"/>
         <source>Slope [°]</source>
-        <translation type="unfinished"></translation>
+        <translation>Sklon [°]</translation>
     </message>
     <message>
         <location filename="../CTrack.cpp" line="784"/>
         <source>Elevation [m]</source>
-        <translation type="unfinished"></translation>
+        <translation>Výška [m]</translation>
     </message>
     <message>
         <location filename="../CTrack.cpp" line="785"/>
         <source>Speed [km/h]</source>
-        <translation type="unfinished"></translation>
+        <translation>Rozdělit [km/h]</translation>
     </message>
     <message>
         <location filename="../CTrack.cpp" line="804"/>
         <source>solid</source>
-        <translation type="unfinished"></translation>
+        <translation>Plný</translation>
     </message>
     <message>
         <location filename="../CTrack.cpp" line="805"/>
         <source>slope</source>
-        <translation type="unfinished"></translation>
+        <translation>Sklon</translation>
     </message>
     <message>
         <location filename="../CTrack.cpp" line="806"/>
         <source>elevation</source>
-        <translation type="unfinished"></translation>
+        <translation>Výška</translation>
     </message>
     <message>
         <location filename="../CTrack.cpp" line="807"/>
         <source>speed</source>
-        <translation type="unfinished">Rychlost</translation>
+        <translation>Rychlost</translation>
     </message>
     <message>
         <location filename="../CTrack.cpp" line="1837"/>
@@ -7356,47 +7373,47 @@ Konec: %1</translation>
     <message>
         <location filename="../CTrack.cpp" line="1938"/>
         <source>%5 %4 %1:%2:%3 (%6%)</source>
-        <translation type="unfinished">%5 %4 %1%2 (%3%) {5 %4 %1:%2:%3 ?} {6%?}</translation>
+        <translation>%5 %4 %1:%2:%3 (%6%)</translation>
     </message>
     <message>
         <location filename="../CTrack.cpp" line="1939"/>
         <source> .. (%6%) %1:%2:%3 %4 %5</source>
-        <translation type="unfinished"></translation>
+        <translation> .. (%6%) %1:%2:%3 %4 %5</translation>
     </message>
     <message>
         <location filename="../CTrack.cpp" line="1944"/>
         <source> .. (%5%) %1:%2:%3 %4</source>
-        <translation type="unfinished"></translation>
+        <translation> .. (%5%) %1:%2:%3 %4</translation>
     </message>
     <message>
         <location filename="../CTrack.cpp" line="1961"/>
         <source> .. (%3%) %1%2 %4 %5</source>
-        <translation type="unfinished"></translation>
+        <translation> .. (%3%) %1%2 %4 %5</translation>
     </message>
     <message>
         <location filename="../CTrack.cpp" line="1964"/>
         <source> .. (%3%) %1%2 %4</source>
-        <translation type="unfinished"></translation>
+        <translation> .. (%3%) %1%2 %4</translation>
     </message>
     <message>
         <location filename="../CTrack.cpp" line="1978"/>
         <source>slope: %1°</source>
-        <translation type="unfinished"></translation>
+        <translation>Sklon: %1°</translation>
     </message>
     <message>
         <location filename="../CTrack.cpp" line="1985"/>
         <source>speed: %1%2</source>
-        <translation type="unfinished"></translation>
+        <translation>Rychlost: %1%2</translation>
     </message>
     <message>
         <location filename="../CTrack.cpp" line="2424"/>
         <source>Error...</source>
-        <translation type="unfinished"></translation>
+        <translation>Chyba...</translation>
     </message>
     <message>
         <location filename="../CTrack.cpp" line="2424"/>
         <source>This track has no valid start timestamp. Use the &apos;Date/Time&apos; track filter to set one.</source>
-        <translation type="unfinished"></translation>
+        <translation>Tato stopa nemá žádné platné časové razítko. Použijte filtr pro stopy Datum/Čas k nastavení jednoho.</translation>
     </message>
     <message>
         <source> | (%6%) %1:%2:%3 %4 %5</source>
@@ -7405,7 +7422,7 @@ Konec: %1</translation>
     <message>
         <location filename="../CTrack.cpp" line="1942"/>
         <source>%4 %1:%2:%3 (%5%)</source>
-        <translation type="unfinished">%5 %4 %1%2 (%3%) {4 %1:%2:%3 ?} {5%?}</translation>
+        <translation>%4 %1:%2:%3 (%5%)</translation>
     </message>
     <message>
         <source> | (%5%) %1:%2:%3 %4</source>
@@ -7414,7 +7431,7 @@ Konec: %1</translation>
     <message>
         <location filename="../CTrack.cpp" line="1957"/>
         <source>%4 %1%2 (%3%)</source>
-        <translation type="unfinished">%5 %4 %1%2 (%3%) {4 %1%2 ?} {3%?}</translation>
+        <translation>%4 %1%2 (%3%)</translation>
     </message>
     <message>
         <source> | (%3%) %1%2 %4</source>
@@ -7423,34 +7440,34 @@ Konec: %1</translation>
     <message>
         <location filename="../CTrack.cpp" line="1972"/>
         <source>elevation: %1%2</source>
-        <translation type="unfinished">Höhe: %1%2</translation>
+        <translation>Výška: %1 %2</translation>
     </message>
     <message>
         <location filename="../CTrack.cpp" line="1996"/>
         <source>heart rate: %1bpm</source>
-        <translation type="unfinished"></translation>
+        <translation>Srdeční frekvence: %1 ÚZM</translation>
     </message>
     <message>
         <location filename="../CTrack.cpp" line="2006"/>
         <source>cadence: %1rpm</source>
-        <translation type="unfinished"></translation>
+        <translation>Rychlost kroků: %1rpm</translation>
     </message>
     <message>
         <location filename="../CTrack.cpp" line="2040"/>
         <source>Start</source>
-        <translation type="unfinished"></translation>
+        <translation>Začátek</translation>
     </message>
     <message>
         <location filename="../CTrack.cpp" line="2046"/>
         <source>End</source>
-        <translation type="unfinished">Konec</translation>
+        <translation>Konec</translation>
     </message>
     <message>
         <location filename="../CTrack.cpp" line="2080"/>
         <location filename="../CTrack.cpp" line="2082"/>
         <location filename="../CTrack.cpp" line="2096"/>
         <source> %3 %1 %2</source>
-        <translation type="unfinished"></translation>
+        <translation> %3 %1 %2</translation>
     </message>
     <message>
         <source>%4 %3 %1:%2h (%5%)</source>
@@ -7483,22 +7500,22 @@ Konec: %1</translation>
     <message>
         <location filename="../CTrack.cpp" line="2084"/>
         <source> %3 %1 %2 </source>
-        <translation type="unfinished"></translation>
+        <translation> %3 %1 %2 </translation>
     </message>
     <message>
         <location filename="../CTrack.cpp" line="2094"/>
         <source>| %3 %1 %2</source>
-        <translation type="unfinished"></translation>
+        <translation>| %3 %1 %2</translation>
     </message>
     <message>
         <location filename="../CTrack.cpp" line="2098"/>
         <source> %1 %2</source>
-        <translation type="unfinished"></translation>
+        <translation> %1 %2</translation>
     </message>
     <message>
         <location filename="../CTrack.cpp" line="2099"/>
         <source> %1 :%2</source>
-        <translation type="unfinished"></translation>
+        <translation> %1 :%2</translation>
     </message>
     <message>
         <location filename="../CTrack.cpp" line="2174"/>
@@ -7633,32 +7650,32 @@ Váš výběr bude uložen v datech stopy. Můžete jej uložit s daty stopy. Pr
     <message>
         <location filename="../CTrackEditWidget.cpp" line="1618"/>
         <source>Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Název</translation>
     </message>
     <message>
         <location filename="../CTrackEditWidget.cpp" line="1619"/>
         <source>Prox.</source>
-        <translation type="unfinished"></translation>
+        <translation>Odstup</translation>
     </message>
     <message>
         <location filename="../CTrackEditWidget.cpp" line="1620"/>
         <source>Pic.</source>
-        <translation type="unfinished"></translation>
+        <translation>Obrázek</translation>
     </message>
     <message>
         <location filename="../CTrackEditWidget.cpp" line="1621"/>
         <source>Elevation</source>
-        <translation type="unfinished"></translation>
+        <translation>Výška</translation>
     </message>
     <message>
         <location filename="../CTrackEditWidget.cpp" line="1622"/>
         <source>To Next</source>
-        <translation type="unfinished"></translation>
+        <translation>Na další</translation>
     </message>
     <message>
         <location filename="../CTrackEditWidget.cpp" line="1623"/>
         <source>Total</source>
-        <translation type="unfinished"></translation>
+        <translation>Celkem</translation>
     </message>
     <message>
         <location filename="../CTrackEditWidget.cpp" line="1667"/>
@@ -7674,7 +7691,7 @@ Váš výběr bude uložen v datech stopy. Můžete jej uložit s daty stopy. Pr
         <location filename="../CTrackEditWidget.cpp" line="1910"/>
         <location filename="../CTrackEditWidget.cpp" line="1912"/>
         <source>-</source>
-        <translation type="unfinished">-</translation>
+        <translation>-</translation>
     </message>
     <message>
         <location filename="../CTrackEditWidget.cpp" line="1753"/>
@@ -7682,7 +7699,7 @@ Váš výběr bude uložen v datech stopy. Můžete jej uložit s daty stopy. Pr
         <location filename="../CTrackEditWidget.cpp" line="1859"/>
         <location filename="../CTrackEditWidget.cpp" line="1864"/>
         <source>%1 %2 </source>
-        <translation type="unfinished">%1 %2 </translation>
+        <translation>%1 %2 </translation>
     </message>
     <message>
         <location filename="../CTrackEditWidget.cpp" line="1769"/>
@@ -7690,7 +7707,7 @@ Váš výběr bude uložen v datech stopy. Můžete jej uložit s daty stopy. Pr
         <location filename="../CTrackEditWidget.cpp" line="1875"/>
         <location filename="../CTrackEditWidget.cpp" line="1880"/>
         <source>%1:%2 h</source>
-        <translation type="unfinished">%3 %1:%2 h {1:%2 ?}</translation>
+        <translation>%1:%2 h</translation>
     </message>
     <message>
         <source>Info</source>
@@ -7730,12 +7747,12 @@ Vzestupně/Sestupně</translation>
     <message>
         <location filename="../CTrackEditWidget.cpp" line="1627"/>
         <source>wpt</source>
-        <translation type="unfinished"></translation>
+        <translation>c.b.</translation>
     </message>
     <message>
         <location filename="../CTrackEditWidget.cpp" line="1630"/>
         <source>trk</source>
-        <translation type="unfinished"></translation>
+        <translation>st.</translation>
     </message>
     <message>
         <location filename="../CTrackEditWidget.cpp" line="1664"/>
@@ -7804,49 +7821,49 @@ Vzestupně/Sestupně</translation>
     <message>
         <location filename="../CTrackFilterWidget.cpp" line="174"/>
         <source>Edit name...</source>
-        <translation type="unfinished"></translation>
+        <translation>Upravit název...</translation>
     </message>
     <message>
         <location filename="../CTrackFilterWidget.cpp" line="175"/>
         <source>Delete</source>
-        <translation type="unfinished"></translation>
+        <translation>Smazat</translation>
     </message>
     <message>
         <location filename="../CTrackFilterWidget.cpp" line="391"/>
         <location filename="../CTrackFilterWidget.cpp" line="1108"/>
         <source>Filter name ...</source>
-        <translation type="unfinished"></translation>
+        <translation>Název filtru...</translation>
     </message>
     <message>
         <location filename="../CTrackFilterWidget.cpp" line="391"/>
         <location filename="../CTrackFilterWidget.cpp" line="1108"/>
         <source>Please enter a name for the filter list to store.</source>
-        <translation type="unfinished"></translation>
+        <translation>Zadejte, prosím, název pro filtrovací seznam, aby tento mohl být uložen.</translation>
     </message>
     <message>
         <location filename="../CTrackFilterWidget.cpp" line="413"/>
         <source>Delete track filter...</source>
-        <translation type="unfinished"></translation>
+        <translation>Smazat filt stopy...</translation>
     </message>
     <message>
         <location filename="../CTrackFilterWidget.cpp" line="413"/>
         <source>Do you really want to delete &apos;%1&apos;?</source>
-        <translation type="unfinished"></translation>
+        <translation>Opravdu chcete smazat &apos;%1&apos;?</translation>
     </message>
     <message>
         <location filename="../CTrackFilterWidget.cpp" line="675"/>
         <source>Reset</source>
-        <translation type="unfinished">Nastavit znovu</translation>
+        <translation>Nastavit znovu</translation>
     </message>
     <message>
         <location filename="../CTrackFilterWidget.cpp" line="711"/>
         <source> (local)</source>
-        <translation type="unfinished"></translation>
+        <translation> (místní)</translation>
     </message>
     <message>
         <location filename="../CTrackFilterWidget.cpp" line="711"/>
         <source> (remote)</source>
-        <translation type="unfinished"></translation>
+        <translation> (vzdálený)</translation>
     </message>
     <message>
         <location filename="../CTrackFilterWidget.cpp" line="1272"/>
@@ -7862,7 +7879,7 @@ Vzestupně/Sestupně</translation>
         <location filename="../CTrackFilterWidget.cpp" line="1786"/>
         <location filename="../CTrackFilterWidget.cpp" line="1841"/>
         <source>Abort filter</source>
-        <translation type="unfinished">Zrušit filtrování</translation>
+        <translation>Zrušit filtrování</translation>
     </message>
 </context>
 <context>
@@ -8098,7 +8115,7 @@ Ende: %1</translation>
     <message>
         <location filename="../CTrackToolWidget.cpp" line="59"/>
         <source>Make Overlay</source>
-        <translation>Udělat vrstvu</translation>
+        <translation>Udělat přetisk</translation>
     </message>
     <message>
         <location filename="../CTrackToolWidget.cpp" line="354"/>
@@ -8116,7 +8133,7 @@ Ende: %1</translation>
     <message>
         <location filename="../CWpt.cpp" line="522"/>
         <source>direction: %1%2</source>
-        <translation type="unfinished"></translation>
+        <translation>Směr: %1%2</translation>
     </message>
     <message>
         <location filename="../CWpt.cpp" line="530"/>
@@ -8175,7 +8192,7 @@ Ende: %1</translation>
     <message>
         <location filename="../CWptDB.cpp" line="1384"/>
         <source>Reference pictures by timestamp.</source>
-        <translation type="unfinished"></translation>
+        <translation>Vyjádřit prostorové vztahy obrázků pomocí časového razítka.</translation>
     </message>
     <message>
         <source>Select path...</source>
@@ -8218,7 +8235,7 @@ Ende: %1</translation>
     <message>
         <location filename="../CWptToolWidget.cpp" line="63"/>
         <source>Parent Waypoint ...</source>
-        <translation type="unfinished"></translation>
+        <translation>Hlavní cestovní bod...</translation>
     </message>
     <message>
         <location filename="../CWptToolWidget.cpp" line="65"/>
@@ -8263,7 +8280,7 @@ Ende: %1</translation>
     <message>
         <location filename="../CWptToolWidget.cpp" line="61"/>
         <source>Proximity ...</source>
-        <translation>Varování kvůli blízkosti...</translation>
+        <translation>Odstup...</translation>
     </message>
     <message>
         <location filename="../CWptToolWidget.cpp" line="413"/>
@@ -8273,7 +8290,7 @@ Ende: %1</translation>
     <message>
         <location filename="../CWptToolWidget.cpp" line="430"/>
         <source>Proximity distance ...</source>
-        <translation>Varování kvůli blízkosti...</translation>
+        <translation>Upozornění při přiblížení...</translation>
     </message>
     <message>
         <location filename="../CWptToolWidget.cpp" line="64"/>
@@ -8480,7 +8497,7 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;The hypothetical commands `show w&apos; and `show c&apos; should show the appropriate parts of the General Public License. Of course, your program&apos;s commands might be different; for a GUI interface, you would use an “about box”. &lt;/p&gt;
 &lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;You should also get your employer (if you work as a programmer) or school, if any, to sign a “copyright disclaimer” for the program, if necessary. For more information on this, and how to apply and follow the GNU GPL, see &amp;lt;&lt;a href=&quot;http://www.gnu.org/licenses/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0057ae;&quot;&gt;http://www.gnu.org/licenses/&lt;/span&gt;&lt;/a&gt;&amp;gt;. &lt;/p&gt;
 &lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;The GNU General Public License does not permit incorporating your program into proprietary programs. If your program is a subroutine library, you may consider it more useful to permit linking proprietary applications with the library. If this is what you want to do, use the GNU Lesser General Public License instead of this License. But first, please read &amp;lt;&lt;a href=&quot;http://www.gnu.org/philosophy/why-not-lgpl.html&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0057ae;&quot;&gt;http://www.gnu.org/philosophy/why-not-lgpl.html&lt;/span&gt;&lt;/a&gt;&amp;gt;. &lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -8503,7 +8520,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../ICreateMapFineTune.ui" line="53"/>
         <source>Output</source>
-        <translation type="unfinished">Výstup</translation>
+        <translation>Výstup</translation>
     </message>
     <message>
         <source>Ouput</source>
@@ -8512,7 +8529,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../ICreateMapFineTune.ui" line="73"/>
         <source>Control</source>
-        <translation>Ovládání</translation>
+        <translation>Posunout</translation>
     </message>
     <message>
         <location filename="../ICreateMapFineTune.ui" line="103"/>
@@ -8530,7 +8547,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../ICreateMapFineTune.ui" line="180"/>
         <source>Load a referenced file together with waypoints or tracks. You can move the map until it fits best all overlay elements. Finally you can save a copy of the file with the new offset.</source>
-        <translation>Nahrát nejprve soubor s výchozími body, společně s cestovními body a stopami. Pak můžete mapou posunovat, dokud nepůjde dobře se všemi prvky překrytí. Na závěr můžete uložit kopii s novým posunem.</translation>
+        <translation>Nahrát nejprve soubor s referenčními body, společně s cestovními body a stopami. Pak můžete mapou posunovat, dokud nebude odpovídat všem překrývajícím se prvkům. Na závěr můžete uložit kopii s novým posunem.</translation>
     </message>
 </context>
 <context>
@@ -8740,7 +8757,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../ICreateMapGeoTiff.ui" line="453"/>
         <source>Use the n and b key to step between reference points while fine tuning the points on the map.</source>
-        <translation>Použijte kláves n a b pro přepínání mezi výchozími body, zatímco body přesně umísťujete na mapě.</translation>
+        <translation>Použijte kláves n a b pro přepínání mezi referenčními body, zatímco body přesně umísťujete na mapě.</translation>
     </message>
     <message>
         <location filename="../ICreateMapGeoTiff.ui" line="405"/>
@@ -8838,7 +8855,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../ICreateMapGridTool.ui" line="245"/>
         <source>Did you notice the orange rectangle at the border of your map? The calculated reference points will be inside this rectangle. You can move the lines with your mouse to limit the area. This comes very handy if you have maps with more than on UTM zone. You apply the grid tool to the one zone first. And in a second run to the other.</source>
-        <translation type="unfinished"></translation>
+        <translation>Všiml jste si oranžového obdélníku na okraji mapy? Vypočítané referenční body budou uvnitř tohoto obdélníku. Pro ohraničení oblasti můžete posouvat čáry pomocí myši. To je velice užitečné u map, jež se rozprostírají přes více časových pásem UTM. Nejprve použijete nástroj mřížky na první pásmo a poté na jiné.</translation>
     </message>
     <message>
         <source>Step 2c: Create grid</source>
@@ -9502,17 +9519,17 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../IDlgCombineDistOvl.ui" line="14"/>
         <source>Combine Overlays ...</source>
-        <translation>Spojit vrstvy...</translation>
+        <translation>Spojit přetisky...</translation>
     </message>
     <message>
         <location filename="../IDlgCombineDistOvl.ui" line="36"/>
         <source>Available Overlays</source>
-        <translation>Dostupné vrstvy</translation>
+        <translation>Dostupné přetisky</translation>
     </message>
     <message>
         <location filename="../IDlgCombineDistOvl.ui" line="54"/>
         <source>Add overlay to list</source>
-        <translation>Přidat vrstvu do seznamu</translation>
+        <translation>Přidat přetisk do seznamu</translation>
     </message>
     <message>
         <location filename="../IDlgCombineDistOvl.ui" line="57"/>
@@ -9525,27 +9542,27 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../IDlgCombineDistOvl.ui" line="64"/>
         <source>Remove overlay from list</source>
-        <translation>Odstranit vrstvu ze seznamu</translation>
+        <translation>Odstranit přetisk ze seznamu</translation>
     </message>
     <message>
         <location filename="../IDlgCombineDistOvl.ui" line="78"/>
         <source>Selected Overlays</source>
-        <translation>Vybrané vrstvy</translation>
+        <translation>Vybrané přetisky</translation>
     </message>
     <message>
         <location filename="../IDlgCombineDistOvl.ui" line="99"/>
         <source>Move overlay up in list</source>
-        <translation>Posunout vrstvu v seznamu nahoru</translation>
+        <translation>Posunout přetisk v seznamu nahoru</translation>
     </message>
     <message>
         <location filename="../IDlgCombineDistOvl.ui" line="112"/>
         <source>Move overlay down in list</source>
-        <translation>Posunout vrstvu v seznamu dolů</translation>
+        <translation>Posunout přetisk v seznamu dolů</translation>
     </message>
     <message>
         <location filename="../IDlgCombineDistOvl.ui" line="128"/>
         <source>New Overlay Name</source>
-        <translation>Nový název vrstvy</translation>
+        <translation>Nový název přetisku</translation>
     </message>
     <message>
         <location filename="../IDlgCombineDistOvl.ui" line="135"/>
@@ -9682,7 +9699,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../IDlgConfig.ui" line="166"/>
         <source>Flip</source>
-        <translation>Převrátit</translation>
+        <translation>Změnit směr</translation>
     </message>
     <message>
         <location filename="../IDlgConfig.ui" line="176"/>
@@ -9763,32 +9780,32 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../IDlgConfig.ui" line="114"/>
         <source>Time</source>
-        <translation type="unfinished"></translation>
+        <translation>Čas</translation>
     </message>
     <message>
         <location filename="../IDlgConfig.ui" line="120"/>
         <source>UTC</source>
-        <translation type="unfinished">Světový čas (UTC)</translation>
+        <translation>Světový čas (UTC)</translation>
     </message>
     <message>
         <location filename="../IDlgConfig.ui" line="127"/>
         <source>Local</source>
-        <translation type="unfinished"></translation>
+        <translation>Místní</translation>
     </message>
     <message>
         <location filename="../IDlgConfig.ui" line="134"/>
         <source>Automatic</source>
-        <translation type="unfinished"></translation>
+        <translation>Automaticky</translation>
     </message>
     <message>
         <location filename="../IDlgConfig.ui" line="219"/>
         <source>Show track elevation info</source>
-        <translation type="unfinished"></translation>
+        <translation>Ukázat výškové informace ke stopě</translation>
     </message>
     <message>
         <location filename="../IDlgConfig.ui" line="212"/>
         <source>Show clock</source>
-        <translation type="unfinished"></translation>
+        <translation>Ukázat hodiny</translation>
     </message>
     <message>
         <location filename="../IDlgConfig.ui" line="362"/>
@@ -9798,7 +9815,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../IDlgConfig.ui" line="400"/>
         <source>00000</source>
-        <translation type="unfinished">1 {00000?}</translation>
+        <translation>00000</translation>
     </message>
     <message>
         <location filename="../IDlgConfig.ui" line="415"/>
@@ -9823,7 +9840,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../IDlgConfig.ui" line="513"/>
         <source>Expire in</source>
-        <translation>Propadne za</translation>
+        <translation>Vyprší za</translation>
     </message>
     <message>
         <location filename="../IDlgConfig.ui" line="542"/>
@@ -9858,7 +9875,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../IDlgConfig.ui" line="909"/>
         <source>Watch Dog</source>
-        <translation type="unfinished"></translation>
+        <translation>Hlídací pes</translation>
     </message>
     <message>
         <location filename="../IDlgConfig.ui" line="1027"/>
@@ -9944,8 +9961,8 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;Ovládání myší&lt;/span&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Kolečko		Přiblížit/Oddálit&lt;/span&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Levé tlačítko		Vybrat&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Pravé tlačítko	Související nabídka&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Alt+pohyb myší	Pohyb mapou&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Pravé tlačítko		Související nabídka&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Alt+pohyb myší	Posunout mapu&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <source>You have to restart QLandkarte GT to make the change taking effect.</source>
@@ -9986,42 +10003,42 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../IDlgConfig.ui" line="249"/>
         <source>Vector Maps</source>
-        <translation type="unfinished"></translation>
+        <translation>Vektorové mapy</translation>
     </message>
     <message>
         <location filename="../IDlgConfig.ui" line="258"/>
         <source>Tooltips</source>
-        <translation type="unfinished"></translation>
+        <translation>Nástrojové rady</translation>
     </message>
     <message>
         <location filename="../IDlgConfig.ui" line="265"/>
         <source>Element Info</source>
-        <translation type="unfinished"></translation>
+        <translation>Informace k mapovým prvkům</translation>
     </message>
     <message>
         <location filename="../IDlgConfig.ui" line="272"/>
         <source>Reduce POI icons</source>
-        <translation type="unfinished"></translation>
+        <translation>Zmenšit ikony pro stanoviště pozorovatele</translation>
     </message>
     <message>
         <location filename="../IDlgConfig.ui" line="281"/>
         <source>Zoom level threshold for POIs:</source>
-        <translation type="unfinished"></translation>
+        <translation>Práh úroveň zvětšení pro stanoviště pozorovatele:</translation>
     </message>
     <message>
         <location filename="../IDlgConfig.ui" line="294"/>
         <source>Defines at which zoom level POIs are drawn.</source>
-        <translation type="unfinished"></translation>
+        <translation>Určuje, od které úrovně zvětšení je stanoviště pozorovatele kresleno.</translation>
     </message>
     <message>
         <location filename="../IDlgConfig.ui" line="314"/>
         <source>Zoom level threshold for POI labels:</source>
-        <translation type="unfinished"></translation>
+        <translation>Práh úroveň zvětšení pro popisky stanoviště pozorovatele:</translation>
     </message>
     <message>
         <location filename="../IDlgConfig.ui" line="327"/>
         <source>Defines at which zoom level POIs are labeled.</source>
-        <translation type="unfinished"></translation>
+        <translation>Určuje, od které úrovně zvětšení jsou popisky ke stanovišti pozorovatele kresleny.</translation>
     </message>
     <message>
         <location filename="../IDlgConfig.ui" line="383"/>
@@ -10070,7 +10087,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../IDlgConfig.ui" line="726"/>
         <source>Device &amp;&amp; Xfer</source>
-        <translation>Zařízení a přenos</translation>
+        <translation>Zařízení a přenos dat</translation>
     </message>
     <message>
         <location filename="../IDlgConfig.ui" line="732"/>
@@ -10115,12 +10132,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../IDlgConfig.ui" line="818"/>
         <source>Baud rate</source>
-        <translation>Baud rate</translation>
+        <translation>Rychlost přenosu</translation>
     </message>
     <message>
         <location filename="../IDlgConfig.ui" line="828"/>
         <source>Baud rate for Serial Port</source>
-        <translation>Baud rate pro sériovou přípojku</translation>
+        <translation>Rychlost přenosu (baud rate) pro sériovou přípojku</translation>
     </message>
     <message>
         <location filename="../IDlgConfig.ui" line="838"/>
@@ -10265,7 +10282,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../IDlgConvertToTrack.ui" line="75"/>
         <source>Username:</source>
-        <translation type="unfinished">Uživatelské jméno:</translation>
+        <translation>Uživatelské jméno:</translation>
     </message>
 </context>
 <context>
@@ -10370,17 +10387,17 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../IDlgDeviceExportPath.ui" line="14"/>
         <source>Select output path...</source>
-        <translation type="unfinished">Vybrat výstupní cestu...</translation>
+        <translation>Vybrat výstupní cestu...</translation>
     </message>
     <message>
         <location filename="../IDlgDeviceExportPath.ui" line="20"/>
         <source>Where to place..?</source>
-        <translation type="unfinished"></translation>
+        <translation>Kam se mají data nahrát?</translation>
     </message>
     <message>
         <location filename="../IDlgDeviceExportPath.ui" line="30"/>
         <source>Select a sub-directory from above or enter a new one</source>
-        <translation type="unfinished"></translation>
+        <translation>Vyberte podadresář v seznamu výše anebo zadejte nový</translation>
     </message>
 </context>
 <context>
@@ -10451,7 +10468,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../IDlgEditMapLevel.ui" line="96"/>
         <source>Delete file from list</source>
-        <translation>Smazat  soubory ze seznamu</translation>
+        <translation>Smazat soubory ze seznamu</translation>
     </message>
     <message>
         <location filename="../IDlgEditMapLevel.ui" line="109"/>
@@ -10604,7 +10621,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../IDlgEditWpt.ui" line="196"/>
         <source>Proximity Dist.</source>
-        <translation>Varování kvůli blízkosti.</translation>
+        <translation>Upozornění při přiblížení</translation>
     </message>
     <message>
         <location filename="../IDlgEditWpt.ui" line="240"/>
@@ -10646,14 +10663,14 @@ p, li { white-space: pre-wrap; }
         <source>If you use the word &quot;Spoiler&quot; in the comment, the image might be treated special on your GPSr. 
 
 For modern Garmin device select &quot;Garmin Mass Storage&quot; device to exchange pictures and spoilers.</source>
-        <translation>Pokud v poznámce použijete slovo &quot;spoiler&quot; (vyráběno s cílem nabourávat prodej obdobného zboží konkurence?), s obrázkem může být na vašem GPSr zacházeno zvláštně.
+        <translation>Pokud v poznámce použijete slovo &quot;spoiler&quot;, s obrázkem může být na vašem GPSr zacházeno zvláštně.
 
 Pro moderní zařízení Garmin vyberte zařízení &quot;Úložiště Garmin&quot; pro výměnu obrázků a spoilerů.</translation>
     </message>
     <message>
         <location filename="../IDlgEditWpt.ui" line="359"/>
         <source>Get spoilers!</source>
-        <translation type="unfinished"></translation>
+        <translation>Získat spoilery!</translation>
     </message>
     <message>
         <location filename="../IDlgEditWpt.ui" line="391"/>
@@ -10663,7 +10680,7 @@ Pro moderní zařízení Garmin vyberte zařízení &quot;Úložiště Garmin&qu
     <message>
         <location filename="../IDlgEditWpt.ui" line="703"/>
         <source>Create Buddies</source>
-        <translation type="unfinished"></translation>
+        <translation>Vytvořit kamarády</translation>
     </message>
     <message>
         <source>Next</source>
@@ -10707,7 +10724,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../IDlgEditWpt.ui" line="426"/>
         <source>Transparent</source>
-        <translation type="unfinished"></translation>
+        <translation>Průhledný</translation>
     </message>
     <message>
         <location filename="../IDlgEditWpt.ui" line="531"/>
@@ -10756,100 +10773,100 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../IDlgImportImages.ui" line="14"/>
         <source>Import pictures</source>
-        <translation type="unfinished"></translation>
+        <translation>Zavést obrázky</translation>
     </message>
     <message>
         <location filename="../IDlgImportImages.ui" line="20"/>
         <source>Import pictures from</source>
-        <translation type="unfinished"></translation>
+        <translation>Zavést obrázky z</translation>
     </message>
     <message>
         <location filename="../IDlgImportImages.ui" line="29"/>
         <source>./</source>
-        <translation type="unfinished"></translation>
+        <translation>./</translation>
     </message>
     <message>
         <location filename="../IDlgImportImages.ui" line="36"/>
         <source>...</source>
-        <translation type="unfinished">...</translation>
+        <translation>...</translation>
     </message>
     <message>
         <location filename="../IDlgImportImages.ui" line="52"/>
         <source>Create local copy</source>
-        <translation type="unfinished"></translation>
+        <translation>Vytvořit místní kopii</translation>
     </message>
     <message>
         <location filename="../IDlgImportImages.ui" line="58"/>
         <source>~600x400</source>
-        <translation type="unfinished"></translation>
+        <translation>~600 x 400</translation>
     </message>
     <message>
         <location filename="../IDlgImportImages.ui" line="65"/>
         <source>~1024x700</source>
-        <translation type="unfinished"></translation>
+        <translation>~1024 x 700</translation>
     </message>
     <message>
         <location filename="../IDlgImportImages.ui" line="72"/>
         <source>just link external file</source>
-        <translation type="unfinished"></translation>
+        <translation>Udělat pouze odkaz na vnější soubor</translation>
     </message>
     <message>
         <location filename="../IDlgImportImages.ui" line="79"/>
         <source>original size</source>
-        <translation type="unfinished"></translation>
+        <translation>Původní velikost</translation>
     </message>
     <message>
         <location filename="../IDlgImportImages.ui" line="89"/>
         <source>Reference source</source>
-        <translation type="unfinished"></translation>
+        <translation>Referenční zdroj</translation>
     </message>
     <message>
         <location filename="../IDlgImportImages.ui" line="95"/>
         <source>From EXIF header</source>
-        <translation type="unfinished"></translation>
+        <translation>Z hlavičky EXIF</translation>
     </message>
     <message>
         <location filename="../IDlgImportImages.ui" line="102"/>
         <location filename="../IDlgImportImages.ui" line="119"/>
         <source>Time reference</source>
-        <translation type="unfinished"></translation>
+        <translation>Čas</translation>
     </message>
     <message>
         <location filename="../IDlgImportImages.ui" line="109"/>
         <location filename="../IDlgImportImages.ui" line="169"/>
         <source>Position reference</source>
-        <translation type="unfinished"></translation>
+        <translation>Poloha</translation>
     </message>
     <message>
         <location filename="../IDlgImportImages.ui" line="125"/>
         <source>Take a picture of the GPS time display as the first photo in the series. Double-click that picture in the above list and enter the GPS time in the text box. QLandkarte GT will derive the delta time between camera
 and GPS and adjust all image time-stamps before correlating them with loaded track points.</source>
-        <translation type="unfinished"></translation>
+        <translation>Udělat obrázek ze zobrazení času GPS jako první snímek v řadě. Dvakrát klepněte na tento obrázek v seznamu výše a zadejte čas GPS do textového pole. QLandkarte GT vyrovná časové razítko obrázků v závislosti na časovém rozdílu mezi GPS a kamerou, a poté obrázky přiřadí nahraným bodům stopy.</translation>
     </message>
     <message>
         <location filename="../IDlgImportImages.ui" line="175"/>
         <source>Take a picture of the GPS position display as the first photo in the series. Double-click that picture in the above list and enter the GPS position. QLandkarte GT will locate the closest track point and derive the delta time between camera and GPS and adjust all image time-stamps before correlating them with loaded track points.</source>
-        <translation type="unfinished"></translation>
+        <translation>Udělat obrázek zobrazení polohy GPS jako první snímek v řadě. Dvakrát klepněte na tento obrázek v seznamu výše a zadejte polohu GPS. QLandkarte GT zvolí nejbližší bod stopy a vyrovná časové razítko obrázků v závislosti na časovém rozdílu mezi GPS a kamerou, a poté obrázky přiřadí nahraným bodům stopy.</translation>
     </message>
     <message>
         <location filename="../IDlgImportImages.ui" line="144"/>
         <source>Select a picture from the list and enter the timestamp</source>
-        <translation type="unfinished"></translation>
+        <translation>Vyberte obrázek v seznamu a zadejte časové razítko</translation>
     </message>
     <message>
         <location filename="../IDlgImportImages.ui" line="154"/>
         <source>dd.MM.yy HH:mm:ss</source>
-        <translation type="unfinished"></translation>
+        <translation>dd.MM.yy HH:mm:ss</translation>
     </message>
     <message>
         <location filename="../IDlgImportImages.ui" line="193"/>
         <source>Select a picture from the list and enter the position</source>
-        <translation type="unfinished"></translation>
+        <translation>Vyberte obrázek v seznamu a zadejte polohu</translation>
     </message>
     <message>
         <location filename="../IDlgImportImages.ui" line="203"/>
         <source>The position has to be in WGS84 datum. The position format is: N|Sdd mm.mmm E|Wddd mm.mmm</source>
-        <translation type="unfinished"></translation>
+        <translation>Poloha musí mít datum WGS84. Formát polohy je: N|Sdd mm.mmm E|Wddd mm.mmm</translation>
     </message>
 </context>
 <context>
@@ -10857,22 +10874,22 @@ and GPS and adjust all image time-stamps before correlating them with loaded tra
     <message>
         <location filename="../IDlgLoadOnlineMap.ui" line="14"/>
         <source>Available Online Map ...</source>
-        <translation type="unfinished"></translation>
+        <translation>Dostupné internetové mapy...</translation>
     </message>
     <message>
         <location filename="../IDlgLoadOnlineMap.ui" line="31"/>
         <source>Download map file to:</source>
-        <translation type="unfinished"></translation>
+        <translation>Stáhnout soubor s mapou do:</translation>
     </message>
     <message>
         <location filename="../IDlgLoadOnlineMap.ui" line="38"/>
         <source>-</source>
-        <translation type="unfinished">-</translation>
+        <translation>-</translation>
     </message>
     <message>
         <location filename="../IDlgLoadOnlineMap.ui" line="45"/>
         <source>...</source>
-        <translation type="unfinished">...</translation>
+        <translation>...</translation>
     </message>
 </context>
 <context>
@@ -10945,12 +10962,12 @@ and GPS and adjust all image time-stamps before correlating them with loaded tra
     <message>
         <location filename="../IDlgMapRMPConfig.ui" line="14"/>
         <source>Information...</source>
-        <translation type="unfinished">Informace...</translation>
+        <translation>Informace...</translation>
     </message>
     <message>
         <location filename="../IDlgMapRMPConfig.ui" line="21"/>
         <source>about:blank</source>
-        <translation type="unfinished">o:prázdný</translation>
+        <translation>o:prázdný</translation>
     </message>
 </context>
 <context>
@@ -11048,38 +11065,38 @@ and GPS and adjust all image time-stamps before correlating them with loaded tra
     <message>
         <location filename="../IDlgMultiColorConfig.ui" line="14"/>
         <source>Multi Color Setup...</source>
-        <translation type="unfinished"></translation>
+        <translation>Nastavení různých barev...</translation>
     </message>
     <message>
         <location filename="../IDlgMultiColorConfig.ui" line="20"/>
         <location filename="../IDlgMultiColorConfig.ui" line="79"/>
         <source>TextLabel</source>
-        <translation type="unfinished"></translation>
+        <translation>Textový štítek</translation>
     </message>
     <message>
         <location filename="../IDlgMultiColorConfig.ui" line="29"/>
         <source>Auto</source>
-        <translation type="unfinished"></translation>
+        <translation>Automaticky</translation>
     </message>
     <message>
         <location filename="../IDlgMultiColorConfig.ui" line="36"/>
         <source>Min</source>
-        <translation type="unfinished"></translation>
+        <translation>Min</translation>
     </message>
     <message>
         <location filename="../IDlgMultiColorConfig.ui" line="59"/>
         <source>Max</source>
-        <translation type="unfinished"></translation>
+        <translation>Max</translation>
     </message>
     <message>
         <location filename="../IDlgMultiColorConfig.ui" line="86"/>
         <source>Min Color</source>
-        <translation type="unfinished"></translation>
+        <translation>Barva min</translation>
     </message>
     <message>
         <location filename="../IDlgMultiColorConfig.ui" line="93"/>
         <source>Max Color</source>
-        <translation type="unfinished"></translation>
+        <translation>Barva max</translation>
     </message>
 </context>
 <context>
@@ -11131,7 +11148,7 @@ and GPS and adjust all image time-stamps before correlating them with loaded tra
     <message>
         <location filename="../IDlgParentWpt.ui" line="14"/>
         <source>Select Parent Waypoint ...</source>
-        <translation type="unfinished"></translation>
+        <translation>Vybrat hlavní cestovní bod...</translation>
     </message>
 </context>
 <context>
@@ -11585,7 +11602,7 @@ and GPS and adjust all image time-stamps before correlating them with loaded tra
     <message>
         <location filename="../IImageViewer.ui" line="429"/>
         <source>Dialog</source>
-        <translation type="unfinished">Dialog</translation>
+        <translation>Dialog</translation>
     </message>
 </context>
 <context>
@@ -11660,7 +11677,7 @@ and GPS and adjust all image time-stamps before correlating them with loaded tra
     <message>
         <location filename="../ILiveLogToolWidget.ui" line="185"/>
         <source>use small arrow</source>
-        <translation type="unfinished"></translation>
+        <translation>Použít malou šipku</translation>
     </message>
 </context>
 <context>
@@ -11732,7 +11749,7 @@ DEM: %2</translation>
     <message>
         <location filename="../IMapDEMSlopeSetup.ui" line="14"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>Formulář</translation>
     </message>
     <message>
         <location filename="../IMapDEMSlopeSetup.ui" line="47"/>
@@ -11747,7 +11764,7 @@ DEM: %2</translation>
         <location filename="../IMapDEMSlopeSetup.ui" line="110"/>
         <location filename="../IMapDEMSlopeSetup.ui" line="125"/>
         <source>TextLabel</source>
-        <translation type="unfinished"></translation>
+        <translation>Textový štítek</translation>
     </message>
 </context>
 <context>
@@ -11834,7 +11851,7 @@ DEM: %2</translation>
         <location filename="../IMapQMAPExport.ui" line="176"/>
         <location filename="../IMapQMAPExport.ui" line="360"/>
         <source>Magellan RMP</source>
-        <translation type="unfinished"></translation>
+        <translation>RMP Magellan</translation>
     </message>
     <message>
         <location filename="../IMapQMAPExport.ui" line="198"/>
@@ -11909,17 +11926,17 @@ DEM: %2</translation>
     <message>
         <location filename="../IMapQMAPExport.ui" line="366"/>
         <source>Provider </source>
-        <translation type="unfinished"></translation>
+        <translation>Nabízející </translation>
     </message>
     <message>
         <location filename="../IMapQMAPExport.ui" line="379"/>
         <source>Product</source>
-        <translation type="unfinished"></translation>
+        <translation>Výrobek</translation>
     </message>
     <message>
         <location filename="../IMapQMAPExport.ui" line="386"/>
         <source>Copyright</source>
-        <translation type="unfinished"></translation>
+        <translation>Autorské právo</translation>
     </message>
     <message>
         <location filename="../IMapQMAPExport.ui" line="420"/>
@@ -12145,7 +12162,7 @@ DEM: %2</translation>
         <location filename="../IMapToolWidget.ui" line="138"/>
         <location filename="../IMapToolWidget.ui" line="203"/>
         <source>Mode - show active map and active overlays</source>
-        <translation>Režim - ukázat činnou mapu a činné vrstvy</translation>
+        <translation>Režim - ukázat činnou mapu a činné přetisky</translation>
     </message>
     <message>
         <location filename="../IMapToolWidget.ui" line="78"/>
@@ -12217,14 +12234,16 @@ DEM: %2</translation>
     <message>
         <location filename="../IMouse.cpp" line="315"/>
         <source>too many...</source>
-        <translation type="unfinished"></translation>
+        <translation>Příliš mnoho...</translation>
     </message>
     <message>
         <location filename="../IMouse.cpp" line="323"/>
         <source>Left click to lock circles.
 Then select function from circle.
 Left click on canvas to un-lock circles.</source>
-        <translation type="unfinished"></translation>
+        <translation>Klepnutí levým tlačítkem myši pro uzamknutí kruhů.
+Potom z kruhu vyberte funkci.
+Klepnutí levým tlačítkem myši do volné oblasti mapy pro odemknutí kruhů.</translation>
     </message>
 </context>
 <context>
@@ -12437,7 +12456,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../IStatusDEM.ui" line="47"/>
         <source>slope</source>
-        <translation type="unfinished"></translation>
+        <translation>Stoupání</translation>
     </message>
 </context>
 <context>
@@ -12594,7 +12613,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../ITrackEditWidget.ui" line="136"/>
         <source>Multicolor</source>
-        <translation type="unfinished"></translation>
+        <translation>Více barev</translation>
     </message>
     <message>
         <location filename="../ITrackEditWidget.ui" line="168"/>
@@ -12605,17 +12624,17 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../ITrackEditWidget.ui" line="182"/>
         <source>If checked, the map is centered map on selected trackpoint.</source>
-        <translation type="unfinished"></translation>
+        <translation>Je-li zaškrtnuto, mapa je vystředěna na cestovní bod vybraný v seznamu stop.</translation>
     </message>
     <message>
         <location filename="../ITrackEditWidget.ui" line="185"/>
         <source>Center map</source>
-        <translation type="unfinished"></translation>
+        <translation>Vystředit mapu</translation>
     </message>
     <message>
         <location filename="../ITrackEditWidget.ui" line="331"/>
         <source>Filter</source>
-        <translation type="unfinished">Filtr</translation>
+        <translation>Filtr</translation>
     </message>
     <message>
         <location filename="../ITrackEditWidget.ui" line="460"/>
@@ -12625,7 +12644,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../ITrackEditWidget.ui" line="97"/>
         <source>Toggle extensions statistics view over time</source>
-        <translation>Zapnout/Vypnout pohled na statistiky rozšiření o čase.</translation>
+        <translation>Zapnout/Vypnout pohled na statistiky rozšiření o čase</translation>
     </message>
     <message>
         <location filename="../ITrackEditWidget.ui" line="116"/>
@@ -12677,12 +12696,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../ITrackFilterWidget.ui" line="14"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>Formulář</translation>
     </message>
     <message>
         <location filename="../ITrackFilterWidget.ui" line="197"/>
         <source>Points</source>
-        <translation type="unfinished">Punkte</translation>
+        <translation>Body</translation>
     </message>
     <message>
         <location filename="../ITrackFilterWidget.ui" line="37"/>
@@ -12718,79 +12737,79 @@ p, li { white-space: pre-wrap; }
         <location filename="../ITrackFilterWidget.ui" line="1436"/>
         <location filename="../ITrackFilterWidget.ui" line="1447"/>
         <source>...</source>
-        <translation type="unfinished">...</translation>
+        <translation>...</translation>
     </message>
     <message>
         <location filename="../ITrackFilterWidget.ui" line="230"/>
         <source>Reduce Points</source>
-        <translation type="unfinished"></translation>
+        <translation>Zmenšit body</translation>
     </message>
     <message>
         <location filename="../ITrackFilterWidget.ui" line="236"/>
         <location filename="../ITrackFilterWidget.ui" line="379"/>
         <source>Hide track points if:</source>
-        <translation type="unfinished">Skrýt body stopy, když:</translation>
+        <translation>Skrýt body stopy, když:</translation>
     </message>
     <message>
         <location filename="../ITrackFilterWidget.ui" line="243"/>
         <source>Distance to previous point less than</source>
-        <translation type="unfinished">Vzdálenost k předchozímu bodu je menší než</translation>
+        <translation>Vzdálenost k předchozímu bodu je menší než</translation>
     </message>
     <message>
         <location filename="../ITrackFilterWidget.ui" line="281"/>
         <source>Azimuth from previous point less than</source>
-        <translation type="unfinished">Azimuh od předchozího bodu je menší než</translation>
+        <translation>Azimut od předchozího bodu je menší než</translation>
     </message>
     <message utf8="true">
         <location filename="../ITrackFilterWidget.ui" line="288"/>
         <source>°</source>
-        <translation type="unfinished">°</translation>
+        <translation>°</translation>
     </message>
     <message>
         <location filename="../ITrackFilterWidget.ui" line="512"/>
         <source>Smooth Profile</source>
-        <translation type="unfinished"></translation>
+        <translation>Vyhladit profil</translation>
     </message>
     <message>
         <location filename="../ITrackFilterWidget.ui" line="532"/>
         <source>Change elevation data of track:</source>
-        <translation type="unfinished"></translation>
+        <translation>Změnit výškové údaje ve stopě:</translation>
     </message>
     <message>
         <location filename="../ITrackFilterWidget.ui" line="539"/>
         <source>Median filter over</source>
-        <translation type="unfinished"></translation>
+        <translation>Středový filtr nad</translation>
     </message>
     <message>
         <location filename="../ITrackFilterWidget.ui" line="559"/>
         <location filename="../ITrackFilterWidget.ui" line="1189"/>
         <source>points</source>
-        <translation type="unfinished">bodů</translation>
+        <translation>bodů</translation>
     </message>
     <message>
         <location filename="../ITrackFilterWidget.ui" line="419"/>
         <source>Delete hidden points</source>
-        <translation type="unfinished"></translation>
+        <translation>Smazat skryté body</translation>
     </message>
     <message>
         <location filename="../ITrackFilterWidget.ui" line="34"/>
         <source>reset filter list</source>
-        <translation type="unfinished"></translation>
+        <translation>Nastavit seznam filtrů znovu</translation>
     </message>
     <message>
         <location filename="../ITrackFilterWidget.ui" line="48"/>
         <source>save filter list</source>
-        <translation type="unfinished"></translation>
+        <translation>Uložit seznam filtrů</translation>
     </message>
     <message>
         <location filename="../ITrackFilterWidget.ui" line="68"/>
         <source>apply filter</source>
-        <translation type="unfinished"></translation>
+        <translation>Použít filtr</translation>
     </message>
     <message>
         <location filename="../ITrackFilterWidget.ui" line="71"/>
         <source>Apply</source>
-        <translation type="unfinished"></translation>
+        <translation>Použít</translation>
     </message>
     <message>
         <location filename="../ITrackFilterWidget.ui" line="122"/>
@@ -12799,7 +12818,11 @@ p, li { white-space: pre-wrap; }
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Sans Serif&apos;; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600; color:#c00000;&quot;&gt;The filters will only apply to the selected part of the track.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Sans Serif&apos;; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600; color:#c00000;&quot;&gt;Filtry budou účinkovat jen na vybrané části stopy.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../ITrackFilterWidget.ui" line="137"/>
@@ -12814,7 +12837,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../ITrackFilterWidget.ui" line="1312"/>
         <location filename="../ITrackFilterWidget.ui" line="1413"/>
         <source>apply now</source>
-        <translation type="unfinished"></translation>
+        <translation>Použít nyní</translation>
     </message>
     <message>
         <location filename="../ITrackFilterWidget.ui" line="151"/>
@@ -12828,153 +12851,153 @@ p, li { white-space: pre-wrap; }
         <location filename="../ITrackFilterWidget.ui" line="1234"/>
         <location filename="../ITrackFilterWidget.ui" line="1335"/>
         <source>add to list</source>
-        <translation type="unfinished"></translation>
+        <translation>Přidat do seznamu</translation>
     </message>
     <message>
         <location filename="../ITrackFilterWidget.ui" line="165"/>
         <source>Reset all changes</source>
-        <translation type="unfinished"></translation>
+        <translation>Vynulovat všechny změny</translation>
     </message>
     <message>
         <location filename="../ITrackFilterWidget.ui" line="345"/>
         <source>Douglas-Peucker</source>
-        <translation type="unfinished"></translation>
+        <translation>Douglas-Peucker</translation>
     </message>
     <message>
         <location filename="../ITrackFilterWidget.ui" line="392"/>
         <source>Distance of a point to a straight line between neighbor points is less than</source>
-        <translation type="unfinished"></translation>
+        <translation>Vzdálenost bodu od přímky mezi sousednímu body je menší než</translation>
     </message>
     <message>
         <location filename="../ITrackFilterWidget.ui" line="439"/>
         <source>Delete hidden track points for ever. No way back!</source>
-        <translation type="unfinished"></translation>
+        <translation>Smazat skryté body stopy navždy. Není žádné cesty zpět!</translation>
     </message>
     <message>
         <location filename="../ITrackFilterWidget.ui" line="485"/>
         <source>Profile</source>
-        <translation type="unfinished"></translation>
+        <translation>Profil</translation>
     </message>
     <message>
         <location filename="../ITrackFilterWidget.ui" line="596"/>
         <source>Replace elevation data</source>
-        <translation type="unfinished"></translation>
+        <translation>Nahradit údaje o výšce</translation>
     </message>
     <message>
         <location filename="../ITrackFilterWidget.ui" line="629"/>
         <source>Use elevation from loaded DEM data</source>
-        <translation type="unfinished"></translation>
+        <translation>Použít výšku z nahraných místních dat</translation>
     </message>
     <message>
         <location filename="../ITrackFilterWidget.ui" line="639"/>
         <source>Use elevation from www.geonames.org</source>
-        <translation type="unfinished"></translation>
+        <translation>Použít výšku z www.geonames.org</translation>
     </message>
     <message>
         <location filename="../ITrackFilterWidget.ui" line="648"/>
         <source>Username:</source>
-        <translation type="unfinished">Uživatelské jméno:</translation>
+        <translation>Uživatelské jméno:</translation>
     </message>
     <message>
         <location filename="../ITrackFilterWidget.ui" line="677"/>
         <source>Offset elevation data</source>
-        <translation type="unfinished"></translation>
+        <translation>Posunout údaje o výšce</translation>
     </message>
     <message>
         <location filename="../ITrackFilterWidget.ui" line="731"/>
         <source>Add offset of</source>
-        <translation type="unfinished"></translation>
+        <translation>Přidat posun</translation>
     </message>
     <message>
         <location filename="../ITrackFilterWidget.ui" line="955"/>
         <source>Unify timestamps</source>
-        <translation type="unfinished"></translation>
+        <translation>Sjednotit časová razítka</translation>
     </message>
     <message>
         <location filename="../ITrackFilterWidget.ui" line="983"/>
         <source>Increase timestamp by</source>
-        <translation type="unfinished"></translation>
+        <translation>Zvýšit časová razítka o</translation>
     </message>
     <message>
         <location filename="../ITrackFilterWidget.ui" line="990"/>
         <source>sec.</source>
-        <translation type="unfinished"></translation>
+        <translation>s</translation>
     </message>
     <message>
         <location filename="../ITrackFilterWidget.ui" line="997"/>
         <source>0 will remove timestamps</source>
-        <translation type="unfinished"></translation>
+        <translation>0 odstraní časová razítka.</translation>
     </message>
     <message>
         <location filename="../ITrackFilterWidget.ui" line="1042"/>
         <source>Split</source>
-        <translation type="unfinished">Rozdělit</translation>
+        <translation>Rozdělit</translation>
     </message>
     <message>
         <location filename="../ITrackFilterWidget.ui" line="1069"/>
         <source>Split into equal chunks</source>
-        <translation type="unfinished"></translation>
+        <translation>Rozdělit na stejné kousky</translation>
     </message>
     <message>
         <location filename="../ITrackFilterWidget.ui" line="1091"/>
         <source>Split the track into </source>
-        <translation type="unfinished">Rozdělit stopu na</translation>
+        <translation>Rozdělit stopu na</translation>
     </message>
     <message>
         <location filename="../ITrackFilterWidget.ui" line="1105"/>
         <source>chunks</source>
-        <translation type="unfinished">kousky</translation>
+        <translation>kousky</translation>
     </message>
     <message>
         <location filename="../ITrackFilterWidget.ui" line="1144"/>
         <source>Split by number of points</source>
-        <translation type="unfinished"></translation>
+        <translation>Rozdělit podle počtu bodů</translation>
     </message>
     <message>
         <location filename="../ITrackFilterWidget.ui" line="1166"/>
         <location filename="../ITrackFilterWidget.ui" line="1250"/>
         <source>SplitTrack into chunks of </source>
-        <translation type="unfinished">Rozdělit stopu na kousky z </translation>
+        <translation>Rozdělit stopu na kousky s </translation>
     </message>
     <message>
         <location filename="../ITrackFilterWidget.ui" line="1228"/>
         <source>Split by distance</source>
-        <translation type="unfinished"></translation>
+        <translation>Rozdělit podle vzdálenosti</translation>
     </message>
     <message>
         <location filename="../ITrackFilterWidget.ui" line="780"/>
         <source>Time</source>
-        <translation type="unfinished"></translation>
+        <translation>Čas</translation>
     </message>
     <message>
         <location filename="../ITrackFilterWidget.ui" line="807"/>
         <source>Date/Time of track</source>
-        <translation type="unfinished"></translation>
+        <translation>Datum/Čas stopy</translation>
     </message>
     <message>
         <location filename="../ITrackFilterWidget.ui" line="835"/>
         <source>New date/time of track</source>
-        <translation type="unfinished"></translation>
+        <translation>Nové datum/čas stopy</translation>
     </message>
     <message>
         <location filename="../ITrackFilterWidget.ui" line="848"/>
         <source>dd.MMMM.yyyy HH:mm:ss</source>
-        <translation type="unfinished"></translation>
+        <translation>dd.MMMM.yyyy HH:mm:ss</translation>
     </message>
     <message>
         <location filename="../ITrackFilterWidget.ui" line="874"/>
         <source>Speed of track</source>
-        <translation type="unfinished"></translation>
+        <translation>Rychlost ve stopě</translation>
     </message>
     <message>
         <location filename="../ITrackFilterWidget.ui" line="902"/>
         <source>Speed</source>
-        <translation type="unfinished">Rychlost</translation>
+        <translation>Rychlost</translation>
     </message>
     <message>
         <location filename="../ITrackFilterWidget.ui" line="909"/>
         <source>km/h</source>
-        <translation type="unfinished"></translation>
+        <translation>km/h</translation>
     </message>
     <message>
         <source>Change the track&apos;s starting time (anonymize track) to:</source>
@@ -12994,47 +13017,47 @@ p, li { white-space: pre-wrap; }
         <location filename="../ITrackFilterWidget.ui" line="1257"/>
         <location filename="../ITrackFilterWidget.ui" line="1358"/>
         <source>m</source>
-        <translation type="unfinished">m</translation>
+        <translation>m</translation>
     </message>
     <message>
         <location filename="../ITrackFilterWidget.ui" line="1290"/>
         <source>length</source>
-        <translation type="unfinished"></translation>
+        <translation>Délka</translation>
     </message>
     <message>
         <location filename="../ITrackFilterWidget.ui" line="1329"/>
         <source>Split by ascend</source>
-        <translation type="unfinished"></translation>
+        <translation>Rozdělit podle stoupání</translation>
     </message>
     <message>
         <location filename="../ITrackFilterWidget.ui" line="1351"/>
         <source>SplitTrack into chunks with </source>
-        <translation type="unfinished"></translation>
+        <translation>Rozdělit stopu na kousky s </translation>
     </message>
     <message>
         <location filename="../ITrackFilterWidget.ui" line="1391"/>
         <source>ascend</source>
-        <translation type="unfinished">Vzestupně</translation>
+        <translation>Stoupání</translation>
     </message>
     <message>
         <location filename="../ITrackFilterWidget.ui" line="1430"/>
         <source>Split at stages</source>
-        <translation type="unfinished"></translation>
+        <translation>Rozdělit na úsecích</translation>
     </message>
     <message>
         <location filename="../ITrackFilterWidget.ui" line="1458"/>
         <source>Split track at stage waypoints</source>
-        <translation type="unfinished"></translation>
+        <translation>Rozdělit stopu na úsekových xestovních bodech</translation>
     </message>
     <message>
         <location filename="../ITrackFilterWidget.ui" line="1500"/>
         <source>Split track</source>
-        <translation type="unfinished"></translation>
+        <translation>Rozdělit stopu</translation>
     </message>
     <message>
         <location filename="../ITrackFilterWidget.ui" line="1510"/>
         <source>Add only waypoints for stages</source>
-        <translation type="unfinished"></translation>
+        <translation>Přidat jen cestovní body pro úseky</translation>
     </message>
 </context>
 <context>
@@ -13160,27 +13183,27 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../IDlgProxy.ui" line="13"/>
         <source>Proxy Authentication</source>
-        <translation type="unfinished"></translation>
+        <translation>Ověření pravosti proxy</translation>
     </message>
     <message>
         <location filename="../IDlgProxy.ui" line="19"/>
         <source>ICON</source>
-        <translation type="unfinished"></translation>
+        <translation>ICON</translation>
     </message>
     <message>
         <location filename="../IDlgProxy.ui" line="26"/>
         <source>Connect to proxy</source>
-        <translation type="unfinished"></translation>
+        <translation>Připojit se k proxy</translation>
     </message>
     <message>
         <location filename="../IDlgProxy.ui" line="36"/>
         <source>Username:</source>
-        <translation type="unfinished">Uživatelské jméno:</translation>
+        <translation>Uživatelské jméno:</translation>
     </message>
     <message>
         <location filename="../IDlgProxy.ui" line="46"/>
         <source>Password:</source>
-        <translation type="unfinished"></translation>
+        <translation>Heslo:</translation>
     </message>
 </context>
 <context>
@@ -13234,7 +13257,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../GeoMath.cpp" line="807"/>
         <source>Failed to read reference coordinate. Bad syntax?
 %1</source>
-        <translation>Chyba při čtení souřadnic výchozího bodu. Neplatná skladba?
+        <translation>Chyba při čtení souřadnic referenčního bodu. Neplatná skladba?
 %1</translation>
     </message>
     <message>
@@ -13339,23 +13362,23 @@ Odhadovaný konec: %02i:%02i:%02i[hh:mm:ss]</translation>
     <message>
         <location filename="../CDlgLoadOnlineMap.cpp" line="33"/>
         <source>&lt;!DOCTYPE HTML PUBLIC &apos;-//W3C//DTD HTML 4.01 Transitional//EN&apos;  &apos;http://www.w3.org/TR/html4/loose.dtd&apos;&gt;&lt;html&gt;   &lt;head&gt;       &lt;title&gt;&lt;/title&gt;       &lt;META HTTP-EQUIV=&apos;CACHE-CONTROL&apos; CONTENT=&apos;NO-CACHE&apos;&gt;       &lt;meta http-equiv=&apos;Content-Type&apos; content=&apos;text/html; charset=utf-8&apos;&gt;       &lt;style type=&apos;text/css&apos;&gt;           p, li { white-space: pre-wrap; }           td {padding-top: 10px;}           th {background-color: darkBlue; color: white;}       &lt;/style&gt;   &lt;/head&gt;   &lt;body style=&apos; font-family:&apos;Sans&apos;; font-size:9pt; font-weight:400; font-style:normal;&apos;&gt;       &lt;p&gt;${info}&lt;/p&gt;   &lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;!DOCTYPE HTML PUBLIC &apos;-//W3C//DTD HTML 4.01 Transitional//EN&apos;  &apos;http://www.w3.org/TR/html4/loose.dtd&apos;&gt;&lt;html&gt;   &lt;head&gt;       &lt;title&gt;&lt;/title&gt;       &lt;META HTTP-EQUIV=&apos;CACHE-CONTROL&apos; CONTENT=&apos;NO-CACHE&apos;&gt;       &lt;meta http-equiv=&apos;Content-Type&apos; content=&apos;text/html; charset=utf-8&apos;&gt;       &lt;style type=&apos;text/css&apos;&gt;           p, li { white-space: pre-wrap; }           td {padding-top: 10px;}           th {background-color: darkBlue; color: white;}       &lt;/style&gt;   &lt;/head&gt;   &lt;body style=&apos; font-family:&apos;Sans&apos;; font-size:9pt; font-weight:400; font-style:normal;&apos;&gt;       &lt;p&gt;${info}&lt;/p&gt;   &lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../CDlgMapJNXConfig.cpp" line="29"/>
         <location filename="../CDlgMapQMAPConfig.cpp" line="29"/>
         <source>&lt;!DOCTYPE HTML PUBLIC &apos;-//W3C//DTD HTML 4.01 Transitional//EN&apos;  &apos;http://www.w3.org/TR/html4/loose.dtd&apos;&gt;&lt;html&gt;   &lt;head&gt;       &lt;title&gt;&lt;/title&gt;       &lt;META HTTP-EQUIV=&apos;CACHE-CONTROL&apos; CONTENT=&apos;NO-CACHE&apos;&gt;       &lt;meta http-equiv=&apos;Content-Type&apos; content=&apos;text/html; charset=utf-8&apos;&gt;       &lt;style type=&apos;text/css&apos;&gt;           p, li { white-space: pre-wrap;}           td {padding-top: 3px;}           th {background-color: darkBlue; color: white;}       &lt;/style&gt;   &lt;/head&gt;   &lt;body style=&apos; font-family: sans-serif; font-size: 9pt; font-weight:400; font-style:normal;&apos;&gt;       &lt;p&gt;${info}&lt;/p&gt;   &lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;!DOCTYPE HTML PUBLIC &apos;-//W3C//DTD HTML 4.01 Transitional//EN&apos;  &apos;http://www.w3.org/TR/html4/loose.dtd&apos;&gt;&lt;html&gt;   &lt;head&gt;       &lt;title&gt;&lt;/title&gt;       &lt;META HTTP-EQUIV=&apos;CACHE-CONTROL&apos; CONTENT=&apos;NO-CACHE&apos;&gt;       &lt;meta http-equiv=&apos;Content-Type&apos; content=&apos;text/html; charset=utf-8&apos;&gt;       &lt;style type=&apos;text/css&apos;&gt;           p, li { white-space: pre-wrap;}           td {padding-top: 3px;}           th {background-color: darkBlue; color: white;}       &lt;/style&gt;   &lt;/head&gt;   &lt;body style=&apos; font-family: sans-serif; font-size: 9pt; font-weight:400; font-style:normal;&apos;&gt;       &lt;p&gt;${info}&lt;/p&gt;   &lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../CDlgMapRMPConfig.cpp" line="29"/>
         <source>&lt;!DOCTYPE HTML PUBLIC &apos;-//W3C//DTD HTML 4.01 Transitional//EN&apos;  &apos;http://www.w3.org/TR/html4/loose.dtd&apos;&gt;&lt;html&gt;   &lt;head&gt;       &lt;title&gt;&lt;/title&gt;       &lt;META HTTP-EQUIV=&apos;CACHE-CONTROL&apos; CONTENT=&apos;NO-CACHE&apos;&gt;       &lt;meta http-equiv=&apos;Content-Type&apos; content=&apos;text/html; charset=utf-8&apos;&gt;       &lt;style type=&apos;text/css&apos;&gt;           p, li { white-space: pre-wrap;}           td {padding-top: 3px;}           h1,th {background-color: darkBlue; color: white;}       &lt;/style&gt;   &lt;/head&gt;   &lt;body style=&apos; font-family: sans-serif; font-size: 9pt; font-weight:400; font-style:normal;&apos;&gt;       &lt;p&gt;${info}&lt;/p&gt;   &lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;!DOCTYPE HTML PUBLIC &apos;-//W3C//DTD HTML 4.01 Transitional//EN&apos;  &apos;http://www.w3.org/TR/html4/loose.dtd&apos;&gt;&lt;html&gt;   &lt;head&gt;       &lt;title&gt;&lt;/title&gt;       &lt;META HTTP-EQUIV=&apos;CACHE-CONTROL&apos; CONTENT=&apos;NO-CACHE&apos;&gt;       &lt;meta http-equiv=&apos;Content-Type&apos; content=&apos;text/html; charset=utf-8&apos;&gt;       &lt;style type=&apos;text/css&apos;&gt;           p, li { white-space: pre-wrap;}           td {padding-top: 3px;}           h1,th {background-color: darkBlue; color: white;}       &lt;/style&gt;   &lt;/head&gt;   &lt;body style=&apos; font-family: sans-serif; font-size: 9pt; font-weight:400; font-style:normal;&apos;&gt;       &lt;p&gt;${info}&lt;/p&gt;   &lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../CDlgMapTDBConfig.cpp" line="29"/>
         <source>&lt;!DOCTYPE HTML PUBLIC &apos;-//W3C//DTD HTML 4.01 Transitional//EN&apos;  &apos;http://www.w3.org/TR/html4/loose.dtd&apos;&gt;&lt;html&gt;   &lt;head&gt;       &lt;title&gt;&lt;/title&gt;       &lt;META HTTP-EQUIV=&apos;CACHE-CONTROL&apos; CONTENT=&apos;NO-CACHE&apos;&gt;       &lt;meta http-equiv=&apos;Content-Type&apos; content=&apos;text/html; charset=UTF-8&apos;&gt;       &lt;style type=&apos;text/css&apos;&gt;           p, li { white-space: pre-wrap;}           td {padding-top: 3px;}           th {background-color: darkBlue; color: white;}       &lt;/style&gt;   &lt;/head&gt;   &lt;body style=&apos; font-family: sans-serif; font-size: 9pt; font-weight:400; font-style:normal;&apos;&gt;       &lt;p&gt;${copyright}&lt;/p&gt;       &lt;h1&gt;Map Levels&lt;/h1&gt;       &lt;p&gt;${maplevels}&lt;/p&gt;       &lt;h1&gt;Legend&lt;/h1&gt;       &lt;h2&gt;Lines&lt;/h2&gt;       &lt;p&gt;${legendlines}&lt;/p&gt;       &lt;h2&gt;Areas&lt;/h2&gt;       &lt;p&gt;${legendareas}&lt;/p&gt;       &lt;h2&gt;Points&lt;/h2&gt;       &lt;p&gt;${legendpoints}&lt;/p&gt;   &lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;!DOCTYPE HTML PUBLIC &apos;-//W3C//DTD HTML 4.01 Transitional//EN&apos;  &apos;http://www.w3.org/TR/html4/loose.dtd&apos;&gt;&lt;html&gt;   &lt;head&gt;       &lt;title&gt;&lt;/title&gt;       &lt;META HTTP-EQUIV=&apos;CACHE-CONTROL&apos; CONTENT=&apos;NO-CACHE&apos;&gt;       &lt;meta http-equiv=&apos;Content-Type&apos; content=&apos;text/html; charset=UTF-8&apos;&gt;       &lt;style type=&apos;text/css&apos;&gt;           p, li { white-space: pre-wrap;}           td {padding-top: 3px;}           th {background-color: darkBlue; color: white;}       &lt;/style&gt;   &lt;/head&gt;   &lt;body style=&apos; font-family: sans-serif; font-size: 9pt; font-weight:400; font-style:normal;&apos;&gt;       &lt;p&gt;${copyright}&lt;/p&gt;       &lt;h1&gt;Mapové úrovně&lt;/h1&gt;       &lt;p&gt;${maplevels}&lt;/p&gt;       &lt;h1&gt;Legend&lt;/h1&gt;       &lt;h2&gt;Čáry&lt;/h2&gt;       &lt;p&gt;${legendlines}&lt;/p&gt;       &lt;h2&gt;Oblasti&lt;/h2&gt;       &lt;p&gt;${legendareas}&lt;/p&gt;       &lt;h2&gt;Body&lt;/h2&gt;       &lt;p&gt;${legendpoints}&lt;/p&gt;   &lt;/body&gt;&lt;/html&gt;</translation>
     </message>
 </context>
 </TS>
