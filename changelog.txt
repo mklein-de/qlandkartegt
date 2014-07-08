@@ -1,3 +1,20 @@
+--- 2014.07.08 ---
+LiveLog: Add large data fields
+
+LiveLog: save state of live log lock
+
+GPX: Import track color when importing tracks via GPSBabel
+
+Fix bad proxy port due to translation
+
+Garmin Maps: Add elevation to peak labels
+
+Qt5 support
+
+Add area overlay
+
+Diary: fix waypoint names
+
 --- 2014.02.14 ---
 Remove built-in OSM map links
 
