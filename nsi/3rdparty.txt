@@ -1,7 +1,7 @@
 QLandkarte GT for Windows (short: QLGT) depends on the 3rd party software listed below
 
 See the Wiki on compile instructions:
-https://sourceforge.net/apps/mediawiki/qlandkartegt/index.php?title=Compiling_QLandkarte_GT_on_Windows
+http://sourceforge.net/p/qlandkartegt/qlandkartegt/Compiling_QLandkarte_GT_on_Windows/
 
 
 1.) Microsoft Visual C++ 2008 SP1 Redistributable Package

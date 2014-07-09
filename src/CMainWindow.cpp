@@ -1540,13 +1540,13 @@ void CMainWindow::slotTabCloseRequest(int i)
 
 void CMainWindow::slotFAQ()
 {
-    QDesktopServices::openUrl(QUrl("http://sourceforge.net/apps/mediawiki/qlandkartegt/index.php?title=FAQ"));
+    QDesktopServices::openUrl(QUrl("http://sourceforge.net/p/qlandkartegt/qlandkartegt/FAQ/"));
 }
 
 
 void CMainWindow::slotHelp()
 {
-    QDesktopServices::openUrl(QUrl("http://sourceforge.net/apps/mediawiki/qlandkartegt/index.php?title=QLandkarte_GT"));
+    QDesktopServices::openUrl(QUrl("http://sourceforge.net/p/qlandkartegt/qlandkartegt/QLandkarte_GT/"));
 }
 
 

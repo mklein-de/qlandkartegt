@@ -174,7 +174,7 @@ Section "StartMenue" StartMenue
     CreateShortCut "$SMPROGRAMS\$StartMenuFolder\Uninstall.lnk" "$INSTDIR\Uninstall.exe"
     CreateShortCut "$SMPROGRAMS\$StartMenuFolder\QLandkarteGT.lnk" "$INSTDIR\qlandkartegt.exe" "" "$INSTDIR\GlobeWin.ico"
     CreateShortCut "$SMPROGRAMS\$StartMenuFolder\qlandkarte.org.lnk" "http://www.qlandkarte.org/" "" "$INSTDIR\kfm_home.ico"
-    CreateShortCut "$SMPROGRAMS\$StartMenuFolder\Help.lnk" "https://sourceforge.net/apps/mediawiki/qlandkartegt/index.php?title=Help_for_QLandkarte_GT" "" "$INSTDIR\khelpcenter.ico"
+    CreateShortCut "$SMPROGRAMS\$StartMenuFolder\Help.lnk" "http://sourceforge.net/p/qlandkartegt/qlandkartegt/QLandkarte_GT/" "" "$INSTDIR\khelpcenter.ico"
     CreateShortCut "$SMPROGRAMS\$StartMenuFolder\Download.lnk" "http://sourceforge.net/projects/qlandkartegt/" "" "$INSTDIR\kget.ico"
     CreateShortCut "$SMPROGRAMS\$StartMenuFolder\GDAL.lnk" %COMSPEC% "/k $\"$INSTDIR\gdal.bat$\""
    !insertmacro MUI_STARTMENU_WRITE_END

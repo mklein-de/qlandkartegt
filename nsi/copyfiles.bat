@@ -6,9 +6,9 @@ rem http://technet.microsoft.com/en-us/library/bb491035.aspx
 rem http://vlaurie.com/computers2/Articles/environment.htm
 
 rem Section 1.) Define path to Qt, MSVC, .... installations
-set QLGTI_QT_PATH=C:\Qt\4.8.3
-set QLGTI_VCREDIST_PATH="E:\qlgt\tools\vcredist_VS2008SP1"
-set QLGTI_LIBEXIF_PATH="E:\qlgt\tools\libexif"
+set QLGTI_QT_PATH=C:\Qt\4.8.5
+set QLGTI_VCREDIST_PATH="D:\qlgt\tools\vcredist_VS2008SP1"
+set QLGTI_LIBEXIF_PATH="D:\qlgt\tools\libexif"
 set QLGTI_GDAL_PATH="%CD%\..\Win32\gdal\bin"
 
 rem Section 2.) Copy Files
