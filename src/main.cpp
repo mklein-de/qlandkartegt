@@ -284,7 +284,7 @@ int main(int argc, char ** argv)
     GDALAllRegister();
 
 #ifdef Q_OS_MAC
-    QCoreApplication::setApplicationName("QLandkarte GT");
+    QCoreApplication::setApplicationName("QLandkarteGT");
     QCoreApplication::setApplicationVersion(VER_STR);
     QCoreApplication::setOrganizationName("org.qlandkarte");
     QCoreApplication::setOrganizationDomain("org.qlandkarte");
