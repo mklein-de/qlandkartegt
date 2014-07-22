@@ -24,8 +24,6 @@
 #include <QString>
 #include <QtXml/QDomDocument>
 
-#include "Dictionary.h"
-
 /// handle geo data from GPX files
 class CGpx : public QObject, public QDomDocument
 {
@@ -68,10 +66,11 @@ class CGpx : public QObject, public QDomDocument
         void save(const QString& filename);
         void makeExtensions();
 
-        static QMap<QString,QDomElement> mapChildElements(const QDomNode& parent);
+        static QMap<QString,QDomElement> mapChildElements(const QDomNode&
+                                                          parent);
 
-        const Dictionary<QString, QColor>& getColorMap() const;
-        const Dictionary<QString, int>& getTrackColorMap() const;
+        const QMap<QString, QColor>& getColorMap() const;
+        const QMap<QString, int>& getTrackColorMap() const;
 
         QDomElement &getExtensions() { return extensions; }
         gpx_version version() { return file_version; }
@@ -80,8 +79,8 @@ class CGpx : public QObject, public QDomDocument
     protected:
         void writeMetadata();
 
-        Dictionary<QString, QColor> colorMap;
-        Dictionary<QString, int> trackColorMap;
+        QMap<QString, QColor> colorMap;
+        QMap<QString, int> trackColorMap;
 
     private:
         QDomElement extensions;

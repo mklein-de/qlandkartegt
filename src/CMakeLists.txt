@@ -463,7 +463,6 @@ set(qlandkarte_HDRS
     CImageViewer.h
     CMapRmp.h
     CMapDEMSlopeSetup.h
-    Dictionary.h
     QFileExt.h
     IExchange.h
     CExchangeGarmin.h
