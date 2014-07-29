@@ -337,18 +337,18 @@
     <message>
         <location filename="../CActions.cpp" line="112"/>
         <source>Add Area Polygon</source>
-        <translation type="unfinished"></translation>
+        <translation>Añadir Polígono de Área</translation>
     </message>
     <message>
         <location filename="../CActions.cpp" line="112"/>
         <location filename="../CActions.cpp" line="113"/>
         <source>Mark an area with a polygon.</source>
-        <translation type="unfinished"></translation>
+        <translation>Marcar un área con un polígono.</translation>
     </message>
     <message>
         <location filename="../CActions.cpp" line="113"/>
         <source>Area Polygon</source>
-        <translation type="unfinished"></translation>
+        <translation>Polígono de Área</translation>
     </message>
     <message>
         <location filename="../CActions.cpp" line="116"/>
@@ -368,7 +368,7 @@
     <message>
         <location filename="../CActions.cpp" line="305"/>
         <source>&amp;Overlay Area</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Superponer Área</translation>
     </message>
     <message>
         <location filename="../CActions.cpp" line="704"/>
@@ -628,7 +628,7 @@
     <message>
         <location filename="../CActions.cpp" line="102"/>
         <source>Move Map to &amp;Pos.</source>
-        <translation>Mover el Mapa a la &amp;Posición.</translation>
+        <translation>Mover el Mapa a la &amp;Posición</translation>
     </message>
     <message>
         <location filename="../CActions.cpp" line="102"/>
@@ -2435,7 +2435,7 @@ Se esperaba %1, se recibió %2.</translation>
     <message>
         <location filename="../CDlgConfig.cpp" line="156"/>
         <source>Pass something like &quot;COM1&quot; or &quot;\\.\COM13&quot; or &quot;\\.\com13&quot; for serial Garmin devices or NMEA devices. For Garmin USB devices leave blank.</source>
-        <translation type="unfinished"></translation>
+        <translation>Introduzca algo del estilo de &quot;COM1:&quot; o &quot;\\.\COM13&quot; o &quot;\\.\com13&quot; para dispositivos NMEA o Garmin de puerto serie. Para dispositivos Garmin USB, dejar en blanco.</translation>
     </message>
     <message>
         <source>Mikrokopter</source>
@@ -3574,7 +3574,7 @@ Proyección actual: %1</translation>
     <message>
         <location filename="../CLiveLogDB.cpp" line="264"/>
         <source>%1%2 T</source>
-        <translation type="unfinished"></translation>
+        <translation>%1%2 T</translation>
     </message>
     <message>
         <location filename="../CLiveLogDB.cpp" line="309"/>
@@ -3863,12 +3863,20 @@ It won&apos;t transmit any private data other than needed for requesting a HTML 
 If you want QLandkarte GT to do this query now and in the future press &apos;Ok&apos;. Else press &apos;No&apos;.
 
 You won&apos;t be bugged a second time unless you erase QLandkarte&apos;s configuration data.</source>
-        <translation type="unfinished"></translation>
+        <translation>QLandkarte GT puede comprobar si hay nueva versión al inicio. Si hay alguna nueva versión disponible, mostrará un pequeño aviso en la barra de estado. Para comprobar si hay una nueva versión QLandkarte GT se debe conectar al servidor:
+
+http://www.qlandkarte.org/webservice/qlandkartegt.php
+
+No transmitirá ninguna información privada más que la necesaria para solicitar una página HTML.
+
+Si quiere que QLandkarteGT haga esta solicitud ahora y en el futuro, pulse &apos;Aceptar&apos;. En otro caso, pulse &apos;No&apos;.
+
+No será molestado una segunda vez a menos que borre los datos de configuración de QLandkarte.</translation>
     </message>
     <message>
         <location filename="../CMainWindow.cpp" line="1584"/>
         <source>Query for new version...</source>
-        <translation type="unfinished"></translation>
+        <translation>Comprobar nueva versión...</translation>
     </message>
     <message>
         <location filename="../CMainWindow.cpp" line="1621"/>
@@ -6132,22 +6140,22 @@ línea %2, columna %3:
     <message>
         <location filename="../COverlayArea.cpp" line="57"/>
         <source>Area %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Área %1</translation>
     </message>
     <message>
         <location filename="../COverlayArea.cpp" line="982"/>
         <source>Overlay</source>
-        <translation type="unfinished">Superponer</translation>
+        <translation>Superponer</translation>
     </message>
     <message>
         <location filename="../COverlayArea.cpp" line="988"/>
         <source>Edit...</source>
-        <translation type="unfinished">Editar...</translation>
+        <translation>Editar...</translation>
     </message>
     <message>
         <location filename="../COverlayArea.cpp" line="990"/>
         <source>Show</source>
-        <translation type="unfinished">Mostrar</translation>
+        <translation>Mostrar</translation>
     </message>
 </context>
 <context>
@@ -6155,7 +6163,7 @@ línea %2, columna %3:
     <message>
         <location filename="../COverlayAreaEditWidget.cpp" line="110"/>
         <source>Delete</source>
-        <translation type="unfinished">Borrar</translation>
+        <translation>Borrar</translation>
     </message>
 </context>
 <context>
@@ -6168,7 +6176,7 @@ línea %2, columna %3:
     <message>
         <location filename="../COverlayDB.cpp" line="672"/>
         <source>Area</source>
-        <translation type="unfinished">Área</translation>
+        <translation>Área</translation>
     </message>
     <message>
         <location filename="../COverlayDB.cpp" line="725"/>
@@ -6996,7 +7004,7 @@ final: %1</translation>
     <message>
         <location filename="../CTrack.cpp" line="2031"/>
         <source>speed: %1%2</source>
-        <translation type="unfinished"></translation>
+        <translation>velocidad: %1%2</translation>
     </message>
     <message>
         <location filename="../CTrack.cpp" line="2471"/>
@@ -9366,42 +9374,42 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../IDlgConfig.ui" line="249"/>
         <source>Vector Maps</source>
-        <translation type="unfinished"></translation>
+        <translation>Mapas vectoriales</translation>
     </message>
     <message>
         <location filename="../IDlgConfig.ui" line="258"/>
         <source>Tooltips</source>
-        <translation type="unfinished"></translation>
+        <translation>Descripciones emergentes</translation>
     </message>
     <message>
         <location filename="../IDlgConfig.ui" line="265"/>
         <source>Element Info</source>
-        <translation type="unfinished"></translation>
+        <translation>Información de elemento</translation>
     </message>
     <message>
         <location filename="../IDlgConfig.ui" line="272"/>
         <source>Reduce POI icons</source>
-        <translation type="unfinished"></translation>
+        <translation>Reducir iconos POI</translation>
     </message>
     <message>
         <location filename="../IDlgConfig.ui" line="281"/>
         <source>Zoom level threshold for POIs:</source>
-        <translation type="unfinished"></translation>
+        <translation>Umbral de zoom para POIs:</translation>
     </message>
     <message>
         <location filename="../IDlgConfig.ui" line="294"/>
         <source>Defines at which zoom level POIs are drawn.</source>
-        <translation type="unfinished"></translation>
+        <translation>Define a qué nivel de zoom se dibujan los POIs.</translation>
     </message>
     <message>
         <location filename="../IDlgConfig.ui" line="314"/>
         <source>Zoom level threshold for POI labels:</source>
-        <translation type="unfinished"></translation>
+        <translation>Umbral de zoom para etiquetas de POIs:</translation>
     </message>
     <message>
         <location filename="../IDlgConfig.ui" line="327"/>
         <source>Defines at which zoom level POIs are labeled.</source>
-        <translation type="unfinished"></translation>
+        <translation>Define a qué nivel de zoom se muestran etiquetas de POIs.</translation>
     </message>
     <message>
         <location filename="../IDlgConfig.ui" line="570"/>
@@ -9726,7 +9734,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../IDlgConfig.ui" line="114"/>
         <source>Time</source>
-        <translation type="unfinished">Hora</translation>
+        <translation>Hora</translation>
     </message>
     <message>
         <location filename="../IDlgConfig.ui" line="120"/>
@@ -9824,7 +9832,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../IDlgConfig.ui" line="909"/>
         <source>Watch Dog</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Vigilancia</translation>
     </message>
     <message>
         <location filename="../IDlgConfig.ui" line="925"/>
@@ -11930,7 +11938,7 @@ DEM: %2</translation>
         <source>Left click to lock circles.
 Then select function from circle.
 Left click on canvas to un-lock circles.</source>
-        <translation type="unfinished">Haga click con el botón izquierdo para fijar círculo.
+        <translation>Haga click con el botón izquierdo para fijar círculo.
 Entonces seleccione función en el círculo.
 Haga click con el botón izquierdo en la pantalla para desbloquear círculo.</translation>
     </message>
@@ -11948,57 +11956,57 @@ Haga click con el botón izquierdo en la pantalla para desbloquear círculo.</tr
     <message>
         <location filename="../IOverlayAreaEditWidget.ui" line="14"/>
         <source>Form</source>
-        <translation type="unfinished">Formulario</translation>
+        <translation>Formulario</translation>
     </message>
     <message>
         <location filename="../IOverlayAreaEditWidget.ui" line="28"/>
         <source>TextLabel</source>
-        <translation type="unfinished"></translation>
+        <translation>Etiqueta de Texto</translation>
     </message>
     <message>
         <location filename="../IOverlayAreaEditWidget.ui" line="35"/>
         <source>...</source>
-        <translation type="unfinished">...</translation>
+        <translation>...</translation>
     </message>
     <message>
         <location filename="../IOverlayAreaEditWidget.ui" line="48"/>
         <source>Color</source>
-        <translation type="unfinished"></translation>
+        <translation>Color</translation>
     </message>
     <message>
         <location filename="../IOverlayAreaEditWidget.ui" line="55"/>
         <source>Comment</source>
-        <translation type="unfinished">Comentario</translation>
+        <translation>Comentario</translation>
     </message>
     <message>
         <location filename="../IOverlayAreaEditWidget.ui" line="65"/>
         <source>Name</source>
-        <translation type="unfinished">Nombre</translation>
+        <translation>Nombre</translation>
     </message>
     <message>
         <location filename="../IOverlayAreaEditWidget.ui" line="72"/>
         <source>Style</source>
-        <translation type="unfinished"></translation>
+        <translation>Estilo</translation>
     </message>
     <message>
         <location filename="../IOverlayAreaEditWidget.ui" line="99"/>
         <source>Border Width</source>
-        <translation type="unfinished"></translation>
+        <translation>Anchura del borde</translation>
     </message>
     <message>
         <location filename="../IOverlayAreaEditWidget.ui" line="109"/>
         <source>Opacity</source>
-        <translation type="unfinished"></translation>
+        <translation>Transparencia</translation>
     </message>
     <message>
         <location filename="../IOverlayAreaEditWidget.ui" line="133"/>
         <source>Apply</source>
-        <translation type="unfinished">Aplicar</translation>
+        <translation>Aplicar</translation>
     </message>
     <message>
         <location filename="../IOverlayAreaEditWidget.ui" line="163"/>
         <source>Position</source>
-        <translation type="unfinished">Posición</translation>
+        <translation>Posición</translation>
     </message>
 </context>
 <context>
@@ -12031,7 +12039,7 @@ Haga click con el botón izquierdo en la pantalla para desbloquear círculo.</tr
     <message>
         <location filename="../IOverlayDistanceEditWidget.ui" line="100"/>
         <source>Apply</source>
-        <translation type="unfinished">Aplicar</translation>
+        <translation>Aplicar</translation>
     </message>
     <message>
         <location filename="../IOverlayDistanceEditWidget.ui" line="124"/>
@@ -12375,12 +12383,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../ITrackEditWidget.ui" line="182"/>
         <source>If checked, the map is centered map on selected trackpoint.</source>
-        <translation type="unfinished"></translation>
+        <translation>Si se selecciona, el mapa se centrará en el punto seleccionado del track.</translation>
     </message>
     <message>
         <location filename="../ITrackEditWidget.ui" line="185"/>
         <source>Center map</source>
-        <translation type="unfinished"></translation>
+        <translation>Centrar mapa</translation>
     </message>
     <message>
         <location filename="../ITrackEditWidget.ui" line="711"/>
@@ -13264,45 +13272,47 @@ Finalización estimada: %02i:%02i:%02i [hh:mm:ss]</translation>
     <message>
         <location filename="../CExchangeGarmin.cpp" line="52"/>
         <source>No &apos;Garmin/GarminDevice.xml&apos; found</source>
-        <translation type="unfinished"></translation>
+        <translation>No se ha encontrado &apos;Garmin/GarminDevice.xml&apos;</translation>
     </message>
     <message>
         <location filename="../CExchangeGarmin.cpp" line="209"/>
         <location filename="../CExchangeGarmin.cpp" line="217"/>
         <source>Failed to read...</source>
-        <translation type="unfinished"></translation>
+        <translation>Error al leer...</translation>
     </message>
     <message>
         <location filename="../CExchangeGarmin.cpp" line="209"/>
         <source>Failed to read: %1
 line %2, column %3:
  %4</source>
-        <translation type="unfinished"></translation>
+        <translation>Error al leer: %1
+línea %2, columna %3:
+ %4</translation>
     </message>
     <message>
         <location filename="../CExchangeGarmin.cpp" line="217"/>
         <source>Not a GPX file: </source>
-        <translation type="unfinished">No es un archivo GPX:</translation>
+        <translation>No es un archivo GPX: </translation>
     </message>
     <message>
         <location filename="../COverlayAreaEditWidget.cpp" line="54"/>
         <source>thin</source>
-        <translation type="unfinished"></translation>
+        <translation>fino</translation>
     </message>
     <message>
         <location filename="../COverlayAreaEditWidget.cpp" line="55"/>
         <source>normal</source>
-        <translation type="unfinished"></translation>
+        <translation>normal</translation>
     </message>
     <message>
         <location filename="../COverlayAreaEditWidget.cpp" line="56"/>
         <source>wide</source>
-        <translation type="unfinished"></translation>
+        <translation>ancho</translation>
     </message>
     <message>
         <location filename="../COverlayAreaEditWidget.cpp" line="57"/>
         <source>strong</source>
-        <translation type="unfinished"></translation>
+        <translation>muy ancho</translation>
     </message>
 </context>
 </TS>
