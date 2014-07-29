@@ -799,7 +799,6 @@ set(qlandkarte_link_libs
     ${GPSD_LIBRARIES}
     qzip
     qtexthtmlexporter
-    qdevicewatcher
     getopt
     ${QTSOAP_LIBRARIES}
     ${PROFILING_LIBRARIES}

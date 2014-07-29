@@ -32,18 +32,12 @@
 #include <QtXml>
 #include <QMessageBox>
 #include <QFileDialog>
-#include <qdevicewatcher.h>
+
 
 CDeviceGarminBulk::CDeviceGarminBulk(QObject * parent)
 : IDevice("Garmin Mass Storage", parent)
 {
-    deviceWatcher = new QDeviceWatcher(this);
-    connect(deviceWatcher, SIGNAL(deviceAdded(QString)), SLOT(slotDevice(QString)));
-    connect(deviceWatcher, SIGNAL(deviceChanged(QString)), SLOT(slotDevice(QString)));
-    connect(deviceWatcher, SIGNAL(deviceRemoved(QString)), SLOT(slotDevice(QString)));
-    deviceWatcher->start();
 
-    qDebug() << "***************************************CDeviceGarminBulk";
 }
 
 
