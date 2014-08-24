@@ -421,6 +421,9 @@ void CMouseMoveMap::slotDeleteWpt()
 
     CWpt * selWpt = selWpts.first().wpt;
     QString key = selWpt->getKey();
+
+    selWpts.clear();
+
     CWptDB::self().delWpt(key);
 }
 
