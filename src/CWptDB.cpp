@@ -307,7 +307,7 @@ CWpt * CWptDB::newWpt(float lon, float lat, float ele, const QString& name)
         CDlgEditWpt dlg(*wpt,theMainWindow->getCanvas());
         if(dlg.exec() == QDialog::Rejected)
         {
-            delete wpt;
+            wpt->deleteLater();
             return 0;
         }
     }
