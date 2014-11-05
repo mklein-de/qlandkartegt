@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>706</width>
+    <width>753</width>
     <height>421</height>
    </rect>
   </property>
@@ -396,9 +396,6 @@
               <property name="autoFillBackground">
                <bool>true</bool>
               </property>
-              <property name="styleSheet">
-               <string notr="true">background-color: transparent;</string>
-              </property>
               <property name="frameShape">
                <enum>QFrame::NoFrame</enum>
               </property>
@@ -743,9 +740,6 @@
               <property name="autoFillBackground">
                <bool>true</bool>
               </property>
-              <property name="styleSheet">
-               <string notr="true">background-color: transparent;</string>
-              </property>
               <property name="frameShape">
                <enum>QFrame::NoFrame</enum>
               </property>
@@ -766,8 +760,8 @@
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>100</width>
-                 <height>30</height>
+                 <width>249</width>
+                 <height>256</height>
                 </rect>
                </property>
                <layout class="QVBoxLayout" name="verticalLayout_Extensions"/>
