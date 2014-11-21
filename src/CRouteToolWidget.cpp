@@ -212,10 +212,12 @@ void CRouteToolWidget::slotServiceChanged(int idx)
     if(comboService->itemData(idx).toInt() == CRoute::eOpenRouteService)
     {
         groupORS->show();
+        labelCopyrightMapQuest->hide();
     }
     else if(comboService->itemData(idx).toInt() == CRoute::eMapQuest)
     {
         groupMQ->show();
+        labelCopyrightMapQuest->show();
     }
 }
 
@@ -917,7 +919,7 @@ void CRouteToolWidget::startMapQuest(CRoute& rte)
     xmlstr = xmlstr.replace("\n","");
 
     QUrl url("http://www.mapquestapi.com");
-    url.setPath("directions/v1/route");
+    url.setPath("directions/v2/route");
 
 #ifdef QK_QT5_PORT
     QList< QPair<QString, QString> > queryItems;
