@@ -63,7 +63,7 @@
    <item>
     <widget class="QTabWidget" name="tabWidget">
      <property name="currentIndex">
-      <number>0</number>
+      <number>1</number>
      </property>
      <widget class="QWidget" name="tab">
       <attribute name="title">
@@ -222,10 +222,17 @@
        <item>
         <widget class="QLabel" name="labelCopyrightMapQuest">
          <property name="text">
-          <string>&lt;p&gt;Directions Courtesy of &lt;a href=&quot;http://www.mapquest.com/&quot; target=&quot;_blank&quot;&gt;MapQuest&lt;/a&gt; &lt;img src=&quot;http://developer.mapquest.com/content/osm/mq_logo.png&quot;&gt;&lt;/p&gt;</string>
+          <string>&lt;p&gt;Directions Courtesy of &lt;a href=&quot;http://www.mapquest.com/&quot; target=&quot;_blank&quot;&gt;MapQuest&lt;/a&gt; &lt;/p&gt;</string>
          </property>
          <property name="openExternalLinks">
           <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="labelCopyrightOpenRoute">
+         <property name="text">
+          <string>&lt;p&gt;Directions Courtesy of &lt;a href=&quot;http://openrouteservice.org/&quot; target=&quot;_blank&quot;&gt;OpenRouteService&lt;/a&gt; &lt;/p&gt;</string>
          </property>
         </widget>
        </item>

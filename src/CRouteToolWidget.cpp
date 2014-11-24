@@ -208,11 +208,13 @@ void CRouteToolWidget::slotServiceChanged(int idx)
 {
     groupORS->hide();
     groupMQ->hide();
+    labelCopyrightMapQuest->hide();
+    labelCopyrightOpenRoute->hide();
 
     if(comboService->itemData(idx).toInt() == CRoute::eOpenRouteService)
     {
         groupORS->show();
-        labelCopyrightMapQuest->hide();
+        labelCopyrightOpenRoute->show();
     }
     else if(comboService->itemData(idx).toInt() == CRoute::eMapQuest)
     {
