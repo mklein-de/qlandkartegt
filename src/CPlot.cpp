@@ -155,12 +155,19 @@ void CPlot::newLine(const QPolygonF& line, const QList<QPointF>& focus, const QS
     l.points    = line;
     l.label     = label;
 
-    m_pData->focus = focus;
     m_pData->badData = false;
     m_pData->lines << l;
     setSizes();
     m_pData->x().setScale( rectGraphArea.width() );
     m_pData->y().setScale( rectGraphArea.height() );
+
+    newFocus(focus);
+
+}
+
+void CPlot::newFocus(const QList<QPointF>& focus)
+{
+    m_pData->focus = focus;
 
     idxHighlight1 = -1;
     idxHighlight2 = -1;
@@ -200,7 +207,6 @@ void CPlot::newLine(const QPolygonF& line, const QList<QPointF>& focus, const QS
     update();
 
 }
-
 
 void CPlot::addLine(const QPolygonF& line, const QString& label)
 {

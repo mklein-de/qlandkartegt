@@ -148,6 +148,7 @@ class CCanvas : public QWidget
         void slotHighlightTrack(CTrack * track);
         void slotTrackChanged();
         void slotPointOfFocus(const int idx);
+        void slotProfileChanged();
         void slotFadingMessage();
         void slotTime();
 

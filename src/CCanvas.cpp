@@ -981,6 +981,29 @@ void CCanvas::slotPointOfFocus(const int idx)
 }
 
 
+void CCanvas::slotProfileChanged()
+{
+    CTrack * track = CTrackDB::self().highlightedTrack();
+    if(track == 0)
+    {
+        return;
+    }
+
+    QList<QPointF> focusElev;
+    float basefactor = IUnit::self().basefactor;
+
+    foreach(const CTrack::pt_t trkpt, track->getTrackPoints())
+    {
+        if(trkpt.flags & CTrack::pt_t::eFocus)
+        {
+            focusElev << QPointF(trkpt.distance, trkpt.ele * basefactor);
+            break;
+        }
+    }
+    profile->newFocus(focusElev);
+}
+
+
 void CCanvas::slotHighlightTrack(CTrack * track)
 {
     if(track && CResources::self().showTrackProfilePreview())
@@ -1020,13 +1043,15 @@ void CCanvas::slotHighlightTrack(CTrack * track)
         profile->show();
         disconnect(profile, SIGNAL(sigClicked()), CTrackDB::self().getToolWidget(), SLOT(slotShowProfile()));
         connect(profile, SIGNAL(sigClicked()), CTrackDB::self().getToolWidget(), SLOT(slotShowProfile()));
-
+        disconnect(&CTrackDB::self(),SIGNAL(sigNeedUpdate(const QString&)),this,SLOT(slotProfileChanged()));
+        connect(&CTrackDB::self(),SIGNAL(sigNeedUpdate(const QString&)),this,SLOT(slotProfileChanged()));
     }
     else
     {
         profile->clear();
         profile->hide();
         disconnect(profile, SIGNAL(sigClicked()), CTrackDB::self().getToolWidget(), SLOT(slotShowProfile()));
+        disconnect(&CTrackDB::self(),SIGNAL(sigNeedUpdate(const QString&)),this,SLOT(slotProfileChanged()));
     }
     update();
 }

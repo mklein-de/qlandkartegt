@@ -42,8 +42,9 @@ class CPlot : public QWidget
 
         void setSelTrackPoint(CTrack::pt_t * pt){selTrkPt = pt;}
 
-        void newLine(const QPolygonF& line, const QList<QPointF> &focus, const QString& label);
+        void newLine(const QPolygonF& line, const QList<QPointF>& focus, const QString& label);
         void addLine(const QPolygonF& line, const QString& label);
+        void newFocus(const QList<QPointF>& focus);
         void newMarks(const QPolygonF& line);
         void addTag(CPlotData::point_t& tag);
         void setLimits();

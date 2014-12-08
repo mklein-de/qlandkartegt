@@ -902,18 +902,15 @@ void CTrackEditWidget::slotPointSelectionChanged()
     }
 
     originator = true;
-    if (checkCenterMap->isChecked())
+    if (items.begin() != items.end())
     {
-        if (items.begin() != items.end())
+        if (old_e != new_e)
         {
-            if (old_e != new_e)
-            {
-                track->setPointOfFocus(new_e, CTrack::eNoErase, true);
-            }
-            else
-            {
-                track->setPointOfFocus(new_b, CTrack::eNoErase, true);
-            }
+            track->setPointOfFocus(new_e, CTrack::eNoErase, checkCenterMap->isChecked());
+        }
+        else
+        {
+            track->setPointOfFocus(new_b, CTrack::eNoErase, checkCenterMap->isChecked());
         }
     }
     //track->rebuild(false);

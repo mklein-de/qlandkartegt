@@ -1677,32 +1677,7 @@ void CTrack::setPointOfFocus(int idx, type_select_e typeSelect, bool moveMap)
                 break;
         }
     }
-    else if(typeSelect == eHoover)
-    {
-        multi_color_setup_t& setup = setupMultiColor[idMultiColor];
-        if(idx != -1)
-        {
-            switch(idMultiColor)
-            {
-                case eMultiColorSlope:
-                    setup.markVal = track[idx].slope2;
-                    break;
-                case eMultiColorEle:
-                    setup.markVal = track[idx].ele;
-                    break;
-                case eMultiColorSpeed:
-                    setup.markVal = track[idx].speed * 3.6;
-                    break;
-                default:
-                    setup.markVal = WPT_NOFLOAT;
-            }
-        }
-        else
-        {
-            setup.markVal = WPT_NOFLOAT;
-        }
-    }
-    else
+    else if(typeSelect != eHoover)
     {
         // erase all flags
         while(trkpt != track.end())
@@ -1721,6 +1696,29 @@ void CTrack::setPointOfFocus(int idx, type_select_e typeSelect, bool moveMap)
             track[idx].flags |= CTrack::pt_t::eFocus;
             track[idx].flags |= CTrack::pt_t::eSelected;
         }
+    }
+
+    multi_color_setup_t& setup = setupMultiColor[idMultiColor];
+    if((idx != -1) && (idx < track.count()))
+    {
+        switch(idMultiColor)
+        {
+            case eMultiColorSlope:
+                setup.markVal = track[idx].slope2;
+                break;
+            case eMultiColorEle:
+                setup.markVal = track[idx].ele;
+                break;
+            case eMultiColorSpeed:
+                setup.markVal = track[idx].speed * 3.6;
+                break;
+            default:
+                setup.markVal = WPT_NOFLOAT;
+        }
+    }
+    else
+    {
+        setup.markVal = WPT_NOFLOAT;
     }
 
     // move map to point under focus
