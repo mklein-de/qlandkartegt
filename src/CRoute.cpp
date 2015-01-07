@@ -469,14 +469,18 @@ void CRoute::loadSecondaryRouteMQ(QDomDocument& xml)
     ttime = time.text().toUInt();
 
     // build list of maneuvers
-    QDomElement legs        = route.firstChildElement("legs");
-    QDomElement leg         = legs.firstChildElement("leg");
-    QDomNodeList maneuvers  = leg.firstChildElement("maneuvers").elementsByTagName("maneuver");
-    const qint32 M = maneuvers.size();
-    for(int i = 0; i < M; i++)
+    QDomNodeList legs       = route.firstChildElement("legs").elementsByTagName("leg");
+    const qint32 L = legs.size();
+    for(int j = 0; j < L; j++)
     {
-        QDomNode maneuver    = maneuvers.item(i);
-        instructions << maneuver.firstChildElement("narrative").text();
+	QDomNode leg            = legs.item(j);
+	QDomNodeList maneuvers  = leg.firstChildElement("maneuvers").elementsByTagName("maneuver");
+	const qint32 M = maneuvers.size();
+	for(int i = 0; i < M; i++)
+	{
+	    QDomNode maneuver    = maneuvers.item(i);
+	    instructions << maneuver.firstChildElement("narrative").text();
+	}
     }
 
     // read the shape
