@@ -3000,7 +3000,7 @@ void CMapTDB::drawPois(QPainter& p, pointtype_t& pts, QVector<QRect>& rectPois)
 void CMapTDB::drawLabels(QPainter& p, const QVector<strlbl_t> &lbls)
 {
     QFont f = CResources::self().getMapFont();
-    QVector<QFont> fonts(5, f);
+    QVector<QFont> fonts(8, f);
     fonts[IGarminTyp::eSmall].setPointSize(f.pointSize() - 2);
     fonts[IGarminTyp::eLarge].setPointSize(f.pointSize() + 2);
 
