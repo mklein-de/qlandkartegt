@@ -996,7 +996,7 @@ bool IGarminTyp::decodeBppAndBytes(int ncolors, int w, int flags, int& bpp, int&
 }
 
 
-bool IGarminTyp::decodeColorTable(QDataStream& in, QImage& img, int ncolors, int maxcolor, bool hasAlpha)
+bool IGarminTyp::decodeColorTable(QDataStream& in, QImage& img, quint8 ncolors, int maxcolor, bool hasAlpha)
 {
 
 #ifdef QK_QT5_PORT
