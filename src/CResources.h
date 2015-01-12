@@ -93,8 +93,13 @@ class CResources : public QObject
         TimezoneMode_e getTimezoneMode(){return m_tzMode;}
         QString getSelectedTimezone(){return m_timezone;}
 
+        QString getBRouterHost(){return m_brouterHost;}
+        int getBRouterPort(){return m_brouterPort.toInt();}
+        QStringList getBRouterProfiles(){return m_brouterProfiles.split('|');}
+
         signals:
         void sigDeviceChanged();
+        void sigBRouterChanged();
 
     private:
         friend class CMainWindow;
@@ -188,5 +193,9 @@ class CResources : public QObject
 
         TimezoneMode_e m_tzMode;
         QString m_timezone;
+
+        QString m_brouterHost;
+        QString m_brouterPort;
+        QString m_brouterProfiles;
 };
 #endif                           //CRESOURCES_H

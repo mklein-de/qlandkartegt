@@ -69,6 +69,7 @@ class CRouteToolWidget : public QWidget, private Ui::IRouteToolWidget
         void slotTimeout();
         void slotServiceChanged(int);
         void slotBRPreferenceChanged(int);
+        void slotBRProfilesChanged();
 
         void slotProxyAuthenticationRequired(const QNetworkProxy&, QAuthenticator*);
 
@@ -104,10 +105,5 @@ class CRouteToolWidget : public QWidget, private Ui::IRouteToolWidget
         static sortmode_e sortmode;
 
         QMap<QNetworkReply*, QString> pendingRequests;
-
-        QString routingBRProfiles;
-        QString routingBRHost;
-        int routingBRPort;
-
 };
 #endif                           //CROUTETOOLWIDGET_H

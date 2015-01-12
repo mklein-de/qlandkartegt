@@ -189,6 +189,9 @@ void CDlgConfig::exec()
         radioTimeZone->setChecked(true);
     }
 
+    lineBRouterHost->setText(resources.m_brouterHost);
+    lineBRouterPort->setText(resources.m_brouterPort);
+    lineBRouterProfiles->setText(resources.m_brouterProfiles);
 #ifdef QK_QT5_PORT
     return QDialog::exec();
 #else
@@ -298,6 +301,14 @@ void CDlgConfig::accept()
     else if(radioTimeZone->isChecked())
     {
         resources.m_tzMode = resources.eTZSelected;
+    }
+
+    resources.m_brouterHost = lineBRouterHost->text();
+    resources.m_brouterPort = lineBRouterPort->text();
+    if (resources.m_brouterProfiles.compare(lineBRouterProfiles->text()))
+    {
+        resources.m_brouterProfiles = lineBRouterProfiles->text();
+        emit resources.sigBRouterChanged();
     }
 
     QDialog::accept();

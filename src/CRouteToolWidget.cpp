@@ -171,16 +171,11 @@ CRouteToolWidget::CRouteToolWidget(QTabWidget * parent)
     cfg.endGroup();
 
     // ------------ BR Setup ------------
+    connect(&CResources::self(), SIGNAL(sigBRouterChanged()), this, SLOT(slotBRProfilesChanged()));
+    slotBRProfilesChanged();
     cfg.beginGroup("BR");
-    routingBRProfiles = cfg.value("profiles", "car-test|fastbike|moped|shortest|trekking").toString();
-    foreach(const QString& key, routingBRProfiles.split('|'))
-    {
-        comboBRPreference->addItem(key,key);
-    }
     comboBRPreference->setCurrentIndex(cfg.value("preference", 0).toInt());
     connect(comboBRPreference, SIGNAL(currentIndexChanged(int)), this, SLOT(slotBRPreferenceChanged(int)));
-    routingBRHost = cfg.value("host","127.0.0.1").toString();
-    routingBRPort = cfg.value("port",17777).toInt();
     cfg.endGroup();
     cfg.endGroup();
 
@@ -410,9 +405,6 @@ void CRouteToolWidget::slotCalcRoute()
     cfg.setValue("avoidFerry", checkMQAvoidFerry->isChecked());
     cfg.setValue("avoidCountryBorder", checkMQAvoidCountryBorder->isChecked());
     cfg.setValue("language", comboMQLanguage->currentIndex());
-    cfg.endGroup();
-    cfg.beginGroup("BR");
-    cfg.setValue("preference", comboBRPreference->currentIndex());
     cfg.endGroup();
     cfg.endGroup();
 
@@ -1006,8 +998,8 @@ void CRouteToolWidget::startBRouterService(CRoute& rte)
 {
     // /brouter?lonlats=11.626453,48.298498|9.942884,49.798885&nogos=&profile=fastbike&alternativeidx=0&format=gpx
 
-    QUrl url(QString("http://").append(routingBRHost));
-    url.setPort(routingBRPort);
+    QUrl url(QString("http://").append(CResources::self().getBRouterHost()));
+    url.setPort(CResources::self().getBRouterPort());
     url.setPath("/brouter");
 
     QVector<CRoute::pt_t> wpts = rte.getPriRtePoints();
@@ -1048,5 +1040,30 @@ void CRouteToolWidget::slotBRPreferenceChanged(int idx)
     {
         QString key = listRoutes->item(i)->data(Qt::UserRole).toString();
         CRouteDB::self().getRouteByKey(key)->resetRouteIdx();
+    }
+    SETTINGS;
+    cfg.setValue("routing/BR/preference", comboBRPreference->currentIndex());
+}
+
+void CRouteToolWidget::slotBRProfilesChanged()
+{
+    int currentIndex = -1;
+    int i = 0;
+    QString currentProfile = comboBRPreference->itemData(comboBRPreference->currentIndex()).toString();
+    comboBRPreference->clear();
+    foreach(const QString& key, CResources::self().getBRouterProfiles())
+    {
+        comboBRPreference->addItem(key,key);
+        if (currentProfile.compare(key) == 0)
+        {
+            currentIndex = i;
+        }
+        i++;
+    }
+    if (currentIndex >= 0)
+    {
+        comboBRPreference->setCurrentIndex(currentIndex);
+        SETTINGS;
+        cfg.setValue("routing/BR/preference", currentIndex);
     }
 }

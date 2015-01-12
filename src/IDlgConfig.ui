@@ -1016,6 +1016,88 @@
        </item>
       </layout>
      </widget>
+     <widget class="QWidget" name="Seite_3">
+      <attribute name="title">
+       <string>Routing</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout_6">
+       <item>
+        <widget class="QGroupBox" name="groupBox_12">
+         <property name="title">
+          <string>BRouter</string>
+         </property>
+         <layout class="QGridLayout" name="gridLayout_5">
+          <item row="1" column="3">
+           <layout class="QHBoxLayout">
+            <item>
+             <widget class="QLineEdit" name="lineBRouterProfiles">
+              <property name="text">
+               <string notr="true">car-test|fastbike|moped|shortest|trekking</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item row="0" column="3">
+           <layout class="QHBoxLayout">
+            <item>
+             <widget class="QLineEdit" name="lineBRouterHost">
+              <property name="text">
+               <string notr="true">127.0.0.1</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="label_16">
+              <property name="text">
+               <string>Port</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLineEdit" name="lineBRouterPort">
+              <property name="inputMask">
+               <string notr="true">00000</string>
+              </property>
+              <property name="text">
+               <string notr="true">17777</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item row="0" column="2">
+           <widget class="QLabel" name="label_15">
+            <property name="text">
+             <string>Host</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="2">
+           <widget class="QLabel" name="label_17">
+            <property name="text">
+             <string>Profiles</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="3">
+           <spacer name="verticalSpacer_2">
+            <property name="orientation">
+             <enum>Qt::Vertical</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>20</width>
+              <height>40</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+         </layout>
+        </widget>
+       </item>
+      </layout>
+     </widget>
      <widget class="QWidget" name="Seite_2">
       <attribute name="title">
        <string>Keys</string>

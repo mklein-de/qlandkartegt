@@ -85,6 +85,9 @@ CResources::CResources(QObject * parent)
 , m_expireMapCache(8)
 , m_tzMode(eTZAuto)
 , m_timezone("UTC")
+, m_brouterHost("127.0.0.1")
+, m_brouterPort("17777")
+, m_brouterProfiles("car-test|fastbike|moped|shortest|trekking")
 {
     m_self = this;
 
@@ -221,6 +224,9 @@ CResources::CResources(QObject * parent)
     m_tzMode = (TimezoneMode_e)cfg.value("timezone/mode", m_tzMode).toInt();
     m_timezone = cfg.value("timezone/zone", m_timezone).toString();
 
+    m_brouterHost = cfg.value("routing/BR/host", m_brouterHost).toString();
+    m_brouterPort = cfg.value("routing/BR/port", m_brouterPort).toString();
+    m_brouterProfiles = cfg.value("routing/BR/profiles", m_brouterProfiles).toString();
 }
 
 
@@ -284,6 +290,10 @@ CResources::~CResources()
 
     cfg.setValue("timezone/mode", m_tzMode);
     cfg.setValue("timezone/zone", m_timezone);
+
+    cfg.setValue("routing/BR/host", m_brouterHost);
+    cfg.setValue("routing/BR/port", m_brouterPort);
+    cfg.setValue("routing/BR/profiles", m_brouterProfiles);
 }
 
 
