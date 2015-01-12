@@ -54,6 +54,11 @@ CDlgConfig::CDlgConfig(QWidget * parent)
 
     connect(toolPathMapCache, SIGNAL(clicked()), this, SLOT(slotSelectPathMapCache()));
 
+    connect(checkBRouterLocal, SIGNAL(stateChanged(int)), this, SLOT(slotCheckBRouterLocal(int)));
+    connect(toolButtonBRouterProfilePath, SIGNAL(clicked()), this, SLOT(slotSelectPathBRouterProfiles()));
+    connect(pushBRouterDefaultLocal, SIGNAL(clicked()), this, SLOT(slotPushBRouterDefaultLocal()));
+    connect(pushBRouterDefaultOnline, SIGNAL(clicked()), this, SLOT(slotPushBRouterDefaultOnline()));
+
     const char ** tz = tblTimezone;
     while(*tz)
     {
@@ -192,6 +197,10 @@ void CDlgConfig::exec()
     lineBRouterHost->setText(resources.m_brouterHost);
     lineBRouterPort->setText(resources.m_brouterPort);
     lineBRouterProfiles->setText(resources.m_brouterProfiles);
+    labelBRouterProfiles->setText(resources.m_brouterProfiles);
+    labelBRouterProfilePath->setText(resources.m_brouterProfilePath);
+    checkBRouterLocal->setChecked(resources.m_brouterLocal);
+    slotCheckBRouterLocal(resources.m_brouterLocal ? Qt::Checked : Qt::Unchecked);
 #ifdef QK_QT5_PORT
     return QDialog::exec();
 #else
@@ -305,9 +314,14 @@ void CDlgConfig::accept()
 
     resources.m_brouterHost = lineBRouterHost->text();
     resources.m_brouterPort = lineBRouterPort->text();
-    if (resources.m_brouterProfiles.compare(lineBRouterProfiles->text()))
+    bool bRouterChanged = resources.m_brouterProfiles.compare(lineBRouterProfiles->text())
+            or resources.m_brouterProfilePath.compare(labelBRouterProfilePath->text())
+            or resources.m_brouterLocal!=checkBRouterLocal->isChecked();
+    resources.m_brouterLocal = checkBRouterLocal->isChecked();
+    resources.m_brouterProfiles = lineBRouterProfiles->text().split(QRegExp("[,;| ]"),QString::SkipEmptyParts).join(",");
+    resources.m_brouterProfilePath = labelBRouterProfilePath->text();
+    if (bRouterChanged)
     {
-        resources.m_brouterProfiles = lineBRouterProfiles->text();
         emit resources.sigBRouterChanged();
     }
 
@@ -477,4 +491,64 @@ void CDlgConfig::slotSelectPathMapCache()
     {
         labelPathMapCache->setText(path);
     }
+}
+
+void CDlgConfig::slotCheckBRouterLocal(int state)
+{
+    switch(state) {
+    case Qt::Checked:
+    {
+        lineBRouterProfiles->setVisible(false);
+        labelBRouterProfiles->setVisible(true);
+        labelBRouterProfileDir->setVisible(true);
+        toolButtonBRouterProfilePath->setVisible(true);
+        labelBRouterProfilePath->setVisible(true);
+        if (!labelBRouterProfilePath->text().isEmpty())
+        {
+            labelBRouterProfiles->setText(CResources::self().readBRouterProfiles(labelBRouterProfilePath->text()).join(","));
+        }
+        else
+        {
+            labelBRouterProfiles->setText(lineBRouterProfiles->text());
+        }
+        break;
+    }
+    case Qt::Unchecked:
+    {
+        lineBRouterProfiles->setVisible(true);
+        labelBRouterProfiles->setVisible(false);
+        labelBRouterProfileDir->setVisible(false);
+        toolButtonBRouterProfilePath->setVisible(false);
+        labelBRouterProfilePath->setVisible(false);
+        if (!labelBRouterProfiles->text().isEmpty())
+        {
+            lineBRouterProfiles->setText(labelBRouterProfiles->text());
+        }
+        break;
+    }
+    }
+}
+
+void CDlgConfig::slotSelectPathBRouterProfiles()
+{
+    QString path = QFileDialog::getExistingDirectory(this, tr("Open Directory"), labelPathMapCache->text(), QFileDialog::ShowDirsOnly);
+    if(!path.isEmpty())
+    {
+        labelBRouterProfilePath->setText(path);
+        labelBRouterProfiles->setText(CResources::self().readBRouterProfiles(path).join(","));
+    }
+}
+
+void CDlgConfig::slotPushBRouterDefaultOnline()
+{
+    lineBRouterHost->setText(QString("h2096617.stratoserver.net"));
+    lineBRouterPort->setText(QString("443"));
+    lineBRouterProfiles->setText(QString("trekking,fastbike,car-test,safety,shortest,trekking-ignore-cr,trekking-steep,trekking-noferries,trekking-nosteps,moped,rail,river,vm-forum-liegerad-schnell,vm-forum-velomobil-schnell"));
+}
+
+void CDlgConfig::slotPushBRouterDefaultLocal()
+{
+    lineBRouterHost->setText(QString("127.0.0.1"));
+    lineBRouterPort->setText(QString("17777"));
+    lineBRouterProfiles->setText(QString("car-test,fastbike,moped,shortest,trekking"));
 }

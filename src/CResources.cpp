@@ -87,10 +87,9 @@ CResources::CResources(QObject * parent)
 , m_timezone("UTC")
 // BRouter service being used by http://brouter.de/brouter-web
 , m_brouterHost("h2096617.stratoserver.net")
-// default for local install is 17777
 , m_brouterPort("443")
-// default for local install is car-test|fastbike|moped|shortest|trekking
-, m_brouterProfiles("trekking|fastbike|car-test|safety|shortest|trekking-ignore-cr|trekking-steep|trekking-noferries|trekking-nosteps|moped|rail|river|vm-forum-liegerad-schnell|vm-forum-velomobil-schnell")
+, m_brouterProfiles("trekking,fastbike,car-test,safety,shortest,trekking-ignore-cr,trekking-steep,trekking-noferries,trekking-nosteps,moped,rail,river,vm-forum-liegerad-schnell,vm-forum-velomobil-schnell")
+, m_brouterLocal(false)
 {
     m_self = this;
 
@@ -230,6 +229,8 @@ CResources::CResources(QObject * parent)
     m_brouterHost = cfg.value("routing/BR/host", m_brouterHost).toString();
     m_brouterPort = cfg.value("routing/BR/port", m_brouterPort).toString();
     m_brouterProfiles = cfg.value("routing/BR/profiles", m_brouterProfiles).toString();
+    m_brouterProfilePath = cfg.value("routing/BR/profilePath", m_brouterProfilePath).toString();
+    m_brouterLocal = cfg.value("routing/BR/local", m_brouterLocal).toBool();
 }
 
 
@@ -297,6 +298,8 @@ CResources::~CResources()
     cfg.setValue("routing/BR/host", m_brouterHost);
     cfg.setValue("routing/BR/port", m_brouterPort);
     cfg.setValue("routing/BR/profiles", m_brouterProfiles);
+    cfg.setValue("routing/BR/profilePath", m_brouterProfilePath);
+    cfg.setValue("routing/BR/local", m_brouterLocal);
 }
 
 
@@ -399,4 +402,32 @@ QString CResources::charset()
         return "latin1";
     else
         return m_devCharset;
+}
+
+QStringList CResources::getBRouterProfiles()
+{
+    if (m_brouterLocal and !m_brouterProfilePath.isNull())
+    {
+        return readBRouterProfiles(m_brouterProfilePath);
+    }
+    else
+    {
+        return m_brouterProfiles.split(QRegExp("[,;| ]"),QString::SkipEmptyParts);
+    }
+}
+
+QStringList CResources::readBRouterProfiles(QString path)
+{
+    QDir dir = QDir(path);
+    QString profile;
+    QStringList entries = dir.entryList();
+    QStringList profiles = QStringList();
+    foreach(profile,entries)
+    {
+        if(profile.endsWith(".brf"))
+        {
+            profiles.append(profile.left(profile.length()-4));
+        }
+    }
+    return profiles;
 }

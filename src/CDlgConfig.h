@@ -44,6 +44,10 @@ class CDlgConfig : public QDialog, private Ui::IDlgConfig
         void slotSetupGarminIcons();
         void slotSelectPathGeoDB();
         void slotSelectPathMapCache();
+        void slotCheckBRouterLocal(int state);
+        void slotSelectPathBRouterProfiles();
+        void slotPushBRouterDefaultOnline();
+        void slotPushBRouterDefaultLocal();
 
     private:
         void fillTypeCombo();

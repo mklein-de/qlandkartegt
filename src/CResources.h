@@ -95,7 +95,8 @@ class CResources : public QObject
 
         QString getBRouterHost(){return m_brouterHost;}
         int getBRouterPort(){return m_brouterPort.toInt();}
-        QStringList getBRouterProfiles(){return m_brouterProfiles.split('|');}
+        QStringList getBRouterProfiles();
+        QStringList readBRouterProfiles(QString path);
 
         signals:
         void sigDeviceChanged();
@@ -197,5 +198,7 @@ class CResources : public QObject
         QString m_brouterHost;
         QString m_brouterPort;
         QString m_brouterProfiles;
+        QString m_brouterProfilePath;
+        bool m_brouterLocal;
 };
 #endif                           //CRESOURCES_H
