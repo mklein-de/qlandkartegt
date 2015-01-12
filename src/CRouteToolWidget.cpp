@@ -81,6 +81,7 @@ CRouteToolWidget::CRouteToolWidget(QTabWidget * parent)
 
     comboService->addItem("OpenRouteService (Europe)", CRoute::eOpenRouteService);
     comboService->addItem("MapQuest (World)", CRoute::eMapQuest);
+    comboService->addItem("BRouter", CRoute::eBRouter);
     connect(comboService, SIGNAL(currentIndexChanged(int)), this, SLOT(slotServiceChanged(int)));
 
     // ------------ ORS Setup ------------
@@ -168,6 +169,19 @@ CRouteToolWidget::CRouteToolWidget(QTabWidget * parent)
     checkMQAvoidCountryBorder->setChecked(cfg.value("avoidCountryBorder", false).toBool());
     comboMQLanguage->setCurrentIndex(cfg.value("language", langIdx).toInt());
     cfg.endGroup();
+
+    // ------------ BR Setup ------------
+    cfg.beginGroup("BR");
+    routingBRProfiles = cfg.value("profiles", "car-test|fastbike|moped|shortest|trekking").toString();
+    foreach(const QString& key, routingBRProfiles.split('|'))
+    {
+        comboBRPreference->addItem(key,key);
+    }
+    comboBRPreference->setCurrentIndex(cfg.value("preference", 0).toInt());
+    connect(comboBRPreference, SIGNAL(currentIndexChanged(int)), this, SLOT(slotBRPreferenceChanged(int)));
+    routingBRHost = cfg.value("host","127.0.0.1").toString();
+    routingBRPort = cfg.value("port",17777).toInt();
+    cfg.endGroup();
     cfg.endGroup();
 
     m_networkAccessManager->setProxy(QNetworkProxy(QNetworkProxy::DefaultProxy));
@@ -208,6 +222,7 @@ void CRouteToolWidget::slotServiceChanged(int idx)
 {
     groupORS->hide();
     groupMQ->hide();
+    groupBR->hide();
     labelCopyrightMapQuest->hide();
     labelCopyrightOpenRoute->hide();
 
@@ -220,6 +235,10 @@ void CRouteToolWidget::slotServiceChanged(int idx)
     {
         groupMQ->show();
         labelCopyrightMapQuest->show();
+    }
+    else if(comboService->itemData(idx).toInt() == CRoute::eBRouter)
+    {
+        groupBR->show();
     }
 }
 
@@ -392,6 +411,9 @@ void CRouteToolWidget::slotCalcRoute()
     cfg.setValue("avoidCountryBorder", checkMQAvoidCountryBorder->isChecked());
     cfg.setValue("language", comboMQLanguage->currentIndex());
     cfg.endGroup();
+    cfg.beginGroup("BR");
+    cfg.setValue("preference", comboBRPreference->currentIndex());
+    cfg.endGroup();
     cfg.endGroup();
 
     originator = true;
@@ -413,6 +435,10 @@ void CRouteToolWidget::slotCalcRoute()
         else if(service == CRoute::eMapQuest)
         {
             startMapQuest(*route);
+        }
+        else if(service == CRoute::eBRouter)
+        {
+            startBRouterService(*route);
         }
     }
 
@@ -633,6 +659,15 @@ void CRouteToolWidget::slotRequestFinished(QNetworkReply* reply)
         QDomElement statusCode  = info.firstChildElement("statusCode");
 
         if(statusCode.isNull() || statusCode.text().toInt() != 0)
+        {
+            QMessageBox::warning(0,tr("Failed..."), tr("Bad response from server:\n%1").arg(xml.toString()), QMessageBox::Abort);
+            return;
+        }
+    }
+    else if (service == CRoute::eBRouter)
+    {
+        QDomElement response = xml.firstChildElement("gpx");
+        if(response.isNull())
         {
             QMessageBox::warning(0,tr("Failed..."), tr("Bad response from server:\n%1").arg(xml.toString()), QMessageBox::Abort);
             return;
@@ -964,5 +999,54 @@ void CRouteToolWidget::addMapQuestLocations(QDomDocument& xml, QDomElement& loca
         QDomElement location = xml.createElement("location");
         location.appendChild(xml.createTextNode(QString("%1,%2").arg(wpt.lat).arg(wpt.lon)));
         locations.appendChild(location);
+    }
+}
+
+void CRouteToolWidget::startBRouterService(CRoute& rte)
+{
+    // /brouter?lonlats=11.626453,48.298498|9.942884,49.798885&nogos=&profile=fastbike&alternativeidx=0&format=gpx
+
+    QUrl url(QString("http://").append(routingBRHost));
+    url.setPort(routingBRPort);
+    url.setPath("/brouter");
+
+    QVector<CRoute::pt_t> wpts = rte.getPriRtePoints();
+    bool isNext = false;
+    QString lonlats;
+    foreach(const CRoute::pt_t& wpt, wpts)
+    {
+        if (isNext)
+        {
+            lonlats.append(QString("|%1,%2").arg(wpt.lon).arg(wpt.lat));
+        } else {
+            lonlats = QString("%1,%2").arg(wpt.lon).arg(wpt.lat);
+            isNext = true;
+        }
+    }
+
+    QList< QPair<QByteArray, QByteArray> > queryItems;
+    queryItems << QPair<QByteArray, QByteArray>(QByteArray("lonlats"),QByteArray(lonlats.toAscii()));
+    queryItems << QPair<QByteArray, QByteArray>(QByteArray("nogos"), QByteArray(""));
+    queryItems << QPair<QByteArray, QByteArray>(QByteArray("profile"), comboBRPreference->itemData(comboBRPreference->currentIndex()).toByteArray());
+    queryItems << QPair<QByteArray, QByteArray>(QByteArray("alternativeidx"), QVariant(rte.getRouteIdx()).toByteArray());
+    queryItems << QPair<QByteArray, QByteArray>(QByteArray("format"), QByteArray("gpx"));
+    url.setEncodedQueryItems(queryItems);
+
+    QNetworkRequest request;
+
+    request.setUrl(url);
+
+    QNetworkReply* reply = m_networkAccessManager->get(request);
+    pendingRequests[reply] = rte.getKey();
+
+    timer->start(20000);
+}
+
+void CRouteToolWidget::slotBRPreferenceChanged(int idx)
+{
+    for(int i = 0; i<listRoutes->count(); i++)
+    {
+        QString key = listRoutes->item(i)->data(Qt::UserRole).toString();
+        CRouteDB::self().getRouteByKey(key)->resetRouteIdx();
     }
 }

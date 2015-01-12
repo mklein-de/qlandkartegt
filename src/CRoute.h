@@ -41,6 +41,7 @@ class CRoute : public IItem
         {
             eOpenRouteService
             ,eMapQuest
+            ,eBRouter
         };
 
         enum type_e {eEnd, eBase, eRtePts, eRteSec};
@@ -97,6 +98,10 @@ class CRoute : public IItem
 
         void setCalcPending(){calcRoutePending = true;}
 
+        void resetRouteIdx(){routeIdx = 0;}
+
+        int getRouteIdx(){return routeIdx;}
+
     private:
         friend class CRouteDB;
         friend QDataStream& operator >>(QDataStream& s, CRoute& route);
@@ -104,6 +109,8 @@ class CRoute : public IItem
 
         void loadSecondaryRouteORS(QDomDocument& xml);
         void loadSecondaryRouteMQ(QDomDocument& xml);
+        void loadSecondaryRouteBR(QDomDocument& xml);
+
         void calcDistance();
 
         /// primary route, just the basic points like A to B via C
@@ -126,6 +133,8 @@ class CRoute : public IItem
         QVector<pt_t> secRoute;
 
         bool calcRoutePending;
+
+        int routeIdx;
 
 };
 

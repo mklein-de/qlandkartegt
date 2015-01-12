@@ -752,6 +752,7 @@ void CRouteDB::reset(const QString& key)
     if(routes.contains(key))
     {
         routes[key]->reset();
+        routes[key]->resetRouteIdx();
     }
 }
 

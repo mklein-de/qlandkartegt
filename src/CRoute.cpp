@@ -294,6 +294,7 @@ CRoute::CRoute(QObject * parent)
 , highlight(false)
 , firstTime(true)
 , calcRoutePending(false)
+, routeIdx(0)
 {
     setIcon("Small City");
 }
@@ -449,6 +450,9 @@ void CRoute::loadSecondaryRoute(QDomDocument& xml, service_e service)
         case eMapQuest:
             loadSecondaryRouteMQ(xml);
             break;
+        case eBRouter:
+            loadSecondaryRouteBR(xml);
+            break;
     }
 
     calcDistance();
@@ -595,6 +599,47 @@ void CRoute::loadSecondaryRouteORS(QDomDocument& xml)
     }
 }
 
+void CRoute::loadSecondaryRouteBR(QDomDocument& xml)
+{
+//	<!-- track-length = 253153 filtered ascend = 888 plain-ascend = -282 cost=296476 -->
+//	 <trk>
+//	  <name>brouter_fastbike_0</name>
+//	  <trkseg>
+//	   <trkpt lon="11.626430" lat="48.298522"><ele>466.75</ele></trkpt>
+
+    QDomElement root = xml.documentElement();
+    QDomNodeList nodes = root.childNodes();
+    for (int i = 0; i < nodes.size(); i++)
+    {
+        QDomNode node = nodes.item(i);
+        if (node.isComment())
+        {
+            //TODO parse comment to set dist and ttime
+        }
+    }
+    QDomNodeList tracks = root.elementsByTagName("trk");
+    for(int i = 0; i < tracks.size(); i++)
+    {
+        QDomElement track = tracks.item(i).toElement();
+        QDomNodeList segments = track.elementsByTagName("trkseg");
+        for (int j = 0; j < segments.size(); j++)
+        {
+            QDomElement segment = segments.item(j).toElement();
+            QDomNodeList points = segment.elementsByTagName("trkpt");
+            const qint32 M = points.size();
+            for(int k = 0; k < M; k++)
+            {
+                pt_t rtept;
+                QDomElement point = points.item(k).toElement();
+                rtept.lon = point.attribute("lon").toFloat();
+                rtept.lat = point.attribute("lat").toFloat();
+                //QString elevation = point.firstChildElement("ele").text();
+                secRoute << rtept;
+            }
+        }
+    }
+    routeIdx++;
+}
 
 void CRoute::reset()
 {

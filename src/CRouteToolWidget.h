@@ -68,6 +68,7 @@ class CRouteToolWidget : public QWidget, private Ui::IRouteToolWidget
 
         void slotTimeout();
         void slotServiceChanged(int);
+        void slotBRPreferenceChanged(int);
 
         void slotProxyAuthenticationRequired(const QNetworkProxy&, QAuthenticator*);
 
@@ -78,6 +79,8 @@ class CRouteToolWidget : public QWidget, private Ui::IRouteToolWidget
 
         void startMapQuest(CRoute& rte);
         void addMapQuestLocations(QDomDocument& xml, QDomElement& locations, CRoute& rte);
+
+        void startBRouterService(CRoute& rte);
 
         bool originator;
 
@@ -101,6 +104,10 @@ class CRouteToolWidget : public QWidget, private Ui::IRouteToolWidget
         static sortmode_e sortmode;
 
         QMap<QNetworkReply*, QString> pendingRequests;
+
+        QString routingBRProfiles;
+        QString routingBRHost;
+        int routingBRPort;
 
 };
 #endif                           //CROUTETOOLWIDGET_H
