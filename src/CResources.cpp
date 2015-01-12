@@ -85,9 +85,12 @@ CResources::CResources(QObject * parent)
 , m_expireMapCache(8)
 , m_tzMode(eTZAuto)
 , m_timezone("UTC")
-, m_brouterHost("127.0.0.1")
-, m_brouterPort("17777")
-, m_brouterProfiles("car-test|fastbike|moped|shortest|trekking")
+// BRouter service being used by http://brouter.de/brouter-web
+, m_brouterHost("h2096617.stratoserver.net")
+// default for local install is 17777
+, m_brouterPort("443")
+// default for local install is car-test|fastbike|moped|shortest|trekking
+, m_brouterProfiles("trekking|fastbike|car-test|safety|shortest|trekking-ignore-cr|trekking-steep|trekking-noferries|trekking-nosteps|moped|rail|river|vm-forum-liegerad-schnell|vm-forum-velomobil-schnell")
 {
     m_self = this;
 
