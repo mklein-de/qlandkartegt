@@ -173,8 +173,6 @@ CTrackEditWidget::CTrackEditWidget(QWidget * parent)
     toolGoogleMaps->hide();
 #endif
 
-    treePoints->sortByColumn(eNum, Qt::AscendingOrder);
-
     CActions * actions = theMainWindow->getActionGroupProvider()->getActions();
 
     contextMenu = new QMenu(this);
@@ -207,6 +205,15 @@ CTrackEditWidget::CTrackEditWidget(QWidget * parent)
     tabWidget->setCurrentIndex(cfg.value("TrackEditWidget/currentIndex",0).toUInt());
     checkCenterMap->setChecked((cfg.value("TrackEditWidget/centerMap",true).toBool()));
 
+    QByteArray state = cfg.value("TrackEditWidget/trackpointlist").toByteArray();
+    if(state.isEmpty())
+    {
+        treePoints->sortByColumn(eNum, Qt::AscendingOrder);
+    }
+    else
+    {
+        treePoints->header()->restoreState(state);
+    }
 }
 
 
@@ -215,6 +222,7 @@ CTrackEditWidget::~CTrackEditWidget()
     SETTINGS;
     cfg.setValue("TrackEditWidget/currentIndex",tabWidget->currentIndex());
     cfg.setValue("TrackEditWidget/centerMap",checkCenterMap->isChecked());
+    cfg.setValue("TrackEditWidget/trackpointlist", treePoints->header()->saveState());
 
     if(!trackStatProfileDist.isNull())
     {
