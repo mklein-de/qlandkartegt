@@ -697,12 +697,25 @@ void CDlgEditWpt::slotRequestFinished(QNetworkReply * reply)
 
     if(pendingRequests.contains(reply))
     {
-        CWpt::image_t img;
-        img.info = pendingRequests.take(reply);
-        img.pixmap.loadFromData(reply->readAll());
-        wpt.images.push_back(img);
-        showImage(wpt.images.count() - 1);
-        pushDel->setEnabled(true);
+
+        QString info = pendingRequests.take(reply);
+
+        if(reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt() == 301)
+        {
+            QNetworkRequest request;
+            request.setUrl(reply->attribute(QNetworkRequest::RedirectionTargetAttribute).toUrl());
+            pendingRequests[networkAccessManager->get(request)] = info;
+        }
+        else if(reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt() == 200)
+        {
+            QByteArray data = reply->readAll();
+            CWpt::image_t img;
+            img.info = info;
+            img.pixmap.loadFromData(data);
+            wpt.images.push_back(img);
+            showImage(wpt.images.count() - 1);
+            pushDel->setEnabled(true);
+        }
 
         if(pendingRequests.isEmpty())
         {
@@ -714,6 +727,12 @@ void CDlgEditWpt::slotRequestFinished(QNetworkReply * reply)
 
     QString asw = reply->readAll();
     reply->deleteLater();
+
+    static int cnt = 0;
+    QFile f(QString("test%1.html").arg(cnt++));
+    f.open(QIODevice::WriteOnly);
+    f.write(asw.toUtf8(), asw.size());
+    f.close();
 
     if(asw.isEmpty())
     {
