@@ -1,3 +1,18 @@
+--- 2015.02.09 ---
+Routing: Add support for BRouter
+
+Routing: Switch MapQuest to new API version
+
+Routing: Handle multiple legs in MapQuest response
+
+Track: Mark position in the track point table on the on-screen
+
+GeoCache: Fix spoiler download
+
+Grid: Change coordinate format for long/lat grid from dd mm.mm to dd.dddddd
+
+Bug fixes to avoid crashes and GUI quirks
+
 --- 2014.07.08 ---
 LiveLog: Add large data fields
 
