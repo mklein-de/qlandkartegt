@@ -406,7 +406,7 @@ QString CResources::charset()
 
 QStringList CResources::getBRouterProfiles()
 {
-    if (m_brouterLocal and !m_brouterProfilePath.isNull())
+    if (m_brouterLocal && !m_brouterProfilePath.isNull())
     {
         return readBRouterProfiles(m_brouterProfilePath);
     }

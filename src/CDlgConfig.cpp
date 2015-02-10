@@ -315,8 +315,8 @@ void CDlgConfig::accept()
     resources.m_brouterHost = lineBRouterHost->text();
     resources.m_brouterPort = lineBRouterPort->text();
     bool bRouterChanged = resources.m_brouterProfiles.compare(lineBRouterProfiles->text())
-            or resources.m_brouterProfilePath.compare(labelBRouterProfilePath->text())
-            or resources.m_brouterLocal!=checkBRouterLocal->isChecked();
+            || resources.m_brouterProfilePath.compare(labelBRouterProfilePath->text())
+            || resources.m_brouterLocal!=checkBRouterLocal->isChecked();
     resources.m_brouterLocal = checkBRouterLocal->isChecked();
     resources.m_brouterProfiles = lineBRouterProfiles->text().split(QRegExp("[,;| ]"),QString::SkipEmptyParts).join(",");
     resources.m_brouterProfilePath = labelBRouterProfilePath->text();
