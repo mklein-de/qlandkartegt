@@ -1,7 +1,7 @@
 [Desktop Entry]
 Version=1.0
 Name=QLandkarteGT
-Exec=qlandkartegt
+Exec=qlandkartegt %F
 Icon=qlandkartegt
 Terminal=false
 Type=Application
