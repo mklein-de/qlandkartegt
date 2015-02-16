@@ -947,7 +947,7 @@ void CRouteToolWidget::startMapQuest(CRoute& rte)
     QString xmlstr = xml.toString(0);
     xmlstr = xmlstr.replace("\n","");
 
-    QUrl url("http://www.mapquestapi.com");
+    QUrl url("http://open.mapquestapi.com");
     url.setPath("directions/v2/route");
 
 #ifdef QK_QT5_PORT
