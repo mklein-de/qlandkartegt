@@ -897,6 +897,12 @@ bool IGarminTyp::parsePolyline(QDataStream& in, QMap<quint32, polyline_property>
             qDebug() << "ext. label: type" << property.labelType << "day" << property.colorLabelDay << "night" << property.colorLabelNight;
 #endif
         }
+        if(property.hasPixmap)
+        {
+            property.imgDay     = property.imgDay.mirrored(true);
+            property.imgNight   = property.imgNight.mirrored(true);
+        }
+
     }
     return true;
 }
