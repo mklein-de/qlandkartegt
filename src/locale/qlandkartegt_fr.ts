@@ -4186,7 +4186,7 @@ ligne %2, colonne %3:
     </message>
     <message>
         <source>Revert</source>
-        <translation>Annuler</translation>
+        <translation>Inverser</translation>
     </message>
     <message>
         <source>Overlay</source>
@@ -5187,7 +5187,7 @@ Votre sélection sera stockée dans les données du tracé. Vous pouvez la sauve
     </message>
     <message>
         <source>Revert</source>
-        <translation>Annuler</translation>
+        <translation>Inverser</translation>
     </message>
     <message>
         <source>Tracks</source>
