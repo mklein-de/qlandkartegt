@@ -50,9 +50,16 @@ include_directories(
     ${GDAL_INCLUDE_DIRS}
     ${PROJ_INCLUDE_DIRS}
     ${JPEG_INCLUDE_DIRS}
-    ${QT_QTXML_INCLUDE_DIR}
     ../../src/
 )
+
+if (NOT QK_QT5_PORT)
+include_directories(
+  ${QT_QTXML_INCLUDE_DIR}
+)
+endif(QK_QT5_PORT)
+
+
 if(WIN32)
     include_directories(
         ${CMAKE_SOURCE_DIR}/Win32/
@@ -87,6 +94,7 @@ target_link_libraries( cache2gtiff
     ${QT_LIBRARIES}
     ${QT_QTXML_LIBRARIES}
 )
+
 
 
 if(QK_QT5_PORT)

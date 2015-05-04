@@ -21,6 +21,7 @@
 #include <QtDBus>
 #include <QtXml>
 #include <QtGui>
+#include <QMessageBox>
 
 CGarminTreeWidgetItem::CGarminTreeWidgetItem(const QString& id, QTreeWidget *parent)
     : IDeviceTreeWidgetItem(id,parent)

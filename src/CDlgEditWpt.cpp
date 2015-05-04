@@ -531,7 +531,7 @@ void CDlgEditWpt::slotUpdateBarcode()
         {
             barcode = barcode.left(177) + "...";
         }
-        dmtxEncodeDataMatrix( enc, barcode.size(), (unsigned char*)barcode.toAscii().data() );
+        dmtxEncodeDataMatrix( enc, barcode.size(), (unsigned char*)barcode.toLatin1().data() );
 
         QImage curBarCode( enc->image->pxl, enc->image->width, enc->image->height, QImage::Format_RGB32 );
         labelBarcode->setPixmap(QPixmap::fromImage(curBarCode));

@@ -1016,13 +1016,25 @@ void CRouteToolWidget::startBRouterService(CRoute& rte)
         }
     }
 
+#ifdef QK_QT5_PORT
+    QList< QPair<QString, QString> > queryItems;
+    queryItems << QPair<QString, QString>("lonlats",lonlats.toLatin1());
+    queryItems << QPair<QString, QString>("nogos", "");
+    queryItems << QPair<QString, QString>("profile", comboBRPreference->itemData(comboBRPreference->currentIndex()).toString());
+    queryItems << QPair<QString, QString>("alternativeidx", QString::number(rte.getRouteIdx()));
+    queryItems << QPair<QString, QString>("format", "gpx");
+    QUrlQuery urlQuery;
+    urlQuery.setQueryItems(queryItems);
+    url.setQuery(urlQuery);
+#else
     QList< QPair<QByteArray, QByteArray> > queryItems;
-    queryItems << QPair<QByteArray, QByteArray>(QByteArray("lonlats"),QByteArray(lonlats.toAscii()));
+    queryItems << QPair<QByteArray, QByteArray>(QByteArray("lonlats"),QByteArray(lonlats.toLatin1()));
     queryItems << QPair<QByteArray, QByteArray>(QByteArray("nogos"), QByteArray(""));
     queryItems << QPair<QByteArray, QByteArray>(QByteArray("profile"), comboBRPreference->itemData(comboBRPreference->currentIndex()).toByteArray());
     queryItems << QPair<QByteArray, QByteArray>(QByteArray("alternativeidx"), QVariant(rte.getRouteIdx()).toByteArray());
     queryItems << QPair<QByteArray, QByteArray>(QByteArray("format"), QByteArray("gpx"));
     url.setEncodedQueryItems(queryItems);
+#endif
 
     QNetworkRequest request;
 
