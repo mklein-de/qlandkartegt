@@ -898,7 +898,7 @@ void CCanvas::mouseMoveEventCoord(QMouseEvent * e)
             y_m *= RAD_TO_DEG;
             lat = y_m < 0 ? "S" : "N";
             lng = x_m < 0 ? "W" : "E";
-            info += tr("[Grid: %1%2%5 %3%4%5] ").arg(lat).arg(qAbs(y_m), 0, 'f', 6).arg(lng).arg(qAbs(x_m), 0, 'f', 6).arg(QChar('\260'));
+            info += tr("[Grid: %1%2%5 %3%4%5] ").arg(lat).arg(qAbs(y_m), 0, 'f', 6).arg(lng).arg(qAbs(x_m), 0, 'f', 6).arg(QChar(0260));
 
         }
         else

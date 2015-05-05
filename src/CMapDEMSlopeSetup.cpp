@@ -96,11 +96,11 @@ void CMapDEMSlopeSetup::slotValueChanged(int val)
     }
 
     const double * g = CMapDEM::grade[val];
-    labelValue1->setText(QString("> %1\260").arg(g[1]));
-    labelValue2->setText(QString("> %1\260").arg(g[2]));
-    labelValue3->setText(QString("> %1\260").arg(g[3]));
-    labelValue4->setText(QString("> %1\260").arg(g[4]));
-    labelValue5->setText(QString("> %1\260").arg(g[5]));
+    labelValue1->setText(QString("> %1%2").arg(g[1]).arg(QChar(0260)));
+    labelValue2->setText(QString("> %1%2").arg(g[2]).arg(QChar(0260)));
+    labelValue3->setText(QString("> %1%2").arg(g[3]).arg(QChar(0260)));
+    labelValue4->setText(QString("> %1%2").arg(g[4]).arg(QChar(0260)));
+    labelValue5->setText(QString("> %1%2").arg(g[5]).arg(QChar(0260)));
     labelGrade->setText(tr("Grade %1").arg(val));
     dem->setGrade(val);
 }

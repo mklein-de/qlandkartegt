@@ -787,7 +787,7 @@ CTrack::CTrack(QObject * parent)
     {
         setupMultiColor.resize(eMultiColorMax);
         setupMultiColor[eMultiColorNone]    = multi_color_setup_t();
-        setupMultiColor[eMultiColorSlope]   = multi_color_setup_t(CTrack::eMinMaxModeNoAuto, 0, 25, 120, 0, tr("Slope [\260]"));
+        setupMultiColor[eMultiColorSlope]   = multi_color_setup_t(CTrack::eMinMaxModeNoAuto, 0, 25, 120, 0, tr("Slope [%1]").arg(QChar(0260)));
         setupMultiColor[eMultiColorEle]     = multi_color_setup_t(CTrack::eMinMaxModeAuto, 0,  0, 240, 0, tr("Elevation [m]"));
         setupMultiColor[eMultiColorSpeed]   = multi_color_setup_t(CTrack::eMinMaxModeAuto, 0,  0, 240, 0, tr("Speed [km/h]"));
 
@@ -2019,7 +2019,7 @@ QString CTrack::getTrkPtInfo1(pt_t& trkpt)
     if(trkpt.slope2 != WPT_NOFLOAT)
     {
         if(str.count()) str += " ";
-        str += tr("slope: %1\260").arg(trkpt.slope2,0,'f',0);
+        str += tr("slope: %1%2").arg(trkpt.slope2,0,'f',0).arg(QChar(0260));
     }
 
     if(trkpt.speed != WPT_NOFLOAT)
