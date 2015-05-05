@@ -57,7 +57,7 @@ if (NOT QK_QT5_PORT)
 include_directories(
   ${QT_QTXML_INCLUDE_DIR}
 )
-endif(QK_QT5_PORT)
+endif(NOT QK_QT5_PORT)
 
 
 if(WIN32)

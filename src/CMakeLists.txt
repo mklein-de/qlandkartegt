@@ -698,7 +698,7 @@ set(qlandkarte_include_dirs ${qlandkarte_include_dirs}
   ${QT_QTSCRIPT_INCLUDE_DIR}
   ${QT_OPENGL_INCLUDE_DIR}
 )
-endif(QK_QT5_PORT)
+endif(NOT QK_QT5_PORT)
 
 
 if(NOT QK_QT5_SERIAL_PORT)
