@@ -521,7 +521,7 @@ void CTrackDB::saveGPX(CGpx& gpx, const QStringList& keys)
             {
                 QDomElement ele = gpx.createElement("ele");
                 trkpt.appendChild(ele);
-                QDomText _ele_ = gpx.createTextNode(QString::number(pt->ele));
+                QDomText _ele_ = gpx.createTextNode(QString::number(pt->ele,'f'));
                 ele.appendChild(_ele_);
             }
 

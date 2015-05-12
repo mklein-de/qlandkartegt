@@ -625,7 +625,7 @@ void CWptDB::saveGPX(CGpx& gpx, const QStringList& keys)
         {
             QDomElement ele = gpx.createElement("ele");
             waypoint.appendChild(ele);
-            QDomText _ele_ = gpx.createTextNode(QString::number(wpt->ele));
+            QDomText _ele_ = gpx.createTextNode(QString::number(wpt->ele,'f'));
             ele.appendChild(_ele_);
         }
 
