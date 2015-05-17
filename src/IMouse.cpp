@@ -139,7 +139,10 @@ void IMouse::clearSelWpts()
     lockWptCircles = false;
     foreach(const wpt_t& wpt, selWpts)
     {
-        wpt.wpt->showBuddies(false);
+        if(!wpt.wpt.isNull())
+        {
+            wpt.wpt->showBuddies(false);
+        }
     }
     doShowWptBuddies = false;
     selWpts.clear();
