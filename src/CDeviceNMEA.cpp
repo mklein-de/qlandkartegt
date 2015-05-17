@@ -269,7 +269,7 @@ void CDeviceNMEA::setLiveLog(bool on)
             QStringList tokens = line.split(QRegExp("[,*]"));
             //     qDebug() << line;
             //     qDebug() << tokens.count() << tokens;
-            if((tokens[0] == "$GPGGA"))
+            if((tokens[0] == "$GNGGA") || (tokens[0] == "$GPGGA"))
             {
                 //             0      1                  2       3         4        5    6     7     8       9     10    11     12   13    14
                 //     15 ("$GPGGA", "130108.000", "4901.7451", "N", "01205.8656", "E", "1", "06", "1.8", "331.6", "M", "47.3", "M", "", "0000*5F")
@@ -346,7 +346,7 @@ void CDeviceNMEA::setLiveLog(bool on)
                     emit sigLiveLog(log);
                 }
             }
-            else if((tokens[0] == "$GPGSA"))
+            else if((tokens[0] == "$GNGSA") || (tokens[0] == "$GPGSA"))
             {
                 //             0      1    2     3    4      5     6     7    8   9  10  11  12  13  14    15    16     17
                 //     18 ("$GPGSA", "A", "3", "11", "23", "13", "04", "17", "", "", "", "", "", "", "", "3.5", "2.2", "2.6*31")
@@ -387,7 +387,7 @@ void CDeviceNMEA::setLiveLog(bool on)
                 log.error_horz = hdop;
                 log.error_vert = vdop;
             }
-            else if((tokens[0] == "$GPRMC"))
+            else if((tokens[0] == "$GNRMC") || (tokens[0] == "$GPRMC"))
             {
                 //         13 ("$GPRMC", "122450.539", "V", "4901.6288", "N", "01205.5946", "E", "", "", "030408", "", "", "N*76")
                 //            ("$GPRMC", "183956.648", "A", "4341.0506", "N", "00407.7897", "E", "3.81", "186.84", "060408", "", "", "A", "64")

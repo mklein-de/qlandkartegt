@@ -583,6 +583,8 @@ void CMapWms::draw()
 #ifdef QK_QT5_PORT
             url.setQuery(urlQuery);
 #endif
+
+//            qDebug() << url;
             request_t req;
             req.url         = url;
             req.lon         = p1x;
@@ -685,11 +687,14 @@ void CMapWms::slotRequestFinished(QNetworkReply* reply)
             QImage img;
             QPainter p(&pixBuffer);
 
+            QByteArray buf = reply->readAll();
+//            qDebug() << buf;
+
             // only take good responses
             if(!reply->error())
             {
                 // read image data
-                img.loadFromData(reply->readAll());
+                img.loadFromData(buf);
             }
 
             // always store image to cache, the cache will take care of NULL images
