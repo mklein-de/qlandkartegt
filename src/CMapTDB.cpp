@@ -2507,6 +2507,7 @@ void CMapTDB::collectText(const CGarminPolygon& item, const QPolygonF& line, con
     tp.font         = font;
     tp.text         = str;
     tp.lineWidth    = lineWidth;
+    tp.textOffset   = 0;
 
     const int size = line.size();
     for(int i = 1; i < size; ++i)
@@ -2517,6 +2518,15 @@ void CMapTDB::collectText(const CGarminPolygon& item, const QPolygonF& line, con
         qreal dy    = p2.y() - p1.y();
         tp.lengths << sqrt(dx * dx + dy * dy);
     }
+
+    QVector<textpath_t>::const_iterator textpath = textpaths.constBegin();
+    QVector<textpath_t>::const_iterator end      = textpaths.constEnd();
+    while(textpath != end)
+    {
+        if (textpath->polyline == tp.polyline) ++tp.textOffset;
+        ++textpath;
+    }
+
 
     textpaths << tp;
 }
@@ -2682,6 +2692,7 @@ void CMapTDB::drawText(QPainter& p)
         }
 
         // draw string letter by letter and adjust angle
+        const int textheight = fm.height();
         const int size = text.size();
         percent2 = offset / length;
         point2   = path.pointAtPercent(percent2);
@@ -2706,7 +2717,7 @@ void CMapTDB::drawText(QPainter& p)
             p.translate(point1);
             p.rotate(angle);
 
-            p.translate(0, -(textpath->lineWidth + 2));
+            p.translate(0, -(textpath->lineWidth + 2 + (textpath->textOffset * textheight)));
 
             QString str = text.mid(i,1);
             p.setPen(Qt::white);

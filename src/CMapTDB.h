@@ -313,6 +313,7 @@ class CMapTDB : public IMap
             QFont           font;
             QVector<qreal>  lengths;
             qint32          lineWidth;
+            qint32          textOffset;
         };
 
         QVector<textpath_t> textpaths;
