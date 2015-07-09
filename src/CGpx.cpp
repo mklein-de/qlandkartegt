@@ -219,7 +219,10 @@ void CGpx::load(const QString& filename)
     }
 
     if (!docElem.hasAttribute("creator"))
-        throw tr("GPX schema violation: no \"creator\" attribute.");
+    {
+        //throw tr("GPX schema violation: no \"creator\" attribute.");
+        qWarning() << tr("GPX schema violation: no 'creator' attribute.");
+    }
 
     QString creator = docElem.attribute("creator");
     if (creator.startsWith("QLandkarte"))

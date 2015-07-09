@@ -466,6 +466,12 @@ void CWptDB::loadGPX(CGpx& gpx)
         {
             wpt->name = waypoint.namedItem("name").toElement().text();
         }
+
+        if(wpt->name.isEmpty())
+        {
+            wpt->name = tr("unnamed");
+        }
+
         if(waypoint.namedItem("cmt").isElement())
         {
             wpt->comment = waypoint.namedItem("cmt").toElement().text();
@@ -567,7 +573,7 @@ void CWptDB::loadGPX(CGpx& gpx)
             }
         }
 
-        if(wpt->lat == 1000 || wpt->lon == 1000 || (wpt->name.isEmpty() && wpt->comment.isEmpty()))
+        if(wpt->lat == 1000 || wpt->lon == 1000)
         {
             delete wpt;
             continue;
