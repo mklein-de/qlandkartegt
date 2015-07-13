@@ -922,7 +922,7 @@
     <message>
         <location filename="../CCanvas.cpp" line="901"/>
         <source>[Grid: %1%2%5 %3%4%5] </source>
-        <translation type="unfinished">[Rejilla: %1]  {1%2%5 %3%4%5]?}</translation>
+        <translation>[Rejilla: %1%2%5 %3%4%5] </translation>
     </message>
     <message>
         <location filename="../CCanvas.cpp" line="906"/>
@@ -3383,7 +3383,7 @@ no es una definición válida de sistema de coordenadas:
     <message>
         <location filename="../CGpx.cpp" line="224"/>
         <source>GPX schema violation: no &apos;creator&apos; attribute.</source>
-        <translation type="unfinished"></translation>
+        <translation>Violación del esquema GPX: no existe el atributo &apos;creator&apos;.</translation>
     </message>
     <message>
         <source>GPX schema violation: no &quot;creator&quot; attribute.</source>
@@ -6888,7 +6888,7 @@ longitud: %1 %2</translation>
     <message>
         <location filename="../CTrack.cpp" line="790"/>
         <source>Slope [%1]</source>
-        <translation type="unfinished"></translation>
+        <translation>Inclinación [%1]</translation>
     </message>
     <message>
         <location filename="../CTrack.cpp" line="791"/>
@@ -7060,7 +7060,7 @@ final: %1</translation>
     <message>
         <location filename="../CTrack.cpp" line="2022"/>
         <source>slope: %1%2</source>
-        <translation type="unfinished">pendiente: %1° {1%2?}</translation>
+        <translation>pendiente: %1%2</translation>
     </message>
     <message>
         <location filename="../CTrack.cpp" line="2039"/>
@@ -7826,7 +7826,7 @@ final: %1</translation>
     <message>
         <location filename="../CWptDB.cpp" line="472"/>
         <source>unnamed</source>
-        <translation type="unfinished"></translation>
+        <translation>sin nombre</translation>
     </message>
     <message>
         <location filename="../CWptDB.cpp" line="1329"/>
@@ -9896,7 +9896,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../IDlgConfig.ui" line="1021"/>
         <source>Routing</source>
-        <translation type="unfinished"></translation>
+        <translation>Enrutado</translation>
     </message>
     <message>
         <location filename="../IDlgConfig.ui" line="1027"/>
@@ -9906,27 +9906,27 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../IDlgConfig.ui" line="1035"/>
         <source>use local install</source>
-        <translation type="unfinished"></translation>
+        <translation>utilizar instalación local</translation>
     </message>
     <message>
         <location filename="../IDlgConfig.ui" line="1061"/>
         <source>restore Defaults (online)</source>
-        <translation type="unfinished"></translation>
+        <translation>restaurar valores por defecto (online)</translation>
     </message>
     <message>
         <location filename="../IDlgConfig.ui" line="1068"/>
         <source>set Defaults (local installation)</source>
-        <translation type="unfinished"></translation>
+        <translation>asignar valores por defecto (instalación local)</translation>
     </message>
     <message>
         <location filename="../IDlgConfig.ui" line="1095"/>
         <source>Profiles</source>
-        <translation type="unfinished"></translation>
+        <translation>Perfiles</translation>
     </message>
     <message>
         <location filename="../IDlgConfig.ui" line="1137"/>
         <source>ProfileDir</source>
-        <translation type="unfinished"></translation>
+        <translation>Directorio de perfiles</translation>
     </message>
     <message>
         <location filename="../IDlgConfig.ui" line="1185"/>
@@ -12190,12 +12190,12 @@ Haga click con el botón izquierdo en la pantalla para desbloquear círculo.</tr
     <message>
         <location filename="../IRouteToolWidget.ui" line="237"/>
         <source>&lt;p&gt;Directions Courtesy of &lt;a href=&quot;http://www.mapquest.com/&quot; target=&quot;_blank&quot;&gt;MapQuest&lt;/a&gt; &lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;p&gt;Direcciones  por cortesía de &lt;a href=&quot;http://www.mapquest.com/&quot; target=&quot;_blank&quot;&gt;MapQuest&lt;/a&gt; &lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../IRouteToolWidget.ui" line="247"/>
         <source>&lt;p&gt;Directions Courtesy of &lt;a href=&quot;http://openrouteservice.org/&quot; target=&quot;_blank&quot;&gt;OpenRouteService&lt;/a&gt; &lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;p&gt;Direcciones por cortesía de &lt;a href=&quot;http://openrouteservice.org/&quot; target=&quot;_blank&quot;&gt;OpenRouteService&lt;/a&gt; &lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../IRouteToolWidget.ui" line="277"/>
