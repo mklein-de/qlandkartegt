@@ -678,6 +678,12 @@ void IMouse::mouseMoveEventWpt(QMouseEvent * e)
         QMap<QString,CWpt*>::const_iterator wpt = CWptDB::self().begin();
         while(wpt != CWptDB::self().end())
         {
+            if((*wpt) == 0)
+            {
+                wpt++;
+                continue;
+            }
+
             double u = (*wpt)->lon * DEG_TO_RAD;
             double v = (*wpt)->lat * DEG_TO_RAD;
             map.convertRad2Pt(u,v);

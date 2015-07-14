@@ -235,6 +235,11 @@ void CDeviceGarminBulk::uploadWpts(const QList<CWpt*>& wpts)
     QStringList keys;
     foreach(CWpt* wpt, wpts)
     {
+        if(wpt == 0)
+        {
+            continue;
+        }
+
         keys << wpt->getKey();
         if(!wpt->images.isEmpty())
         {

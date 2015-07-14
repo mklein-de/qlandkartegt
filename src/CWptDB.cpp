@@ -111,8 +111,8 @@ CWptDB::~CWptDB()
 
     QMap<QString, CWpt*>::const_iterator wpt = wpts.begin();
     while(wpt != wpts.end())
-    {
-        if((*wpt)->sticky)
+    {       
+        if((*wpt) && (*wpt)->sticky)
         {
             qlb << *(*wpt);
         }
@@ -206,6 +206,11 @@ QList<CWptDB::keys_t> CWptDB::keys()
 
     foreach(k1, ks)
     {
+        if(wpts[k1] == 0)
+        {
+            continue;
+        }
+
         keys_t k2;
 
         k2.key      = k1;
@@ -960,6 +965,12 @@ void CWptDB::draw(QPainter& p, const QRect& rect, bool& needsRedraw)
     QMap<QString,CWpt*>::const_iterator wpt = wpts.begin();
     while(wpt != wpts.end())
     {
+        if((*wpt) == 0)
+        {
+            ++wpt;
+            continue;
+        }
+
         double u = (*wpt)->lon * DEG_TO_RAD;
         double v = (*wpt)->lat * DEG_TO_RAD;
         map.convertRad2Pt(u,v);
@@ -1038,6 +1049,13 @@ void CWptDB::draw(QPainter& p, const QRect& rect, bool& needsRedraw)
     wpt = wpts.begin();
     while(wpt != wpts.end())
     {
+
+        if((*wpt) == 0)
+        {
+            ++wpt;
+            continue;
+        }
+
         double u = (*wpt)->lon * DEG_TO_RAD;
         double v = (*wpt)->lat * DEG_TO_RAD;
         map.convertRad2Pt(u,v);
@@ -1121,6 +1139,12 @@ void CWptDB::draw(QPainter& p, const QRect& rect, bool& needsRedraw)
     wpt = wpts.begin();
     while(wpt != wpts.end())
     {
+        if((*wpt) == 0)
+        {
+            ++wpt;
+            continue;
+        }
+
         if((*wpt)->prx != WPT_NOFLOAT)
         {
             projXY pt1, pt2;

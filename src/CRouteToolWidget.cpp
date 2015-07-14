@@ -945,6 +945,7 @@ void CRouteToolWidget::startMapQuest(CRoute& rte)
     options.appendChild(avoids);
 
     QString xmlstr = xml.toString(0);
+    qDebug() << xmlstr;
     xmlstr = xmlstr.replace("\n","");
 
     QUrl url("http://open.mapquestapi.com");
