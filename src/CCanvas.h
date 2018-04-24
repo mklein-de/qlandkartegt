@@ -217,5 +217,6 @@ class CCanvas : public QWidget
 
         QString timezone;
         QTimer * timerClock;
+        int cumulatedDelta;
 };
 #endif                           //CCANVAS_H

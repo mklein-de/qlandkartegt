@@ -84,6 +84,7 @@ CCanvas::CCanvas(QWidget * parent)
 , info(0)
 , profile(0)
 , contextMenuActive(false)
+, cumulatedDelta(0)
 {
     setMouseTracking(true);
     setFocusPolicy(Qt::StrongFocus);
@@ -767,7 +768,15 @@ void CCanvas::drawText(const QString& str, QPainter& p, const QRect& r, const QC
 
 void CCanvas::wheelEvent(QWheelEvent * e)
 {
-    zoom(CResources::self().flipMouseWheel() ? (e->delta() > 0) : (e->delta() < 0), e->pos());
+    cumulatedDelta += e->delta();
+    while (cumulatedDelta <= -120) {
+        zoom(!CResources::self().flipMouseWheel(), e->pos());
+        cumulatedDelta += 120;
+    }
+    while (cumulatedDelta >= 120) {
+        zoom(CResources::self().flipMouseWheel(), e->pos());
+        cumulatedDelta -= 120;
+    }
 }
 
 
