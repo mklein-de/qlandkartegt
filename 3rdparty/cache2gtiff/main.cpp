@@ -35,7 +35,7 @@
 #define _MKSTR(x)           _MKSTR_1(x)
 #endif
 
-#define VER_STR             _MKSTR(VER_MAJOR)"."_MKSTR(VER_MINOR)"."_MKSTR(VER_STEP)
+#define VER_STR             _MKSTR(VER_MAJOR) "." _MKSTR(VER_MINOR) "." _MKSTR(VER_STEP)
 #define WHAT_STR            "cache2gtiff, Version " VER_STR
 
 

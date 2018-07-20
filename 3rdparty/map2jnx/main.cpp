@@ -51,7 +51,7 @@ extern "C"
 #define _MKSTR(x)           _MKSTR_1(x)
 #endif
 
-#define VER_STR             _MKSTR(VER_MAJOR)"."_MKSTR(VER_MINOR)"."_MKSTR(VER_STEP)
+#define VER_STR             _MKSTR(VER_MAJOR) "." _MKSTR(VER_MINOR) "." _MKSTR(VER_STEP)
 #define WHAT_STR            "map2jnx, Version " VER_STR
 
 #define JNX_MAX_TILES       50000 //6250

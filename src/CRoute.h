@@ -52,7 +52,7 @@ class CRoute : public IItem
 
             QString action;
 
-            operator const projXY ()
+            operator projXY ()
             {
                 projXY p;
                 p.u = lon;
