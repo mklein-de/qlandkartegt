@@ -330,7 +330,7 @@ bool CGetOpt::parse( bool untilFirstSwitchOnly )
 			qWarning( "Too many arguments" );
 			return false;
 		    }
-		} else if ( numOptArgs = 9999 ) {
+		} else if ( numOptArgs == 9999 ) {
 		    optArg.listValue->append( a );
 		} else if ( numOptArgs > 0 ) {
 		    if ( optArg.stringValue->isNull() ) { // ###
