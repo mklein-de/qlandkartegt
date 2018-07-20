@@ -284,15 +284,11 @@ int main(int argc, char ** argv)
     GDALAllRegister();
 
 #ifdef Q_OS_MAC
-    QCoreApplication::setApplicationName("QLandkarteGT");
     QCoreApplication::setApplicationVersion(VER_STR);
-    QCoreApplication::setOrganizationName("org.qlandkarte");
-    QCoreApplication::setOrganizationDomain("org.qlandkarte");
-#else
+#endif
     QCoreApplication::setApplicationName("QLandkarteGT");
     QCoreApplication::setOrganizationName("QLandkarteGT");
     QCoreApplication::setOrganizationDomain("qlandkarte.org");
-#endif
     QApplication::setWindowIcon(QIcon(":/icons/qlandkartegt.png"));
 
 #ifdef WIN32
