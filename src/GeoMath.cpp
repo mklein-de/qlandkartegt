@@ -1039,12 +1039,9 @@ bool GPS_Math_LineCrossesRect(const QPoint& p1, const QPoint& p2, const QRect& r
 }
 
 
-double GPS_Math_distPointLine3D(point3D& x1, point3D& x2, point3D& x0)
+double GPS_Math_distPointLine3D(const point3D& x1, const point3D& x2, const point3D& x0)
 {
-
-    point3D v1, v2, v3, v1x2;
-
-    double a1x2, a3;
+    point3D v1, v2, v3;
 
     // (x0 - x1)
     v1.x    = x0.x - x1.x;
@@ -1061,17 +1058,24 @@ double GPS_Math_distPointLine3D(point3D& x1, point3D& x2, point3D& x0)
     v3.y    = x2.y - x1.y;
     v3.z    = x2.z - x1.z;
 
-    // (x0 - x1)x(x0 - x2)
-    v1x2.x  = v1.y * v2.z - v1.z * v2.y;
-    v1x2.y  = v1.z * v2.x - v1.x * v2.z;
-    v1x2.z  = v1.x * v2.y - v1.y * v2.x;
-
-    // |(x0 - x1)x(x0 - x2)|
-    a1x2    = sqrt(v1x2.x*v1x2.x + v1x2.y*v1x2.y + v1x2.z*v1x2.z);
     // |(x2 - x1)|
-    a3      = sqrt(v3.x*v3.x + v3.y*v3.y + v3.z*v3.z);
+    double a3 = v3.x*v3.x + v3.y*v3.y + v3.z*v3.z;
+    if (a3 > 0.0) {
+        point3D v1x2;
 
-    return a1x2/a3;
+        // (x0 - x1)x(x0 - x2)
+        v1x2.x  = v1.y * v2.z - v1.z * v2.y;
+        v1x2.y  = v1.z * v2.x - v1.x * v2.z;
+        v1x2.z  = v1.x * v2.y - v1.y * v2.x;
+
+        // |(x0 - x1)x(x0 - x2)|
+        double a1x2 = v1x2.x*v1x2.x + v1x2.y*v1x2.y + v1x2.z*v1x2.z;
+        return sqrt(a1x2) / sqrt(a3);
+
+    } else {
+        // x1 == x2
+        return sqrt(v1.x*v1.x + v1.y*v1.y + v1.z*v1.z);
+    }
 }
 
 
@@ -1092,23 +1096,24 @@ void GPS_Math_DouglasPeucker(QVector<pointDP> &line, double d)
 
     while(!stack.isEmpty())
     {
-        int idx = -1;
         segment seg = stack.pop();
 
-        pointDP& x1 = line[seg.idx1];
-        pointDP& x2 = line[seg.idx2];
+        const pointDP& x1 = line[seg.idx1];
+        const pointDP& x2 = line[seg.idx2];
 
+        int idx = 0;
+        double max_distance = 0.;
         for(int i = seg.idx1 + 1; i < seg.idx2; i++)
         {
             double distance = GPS_Math_distPointLine3D(x1, x2, line[i]);
-            if(distance > d)
+            if(distance > max_distance)
             {
                 idx = i;
-                break;
+                max_distance = distance;
             }
         }
 
-        if(idx > 0)
+        if(max_distance > d)
         {
             stack << segment(seg.idx1, idx);
             stack << segment(idx, seg.idx2);
