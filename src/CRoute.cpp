@@ -392,7 +392,7 @@ void CRoute::setIcon(const QString& symname)
 }
 
 
-QPixmap CRoute::getIcon()
+QPixmap CRoute::getIcon() const
 {
     if(calcRoutePending)
     {

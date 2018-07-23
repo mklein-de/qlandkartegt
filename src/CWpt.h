@@ -136,7 +136,7 @@ class CWpt : public IItem
 
         QString getExtInfo(bool showHidden);
 
-        QPixmap getIcon() const;
+        QPixmap getIcon() const override;
 
         const geocache_t& getGeocacheData(){return geocache;}
 

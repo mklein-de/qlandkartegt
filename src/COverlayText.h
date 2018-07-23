@@ -45,7 +45,7 @@ class COverlayText : public IOverlay
 
         QString getInfo();
 
-        QString getName(){return getInfo();}
+        QString getName() const override {return getInfo();}
 
     private:
         friend class COverlayDB;

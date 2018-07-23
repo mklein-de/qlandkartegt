@@ -55,7 +55,7 @@ class CMapTms : public IMap
         quint32 scalePixelGrid(quint32 nPixel);
         void select(IMapSelection& ms, const QRect& rect);
 
-        QString getName(){return name;}
+        QString getName() const override {return name;}
 
     public slots:
         void resize(const QSize& size);

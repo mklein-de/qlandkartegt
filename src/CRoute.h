@@ -88,7 +88,7 @@ class CRoute : public IItem
         /// set the icon defined by a string
         void setIcon(const QString& str);
 
-        QPixmap getIcon();
+        QPixmap getIcon() override;
 
         void loadSecondaryRoute(QDomDocument& xml, service_e service);
 
