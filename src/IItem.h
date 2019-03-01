@@ -46,12 +46,12 @@ class IItem : public QObject
         virtual QString getDescription() const{return description;}
 
         /// get a summary of item's data to display on screen or in the toolview
-        virtual QString getInfo()= 0;
+        virtual QString getInfo() const = 0;
 
         /// set the icon defined by a string
         virtual void setIcon(const QString& str) = 0;
         /// get the icon as pixmap
-        virtual QPixmap getIcon() const{return iconPixmap;}
+        virtual QPixmap getIcon() const {return iconPixmap;}
         /// get the icon as string definition
         virtual QString getIconString()const {return iconString;}
 

@@ -27,9 +27,9 @@ class CSearch : public IItem
         CSearch(QObject * parent);
         virtual ~CSearch();
 
-        QString getInfo();
+        QString getInfo() const override;
 
-        void setIcon(const QString& str){}
+        void setIcon(const QString& str) override {}
 
         qreal   lon;
         qreal   lat;

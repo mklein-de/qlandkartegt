@@ -32,28 +32,28 @@ class COverlayTextBox : public IOverlay
         COverlayTextBox(const QString& text, double lon, double lat, const QPoint& anchor, const QRect& rect, QObject * parent);
         virtual ~COverlayTextBox();
 
-        void draw(QPainter& p, const QRect& viewport);
+        void draw(QPainter& p, const QRect& viewport) override;
 
         static QPolygonF makePolyline(const QPoint& anchor, const QRect& r);
 
-        bool isCloseEnough(const QPoint& pt);
+        bool isCloseEnough(const QPoint& pt) override;
 
-        void mouseMoveEvent(QMouseEvent * e);
-        void mousePressEvent(QMouseEvent * e);
-        void mouseReleaseEvent(QMouseEvent * e);
+        void mouseMoveEvent(QMouseEvent * e) override;
+        void mousePressEvent(QMouseEvent * e) override;
+        void mouseReleaseEvent(QMouseEvent * e) override;
 
-        void save(QDataStream& s);
-        void load(QDataStream& s);
+        void save(QDataStream& s) override;
+        void load(QDataStream& s) override;
 
-        bool mouseActionInProgress(){return doMove || doSize || doPos;}
+        bool mouseActionInProgress() override {return doMove || doSize || doPos;}
 
-        QString getInfo();
+        QString getInfo() const override;
 
         QString getName() const override {return getInfo();}
 
-        void makeVisible();
+        void makeVisible() override;
 
-        QRectF getBoundingRectF();
+        QRectF getBoundingRectF() override;
 
     private:
         friend class COverlayDB;

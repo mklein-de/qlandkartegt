@@ -175,7 +175,7 @@ bool COverlayTextBox::isCloseEnough(const QPoint& pt)
 }
 
 
-QString COverlayTextBox::getInfo()
+QString COverlayTextBox::getInfo() const
 {
     QString text;
 

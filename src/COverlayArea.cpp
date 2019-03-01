@@ -130,7 +130,7 @@ void COverlayArea::load(QDataStream& s)
 }
 
 
-QString COverlayArea::getInfo()
+QString COverlayArea::getInfo() const
 {
     QString info;
     QString val, unit;

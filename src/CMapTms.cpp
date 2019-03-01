@@ -653,7 +653,7 @@ void CMapTms::slotRequestFinished(QNetworkReply* reply)
         diskCache->store(_url_, img);
 
         // only paint image if on current zoom factor
-        if((req.zoomFactor == zoomFactor))
+        if (req.zoomFactor == zoomFactor)
         {
             convertRad2Pt(req.lon, req.lat);
             QPainter p;

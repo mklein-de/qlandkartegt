@@ -49,7 +49,7 @@ class IOverlay : public IItem
         /// draw what ever you want
         virtual void draw(QPainter& p, const QRect& viewport) = 0;
         /// return a short string to be displayed in a list widget
-        virtual QString getInfo(){return tr("No info set");}
+        virtual QString getInfo() const override {return tr("No info set");}
 
         /// return true if coursor is close to the overlay to redirect mouse events into the overlay
         virtual bool isCloseEnough(const QPoint& pt) = 0;
@@ -59,7 +59,7 @@ class IOverlay : public IItem
             cursor state machine must not deselect the overlay in this case. Simply return
             true, to keep it from deselecting the overlay.
         */
-        virtual bool mouseActionInProgress(){return false;}
+        virtual bool mouseActionInProgress() {return false;}
 
         /// get key press event when selected
         virtual void keyPressEvent(QKeyEvent * e){}
@@ -95,7 +95,7 @@ class IOverlay : public IItem
         void setHighlight(bool on){highlight = on;}
         bool isHighlighted(){return highlight;}
 
-        void setIcon(const QString& str);
+        void setIcon(const QString& str) override;
 
         bool visible(){return isVisible;}
 

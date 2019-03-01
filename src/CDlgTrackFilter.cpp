@@ -44,8 +44,8 @@ CDlgTrackFilter::CDlgTrackFilter(CTrack &track, QWidget * parent)
     checkReduceDataset->setChecked(false);
     checkModifyTimestamps->setChecked(false);
 
-    QList<CTrack::pt_t>& trkpts = track.getTrackPoints();
-    QList<CTrack::pt_t>::iterator trkpt   = trkpts.begin();
+    const QList<CTrack::pt_t>& trkpts = track.getTrackPoints();
+    QList<CTrack::pt_t>::const_iterator trkpt   = trkpts.begin();
 
     if(IUnit::self().baseunit == "ft")
     {
@@ -142,8 +142,8 @@ void CDlgTrackFilter::splitTrack(CTrack * trk)
 
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
 
-    QList<CTrack::pt_t>& trkpts         = trk->getTrackPoints();
-    QList<CTrack::pt_t>::iterator trkpt = trkpts.begin();
+    const QList<CTrack::pt_t>& trkpts         = trk->getTrackPoints();
+    QList<CTrack::pt_t>::const_iterator trkpt = trkpts.begin();
     int npts = trkpts.count();
 
     QProgressDialog progress(tr("Filter track..."), tr("Abort filter"), 0, npts, this);

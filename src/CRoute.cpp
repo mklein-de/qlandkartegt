@@ -406,7 +406,7 @@ QPixmap CRoute::getIcon() const
 }
 
 
-QString CRoute::getInfo()
+QString CRoute::getInfo() const
 {
     QTime time;
     QString val1, unit1, val2, unit2, str;

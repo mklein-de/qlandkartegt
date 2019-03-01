@@ -976,7 +976,7 @@ void CCanvas::slotPointOfFocus(const int idx)
         return;
     }
 
-    QList<CTrack::pt_t>& trkpts = track->getTrackPoints();
+    const QList<CTrack::pt_t>& trkpts = track->getTrackPoints();
     if(idx < trkpts.size())
     {
         if(idx < 0)
@@ -1023,7 +1023,7 @@ void CCanvas::slotHighlightTrack(CTrack * track)
 
         profile->clear();
 
-        QList<CTrack::pt_t>& trkpts = track->getTrackPoints();
+        const QList<CTrack::pt_t>& trkpts = track->getTrackPoints();
         QList<CTrack::pt_t>::const_iterator trkpt = trkpts.begin();
         while(trkpt != trkpts.end())
         {

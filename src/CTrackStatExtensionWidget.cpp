@@ -66,8 +66,8 @@ void CTrackStatExtensionWidget::slotChanged()
     QList<QPointF> focusExt;
     double val = 0;
 
-    QList<CTrack::pt_t>& trkpts = track->getTrackPoints();
-    QList<CTrack::pt_t>::iterator trkpt = trkpts.begin();
+    const QList<CTrack::pt_t>& trkpts = track->getTrackPoints();
+    QList<CTrack::pt_t>::const_iterator trkpt = trkpts.begin();
 
     while(trkpt != trkpts.end())
     {

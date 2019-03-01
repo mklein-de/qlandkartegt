@@ -86,7 +86,7 @@ class IMouse : public QObject
 
         static void resetPos1(){pos1Pixel = pos1LonLat = QPointF(-1,-1);}
 
-        void setSelTrackPt(CTrack::pt_t * pt);
+        void setSelTrackPt(const CTrack::pt_t * pt);
 
 #ifdef GPX_EXTENSIONS
         CGpxExtTr tr_ext;
@@ -181,9 +181,9 @@ class IMouse : public QObject
         QList<wpt_t> selWpts;
 
         /// current selected trackpoint
-        CTrack::pt_t * selTrkPt;
+        const CTrack::pt_t * selTrkPt;
         /// current selected routepoint
-        CRoute::pt_t * selRtePt;
+        const CRoute::pt_t * selRtePt;
         /// current selected overlay
         static QPointer<IOverlay> selOverlay;
         /// current selected map area

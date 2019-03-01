@@ -118,8 +118,8 @@ void CPlotAxis::calc()
     }
     else
     {
-        used_min = used_min;
-        used_max = used_max;
+        //used_min = used_min;
+        //used_max = used_max;
     }
 
     int t1 = ( int )( used_min / interval + 0.5);

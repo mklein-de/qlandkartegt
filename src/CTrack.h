@@ -210,6 +210,7 @@ class CTrack : public IItem
         void rebuild(bool reindex);
         /// get list of track points
         QList<pt_t>& getTrackPoints() {return track;}
+        const QList<pt_t>& getTrackPoints() const {return track;}
         /// get polyline representation of track
         QPolygon& getPolyline() {return polyline;}
         QVector<QColor>& getPolylineColor(){return polylineColor;}
@@ -225,16 +226,16 @@ class CTrack : public IItem
         /// set point of focus to a point with a given distance from start
         void getPointOfFocus(QList<pt_t>& points);
         ///
-        QDateTime getStartTimestamp();
+        QDateTime getStartTimestamp() const;
         ///
-        QDateTime getEndTimestamp();
+        QDateTime getEndTimestamp() const;
         /// get the ascend in [m]
         double getAscend() const {return totalAscend;}
         /// get the descend in [m]
         double getDescend() const {return totalDescend;}
         /// get information string for a particular trackpoint
-        QString getTrkPtInfo1(pt_t& trkpt);
-        QString getTrkPtInfo2(pt_t& trkpt);
+        QString getTrkPtInfo1(const pt_t& trkpt);
+        QString getTrkPtInfo2(const pt_t& trkpt);
         QString getFocusInfo();
         /// get the bounding rectangular that fits the track
         QRectF getBoundingRectF();
@@ -261,9 +262,9 @@ class CTrack : public IItem
         void replaceElevationByLocal(bool replaceOrignalData);
 
         /// get a summary of item's data to display on screen or in the toolview
-        QString getInfo();
+        QString getInfo() const override;
         /// set the icon defined by a string
-        void setIcon(const QString& str);
+        void setIcon(const QString& str) override;
 
         void setTimestamp(quint32 ts){timestamp = ts;}
         float getStartElevation();

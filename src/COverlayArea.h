@@ -39,31 +39,31 @@ class COverlayArea : public IOverlay
         COverlayArea(const QString& name, const QString& comment, const QColor &color, const Qt::BrushStyle style, const QList<pt_t>& pts, QObject * parent);
 
         /// draw what ever you want
-        void draw(QPainter& p, const QRect& viewport);
+        void draw(QPainter& p, const QRect& viewport) override;
         /// returns name, comment and length
-        QString getInfo();
+        QString getInfo() const override;
         /// return true if coursor is close to the overlay to redirect mouse events into the overlay
-        bool isCloseEnough(const QPoint& pt);
+        bool isCloseEnough(const QPoint& pt) override;
 
         /// returns true while moving a waypoint
-        bool mouseActionInProgress(){return doMove;}
+        bool mouseActionInProgress() override {return doMove;}
 
-        void keyPressEvent(QKeyEvent * e);
-        void mouseMoveEvent(QMouseEvent * e);
-        void mousePressEvent(QMouseEvent * e);
-        void mouseReleaseEvent(QMouseEvent * e);
+        void keyPressEvent(QKeyEvent * e) override ;
+        void mouseMoveEvent(QMouseEvent * e) override ;
+        void mousePressEvent(QMouseEvent * e) override ;
+        void mouseReleaseEvent(QMouseEvent * e) override ;
 
         /// add "Make Track" and "Edit..." to custom menu
-        void customMenu(QMenu& menu);
+        void customMenu(QMenu& menu) override ;
 
         /// iterate over all waypoints to get zoom area
-        void makeVisible();
-        void looseFocus();
-        QRectF getBoundingRectF();
+        void makeVisible() override ;
+        void looseFocus() override ;
+        QRectF getBoundingRectF() override ;
         void delPointsByIdx(const QList<int>& idx);
 
-        void save(QDataStream& s);
-        void load(QDataStream& s);
+        void save(QDataStream& s) override ;
+        void load(QDataStream& s) override ;
 
         void setWidth(quint32 w){width = w;}
         void setOpacity(quint8 o){opacity = o;}

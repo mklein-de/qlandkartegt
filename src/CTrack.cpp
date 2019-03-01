@@ -1777,10 +1777,10 @@ void CTrack::setupIterators(QList<pt_t>::iterator& begin, QList<pt_t>::iterator&
 }
 
 
-QDateTime CTrack::getStartTimestamp()
+QDateTime CTrack::getStartTimestamp() const
 {
-    QList<CTrack::pt_t>& trkpts           = track;
-    QList<CTrack::pt_t>::iterator trkpt   = trkpts.begin();
+    const QList<CTrack::pt_t>& trkpts           = track;
+    QList<CTrack::pt_t>::const_iterator trkpt   = trkpts.begin();
     while(trkpt != trkpts.end())
     {
         if(trkpt->flags & pt_t::eDeleted)
@@ -1804,10 +1804,10 @@ QDateTime CTrack::getStartTimestamp()
 }
 
 
-QDateTime CTrack::getEndTimestamp()
+QDateTime CTrack::getEndTimestamp() const
 {
-    QList<CTrack::pt_t>& trkpts           = track;
-    QList<CTrack::pt_t>::iterator trkpt   = trkpts.end() - 1;
+    const QList<CTrack::pt_t>& trkpts           = track;
+    QList<CTrack::pt_t>::const_iterator trkpt   = trkpts.end() - 1;
     while(trkpt > trkpts.begin())
     {
         if(trkpt->flags & pt_t::eDeleted)
@@ -1865,7 +1865,7 @@ float CTrack::getEndElevation()
 
 
 /// get a summary of item's data to display on screen or in the toolview
-QString CTrack::getInfo()
+QString CTrack::getInfo() const
 {
     QString val1, unit1, val2, unit2;
     QString str     = getName();
@@ -1935,7 +1935,7 @@ void CTrack::setIcon(const QString& str)
 }
 
 
-QString CTrack::getTrkPtInfo1(pt_t& trkpt)
+QString CTrack::getTrkPtInfo1(const pt_t& trkpt)
 {
     QString str, val, unit;
 
@@ -2071,7 +2071,7 @@ QString CTrack::getTrkPtInfo1(pt_t& trkpt)
 }
 
 
-QString CTrack::getTrkPtInfo2(pt_t& trkpt)
+QString CTrack::getTrkPtInfo2(const pt_t& trkpt)
 {
     QString str, val, unit;
 

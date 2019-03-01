@@ -63,7 +63,7 @@ bool COverlayText::isCloseEnough(const QPoint& pt)
 }
 
 
-QString COverlayText::getInfo()
+QString COverlayText::getInfo() const
 {
     QString text = doc->toPlainText();
     if(text.isEmpty())
