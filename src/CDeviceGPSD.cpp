@@ -212,7 +212,9 @@ void CGPSDThread::run()
             }                    // if
             else if( FD_ISSET( gpsdata->gps_fd, &fds ) )
             {
-#if GPSD_API_MAJOR_VERSION >= 5
+#if GPSD_API_MAJOR_VERSION >= 7
+                gps_read( gpsdata, nullptr, 0 );
+#elif GPSD_API_MAJOR_VERSION >= 5
                 gps_read( gpsdata );
 #else
                 gps_poll( gpsdata );
