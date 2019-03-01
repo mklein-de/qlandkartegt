@@ -23,6 +23,7 @@
 #include "CCanvas.h"
 #include "CMapDB.h"
 #include "IMap.h"
+#include "version.h"
 
 #include <QtGui>
 #include <QtXml>
@@ -100,7 +101,7 @@ void CSearchDB::startGoogle(const QString& str)
     url.addQueryItem("sensor","false");
 #endif
     QNetworkRequest request;
-
+    request.setRawHeader("User-Agent", "QLandkarteGT/" VER_STR " (MacPorts)");
     request.setUrl(url);
     QNetworkReply * reply = networkAccessManager.get(request);
     pendingRequests[reply] = eGoogle;
@@ -167,7 +168,7 @@ void CSearchDB::startOpenRouteService(const QString& str)
     url.setPath("/qlandkarte/geocode");
 
     QNetworkRequest request;
-
+    request.setRawHeader("User-Agent", "QLandkarteGT/" VER_STR " (MacPorts)");
     request.setUrl(url);
     QNetworkReply * reply = networkAccessManager.post(request, array);
     pendingRequests[reply] = eOpenRouteService;

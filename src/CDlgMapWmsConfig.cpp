@@ -21,6 +21,7 @@
 #include "CMapDB.h"
 #include "CResources.h"
 #include "CMainWindow.h"
+#include "version.h"
 
 #include <QtGui>
 #include <QtXml>
@@ -150,7 +151,7 @@ CDlgMapWmsConfig::CDlgMapWmsConfig(CMapWms &map)
         this, SLOT(slotProxyAuthenticationRequired(const QNetworkProxy&, QAuthenticator*)));
 
     QNetworkRequest request;
-
+    request.setRawHeader("User-Agent", "QLandkarteGT/" VER_STR " (MacPorts)");
     QUrl url(map.urlstr);
 #ifdef QK_QT5_PORT
     QUrlQuery urlQuery;

@@ -24,6 +24,7 @@
 #include "CDlgMapWmsConfig.h"
 #include "CMapSelectionRaster.h"
 #include "CSettings.h"
+#include "version.h"
 
 #include <QtGui>
 #include <QtXml>
@@ -639,7 +640,7 @@ void CMapWms::checkQueue()
         }
 
         QNetworkRequest request;
-
+        request.setRawHeader("User-Agent", "QLandkarteGT/" VER_STR " (MacPorts)");
         request.setUrl(req.url);
         req.reply = accessManager->get(request);
 
@@ -675,7 +676,7 @@ void CMapWms::slotRequestFinished(QNetworkReply* reply)
             QUrl url(urlRedir);
 
             QNetworkRequest request;
-
+            request.setRawHeader("User-Agent", "QLandkarteGT/" VER_STR " (MacPorts)");
             request.setUrl(url);
             req.reply = accessManager->get(request);
 

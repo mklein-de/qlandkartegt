@@ -26,6 +26,7 @@
 #include "CDlgMapTmsConfig.h"
 #include "CMapSelectionRaster.h"
 #include "CSettings.h"
+#include "version.h"
 
 #include <QtGui>
 #include <QtNetwork>
@@ -607,7 +608,7 @@ void CMapTms::checkQueue()
         }
 
         QNetworkRequest request;
-
+        request.setRawHeader("User-Agent", "QLandkarteGT/" VER_STR " (MacPorts)");
         request.setUrl(req.url);
         foreach(const rawHeaderItem_t& item, rawHeaderItems)
         {

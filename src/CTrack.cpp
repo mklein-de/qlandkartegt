@@ -26,6 +26,7 @@
 #include "CWptDB.h"
 #include "CTrackDB.h"
 #include "CSettings.h"
+#include "version.h"
 
 #include <QtGui>
 #include <QNetworkProxy>
@@ -1025,7 +1026,7 @@ void CTrack::replaceElevationByRemote(bool replaceOrignalData)
 #endif
 
         QNetworkRequest request;
-
+        request.setRawHeader("User-Agent", "QLandkarteGT/" VER_STR " (MacPorts)");
         request.setUrl(url);
         QNetworkReply * reply = networkAccessManager->get(request);
 

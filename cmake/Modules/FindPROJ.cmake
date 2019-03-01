@@ -26,6 +26,7 @@ else (PROJ_LIBRARIES AND PROJ_INCLUDE_DIRS)
         /usr/include
         /usr/local/include
         /opt/local/include
+        /opt/local/lib/proj49/include
         /sw/include
         ${CMAKE_SOURCE_DIR}/Win32/GDAL/include
     PATH_SUFFIXES
@@ -42,6 +43,7 @@ else (PROJ_LIBRARIES AND PROJ_INCLUDE_DIRS)
         /usr/lib
         /usr/local/lib
         /opt/local/lib
+        /opt/local/lib/proj49/lib
         /sw/lib
         ${CMAKE_SOURCE_DIR}/Win32/GDAL/lib
   )

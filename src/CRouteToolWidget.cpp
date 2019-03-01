@@ -524,7 +524,7 @@ void CRouteToolWidget::startOpenRouteService(CRoute& rte)
     url.setPath("/qlandkarte/route");
 
     QNetworkRequest request;
-
+    request.setRawHeader("User-Agent", "QLandkarteGT/" VER_STR " (MacPorts)");
     request.setUrl(url);
 
     QNetworkReply* reply = m_networkAccessManager->post(request, array);
@@ -973,7 +973,7 @@ void CRouteToolWidget::startMapQuest(CRoute& rte)
     //    qDebug() << url.toString();
 
     QNetworkRequest request;
-
+    request.setRawHeader("User-Agent", "QLandkarteGT/" VER_STR " (MacPorts)");
     request.setUrl(url);
     m_networkAccessManager->get(request);
 
