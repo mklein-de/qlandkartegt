@@ -32,7 +32,7 @@ class CMapSelectionRaster : public IMapSelection
 
         QString getDescription() const;
 
-        QString getInfo(){return getDescription();}
+        QString getInfo() const {return getDescription();}
 
         void setIcon(const QString&){};
 

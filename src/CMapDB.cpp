@@ -1002,7 +1002,7 @@ void CMapDB::select(const QRect& rect, const QMap< QPair<int,int>, bool>& selTil
 
     if(theMap->maptype == IMap::eRaster || theMap->maptype == IMap::eWMS || theMap->maptype == IMap::eTMS)
     {
-        CMapSelectionRaster * ms;
+        CMapSelectionRaster * ms = nullptr;
         if(theMap->maptype == IMap::eRaster)
         {
             ms = new CMapSelectionRaster(IMapSelection::eGDAL, this);

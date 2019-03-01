@@ -340,7 +340,7 @@ void CDiary::slotEditWidgetDied(QObject*)
 }
 
 
-QString CDiary::getInfo()
+QString CDiary::getInfo() const
 {
     QString str;
 

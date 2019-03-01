@@ -702,7 +702,7 @@ void CMapWms::slotRequestFinished(QNetworkReply* reply)
             diskCache->store(req.url.toString(), img);
 
             // only paint image if on current zoom factor
-            if((req.zoomFactor == zoomFactor))
+            if (req.zoomFactor == zoomFactor)
             {
                 convertRad2Pt(req.lon, req.lat);
                 p.drawImage(req.lon, req.lat, img);

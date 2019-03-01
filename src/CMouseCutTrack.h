@@ -34,7 +34,7 @@ class CMouseCutTrack  : public IMouse
         void mouseReleaseEvent(QMouseEvent * e);
 
     private:
-        CTrack::pt_t * nextTrkPt;
+        const CTrack::pt_t * nextTrkPt;
 
 };
 #endif                           //CMOUSECUTTRACK_H

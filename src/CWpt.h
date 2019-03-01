@@ -131,8 +131,8 @@ class CWpt : public IItem
         enum type_e {eEnd,eBase,eImage,eGeoCache};
         static QDir& getWptPath(){return path;}
 
-        void setIcon(const QString& str);
-        QString getInfo();
+        void setIcon(const QString& str) override;
+        QString getInfo() const override;
 
         QString getExtInfo(bool showHidden);
 

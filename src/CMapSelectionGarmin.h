@@ -30,18 +30,18 @@ class CMapSelectionGarmin : public IMapSelection
         CMapSelectionGarmin(QObject * parent);
         virtual ~CMapSelectionGarmin();
 
-        QDataStream& operator>>(QDataStream&);
+        QDataStream& operator>>(QDataStream&) override;
 
-        void draw(QPainter& p, const QRect& rect);
+        void draw(QPainter& p, const QRect& rect) override;
 
-        bool isEmpty(){return tilecnt == 0;}
+        bool isEmpty() override {return tilecnt == 0;}
 
         quint32 getMemSize();
         void calcArea();
 
-        QString getInfo(){return getDescription();}
-        QString getDescription() const {return IItem::getDescription();}
-        void setIcon(const QString&){}
+        QString getInfo() const override {return getDescription();}
+        QString getDescription() const override {return IItem::getDescription();}
+        void setIcon(const QString&) override {}
 
         struct tile_t
         {

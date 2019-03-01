@@ -30,23 +30,14 @@ class CGpxExtPt
 {
     public:
 
-        CGpxExtPt()              // der Default-Konstruktor
-        {
-        }
-        ~CGpxExtPt()             // der Destruktor
-        {
-        }
-
-                                 //Methode um die extensions aus dem xml file in eine values map zu packen
+        //Methode um die extensions aus dem xml file in eine values map zu packen
         void setValues(const QDomNode& parent);
-        int getSize();
-                                 //ausgabe des wertes der extension
-        QString getValue (const QString& name);
+        int getSize() const;
+        //ausgabe des wertes der extension
+        QString getValue (const QString& name) const;
 
-                                 //deklaration der QMap values, die die extensions enthlt
+        //deklaration der QMap values, die die extensions enthlt
         QMap<QString, QString> values;
-
-    private:
 
 };
 
@@ -55,8 +46,5 @@ class CGpxExtTr
     public:
         void addKey2List(const QDomNode& parent);
         QSet<QString> set;       // Deklaration eines set in die die QMap namen sollen
-
-    private:
-
 };
 #endif

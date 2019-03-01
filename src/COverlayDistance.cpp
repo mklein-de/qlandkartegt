@@ -133,7 +133,7 @@ void COverlayDistance::load(QDataStream& s)
 }
 
 
-QString COverlayDistance::getInfo()
+QString COverlayDistance::getInfo() const
 {
     QString info;
     QString val, unit;

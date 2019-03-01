@@ -42,9 +42,9 @@ class CDiary : public IItem
 
         enum type_e {eEnd,eBase, eWpt, eTrk, eRte};
 
-        QString getInfo();
+        QString getInfo() const override;
 
-        void setIcon(const QString&){}
+        void setIcon(const QString&) override {}
 
         void linkToProject(quint64 key);
 

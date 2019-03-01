@@ -49,35 +49,35 @@ class COverlayDistance : public IOverlay
         virtual ~COverlayDistance();
 
         /// returns true while moving a waypoint
-        bool mouseActionInProgress(){return doMove;}
+        bool mouseActionInProgress() override {return doMove;}
         /// returns name, comment and length
-        QString getInfo();
+        QString getInfo() const override;
         /// returns true if pt is close as 30px to a waypoint
-        bool isCloseEnough(const QPoint& pt);
+        bool isCloseEnough(const QPoint& pt) override;
 
         /// draw the ployline, waypoints and action icons
-        void draw(QPainter& p, const QRect& viewport);
+        void draw(QPainter& p, const QRect& viewport) override;
 
-        void keyPressEvent(QKeyEvent * e);
-        void mouseMoveEvent(QMouseEvent * e);
-        void mousePressEvent(QMouseEvent * e);
-        void mouseReleaseEvent(QMouseEvent * e);
+        void keyPressEvent(QKeyEvent * e) override;
+        void mouseMoveEvent(QMouseEvent * e) override;
+        void mousePressEvent(QMouseEvent * e) override;
+        void mouseReleaseEvent(QMouseEvent * e) override;
 
         /// get last point of polyline
         projXY getLast(){return points.last();}
 
         /// add "Make Track" and "Edit..." to custom menu
-        void customMenu(QMenu& menu);
+        void customMenu(QMenu& menu) override;
 
-        void save(QDataStream& s);
-        void load(QDataStream& s);
+        void save(QDataStream& s) override;
+        void load(QDataStream& s) override;
 
         /// iterate over all waypoints to get zoom area
-        void makeVisible();
+        void makeVisible() override;
 
-        void looseFocus();
+        void looseFocus() override;
 
-        QRectF getBoundingRectF();
+        QRectF getBoundingRectF() override;
 
         void delPointsByIdx(const QList<int>& idx);
 

@@ -31,19 +31,19 @@ class COverlayText : public IOverlay
         COverlayText(const QString& text, const QRect& rect, QObject * parent);
         virtual ~COverlayText();
 
-        bool isCloseEnough(const QPoint& pt);
-        void draw(QPainter& p, const QRect& viewport);
+        bool isCloseEnough(const QPoint& pt) override;
+        void draw(QPainter& p, const QRect& viewport) override;
 
-        void mouseMoveEvent(QMouseEvent * e);
-        void mousePressEvent(QMouseEvent * e);
-        void mouseReleaseEvent(QMouseEvent * e);
+        void mouseMoveEvent(QMouseEvent * e) override;
+        void mousePressEvent(QMouseEvent * e) override;
+        void mouseReleaseEvent(QMouseEvent * e) override;
 
-        void save(QDataStream& s);
-        void load(QDataStream& s);
+        void save(QDataStream& s) override;
+        void load(QDataStream& s) override;
 
-        bool mouseActionInProgress(){return doMove || doSize;}
+        bool mouseActionInProgress() override {return doMove || doSize;}
 
-        QString getInfo();
+        QString getInfo() const override;
 
         QString getName() const override {return getInfo();}
 

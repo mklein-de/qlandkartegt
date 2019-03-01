@@ -488,7 +488,7 @@ bool CWpt::hasHiddenInformation()
 }
 
 
-QString CWpt::getInfo()
+QString CWpt::getInfo() const
 {
     QString str /*= getName()*/;
 

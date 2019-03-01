@@ -611,12 +611,12 @@ void CDeviceGarmin::slotTimeout()
         log.timestamp = t.toLocalTime().toTime_t();
 
         // multiply by 100 to avoid leaving the float range.
-        float heading = fabsf((100.0 * pvt.east) / (100.0 * pvt.north));
+        float heading = fabsf((100.0f * pvt.east) / (100.0f * pvt.north));
         heading = atanf(heading) / (2*M_PI) * 360.0;
         if( (pvt.north > 0.0) & (pvt.east > 0.0) )
         {
             // 1st quadrant
-            heading = heading;
+            //heading = heading;
         }
         else if( (pvt.north > 0.0) & (pvt.east < 0.0) )
         {

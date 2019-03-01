@@ -73,7 +73,7 @@ void CTrackStatDistanceWidget::slotChanged()
     QPolygonF marksDist;
     QList<QPointF> focusDist;
 
-    QList<CTrack::pt_t>& trkpts = track->getTrackPoints();
+    const QList<CTrack::pt_t>& trkpts = track->getTrackPoints();
     QList<CTrack::pt_t>::const_iterator trkpt = trkpts.begin();
     while(trkpt != trkpts.end())
     {

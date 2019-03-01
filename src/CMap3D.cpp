@@ -346,8 +346,8 @@ void CMap3D::slotTrackModeChanged()
 
         trkPointIndex = -1;
         int cnt = -1;
-        QList<CTrack::pt_t>& pts          = theTrack->getTrackPoints();
-        QList<CTrack::pt_t>::iterator pt  = pts.begin();
+        const QList<CTrack::pt_t>& pts          = theTrack->getTrackPoints();
+        QList<CTrack::pt_t>::const_iterator pt  = pts.begin();
         while(pt != pts.end())
         {
             cnt++;
@@ -527,7 +527,7 @@ void CMap3D::setElevationLimits()
     if(!theTrack.isNull())
     {
         /*selected track exist and dem isn't present for this map*/
-        QList<CTrack::pt_t>& trkpts = theTrack->getTrackPoints();
+        const QList<CTrack::pt_t>& trkpts = theTrack->getTrackPoints();
         QList<CTrack::pt_t>::const_iterator trkpt = trkpts.begin();
         while(trkpt != trkpts.end())
         {
@@ -625,7 +625,7 @@ void CMap3D::setTrackObject()
         glLineWidth(5.0);
         highBorderColor = track->getColor();
 
-        QList<CTrack::pt_t>& trkpts = track->getTrackPoints();
+        const QList<CTrack::pt_t>& trkpts = track->getTrackPoints();
         QList<CTrack::pt_t>::const_iterator trkpt = trkpts.begin();
 
         pt1.u = trkpt->lon * DEG_TO_RAD;
@@ -1700,7 +1700,7 @@ void CMap3D::keyPressEvent ( QKeyEvent * e )
     if(changePOV2Track)
     {
 
-        QList<CTrack::pt_t>& trkpts = theTrack->getTrackPoints();
+        const QList<CTrack::pt_t>& trkpts = theTrack->getTrackPoints();
         if(trkPointIndex >= trkpts.count())
         {
             trkPointIndex = trkpts.count() - 1;

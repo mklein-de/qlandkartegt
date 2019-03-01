@@ -500,7 +500,7 @@ void CTrackDB::saveGPX(CGpx& gpx, const QStringList& keys)
         QDomElement trkseg = gpx.createElement("trkseg");
         trk.appendChild(trkseg);
 
-        QList<CTrack::pt_t>& pts = track->getTrackPoints();
+        const QList<CTrack::pt_t>& pts = track->getTrackPoints();
         QList<CTrack::pt_t>::const_iterator pt = pts.begin();
         while(pt != pts.end())
         {

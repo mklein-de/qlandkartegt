@@ -30,13 +30,13 @@ void CGpxExtPt::setValues(const QDomNode& parent)
 }
 
 
-int CGpxExtPt::getSize()
+int CGpxExtPt::getSize() const
 {
     return values.size();
 }
 
 
-QString CGpxExtPt::getValue (const QString& name)
+QString CGpxExtPt::getValue (const QString& name) const
 {
     return values.value(name);
 }

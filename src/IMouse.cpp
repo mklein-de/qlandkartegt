@@ -1027,12 +1027,12 @@ void IMouse::mouseMoveEventTrack(QMouseEvent * e)
     CTrack * track = CTrackDB::self().highlightedTrack();
     if(track == 0) return;
 
-    CTrack::pt_t * oldTrackPt = selTrkPt;
+    const CTrack::pt_t * oldTrackPt = selTrkPt;
     int d1      = 20;
     selTrkPt    = 0;
 
-    QList<CTrack::pt_t>& pts          = track->getTrackPoints();
-    QList<CTrack::pt_t>::iterator pt  = pts.begin();
+    const QList<CTrack::pt_t>& pts          = track->getTrackPoints();
+    QList<CTrack::pt_t>::const_iterator pt  = pts.begin();
     while(pt != pts.end())
     {
         if(pt->flags & CTrack::pt_t::eDeleted)
@@ -1074,7 +1074,7 @@ void IMouse::mouseMoveEventRoute(QMouseEvent * e)
     IMap& map = CMapDB::self().getMap();
     double u,v;
 
-    CRoute::pt_t * oldRoutePt = selRtePt;
+    const CRoute::pt_t * oldRoutePt = selRtePt;
     int d1      = 20;
     selRtePt    = 0;
 
@@ -1205,7 +1205,7 @@ void IMouse::slotSetPos1()
 }
 
 
-void IMouse::setSelTrackPt(CTrack::pt_t * pt)
+void IMouse::setSelTrackPt(const CTrack::pt_t * pt)
 {
     selTrkPt = pt;
     canvas->update();

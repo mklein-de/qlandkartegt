@@ -83,7 +83,7 @@ void CMouseCutTrack::mouseMoveEvent(QMouseEvent * e)
     int idx = 0;
     if(selTrkPt)
     {
-        QList<CTrack::pt_t>& trkpts = track->getTrackPoints();
+        const QList<CTrack::pt_t>& trkpts = track->getTrackPoints();
         idx = trkpts.indexOf(*selTrkPt);
         while(idx < trkpts.size())
         {

@@ -33,7 +33,7 @@ CSearch::~CSearch()
 }
 
 
-QString CSearch::getInfo()
+QString CSearch::getInfo() const
 {
     QString str;
 

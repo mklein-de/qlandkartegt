@@ -81,14 +81,14 @@ class CRoute : public IItem
         QRectF getBoundingRectF();
 
         /// get a summary of item's data to display on screen or in the toolview
-        QString getInfo();
+        QString getInfo() const override;
 
         double getDistance(){return dist;}
 
         /// set the icon defined by a string
-        void setIcon(const QString& str);
+        void setIcon(const QString& str) override;
 
-        QPixmap getIcon() override;
+        QPixmap getIcon() const override;
 
         void loadSecondaryRoute(QDomDocument& xml, service_e service);
 
