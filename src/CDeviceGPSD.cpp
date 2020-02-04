@@ -235,7 +235,11 @@ void CGPSDThread::run()
 bool CGPSDThread::decodeData()
 {
     // see, if it's interesting
+#if GPSD_API_MAJOR_VERSION >= 9
+    if( gpsdata->fix.time.tv_sec == 0 )
+#else
     if( gpsdata->fix.time == 0 )
+#endif
         return true;
     static const gps_mask_t interesting_mask = TIME_SET | LATLON_SET
         | ALTITUDE_SET | SPEED_SET | TRACK_SET | STATUS_SET | MODE_SET
@@ -265,7 +269,11 @@ bool CGPSDThread::decodeData()
     current_log.lon = gpsdata->fix.longitude;
     current_log.lat = gpsdata->fix.latitude;
     current_log.ele = gpsdata->fix.altitude;
+#if GPSD_API_MAJOR_VERSION >= 9
+    current_log.timestamp = gpsdata->fix.time.tv_sec;
+#else
     current_log.timestamp = gpsdata->fix.time;
+#endif
     current_log.error_horz = gpsdata->fix.epx;
     current_log.error_vert = gpsdata->fix.epv;
     current_log.heading = gpsdata->fix.track;
