@@ -20,6 +20,7 @@
 #include "CResources.h"
 #include "CMainWindow.h"
 
+#include <QStyle>
 #include <QtGui>
 
 CDlgProxy::CDlgProxy(QString &user, QString &pwd, QWidget *parent)

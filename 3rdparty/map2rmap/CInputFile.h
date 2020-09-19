@@ -18,6 +18,7 @@
 #ifndef CINPUTFILE_H
 #define CINPUTFILE_H
 
+#include <QList>
 #include <QString>
 #include <QVector>
 #include <gdal_priv.h>

@@ -55,8 +55,10 @@
 #include "CResources.h"
 #include "CCanvas.h"
 
-#include <QtGui>
+#include <QAction>
+#include <QButtonGroup>
 #include <QColorDialog>
+#include <QtGui>
 
 CTextEditWidget::CTextEditWidget(QWidget * parent)
 : QWidget(parent)
