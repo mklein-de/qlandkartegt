@@ -1010,7 +1010,7 @@ void CTrack::replaceElevationByRemote(bool replaceOrignalData)
             trkpt++;
         }
 
-        QUrl url("http://ws.geonames.org");
+        QUrl url("http://api.geonames.org");
         url.setPath("/srtm3");
 #ifdef QK_QT5_PORT
         QUrlQuery urlQuery;
@@ -1052,6 +1052,7 @@ void CTrack::slotRequestFinished(QNetworkReply * reply)
 {
     if(reply->error() != QNetworkReply::NoError)
     {
+        qWarning() << reply->errorString();
         return;
     }
 
