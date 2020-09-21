@@ -31,7 +31,7 @@ add_definitions(-DVER_MAJOR=${APPLICATION_VERSION_MAJOR} -DVER_MINOR=${APPLICATI
 
 set(EXECUTABLE_OUTPUT_PATH ${CMAKE_BINARY_DIR}/bin)
 if (APPLE)
-  set(PROGNAME "QLandkarte GT")
+  set(PROGNAME "QLandkarteGT")
   set(CONFIGDIR "Library/Application Support/${PROGNAME}/")
   set(MAC_BUNDLE_PATH ${EXECUTABLE_OUTPUT_PATH}/${PROGNAME}.app)
   set(MAC_ICON_FILE qlandkartegt.icns)
@@ -62,6 +62,8 @@ include(DefineCMakeDefaults)
 include(DefineCompilerFlags)
 include(DefineInstallationPaths)
 include(CPackConfig.cmake)
+
+find_package(PkgConfig REQUIRED)
 
 # config.h generation
 if (NOT WIN32)

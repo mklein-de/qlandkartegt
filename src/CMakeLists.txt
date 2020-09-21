@@ -1,5 +1,7 @@
 project(qlandkarteqt-binary)
 
+cmake_minimum_required(VERSION 3.1)
+
 option(WITH_EXIF "BUILD EXIF" ON)
 option(WITH_DMTX "BUILD DMTX" ON)
 option(WITH_GPSD "BUILD_GPSD" ON)
@@ -30,18 +32,19 @@ else(QK_QT5_PORT)
   include(${QT_USE_FILE})
 endif(QK_QT5_PORT)
 
+find_package(PkgConfig REQUIRED)
 find_package(OpenGL REQUIRED)
 find_package(GDAL REQUIRED)
-find_package(PROJ REQUIRED)
+pkg_check_modules(PROJ REQUIRED IMPORTED_TARGET proj)
 add_definitions(-DACCEPT_USE_OF_DEPRECATED_PROJ_API_H=1)
 if(WITH_EXIF)
-    find_package(EXIF)
+    pkg_check_modules(EXIF IMPORTED_TARGET libexif)
 endif(WITH_EXIF)
 if(WITH_DMTX)
-    find_package(DMTX)
+    pkg_check_modules(DMTX IMPORTED_TARGET libdmtx)
 endif(WITH_DMTX)
 if(WITH_GPSD)
-    find_package(GPSD)
+    pkg_check_modules(GPSD IMPORTED_TARGET libgps)
 endif(WITH_GPSD)
 
 if (NOT WIN32)
@@ -565,9 +568,6 @@ if(GPSD_FOUND)
     add_definitions(-DHAS_GPSD)
     SET(qlandkarte_HDRS ${qlandkarte_HDRS} CDeviceGPSD.h )
     SET(qlandkarte_SRCS ${qlandkarte_SRCS} CDeviceGPSD.cpp)
-else(GPSD_FOUND)
-    SET(GPSD_INCLUDE_DIRS "")
-    SET(GPSD_LIBRARIES "")
 endif(GPSD_FOUND)
 
 IF(EXIF_FOUND)
@@ -575,16 +575,10 @@ IF(EXIF_FOUND)
     SET(qlandkarte_HDRS ${qlandkarte_HDRS} CDlgImportImages.h )
     SET(qlandkarte_SRCS ${qlandkarte_SRCS} CDlgImportImages.cpp)
     SET(qlandkarte_UIS ${qlandkarte_UIS} IDlgImportImages.ui)
-else(EXIF_FOUND)
-    set(EXIF_INCLUDE_DIRS "")
-    set(EXIF_LIBRARIES "")
 ENDIF(EXIF_FOUND)
 
 IF(DMTX_FOUND)
     add_definitions(-DHAS_DMTX)
-else(DMTX_FOUND)
-    set(DMTX_INCLUDE_DIRS "")
-    set(DMTX_LIBRARIES "")
 ENDIF(DMTX_FOUND)
 
 IF(NOT QTSOAP_FOUND)
@@ -673,16 +667,12 @@ set(qlandkarte_include_dirs
   ${CMAKE_CURRENT_BINARY_DIR}
   ${OPENGL_INCLUDE_DIR}
   ${GDAL_INCLUDE_DIRS}
-  ${PROJ_INCLUDE_DIRS}
   ${CMAKE_SOURCE_DIR}/include
   ${CMAKE_SOURCE_DIR}/3rdparty/QZip
   ${CMAKE_SOURCE_DIR}/3rdparty/QTextHtmlExporter
   ${CMAKE_SOURCE_DIR}/3rdparty/QDeviceWatcher
   ${CMAKE_SOURCE_DIR}/3rdparty/getopt
   ${QTSOAP_INCLUDE_DIRS}
-  ${EXIF_INCLUDE_DIRS}
-  ${DMTX_INCLUDE_DIRS}
-  ${GPSD_INCLUDE_DIRS}
   ${QEXTSERIALPORT_INCLUDE_DIRS}
 )
 
@@ -785,7 +775,6 @@ set(qlandkarte_link_libs
     ${PROGNAME}
     ${OPENGL_LIBRARIES}
     ${GDAL_LIBRARIES}
-    ${PROJ_LIBRARIES}
     ${QT_LIBRARIES}
     ${QT_QTNETWORK_LIBRARIES}
     ${QT_QTXML_LIBRARIES}
@@ -797,15 +786,25 @@ set(qlandkarte_link_libs
     ${QT_QTSCRIPT_LIBRARIES}
     ${QT_QTXMLPATTERNS_LIBRARIES}
     ${QT_QTOPENGL_LIBRARIES}
-    ${EXIF_LIBRARIES}
-    ${DMTX_LIBRARIES}
-    ${GPSD_LIBRARIES}
     qzip
     qtexthtmlexporter
     getopt
     ${QTSOAP_LIBRARIES}
     ${PROFILING_LIBRARIES}
+    PkgConfig::PROJ
 )
+
+if(EXIF_FOUND)
+    target_link_libraries(${PROGNAME} PkgConfig::EXIF)
+endif(EXIF_FOUND)
+
+if(DMTX_FOUND)
+    target_link_libraries(${PROGNAME} PkgConfig::DMTX)
+endif(DMTX_FOUND)
+
+if(GPSD_FOUND)
+    target_link_libraries(${PROGNAME} PkgConfig::GPSD)
+endif(GPSD_FOUND)
 
 if(NOT QK_QT5_SERIAL_PORT)
   set(qlandkarte_link_libs

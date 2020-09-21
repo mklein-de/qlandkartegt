@@ -1,10 +1,11 @@
 project(map2gcm)
 
-# Required cmake version
-cmake_minimum_required(VERSION 2.6.0)
+cmake_minimum_required(VERSION 3.1)
+
+find_package(PkgConfig REQUIRED)
 
 find_package(GDAL REQUIRED)
-find_package(PROJ REQUIRED)
+pkg_check_modules(PROJ REQUIRED IMPORTED_TARGET proj)
 add_definitions(-DACCEPT_USE_OF_DEPRECATED_PROJ_API_H=1)
 
 if(QK_QT5_PORT)
@@ -88,12 +89,12 @@ if(MSVC)
   add_definitions(-D_CRT_SECURE_NO_DEPRECATE )
 endif(MSVC)
 
-target_link_libraries( cache2gtiff
+target_link_libraries(cache2gtiff
     ${GDAL_LIBRARIES}
-    ${PROJ_LIBRARIES}
     ${JPEG_LIBRARIES}
     ${QT_LIBRARIES}
     ${QT_QTXML_LIBRARIES}
+    PkgConfig::PROJ
 )
 
 

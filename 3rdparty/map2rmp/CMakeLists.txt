@@ -1,10 +1,11 @@
 project(map2rmp)
 
-# Required cmake version
 cmake_minimum_required(VERSION 2.6.0)
 
+find_package(PkgConfig REQUIRED)
+
 find_package(GDAL REQUIRED)
-find_package(PROJ REQUIRED)
+pkg_check_modules(PROJ REQUIRED IMPORTED_TARGET proj)
 add_definitions(-DACCEPT_USE_OF_DEPRECATED_PROJ_API_H=1)
 find_package(JPEG REQUIRED)
 
@@ -84,11 +85,11 @@ endif(MSVC)
 
 
 
-target_link_libraries( map2rmp
+target_link_libraries(map2rmp
     ${GDAL_LIBRARIES}
-    ${PROJ_LIBRARIES}
     ${JPEG_LIBRARIES}
     ${QT_LIBRARIES}
+    PkgConfig::PROJ
 )
 if(QK_QT5_PORT)
   qt5_use_modules(map2rmp Widgets)
