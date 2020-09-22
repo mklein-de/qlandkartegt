@@ -33,11 +33,12 @@
 #include "IUnit.h"
 #include "CSettings.h"
 
-#include <QtGui>
-#include <QMessageBox>
+#include <QAction>
 #include <QColorDialog>
+#include <QMessageBox>
 #include <QPrintDialog>
 #include <QPrinter>
+#include <QtGui>
 
 class CDiaryEditLock
 {

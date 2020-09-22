@@ -19,6 +19,7 @@
 #include "CLiveLogToolWidget.h"
 #include "CLiveLogDB.h"
 
+#include <QTabWidget>
 #include <QtGui>
 
 CLiveLogToolWidget::CLiveLogToolWidget(QTabWidget * parent)

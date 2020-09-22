@@ -1,6 +1,7 @@
 
 find_package(GDAL REQUIRED)
 find_package(PROJ REQUIRED)
+add_definitions(-DACCEPT_USE_OF_DEPRECATED_PROJ_API_H=1)
 find_package(JPEG REQUIRED)
 
 IF(WIN32)
