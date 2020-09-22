@@ -740,6 +740,7 @@ if (APPLE)
   )
   add_executable(${PROGNAME} MACOSX_BUNDLE ${qlandkarte_ALLINP} ${MAC_EXTRA_RES})
   set_target_properties(${PROGNAME} PROPERTIES
+        OUTPUT_NAME ${BUNDLENAME}
         MACOSX_BUNDLE_INFO_PLIST ${CMAKE_SOURCE_DIR}/MacOSX/Info.plist.in
         LINK_FLAGS "-framework CoreFoundation -framework DiskArbitration"
   )
