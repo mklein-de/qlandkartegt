@@ -1,6 +1,11 @@
+project(map2jnx)
+
+cmake_minimum_required(VERSION 3.1)
+
+find_package(PkgConfig REQUIRED)
 
 find_package(GDAL REQUIRED)
-find_package(PROJ REQUIRED)
+pkg_check_modules(PROJ REQUIRED IMPORTED_TARGET proj)
 add_definitions(-DACCEPT_USE_OF_DEPRECATED_PROJ_API_H=1)
 find_package(JPEG REQUIRED)
 
@@ -42,7 +47,11 @@ IF(WIN32)
   ADD_DEFINITIONS(-D_CRT_SECURE_NO_DEPRECATE)
 ENDIF(WIN32)
 
-TARGET_LINK_LIBRARIES(map2jnx ${GDAL_LIBRARIES} ${PROJ_LIBRARIES} ${JPEG_LIBRARIES})
+target_link_libraries(map2jnx
+    ${GDAL_LIBRARIES}
+    ${JPEG_LIBRARIES}
+    PkgConfig::PROJ
+)
 
 if(APPLE)
   set_target_properties(map2jnx PROPERTIES

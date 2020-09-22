@@ -1,10 +1,14 @@
 project(map2gcm)
 
 # Required cmake version
-cmake_minimum_required(VERSION 2.6.0)
+cmake_minimum_required(VERSION 3.1)
+
+find_package(PkgConfig REQUIRED)
+
+find_package(PkgConfig REQUIRED)
 
 find_package(GDAL REQUIRED)
-find_package(PROJ REQUIRED)
+pkg_check_modules(PROJ REQUIRED IMPORTED_TARGET proj)
 add_definitions(-DACCEPT_USE_OF_DEPRECATED_PROJ_API_H=1)
 find_package(JPEG REQUIRED)
 
@@ -81,23 +85,13 @@ if(MSVC)
 endif(MSVC)
 
 
-if(WIN32)
-target_link_libraries( map2gcm
+target_link_libraries(map2gcm
     ${GDAL_LIBRARIES}
-    ${PROJ_LIBRARIES}
     ${JPEG_LIBRARIES}
     ${QT_LIBRARIES}
+    PkgConfig::PROJ
     qzip
 )
-else(WIN32)
-target_link_libraries( map2gcm
-    ${GDAL_LIBRARIES}
-    ${PROJ_LIBRARIES}
-    ${JPEG_LIBRARIES}
-    ${QT_LIBRARIES}
-    qzip
-)
-endif(WIN32)
 
 if(QK_QT5_PORT)
   qt5_use_modules(map2gcm Widgets)

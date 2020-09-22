@@ -1,10 +1,13 @@
 project(map2rmap)
 
-# Required cmake version
-cmake_minimum_required(VERSION 2.6.0)
+cmake_minimum_required(VERSION 3.1)
+
+find_package(PkgConfig REQUIRED)
+
+find_package(PkgConfig REQUIRED)
 
 find_package(GDAL REQUIRED)
-find_package(PROJ REQUIRED)
+pkg_check_modules(PROJ REQUIRED IMPORTED_TARGET proj)
 add_definitions(-DACCEPT_USE_OF_DEPRECATED_PROJ_API_H=1)
 find_package(JPEG REQUIRED)
 
@@ -82,11 +85,11 @@ endif(MSVC)
 
 
 
-target_link_libraries( map2rmap
+target_link_libraries(map2rmap
     ${GDAL_LIBRARIES}
-    ${PROJ_LIBRARIES}
     ${JPEG_LIBRARIES}
     ${QT_LIBRARIES}
+    PkgConfig::PROJ
 )
 
 if(QK_QT5_PORT)
